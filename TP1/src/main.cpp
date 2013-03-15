@@ -1,13 +1,15 @@
 #include <iostream>
 
-#include "./modelo/Juego.h"
-
-using namespace std;
-
 int main(int argc, char* argv[]){
 
-	Juego elJuego;
-	elJuego.iniciarJuego();
+	std::cout << "Mart -> SVN... Ok!" << std::endl;
+	std::cout << "" << std::endl;
+	std::cout << "" << std::endl;
+	std::cout << "" << std::endl;
+	std::cout << "" << std::endl;
+	
+	char c;
+	std::cin >> c;
 
 	return 0;
 }
