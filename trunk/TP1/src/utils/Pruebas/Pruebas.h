@@ -1,7 +1,8 @@
 #pragma once
 
 #include <SDL.h>
-#include "./Constantes.h"
+#include "../Constantes.h"
+#include "../Log/log.h"
 
 class Pruebas{
 

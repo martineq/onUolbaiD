@@ -20,6 +20,9 @@ void Pruebas::PruebaSdl(void){
 	Uint8 *estadoTecla;
 	int colorkey, finJuego;
 
+	// Escribo una linea en el archivo de log
+	Log::getInstance().log(1,__FILE__,__LINE__,"Inicio de prueba SDL");
+
 	// Inicio SDL
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -30,7 +33,7 @@ void Pruebas::PruebaSdl(void){
 	pantalla = SDL_SetVideoMode(PANTALLA_ANCHO, PANTALLA_ALTO, 0, 0);
 
 	// Carga el sprite
-	temp   = SDL_LoadBMP("./img/sprite.bmp");
+	temp   = SDL_LoadBMP(SDL_RUTA_SPRITE);
 	sprite = SDL_DisplayFormat(temp);
 	SDL_FreeSurface(temp);
 
@@ -39,7 +42,7 @@ void Pruebas::PruebaSdl(void){
 	SDL_SetColorKey(sprite, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorkey);
 
 	// Cargo el pasto
-	temp  = SDL_LoadBMP("./img/pasto.bmp");
+	temp  = SDL_LoadBMP(SDL_RUTA_PASTO);
 	pasto = SDL_DisplayFormat(temp);
 	SDL_FreeSurface(temp);
 

@@ -1,5 +1,4 @@
 # <<<Este es sólo un archivo de ejemplo para ver la estructura del un archivo YAML>>>
-# Esto es un comentario
 juego:
   pantalla:
     ancho: 800
@@ -8,7 +7,7 @@ juego:
     vel_personaje: 400
     margen_scroll: 200
   tiposPersonaje:
-    protagonista: #protagonistaASDF
+    protagonista:
       ancho: 30
       alto: 40
       animaciones:
