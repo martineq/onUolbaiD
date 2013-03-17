@@ -30,7 +30,7 @@
 
 /**************************** YAML ***************************/
 
-#define YAML_RUTA_ARCHIVO_JUEGO "./configuracion/juego.yaml"
+#define YAML_RUTA_ARCHIVO_JUEGO "./config/juego.yaml"
 #define YAML_RUTA_DIRECTORIO_IMG "./img/"
 #define YAML_RUTA_DIRECTORIO_JUEGOS "./config/"
 #define YAML_RUTA_IMG_DEFAULT "./img/default.png"

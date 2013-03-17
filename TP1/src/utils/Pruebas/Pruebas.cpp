@@ -129,4 +129,11 @@ void Pruebas::PruebaSdl(void){
 	// Salgo del SDL
 	SDL_Quit();
 
+	Log::getInstance().log(1,__FILE__,__LINE__,"Fin de prueba SDL");
+
+}
+
+void Pruebas::PruebaYAML(void){
+	ParserYaml parser;
+	parser.cargaJuego();
 }
