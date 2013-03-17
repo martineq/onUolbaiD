@@ -6,7 +6,7 @@
 #endif
 
 
-#include "./nodeutil.h"
+#include "yaml-cpp/nodeutil.h"
 #include <cassert>
 
 namespace YAML

@@ -6,12 +6,12 @@
 #endif
 
 
-#include "./dll.h"
-#include "./binary.h"
-#include "./emittermanip.h"
-#include "./ostream.h"
-#include "./noncopyable.h"
-#include "./null.h"
+#include "yaml-cpp/dll.h"
+#include "yaml-cpp/binary.h"
+#include "yaml-cpp/emittermanip.h"
+#include "yaml-cpp/ostream.h"
+#include "yaml-cpp/noncopyable.h"
+#include "yaml-cpp/null.h"
 #include <memory>
 #include <string>
 #include <sstream>

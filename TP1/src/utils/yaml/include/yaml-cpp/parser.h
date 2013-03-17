@@ -6,8 +6,8 @@
 #endif
 
 
-#include "./dll.h"
-#include "./noncopyable.h"
+#include "yaml-cpp/dll.h"
+#include "yaml-cpp/noncopyable.h"
 #include <ios>
 #include <memory>
 

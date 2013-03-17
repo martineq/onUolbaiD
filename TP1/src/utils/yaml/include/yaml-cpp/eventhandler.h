@@ -5,7 +5,7 @@
 #pragma once
 #endif
 
-#include "./anchor.h"
+#include "yaml-cpp/anchor.h"
 #include <string>
 
 namespace YAML
