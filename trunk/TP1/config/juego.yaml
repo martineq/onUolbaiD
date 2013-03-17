@@ -1,73 +1,15 @@
 # <<<Este es sólo un archivo de ejemplo para ver la estructura del un archivo YAML>>>
 juego:
-  pantalla:
+pantalla:
     ancho: 800
-    alto: 600 #zzz
-  parametros:
+    alto: 600 #Comentario
+parametros:
     vel_personaje: 400
     margen_scroll: 200
-  tiposPersonaje:
-    protagonista:
-      ancho: 30
-      alto: 40
-      animaciones:
-        quietoDerecha:
-          sprites: [MarioParadoDerecha.png]
-        quietoIzquierda:
-          sprites: [MarioParadoIzquierda.png]
-        caminarIzquierda:
-          sprites: [MarioParadoIzquierda.png, MarioPaso1Izquierda.png, MarioPaso2Izquierda.png]
-        caminarDerecha:
-          sprites: [MarioParadoDerecha.png, MarioPaso1Derecha.png, MarioPaso2Derecha.png]
-    mono:
-      ancho: 90
-      alto: 90
-      animaciones:
-        quieto:
-          sprites: [monoBaila_1.png]
-        caminarDerecha:
-          sprites: [monoBaila_1.png, monoBaila_2.png, monoBaila_3.png, monoBaila_4.png, monoBaila_5.png, monoBaila_6.png, monoBaila_7.png, monoBaila_8.png, monoBaila_9.png, monoBaila_10.png, monoBaila_11.png, monoBaila_12.png, monoBaila_13.png, monoBaila_14.png, monoBaila_15.png, monoBaila_16.png, monoBaila_17.png, monoBaila_18.png, monoBaila_19.png, monoBaila_20.png, monoBaila_21.png, monoBaila_22.png, monoBaila_23.png, monoBaila_24.png, monoBaila_25.png, monoBaila_26.png, monoBaila_27.png, monoBaila_28.png, monoBaila_29.png, monoBaila_30.png]
-          periodo: 4
-    princesa:
-      ancho: 30
-      alto: 40
-      animaciones:
-        quieto:
-          sprites: [PrincesaPaso1Derecha.png]
-        ayudenme:
-          sprites: [PrincesaPaso1Derecha.png, PrincesaPaso2Derecha.png, PrincesaPaso1Izquierda.png, PrincesaPaso2Izquierda.png]
-          periodo: 4
-  texturas:
+texturas:
     viga: metal.png
-    madera: madera.png  #madera: maderaASDF.png
-  nivel:
+    madera: madera.png  #madera: madera.png
+nivel:
     ancho: 1600
     alto: 600
     fondo: fondo.png
-    personajes:
-      - tipo: protagonista #noExiste
-        x: 100
-        y: 500
-      - tipo: princesa
-        x: 370
-        y: 58 
-      - tipo: princesa
-        x: 320
-        y: 105
-    plataformas:
-      - textura: viga
-        x: 20
-        y: 20
-        ancho: 100
-        alto: 20
-      - textura: viga
-        x: 70
-        y: 100
-        ancho: 200
-        alto: 20
-    escaleras:
-      - textura: madera
-        x: 550
-        y: 50
-        ancho: 20
-        alto: 100
