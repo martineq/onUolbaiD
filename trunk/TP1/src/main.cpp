@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 	std::cout << "Matias -> SVN... Ok!" << std::endl;
 	std::cout << "Matias -> SDL... Ok!" << std::endl;
 	std::cout << "Matias -> VLD... Ok!" << std::endl;
-	std::cout << "" << std::endl;
+	std::cout << "Matias -> YAML... Ok!" << std::endl;
 
 	Pruebas p;
 	p.PruebaSdl();	// Prueba SDL + log
