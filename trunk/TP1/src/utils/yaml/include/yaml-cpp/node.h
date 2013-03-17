@@ -6,13 +6,13 @@
 #endif
 
 
-#include "./dll.h"
-#include "./exceptions.h"
-#include "./mark.h"
-#include "./noncopyable.h"
-#include "./conversion.h"
-#include "./iterator.h"
-#include "./ltnode.h"
+#include "yaml-cpp/dll.h"
+#include "yaml-cpp/exceptions.h"
+#include "yaml-cpp/mark.h"
+#include "yaml-cpp/noncopyable.h"
+#include "yaml-cpp/conversion.h"
+#include "yaml-cpp/iterator.h"
+#include "yaml-cpp/ltnode.h"
 #include <iostream>
 #include <map>
 #include <memory>
@@ -129,7 +129,7 @@ namespace YAML
 	};
 }
 
-#include "./nodeimpl.h"
-#include "./nodereadimpl.h"
+#include "yaml-cpp/nodeimpl.h"
+#include "yaml-cpp/nodereadimpl.h"
 
 #endif // NODE_H_62B23520_7C8E_11DE_8A39_0800200C9A66

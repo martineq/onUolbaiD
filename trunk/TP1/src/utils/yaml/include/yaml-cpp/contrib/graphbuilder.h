@@ -5,7 +5,7 @@
 #pragma once
 #endif
 
-#include "./mark.h"
+#include "yaml-cpp/mark.h"
 #include <string>
 
 namespace YAML
