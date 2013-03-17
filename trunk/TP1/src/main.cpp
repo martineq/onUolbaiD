@@ -1,12 +1,13 @@
 #include <iostream>
 #include "./utils/Pruebas/Pruebas.h"
-//#include <vld.h> // >> Sólo descomentar para chequeo de memoria. Habilitar DLL de depuración multiproceso (/MDd).
+#include <vld.h> // >> Sólo descomentar para chequeo de memoria. Habilitar DLL de depuración multiproceso (/MDd).
 
 
 int main(int argc, char* argv[]){
 
 	std::cout << "Mart -> SVN... Ok!" << std::endl;
 	std::cout << "Mart -> SDL... Ok!" << std::endl;
+	std::cout << "Mart -> VLD... Ok!" << std::endl;
 	std::cout << "Dany -> SVN... Ok!" << std::endl;
 	std::cout << "Dany -> SDL... Ok!" << std::endl;
 	std::cout << "Seba -> SVN... Ok!" << std::endl;
@@ -21,7 +22,7 @@ int main(int argc, char* argv[]){
 	char c;
 	std::cin >> c;
 
-	//char* puntero = new char;	// Creo un puntero y nunca lo saco de memoria dinámica. Para ver si me lo detecta el VLD.
+	char* puntero = new char;	// Creo un puntero y nunca lo saco de memoria dinámica. Para ver si me lo detecta el VLD.
 
 	return 0;
 }
