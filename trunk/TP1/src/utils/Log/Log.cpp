@@ -28,47 +28,46 @@ Log::Log(){
 		std::string fechaHora(ctime(&timestamp),24);
 		fechaHora = fechaHora.substr(11,8); 
 
-
-		 *(this->archLog) << "==================== TALLER DE PROGRAMACION I - CATEDRA AZCURRA, 1er Cuat. 2013 ==================== \n"  
-						  << "--------------------------------------------- Diablo I --------------------------------------------- \n"
-						  << "--------------------------------------------- "<< fechaHora <<" ---------------------------------------------  \n\n";
+		*(this->archLog) << "==================== TALLER DE PROGRAMACION I - CATEDRA AZCURRA, 1er Cuat. 2013 ==================== \n"  
+						 << "--------------------------------------------- Diablo I --------------------------------------------- \n"
+						 << "--------------------------------------------- "<< fechaHora <<" ---------------------------------------------  \n\n";
 	}
 }
 
 void Log::log(int nivel, std::string archivo, int linea, std::string mensaje, std::string valor){
 	if( LOG_ESCRITURA == LOG_OFF) return void();
-	std::stringstream clavevalor;
-	clavevalor<<mensaje<<valor;
-	Log::log(nivel, archivo, linea, clavevalor.str());
+	std::stringstream claveValor;
+	claveValor << mensaje << valor;
+	Log::log(nivel, archivo, linea, claveValor.str());
 }
 
 void Log::log(int nivel, std::string archivo, int linea, std::string mensaje, double valor){
 	if( LOG_ESCRITURA == LOG_OFF) return void();
-	std::stringstream clavevalor;
-	clavevalor<<mensaje<<valor;
-	Log::log(nivel, archivo, linea, clavevalor.str());
+	std::stringstream claveValor;
+	claveValor << mensaje << valor;
+	Log::log(nivel, archivo, linea, claveValor.str());
 }
+
 void Log::log(int nivel, std::string archivo, int linea, std::string mensaje, long valor){
 	if( LOG_ESCRITURA == LOG_OFF) return void();
-	std::stringstream clavevalor;
-	clavevalor<<mensaje<<valor;
-	Log::log(nivel, archivo, linea, clavevalor.str());
+	std::stringstream claveValor;
+	claveValor << mensaje << valor;
+	Log::log(nivel, archivo, linea, claveValor.str());
 }
 
 void Log::log(int nivel, std::string archivo, int linea, std::string mensaje, unsigned int valor){
 	if( LOG_ESCRITURA == LOG_OFF) return void();
-	std::stringstream clavevalor;
-	clavevalor<<mensaje<<valor;
-	Log::log(nivel, archivo, linea, clavevalor.str());
+	std::stringstream claveValor;
+	claveValor << mensaje << valor;
+	Log::log(nivel, archivo, linea, claveValor.str());
 }
 
 void Log::log(int nivel, std::string archivo, int linea, std::string mensaje, int valor){
 	if( LOG_ESCRITURA == LOG_OFF) return void();
-	std::stringstream clavevalor;
-	clavevalor<<mensaje<<valor;
-	Log::log(nivel, archivo, linea, clavevalor.str());
+	std::stringstream claveValor;
+	claveValor << mensaje << valor;
+	Log::log(nivel, archivo, linea, claveValor.str());
 }
-
 
 void Log::log(int nivel, std::string archivo, int linea, std::string mensaje){
 	if( LOG_ESCRITURA == LOG_OFF) return void();
@@ -86,18 +85,21 @@ void Log::log(int nivel, std::string archivo, std::string linea, std::string men
 	std::string fechaHora(ctime(&timestamp),24);
 	fechaHora = fechaHora.substr(11,8); // Me quedo solo con la hora
 	
-	// Formateo el nombre de archivo
+	// Le doy formato al nombre de archivo
 	archivo = this->obtenerNombreDesdeRuta(archivo);
 
+	// Acá filtro los logs que son de niveles superiores
 	if (nivel <= LOG_NIVEL){
 		std::string txt;
-		if(LOG_NIVEL == LOG_NIVEL_RELEASE){
+
+		if(LOG_NIVEL == LOG_NIVEL_RELEASE){	// Si es LOG_NIVEL_RELEASE no imprimo los nombres de los fuentes
 			txt.append(fechaHora+(std::string)" --> "+mensaje+(std::string)"\n");
 			this->archLog->write(txt.c_str(),txt.size());
-		}else{
+		}else{								// Cuando no es LOG_NIVEL_RELEASE imprimo todos los datos que tengo
 			txt.append(fechaHora+(std::string)" - "+archivo+(std::string)" - "+linea+(std::string)" --> "+mensaje+(std::string)"\n");
 			this->archLog->write(txt.c_str(),txt.size());
 		}
+
 		this->archLog->flush();
 	}
 
@@ -113,7 +115,6 @@ Log::~Log(){
 	}
 }
 
-
 std::string Log::obtenerNombreDesdeRuta(std::string rutaCompleta){
 	
 	std::string salida;
@@ -127,4 +128,3 @@ std::string Log::obtenerNombreDesdeRuta(std::string rutaCompleta){
 
 	return salida;
 }
-

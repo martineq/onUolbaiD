@@ -15,11 +15,12 @@ class Log{
 
 		std::ofstream* archLog; 
 		
-		/*Los constructores permanecen ocultos, para evitar que sea instanciado desde 
+		/*Los constructores permanecen privados, para evitar que sea instanciado desde 
 		 *cualquier lugar y generar multiples archivos de Log.*/
 		Log();
 		Log(const Log&);
 		Log& operator =(const Log&);
+		void log(int nivel, std::string archivo, std::string linea, std::string mensaje);
 
     public:
 		/*El siguiente metodo es utilizado como parte del patron Singleton para devolver una instancia del Log.
@@ -38,14 +39,12 @@ class Log{
 		<archivo>	Nombre del archivo del cual sale el mensaje de logueo.
 		<linea>		Numero de linea del archivo del cual sale el mensaje de logueo.
 		<mensaje>	Breve descripcion de lo que esta sucediendo.   */
-		void log(int nivel, std::string archivo, std::string linea, std::string mensaje);
-
 		void log(int nivel, std::string archivo, int linea, std::string mensaje); 
 		void log(int nivel, std::string archivo, int linea, std::string mensaje, int valor);
 		void log(int nivel, std::string archivo, int linea, std::string mensaje, unsigned int valor);
 		void log(int nivel, std::string archivo, int linea, std::string mensaje, double valor);
-		void log(int nivel, std::string archivo, int linea, std::string mensaje, std::string valor);
 		void log(int nivel, std::string archivo, int linea, std::string mensaje, long valor);
+		void log(int nivel, std::string archivo, int linea, std::string mensaje, std::string valor);
 
 		// Otras funciones
 		std::string obtenerNombreDesdeRuta(std::string rutaCompleta);
@@ -58,4 +57,3 @@ inline Log& Log::getInstance(){
 	static Log object;
 	return object;
 }
-
