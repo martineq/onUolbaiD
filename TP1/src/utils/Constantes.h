@@ -34,6 +34,7 @@
 #define YAML_RUTA_DIRECTORIO_IMG "./img/"
 #define YAML_RUTA_DIRECTORIO_JUEGOS "./config/"
 #define YAML_RUTA_IMG_DEFAULT "./img/default.png"
+#define YAML_ERROR_INT -1
 
 /*****************************  Sockets *****************************************/
 #define TAMANIO_BLOQUE 1024			// Tamaño del bloque de datos usado para envío de archivos
@@ -43,13 +44,3 @@
 #define DELAY_HILO_CONEXION 1000000 // En microsegundos. 1000000 uSeg = 1 seg
 
 /**************************** Juego ****************************/
-/*
-#define JUEGO_PANTALLA_ANCHO_MINIMO 1
-#define JUEGO_PANTALLA_ALTO_MINIMO 1
-#define JUEGO_PANTALLA_ANCHO_MAXIMO 1920
-#define JUEGO_PANTALLA_ALTO_MAXIMO 1080
-#define JUEGO_VELOCIDAD_PERSONAJE_MAXIMA 9999
-#define JUEGO_PERIODO_DEFAULT 2
-#define JUEGO_INT_ERROR -1
-#define FRAMES_PER_SECOND 30
-*/
