@@ -135,5 +135,5 @@ void Pruebas::PruebaSdl(void){
 
 void Pruebas::PruebaYAML(void){
 	ParserYaml parser;
-	parser.cargaJuego();
+	parser.cargarConfiguracionDeJuego();
 }

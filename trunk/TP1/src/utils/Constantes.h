@@ -34,7 +34,24 @@
 #define YAML_RUTA_DIRECTORIO_IMG "./img/"
 #define YAML_RUTA_DIRECTORIO_JUEGOS "./config/"
 #define YAML_RUTA_IMG_DEFAULT "./img/default.png"
+#define YAML_STRING_VACIO ""
+#define YAML_TIPO_STRING "Cadena de caracteres"
+#define YAML_TIPO_INT "Entero"
 #define YAML_ERROR_INT -1
+
+#define YAML_DEAFAULT_PANTALLA_ANCHO 800
+#define YAML_DEAFAULT_PANTALLA_ALTO 600
+#define YAML_DEAFAULT_VEL_PERSONAJE 5
+#define YAML_DEAFAULT_MARGEN_SCROLL 20
+#define YAML_DEAFAULT_NOMBRE "default"
+#define YAML_DEAFAULT_RUTA_IMAGEN "default.bmp"
+#define YAML_DEAFAULT_ANCHO_BASE 10
+#define YAML_DEAFAULT_ALTO_BASE 10
+#define YAML_DEAFAULT_PIXEL_REF_X 0
+#define YAML_DEAFAULT_PIXEL_REF_Y 0
+#define YAML_DEAFAULT_FPS 15
+#define YAML_DEAFAULT_DELAY 1
+
 
 /*****************************  Sockets *****************************************/
 #define TAMANIO_BLOQUE 1024			// Tamaño del bloque de datos usado para envío de archivos
