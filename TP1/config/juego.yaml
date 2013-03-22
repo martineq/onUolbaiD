@@ -1,15 +1,40 @@
-# <<<Este es sólo un archivo de ejemplo para ver la estructura del un archivo YAML>>>
-juego:
+# Archivo de configuración
 pantalla:
     ancho: 800
-    alto: 600 #Comentario
-parametros:
-    vel_personaje: 400
-    margen_scroll: 200
-texturas:
-    viga: metal.png
-    madera: madera.png  #madera: madera.png
-nivel:
-    ancho: 1600
     alto: 600
-    fondo: fondo.png
+configuracion:
+    vel_personaje : 3
+    margen_scroll : 30
+entidades:
+    - nombre: arbol
+      imagen: default.bmp
+    - nombre: castillo
+      imagen: default.bmp
+      ancho_base: 2
+      alto_base: 2
+      pixel_ref_x: 30
+      pixel_ref_y: 40
+    - nombre: orco
+      imagen: default.bmp
+      fps: 10
+      delay: 5
+    - nombre: frodo
+      imagen: default.bmp
+      fps: 10
+    - nombre: tierra
+      imagen: default.bmp
+    - nombre: agua
+      imagen: default.bmp
+escenarios:
+    - nombre: bosque_encantado
+      size_x: 100
+      size_y: 100
+      entidadesDef:
+        - {x: 10, y: 15, entidad: tierra}
+        - {x: 15, y: 20, entidad: tierra}
+        - {x: 10, y: 15, entidad: agua}
+        - {x: 30, y: 55, entidad: castillo}
+      protagonista:
+        entidad: frodo #- entidad: frodo # TODO: Ver esto
+        x: 50
+        y: 50
