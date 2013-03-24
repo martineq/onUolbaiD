@@ -72,7 +72,7 @@ class ModeloEntidad : public Observable, public Observador {
 			posicionInicial.x = 0;
 			posicionInicial.y = 0;
 
-			ModeloEntidad modeloEntidad(1, 1, 250, posicionInicial);
+			ModeloEntidad modeloEntidad(1, 1, 200, posicionInicial);
 			VistaEntidad vistaEntidad;
 
 			modeloEntidad.agregarObservador(&vistaEntidad);
@@ -109,4 +109,6 @@ class ModeloEntidad : public Observable, public Observador {
 		void mover(Posicion posicionDestino);
 
 		void cambiarEstado();
+
+		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
