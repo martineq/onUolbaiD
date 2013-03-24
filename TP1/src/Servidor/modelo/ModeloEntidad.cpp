@@ -43,50 +43,40 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 	int desplazamientoX = (this->_posicionActual.x < posicionDestino.x) ? 1 : -1;
 	int desplazamientoY = (this->_posicionActual.y < posicionDestino.y) ? 1 : -1;
 	int error = (deltaX >= deltaY) ? deltaX : deltaY;
-	int deltaError = error;
-	int ddy = 0, ddx = 0;
-	
-	ddx = 2 * deltaX;
-	ddy = 2 * deltaY;
-	
+	int desplazamientoErrorX = 2 * deltaX;
+	int desplazamientoErrorY = 2 * deltaY;
+		
 	this->_posicionSiguiente = this->_posicionActual;
-
-	if (ddx >= ddy) {
-		while ((this->_posicionActual.x != posicionDestino.x) || (this->_posicionActual.y != posicionDestino.y)) {
-			this->_posicionSiguiente.x += desplazamientoX;
-			error += ddy; 
-			
-			if (error > ddx) {
+	
+	while ((this->_posicionActual.x != posicionDestino.x) || (this->_posicionActual.y != posicionDestino.y)) {
+		this->_posicionSiguiente.x += (deltaX >= deltaY) ? desplazamientoX : 0;
+		this->_posicionSiguiente.y += (deltaX >= deltaY) ? 0 : desplazamientoY;
+		error += (deltaX >= deltaY) ? desplazamientoErrorY : desplazamientoErrorX; 
+		
+		if (deltaX >= deltaY) {
+			if (error > desplazamientoErrorX) {
 				this->_posicionSiguiente.y += desplazamientoY; 
-				error -= ddx; 
+				error -= desplazamientoErrorX; 
 			}
-
-			this->notificarObservadores();
-			this->_posicionActual = this->_posicionSiguiente;
-			deltaError = error; 
-
-			Sleep(this->_velocidad);
 		}
-	}
-	else {
-		while ((this->_posicionActual.x != posicionDestino.x) || (this->_posicionActual.y != posicionDestino.y)) {
-			this->_posicionSiguiente.y += desplazamientoY;
-			error += ddx;
-			
-			if (error > ddy) {
+		else {
+			if (error > desplazamientoErrorY) {
 				this->_posicionSiguiente.x += desplazamientoX;
-				error -= ddy;
+				error -= desplazamientoErrorY;
 			}
-
-			this->notificarObservadores();
-			this->_posicionActual = this->_posicionSiguiente;
-			deltaError = error;
-
-			Sleep(this->_velocidad);
 		}
+
+		this->notificarObservadores();
+		this->_posicionActual = this->_posicionSiguiente;
+		
+		Sleep(this->_velocidad);
 	}
 }
 
 void ModeloEntidad::cambiarEstado() {
 	//TODO: No se para que es este metodo
+}
+
+bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
+	return this == &modeloEntidad;
 }
