@@ -12,10 +12,10 @@ class ModeloNivel{
 		//std::list <ModeloEntidad> entidadesAutomaticas;
 
 	public:
-		ModeloNivel(void);
+		ModeloNivel();
 		~ModeloNivel(void);
 
-		void ModeloNivel ();
+		
 
 		int agregarJugador (ModeloEntidad jugador);
 		int removerJugador (ModeloEntidad jugador);
