@@ -30,6 +30,8 @@ int ModeloNivel::agregarEntidadNivel (ModeloEntidad entidad) {
 
 int ModeloNivel::removerEntidadNivel (ModeloEntidad entidad) {
 	this->entidadesNivel.remove(entidad);
+
+	return 0;
 }
 
 
