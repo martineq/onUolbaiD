@@ -7,24 +7,24 @@ configuracion:
     margen_scroll : 30
 entidades:
     - nombre: arbol
-      imagen: default.bmp
+      imagen: default.png
     - nombre: castillo
-      imagen: default.bmp
+      imagen: default.png
       ancho_base: 2
       alto_base: 2
       pixel_ref_x: 30
       pixel_ref_y: 40
     - nombre: orco
-      imagen: default.bmp
+      imagen: default.png
       fps: 10
       delay: 5
     - nombre: frodo
-      imagen: default.bmp
+      imagen: default.png
       fps: 10
     - nombre: tierra
-      imagen: default.bmp
+      imagen: default.png
     - nombre: agua
-      imagen: default.bmp
+      imagen: default.png
 escenarios:
     - nombre: bosque_encantado
       size_x: 100
@@ -35,6 +35,6 @@ escenarios:
         - {x: 10, y: 15, entidad: agua}
         - {x: 30, y: 55, entidad: castillo}
       protagonista:
-        entidad: frodo #- entidad: frodo # TODO: Ver esto
-        x: 50
-        y: 50
+        - entidad: frodo
+          x: 50
+          y: 50
