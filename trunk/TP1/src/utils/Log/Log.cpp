@@ -124,7 +124,7 @@ std::string Log::obtenerNombreDesdeRuta(std::string rutaCompleta){
 		if( rutaCompleta[i] == '/' || rutaCompleta[i] == '\\') posUltimaBarra = i;
 	}
 
-	if(  ( posUltimaBarra > 0 ) && ( posUltimaBarra < (rutaCompleta.length()-1) )  ) salida = rutaCompleta.substr(posUltimaBarra+1);
+	if(  ( (int)posUltimaBarra > 0 ) && ( (int) posUltimaBarra < (int) (rutaCompleta.length()-1) )  ) salida = rutaCompleta.substr(posUltimaBarra+1);
 
 	return salida;
 }

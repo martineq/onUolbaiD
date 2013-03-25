@@ -91,7 +91,8 @@ class ParserYaml{
 		void validaRecorrerListaEntidades(std::list<std::list<ParserYaml::stEntidad>::iterator>& tipoEntidadABorrar);
 		void validaDescartarEntidades(std::list<std::list<ParserYaml::stEntidad>::iterator>& tipoEntidadABorrar);
 		void validaListaEntidadesVacia(void);
-		bool validaEsEntidadRepetida(std::string nombreEntidad);
+		bool validaEsEntidadRepetida(std::list<stEntidad>::iterator iterador, std::list<std::list<stEntidad>::iterator>& tipoEntidadABorrar);
+		int validaCantidadVecesEnEntidadABorrar(std::list<stEntidad>::iterator iteradorBuscado, std::list<std::list<stEntidad>::iterator>& tipoEntidadABorrar);
 		bool validaListaAnimaciones(std::list<std::string> listaAnimaciones);
 		void validaRecorrerListaEscenarios(std::list<std::list<ParserYaml::stEscenario>::iterator>& tipoEscenarioABorrar);
 		void validaDescartarEscenarios(std::list<std::list<ParserYaml::stEscenario>::iterator>& tipoEscenarioABorrar);

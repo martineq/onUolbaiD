@@ -273,13 +273,13 @@ void ParserYaml::validaConfiguracion(void){
 
 	// Chequeo la velocidad del personaje
 	if (this->juego.configuracion.velocidadPersonaje < YAML_VELOCIDAD_PERSONAJE_TOPE_MINIMO || this->juego.configuracion.velocidadPersonaje > YAML_VELOCIDAD_PERSONAJE_TOPE_MAXIMO ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"Parametros->vel_personaje fuera de rango. Se asignará el valor por defecto.");
+		Log::getInstance().log(1,__FILE__,__LINE__,"configuracion->vel_personaje fuera de rango. Se asignará el valor por defecto.");
 		this->juego.configuracion.velocidadPersonaje = YAML_DEAFAULT_VEL_PERSONAJE;
 	}
 
 	// Chequeo el margen de scroll
 	if (this->juego.configuracion.margenScroll < YAML_MARGEN_SCROLL_TOPE_MINIMO || this->juego.configuracion.margenScroll > ((int)((this->juego.pantalla.ancho)/2)-(YAML_PERSONAJE_LONGITUD_MAXIMA/2)-1) || this->juego.configuracion.margenScroll > ( (int) ( (this->juego.pantalla.alto)/2)-(YAML_PERSONAJE_LONGITUD_MAXIMA/2)-1 ) ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"Parametros->margen_scroll fuera de rango. Se asignará el valor mínimo de margen.");
+		Log::getInstance().log(1,__FILE__,__LINE__,"configuracion->margen_scroll fuera de rango. Se asignará el valor de margen por defecto.");
 		this->juego.configuracion.margenScroll = YAML_DEAFAULT_MARGEN_SCROLL;
 	}
 
@@ -331,8 +331,10 @@ void ParserYaml::validaRecorrerListaEntidades(std::list<std::list<ParserYaml::st
 			entidadOk = false;
 		}
 
-		// Chequeo que no sea una entidad repetida
-		if( this->validaEsEntidadRepetida((*it).nombre) == true ){ entidadOk = false; }
+		// Chequeo que no sea una entidad repetida, entro solo si los demás datos son válidos
+		if( entidadOk == true){
+			if( this->validaEsEntidadRepetida(it,tipoEntidadABorrar) == true ){ entidadOk = false; }
+		}
 
 		// Si anteriormente se encontró un problema, se descarta ese tipo personaje
 		if( entidadOk == false) tipoEntidadABorrar.push_back(it); 
@@ -341,12 +343,12 @@ void ParserYaml::validaRecorrerListaEntidades(std::list<std::list<ParserYaml::st
 	return void();
 }
 
-bool ParserYaml::validaEsEntidadRepetida(std::string nombreEntidad){
+bool ParserYaml::validaEsEntidadRepetida(std::list<stEntidad>::iterator iterador, std::list<std::list<stEntidad>::iterator>& tipoEntidadABorrar){
 
 	unsigned int repeticiones = 0;
 
 	for (std::list<stEntidad>::iterator it=this->juego.entidades.begin() ; it != this->juego.entidades.end(); it++ ){	
-		if( (*it).nombre.compare(nombreEntidad) == 0 ){
+		if( (*it).nombre.compare((*iterador).nombre) == 0 ){
 			repeticiones++;
 		}
 	}
@@ -354,9 +356,25 @@ bool ParserYaml::validaEsEntidadRepetida(std::string nombreEntidad){
 	if( repeticiones < 2){	// No está repetido
 		return false;
 	}else{					// Si está repetido
-		Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ nombreEntidad +" se encuentra repetida.");
-		return true;
+		int repeticionesSobrantes = ( this->validaCantidadVecesEnEntidadABorrar(iterador,tipoEntidadABorrar) );
+		if ( repeticionesSobrantes < (repeticiones-1) ){  // Y si todavia la cantidad de veces que lo voy a borrar es menor a repeticiones-1
+			Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ (*iterador).nombre +" se encuentra repetida.");
+			return true;
+		}else{
+			return false;
+		}
 	}
+}
+
+int ParserYaml::validaCantidadVecesEnEntidadABorrar(std::list<stEntidad>::iterator iteradorBuscado, std::list<std::list<stEntidad>::iterator>& tipoEntidadABorrar){
+
+	int vecesRepetidas = 0;
+
+	for (std::list<std::list<stEntidad>::iterator>::iterator it=tipoEntidadABorrar.begin() ; it != tipoEntidadABorrar.end(); it++ ){	
+		if( (*(*it)).nombre.compare( (*iteradorBuscado).nombre) == 0 ) vecesRepetidas++;
+	}
+
+	return vecesRepetidas;
 }
 
 bool ParserYaml::validaListaAnimaciones(std::list<std::string> listaAnimaciones){
@@ -403,7 +421,7 @@ void ParserYaml::validaDescartarEntidades(std::list<std::list<ParserYaml::stEnti
 
 	// En caso de tener un entidad para descartar, lo hago aquí
 	if ( tipoEntidadABorrar.empty() == false ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"juego->entidades: existen entidades inválidas. Las mismas se descartarán.");
+		Log::getInstance().log(1,__FILE__,__LINE__,"entidades: existen entidades inválidas. Las mismas se descartarán.");
 		for (std::list<std::list<stEntidad>::iterator>::iterator it=tipoEntidadABorrar.begin() ; it != tipoEntidadABorrar.end(); it++ ){
 			this->juego.entidades.erase(*it);
 		}
@@ -487,7 +505,7 @@ void ParserYaml::validaListaEntidadesDefinidas(std::list <ParserYaml::stEntidadD
 
 	// Borro las entidades definidas con errores
 	if ( tipoEntidadDefinidaABorrar.empty() == false ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"juego->escenarios->entidadesDef: existen entidades definidas inválidas para el escenario "+ nombreEscenario +". Las mismas se descartarán.");
+		Log::getInstance().log(1,__FILE__,__LINE__,"escenarios->entidadesDef: existen entidades definidas inválidas para el escenario "+ nombreEscenario +". Las mismas se descartarán.");
 		for (std::list<std::list<stEntidadDefinida>::iterator>::iterator it=tipoEntidadDefinidaABorrar.begin() ; it != tipoEntidadDefinidaABorrar.end(); it++ ){
 			entidadesDefinidas.erase(*it);
 		}
@@ -533,14 +551,14 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 
 	// Borro las entidades definidas con errores
 	if ( tipoProtagonistaABorrar.empty() == false ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"juego->escenarios->protagonista: existen protagonistas definidos inválidos para el escenario "+ nombreEscenario +". Los mismos se descartarán.");
+		Log::getInstance().log(1,__FILE__,__LINE__,"escenarios->protagonista: existen protagonistas definidos inválidos para el escenario "+ nombreEscenario +". Los mismos se descartarán.");
 		for (std::list<std::list<stProtagonista>::iterator>::iterator it=tipoProtagonistaABorrar.begin() ; it != tipoProtagonistaABorrar.end(); it++ ){
 			protagonistas.erase(*it);
 		}
 	}
 
 	if ( protagonistas.empty() == true ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación la lista de personajes del escenario "+ nombreEscenario +" ha quedado vacía.");
+		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de personajes del escenario "+ nombreEscenario +" ha quedado vacía.");
 		return false;
 	}else{
 		return true;
@@ -552,7 +570,7 @@ void ParserYaml::validaDescartarEscenarios(std::list<std::list<ParserYaml::stEsc
 
 	// En caso de tener un escenario para descartar, lo hago aquí
 	if ( tipoEscenarioABorrar.empty() == false ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"juego->escenarios: existen escenarios inválidos. Los mismos se descartarán.");
+		Log::getInstance().log(1,__FILE__,__LINE__,"escenarios: existen escenarios inválidos. Los mismos se descartarán.");
 		for (std::list<std::list<stEscenario>::iterator>::iterator it=tipoEscenarioABorrar.begin() ; it != tipoEscenarioABorrar.end(); it++ ){
 			this->juego.escenarios.erase(*it);
 		}
