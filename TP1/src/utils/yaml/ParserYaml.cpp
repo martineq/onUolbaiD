@@ -1,6 +1,6 @@
 #include "ParserYaml.h"
 
-ParserYaml::ParserYaml(void){
+ParserYaml::ParserYaml(){
 
 	// Inicialo this->juego
 	this->juego.juegoValido = true;
@@ -10,6 +10,9 @@ ParserYaml::ParserYaml(void){
 	this->juego.configuracion.velocidadPersonaje = YAML_ERROR_INT;
 	this->juego.entidades.clear();
 	this->juego.escenarios.clear();
+
+	// Indico que no se leyó el archivo YAML
+	this->archivoYaLeido = false;
 
 }
 
@@ -23,6 +26,8 @@ ParserYaml::~ParserYaml(void){
 ///////////////////////
 
 ParserYaml::stJuego ParserYaml::cargarConfiguracionDeJuego(void){
+
+	if( this->archivoYaLeido == true ) return this->juego; // Para poder leer los datos varias veces
 
 	std::ifstream archivo(YAML_RUTA_ARCHIVO_JUEGO);	// Abro el archivo
 	Log::getInstance().log(1,__FILE__,__LINE__,"Configuración de juego iniciada");
@@ -52,6 +57,7 @@ ParserYaml::stJuego ParserYaml::cargarConfiguracionDeJuego(void){
 		Log::getInstance().log(1,__FILE__,__LINE__,"NO se pudo obtener una configuración de juego válida");
 	}
 
+	this->archivoYaLeido = true;
 	return this->juego;
 }
 

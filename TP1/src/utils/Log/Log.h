@@ -54,6 +54,6 @@ class Log{
 
 // La declaracion de la obtencion de instancia se hace en el mismo .h
 inline Log& Log::getInstance(){
-	static Log object;
-	return object;
+	static Log objecto;
+	return objecto;
 }

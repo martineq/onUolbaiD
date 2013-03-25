@@ -67,6 +67,7 @@ class ParserYaml{
 
 		// Estructura para guardar todos los datos parseados
 		stJuego juego;
+		bool archivoYaLeido;
 
 		// Funciones privadas para la carga de datos parseados
 		void cargaStJuego(YAML::Node& nodoRaiz, ParserYaml::stJuego& juego);
@@ -107,11 +108,22 @@ class ParserYaml{
 		bool chequeoArchivo(std::string rutaArchivo);
 		void notificarErrorLectura(std::string tipoDato,std::string archivo, int linea, std::string msgError, bool& lecturaOk);
 
+	private:
+		// Los constructores permanecen privados, para evitar que sea instanciado multiples veces
+		// permitiendo que el archivo YAML se leído una sola vez
+		ParserYaml();
+		ParserYaml(const ParserYaml&);
+		ParserYaml& operator =(const ParserYaml&);
+
 	public:
 
-		ParserYaml(void);
-		~ParserYaml(void);
+		static ParserYaml& getInstance(); // Aplico Singleton
 		ParserYaml::stJuego cargarConfiguracionDeJuego(void);
-
+		virtual ~ParserYaml();
 };
 
+// La declaracion de la obtencion de instancia se hace en el mismo .h
+inline ParserYaml& ParserYaml::getInstance(){
+	static ParserYaml objecto;
+	return objecto;
+}
