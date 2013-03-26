@@ -27,6 +27,11 @@
 #define TAMANIO_SPRITE 32
 #define SDL_RUTA_SPRITE "./img/sprite.bmp"
 #define SDL_RUTA_PASTO "./img/pasto.bmp"
+#define SDL_RUTA_FONDO "./img/nivel.bmp"
+#define BIKINI "./img/bikini.bmp"
+
+/*********************CONTROLES EN PANTALLA ******************/
+#define DEFAULT_FONT "./src/utils/verdana.ttf"
 
 /**************************** YAML ***************************/
 
