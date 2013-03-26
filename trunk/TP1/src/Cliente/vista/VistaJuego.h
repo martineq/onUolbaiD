@@ -1,8 +1,6 @@
 #pragma once
-
-class VistaJuego{
+class VistaJuego{	
 	public:
 		VistaJuego(void);
 		~VistaJuego(void);
-
 };

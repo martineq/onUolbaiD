@@ -12,7 +12,8 @@
 
 class VistaPantalla:UIControl {
 private:
-	SDL_Surface *pantalla,*fondo;
+	SDL_Surface *pantalla,*fondo,*textSurface;	
+	TTF_Font* font;
 public:
 	VistaPantalla();
 	void levantar();
