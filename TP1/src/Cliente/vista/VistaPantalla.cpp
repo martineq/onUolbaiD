@@ -11,7 +11,7 @@ void VistaPantalla::levantar() {
 	SDL_Init(SDL_INIT_VIDEO);
 
 	// Seteo el nombre en la barra
-	SDL_WM_SetCaption("..::Undomiel::..", "");
+	SDL_WM_SetCaption("..::TP Taller papá!!!::..", "");
 
 	// Creo la ventana
 	this->pantalla = SDL_SetVideoMode(PANTALLA_ANCHO, PANTALLA_ALTO, 0, SDL_DOUBLEBUF|SDL_HWSURFACE|SDL_ANYFORMAT);
@@ -37,14 +37,14 @@ void VistaPantalla::dibujar(){
 	SDL_FillRect(this->pantalla, &r, 0xff << (UIState::getInstancia().mousedown * 8));
 
 	// Dibujo una etiqueta
-	TTF_Font* font = TTF_OpenFont(DEFAULT_FONT, 36);
+	font = TTF_OpenFont(DEFAULT_FONT, 36);
 	std::string texto;
 	texto.assign("hola");						
 	SDL_Color textColor;
 	textColor.b = 0xFB;
 	textColor.g = 0xEF;
 	textColor.r = 0xEF;
-	SDL_Surface* textSurface = TTF_RenderText_Solid(font, texto.c_str(), textColor);
+	textSurface = TTF_RenderText_Solid(font, texto.c_str(), textColor);
 	SDL_Rect offset;
 	offset.x = 100;
 	offset.y = 100;
@@ -55,6 +55,10 @@ void VistaPantalla::dibujar(){
 }
 
 VistaPantalla::~VistaPantalla(){
-	//SDL_FreeSurface(textSurface);
-	//TTF_CloseFont(font);
+	SDL_FreeSurface(pantalla);
+	SDL_FreeSurface(fondo);
+	SDL_FreeSurface(textSurface);
+	TTF_CloseFont(font);
+	TTF_Quit();
+	SDL_Quit();
 }
