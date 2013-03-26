@@ -5,7 +5,7 @@
 #include <sstream>
 #include <ctime>
 #include <stdlib.h>
-#include "../Constantes.h"
+#include "../Constantes/Constantes.h"
 
 /* Clase encargada de generar y gestionar el Log de la aplicacion.*/
 

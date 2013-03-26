@@ -1,15 +1,13 @@
 #include "Administrador.h"
 
 Administrador::Administrador(void){
-	//Pruebas p;
-	//p.PruebaSdl(); // Prueba SDL + log
-	//p.PruebaYAML();	// Prueba YAML
-	//char* a = new char;
-	//ModeloEntidad::prueba();
 
-	this->loopPrincipal();
 }
 
+Administrador::~Administrador(void){
+}
+
+// Dani
 void Administrador::loopPrincipal(){	
 	int fps = 50;
 	int delay = 1000/fps;	
@@ -34,6 +32,12 @@ void Administrador::loopPrincipal(){
 
 }
 
-Administrador::~Administrador(void){
-}
+void Administrador::correrPruebas(void){
 
+	Pruebas p;
+	//p.PruebaSdl(); // Prueba SDL + log
+	//p.PruebaYAML();	// Prueba YAML
+	//p.PruebaModeloEntidad();
+	p.PruebaControladorJuego();
+
+}

@@ -1,9 +1,11 @@
-#include "VistaPantalla.h"
+#include "VistaNivel.h"
 
+VistaNivel::VistaNivel(void){
 
-VistaPantalla::VistaPantalla(){}
+}
 
-void VistaPantalla::levantar() {
+void VistaNivel::levantar() {
+
 	// Estructura para la superficie gráfica, donde se va a dibujar
 	SDL_Surface *temp;
 
@@ -22,7 +24,7 @@ void VistaPantalla::levantar() {
 	SDL_FreeSurface(temp);
 }
 
-void VistaPantalla::dibujar(){
+void VistaNivel::dibujar(){
 	// Cargo el fondo
 	SDL_Rect rcFondo;
 	rcFondo.x = 0;
@@ -54,8 +56,8 @@ void VistaPantalla::dibujar(){
 	SDL_UpdateRect(pantalla, 0, 0, 0, 0);	
 }
 
-VistaPantalla::~VistaPantalla(){
-	SDL_FreeSurface(pantalla);
+VistaNivel::~VistaNivel(void){
+	SDL_FreeSurface(pantalla); // Dani <<< PINCHA ACÁ
 	SDL_FreeSurface(fondo);
 	SDL_FreeSurface(textSurface);
 	TTF_CloseFont(font);

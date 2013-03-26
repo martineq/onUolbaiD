@@ -1,14 +1,21 @@
 #pragma once
 
-#include "DetectorEventos.h"
+#include "./ControladorLoop.h"
+
+// TODO: Ver si va dentro del controlador
+#include "./DetectorEventos.h" // Dani
 
 class ControladorJuego{
+
 	private:
-		DetectorEventos detector;
+		ControladorLoop controladorLoop;
+
+		DetectorEventos detector; // Dani
+
 	public:
 		ControladorJuego(void);
 		~ControladorJuego(void);
-		void loop();
-		bool getQuit();
+		void loop(); // Dani
+		bool getQuit(); // Dani
 
 };

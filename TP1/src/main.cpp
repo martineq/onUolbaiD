@@ -1,13 +1,13 @@
 #include <iostream>
-#include "Administrador.h"
-#include <vld.h> // >> Sólo descomentar para chequeo de memoria. Habilitar DLL de depuración multiproceso (/MDd).
 
-using namespace std;
+#include "./Administrador.h"
+//#include <vld.h>
 
 int main(int argc, char* argv[]) {
 
-	Administrador admin;
+	Administrador administrador;
+	//administrador.correrPruebas();
+	//administrador.loopPrincipal(); // <<< Esto pincha
 
 	return 0;
 }
-
