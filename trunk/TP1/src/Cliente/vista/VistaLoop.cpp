@@ -10,6 +10,6 @@ void VistaLoop::levantarPantalla(){
 	this->pantalla.levantar();
 }
 
-void VistaLoop::loop() {
-	this->pantalla.dibujar();
+void VistaLoop::loop(std::vector<int> eventos) {
+	this->pantalla.dibujar(eventos);
 }

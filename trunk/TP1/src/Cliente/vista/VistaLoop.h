@@ -1,5 +1,6 @@
 #pragma once
 #include "VistaNivel.h"
+#include <vector>
 class VistaLoop{
 	private:
 		VistaNivel pantalla;
@@ -7,6 +8,6 @@ class VistaLoop{
 		VistaLoop(void);
 		~VistaLoop(void);
 		void levantarPantalla();
-		void loop ();
+		void loop (std::vector<int>);
 
 };
