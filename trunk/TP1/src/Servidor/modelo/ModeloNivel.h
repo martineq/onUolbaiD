@@ -1,13 +1,16 @@
 #pragma once
 
 #include <list>
-#include "ModeloEntidad.h"
+#include "./ModeloEntidad.h"
+#include "./ModeloScroll.h"
 
 class ModeloNivel{
+
 	private:
 		std::list <ModeloEntidad> jugadores;
 		std::list <ModeloEntidad> entidadesNivel;
-		
+		std::list <ModeloScroll> listaScroll;
+
 		// Pendiente por si se agregan cosas que se muevan automáticamente
 		//std::list <ModeloEntidad> entidadesAutomaticas;
 

@@ -1,9 +1,11 @@
 #include "ControladorJuego.h"
 
 ControladorJuego::ControladorJuego(void){
+
 }
 
 ControladorJuego::~ControladorJuego(void){
+
 }
 
 void ControladorJuego::loop(){

@@ -137,3 +137,16 @@ void Pruebas::PruebaYAML(void){
 	ParserYaml::getInstance().cargarConfiguracionDeJuego();
 	ParserYaml::getInstance().cargarConfiguracionDeJuego();
 }
+
+void Pruebas::PruebaModeloEntidad(void){
+	ModeloEntidad::prueba();
+}
+
+void Pruebas::PruebaControladorJuego(void){
+	ControladorJuego controlador;
+	controlador.loop();
+}
+
+
+
+	

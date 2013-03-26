@@ -31,7 +31,7 @@
 #define BIKINI "./img/bikini.bmp"
 
 /*********************CONTROLES EN PANTALLA ******************/
-#define DEFAULT_FONT "./src/utils/verdana.ttf"
+#define DEFAULT_FONT "./src/utils/Fonts/verdana.ttf"
 
 /**************************** YAML ***************************/
 

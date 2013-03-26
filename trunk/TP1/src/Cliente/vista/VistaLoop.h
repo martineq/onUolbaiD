@@ -1,8 +1,8 @@
 #pragma once
-#include "VistaPantalla.h"
+#include "VistaNivel.h"
 class VistaLoop{
 	private:
-		VistaPantalla pantalla;
+		VistaNivel pantalla;
 	public:
 		VistaLoop(void);
 		~VistaLoop(void);

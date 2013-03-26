@@ -1,7 +1,8 @@
 #pragma once
 
 #include <SDL.h>
-#include "../vista/UIState.h"
+#include "../../utils/Controles/UIState.h"
+
 
 class DetectorEventos{
 
