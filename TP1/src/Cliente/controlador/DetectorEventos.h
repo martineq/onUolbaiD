@@ -7,9 +7,13 @@
 class DetectorEventos{
 
 	private:
-		bool quit;
-
+		bool quit;		
 	public:
+		int posicionMouseX;
+		int posicionMouseY;
+		int clicMouseBotonIzquierdo;
+		int clicMouseBotonDerecho;
+
 		DetectorEventos(void);
 		~DetectorEventos(void);
 		void detectar();

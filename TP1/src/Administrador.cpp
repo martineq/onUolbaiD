@@ -22,7 +22,7 @@ void Administrador::loopPrincipal(){
 		quit = this->controlador.getQuit();
 		
 		//por ahora solo dibuja
-		this->vistaLoop.loop();		
+		this->vistaLoop.loop(this->controlador.getEventos());		
 		
 		int intervaloTranscurrido = SDL_GetTicks() - tickViejo;
 		if (intervaloTranscurrido < delay){

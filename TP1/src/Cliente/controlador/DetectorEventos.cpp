@@ -2,43 +2,56 @@
 
 DetectorEventos::DetectorEventos(void){
 	this->quit = false;
-}
-
-DetectorEventos::~DetectorEventos(void){
+	this->posicionMouseX = 0;
+	this->posicionMouseY = 0;
+	this->clicMouseBotonDerecho = 0;
+	this->clicMouseBotonIzquierdo = 0;
 }
 
 bool DetectorEventos::getQuit() {
 	return this->quit;
 }
+
 void DetectorEventos::detectar(){
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
 		{
-			case SDL_MOUSEMOTION:
-				// update mouse position
-				UIState::getInstancia().mousex = event.motion.x;
-				UIState::getInstancia().mousey = event.motion.y;
+			// si el mouse se mueve.
+			case SDL_MOUSEMOTION:				
+				this->posicionMouseX = event.motion.x;
+				this->posicionMouseY = event.motion.y;
 			break;
-			case SDL_MOUSEBUTTONDOWN:
-				// update button down state if left-clicking
-				if (event.button.button == 1)
-				UIState::getInstancia().mousedown = 1;
+			// presiono el boton izquierdo del mouse
+			case SDL_MOUSEBUTTONDOWN:						
+				//if (event.button.button == 1)				
+				if (SDL_BUTTON_LEFT)
+					this->clicMouseBotonIzquierdo = 1;
+				else
+					this->clicMouseBotonDerecho = 1;
 			break;
-			case SDL_MOUSEBUTTONUP:
-				// update button down state if left-clicking
-				if (event.button.button == 1)
-				UIState::getInstancia().mousedown = 0;
+			// suelto el boton izquierdo del mouse
+			case SDL_MOUSEBUTTONUP:				
+				//if (event.button.button == 1)		
+				if (this->clicMouseBotonIzquierdo == 1)
+					this->clicMouseBotonIzquierdo = 0;
+				else 
+					this->clicMouseBotonDerecho = 0;
 			break;
+			// presiono escape
 			case SDL_KEYUP:
-				if ( event.key.keysym.sym == SDLK_ESCAPE )
+				if (event.key.keysym.sym == SDLK_ESCAPE)
 				quit = true;
 			break;
+			// hago clic en la ventana para cerrarla
 			case SDL_QUIT:
 				quit = true;
 			break;
 			default: break;
 		}
-	}
+	}	
+}
+
+DetectorEventos::~DetectorEventos(void){
 }
