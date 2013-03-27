@@ -1,29 +1,21 @@
 #pragma once
 
-
-#include "./VistaScroll.h"
-#include "./VistaEntidad.h"
-
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include "../../utils/Constantes/Constantes.h"
-#include "../../utils/Controles/UIState.h"
-#include "../../utils/Controles/UIControl.h"
+#include <iostream>
+#include <string>
+#include <vector>
 
 
-class VistaNivel:UIControl{
-
-	private:
-		VistaScroll vistaScroll;
-		VistaEntidad vistaEntidad;
-
-		SDL_Surface *pantalla,*fondo,*textSurface;	// Dani
-		TTF_Font* font; // Dani
-
-	public:
-		VistaNivel(void);
-		~VistaNivel(void);
-		void levantar();
-		void dibujar();
-
+class VistaNivel{
+private:
+	SDL_Surface *pantalla,*fondo,*textSurface;	
+	TTF_Font* font;
+public:
+	VistaNivel();
+	void levantar();
+	void dibujar(std::vector<int> eventos);
+	~VistaNivel();
 };
+

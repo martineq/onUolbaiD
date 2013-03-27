@@ -1,11 +1,9 @@
 #include "VistaNivel.h"
 
-VistaNivel::VistaNivel(void){
 
-}
+VistaNivel::VistaNivel(){}
 
 void VistaNivel::levantar() {
-
 	// Estructura para la superficie gráfica, donde se va a dibujar
 	SDL_Surface *temp;
 
@@ -24,19 +22,21 @@ void VistaNivel::levantar() {
 	SDL_FreeSurface(temp);
 }
 
-void VistaNivel::dibujar(){
+void VistaNivel::dibujar(std::vector<int> eventos){
 	// Cargo el fondo
 	SDL_Rect rcFondo;
 	rcFondo.x = 0;
 	rcFondo.y = 0;	
 	SDL_BlitSurface(this->fondo, NULL, this->pantalla, &rcFondo);
 
-	SDL_Rect r;
-	r.x = UIState::getInstancia().mousex - 32;
-	r.y = UIState::getInstancia().mousey - 24;
+	// Dibujo el Mouse
+	SDL_Rect r;	
+	r.x = eventos.at(0) - 32;
+	r.y = eventos.at(1) - 24;
 	r.w = 64;
-	r.h = 48;
-	SDL_FillRect(this->pantalla, &r, 0xff << (UIState::getInstancia().mousedown * 8));
+	r.h = 48;	
+	//SDL_FillRect(this->pantalla, &r, 0xff << (eventos.at(2) * 8));
+	SDL_FillRect(this->pantalla, &r, 0xff << (eventos.at(3) * 8));
 
 	// Dibujo una etiqueta
 	font = TTF_OpenFont(DEFAULT_FONT, 36);
@@ -56,11 +56,12 @@ void VistaNivel::dibujar(){
 	SDL_UpdateRect(pantalla, 0, 0, 0, 0);	
 }
 
-VistaNivel::~VistaNivel(void){
-	SDL_FreeSurface(pantalla); // Dani <<< PINCHA ACÁ
+VistaNivel::~VistaNivel(){
+	SDL_FreeSurface(pantalla);
 	SDL_FreeSurface(fondo);
 	SDL_FreeSurface(textSurface);
 	TTF_CloseFont(font);
 	TTF_Quit();
 	SDL_Quit();
 }
+

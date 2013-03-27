@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL.h>
-#include "../../utils/Controles/UIState.h"
+//#include "../../utils/Controles/UIState.h"
 
 
 class DetectorEventos{
