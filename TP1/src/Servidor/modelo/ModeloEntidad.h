@@ -2,30 +2,45 @@
 
 #include <iostream>
 #include <Windows.h>
+#include <SDL.h>
 
 #include "../../utils/Observador/Observable.h"
-#include "../../utils/Observador/Observador.h"
 
-typedef struct {
+typedef struct Posicion {
 	int x;
 	int y;
+
+	Posicion() {
+		this->x = 0;
+		this->y = 0;
+	}
+
+	bool operator==(const Posicion &posicion) const {
+		return ((this->x == posicion.x) && (this->y == posicion.y));
+	}
+
+	bool operator!=(const Posicion &posicion) const {
+		return !(*this == posicion);
+	}
 } Posicion;
 
-class ModeloEntidad : public Observable, public Observador {
+class ModeloEntidad : public Observable {
 	private:
+		typedef struct Movimiento {
+			ModeloEntidad* modeloEntidad;
+			Posicion posicionDestino;
+			bool ejecutando;
+		} Movimiento;
+
 		unsigned int _alto;
 		unsigned int _ancho;
 		unsigned int _velocidad;
 		Posicion _posicionActual;
 		Posicion _posicionSiguiente;
+		Movimiento _movimientoActual;
+		SDL_Thread* _hiloMovimiento;
 
-		//TODO: Borrar
-		static void mover(ModeloEntidad* modeloEntidad, unsigned int x, unsigned int y) {
-			Posicion posicionDestino;
-			posicionDestino.x = x;
-			posicionDestino.y = y;
-			modeloEntidad->mover(posicionDestino);
-		}
+		static int mover(void* objeto);
 
 		//TODO: Borrar
 		class VistaEntidad : public Observador {
@@ -64,6 +79,14 @@ class ModeloEntidad : public Observable, public Observador {
 				}
 		};
 
+		//TODO: Borrar
+		static void mover(ModeloEntidad* modeloEntidad, unsigned int x, unsigned int y) {
+			Posicion posicionDestino;
+			posicionDestino.x = x;
+			posicionDestino.y = y;
+			modeloEntidad->mover(posicionDestino);
+		}
+
 	public:
 		//TODO: Borrar
 		static void prueba() {
@@ -72,20 +95,21 @@ class ModeloEntidad : public Observable, public Observador {
 			posicionInicial.x = 0;
 			posicionInicial.y = 0;
 
-			ModeloEntidad modeloEntidad(1, 1, 200, posicionInicial);
 			VistaEntidad vistaEntidad;
-
+			ModeloEntidad modeloEntidad(1, 1, 200, posicionInicial);
+			
 			modeloEntidad.agregarObservador(&vistaEntidad);
 	
 			mover(&modeloEntidad, 9, 0);
-			mover(&modeloEntidad, 0, 0);
-			mover(&modeloEntidad, 0, 9);
-			mover(&modeloEntidad, 0, 0);
+			Sleep(1000);
+			/*mover(&controladorEntidad, 0, 0);
+			mover(&controladorEntidad, 0, 9);
+			mover(&controladorEntidad, 0, 0);*/
 			mover(&modeloEntidad, 9, 9);
-			mover(&modeloEntidad, 0, 0);
-			mover(&modeloEntidad, 4, 4);
-			mover(&modeloEntidad, 9, 0);
-			mover(&modeloEntidad, 0, 9);
+			/*mover(&controladorEntidad, 0, 0);
+			mover(&controladorEntidad, 4, 4);
+			mover(&controladorEntidad, 9, 0);
+			mover(&controladorEntidad, 0, 9);*/
 
 			getchar();
 		}
@@ -93,6 +117,8 @@ class ModeloEntidad : public Observable, public Observador {
 		ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int velocidad, Posicion posicion);
 
 		virtual ~ModeloEntidad();
+
+		void cambiarEstado();
 
 		unsigned int alto() const;
 
@@ -104,11 +130,7 @@ class ModeloEntidad : public Observable, public Observador {
 
 		Posicion posicionSiguiente() const;
 
-		void actualizar(Observable* s);
-
-		void mover(Posicion posicionDestino);
-
-		void cambiarEstado();
+		void mover(Posicion posicion);
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
