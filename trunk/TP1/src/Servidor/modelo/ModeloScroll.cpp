@@ -8,7 +8,7 @@ ModeloScroll::ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, c
 	margen = tMargen;
 	velocidad = tVelocidad;
 
-	m->agregarObservador(this);
+	//m->agregarObservador(this);
 }
 
 ModeloScroll::~ModeloScroll(void){
