@@ -76,7 +76,6 @@
 #define NO_IMPRIMIR_INFO_MUTEX "no"	// "no" (o cualquier otra cosa distinto de "si") para que no imprima
 
 
-
 /*****************************  Sockets *****************************************/
 #define TAMANIO_BLOQUE 1024			// Tamaño del bloque de datos usado para envío de archivos
 #define VERSION_WINSOCK_REQUERIDA 2 // Version de Winsock mínima requerida

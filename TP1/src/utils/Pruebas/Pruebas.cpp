@@ -144,5 +144,24 @@ void Pruebas::PruebaModeloEntidad(void){
 	ModeloEntidad::prueba();
 }
 
+void Pruebas::PruebaHilos(void){
+
+	HiloDePrueba hiloUno;
+	HiloDePrueba hiloDos;
+
+	// Lanzo los hilos. Si lo necesito puedo pasar por parámetro un void*
+	// para luego ser usado en la implementación del run(void*) HiloDePrueba
+	hiloUno.start(NULL);
+	hiloDos.start(NULL);
+	
+	// Espero a que terminen los hilos
+	hiloUno.join();
+	hiloDos.join();
+
+	char c;
+	std::cin >> c;
+
+	return void();
+}
 
 	

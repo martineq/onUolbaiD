@@ -10,6 +10,7 @@
 #include "../Log/log.h"
 #include "../yaml/ParserYaml.h"
 #include "../../Servidor/modelo/ModeloEntidad.h"
+#include "./HiloDePrueba.h"
 
 class Pruebas{
 
@@ -20,5 +21,6 @@ class Pruebas{
 		void PruebaSdl(void);
 		void PruebaYAML(void);
 		void PruebaModeloEntidad(void);
+		void PruebaHilos(void);
 
 };
