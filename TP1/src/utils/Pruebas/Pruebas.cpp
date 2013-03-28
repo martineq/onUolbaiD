@@ -1,9 +1,11 @@
 #include "Pruebas.h"
 
 Pruebas::Pruebas(void){
+
 }
 
 Pruebas::~Pruebas(void){
+
 }
 
 void Pruebas::PruebaSdl(void){
@@ -141,12 +143,6 @@ void Pruebas::PruebaYAML(void){
 void Pruebas::PruebaModeloEntidad(void){
 	ModeloEntidad::prueba();
 }
-
-void Pruebas::PruebaControladorJuego(void){
-	ControladorJuego controlador;
-	controlador.loop();
-}
-
 
 
 	

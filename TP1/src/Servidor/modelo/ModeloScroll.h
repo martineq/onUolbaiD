@@ -4,7 +4,7 @@
 #include "../../utils/Observador/Observable.h"
 #include "../../utils/Constantes/Constantes.h"
 
-class ModeloScroll:public Observador{
+class ModeloScroll{
 
 	private:
 		int x, y, ancho, alto;
