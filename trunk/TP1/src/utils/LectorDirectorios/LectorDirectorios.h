@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include <winsock2.h>  // <windows.h> está contenida <winsock2.h>, la dejo así porque se va a usar
+#include <winsock.h>  // <windows.h> está contenida <winsock.h>, la dejo así porque se va a usar
 
 class LectorDirectorios{
 

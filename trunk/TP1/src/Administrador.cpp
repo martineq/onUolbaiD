@@ -15,5 +15,5 @@ void Administrador::correrPruebas(void){
 	//p.PruebaYAML();	// Prueba YAML
 	//p.PruebaModeloEntidad();
 	//p.PruebaControladorJuego();
-
+	p.PruebaHilos();
 }
