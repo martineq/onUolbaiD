@@ -2,9 +2,9 @@
 
 #include <iostream>
 #include <Windows.h>
-#include <SDL.h>
 
 #include "../../utils/Observador/Observable.h"
+#include "../../utils/Hilos/Hilo.h"
 
 typedef struct Posicion {
 	int x;
@@ -26,22 +26,29 @@ typedef struct Posicion {
 
 class ModeloEntidad : public Observable {
 	private:
-		typedef struct Movimiento {
-			ModeloEntidad* modeloEntidad;
-			Posicion posicionDestino;
-			bool ejecutando;
-		} Movimiento;
+		class Movimiento : public Hilo {
+			private:
+				ModeloEntidad* _modeloEntidad;
+				Posicion _posicionDestino;
+				bool _ejecutando;
+
+				void* run(void* parametro);
+
+			public:
+				Movimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino);
+
+				virtual ~Movimiento();
+
+				void detener();
+		};
 
 		unsigned int _alto;
 		unsigned int _ancho;
 		unsigned int _velocidad;
 		Posicion _posicionActual;
 		Posicion _posicionSiguiente;
-		Movimiento _movimientoActual;
-		SDL_Thread* _hiloMovimiento;
-
-		static int mover(void* objeto);
-
+		Movimiento* _movimientoActual;
+		
 		//TODO: Borrar
 		class VistaEntidad : public Observador {
 			private:
