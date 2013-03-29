@@ -7,7 +7,7 @@
 class Cliente{
 
 	private:
-		VistaJuego vistajuego;
+		VistaJuego vistaJuego;
 		ControladorJuego controladorJuego;
 
 	public:

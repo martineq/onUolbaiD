@@ -15,6 +15,7 @@ class ControladorLoop{
 		ControladorLoop(void);
 		~ControladorLoop(void);
 
-		void agregarObservadorEventos(Observador*);
+		void agregarObservadorEventos(Observador* observador);
+		bool loop(void);
 
 };

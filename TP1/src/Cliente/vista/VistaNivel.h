@@ -9,14 +9,14 @@
 class VistaNivel{
 
 	private:
-		VistaScroll vistaScroll;
-		VistaEntidad vistaEntidad;
+		VistaScroll* vistaScroll;
+		std::list<VistaEntidad *> listaVistaEntidad;
 
 	public:
 		VistaNivel();
 		~VistaNivel();
 
-		Observador * obtenerObservadorScroll(void);
+		Observador* obtenerObservadorScroll(void);
 		std::list<Observador*> obtenerObservadoresEntidad(void);
 
 };

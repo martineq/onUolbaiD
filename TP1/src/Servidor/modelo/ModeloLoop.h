@@ -13,5 +13,6 @@ class ModeloLoop{
 		~ModeloLoop(void);
 
 		Observador* obtenerObservadorEvento(void);
+		bool loop();
 
 };
