@@ -8,6 +8,13 @@ ControladorJuego::~ControladorJuego(void){
 
 }
 
+bool ControladorJuego::loop(){
+	//lo hace detectar y carga el vector de eventos
+	this->controladorLoop.loop();	
+	//se fija si preciono ESC o la X de la ventana
+	return this->controladorLoop.getQuit();	
+}
+
 
 void ControladorJuego::agregarObservadorEventos(Observador*){
 	// TODO: Implementar
@@ -18,6 +25,3 @@ bool ControladorJuego::iniciar(void){
 	return false;
 }
 
-bool ControladorJuego::loop(void){
-	return this->controladorLoop.loop();
-}

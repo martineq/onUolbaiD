@@ -1,19 +1,38 @@
 #include "Administrador.h"
+#include "Cliente\Cliente.h"
 
 Administrador::Administrador(void){
-
+	
 }
 
 Administrador::~Administrador(void){
 
 }
 
-void Administrador::iniciar(void){
 
+void Administrador::iniciar(){
 	// TODO: Tomar los booleanos del iniciar
 	this->servidor.iniciar();
 	this->cliente.iniciar();
 
+
+}
+
+void Administrador::loop(){
+	int fps = 50;
+	int delay = 1000/fps;	
+	bool quit = false;		
+	while (!quit)
+	{
+		int tickViejo = SDL_GetTicks();		
+		
+		quit = this->cliente.loop();		
+		
+		int intervaloTranscurrido = SDL_GetTicks() - tickViejo;
+		if (intervaloTranscurrido < delay){
+			SDL_Delay(delay - intervaloTranscurrido);
+		}
+	}
 }
 
 void Administrador::vincularObservadores(void){
@@ -31,9 +50,7 @@ void Administrador::vincularObservadores(void){
 
 }
 
-void Administrador::loop(void){
 
-}
 
 void Administrador::correrPruebas(void){
 

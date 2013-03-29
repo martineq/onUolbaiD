@@ -16,7 +16,6 @@ class Administrador{
 	public:
 		Administrador(void);
 		~Administrador(void);
-
 		void iniciar(void);					// Inicia el servidor y cliente
 		void vincularObservadores(void);	// Vincula todos los patron observer
 		void loop(void);					// Inicia los loops de servidor y cliente

@@ -6,7 +6,8 @@
 int main(int argc, char* argv[]) {
 
 	Administrador administrador;
-	administrador.correrPruebas();
+	administrador.loop();
+	//administrador.correrPruebas();
 
 	return 0;
 }

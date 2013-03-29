@@ -1,17 +1,16 @@
 #pragma once
 
-#include "./ControladorLoop.h"
+#include "ControladorLoop.h"
 #include "../../utils/Observador/Observador.h"
 
 class ControladorJuego{
 
 	private:
-		ControladorLoop controladorLoop;
+		ControladorLoop controladorLoop;	
 
 	public:
 		ControladorJuego(void);
-		~ControladorJuego(void);
-
+		~ControladorJuego(void);		
 		void agregarObservadorEventos(Observador*);
 		bool iniciar(void);		// Inicia el ModeloFactory
 		bool loop(void);		// Inicia el ModeloLoop y le pasa el ModeloNivel
