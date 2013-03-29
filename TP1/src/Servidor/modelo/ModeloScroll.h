@@ -1,10 +1,9 @@
 #pragma once
 
-#include "../../utils/Observador/Observador.h"
 #include "../../utils/Observador/Observable.h"
 #include "../../utils/Constantes/Constantes.h"
 
-class ModeloScroll{
+class ModeloScroll: public Observable{
 
 	private:
 		int x, y, ancho, alto;
@@ -24,6 +23,7 @@ class ModeloScroll{
 		int getAncho();
 		int getMargen();
 
+		void cambiarEstado();
 
 };
 

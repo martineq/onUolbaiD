@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./VistaAnimaciones.h"
+#include "../../Servidor/modelo/ModeloEntidad.h"
 
 class VistaEntidad{
 
@@ -10,4 +11,5 @@ class VistaEntidad{
 		VistaEntidad(void);
 		~VistaEntidad(void);
 
+		void actualizar(class Observable* s);
 };

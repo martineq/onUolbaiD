@@ -73,3 +73,6 @@ int ModeloScroll::getMargen() {
 	return this->margen;
 }
 
+void ModeloScroll::cambiarEstado(){
+	this->notificarObservadores();
+}
