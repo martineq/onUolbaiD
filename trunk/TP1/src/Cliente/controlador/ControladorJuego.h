@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./ControladorLoop.h"
-
+#include "../../utils/Observador/Observador.h"
 
 class ControladorJuego{
 
@@ -11,5 +11,9 @@ class ControladorJuego{
 	public:
 		ControladorJuego(void);
 		~ControladorJuego(void);
+
+		void agregarObservadorEventos(Observador*);
+		bool iniciar(void);		// Inicia el ModeloFactory
+		bool loop(void);		// Inicia el ModeloLoop y le pasa el ModeloNivel
 
 };

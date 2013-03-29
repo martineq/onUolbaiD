@@ -2,6 +2,7 @@
 
 #include "./ModeloEntidad.h"
 #include "./ModeloScroll.h"
+#include "../../utils/Observador/Observador.h"
 
 class ModeloNivel{
 
@@ -13,6 +14,10 @@ class ModeloNivel{
 	public:
 		ModeloNivel();
 		~ModeloNivel(void);
+
+		void agregarObservadoresScroll(std::list<Observador*>);
+		void agregarObservadoresEntidad(std::list<Observador*>);
+
 
 };
 
