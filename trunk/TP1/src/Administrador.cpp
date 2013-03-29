@@ -10,12 +10,30 @@ Administrador::~Administrador(void){
 
 void Administrador::iniciar(void){
 
+	// TODO: Tomar los booleanos del iniciar
+	this->servidor.iniciar();
+	this->cliente.iniciar();
+
+}
+
+void Administrador::vincularObservadores(void){
+
+	// Agrego los eventos que observan
+	this->cliente.agregarObservadorEventos(this->servidor.obtenerObservadorEvento());
+
+	// Agrego las entidades que observan
+	this->servidor.agregarObservadoresEntidad(this->cliente.obtenerObservadoresEntidad());
+
+	// Agrego los scroll que observan
+	std::list<Observador*> listaObservadoresScroll;	// En el futuro habra mas de un cliente, por eso es una lista
+	listaObservadoresScroll.push_back(this->cliente.obtenerObservadorScroll());
+	this->servidor.agregarObservadoresScroll(listaObservadoresScroll);
+
 }
 
 void Administrador::loop(void){
 
 }
-
 
 void Administrador::correrPruebas(void){
 

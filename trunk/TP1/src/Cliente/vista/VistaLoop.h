@@ -8,4 +8,5 @@ class VistaLoop{
 		VistaLoop(void);
 		~VistaLoop(void);
 
+		bool loop(void);
 };
