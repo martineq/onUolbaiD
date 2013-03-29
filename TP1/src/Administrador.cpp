@@ -8,6 +8,15 @@ Administrador::~Administrador(void){
 
 }
 
+void Administrador::iniciar(void){
+
+}
+
+void Administrador::loop(void){
+
+}
+
+
 void Administrador::correrPruebas(void){
 
 	Pruebas p;

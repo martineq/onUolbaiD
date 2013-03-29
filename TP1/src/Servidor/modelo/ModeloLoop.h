@@ -2,13 +2,16 @@
 
 #include <list>
 #include "./ModeloEvento.h"
+#include "../../utils/Observador/Observador.h"
 
 class ModeloLoop{
 
-	std::list <ModeloEvento> listaDeEventos;
+	ModeloEvento evento;
 
 	public:
 		ModeloLoop(void);
 		~ModeloLoop(void);
+
+		Observador* obtenerObservadorEvento(void);
 
 };
