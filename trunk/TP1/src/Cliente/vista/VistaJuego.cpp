@@ -4,6 +4,11 @@ VistaJuego::VistaJuego(void){
 
 }
 
+bool VistaJuego::loop(){
+	this->vistaLoop.loop();
+	return true;
+}
+
 VistaJuego::~VistaJuego(void){
 
 }
@@ -20,6 +25,3 @@ bool VistaJuego::iniciar(void){
 	return this->vistaFactory.crearVistaNivel(this->vistaNivel);
 }
 
-bool VistaJuego::loop(void){
-	return this->vistaLoop.loop();
-}

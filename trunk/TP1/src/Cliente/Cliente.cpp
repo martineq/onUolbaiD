@@ -26,10 +26,14 @@ void Cliente::agregarObservadorEventos(Observador*){
 }
 
 bool Cliente::loop(void){
-	if( this->controladorJuego.loop() == true && this->vistaJuego.loop() == true){
+	bool quit = this->controladorJuego.loop();
+	this->vistaJuego.loop();
+	return quit;
+	
+	/*if( this->controladorJuego.loop() == true && this->vistaJuego.loop() == true){
 		return true;
 	}else{
 		return false;
-	}
+	}*/
 }
 
