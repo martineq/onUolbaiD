@@ -1,5 +1,4 @@
-#include "Administrador.h"
-#include "Cliente\Cliente.h"
+#include "./Administrador.h"
 
 Administrador::Administrador(void){
 	
@@ -9,15 +8,13 @@ Administrador::~Administrador(void){
 
 }
 
-
 void Administrador::iniciar(){
 	// TODO: Tomar los booleanos del iniciar
 	this->servidor.iniciar();
 	this->cliente.iniciar();
-
-
 }
 
+// TODO: Completar loop con cliente y servidor
 void Administrador::loop(){
 	int fps = 50;
 	int delay = 1000/fps;	
@@ -25,7 +22,7 @@ void Administrador::loop(){
 	while (!quit)
 	{
 		int tickViejo = SDL_GetTicks();		
-		
+
 		quit = this->cliente.loop();		
 		
 		int intervaloTranscurrido = SDL_GetTicks() - tickViejo;
@@ -49,8 +46,6 @@ void Administrador::vincularObservadores(void){
 	this->servidor.agregarObservadoresScroll(listaObservadoresScroll);
 
 }
-
-
 
 void Administrador::correrPruebas(void){
 

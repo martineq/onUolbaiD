@@ -1,21 +1,21 @@
-#include "VistaLoop.h"
+#include "./VistaLoop.h"
 
 VistaLoop::VistaLoop(void){
-	this->vistaNivel.levantarPantalla();
+
 }
 
 VistaLoop::~VistaLoop(void){
 
 }
 
-bool VistaLoop::loop(){
-	SDL_Surface *pantalla = this->vistaNivel.getPantalla();
-	SDL_Surface *fondo = this->vistaNivel.getFondo();
-	this->dibujarPantalla(pantalla,fondo);
-	return true;
+bool VistaLoop::loop(VistaNivel& vistaNivel){
+	SDL_Surface *pantalla = vistaNivel.getPantalla();
+	SDL_Surface *fondo = vistaNivel.getFondo();
+	this->dibujarPantalla(pantalla,fondo,vistaNivel);
+	return false;	// TODO: Implementar este return
 }
 
-void VistaLoop::dibujarPantalla(SDL_Surface* pantalla, SDL_Surface* fondo){
+void VistaLoop::dibujarPantalla(SDL_Surface* pantalla, SDL_Surface* fondo, VistaNivel& vistaNivel){
 	// Cargo el fondo
 	SDL_Rect rcFondo;
 	rcFondo.x = 0;
@@ -33,7 +33,7 @@ void VistaLoop::dibujarPantalla(SDL_Surface* pantalla, SDL_Surface* fondo){
 
 	// Dibujo una etiqueta
 	
-	SDL_Surface* textSurface = this->vistaNivel.getTextSurface();
+	SDL_Surface* textSurface = vistaNivel.getTextSurface();
 	SDL_BlitSurface(textSurface, NULL, pantalla, NULL);
 	
 	// actualiza la pantalla

@@ -1,12 +1,7 @@
-#include "VistaJuego.h"
+#include "./VistaJuego.h"
 
 VistaJuego::VistaJuego(void){
 
-}
-
-bool VistaJuego::loop(){
-	this->vistaLoop.loop();
-	return true;
 }
 
 VistaJuego::~VistaJuego(void){
@@ -22,6 +17,11 @@ std::list<Observador*> VistaJuego::obtenerObservadoresEntidad(void){
 }
 
 bool VistaJuego::iniciar(void){
-	return this->vistaFactory.crearVistaNivel(this->vistaNivel);
+	if( this->vistaFactory.crearVistaNivel(this->vistaNivel) == false ) return false;
+	if( this->vistaNivel.levantarPantalla() ) return false;
+	return true;
 }
 
+bool VistaJuego::loop(){
+	return this->vistaLoop.loop(this->vistaNivel);	// El return tiene que venir del this->vistaLoop.loop();
+}

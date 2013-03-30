@@ -1,4 +1,4 @@
-#include "Cliente.h"
+#include "./Cliente.h"
 
 Cliente::Cliente(void){
 
@@ -26,8 +26,9 @@ void Cliente::agregarObservadorEventos(Observador*){
 }
 
 bool Cliente::loop(void){
+	// TODO: los dos loop tienen que ser evaluados por true o false
 	bool quit = this->controladorJuego.loop();
-	this->vistaJuego.loop();
+	this->vistaJuego.loop(); // TODO: evaluar bool
 	return quit;
 	
 	/*if( this->controladorJuego.loop() == true && this->vistaJuego.loop() == true){
