@@ -127,10 +127,10 @@ void ParserYaml::cargaStEntidad(const YAML::Node& nodo, ParserYaml::stEntidad& e
 
 	this->cargaDefaultStEntidad(entidad); // Cargo todos los valores por default, ya que son opcionales
 
-	for(YAML::Iterator it=nodo.begin();it!=nodo.end();++it) {	
+	for(YAML::Iterator it=nodo.begin();it!=nodo.end();++it){	
 		std::string clave = this->leerNodoYamlString(it.first());
 		if ( clave.compare("nombre") == 0 ){ entidad.nombre = this->leerNodoYamlString(it.second());
-		}else if ( clave.compare("imagen") == 0 ){ std::string rutaImagen(YAML_RUTA_DIRECTORIO_IMG); rutaImagen.append(this->leerNodoYamlString(it.second())); entidad.imagen = rutaImagen;
+		}else if ( clave.compare("imagen") == 0 ){ this->cargaListaImagenes(it.second(),entidad.imagenes);
 		}else if ( clave.compare("ancho_base") == 0 ){ entidad.anchoBase = this->leerNodoYamlInt(it.second());
 		}else if ( clave.compare("alto_base") == 0 ){ entidad.altoBase = this->leerNodoYamlInt(it.second());
 		}else if ( clave.compare("pixel_ref_x") == 0 ){ entidad.pixelReferenciaX = this->leerNodoYamlInt(it.second());
@@ -145,10 +145,24 @@ void ParserYaml::cargaStEntidad(const YAML::Node& nodo, ParserYaml::stEntidad& e
 	return void();
 }
 
+void ParserYaml::cargaListaImagenes(const YAML::Node& nodo, std::list<std::string>& imagenes){
+
+	//El nodo es una lista
+	for(unsigned i=0 ; i<nodo.size() ; i++) {
+		std::string rutaImagen(YAML_RUTA_DIRECTORIO_IMG); 
+		rutaImagen.append( this->leerNodoYamlString(nodo[i]) );
+		imagenes.push_back(rutaImagen);
+	}
+
+	return void();
+}
+
+
 void ParserYaml::cargaDefaultStEntidad(ParserYaml::stEntidad& entidad){
 	std::string rutaImagen(YAML_RUTA_DIRECTORIO_IMG);
 	rutaImagen.append(YAML_DEAFAULT_RUTA_IMAGEN);
-	entidad.imagen = rutaImagen;
+	entidad.imagenes.clear();
+	entidad.imagenes.push_back(rutaImagen);
 	entidad.nombre = YAML_DEAFAULT_NOMBRE;
 	entidad.anchoBase = YAML_DEAFAULT_ANCHO_BASE;
 	entidad.altoBase = YAML_DEAFAULT_ALTO_BASE;
@@ -332,10 +346,7 @@ void ParserYaml::validaRecorrerListaEntidades(std::list<std::list<ParserYaml::st
 		}
 
 		// Chequeo la validez de la ruta de la imagen // TODO: Ver si hay que agregar funcionalidad para una lista de animaciones
-		if( chequeoArchivo((*it).imagen) == false ){
-			Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ (*it).nombre +" tiene una ruta de imagen inválida.");
-			entidadOk = false;
-		}
+		if( this->validaListaImagenes((*it).imagenes, (*it).nombre) == false ) entidadOk = false;
 
 		// Chequeo que no sea una entidad repetida, entro solo si los demás datos son válidos
 		if( entidadOk == true){
@@ -383,44 +394,27 @@ int ParserYaml::validaCantidadVecesEnEntidadABorrar(std::list<stEntidad>::iterat
 	return vecesRepetidas;
 }
 
-bool ParserYaml::validaListaAnimaciones(std::list<std::string> listaAnimaciones){
+bool ParserYaml::validaListaImagenes(std::list<std::string> listaImagenes, std::string nombreEntidad){
 
-	bool animacionesOk = true;
-
-// TODO: Ver si se usará esto para el chequeo de las animaciones
+		bool imagenesOk = true;	// Lo pongo antes del ciclo for porque una sola imagen descalifica todo
 
 		// Chequeo si la lista de animaciones está vacía
-/*		if ( (*it).animaciones.empty() == true){
-			Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ (*it).nombre +" no tiene animaciones asignadas.");
-			animacionesOk = false;
+		if ( listaImagenes.empty() == true){
+			Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ nombreEntidad +" no tiene imagenes asignadas.");
+			imagenesOk = false;
 		}
 
 		// Recorro todas las aniaciones 
-		for (std::list<stAnimacion>::iterator it=(*it).animaciones.begin() ; it != (*it).animaciones.end(); it++ ){
-			
+		for (std::list<std::string>::iterator it=listaImagenes.begin() ; it != listaImagenes.end(); it++ ){	
+
 			// Chequeo la validez del nombre de la animación
-			if ( (*it).nombre.empty()==true ) {
-				Log::getInstance().log(1,__FILE__,__LINE__,"Las animaciones de la entidad "+ (*it).nombre +" no tienen valores válidos en su nombre.");
-				animacionesOk = false;
+			if( chequeoArchivo((*it)) == false ){
+				Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ nombreEntidad +" tiene una ruta de imagen inválida.");
+				imagenesOk = false;
 			}
+		}
 
-			// Chequeo la validez del período de la animación
-			if ( (*it).periodo < 0 ) {
-				Log::getInstance().log(1,__FILE__,__LINE__,"Las animaciones de la entidad "+ (*it).nombre +" no tienen valores válidos en su periodo. Se usará un valor por defecto");
-				(*it).periodo = JUEGO_PERIODO_DEFAULT;
-			}
-
-			// Chequeo si las rutas de las animaciones son válidas
-			for (std::list<std::string>::iterator it3=(*it).sprites.begin() ; it3 != (*it).sprites.end(); it3++ ){
-				if ( chequeoArchivo((*it3))==false){
-					Log::getInstance().log(1,__FILE__,__LINE__,"Las animaciones de la entidad "+ (*it).nombre +" tienen rutas de archivo inválidos.");
-					animacionesOk = false;
-				}
-			}
-
-		} 
-*/
-	return animacionesOk;
+	return imagenesOk;
 }
 
 void ParserYaml::validaDescartarEntidades(std::list<std::list<ParserYaml::stEntidad>::iterator>& tipoEntidadABorrar){

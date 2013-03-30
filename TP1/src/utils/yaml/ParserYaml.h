@@ -26,7 +26,7 @@ class ParserYaml{
 
 		struct stEntidad{
 			std::string nombre;
-			std::string imagen;
+			std::list<std::string> imagenes;
 			int anchoBase;
 			int altoBase;
 			int pixelReferenciaX;
@@ -78,6 +78,7 @@ class ParserYaml{
 		void cargaListaProtagonistas(const YAML::Node& nodo, std::list <ParserYaml::stProtagonista>& protagonistas);
 		void cargaListaEntidadesDefinidas(const YAML::Node& nodo, std::list <ParserYaml::stEntidadDefinida>& entidadesDefinidas);
 		void cargaStEntidad(const YAML::Node& nodo, ParserYaml::stEntidad& entidad);
+		void cargaListaImagenes(const YAML::Node& nodo, std::list<std::string>& imagenes);
 		void cargaDefaultStEntidad(ParserYaml::stEntidad& entidad);
 		void cargaStEscenario(const YAML::Node& nodo, ParserYaml::stEscenario& escenario);
 		void cargaDefaultStEscenario(ParserYaml::stEscenario& escenario);
@@ -94,7 +95,7 @@ class ParserYaml{
 		void validaListaEntidadesVacia(void);
 		bool validaEsEntidadRepetida(std::list<stEntidad>::iterator iterador, std::list<std::list<stEntidad>::iterator>& tipoEntidadABorrar);
 		int validaCantidadVecesEnEntidadABorrar(std::list<stEntidad>::iterator iteradorBuscado, std::list<std::list<stEntidad>::iterator>& tipoEntidadABorrar);
-		bool validaListaAnimaciones(std::list<std::string> listaAnimaciones);
+		bool validaListaImagenes(std::list<std::string> listaImagenes, std::string nombreEntidad);
 		void validaRecorrerListaEscenarios(std::list<std::list<ParserYaml::stEscenario>::iterator>& tipoEscenarioABorrar);
 		void validaDescartarEscenarios(std::list<std::list<ParserYaml::stEscenario>::iterator>& tipoEscenarioABorrar);
 		void validaListaEscenariosVacia(void);
