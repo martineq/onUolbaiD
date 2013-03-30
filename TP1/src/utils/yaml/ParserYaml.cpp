@@ -485,11 +485,12 @@ void ParserYaml::validaListaEntidadesDefinidas(std::list <ParserYaml::stEntidadD
 
 	// Lista de las entidades que se van a borrar, en caso de presentar errores
 	std::list<std::list<ParserYaml::stEntidadDefinida>::iterator> tipoEntidadDefinidaABorrar; 
-	bool entidadDefinidaOk = true;
 
 	// Recorro todas las entidades definidas 
 	for (std::list<stEntidadDefinida>::iterator it=entidadesDefinidas.begin() ; it != entidadesDefinidas.end(); it++ ){
 		
+		bool entidadDefinidaOk = true;
+
 		// Chequeo la validez del nombre de la entidad definida
 		if ( (*it).entidad.compare(YAML_STRING_VACIO) == 0 ) {
 			Log::getInstance().log(1,__FILE__,__LINE__,"Una entidad definida del escenario "+ nombreEscenario +" no tiene un valor válido en su campo <entidad>.");
@@ -531,11 +532,13 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 	
 	// Lista de los protagonistas que se van a borrar, en caso de presentar errores
 	std::list<std::list<ParserYaml::stProtagonista>::iterator> tipoProtagonistaABorrar; 
-	bool protagonistaOk = true;
+	
 
 	// Recorro todas los protagonistas 
 	for (std::list<stProtagonista>::iterator it=protagonistas.begin() ; it != protagonistas.end(); it++ ){
 		
+		bool protagonistaOk = true;
+
 		// Chequeo la validez del nombre del protagonista
 		if ( (*it).entidad.compare(YAML_STRING_VACIO) == 0 ) {
 			Log::getInstance().log(1,__FILE__,__LINE__,"Un protagonista del escenario "+ nombreEscenario +" no tiene un valor válido en su campo <entidad>.");
@@ -552,10 +555,14 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 		if( this->validaExisteEntidad((*it).entidad) == false ) protagonistaOk = false;
 
 		// Agrego la entidad definida con errores
-		if( protagonistaOk == false) tipoProtagonistaABorrar.push_back(it); 
+		if( protagonistaOk == false){
+			//Log::getInstance().log(1,__FILE__,__LINE__,"Entidad <"+(*it).entidad+"> inválida.");
+			tipoProtagonistaABorrar.push_back(it); 
+		}
+
 	} 
 
-	// Borro las entidades definidas con errores
+	// Borro los protagonistas con errores
 	if ( tipoProtagonistaABorrar.empty() == false ){
 		Log::getInstance().log(1,__FILE__,__LINE__,"escenarios->protagonista: existen protagonistas definidos inválidos para el escenario "+ nombreEscenario +". Los mismos se descartarán.");
 		for (std::list<std::list<stProtagonista>::iterator>::iterator it=tipoProtagonistaABorrar.begin() ; it != tipoProtagonistaABorrar.end(); it++ ){
@@ -563,10 +570,17 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 		}
 	}
 
-	if ( protagonistas.empty() == true ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de personajes del escenario "+ nombreEscenario +" ha quedado vacía.");
+	if ( protagonistas.empty() == true ){ // Si está vacío
+		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de personajes del escenario "+ nombreEscenario +" se encuentra vacía.");
 		return false;
-	}else{
+	}else{	// Si no se encuentra vacío
+		int tamanioListaProtagonistas = protagonistas.size();
+		if( tamanioListaProtagonistas > 1 ){ // Si tiene mas de un solo protagonista, saco a los que sobran
+			for(unsigned int i = 0; i < (tamanioListaProtagonistas-1); i++){
+				protagonistas.pop_back();
+			}
+			Log::getInstance().log(1,__FILE__,__LINE__,"En el escenario <"+ nombreEscenario +"> existe mas de un protagonista válido. Se elige como protagonista a la entidad: <"+ protagonistas.front().entidad +">.");
+		}
 		return true;
 	}
 
