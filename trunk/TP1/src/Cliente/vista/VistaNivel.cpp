@@ -1,11 +1,11 @@
-#include "VistaNivel.h"
+#include "./VistaNivel.h"
 
 
 VistaNivel::VistaNivel(){
 
 }
 
-void VistaNivel::levantarPantalla() {
+bool VistaNivel::levantarPantalla(){
 	// Estructura para la superficie gráfica, donde se va a dibujar
 	SDL_Surface *temp;
 
@@ -24,6 +24,8 @@ void VistaNivel::levantarPantalla() {
 	SDL_FreeSurface(temp);
 
 	this->font = TTF_OpenFont(DEFAULT_FONT, 36);
+
+	return false; // TODO: Implementar el return del método
 }
 
 SDL_Surface* VistaNivel::getPantalla(){

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <list>
-#include "./VistaScroll.h"
-#include "./VistaEntidad.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <iostream>
 #include <string>
+#include <list>
+#include "./VistaScroll.h"
+#include "./VistaEntidad.h"
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observador.h"
 
@@ -21,7 +21,7 @@ class VistaNivel{
 
 	public:
 		VistaNivel();
-		void levantarPantalla();
+		bool levantarPantalla();
 		SDL_Surface* getPantalla ();
 		SDL_Surface* getFondo ();
 		TTF_Font* getFont();
