@@ -13,7 +13,6 @@
 class VistaNivel{
 
 	private:
-		VistaEntidad* jugador;
 		VistaScroll* scroll;
 		std::list <VistaEntidad*> listaEntidades;
 
@@ -27,7 +26,10 @@ class VistaNivel{
 
 		Observador* obtenerObservadorScroll(void);
 		std::list<Observador*> obtenerObservadoresEntidad(void);
-	
+		void agregarJugador(double x, double y, double alto, double ancho);
+		void agregarEntidad(double x, double y, double alto, double ancho);
+		void agregarScroll(double x, double y, double alto, double ancho);
+		
 
 		// TODO: Ver si estos metodos que manejan SDL se usan así, o se usan con la nueva clase utilidad SDL
 		bool levantarPantalla();

@@ -2,6 +2,8 @@
 
 using namespace std;
 
+long ModeloEntidad::contador = 0; // Para el ID
+
 ModeloEntidad::ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int velocidad, Posicion posicion) {
 	this->_alto = alto;
 	this->_ancho = ancho;
@@ -9,6 +11,8 @@ ModeloEntidad::ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int
 	this->_posicionActual = posicion;
 	this->_posicionSiguiente = posicion;
 	this->_movimientoActual = NULL;
+	this->_esPersonaje = false; // TODO: Agregegar parámetro para <_esPersonaje> al constructor de ModeloEntidad
+	this->_id = InterlockedIncrement(&(this->contador));  // Genera un ID
 }
 
 ModeloEntidad::~ModeloEntidad() {
@@ -55,4 +59,8 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 
 bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 	return this == &modeloEntidad;
+}
+
+int ModeloEntidad::obtenerId(void){	// Para el ID
+    return ((int)this->_id);
 }

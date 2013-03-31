@@ -1,7 +1,9 @@
 #pragma once
 
+#include <winsock.h>  // Para usar InterlockedIncrement()
 #include "../../utils/Observador/Observable.h"
 #include "../../utils/Constantes/Constantes.h"
+
 
 class ModeloScroll: public Observable{
 
@@ -9,6 +11,9 @@ class ModeloScroll: public Observable{
 		int x, y, ancho, alto;
 		int margen, velocidad;
 		void calcularPosicion(int mouseX, int mouseY);
+
+		long id;	// ID Automático
+		static long contador; // Para generar ID's Automáticos
 
 	public:
 		ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, class Observable *m);
@@ -24,6 +29,7 @@ class ModeloScroll: public Observable{
 		int getMargen();
 
 		void cambiarEstado();
+		int obtenerId(void);
 
 };
 

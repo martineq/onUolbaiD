@@ -1,5 +1,7 @@
 #include "ModeloScroll.h"
 
+long ModeloScroll::contador = 0; // Para el ID
+
 ModeloScroll::ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, class Observable *m){
 	x = 0;
 	y = 0;
@@ -7,7 +9,8 @@ ModeloScroll::ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, c
 	alto = tAlto;
 	margen = tMargen;
 	velocidad = tVelocidad;
-
+	this->id = InterlockedIncrement(&(this->contador));  // Genera un ID
+	
 	//m->agregarObservador(this); // >> Para agregar al scroll como observador tenemos que ponerlo en un método aparte, porque a la hora de construirlo todavia no tenemos el observable disponible
 }
 
@@ -75,4 +78,8 @@ int ModeloScroll::getMargen() {
 
 void ModeloScroll::cambiarEstado(){
 	this->notificarObservadores();
+}
+
+int ModeloScroll::obtenerId(void){	// Para el ID
+    return ((int)this->id);
 }

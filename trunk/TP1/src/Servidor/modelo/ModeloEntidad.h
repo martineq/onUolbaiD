@@ -42,13 +42,17 @@ class ModeloEntidad : public Observable {
 				void detener();
 		};
 
+		bool _esPersonaje;
 		unsigned int _alto;
 		unsigned int _ancho;
 		unsigned int _velocidad;
 		Posicion _posicionActual;
 		Posicion _posicionSiguiente;
 		Movimiento* _movimientoActual;
-		
+
+		long _id;	// ID Automático
+		static long contador; // Para generar ID's Automáticos
+
 		//TODO: Borrar
 		class VistaEntidad : public Observador {
 			private:
@@ -140,6 +144,8 @@ class ModeloEntidad : public Observable {
 		void mover(Posicion posicion);
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
+
+		int obtenerId(void);
 };
 
 // TODO: ModeloEntidad tiene que tener un atributo que indique si es el personaje o no (bool)
