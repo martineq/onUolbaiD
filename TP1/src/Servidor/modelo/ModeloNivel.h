@@ -15,6 +15,12 @@ class ModeloNivel{
 		ModeloNivel();
 		~ModeloNivel(void);
 
+		// Getters
+		std::list <ModeloEntidad*> getListaJugadores(void);
+		std::list <ModeloScroll*> getListaScroll(void);
+		std::list <ModeloEntidad*> getListaEntidades(void);
+
+		// Setters
 		void agregarObservadoresScroll(std::list<Observador*>);
 		void agregarObservadoresEntidad(std::list<Observador*>);
 		void agregarJugador(double x, double y, double alto, double ancho, double velocidad);
@@ -23,4 +29,3 @@ class ModeloNivel{
 
 };
 
-// TODO: Pasar todos las coordenadas pertenecientes a <ModeloScroll> y <ModeloEntidad> de int a double.

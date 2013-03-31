@@ -30,6 +30,14 @@ std::list<Observador*> VistaNivel::obtenerObservadoresEntidad(void){
 
 }
 
+VistaScroll* VistaNivel::getScroll(void){
+	return this->scroll;
+}
+
+std::list<VistaEntidad*> VistaNivel::getListaEntidades(void){
+	return this->listaEntidades;
+}
+
 void VistaNivel::agregarJugador(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::string> listaAnimaciones){
 	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true);
 	this->listaEntidades.push_back(pJugador);

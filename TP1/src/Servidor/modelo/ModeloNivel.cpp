@@ -9,6 +9,19 @@ ModeloNivel::~ModeloNivel(void){
 
 }
 
+std::list <ModeloEntidad*> ModeloNivel::getListaJugadores(void){
+	return this->listaJugadores;
+}
+
+std::list <ModeloScroll*> ModeloNivel::getListaScroll(void){
+	return this->listaScroll;
+}
+
+std::list <ModeloEntidad*> ModeloNivel::getListaEntidades(void){
+	return this->listaEntidades;
+}
+
+
 void ModeloNivel::agregarObservadoresScroll(std::list<Observador*>){
 	// TODO: Completar.
 }

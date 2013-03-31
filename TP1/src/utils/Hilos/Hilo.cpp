@@ -3,11 +3,11 @@
 long Hilo::contador = 0;
 
 Hilo::Hilo(){
-	this->id = InterlockedIncrement(&(this->contador));  // Genera un ID
+	this->id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
 }
 
 int Hilo::getId(void){
-    return ((int)this->id);
+    return (this->id);
 }
 
 int Hilo::start(void* arg) {

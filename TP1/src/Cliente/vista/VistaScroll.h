@@ -6,7 +6,7 @@
 class VistaScroll{
 
 	private:
-		long id;
+		int id;
 		double x;
 		double y;
 		double alto;
@@ -18,9 +18,18 @@ class VistaScroll{
 		VistaScroll(double x,double y,double alto,double ancho);
 		~VistaScroll(void);
 
-		int obtenerId(void);
 		void actualizar(class Observable* s);
 
-};
+		// Getters
+		int getId(void);
+		double getX(void);
+		double getY(void);
+		double getAlto(void);
+		double getAncho(void);
 
-// TODO: Completar con geters y seters
+		// Setters
+		void setX(double x);
+		void setY(double y);
+
+};
+// TODO: Agregar bool para saber si son datos actualizados por el patron observer

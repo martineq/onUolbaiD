@@ -19,7 +19,7 @@ class Hilo{
 
 		// Para generar ID's Automáticos
 		static long contador;
-		long id;
+		int id;
 
 	public:
 
