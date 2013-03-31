@@ -5,6 +5,56 @@ VistaNivel::VistaNivel(){
 
 }
 
+VistaNivel::~VistaNivel(){
+	/*SDL_FreeSurface(pantalla);
+	SDL_FreeSurface(fondo);
+	SDL_FreeSurface(textSurface);
+	TTF_CloseFont(font);
+	TTF_Quit();
+	SDL_Quit();	*/
+}
+
+Observador* VistaNivel::obtenerObservadorScroll(void){
+	return (Observador*)this->scroll;
+}
+
+std::list<Observador*> VistaNivel::obtenerObservadoresEntidad(void){
+
+	std::list<Observador*> listaObservadoresEntidad;
+
+	// Agrego las demás entidades
+	for (std::list<VistaEntidad*>::iterator it=this->listaEntidades.begin() ; it != this->listaEntidades.end(); it++ ){
+		listaObservadoresEntidad.push_back( ((Observador*)*it) );
+	}
+
+	return listaObservadoresEntidad;
+
+}
+
+void VistaNivel::agregarJugador(double x, double y, double alto, double ancho){
+	VistaEntidad* pJugador = NULL; // TODO: hacer el new() y llenar con los datos cuando reciban double
+	this->listaEntidades.push_back(pJugador);
+	return void();
+}
+
+void VistaNivel::agregarEntidad(double x, double y, double alto, double ancho){
+	VistaEntidad* pEntidad = NULL; // TODO: hacer el new() y llenar con los datos cuando reciban double
+	this->listaEntidades.push_back(pEntidad);
+	return void();
+}
+
+void VistaNivel::agregarScroll(double x, double y, double alto, double ancho){
+	VistaScroll* pScroll = NULL; // TODO: hacer el new() y llenar con los datos cuando reciban double
+	this->scroll = pScroll;
+	return void();
+}
+
+
+
+
+
+
+
 bool VistaNivel::levantarPantalla(){
 	// Estructura para la superficie gráfica, donde se va a dibujar
 	SDL_Surface *temp;
@@ -53,34 +103,3 @@ SDL_Surface* VistaNivel::getTextSurface(){
 	offset.y = 100;
 	return this->textSurface;
 }
-
-VistaNivel::~VistaNivel(){
-	/*SDL_FreeSurface(pantalla);
-	SDL_FreeSurface(fondo);
-	SDL_FreeSurface(textSurface);
-	TTF_CloseFont(font);
-	TTF_Quit();
-	SDL_Quit();	*/
-}
-
-Observador* VistaNivel::obtenerObservadorScroll(void){
-	return (Observador*)this->scroll;
-}
-
-std::list<Observador*> VistaNivel::obtenerObservadoresEntidad(void){
-
-	std::list<Observador*> listaObservadoresEntidad;
-
-	// Agrego al personaje
-	listaObservadoresEntidad.push_back((Observador*)this->jugador);
-
-	// Agrego las demás entidades
-	for (std::list<VistaEntidad*>::iterator it=this->listaEntidades.begin() ; it != this->listaEntidades.end(); it++ ){
-		listaObservadoresEntidad.push_back( ((Observador*)*it) );
-	}
-
-	return listaObservadoresEntidad;
-
-}
-
-
