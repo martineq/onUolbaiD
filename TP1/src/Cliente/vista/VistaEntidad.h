@@ -1,13 +1,12 @@
 #pragma once
 
-#include "./VistaAnimaciones.h"
 #include "../../Servidor/modelo/ModeloEntidad.h"
 
 class VistaEntidad{
 
 	private:
 		long id;
-		bool esPersonaje;
+		bool esJugador;
 		double x;
 		double y;
 		double alto;
@@ -16,13 +15,12 @@ class VistaEntidad{
 		double posicionReferenciaY;
 		double fps;
 		double delay;
+		std::list<std::string> listaAnimaciones;
 
 		static long contador; // Para generar ID's Automáticos
 
-		VistaAnimaciones vistaAnimaciones;
-
 	public:
-		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,bool esPersonaje);
+		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::string> listaAnimaciones,bool esJugador);
 		~VistaEntidad(void);
 
 		int obtenerId(void);
@@ -30,4 +28,3 @@ class VistaEntidad{
 };
 
 // TODO: Completar con geters y seters
-// TODO: Completar el uso de la clase VistaAnimaciones

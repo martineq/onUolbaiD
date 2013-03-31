@@ -18,7 +18,7 @@ std::list<Observador*> VistaJuego::obtenerObservadoresEntidad(void){
 
 bool VistaJuego::iniciar(void){
 	if( this->vistaFactory.crearVistaNivel(this->vistaNivel) == false ) return false;
-	if( this->vistaNivel.levantarPantalla() ) return false;
+	//if( this->vistaNivel.levantarPantalla() ) return false; // TODO: Ver donde se llama a este método
 	return true;
 }
 

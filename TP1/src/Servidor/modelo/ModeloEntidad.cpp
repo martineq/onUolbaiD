@@ -11,7 +11,7 @@ ModeloEntidad::ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int
 	this->_posicionActual = posicion;
 	this->_posicionSiguiente = posicion;
 	this->_movimientoActual = NULL;
-	this->_esPersonaje = false; // TODO: Agregegar parámetro para <_esPersonaje> al constructor de ModeloEntidad
+	this->_esJugador = false; // TODO: Agregegar parámetro para <_esJugador> al constructor de ModeloEntidad
 	this->_id = InterlockedIncrement(&(this->contador));  // Genera un ID
 }
 

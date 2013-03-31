@@ -6,7 +6,7 @@ VistaNivel::VistaNivel(){
 }
 
 VistaNivel::~VistaNivel(){
-	/*SDL_FreeSurface(pantalla);
+/*	SDL_FreeSurface(pantalla);
 	SDL_FreeSurface(fondo);
 	SDL_FreeSurface(textSurface);
 	TTF_CloseFont(font);
@@ -22,7 +22,6 @@ std::list<Observador*> VistaNivel::obtenerObservadoresEntidad(void){
 
 	std::list<Observador*> listaObservadoresEntidad;
 
-	// Agrego las demás entidades
 	for (std::list<VistaEntidad*>::iterator it=this->listaEntidades.begin() ; it != this->listaEntidades.end(); it++ ){
 		listaObservadoresEntidad.push_back( ((Observador*)*it) );
 	}
@@ -31,29 +30,27 @@ std::list<Observador*> VistaNivel::obtenerObservadoresEntidad(void){
 
 }
 
-void VistaNivel::agregarJugador(double x, double y, double alto, double ancho){
-	VistaEntidad* pJugador = NULL; // TODO: hacer el new() y llenar con los datos cuando reciban double
+void VistaNivel::agregarJugador(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::string> listaAnimaciones){
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true);
 	this->listaEntidades.push_back(pJugador);
 	return void();
 }
 
-void VistaNivel::agregarEntidad(double x, double y, double alto, double ancho){
-	VistaEntidad* pEntidad = NULL; // TODO: hacer el new() y llenar con los datos cuando reciban double
+void VistaNivel::agregarEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::string> listaAnimaciones){
+	VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false);
 	this->listaEntidades.push_back(pEntidad);
 	return void();
 }
 
-void VistaNivel::agregarScroll(double x, double y, double alto, double ancho){
-	VistaScroll* pScroll = NULL; // TODO: hacer el new() y llenar con los datos cuando reciban double
+void VistaNivel::agregarScroll(double x,double y,double alto,double ancho){
+	VistaScroll* pScroll = new VistaScroll(x,y,alto,ancho);
 	this->scroll = pScroll;
 	return void();
 }
 
 
 
-
-
-
+/*
 
 bool VistaNivel::levantarPantalla(){
 	// Estructura para la superficie gráfica, donde se va a dibujar
@@ -103,3 +100,5 @@ SDL_Surface* VistaNivel::getTextSurface(){
 	offset.y = 100;
 	return this->textSurface;
 }
+
+*/

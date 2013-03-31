@@ -42,7 +42,7 @@ class ModeloEntidad : public Observable {
 				void detener();
 		};
 
-		bool _esPersonaje;
+		bool _esJugador;
 		unsigned int _alto;
 		unsigned int _ancho;
 		unsigned int _velocidad;

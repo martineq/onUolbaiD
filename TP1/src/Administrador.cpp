@@ -51,7 +51,7 @@ void Administrador::correrPruebas(void){
 
 	Pruebas p;
 	//p.PruebaSdl(); // Prueba SDL + log
-	p.PruebaYAML();	// Prueba YAML
+	//p.PruebaYAML();	// Prueba YAML
 	//p.PruebaModeloEntidad();
 	//p.PruebaControladorJuego();
 	//p.PruebaHilos();
