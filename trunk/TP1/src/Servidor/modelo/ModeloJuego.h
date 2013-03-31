@@ -5,22 +5,25 @@
 #include "./ModeloLoop.h"
 #include "../../utils/Observador/Observador.h"
 
-class ModeloJuego{
-
+class ModeloJuego {
 	private:
-		ModeloFactory modeloFactory;
-		ModeloNivel modeloNivel;
-		ModeloLoop modeloLoop;
+		ModeloFactory _modeloFactory;
+		ModeloNivel _modeloNivel;
+		ModeloLoop _modeloLoop;
 
 	public:
-		ModeloJuego(void);
-		~ModeloJuego(void);
+		ModeloJuego();
+		
+		virtual ~ModeloJuego();
 
-		bool iniciar(void);		// Inicia el ModeloFactory
+		// Inicia el ModeloFactory
+		bool iniciar();
+		
 		void agregarObservadoresScroll(std::list<Observador*>);
+		
 		void agregarObservadoresEntidad(std::list<Observador*>);
-		Observador* obtenerObservadorEvento(void);
-		bool loop(void);		// Inicia el ModeloLoop y le pasa el ModeloNivel
-
-
+		
+		Observador* obtenerObservadorEvento();
+		
+		bool loop();
 };

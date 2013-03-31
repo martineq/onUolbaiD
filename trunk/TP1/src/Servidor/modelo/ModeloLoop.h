@@ -1,18 +1,23 @@
 #pragma once
 
 #include <list>
-#include "./ModeloEvento.h"
+#include "ModeloNivel.h"
+#include "ModeloEvento.h"
 #include "../../utils/Observador/Observador.h"
 
-class ModeloLoop{
-
-	ModeloEvento evento;
+class ModeloLoop {
+	private:
+		ModeloEvento _modeloEvento;
 
 	public:
-		ModeloLoop(void);
-		~ModeloLoop(void);
+		ModeloLoop();
+		
+		virtual ~ModeloLoop();
 
-		Observador* obtenerObservadorEvento(void);
+		Observador* obtenerObservadorEvento();
+		
+		// Asigna el nivel que va a manejar el loop
+		void asignarModeloNivel(ModeloNivel* modeloNivel);
+
 		bool loop();
-
 };

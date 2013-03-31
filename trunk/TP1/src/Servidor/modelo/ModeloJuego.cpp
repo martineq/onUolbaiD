@@ -1,30 +1,28 @@
 #include "ModeloJuego.h"
 
-ModeloJuego::ModeloJuego(void){
-
+ModeloJuego::ModeloJuego() {
+	this->_modeloLoop.asignarModeloNivel(&this->_modeloNivel);
 }
 
-ModeloJuego::~ModeloJuego(void){
-
+ModeloJuego::~ModeloJuego() {
 }
 
-bool ModeloJuego::iniciar(void){
-	return this->modeloFactory.crearModeloNivel(this->modeloNivel);
+bool ModeloJuego::iniciar() {
+	return this->_modeloFactory.crearModeloNivel(this->_modeloNivel);
 }
 
 void ModeloJuego::agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll){
-	this->modeloNivel.agregarObservadoresScroll(listaObservadoresScroll);
+	this->_modeloNivel.agregarObservadoresScroll(listaObservadoresScroll);
 }
 
 void ModeloJuego::agregarObservadoresEntidad(std::list<Observador*> listaObservadoresEntidad){
-	this->modeloNivel.agregarObservadoresEntidad(listaObservadoresEntidad);
+	this->_modeloNivel.agregarObservadoresEntidad(listaObservadoresEntidad);
 }
 
-Observador* ModeloJuego::obtenerObservadorEvento(void){
-	return this->modeloLoop.obtenerObservadorEvento();
+Observador* ModeloJuego::obtenerObservadorEvento() {
+	return this->_modeloLoop.obtenerObservadorEvento();
 }
 
-bool ModeloJuego::loop(void){
-	return this->modeloLoop.loop();
+bool ModeloJuego::loop() {
+	return this->_modeloLoop.loop();
 }
-

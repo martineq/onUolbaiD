@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <Windows.h>
+#include <winsock.h>
 
 #include "../../utils/Observador/Observable.h"
 #include "../../utils/Hilos/Hilo.h"
