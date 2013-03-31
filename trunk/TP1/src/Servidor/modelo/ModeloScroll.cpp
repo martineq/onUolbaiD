@@ -9,7 +9,7 @@ ModeloScroll::ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, c
 	alto = tAlto;
 	margen = tMargen;
 	velocidad = tVelocidad;
-	this->id = InterlockedIncrement(&(this->contador));  // Genera un ID
+	this->id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
 	
 	//m->agregarObservador(this); // >> Para agregar al scroll como observador tenemos que ponerlo en un método aparte, porque a la hora de construirlo todavia no tenemos el observable disponible
 }
@@ -81,5 +81,5 @@ void ModeloScroll::cambiarEstado(){
 }
 
 int ModeloScroll::obtenerId(void){	// Para el ID
-    return ((int)this->id);
+    return (this->id);
 }

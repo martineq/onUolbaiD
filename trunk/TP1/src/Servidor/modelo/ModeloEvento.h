@@ -11,3 +11,5 @@ class ModeloEvento: public Observador{
 
 		void actualizar(class Observable* s);
 };
+
+// TODO: Agregar bool para saber si son datos actualizados por el patron observer

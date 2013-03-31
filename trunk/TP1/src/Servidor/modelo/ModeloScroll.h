@@ -12,7 +12,7 @@ class ModeloScroll: public Observable{
 		int margen, velocidad;
 		void calcularPosicion(int mouseX, int mouseY);
 
-		long id;	// ID Automático
+		int id;	// ID Automático
 		static long contador; // Para generar ID's Automáticos
 
 	public:
