@@ -15,6 +15,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->esJugador = esJugador;
 	this->listaAnimaciones = listaAnimaciones;
 	this->esNecesarioRefrescar = true;
+	this->codigoAnimacion = 0;
 }
 
 VistaEntidad::~VistaEntidad(void){
@@ -25,10 +26,12 @@ void VistaEntidad::actualizar(class Observable* s){
 
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
 
-    // Actualizo datos, por ejemplo...
-	// this->posX = ((ModeloEntidad*)s)->obtenerPosX();
-	//...completar con lo necesario
-
+    // TODO: Completar con los métodos brindados por ModeloEntidad
+/*	this->x = ((ModeloEntidad*)s)->getX();
+	this->y = ((ModeloEntidad*)s)->getY();
+	this->codigoAnimacion = ((ModeloEntidad*)s)->getCodigoAnimacion();
+	this->esNecesarioRefrescar = true;
+*/
 }
 
 
@@ -72,21 +75,16 @@ double VistaEntidad::getDelay(void){
 	return (this->delay);
 }
 
+int VistaEntidad::getCodigoAnimacion(void){
+	return this->codigoAnimacion;
+}
+
 std::list<std::string> VistaEntidad::getListaAnimaciones(void){
 	return (this->listaAnimaciones);
 }
 
 bool VistaEntidad::getEsNecesarioRefrescar(void){
 	return this->esNecesarioRefrescar;
-}
-
-
-void VistaEntidad::setX(double x){
-	this->x = x;
-}
-
-void VistaEntidad::setY(double y){
-	this->y = y;
 }
 
 void VistaEntidad::setEsNecesarioRefrescar(bool boolRefrescar){

@@ -30,8 +30,6 @@ class VistaScroll{
 		bool getEsNecesarioRefrescar(void);
 
 		// Setters
-		void setX(double x);
-		void setY(double y);
 		void setEsNecesarioRefrescar(bool boolRefrescar);
 
 };
