@@ -16,6 +16,7 @@ class VistaEntidad{
 		double fps;
 		double delay;
 		std::list<std::string> listaAnimaciones;
+		int codigoAnimacion;
 		bool esNecesarioRefrescar;
 
 		static long contador; // Para generar ID's Automáticos
@@ -37,12 +38,11 @@ class VistaEntidad{
 		double getPosRefY(void);
 		double getFps(void);
 		double getDelay(void);
+		int getCodigoAnimacion(void);
 		std::list<std::string> getListaAnimaciones(void);
 		bool getEsNecesarioRefrescar(void);
 
 		// Setters
-		void setX(double x);
-		void setY(double y);
 		void setEsNecesarioRefrescar(bool boolRefrescar);
 
 };
