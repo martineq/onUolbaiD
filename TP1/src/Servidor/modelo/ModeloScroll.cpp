@@ -8,7 +8,7 @@ ModeloScroll::ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, c
 	margen = tMargen;
 	velocidad = tVelocidad;
 
-	//m->agregarObservador(this);
+	//m->agregarObservador(this); // >> Para agregar al scroll como observador tenemos que ponerlo en un método aparte, porque a la hora de construirlo todavia no tenemos el observable disponible
 }
 
 ModeloScroll::~ModeloScroll(void){

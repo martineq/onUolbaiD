@@ -27,7 +27,10 @@ ParserYaml::~ParserYaml(void){
 
 ParserYaml::stJuego ParserYaml::cargarConfiguracionDeJuego(void){
 
-	if( this->archivoYaLeido == true ) return this->juego; // Para poder leer los datos varias veces
+	if( this->archivoYaLeido == true ){
+		// TODO: ¿Pongo un sleep por las dudas de acceso mientras está parseando?
+		return this->juego; // Para poder leer los datos varias veces
+	}
 
 	std::ifstream archivo(YAML_RUTA_ARCHIVO_JUEGO);	// Abro el archivo
 	Log::getInstance().log(1,__FILE__,__LINE__,"Configuración de juego iniciada");
@@ -601,6 +604,19 @@ void ParserYaml::validaListaEscenariosVacia(void){
 	return void();
 }
 
+// Busca una entidad determinada, con existencia ya validada
+ParserYaml::stEntidad ParserYaml::buscarStEntidad(ParserYaml::stJuego juego, std::string nombre){
+	
+	ParserYaml::stEntidad entidad;
+
+	for (std::list<ParserYaml::stEntidad>::iterator it=juego.entidades.begin() ; it != juego.entidades.end(); it++ ){	
+		if( (*it).nombre.compare(nombre) == 0 ){
+			entidad = (*it);
+		}
+	}
+
+	return entidad;
+}
 
 ////////////////////////////
 /// Funciones auxiliares ///
