@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math.h>	// Lo agregué porque me tiraba: modeloevento.cpp(10) : error C3861: 'floor': no se encontró el identificador
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observador.h"
 #include "../../Cliente/controlador/ControladorEvento.h"
@@ -21,5 +22,3 @@ class ModeloEvento : public Observador {
 		// Asigna el nivel al que le va a pasar los eventos
 		void asignarModeloNivel(ModeloNivel*);
 };
-
-// TODO: Agregar bool para saber si son datos actualizados por el patron observer

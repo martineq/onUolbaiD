@@ -30,20 +30,17 @@ void ModeloNivel::agregarObservadoresEntidad(std::list<Observador*>){
 	// TODO: Completar
 }
 
-void ModeloNivel::agregarJugador(double x, double y, double alto, double ancho, double velocidad){
-	ModeloEntidad* pJugador = NULL; // TODO: hacer el new() y llenar con los datos cuando reciban double
+void ModeloNivel::agregarJugador(ModeloEntidad* pJugador){
 	this->listaJugadores.push_back(pJugador);
 	return void();
 }
 
-void ModeloNivel::agregarEntidad(double x, double y, double alto, double ancho, double velocidad){
-	ModeloEntidad* pEntidad = NULL; // TODO: hacer el new() y llenar con los datos cuando reciban double
+void ModeloNivel::agregarEntidad(ModeloEntidad* pEntidad){
 	this->listaEntidades.push_back(pEntidad);
 	return void();
 }
 
-void ModeloNivel::agregarScroll(double x, double y, double alto, double ancho, double velocidad, double margen){
-	ModeloScroll* pScroll = NULL; // TODO: hacer el new() y llenar con los datos cuando reciban double
+void ModeloNivel::agregarScroll(ModeloScroll* pScroll){
 	this->listaScroll.push_back(pScroll);
 	return void();
 }

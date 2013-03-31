@@ -11,6 +11,7 @@ class VistaScroll{
 		double y;
 		double alto;
 		double ancho;
+		bool esNecesarioRefrescar;
 
 		static long contador; // Para generar ID's Automáticos
 
@@ -26,10 +27,11 @@ class VistaScroll{
 		double getY(void);
 		double getAlto(void);
 		double getAncho(void);
+		bool getEsNecesarioRefrescar(void);
 
 		// Setters
 		void setX(double x);
 		void setY(double y);
+		void setEsNecesarioRefrescar(bool boolRefrescar);
 
 };
-// TODO: Agregar bool para saber si son datos actualizados por el patron observer
