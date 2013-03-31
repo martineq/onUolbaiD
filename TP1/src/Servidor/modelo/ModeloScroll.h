@@ -2,7 +2,9 @@
 
 #include <winsock.h>  // Para usar InterlockedIncrement()
 #include "../../utils/Observador/Observable.h"
+#include "../../utils/Observador/Observador.h"
 #include "../../utils/Constantes/Constantes.h"
+#include <list>
 
 
 class ModeloScroll: public Observable{
@@ -10,16 +12,17 @@ class ModeloScroll: public Observable{
 	private:
 		int x, y, ancho, alto;
 		int margen, velocidad;
-		void calcularPosicion(int mouseX, int mouseY);
+		std::list<Observador*> observadores;
+		bool calcularPosicion(int mouseX, int mouseY);
 
 		int id;	// ID Automático
 		static long contador; // Para generar ID's Automáticos
 
 	public:
-		ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, class Observable *m);
+		ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad);
 		~ModeloScroll(void);
 
-		void refresh(class Observable *m);
+		void actualizar(int mouseX, int mouseY);
 		int getX();
 		int getY();
 		int getAlto();
@@ -27,6 +30,9 @@ class ModeloScroll: public Observable{
 		void setAncho(int nuevoAncho);
 		int getAncho();
 		int getMargen();
+		
+		void agregarObservador(Observador *m);
+		void removerObservador(Observador *m);
 
 		void cambiarEstado();
 		int obtenerId(void);

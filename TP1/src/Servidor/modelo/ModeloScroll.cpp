@@ -1,35 +1,42 @@
 #include "ModeloScroll.h"
 
+
 long ModeloScroll::contador = 0; // Para el ID
 
-ModeloScroll::ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, class Observable *m){
+ModeloScroll::ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad){
+
 	x = 0;
 	y = 0;
 	ancho = tAncho;
 	alto = tAlto;
 	margen = tMargen;
 	velocidad = tVelocidad;
+
 	this->id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
 	
-	//m->agregarObservador(this); // >> Para agregar al scroll como observador tenemos que ponerlo en un método aparte, porque a la hora de construirlo todavia no tenemos el observable disponible
+	
 }
 
 ModeloScroll::~ModeloScroll(void){
 }
 
-void ModeloScroll::calcularPosicion(int mouseX, int mouseY) {
+bool ModeloScroll::calcularPosicion(int mouseX, int mouseY) {
+	bool chg = false;
+	
 	if (mouseX <= this->margen) { // toco el margen izquierdo
 		if (this->x - velocidad <= 0) {
 			this->x = 0;
 		} else {
 			this->x -= velocidad;
 		}
+		chg = true;
 	} else if (mouseX >= (this->ancho - margen)) { // toco margen derecho
 		if (this->x + velocidad >= PANTALLA_ANCHO) {
 			this->x = PANTALLA_ANCHO;
 		} else {
 			this->x += velocidad;
 		}
+		chg = true;
 	}
 
 	
@@ -39,13 +46,17 @@ void ModeloScroll::calcularPosicion(int mouseX, int mouseY) {
 		} else {
 			this->y -= velocidad;
 		}
+		chg = true;
 	} else if (mouseY >= (this->alto - margen)) { // toco margen inferior
 		if (this->y + velocidad >= PANTALLA_ALTO) {
 			this->y = PANTALLA_ANCHO;
 		} else {
 			this->y += velocidad;
 		}
+		chg = true;
 	}
+
+	return chg;
 }
 
 int ModeloScroll::getX() {
@@ -76,8 +87,23 @@ int ModeloScroll::getMargen() {
 	return this->margen;
 }
 
+void ModeloScroll::actualizar(int mouseX, int mouseY) {
+	if (this->calcularPosicion(mouseX, mouseY)) {
+		this->cambiarEstado();
+	}
+}
+
 void ModeloScroll::cambiarEstado(){
-	this->notificarObservadores();
+	//this->notificarObservadores();
+}
+
+
+void ModeloScroll::agregarObservador(Observador *m) {
+	this->observadores.push_back(m);
+}
+
+void ModeloScroll::removerObservador(Observador *m) {
+	this->observadores.remove(m);
 }
 
 int ModeloScroll::obtenerId(void){	// Para el ID
