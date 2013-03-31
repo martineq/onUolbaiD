@@ -1,6 +1,8 @@
 #pragma once
 
 #include "./ModeloNivel.h"
+#include "./ModeloEntidad.h"
+#include "./ModeloScroll.h"
 #include "../../utils/yaml/ParserYaml.h"
 
 class ModeloFactory{

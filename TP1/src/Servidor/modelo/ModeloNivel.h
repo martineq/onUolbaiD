@@ -23,9 +23,9 @@ class ModeloNivel{
 		// Setters
 		void agregarObservadoresScroll(std::list<Observador*>);
 		void agregarObservadoresEntidad(std::list<Observador*>);
-		void agregarJugador(double x, double y, double alto, double ancho, double velocidad);
-		void agregarEntidad(double x, double y, double alto, double ancho, double velocidad);
-		void agregarScroll(double x, double y, double alto, double ancho, double velocidad, double margen);
+		void agregarJugador(ModeloEntidad* pJugador);
+		void agregarEntidad(ModeloEntidad* pJugador);
+		void agregarScroll(ModeloScroll* pScroll);
 
 };
 

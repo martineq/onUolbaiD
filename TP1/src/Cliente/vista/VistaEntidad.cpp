@@ -14,6 +14,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->delay = delay;
 	this->esJugador = esJugador;
 	this->listaAnimaciones = listaAnimaciones;
+	this->esNecesarioRefrescar = true;
 }
 
 VistaEntidad::~VistaEntidad(void){
@@ -75,10 +76,19 @@ std::list<std::string> VistaEntidad::getListaAnimaciones(void){
 	return (this->listaAnimaciones);
 }
 
+bool VistaEntidad::getEsNecesarioRefrescar(void){
+	return this->esNecesarioRefrescar;
+}
+
+
 void VistaEntidad::setX(double x){
 	this->x = x;
 }
 
 void VistaEntidad::setY(double y){
 	this->y = y;
+}
+
+void VistaEntidad::setEsNecesarioRefrescar(bool boolRefrescar){
+	this->esNecesarioRefrescar = boolRefrescar;
 }

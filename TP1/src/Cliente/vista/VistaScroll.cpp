@@ -8,6 +8,7 @@ VistaScroll::VistaScroll(double x,double y,double alto,double ancho){
 	this->y = y;
 	this->alto = alto;
 	this->ancho = ancho;
+	this->esNecesarioRefrescar = true;
 }
 
 VistaScroll::~VistaScroll(void){
@@ -43,10 +44,18 @@ double VistaScroll::getAncho(void){
     return (this->ancho);		
 }
 
+bool VistaScroll::getEsNecesarioRefrescar(void){
+	return this->esNecesarioRefrescar;
+}
+
 void VistaScroll::setX(double x){
 	this->x = x;
 }
 
 void VistaScroll::setY(double y){
 	this->y = y;
+}
+
+void VistaScroll::setEsNecesarioRefrescar(bool boolRefrescar){
+	this->esNecesarioRefrescar = boolRefrescar;
 }

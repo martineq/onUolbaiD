@@ -31,9 +31,9 @@ class VistaNivel{
 		std::list<VistaEntidad*> getListaEntidades(void);
 
 		// Setters
-		void agregarJugador(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::string> listaAnimaciones);
-		void agregarEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::string> listaAnimaciones);
-		void agregarScroll(double x, double y, double alto, double ancho);
+		void agregarJugador(VistaEntidad* pJugador);
+		void agregarEntidad(VistaEntidad* pEntidad);
+		void agregarScroll(VistaScroll* pScroll);
 
 		// TODO: Ver si estos metodos que manejan SDL se usan así, o se usan con la nueva clase utilidad SDL
 /*		bool levantarPantalla();

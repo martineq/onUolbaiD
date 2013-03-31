@@ -33,8 +33,11 @@ void ModeloFactory::crearJugadorConScroll(ParserYaml::stJuego juego, ModeloNivel
 	double ancho = (double)entidad.anchoBase;
 	double velocidad = (double)juego.configuracion.velocidadPersonaje;
 
-	modeloNivel.agregarJugador(x,y,alto,ancho,velocidad);
-	modeloNivel.agregarScroll(x,y,juego.pantalla.alto,juego.pantalla.ancho,velocidad,juego.configuracion.margenScroll); // Tomo el mismo x,y,velocidad que el personaje
+	ModeloEntidad* pJugador = NULL; // TODO: hacer el new(x,y,alto,ancho,velocidad) y llenar con los datos cuando reciban double
+	ModeloScroll* pScroll = NULL; // TODO: hacer el new(x,y,juego.pantalla.alto,juego.pantalla.ancho,velocidad,juego.configuracion.margenScroll) y llenar con los datos cuando reciban double // Tomo el mismo x,y,velocidad que el personaje
+	
+	modeloNivel.agregarJugador(pJugador);
+	modeloNivel.agregarScroll(pScroll); 
 
 	return void();
 }
@@ -56,7 +59,9 @@ void ModeloFactory::crearEntidades(ParserYaml::stJuego juego, ModeloNivel& model
 		double ancho = (double)entidad.anchoBase;
 		double velocidad = (double)0;
 
-		modeloNivel.agregarEntidad(x,y,alto,ancho,velocidad);
+		ModeloEntidad* pEntidad = NULL; // TODO: hacer el new(x,y,alto,ancho,velocidad) y llenar con los datos cuando reciban double
+
+		modeloNivel.agregarEntidad(pEntidad);
 	}
 
 	return void();

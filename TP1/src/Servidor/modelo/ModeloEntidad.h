@@ -158,3 +158,10 @@ class ModeloEntidad : public Observable {
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
+
+// TODO: Importante: El método cambiarEstado() tiene que estar regulado por un timer para poder controlar
+//                   el tráfico de datos que le será enviado a la VistaEntidad. La idea es que el ModeloLoop
+//					 tenga ese timer y cada cierto período (1/15 seg) ordene a toda la lista de ModeloEntidad 
+//					 que contiene ModeloNivel hacer el cambiarEstado(), si es que de verdad cambió el estado.
+//					 De esta manera el Modelo calcula todo lo que le llega a través del controlador,
+//					 pero sólo lo envía a la Vista cuando esta lo necesita. (Lo pongo acá para no olvidarme)
