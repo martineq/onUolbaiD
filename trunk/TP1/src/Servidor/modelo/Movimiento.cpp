@@ -8,7 +8,7 @@ void* ModeloEntidad::Movimiento::run(void* parametro) {
 	int error = (deltaX >= deltaY) ? deltaX : deltaY;
 	int desplazamientoErrorX = 2 * deltaX;
 	int desplazamientoErrorY = 2 * deltaY;
-		
+	
 	this->_modeloEntidad->_posicionSiguiente = this->_modeloEntidad->_posicionActual;
 
 	this->_ejecutando = true;

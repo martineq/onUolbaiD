@@ -3,9 +3,15 @@
 #include <iostream>
 #include <Windows.h>
 #include <winsock.h>
+#include <SDL.h>
 
+#include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"
 #include "../../utils/Hilos/Hilo.h"
+
+//TODO: Borrar
+#define ALTO_MATRIZ 10
+#define ANCHO_MATRIZ 10
 
 typedef struct Posicion {
 	int x;
@@ -65,13 +71,13 @@ class ModeloEntidad : public Observable {
 		//TODO: Borrar
 		class VistaEntidad : public Observador {
 			private:
-				char _mapa[10][10];
+				char _mapa[ANCHO_MATRIZ][ALTO_MATRIZ];
 
 			public:
 				VistaEntidad() {
 					unsigned int x = 0, y = 0;
-					for (x = 0; x < 10; x++) {
-						for (y = 0; y < 10; y++) {
+					for (x = 0; x < ANCHO_MATRIZ; x++) {
+						for (y = 0; y < ALTO_MATRIZ; y++) {
 							this->_mapa[x][y] = '-';
 						}
 					}
@@ -90,8 +96,8 @@ class ModeloEntidad : public Observable {
 					this->_mapa[posicionSiguiente.x][posicionSiguiente.y] = 'X';
 
 					system("cls");
-					for (y = 0; y < 10; y++) {
-						for (x = 0; x < 10; x++) {
+					for (y = 0; y < ALTO_MATRIZ; y++) {
+						for (x = 0; x < ANCHO_MATRIZ; x++) {
 							std::cout << this->_mapa[x][y];
 						}
 						std::cout << std::endl;
@@ -107,31 +113,74 @@ class ModeloEntidad : public Observable {
 			modeloEntidad->mover(posicionDestino);
 		}
 
+		//TODO: Borrar
+		static void obtenerPixel(int xt, int yt, Sint16 &xp, Sint16 &yp) {
+			xp = (ANCHO_TILE / 2) * (xt - yt) + (ANCHO_TILE / 2) * (ALTO_MATRIZ) - (ANCHO_TILE / 2);
+			yp = (ALTO_TILE / 2) * (xt + yt);
+		}
+
+		//TODO: Borrar
+		static void obtenerTile(int xp, int yp, int &xt, int &yt) {
+			double desplazamientoX = 0, desplazamientoY = 0;
+	
+			xp -= (ANCHO_TILE / 2) * ALTO_MATRIZ;
+			desplazamientoX = (double)xp / ANCHO_TILE;
+			desplazamientoY = (double)yp / ALTO_TILE;
+
+			xt = floor(desplazamientoY + desplazamientoX);
+			yt = floor(desplazamientoY - desplazamientoX);
+		}
+
 	public:
 		//TODO: Borrar
 		static void prueba() {
-			Posicion posicionInicial;
+			bool salir = false;
+			int xt = 0, yt = 0;
+			SDL_Rect destino;
+			SDL_Event evento;
+			Posicion posicion;
 
-			posicionInicial.x = 0;
-			posicionInicial.y = 0;
+			posicion.x = 0;
+			posicion.y = 0;
 
 			VistaEntidad vistaEntidad;
-			ModeloEntidad modeloEntidad(1, 1, 200, posicionInicial, true);
+			ModeloEntidad modeloEntidad(1, 1, 200, posicion, true);
 			
 			modeloEntidad.agregarObservador(&vistaEntidad);
 			
-			mover(&modeloEntidad, 9, 0);
-			Sleep(1000);
-			/*mover(&controladorEntidad, 0, 0);
-			mover(&controladorEntidad, 0, 9);
-			mover(&controladorEntidad, 0, 0);*/
-			mover(&modeloEntidad, 9, 9);
-			/*mover(&controladorEntidad, 0, 0);
-			mover(&controladorEntidad, 4, 4);
-			mover(&controladorEntidad, 9, 0);
-			mover(&controladorEntidad, 0, 9);*/
+			SDL_Init(SDL_INIT_VIDEO);
+			
+			SDL_Surface *pantalla = SDL_SetVideoMode(1000, 500, 0, 0);
+			SDL_Surface *tile = SDL_LoadBMP("img/tile.bmp");
 
-			getchar();
+			destino.h = ALTO_TILE;
+			destino.w = ANCHO_TILE;
+
+			for (xt = 0; xt < ANCHO_MATRIZ; xt++) {
+				for (yt = 0; yt < ALTO_MATRIZ; yt++) {
+					ModeloEntidad::obtenerPixel(xt, yt, destino.x, destino.y);
+					SDL_BlitSurface(tile, NULL, pantalla, &destino);
+				}
+			}
+
+			SDL_UpdateRect(pantalla, 0, 0, 0, 0);
+
+			while (!salir) {
+				if (SDL_PollEvent(&evento)) {
+					if (evento.type == SDL_MOUSEBUTTONDOWN) {
+						ModeloEntidad::obtenerTile(evento.motion.x, evento.motion.y, xt, yt);
+						posicion.x = xt;
+						posicion.y = yt;
+						modeloEntidad.mover(posicion);
+					}
+            
+					salir = (evento.type == SDL_QUIT);    
+				}
+			}
+
+			SDL_FreeSurface(tile);
+
+			SDL_Quit();
 		}
 
 		ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int velocidad, Posicion posicion, bool esJugador);
