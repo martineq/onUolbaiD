@@ -141,3 +141,5 @@ class ModeloEntidad : public Observable {
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
+
+// TODO: ModeloEntidad tiene que tener un atributo que indique si es el personaje o no (bool)

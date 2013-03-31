@@ -13,7 +13,7 @@ bool VistaNivel::levantarPantalla(){
 	SDL_Init(SDL_INIT_VIDEO);
 
 	// Seteo el nombre en la barra
-	SDL_WM_SetCaption("..::TP Taller papá!!!::..", "");
+	SDL_WM_SetCaption("..:: Diablo I ::..", "");
 
 	// Creo la ventana
 	this->pantalla = SDL_SetVideoMode(PANTALLA_ANCHO, PANTALLA_ALTO, 0, SDL_DOUBLEBUF|SDL_HWSURFACE|SDL_ANYFORMAT);
@@ -63,17 +63,19 @@ VistaNivel::~VistaNivel(){
 	SDL_Quit();	*/
 }
 
-
 Observador* VistaNivel::obtenerObservadorScroll(void){
-	return (Observador*)this->vistaScroll;
+	return (Observador*)this->scroll;
 }
 
 std::list<Observador*> VistaNivel::obtenerObservadoresEntidad(void){
 
-	// TODO: Ver como paso la lista ¿se borra?
 	std::list<Observador*> listaObservadoresEntidad;
 
-	for (std::list<VistaEntidad*>::iterator it=this->listaVistaEntidad.begin() ; it != this->listaVistaEntidad.end(); it++ ){
+	// Agrego al personaje
+	listaObservadoresEntidad.push_back((Observador*)this->jugador);
+
+	// Agrego las demás entidades
+	for (std::list<VistaEntidad*>::iterator it=this->listaEntidades.begin() ; it != this->listaEntidades.end(); it++ ){
 		listaObservadoresEntidad.push_back( ((Observador*)*it) );
 	}
 
