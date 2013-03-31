@@ -1,6 +1,7 @@
 #pragma once
 
-#include <math.h>	// Lo agregué porque me tiraba: modeloevento.cpp(10) : error C3861: 'floor': no se encontró el identificador
+#include <math.h>
+
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observador.h"
 #include "../../Cliente/controlador/ControladorEvento.h"

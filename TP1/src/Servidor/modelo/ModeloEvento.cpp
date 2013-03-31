@@ -3,6 +3,8 @@
 void ModeloEvento::obtenerTile(int xp, int yp, int &xt, int &yt) {
 	double desplazamientoX = 0, desplazamientoY = 0;
 	
+	//TODO: Arreglar esta funcion con lo que esta en ModeloEntidad
+	// (necesito tener el alto y ancho del nivel para que calcule bien)
 	xp -= ANCHO_TILE + (ANCHO_TILE / 2);
 	desplazamientoX = (double)xp / ANCHO_TILE;
 	desplazamientoY = (double)yp / ALTO_TILE;
