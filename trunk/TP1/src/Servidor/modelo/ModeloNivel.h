@@ -11,6 +11,7 @@ class ModeloNivel{
 		std::list <ModeloScroll*> listaScroll;
 		std::list <ModeloEntidad*> listaEntidades;
 
+
 	public:
 		ModeloNivel();
 		~ModeloNivel(void);
@@ -23,9 +24,13 @@ class ModeloNivel{
 		// Setters
 		void agregarObservadoresScroll(std::list<Observador*>);
 		void agregarObservadoresEntidad(std::list<Observador*>);
-		void agregarJugador(ModeloEntidad* pJugador);
-		void agregarEntidad(ModeloEntidad* pJugador);
-		void agregarScroll(ModeloScroll* pScroll);
 
+		void agregarJugador(ModeloEntidad *jugador);
+		void agregarEntidad(ModeloEntidad *entidad);
+
+
+		void removerJugador(ModeloEntidad *jugador);
+		void removerEntidad(ModeloEntidad *entidad);
+		void removerScroll(ModeloScroll *scroll);
 };
 
