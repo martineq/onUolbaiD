@@ -84,3 +84,5 @@
 #define DELAY_HILO_CONEXION 1000000 // En microsegundos. 1000000 uSeg = 1 seg
 
 /**************************** Juego ****************************/
+#define ALTO_TILE 50
+#define ANCHO_TILE 100
