@@ -38,6 +38,13 @@ void* ModeloEntidad::Movimiento::run(void* parametro) {
 	return NULL;
 }
 
+ModeloEntidad::Movimiento::Movimiento(const Movimiento &movimiento) {
+}
+
+ModeloEntidad::Movimiento& ModeloEntidad::Movimiento::operator=(const Movimiento &movimiento) {
+	return *this;
+}
+
 ModeloEntidad::Movimiento::Movimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino) {
 	this->_modeloEntidad = modeloEntidad;
 	this->_posicionDestino = posicionDestino;

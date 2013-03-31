@@ -34,6 +34,10 @@ class ModeloEntidad : public Observable {
 
 				void* run(void* parametro);
 
+				Movimiento(const Movimiento &movimiento);
+
+				Movimiento& operator=(const Movimiento &movimiento);
+
 			public:
 				Movimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino);
 
@@ -42,6 +46,9 @@ class ModeloEntidad : public Observable {
 				void detener();
 		};
 
+		static long _ultimoId;
+
+		int _id;
 		bool _esJugador;
 		unsigned int _alto;
 		unsigned int _ancho;
@@ -50,8 +57,9 @@ class ModeloEntidad : public Observable {
 		Posicion _posicionSiguiente;
 		Movimiento* _movimientoActual;
 
-		long _id;	// ID Automático
-		static long contador; // Para generar ID's Automáticos
+		ModeloEntidad(const ModeloEntidad &modeloEntidad);
+
+		ModeloEntidad& operator=(const ModeloEntidad &modeloEntidad);
 
 		//TODO: Borrar
 		class VistaEntidad : public Observador {
@@ -107,10 +115,10 @@ class ModeloEntidad : public Observable {
 			posicionInicial.y = 0;
 
 			VistaEntidad vistaEntidad;
-			ModeloEntidad modeloEntidad(1, 1, 200, posicionInicial);
+			ModeloEntidad modeloEntidad(1, 1, 200, posicionInicial, true);
 			
 			modeloEntidad.agregarObservador(&vistaEntidad);
-	
+			
 			mover(&modeloEntidad, 9, 0);
 			Sleep(1000);
 			/*mover(&controladorEntidad, 0, 0);
@@ -125,11 +133,15 @@ class ModeloEntidad : public Observable {
 			getchar();
 		}
 
-		ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int velocidad, Posicion posicion);
+		ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int velocidad, Posicion posicion, bool esJugador);
 
 		virtual ~ModeloEntidad();
 
 		void cambiarEstado();
+
+		int obtenerId() const;
+
+		bool esJugador() const;
 
 		unsigned int alto() const;
 
@@ -144,8 +156,4 @@ class ModeloEntidad : public Observable {
 		void mover(Posicion posicion);
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
-
-		int obtenerId(void);
 };
-
-// TODO: ModeloEntidad tiene que tener un atributo que indique si es el personaje o no (bool)

@@ -2,17 +2,24 @@
 
 using namespace std;
 
-long ModeloEntidad::contador = 0; // Para el ID
+long ModeloEntidad::_ultimoId = 0;
 
-ModeloEntidad::ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int velocidad, Posicion posicion) {
+ModeloEntidad::ModeloEntidad(const ModeloEntidad &modeloEntidad) {
+}
+
+ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {
+	return *this;
+}
+
+ModeloEntidad::ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int velocidad, Posicion posicion, bool esJugador) {
 	this->_alto = alto;
 	this->_ancho = ancho;
 	this->_velocidad = velocidad;
 	this->_posicionActual = posicion;
 	this->_posicionSiguiente = posicion;
 	this->_movimientoActual = NULL;
-	this->_esJugador = false; // TODO: Agregegar parámetro para <_esJugador> al constructor de ModeloEntidad
-	this->_id = InterlockedIncrement(&(this->contador));  // Genera un ID
+	this->_esJugador = esJugador;
+	this->_id = (int)InterlockedIncrement(&this->_ultimoId);  // Genera un ID
 }
 
 ModeloEntidad::~ModeloEntidad() {
@@ -25,6 +32,14 @@ ModeloEntidad::~ModeloEntidad() {
 
 void ModeloEntidad::cambiarEstado() {
 	this->notificarObservadores();
+}
+
+int ModeloEntidad::obtenerId() const {
+    return this->_id;
+}
+
+bool ModeloEntidad::esJugador() const {
+	return this->_esJugador;
 }
 
 unsigned int ModeloEntidad::alto() const {
@@ -59,8 +74,4 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 
 bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 	return this == &modeloEntidad;
-}
-
-int ModeloEntidad::obtenerId(void){	// Para el ID
-    return ((int)this->_id);
 }
