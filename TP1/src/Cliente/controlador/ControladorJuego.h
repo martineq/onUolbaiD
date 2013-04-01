@@ -11,7 +11,7 @@ class ControladorJuego{
 	public:
 		ControladorJuego(void);
 		~ControladorJuego(void);		
-		void agregarObservadorEventos(Observador*);
+		void agregarObservadorEventos(Observador* observador);
 		bool iniciar(void);		// Inicia el ModeloFactory
 		bool loop(void);		// Inicia el ModeloLoop y le pasa el ModeloNivel
 

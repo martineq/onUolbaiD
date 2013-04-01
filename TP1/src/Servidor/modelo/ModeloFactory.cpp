@@ -15,6 +15,8 @@ bool ModeloFactory::crearModeloNivel(ModeloNivel& modeloNivel){
 
 	if( juego.juegoValido == false ) return false;
 	
+	modeloNivel.setAltoNivel(juego.escenarios.front().tamanioX);
+	modeloNivel.setAnchoNivel(juego.escenarios.front().tamanioY);
 	this->crearJugadorConScroll(juego,modeloNivel);
 	this->crearEntidades(juego,modeloNivel);
 
@@ -32,12 +34,14 @@ void ModeloFactory::crearJugadorConScroll(ParserYaml::stJuego juego, ModeloNivel
 	int alto = entidad.altoBase;
 	int ancho = entidad.anchoBase;
 	int velocidad = juego.configuracion.velocidadPersonaje;
+	int altoPantalla = juego.escenarios.front().tamanioX;
+	int anchoPantalla = juego.escenarios.front().tamanioY;
 	Posicion pos;
 	pos.x = x;
 	pos.y = y;
 
 	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true); 
-	ModeloScroll* pScroll = new ModeloScroll(juego.pantalla.alto,juego.pantalla.ancho,velocidad,juego.configuracion.margenScroll,x,y,pJugador->obtenerId());  // Tomo el mismo x,y,velocidad que el personaje // TODO: 
+	ModeloScroll* pScroll = new ModeloScroll(juego.pantalla.alto,juego.pantalla.ancho,altoPantalla,anchoPantalla,juego.configuracion.margenScroll,velocidad,x,y,pJugador->obtenerId());  // Tomo el mismo x,y,velocidad que el personaje
 
 	modeloNivel.agregarJugador(pJugador);
 	modeloNivel.agregarScroll(pScroll); 
@@ -56,13 +60,16 @@ void ModeloFactory::crearEntidades(ParserYaml::stJuego juego, ModeloNivel& model
 		std::string nombre = entidadDef.entidad;
 		ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego,nombre);
 
-		double x = (double)entidadDef.x;
-		double y = (double)entidadDef.y;
-		double alto = (double)entidad.altoBase;
-		double ancho = (double)entidad.anchoBase;
-		double velocidad = (double)0;
+		int x = entidadDef.x;
+		int y = entidadDef.y;
+		int alto = entidad.altoBase;
+		int ancho = entidad.anchoBase;
+		int velocidad = 0;
+		Posicion pos;
+		pos.x = x;
+		pos.y = y;
 
-		ModeloEntidad* pEntidad = NULL; // TODO: hacer el new(x,y,alto,ancho,velocidad) y llenar con los datos cuando reciban double
+		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,true); 
 
 		modeloNivel.agregarEntidad(pEntidad);
 	}

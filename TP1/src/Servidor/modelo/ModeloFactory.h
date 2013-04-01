@@ -19,4 +19,4 @@ class ModeloFactory{
 };
 
 // TODO: Tareas:
-// + Agregar un ID a cada entidad y a cada scroll para la vinculación a la hora del uso del patron observer
+// 
