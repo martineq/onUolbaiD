@@ -15,6 +15,8 @@ class VistaNivel{
 	private:
 		VistaScroll* scroll;
 		std::list<VistaEntidad*> listaEntidades;
+		double alto;
+		double ancho;
 
 		// TODO: Ver si estos punteros SDL se usan así, o se usan con la nueva clase utilidad SDL
 /*		SDL_Surface *pantalla,*fondo,*textSurface;	
@@ -29,11 +31,15 @@ class VistaNivel{
 		std::list<Observador*> obtenerObservadoresEntidad(void);
 		VistaScroll* getScroll(void);
 		std::list<VistaEntidad*> getListaEntidades(void);
+		int getAlto(void);
+		int getAncho(void);
 
 		// Setters
 		void agregarJugador(VistaEntidad* pJugador);
 		void agregarEntidad(VistaEntidad* pEntidad);
 		void agregarScroll(VistaScroll* pScroll);
+		void setAlto(double alto);
+		void setAncho(double alto);
 
 		// TODO: Ver si estos metodos que manejan SDL se usan así, o se usan con la nueva clase utilidad SDL
 /*		bool levantarPantalla();

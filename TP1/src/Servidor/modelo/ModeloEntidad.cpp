@@ -4,7 +4,8 @@ using namespace std;
 
 long ModeloEntidad::_ultimoId = 0;
 
-ModeloEntidad::ModeloEntidad(const ModeloEntidad &modeloEntidad) {
+ModeloEntidad::ModeloEntidad(const ModeloEntidad &modeloEntidad){
+
 }
 
 ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {

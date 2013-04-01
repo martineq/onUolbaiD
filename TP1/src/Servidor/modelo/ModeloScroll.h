@@ -6,7 +6,6 @@
 #include "../../utils/Constantes/Constantes.h"
 #include <list>
 
-
 class ModeloScroll: public Observable{
 
 	private:
@@ -16,10 +15,9 @@ class ModeloScroll: public Observable{
 		bool calcularPosicion(int mouseX, int mouseY);
 
 		int id;	// ID Automático
-		static long contador; // Para generar ID's Automáticos
 
 	public:
-		ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad);
+		ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje);
 		~ModeloScroll(void);
 
 		void actualizar(int mouseX, int mouseY);
@@ -37,6 +35,7 @@ class ModeloScroll: public Observable{
 		void cambiarEstado();
 		int obtenerId(void);
 
+		
 };
 
 

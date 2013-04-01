@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <winsock.h>
 #include <SDL.h>
+#include <math.h>
 
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"
