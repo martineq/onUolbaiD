@@ -16,7 +16,7 @@ class ModeloScroll: public Observable{
 		std::list<Observador*> observadores;
 		bool calcularPosicion(int mouseX, int mouseY);
 
-		int id;	// ID Automático
+		int id;	// ID a partir del id del jugador
 
 	public:
 		ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje);
