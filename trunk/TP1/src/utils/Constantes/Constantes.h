@@ -28,6 +28,7 @@
 #define SDL_RUTA_SPRITE "./img/sprite.bmp"
 #define SDL_RUTA_PASTO "./img/pasto.bmp"
 #define SDL_RUTA_FONDO "./img/nivel.bmp"
+#define SDL_IMAGEN_DEFAULT "./img/default.png"
 #define BIKINI "./img/bikini.bmp"
 
 /*********************CONTROLES EN PANTALLA ******************/
