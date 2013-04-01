@@ -27,7 +27,6 @@ SDL_Surface *ImageLoader::load_image( std::string filename )
 	}
 
 	//Create an optimized surface
-//	optimizedImage = SDL_DisplayFormatAlpha( loadedImage );
 	optimizedImage = SDL_DisplayFormatAlpha( loadedImage );
 
 	//Free the old surface
@@ -83,7 +82,7 @@ void ImageLoader::cerrarSDL(){
 
 SDL_Surface* ImageLoader::levantarPantalla(double w, double h){
 	SDL_Surface* screen = SDL_SetVideoMode( w, h, SCREEN_BPP, SDL_SWSURFACE );
-	SDL_WM_SetCaption( "Diablo I", NULL );	
+	SDL_WM_SetCaption( "..:: Diablo I ::..", NULL );	
 	return screen;
 }
 
