@@ -15,8 +15,8 @@ bool VistaFactory::crearVistaNivel(VistaNivel& vistaNivel){
 
 	if( juego.juegoValido == false ) return false;
 
-	vistaNivel.setAlto((double)juego.pantalla.alto);
-	vistaNivel.setAncho((double)juego.pantalla.ancho);
+	vistaNivel.setAltoPantalla(juego.pantalla.alto);
+	vistaNivel.setAnchoPantalla(juego.pantalla.ancho);
 	this->crearJugadorConScroll(juego,vistaNivel);
 	this->crearEntidades(juego,vistaNivel);
 

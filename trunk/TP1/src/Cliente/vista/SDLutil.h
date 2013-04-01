@@ -4,8 +4,8 @@
 #include <SDL_image.h>
 #include "./ImageLoader.h"
 #include "../../utils/SDLgfx/SDL_rotozoom.h"
-#include <string>
 #include "../../utils/Log/Log.h"
+#include <string>
 
 class SDLutil {
 private:

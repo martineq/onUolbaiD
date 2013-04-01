@@ -9,6 +9,7 @@ Cliente::~Cliente(void){
 }
 
 bool Cliente::iniciar(void){
+	//instancia el nivel en vistaJuego
 	return this->vistaJuego.iniciar();
 }
 
