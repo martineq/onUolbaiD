@@ -12,12 +12,12 @@ class Administrador{
 	private:
 		Servidor servidor;
 		Cliente cliente;
-
+		void vincularObservadores(void);	// Vincula todos los patron observer
+		
 	public:
 		Administrador(void);
 		~Administrador(void);
 		void iniciar(void);					// Inicia el servidor y cliente
-		void vincularObservadores(void);	// Vincula todos los patron observer
 		void loop(void);					// Inicia los loops de servidor y cliente
 
 		// Solo para correr pruebas, no influye en el proyecto del juego
