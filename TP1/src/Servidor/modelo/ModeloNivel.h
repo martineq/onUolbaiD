@@ -33,5 +33,7 @@ class ModeloNivel{
 		void removerJugador(ModeloEntidad *jugador);
 		void removerEntidad(ModeloEntidad *entidad);
 		void removerScroll(ModeloScroll *scroll);
+
+		void moverScroll (int mouseX, int mouseY, int id);
 };
 

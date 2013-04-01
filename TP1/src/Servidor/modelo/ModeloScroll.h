@@ -4,12 +4,14 @@
 #include "../../utils/Observador/Observable.h"
 #include "../../utils/Observador/Observador.h"
 #include "../../utils/Constantes/Constantes.h"
+#include "ModeloEntidad.h"
 #include <list>
+#include <math.h>
 
 class ModeloScroll: public Observable{
 
 	private:
-		int x, y, ancho, alto;
+		int x, y, pPantallaAncho, pPantallaAlto, tEscenarioAncho, tEscenarioAlto;
 		int margen, velocidad;
 		std::list<Observador*> observadores;
 		bool calcularPosicion(int mouseX, int mouseY);
@@ -17,7 +19,7 @@ class ModeloScroll: public Observable{
 		int id;	// ID Automático
 
 	public:
-		ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje);
+		ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje);
 		~ModeloScroll(void);
 
 		void actualizar(int mouseX, int mouseY);
