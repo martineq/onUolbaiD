@@ -21,8 +21,8 @@ std::list<Observador*> Cliente::obtenerObservadoresEntidad(void){
 	return this->vistaJuego.obtenerObservadoresEntidad();
 }
 
-void Cliente::agregarObservadorEventos(Observador*){
-
+void Cliente::agregarObservadorEventos(Observador* observador){
+	this->controladorJuego.agregarObservadorEventos(observador);
 	return void();
 }
 
