@@ -31,8 +31,8 @@ bool ModeloScroll::calcularPosicion(int mouseX, int mouseY) {
 		}
 		chg = true;
 	} else if (mouseX >= (this->ancho - margen)) { // toco margen derecho
-		if (this->x + velocidad >= PANTALLA_ANCHO) {
-			this->x = PANTALLA_ANCHO;
+		if (this->x + velocidad >= this->ancho) {
+			this->x = this->ancho;
 		} else {
 			this->x += velocidad;
 		}
@@ -48,8 +48,8 @@ bool ModeloScroll::calcularPosicion(int mouseX, int mouseY) {
 		}
 		chg = true;
 	} else if (mouseY >= (this->alto - margen)) { // toco margen inferior
-		if (this->y + velocidad >= PANTALLA_ALTO) {
-			this->y = PANTALLA_ANCHO;
+		if (this->y + velocidad >= this->alto) {
+			this->y = this->alto;
 		} else {
 			this->y += velocidad;
 		}
