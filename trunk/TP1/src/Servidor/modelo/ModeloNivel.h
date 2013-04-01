@@ -27,6 +27,7 @@ class ModeloNivel{
 
 		void agregarJugador(ModeloEntidad *jugador);
 		void agregarEntidad(ModeloEntidad *entidad);
+		void agregarScroll(ModeloScroll *);
 
 
 		void removerJugador(ModeloEntidad *jugador);
