@@ -24,12 +24,12 @@ std::list <ModeloEntidad*> ModeloNivel::getListaEntidades(void){
 	return this->listaEntidades;
 }
 
-int ModeloNivel::getAltoNivel(void){
-	return this->altoNivel;
+int ModeloNivel::getAnchoTiles(void){
+	return this->altoTiles;
 }
 
-int ModeloNivel::getAnchoNivel(void){
-	return this->anchoNivel;
+int ModeloNivel::getAltoTiles(void){
+	return this->anchoTiles;
 }
 
 
@@ -103,12 +103,12 @@ void ModeloNivel::agregarScroll(ModeloScroll *scroll) {
 	this->listaScroll.push_back(scroll);
 }
 
-void ModeloNivel::setAltoNivel(int alto){
-	this->altoNivel = alto;
+void ModeloNivel::setAltoTiles(int alto){
+	this->altoTiles = alto;
 }
 
-void ModeloNivel::setAnchoNivel(int ancho){
-	this->anchoNivel = ancho;
+void ModeloNivel::setAnchoTiles(int ancho){
+	this->anchoTiles = ancho;
 }
 
 void ModeloNivel::removerJugador(ModeloEntidad *jugador) {
