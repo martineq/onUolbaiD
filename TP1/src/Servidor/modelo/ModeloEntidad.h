@@ -3,6 +3,8 @@
 #include <iostream>
 #include <Windows.h>
 #include <winsock.h>
+
+//TODO: Borrar
 #include <SDL.h>
 #include <math.h>
 
@@ -17,6 +19,22 @@
 typedef struct Posicion {
 	int x;
 	int y;
+
+	static void convertirTileAPixel(int altoEnTiles, int xTile, int yTile, int &xPixel, int &yPixel) {
+		xPixel = (ANCHO_TILE / 2) * (xTile - yTile) + (ANCHO_TILE / 2) * altoEnTiles - (ANCHO_TILE / 2);
+		yPixel = (ALTO_TILE / 2) * (xTile + yTile);
+	}
+
+	static void convertirPixelATile(int altoEnTiles, int xPixel, int yPixel, int &xTile, int &yTile) {
+		double desplazamientoX = 0, desplazamientoY = 0;
+		
+		xPixel -= (ANCHO_TILE / 2) * altoEnTiles;
+		desplazamientoX = (double)xPixel / ANCHO_TILE;
+		desplazamientoY = (double)yPixel / ALTO_TILE;
+		
+		xTile = floor(desplazamientoY + desplazamientoX);
+		yTile = floor(desplazamientoY - desplazamientoX);
+	} 
 
 	Posicion() {
 		this->x = 0;
@@ -34,7 +52,7 @@ typedef struct Posicion {
 
 class ModeloEntidad : public Observable {
 	private:
-		class Movimiento : public Hilo {
+		class ModeloMovimiento : public Hilo {
 			private:
 				ModeloEntidad* _modeloEntidad;
 				Posicion _posicionDestino;
@@ -42,14 +60,34 @@ class ModeloEntidad : public Observable {
 
 				void* run(void* parametro);
 
-				Movimiento(const Movimiento &movimiento);
+				ModeloMovimiento(const ModeloMovimiento &modeloMovimiento);
 
-				Movimiento& operator=(const Movimiento &movimiento);
+				ModeloMovimiento& operator=(const ModeloMovimiento &modeloMovimiento);
 
 			public:
-				Movimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino);
+				ModeloMovimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino);
 
-				virtual ~Movimiento();
+				virtual ~ModeloMovimiento();
+
+				void detener();
+		};
+
+		class VistaMovimiento : public Hilo {
+			private:
+				ModeloEntidad* _modeloEntidad;
+				Posicion _posicionDestino;
+				bool _ejecutando;
+
+				void* run(void* parametro);
+
+				VistaMovimiento(const VistaMovimiento &vistaMovimiento);
+
+				VistaMovimiento& operator=(const VistaMovimiento &vistaMovimiento);
+
+			public:
+				VistaMovimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino);
+
+				virtual ~VistaMovimiento();
 
 				void detener();
 		};
@@ -63,7 +101,7 @@ class ModeloEntidad : public Observable {
 		unsigned int _velocidad;
 		Posicion _posicionActual;
 		Posicion _posicionSiguiente;
-		Movimiento* _movimientoActual;
+		ModeloMovimiento* _modeloMovimientoActual;
 
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
 
@@ -114,29 +152,11 @@ class ModeloEntidad : public Observable {
 			modeloEntidad->mover(posicionDestino);
 		}
 
-		//TODO: Borrar
-		static void obtenerPixel(int xt, int yt, Sint16 &xp, Sint16 &yp) {
-			xp = (ANCHO_TILE / 2) * (xt - yt) + (ANCHO_TILE / 2) * (ALTO_MATRIZ) - (ANCHO_TILE / 2);
-			yp = (ALTO_TILE / 2) * (xt + yt);
-		}
-
-		//TODO: Borrar
-		static void obtenerTile(int xp, int yp, int &xt, int &yt) {
-			double desplazamientoX = 0, desplazamientoY = 0;
-	
-			xp -= (ANCHO_TILE / 2) * ALTO_MATRIZ;
-			desplazamientoX = (double)xp / ANCHO_TILE;
-			desplazamientoY = (double)yp / ALTO_TILE;
-
-			xt = floor(desplazamientoY + desplazamientoX);
-			yt = floor(desplazamientoY - desplazamientoX);
-		}
-
 	public:
 		//TODO: Borrar
 		static void prueba() {
 			bool salir = false;
-			int xt = 0, yt = 0;
+			int xt = 0, yt = 0, xp = 0, yp = 0;
 			SDL_Rect destino;
 			SDL_Event evento;
 			Posicion posicion;
@@ -159,7 +179,9 @@ class ModeloEntidad : public Observable {
 
 			for (xt = 0; xt < ANCHO_MATRIZ; xt++) {
 				for (yt = 0; yt < ALTO_MATRIZ; yt++) {
-					ModeloEntidad::obtenerPixel(xt, yt, destino.x, destino.y);
+					Posicion::convertirTileAPixel(ALTO_MATRIZ, xt, yt, xp, yp);
+					destino.x = (Sint16)xp;
+					destino.y = (Sint16)yp;
 					SDL_BlitSurface(tile, NULL, pantalla, &destino);
 				}
 			}
@@ -169,7 +191,7 @@ class ModeloEntidad : public Observable {
 			while (!salir) {
 				if (SDL_PollEvent(&evento)) {
 					if (evento.type == SDL_MOUSEBUTTONDOWN) {
-						ModeloEntidad::obtenerTile(evento.motion.x, evento.motion.y, xt, yt);
+						Posicion::convertirPixelATile(ALTO_MATRIZ, evento.motion.x, evento.motion.y, xt, yt);
 						posicion.x = xt;
 						posicion.y = yt;
 						modeloEntidad.mover(posicion);

@@ -13,21 +13,21 @@ ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {
 }
 
 ModeloEntidad::ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int velocidad, Posicion posicion, bool esJugador) {
+	this->_id = (int)InterlockedIncrement(&this->_ultimoId);
+	this->_esJugador = esJugador;
 	this->_alto = alto;
 	this->_ancho = ancho;
 	this->_velocidad = velocidad;
 	this->_posicionActual = posicion;
 	this->_posicionSiguiente = posicion;
-	this->_movimientoActual = NULL;
-	this->_esJugador = esJugador;
-	this->_id = (int)InterlockedIncrement(&this->_ultimoId);  // Genera un ID
+	this->_modeloMovimientoActual = NULL;
 }
 
 ModeloEntidad::~ModeloEntidad() {
-	if (this->_movimientoActual != NULL) {
-		this->_movimientoActual->detener();
-		this->_movimientoActual->join();
-		delete this->_movimientoActual;
+	if (this->_modeloMovimientoActual != NULL) {
+		this->_modeloMovimientoActual->detener();
+		this->_modeloMovimientoActual->join();
+		delete this->_modeloMovimientoActual;
 	}
 }
 
@@ -64,13 +64,13 @@ Posicion ModeloEntidad::posicionSiguiente() const {
 }
 
 void ModeloEntidad::mover(Posicion posicionDestino) {
-	if (this->_movimientoActual != NULL) {
-		this->_movimientoActual->detener();
-		this->_movimientoActual->join();
-		delete this->_movimientoActual;
+	if (this->_modeloMovimientoActual != NULL) {
+		this->_modeloMovimientoActual->detener();
+		this->_modeloMovimientoActual->join();
+		delete this->_modeloMovimientoActual;
 	}
-	this->_movimientoActual = new Movimiento(this, posicionDestino);
-	this->_movimientoActual->start(NULL);
+	this->_modeloMovimientoActual = new ModeloMovimiento(this, posicionDestino);
+	this->_modeloMovimientoActual->start(NULL);
 }
 
 bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
