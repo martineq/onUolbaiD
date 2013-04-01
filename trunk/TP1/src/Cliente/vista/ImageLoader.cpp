@@ -76,6 +76,11 @@ bool ImageLoader::iniciarSDL(){
 	return ok;
 }
 
+void ImageLoader::cerrarSDL(){
+	SDL_Quit();
+}
+
+
 SDL_Surface* ImageLoader::levantarPantalla(double w, double h){
 	SDL_Surface* screen = SDL_SetVideoMode( w, h, SCREEN_BPP, SDL_SWSURFACE );
 	SDL_WM_SetCaption( "Diablo I", NULL );	

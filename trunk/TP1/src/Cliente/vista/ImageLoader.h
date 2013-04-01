@@ -26,6 +26,8 @@ public:
 
 	bool iniciarSDL();
 
+	void cerrarSDL();
+
 	virtual ~ImageLoader();
 
 private:
