@@ -1,10 +1,3 @@
-/*
- * ImageLoader.h
- *
- *  Created on: 08/09/2012
- *      Author: Nestor
- */
-
 #ifndef IMAGELOADER_H_
 #define IMAGELOADER_H_
 #include <SDL.h>

@@ -14,9 +14,9 @@ bool ModeloFactory::crearModeloNivel(ModeloNivel& modeloNivel){
 	juego = ParserYaml::getInstance().cargarConfiguracionDeJuego();
 
 	if( juego.juegoValido == false ) return false;
-	
-	modeloNivel.setAltoNivel(juego.escenarios.front().tamanioX);
-	modeloNivel.setAnchoNivel(juego.escenarios.front().tamanioY);
+
+	modeloNivel.setAnchoTiles(juego.escenarios.front().tamanioX);
+	modeloNivel.setAltoTiles(juego.escenarios.front().tamanioY);
 	this->crearJugadorConScroll(juego,modeloNivel);
 	this->crearEntidades(juego,modeloNivel);
 
