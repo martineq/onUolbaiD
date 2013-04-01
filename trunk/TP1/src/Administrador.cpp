@@ -12,6 +12,7 @@ void Administrador::iniciar(){
 	// TODO: Tomar los booleanos del iniciar
 	this->servidor.iniciar();
 	this->cliente.iniciar();
+	this->vincularObservadores();
 }
 
 // TODO: Completar loop con cliente y servidor
@@ -22,7 +23,7 @@ void Administrador::loop(){
 	while (!quit)
 	{
 		int tickViejo = SDL_GetTicks();		
-
+		
 		quit = this->cliente.loop();		
 		
 		int intervaloTranscurrido = SDL_GetTicks() - tickViejo;
