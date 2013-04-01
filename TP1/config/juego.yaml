@@ -1,7 +1,7 @@
 # Archivo de configuración
 pantalla:
-    ancho: 800
-    alto: 600
+    ancho: 800 #pixels
+    alto: 600 #pixels
 configuracion:
     vel_personaje : 3
     margen_scroll : 30
@@ -10,10 +10,10 @@ entidades:
       imagen: [default.png]
     - nombre: castillo
       imagen: [default.png]
-      ancho_base: 2
-      alto_base: 2
-      pixel_ref_x: 30
-      pixel_ref_y: 40
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
+      pixel_ref_x: 30 #pixels
+      pixel_ref_y: 40 #pixels
     - nombre: orco
       imagen: [default.png]
       fps: 10
@@ -27,8 +27,8 @@ entidades:
       imagen: [default.png]
 escenarios:
     - nombre: bosque_encantado
-      size_x: 100
-      size_y: 100
+      size_x: 100 #tiles
+      size_y: 100 #tiles
       entidadesDef:
         - {x: 10, y: 15, entidad: tierra}
         - {x: 15, y: 20, entidad: tierra}
