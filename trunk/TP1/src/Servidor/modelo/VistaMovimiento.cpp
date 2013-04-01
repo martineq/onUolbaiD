@@ -1,7 +1,7 @@
 #include "ModeloEntidad.h"
 
-void* ModeloEntidad::Movimiento::run(void* parametro) {
-	int deltaX = abs(this->_posicionDestino.x - this->_modeloEntidad->_posicionActual.x); 
+void* ModeloEntidad::VistaMovimiento::run(void* parametro) {
+	int deltaX = abs(this->_posicionDestino.x - this->_modeloEntidad->_posicionActual.x);
 	int deltaY = abs(this->_posicionDestino.y - this->_modeloEntidad->_posicionActual.y);
 	int desplazamientoX = (this->_modeloEntidad->_posicionActual.x < this->_posicionDestino.x) ? 1 : -1;
 	int desplazamientoY = (this->_modeloEntidad->_posicionActual.y < this->_posicionDestino.y) ? 1 : -1;
@@ -38,22 +38,22 @@ void* ModeloEntidad::Movimiento::run(void* parametro) {
 	return NULL;
 }
 
-ModeloEntidad::Movimiento::Movimiento(const Movimiento &movimiento) {
+ModeloEntidad::VistaMovimiento::VistaMovimiento(const VistaMovimiento &modeloMovimiento) {
 }
 
-ModeloEntidad::Movimiento& ModeloEntidad::Movimiento::operator=(const Movimiento &movimiento) {
+ModeloEntidad::VistaMovimiento& ModeloEntidad::VistaMovimiento::operator=(const VistaMovimiento &modeloMovimiento) {
 	return *this;
 }
 
-ModeloEntidad::Movimiento::Movimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino) {
+ModeloEntidad::VistaMovimiento::VistaMovimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino) {
 	this->_modeloEntidad = modeloEntidad;
 	this->_posicionDestino = posicionDestino;
 	this->_ejecutando = false;
 }
 
-ModeloEntidad::Movimiento::~Movimiento() {
+ModeloEntidad::VistaMovimiento::~VistaMovimiento() {
 }
 
-void ModeloEntidad::Movimiento::detener() {
+void ModeloEntidad::VistaMovimiento::detener() {
 	this->_ejecutando = false;
 }
