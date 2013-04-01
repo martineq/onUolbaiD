@@ -79,3 +79,12 @@ void ModeloNivel::agregarScroll(ModeloScroll* pScroll){
 	return void();
 }
 */
+
+
+void ModeloNivel::moverScroll (int mouseX, int mouseY, int id) {
+	for (std::list<ModeloScroll *>::iterator it=this->listaScroll.begin() ; it != this->listaScroll.end(); it++ ){
+			if ((*it)->obtenerId() == id) {
+				(*it)->actualizar(mouseX, mouseY);
+			}
+		}
+}

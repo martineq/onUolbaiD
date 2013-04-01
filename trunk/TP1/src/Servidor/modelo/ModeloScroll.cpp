@@ -1,16 +1,29 @@
 #include "ModeloScroll.h"
 
-
-ModeloScroll::ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje){
-
-	x = personajeX;	// TODO: Falta el cálculo del x a partir de la posición de personajeX
-	y = personajeY; //		 Falta el cálculo del y a partir de la posición de personajeY
-	ancho = tAncho;
-	alto = tAlto;
-	margen = tMargen;
-	velocidad = tVelocidad;
-	this->id = idPersonaje;
+ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje) {
 	
+	this->pPantallaAncho = pPantallaAncho;
+	this->pPantallaAlto = pPantallaAlto;
+	this->tEscenarioAncho = tEscenarioAncho;
+	this->tEscenarioAlto = tEscenarioAlto;
+
+	this->margen = tMargen;
+	this->velocidad = tVelocidad;
+	
+	this->id = idPersonaje;
+
+
+	Posicion::convertirTileAPixel(this->tEscenarioAlto, personajeX, personajeY, this->x, this->y);
+	this->x -= floor((double)(this->pPantallaAncho / 2));
+	if (this->x < 0) {
+		this->x =0;
+	}
+
+	this->y -= floor((double)(this->pPantallaAlto / 2));
+	if (this->y < 0) {
+		this->y =0;
+	}
+
 }
 
 ModeloScroll::~ModeloScroll(void){
@@ -26,9 +39,9 @@ bool ModeloScroll::calcularPosicion(int mouseX, int mouseY) {
 			this->x -= velocidad;
 		}
 		chg = true;
-	} else if (mouseX >= (this->ancho - margen)) { // toco margen derecho
-		if (this->x + velocidad >= this->ancho) {
-			this->x = this->ancho;
+	} else if (mouseX >= (this->pPantallaAncho - margen)) { // toco margen derecho
+		if (this->x + velocidad >= this->pPantallaAncho) {
+			this->x = this->pPantallaAncho;
 		} else {
 			this->x += velocidad;
 		}
@@ -43,9 +56,9 @@ bool ModeloScroll::calcularPosicion(int mouseX, int mouseY) {
 			this->y -= velocidad;
 		}
 		chg = true;
-	} else if (mouseY >= (this->alto - margen)) { // toco margen inferior
-		if (this->y + velocidad >= this->alto) {
-			this->y = this->alto;
+	} else if (mouseY >= (this->pPantallaAlto - margen)) { // toco margen inferior
+		if (this->y + velocidad >= this->pPantallaAlto) {
+			this->y = this->pPantallaAlto;
 		} else {
 			this->y += velocidad;
 		}
@@ -64,19 +77,19 @@ int ModeloScroll::getY() {
 }
 
 int ModeloScroll::getAncho() {
-	return this->ancho;
+	return this->pPantallaAncho;
 }
 
 void ModeloScroll::setAncho(int nuevoAncho) {
-	this->ancho = nuevoAncho;
+	this->pPantallaAncho = nuevoAncho;
 }
 
 void ModeloScroll::setAlto(int nuevoAlto) {
-	this->alto = nuevoAlto;
+	this->pPantallaAlto = nuevoAlto;
 }
 
 int ModeloScroll::getAlto() {
-	return this->alto;
+	return this->pPantallaAlto;
 }
 
 int ModeloScroll::getMargen() {
