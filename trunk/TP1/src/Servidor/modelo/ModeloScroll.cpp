@@ -1,19 +1,15 @@
 #include "ModeloScroll.h"
 
 
-long ModeloScroll::contador = 0; // Para el ID
+ModeloScroll::ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje){
 
-ModeloScroll::ModeloScroll(int tAncho, int tAlto, int tMargen, int tVelocidad){
-
-	x = 0;
-	y = 0;
+	x = personajeX;	// TODO: Falta el cálculo del x a partir de la posición de personajeX
+	y = personajeY; //		 Falta el cálculo del y a partir de la posición de personajeY
 	ancho = tAncho;
 	alto = tAlto;
 	margen = tMargen;
 	velocidad = tVelocidad;
-
-	this->id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
-	
+	this->id = idPersonaje;
 	
 }
 
@@ -96,7 +92,6 @@ void ModeloScroll::actualizar(int mouseX, int mouseY) {
 void ModeloScroll::cambiarEstado(){
 	//this->notificarObservadores();
 }
-
 
 void ModeloScroll::agregarObservador(Observador *m) {
 	this->observadores.push_back(m);

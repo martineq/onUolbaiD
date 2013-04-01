@@ -53,7 +53,21 @@ void VistaNivel::agregarScroll(VistaScroll* pScroll){
 	return void();
 }
 
+int VistaNivel::getAlto(void){
+	return this->alto;
+}
 
+int VistaNivel::getAncho(void){
+	return this->ancho;
+}
+
+void VistaNivel::setAlto(double alto){
+	this->alto = alto;
+}
+
+void VistaNivel::setAncho(double alto){
+	this->ancho = ancho;
+}
 
 /*
 
