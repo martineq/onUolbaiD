@@ -10,8 +10,8 @@ class ModeloNivel{
 
 	private:
 
-		int altoNivel;
-		int anchoNivel;
+		int altoTiles;
+		int anchoTiles;
 		std::list <ModeloEntidad*> listaJugadores;
 		std::list <ModeloScroll*> listaScroll;
 		std::list <ModeloEntidad*> listaEntidades;
@@ -25,8 +25,9 @@ class ModeloNivel{
 		std::list<ModeloEntidad*> getListaJugadores(void);
 		std::list<ModeloScroll*> getListaScroll(void);
 		std::list<ModeloEntidad*> getListaEntidades(void);
-		int getAltoNivel(void);
-		int getAnchoNivel(void);
+		
+		int getAltoTiles(void);
+		int getAnchoTiles(void);
 
 		// Setters
 		void agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll);
@@ -35,8 +36,8 @@ class ModeloNivel{
 		void agregarJugador(ModeloEntidad *jugador);
 		void agregarEntidad(ModeloEntidad *entidad);
 		void agregarScroll(ModeloScroll *);
-		void setAltoNivel(int alto);
-		void setAnchoNivel(int ancho);
+		void setAltoTiles(int alto);
+		void setAnchoTiles(int ancho);
 
 
 		void removerJugador(ModeloEntidad *jugador);
