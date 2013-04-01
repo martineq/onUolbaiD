@@ -68,14 +68,19 @@ SDL_Rect ImageLoader::createRect(double x, double y){
 bool ImageLoader::iniciarSDL(){
 	//Initialize all SDL subsystems
 	bool ok = true;
-/*	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
+	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
 	{
 		Log::getInstance().log(1,__FILE__,__LINE__,"SDL no se pudo iniciar");
 		ok = false;
-	}*/
+	}
 	return ok;
 }
 
+SDL_Surface* ImageLoader::levantarPantalla(double w, double h){
+	SDL_Surface* screen = SDL_SetVideoMode( w, h, SCREEN_BPP, SDL_SWSURFACE );
+	SDL_WM_SetCaption( "Diablo I", NULL );	
+	return screen;
+}
 
 ImageLoader::~ImageLoader() {
 	// TODO Auto-generated destructor stub

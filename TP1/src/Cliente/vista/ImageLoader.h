@@ -1,5 +1,8 @@
 #ifndef IMAGELOADER_H_
 #define IMAGELOADER_H_
+
+const int SCREEN_BPP = 32;
+
 #include <SDL.h>
 #include <SDL_image.h>
 //#include <SDL_main.h>
@@ -28,7 +31,7 @@ public:
 private:
 	ImageLoader();
 	ImageLoader(const ImageLoader&);
-	ImageLoader& operator =(const ImageLoader&);
+	ImageLoader& operator =(const ImageLoader&);		
 
 };
 
