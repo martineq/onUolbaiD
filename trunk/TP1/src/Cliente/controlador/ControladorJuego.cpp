@@ -15,13 +15,12 @@ bool ControladorJuego::loop(){
 	return this->controladorLoop.getQuit();	
 }
 
-
-void ControladorJuego::agregarObservadorEventos(Observador*){
-	// TODO: Implementar
+void ControladorJuego::agregarObservadorEventos(Observador* observador){
+	this->controladorLoop.agregarObservadorEventos(observador);
+	return void();
 }
 
 bool ControladorJuego::iniciar(void){
 	// TODO: Implementar. Ver si hace falta
 	return false;
 }
-

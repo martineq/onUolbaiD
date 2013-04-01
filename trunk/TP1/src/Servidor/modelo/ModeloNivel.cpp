@@ -24,13 +24,69 @@ std::list <ModeloEntidad*> ModeloNivel::getListaEntidades(void){
 	return this->listaEntidades;
 }
 
-
-void ModeloNivel::agregarObservadoresScroll(std::list<Observador*>){
-	// TODO: Completar.
+int ModeloNivel::getAltoNivel(void){
+	return this->altoNivel;
 }
 
-void ModeloNivel::agregarObservadoresEntidad(std::list<Observador*>){
-	// TODO: Completar
+int ModeloNivel::getAnchoNivel(void){
+	return this->anchoNivel;
+}
+
+
+void ModeloNivel::agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll){
+	
+	// Itero sobre los observadores
+	for(std::list<Observador*>::iterator it=listaObservadoresScroll.begin() ; it != listaObservadoresScroll.end(); it++ ){
+		Observador* pObservador = (*it);
+		
+		// Busco al que quiero observar
+		for(std::list<ModeloScroll*>::iterator it2=this->listaScroll.begin() ; it2 != this->listaScroll.end(); it2++ ){
+			ModeloScroll* pObservado = (*it2);
+
+			if( pObservado->obtenerId() == ((VistaScroll*)pObservador)->getId() ){ // Cuando lo encuentro, lo agrego
+				pObservado->agregarObservador(pObservador);
+			}
+
+		}
+	}
+	return void();
+}
+
+void ModeloNivel::agregarObservadoresEntidad(std::list<Observador*> listaObservadoresEntidad){
+
+	// Itero sobre los observadores
+	for(std::list<Observador*>::iterator it=listaObservadoresEntidad.begin() ; it != listaObservadoresEntidad.end(); it++ ){
+		Observador* pObservador = (*it);
+		
+		if( ((VistaEntidad*)pObservador)->getEsJugador() == true ){
+
+			// Busco al que quiero observar
+			for(std::list<ModeloEntidad*>::iterator it2=this->listaJugadores.begin() ; it2 != this->listaJugadores.end(); it2++ ){
+				ModeloEntidad* pObservado = (*it2);
+
+				if( pObservado->obtenerId() == ((VistaEntidad*)pObservador)->getId() ){ // Cuando lo encuentro, lo agrego
+					pObservado->agregarObservador(pObservador);
+				}
+
+			}
+
+		}else{
+
+			// Busco al que quiero observar
+			for(std::list<ModeloEntidad*>::iterator it2=this->listaEntidades.begin() ; it2 != this->listaEntidades.end(); it2++ ){
+				ModeloEntidad* pObservado = (*it2);
+
+				if( pObservado->obtenerId() == ((VistaEntidad*)pObservador)->getId() ){ // Cuando lo encuentro, lo agrego
+					pObservado->agregarObservador(pObservador);
+				}
+
+		}
+
+		}
+
+		
+	}
+	return void();
 }
 
 
@@ -45,6 +101,14 @@ void ModeloNivel::agregarEntidad(ModeloEntidad *entidad) {
 
 void ModeloNivel::agregarScroll(ModeloScroll *scroll) {
 	this->listaScroll.push_back(scroll);
+}
+
+void ModeloNivel::setAltoNivel(int alto){
+	this->altoNivel = alto;
+}
+
+void ModeloNivel::setAnchoNivel(int ancho){
+	this->anchoNivel = ancho;
 }
 
 void ModeloNivel::removerJugador(ModeloEntidad *jugador) {
