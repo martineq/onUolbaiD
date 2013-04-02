@@ -1,9 +1,5 @@
 #include "ModeloEntidad.h"
 
-//TODO: Reemplazar por las variables cargadas del YAML
-#define FPS YAML_DEAFAULT_FPS
-#define ALTO_TILES 10
-
 using namespace std;
 
 Direccion ModeloEntidad::VistaMovimiento::obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino) {
@@ -43,7 +39,12 @@ ModeloEntidad::VistaMovimiento::VistaMovimiento(ModeloEntidad* modeloEntidad, in
 	this->_modeloEntidad = modeloEntidad;
 	this->_altoMapa = altoMapa;
 	this->_anchoMapa = anchoMapa;
-	this->_fps;
+	this->_fps = fps;
+
+	cout << "VistaMovimiento:" << endl;
+	cout << "\taltoMapa = " << altoMapa << endl;
+	cout << "\tanchoMapa = " << anchoMapa << endl;
+	cout << "\tfps = " << fps << endl;
 }
 
 ModeloEntidad::VistaMovimiento::~VistaMovimiento() {
@@ -54,8 +55,8 @@ void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
 	int deltaX, deltaY, desplazamientoX, desplazamientoY, error, desplazamientoErrorX, desplazamientoErrorY;
 	list<Posicion> posiciones;
 
-	Posicion::convertirTileAPixel(ALTO_TILES, this->_modeloEntidad->posicionActual().x, this->_modeloEntidad->posicionActual().y, posicionOrigen.x, posicionOrigen.y);
-	Posicion::convertirTileAPixel(ALTO_TILES, this->_modeloEntidad->posicionSiguiente().x, this->_modeloEntidad->posicionSiguiente().y, posicionDestino.x, posicionDestino.y);
+	Posicion::convertirTileAPixel(this->_altoMapa, this->_modeloEntidad->posicionActual().x, this->_modeloEntidad->posicionActual().y, posicionOrigen.x, posicionOrigen.y);
+	Posicion::convertirTileAPixel(this->_altoMapa, this->_modeloEntidad->posicionSiguiente().x, this->_modeloEntidad->posicionSiguiente().y, posicionDestino.x, posicionDestino.y);
 	posicionActual = posicionOrigen;
 
 	deltaX = abs(posicionDestino.x - posicionOrigen.x);
@@ -88,15 +89,15 @@ void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
 	}
 
 	list<Posicion>::iterator iterador = posiciones.begin();
-	int cuadros = posiciones.size() / ((this->_modeloEntidad->velocidad() * FPS) / 1000);
+	int cuadros = posiciones.size() / ((this->_modeloEntidad->velocidad() * this->_fps) / 1000);
 
 	this->_modeloEntidad->_pixelActual = posicionOrigen;
 	for (int i = 0; i < cuadros; i++) {
-		advance(iterador, i * ((this->_modeloEntidad->velocidad() * FPS) / 1000));
+		advance(iterador, i * ((this->_modeloEntidad->velocidad() * this->_fps) / 1000));
 		this->_modeloEntidad->_pixelSiguente = *iterador;
 		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguente);
 		this->_modeloEntidad->notificarObservadores();
 		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguente;
-		Sleep(FPS / 1000);
+		Sleep(this->_fps / 1000);
 	}
 }
