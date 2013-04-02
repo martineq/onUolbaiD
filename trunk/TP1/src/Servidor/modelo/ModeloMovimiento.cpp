@@ -30,12 +30,14 @@ void* ModeloEntidad::ModeloMovimiento::run(void* parametro) {
 			}
 		}
 
-		this->_modeloEntidad->notificarObservadores();
+		this->notificarObservadores();
 		this->_modeloEntidad->_posicionActual = this->_modeloEntidad->_posicionSiguiente;
-		
-		Sleep(this->_modeloEntidad->_velocidad);
 	}
 	return NULL;
+}
+
+void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
+	this->notificarObservadores();
 }
 
 ModeloEntidad::ModeloMovimiento::ModeloMovimiento(const ModeloMovimiento &modeloMovimiento) {

@@ -4,15 +4,14 @@ using namespace std;
 
 long ModeloEntidad::_ultimoId = 0;
 
-ModeloEntidad::ModeloEntidad(const ModeloEntidad &modeloEntidad){
-
+ModeloEntidad::ModeloEntidad(const ModeloEntidad &modeloEntidad) {
 }
 
 ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {
 	return *this;
 }
 
-ModeloEntidad::ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int velocidad, Posicion posicion, bool esJugador) {
+ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps) {
 	this->_id = (int)InterlockedIncrement(&this->_ultimoId);
 	this->_esJugador = esJugador;
 	this->_alto = alto;
@@ -20,6 +19,7 @@ ModeloEntidad::ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int
 	this->_velocidad = velocidad;
 	this->_posicionActual = posicion;
 	this->_posicionSiguiente = posicion;
+	this->_vistaMovimiento = new VistaMovimiento(this, altoMapa, anchoMapa, fps);
 	this->_modeloMovimientoActual = NULL;
 }
 
@@ -29,6 +29,7 @@ ModeloEntidad::~ModeloEntidad() {
 		this->_modeloMovimientoActual->join();
 		delete this->_modeloMovimientoActual;
 	}
+	delete this->_vistaMovimiento;
 }
 
 void ModeloEntidad::cambiarEstado() {
@@ -43,15 +44,15 @@ bool ModeloEntidad::esJugador() const {
 	return this->_esJugador;
 }
 
-unsigned int ModeloEntidad::alto() const {
+int ModeloEntidad::alto() const {
 	return this->_alto;
 }
 
-unsigned int ModeloEntidad::ancho() const {
+int ModeloEntidad::ancho() const {
 	return this->_ancho;
 }
 		
-unsigned int ModeloEntidad::velocidad() const {
+int ModeloEntidad::velocidad() const {
 	return this->_velocidad;
 }
 
@@ -63,6 +64,18 @@ Posicion ModeloEntidad::posicionSiguiente() const {
 	return this->_posicionSiguiente;
 }
 
+Posicion ModeloEntidad::pixelActual() const {
+	return this->_pixelActual;
+}
+
+Posicion ModeloEntidad::pixelSiguente() const {
+	return this->_pixelSiguente;
+}
+
+Direccion ModeloEntidad::direccion() const {
+	return this->_direccion;
+}
+
 void ModeloEntidad::mover(Posicion posicionDestino) {
 	if (this->_modeloMovimientoActual != NULL) {
 		this->_modeloMovimientoActual->detener();
@@ -70,6 +83,7 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 		delete this->_modeloMovimientoActual;
 	}
 	this->_modeloMovimientoActual = new ModeloMovimiento(this, posicionDestino);
+	this->_modeloMovimientoActual->agregarObservador(this->_vistaMovimiento);
 	this->_modeloMovimientoActual->start(NULL);
 }
 
