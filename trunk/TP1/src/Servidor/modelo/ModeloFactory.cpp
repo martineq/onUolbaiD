@@ -34,14 +34,14 @@ void ModeloFactory::crearJugadorConScroll(ParserYaml::stJuego juego, ModeloNivel
 	int alto = entidad.altoBase;
 	int ancho = entidad.anchoBase;
 	int velocidad = juego.configuracion.velocidadPersonaje;
-	int altoPantalla = juego.escenarios.front().tamanioX;
-	int anchoPantalla = juego.escenarios.front().tamanioY;
+	int anchoEscenario = juego.escenarios.front().tamanioX;
+	int altoEscenario = juego.escenarios.front().tamanioY;
 	Posicion pos;
 	pos.x = x;
 	pos.y = y;
 
-	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoPantalla,anchoPantalla,juego.entidades.front().fps); 
-	ModeloScroll* pScroll = new ModeloScroll(juego.pantalla.alto,juego.pantalla.ancho,altoPantalla,anchoPantalla,juego.configuracion.margenScroll,velocidad,x,y,pJugador->obtenerId());  // Tomo el mismo x,y,velocidad que el personaje
+	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidad.fps); 
+	ModeloScroll* pScroll = new ModeloScroll(juego.pantalla.ancho,juego.pantalla.alto,anchoEscenario,altoEscenario,juego.configuracion.margenScroll,velocidad,x,y,pJugador->obtenerId());  // Tomo el mismo x,y,velocidad que el personaje
 
 	modeloNivel.agregarJugador(pJugador);
 	modeloNivel.agregarScroll(pScroll); 
@@ -65,11 +65,13 @@ void ModeloFactory::crearEntidades(ParserYaml::stJuego juego, ModeloNivel& model
 		int alto = entidad.altoBase;
 		int ancho = entidad.anchoBase;
 		int velocidad = 0;
+		int anchoEscenario = juego.escenarios.front().tamanioX;
+		int altoEscenario = juego.escenarios.front().tamanioY;
 		Posicion pos;
 		pos.x = x;
 		pos.y = y;
 
-		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,true,juego.escenarios.front().tamanioY,juego.escenarios.front().tamanioX,entidad.fps); 
+		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidad.fps); 
 
 		modeloNivel.agregarEntidad(pEntidad);
 	}

@@ -23,7 +23,7 @@ void Administrador::loop(){
 	while (!quit)
 	{
 		int tickViejo = SDL_GetTicks();		
-		
+
 		quit = this->cliente.loop();		
 		
 		int intervaloTranscurrido = SDL_GetTicks() - tickViejo;
@@ -53,7 +53,7 @@ void Administrador::correrPruebas(void){
 	Pruebas p;
 	//p.PruebaSdl(); // Prueba SDL + log
 	//p.PruebaYAML();	// Prueba YAML
-	p.PruebaModeloEntidad();
+	//p.PruebaModeloEntidad();
 	//p.PruebaControladorJuego();
 	//p.PruebaHilos();
 }
