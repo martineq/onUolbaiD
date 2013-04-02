@@ -130,3 +130,5 @@ inline ParserYaml& ParserYaml::getInstance(){
 	static ParserYaml objecto;
 	return objecto;
 }
+
+// TODO: agregar lista de listas de animaciones en el yaml, parser, factory y vista entidad
