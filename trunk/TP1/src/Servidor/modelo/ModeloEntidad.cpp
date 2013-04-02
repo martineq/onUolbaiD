@@ -19,6 +19,10 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_velocidad = velocidad;
 	this->_posicionActual = posicion;
 	this->_posicionSiguiente = posicion;
+	cout << "ModeloEntidad:" << endl;
+	cout << "\taltoMapa = " << altoMapa << endl;
+	cout << "\tanchoMapa = " << anchoMapa << endl;
+	cout << "\tfps = " << fps << endl;
 	this->_vistaMovimiento = new VistaMovimiento(this, altoMapa, anchoMapa, fps);
 	this->_modeloMovimientoActual = NULL;
 }
