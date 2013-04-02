@@ -1,12 +1,12 @@
 #pragma once
 
+#include <math.h>
 #include <iostream>
 #include <Windows.h>
-#include <winsock.h>
+#include <WinSock.h>
 
 //TODO: Borrar
 #include <SDL.h>
-#include <math.h>
 
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"
@@ -16,12 +16,14 @@
 #define ALTO_MATRIZ 10
 #define ANCHO_MATRIZ 10
 
+typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
+
 typedef struct Posicion {
 	int x;
 	int y;
 
 	static void convertirTileAPixel(int altoEnTiles, int xTile, int yTile, int &xPixel, int &yPixel) {
-		xPixel = (ANCHO_TILE / 2) * (xTile - yTile) + (ANCHO_TILE / 2) * altoEnTiles - (ANCHO_TILE / 2);
+		xPixel = (ANCHO_TILE / 2) * (xTile - yTile) + (ANCHO_TILE / 2) * altoEnTiles;
 		yPixel = (ALTO_TILE / 2) * (xTile + yTile);
 	}
 
@@ -52,13 +54,15 @@ typedef struct Posicion {
 
 class ModeloEntidad : public Observable {
 	private:
-		class ModeloMovimiento : public Hilo {
+		class ModeloMovimiento : public Hilo, public Observable {
 			private:
 				ModeloEntidad* _modeloEntidad;
 				Posicion _posicionDestino;
 				bool _ejecutando;
 
 				void* run(void* parametro);
+
+				void cambiarEstado();
 
 				ModeloMovimiento(const ModeloMovimiento &modeloMovimiento);
 
@@ -72,35 +76,40 @@ class ModeloEntidad : public Observable {
 				void detener();
 		};
 
-		class VistaMovimiento : public Hilo {
+		class VistaMovimiento : public Observador {
 			private:
 				ModeloEntidad* _modeloEntidad;
-				Posicion _posicionDestino;
-				bool _ejecutando;
-
-				void* run(void* parametro);
+				int _altoMapa;
+				int _anchoMapa;
+				int _fps;
+				
+				Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino);
 
 				VistaMovimiento(const VistaMovimiento &vistaMovimiento);
 
 				VistaMovimiento& operator=(const VistaMovimiento &vistaMovimiento);
 
 			public:
-				VistaMovimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino);
+				VistaMovimiento(ModeloEntidad* modeloEntidad, int altoMapa, int anchoMapa, int fps);
 
 				virtual ~VistaMovimiento();
-
-				void detener();
+				
+				void actualizar(Observable* observable);
 		};
 
 		static long _ultimoId;
 
 		int _id;
 		bool _esJugador;
-		unsigned int _alto;
-		unsigned int _ancho;
-		unsigned int _velocidad;
+		int _alto;
+		int _ancho;
+		int _velocidad;
 		Posicion _posicionActual;
 		Posicion _posicionSiguiente;
+		Posicion _pixelActual;
+		Posicion _pixelSiguente;
+		Direccion _direccion;
+		VistaMovimiento* _vistaMovimiento;
 		ModeloMovimiento* _modeloMovimientoActual;
 
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
@@ -145,7 +154,7 @@ class ModeloEntidad : public Observable {
 		};
 
 		//TODO: Borrar
-		static void mover(ModeloEntidad* modeloEntidad, unsigned int x, unsigned int y) {
+		static void mover(ModeloEntidad* modeloEntidad, int x, int y) {
 			Posicion posicionDestino;
 			posicionDestino.x = x;
 			posicionDestino.y = y;
@@ -165,7 +174,7 @@ class ModeloEntidad : public Observable {
 			posicion.y = 0;
 
 			VistaEntidad vistaEntidad;
-			ModeloEntidad modeloEntidad(1, 1, 200, posicion, true);
+			ModeloEntidad modeloEntidad(1, 1, 200, posicion, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			
 			modeloEntidad.agregarObservador(&vistaEntidad);
 			
@@ -180,7 +189,7 @@ class ModeloEntidad : public Observable {
 			for (xt = 0; xt < ANCHO_MATRIZ; xt++) {
 				for (yt = 0; yt < ALTO_MATRIZ; yt++) {
 					Posicion::convertirTileAPixel(ALTO_MATRIZ, xt, yt, xp, yp);
-					destino.x = (Sint16)xp;
+					destino.x = (Sint16)xp - (ANCHO_TILE / 2);
 					destino.y = (Sint16)yp;
 					SDL_BlitSurface(tile, NULL, pantalla, &destino);
 				}
@@ -206,7 +215,7 @@ class ModeloEntidad : public Observable {
 			SDL_Quit();
 		}
 
-		ModeloEntidad(unsigned int alto, unsigned int ancho, unsigned int velocidad, Posicion posicion, bool esJugador);
+		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps);
 
 		virtual ~ModeloEntidad();
 
@@ -216,15 +225,21 @@ class ModeloEntidad : public Observable {
 
 		bool esJugador() const;
 
-		unsigned int alto() const;
+		int alto() const;
 
-		unsigned int ancho() const;
+		int ancho() const;
 		
-		unsigned int velocidad() const;
+		int velocidad() const;
 
 		Posicion posicionActual() const;
 
 		Posicion posicionSiguiente() const;
+
+		Posicion pixelActual() const;
+
+		Posicion pixelSiguente() const;
+
+		Direccion direccion() const;
 
 		void mover(Posicion posicion);
 
