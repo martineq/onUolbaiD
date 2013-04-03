@@ -10,6 +10,8 @@ int main(int argc, char* argv[]) {
 	//administrador.iniciar();
 	//administrador.loop();
 
+	ModeloEntidad::prueba();
+
 	return 0;
 }
 

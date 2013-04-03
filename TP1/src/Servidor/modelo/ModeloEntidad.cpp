@@ -19,12 +19,10 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_velocidad = velocidad;
 	this->_posicionActual = posicion;
 	this->_posicionSiguiente = posicion;
-	cout << "ModeloEntidad:" << endl;
-	cout << "\taltoMapa = " << altoMapa << endl;
-	cout << "\tanchoMapa = " << anchoMapa << endl;
-	cout << "\tfps = " << fps << endl;
 	this->_vistaMovimiento = new VistaMovimiento(this, altoMapa, anchoMapa, fps);
 	this->_modeloMovimientoActual = NULL;
+	this->_altoMapa = altoMapa;
+	this->_anchoMapa = anchoMapa;
 }
 
 ModeloEntidad::~ModeloEntidad() {
@@ -72,8 +70,8 @@ Posicion ModeloEntidad::pixelActual() const {
 	return this->_pixelActual;
 }
 
-Posicion ModeloEntidad::pixelSiguente() const {
-	return this->_pixelSiguente;
+Posicion ModeloEntidad::pixelSiguiente() const {
+	return this->_pixelSiguiente;
 }
 
 Direccion ModeloEntidad::direccion() const {
@@ -86,6 +84,17 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 		this->_modeloMovimientoActual->join();
 		delete this->_modeloMovimientoActual;
 	}
+
+	if (posicionDestino.x < 0)
+		posicionDestino.x = 0;
+	else if (posicionDestino.x >= this->_anchoMapa)
+		posicionDestino.x = this->_anchoMapa - 1;
+	
+	if (posicionDestino.y < 0)
+		posicionDestino.y = 0;
+	else if (posicionDestino.y >= this->_altoMapa)
+		posicionDestino.y = this->_altoMapa - 1;
+
 	this->_modeloMovimientoActual = new ModeloMovimiento(this, posicionDestino);
 	this->_modeloMovimientoActual->agregarObservador(this->_vistaMovimiento);
 	this->_modeloMovimientoActual->start(NULL);

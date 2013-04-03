@@ -107,10 +107,12 @@ class ModeloEntidad : public Observable {
 		Posicion _posicionActual;
 		Posicion _posicionSiguiente;
 		Posicion _pixelActual;
-		Posicion _pixelSiguente;
+		Posicion _pixelSiguiente;
 		Direccion _direccion;
 		VistaMovimiento* _vistaMovimiento;
 		ModeloMovimiento* _modeloMovimientoActual;
+		int _altoMapa;
+		int _anchoMapa;
 
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
 
@@ -119,47 +121,42 @@ class ModeloEntidad : public Observable {
 		//TODO: Borrar
 		class VistaEntidad : public Observador {
 			private:
-				char _mapa[ANCHO_MATRIZ][ALTO_MATRIZ];
-
+				SDL_Surface* _pantalla;
+				SDL_Surface* _tile;
+				SDL_Surface* _personaje;
+				
 			public:
-				VistaEntidad() {
-					unsigned int x = 0, y = 0;
-					for (x = 0; x < ANCHO_MATRIZ; x++) {
-						for (y = 0; y < ALTO_MATRIZ; y++) {
-							this->_mapa[x][y] = '-';
-						}
-					}
+				VistaEntidad(SDL_Surface* pantalla,SDL_Surface* tile) {
+					this->_pantalla = pantalla;
+					this->_tile = tile;
+					this->_personaje = SDL_LoadBMP("img/sprite.bmp");
 				}
 
 				virtual ~VistaEntidad() {
+					SDL_FreeSurface(this->_personaje);
 				}
 
 				void actualizar(Observable* s) {
 					ModeloEntidad* modeloEntidad = (ModeloEntidad*)s;
-					Posicion posicionActual = modeloEntidad->posicionActual();
-					Posicion posicionSiguiente = modeloEntidad->posicionSiguiente();
-					unsigned int x = 0, y = 0;
+					int x = 0, y = 0;
+					SDL_Rect origen, destino;
 
-					this->_mapa[posicionActual.x][posicionActual.y] = '-';
-					this->_mapa[posicionSiguiente.x][posicionSiguiente.y] = 'X';
+					Posicion::convertirTileAPixel(ALTO_MATRIZ, modeloEntidad->posicionActual().x, modeloEntidad->posicionActual().y, x, y);
 
-					system("cls");
-					for (y = 0; y < ALTO_MATRIZ; y++) {
-						for (x = 0; x < ANCHO_MATRIZ; x++) {
-							std::cout << this->_mapa[x][y];
-						}
-						std::cout << std::endl;
-					}
+					origen.h = ALTO_TILE;
+					origen.w = ANCHO_TILE;
+					origen.x = x - (ANCHO_TILE / 2);
+					origen.y = y;
+					destino.h = 32;
+					destino.w = 32;
+					destino.x = modeloEntidad->pixelSiguiente().x;
+					destino.y = modeloEntidad->pixelSiguiente().y;
+					
+					SDL_BlitSurface(this->_tile, NULL, this->_pantalla, &origen);
+					SDL_BlitSurface(this->_personaje, NULL, this->_pantalla, &destino);
+					SDL_UpdateRect(this->_pantalla, 0, 0, 0, 0);
 				}
 		};
-
-		//TODO: Borrar
-		static void mover(ModeloEntidad* modeloEntidad, int x, int y) {
-			Posicion posicionDestino;
-			posicionDestino.x = x;
-			posicionDestino.y = y;
-			modeloEntidad->mover(posicionDestino);
-		}
 
 	public:
 		//TODO: Borrar
@@ -170,19 +167,19 @@ class ModeloEntidad : public Observable {
 			SDL_Event evento;
 			Posicion posicion;
 
+			SDL_Init(SDL_INIT_VIDEO);
+
+			SDL_Surface* pantalla = SDL_SetVideoMode(1000, 500, 0, 0);
+			SDL_Surface* tile = SDL_LoadBMP("img/tile.bmp");
+
 			posicion.x = 0;
 			posicion.y = 0;
 
-			VistaEntidad vistaEntidad;
+			VistaEntidad vistaEntidad(pantalla, tile);
 			ModeloEntidad modeloEntidad(1, 1, 200, posicion, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			
 			modeloEntidad.agregarObservador(&vistaEntidad);
 			
-			SDL_Init(SDL_INIT_VIDEO);
-			
-			SDL_Surface *pantalla = SDL_SetVideoMode(1000, 500, 0, 0);
-			SDL_Surface *tile = SDL_LoadBMP("img/tile.bmp");
-
 			destino.h = ALTO_TILE;
 			destino.w = ANCHO_TILE;
 
@@ -237,7 +234,7 @@ class ModeloEntidad : public Observable {
 
 		Posicion pixelActual() const;
 
-		Posicion pixelSiguente() const;
+		Posicion pixelSiguiente() const;
 
 		Direccion direccion() const;
 

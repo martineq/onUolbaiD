@@ -40,11 +40,6 @@ ModeloEntidad::VistaMovimiento::VistaMovimiento(ModeloEntidad* modeloEntidad, in
 	this->_altoMapa = altoMapa;
 	this->_anchoMapa = anchoMapa;
 	this->_fps = fps;
-
-	cout << "VistaMovimiento:" << endl;
-	cout << "\taltoMapa = " << altoMapa << endl;
-	cout << "\tanchoMapa = " << anchoMapa << endl;
-	cout << "\tfps = " << fps << endl;
 }
 
 ModeloEntidad::VistaMovimiento::~VistaMovimiento() {
@@ -89,15 +84,17 @@ void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
 	}
 
 	list<Posicion>::iterator iterador = posiciones.begin();
-	int cuadros = posiciones.size() / ((this->_modeloEntidad->velocidad() * this->_fps) / 1000);
+	int cuadros = (this->_modeloEntidad->velocidad() * this->_fps) / 1000;
+	int desplazamiento = posiciones.size() / cuadros;
+	DWORD espera = this->_modeloEntidad->velocidad() / cuadros;
 
 	this->_modeloEntidad->_pixelActual = posicionOrigen;
 	for (int i = 0; i < cuadros; i++) {
-		advance(iterador, i * ((this->_modeloEntidad->velocidad() * this->_fps) / 1000));
-		this->_modeloEntidad->_pixelSiguente = *iterador;
-		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguente);
+		advance(iterador, i * desplazamiento);
+		this->_modeloEntidad->_pixelSiguiente = *iterador;
+		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
 		this->_modeloEntidad->notificarObservadores();
-		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguente;
-		Sleep(this->_fps / 1000);
+		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
+		Sleep(espera);
 	}
 }
