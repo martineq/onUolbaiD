@@ -50,10 +50,12 @@ void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
 	int deltaX, deltaY, desplazamientoX, desplazamientoY, error, desplazamientoErrorX, desplazamientoErrorY;
 	list<Posicion> posiciones;
 
+	// Calcula posiciones en pixeles
 	Posicion::convertirTileAPixel(this->_altoMapa, this->_modeloEntidad->posicionActual().x, this->_modeloEntidad->posicionActual().y, posicionOrigen.x, posicionOrigen.y);
 	Posicion::convertirTileAPixel(this->_altoMapa, this->_modeloEntidad->posicionSiguiente().x, this->_modeloEntidad->posicionSiguiente().y, posicionDestino.x, posicionDestino.y);
 	posicionActual = posicionOrigen;
 
+	// Calcula desplazamientos
 	deltaX = abs(posicionDestino.x - posicionOrigen.x);
 	deltaY = abs(posicionDestino.y - posicionOrigen.y);
 	desplazamientoX = (posicionOrigen.x < posicionDestino.x) ? 1 : -1;
@@ -62,6 +64,7 @@ void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
 	desplazamientoErrorX = 2 * deltaX;
 	desplazamientoErrorY = 2 * deltaY;
 	
+	// Obtiene el camino pixel por pixel
 	while (posicionActual != posicionDestino) {
 		posicionActual.x += (deltaX >= deltaY) ? desplazamientoX : 0;
 		posicionActual.y += (deltaX >= deltaY) ? 0 : desplazamientoY;
@@ -83,13 +86,15 @@ void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
 		posiciones.push_back(posicionActual);
 	}
 
+	// Calcula la cantida de cuadros a mostrar y la duracion de cada uno
 	list<Posicion>::iterator iterador = posiciones.begin();
 	int cuadros = (this->_modeloEntidad->velocidad() * this->_fps) / 1000;
 	int desplazamiento = posiciones.size() / cuadros;
 	DWORD espera = this->_modeloEntidad->velocidad() / cuadros;
 
+	// Recorre la lista de pixeles salteando segun la cantidad de cuadros, sin tener en cuenta el ultimo
 	this->_modeloEntidad->_pixelActual = posicionOrigen;
-	for (int i = 0; i < cuadros; i++) {
+	for (int i = 0; i < cuadros - 1; i++) {
 		advance(iterador, i * desplazamiento);
 		this->_modeloEntidad->_pixelSiguiente = *iterador;
 		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
@@ -97,4 +102,11 @@ void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
 		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
 		Sleep(espera);
 	}
+
+	// Dibuja el deplazamiento en el ultimo pixel para que quede bien ubicado en el tile que le corresponde
+	this->_modeloEntidad->_pixelSiguiente = posicionDestino;
+	this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
+	this->_modeloEntidad->notificarObservadores();
+	this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
+	Sleep(espera);
 }
