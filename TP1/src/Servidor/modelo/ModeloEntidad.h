@@ -122,13 +122,13 @@ class ModeloEntidad : public Observable {
 		class VistaEntidad : public Observador {
 			private:
 				SDL_Surface* _pantalla;
-				SDL_Surface* _tile;
+				SDL_Surface* _mapa;
 				SDL_Surface* _personaje;
 				
 			public:
-				VistaEntidad(SDL_Surface* pantalla,SDL_Surface* tile) {
+				VistaEntidad(SDL_Surface* pantalla,SDL_Surface* mapa) {
 					this->_pantalla = pantalla;
-					this->_tile = tile;
+					this->_mapa = mapa;
 					this->_personaje = SDL_LoadBMP("img/sprite.bmp");
 				}
 
@@ -138,21 +138,14 @@ class ModeloEntidad : public Observable {
 
 				void actualizar(Observable* s) {
 					ModeloEntidad* modeloEntidad = (ModeloEntidad*)s;
-					int x = 0, y = 0;
-					SDL_Rect origen, destino;
+					SDL_Rect destino;
 
-					Posicion::convertirTileAPixel(ALTO_MATRIZ, modeloEntidad->posicionActual().x, modeloEntidad->posicionActual().y, x, y);
-
-					origen.h = ALTO_TILE;
-					origen.w = ANCHO_TILE;
-					origen.x = x - (ANCHO_TILE / 2);
-					origen.y = y;
 					destino.h = 32;
 					destino.w = 32;
 					destino.x = modeloEntidad->pixelSiguiente().x;
 					destino.y = modeloEntidad->pixelSiguiente().y;
 					
-					SDL_BlitSurface(this->_tile, NULL, this->_pantalla, &origen);
+					SDL_BlitSurface(this->_mapa, NULL, this->_pantalla, NULL);
 					SDL_BlitSurface(this->_personaje, NULL, this->_pantalla, &destino);
 					SDL_UpdateRect(this->_pantalla, 0, 0, 0, 0);
 				}
@@ -171,11 +164,12 @@ class ModeloEntidad : public Observable {
 
 			SDL_Surface* pantalla = SDL_SetVideoMode(1000, 500, 0, 0);
 			SDL_Surface* tile = SDL_LoadBMP("img/tile.bmp");
+			SDL_Surface* mapa = SDL_CreateRGBSurface(SDL_SWSURFACE, 1000, 500, 32, 0, 0, 0, 0);
 
 			posicion.x = 0;
 			posicion.y = 0;
 
-			VistaEntidad vistaEntidad(pantalla, tile);
+			VistaEntidad vistaEntidad(pantalla, mapa);
 			ModeloEntidad modeloEntidad(1, 1, 200, posicion, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			
 			modeloEntidad.agregarObservador(&vistaEntidad);
@@ -188,10 +182,11 @@ class ModeloEntidad : public Observable {
 					Posicion::convertirTileAPixel(ALTO_MATRIZ, xt, yt, xp, yp);
 					destino.x = (Sint16)xp - (ANCHO_TILE / 2);
 					destino.y = (Sint16)yp;
-					SDL_BlitSurface(tile, NULL, pantalla, &destino);
+					SDL_BlitSurface(tile, NULL, mapa, &destino);
 				}
 			}
 
+			SDL_BlitSurface(mapa, NULL, pantalla, NULL);
 			SDL_UpdateRect(pantalla, 0, 0, 0, 0);
 
 			while (!salir) {
