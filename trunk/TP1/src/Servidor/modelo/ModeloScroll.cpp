@@ -106,15 +106,17 @@ void ModeloScroll::cambiarEstado(){
 	this->notificarObservadores();
 }
 
-void ModeloScroll::agregarObservador(Observador *m) {
+//Comentado porque se va a usar el agregarObservador de la interfaz
+/*void ModeloScroll::agregarObservador(Observador *m) {
 	this->observadores.push_back(m);
 
-}
+}*/
 
-void ModeloScroll::removerObservador(Observador *m) {
+//Comentado porque habría que implementar removerObservador en la interfaz
+/*void ModeloScroll::removerObservador(Observador *m) {
 	this->observadores.remove(m);
 
-}
+}*/
 
 int ModeloScroll::obtenerId(void){	// Para el ID
     return (this->id);
