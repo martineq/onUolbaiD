@@ -15,14 +15,14 @@ class VistaEntidad{
 		double posicionReferenciaY;
 		double fps;
 		double delay;
-		std::list<std::string> listaAnimaciones;
+		std::list<std::list<std::string>> listaAnimaciones;
 		int codigoAnimacion;
 		bool esNecesarioRefrescar;
 
 		static long contador; // Para generar ID's Automáticos
 
 	public:
-		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::string> listaAnimaciones,bool esJugador);
+		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador);
 		~VistaEntidad(void);
 
 		void actualizar(class Observable* s);
@@ -39,7 +39,7 @@ class VistaEntidad{
 		double getFps(void);
 		double getDelay(void);
 		int getCodigoAnimacion(void);
-		std::list<std::string> getListaAnimaciones(void);
+		std::list<std::list<std::string>> getListaAnimaciones(void);
 		bool getEsNecesarioRefrescar(void);
 
 		// Setters
