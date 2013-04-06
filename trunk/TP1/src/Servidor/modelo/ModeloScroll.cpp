@@ -12,7 +12,7 @@ ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenario
 	
 	this->id = idPersonaje;
 
-
+	//La idea es que el personaje arranque en el medio de la pantalla
 	Posicion::convertirTileAPixel(this->tEscenarioAlto, personajeX, personajeY, this->x, this->y);
 	this->x -= floor((double)(this->pPantallaAncho / 2));
 	if (this->x < 0) {
@@ -103,15 +103,17 @@ void ModeloScroll::actualizar(int mouseX, int mouseY) {
 }
 
 void ModeloScroll::cambiarEstado(){
-	//this->notificarObservadores();
+	this->notificarObservadores();
 }
 
 void ModeloScroll::agregarObservador(Observador *m) {
 	this->observadores.push_back(m);
+
 }
 
 void ModeloScroll::removerObservador(Observador *m) {
 	this->observadores.remove(m);
+
 }
 
 int ModeloScroll::obtenerId(void){	// Para el ID
