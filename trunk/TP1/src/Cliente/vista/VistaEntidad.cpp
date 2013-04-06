@@ -2,7 +2,7 @@
 
 long VistaEntidad::contador = 0; // Para el ID
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::string> listaAnimaciones,bool esJugador){
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador){
 	this->id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
 	this->x = x;
 	this->y = y;
@@ -79,7 +79,7 @@ int VistaEntidad::getCodigoAnimacion(void){
 	return this->codigoAnimacion;
 }
 
-std::list<std::string> VistaEntidad::getListaAnimaciones(void){
+std::list<std::list<std::string>> VistaEntidad::getListaAnimaciones(void){
 	return (this->listaAnimaciones);
 }
 

@@ -7,24 +7,31 @@ configuracion:
     margen_scroll : 30
 entidades:
     - nombre: arbol
-      imagen: [default.png]
+      imagen:
+        - [default.png]
+        - [default.png,default.png,default.png]
     - nombre: castillo
-      imagen: [default.png]
+      imagen:
+        - [default.png]
       ancho_base: 2 #tiles
       alto_base: 2 #tiles
       pixel_ref_x: 30 #pixels
       pixel_ref_y: 40 #pixels
     - nombre: orco
-      imagen: [default.png]
+      imagen:
+        - [default.png]
       fps: 10
       delay: 5
     - nombre: frodo
-      imagen: [default.png,default.png]
+      imagen:
+        - [default.png,default.png]
       fps: 10
     - nombre: tierra
-      imagen: [default.png]
+      imagen:
+        - [default.png]
     - nombre: agua
-      imagen: [default.png]
+      imagen:
+        - [default.png]
 escenarios:
     - nombre: bosque_encantado
       size_x: 100 #tiles
