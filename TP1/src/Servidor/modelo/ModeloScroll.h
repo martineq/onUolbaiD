@@ -31,8 +31,8 @@ class ModeloScroll: public Observable{
 		int getAncho();
 		int getMargen();
 		
-		void agregarObservador(Observador *m);
-		void removerObservador(Observador *m);
+		//void agregarObservador(Observador *m);
+		//void removerObservador(Observador *m);
 
 		void cambiarEstado();
 		int obtenerId(void);
