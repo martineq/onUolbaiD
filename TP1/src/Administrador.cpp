@@ -20,12 +20,15 @@ void Administrador::loop(){
 	int fps = 50;
 	int delay = 1000/fps;	
 	bool quit = false;		
-	while (quit == true){
+	while (quit == false){
 		int tickViejo = SDL_GetTicks();		
 
-		if( this->cliente.loopControl() == false)  quit = false;
-		if( this->servidor.loop() == false ) quit = false;
-		if( this->cliente.loopVista() == false ) quit = false;
+		if( this->cliente.loopControl() == false)  
+			quit = true;
+		if( this->servidor.loop() == false ) 
+			quit = true;
+		if( this->cliente.loopVista() == false ) 
+			quit = true;
 
 		int intervaloTranscurrido = SDL_GetTicks() - tickViejo;
 		if (intervaloTranscurrido < delay){

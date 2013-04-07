@@ -1,6 +1,8 @@
 #pragma once
 
 #include "./VistaNivel.h"
+#include "./VistaLoop.h"
+#include "./ImageLoader.h"
 #include "../../utils/yaml/ParserYaml.h"
 
 class VistaFactory{
@@ -13,5 +15,5 @@ class VistaFactory{
 		VistaFactory(void);
 		~VistaFactory(void);
 
-		bool crearVistaNivel(VistaNivel& vistaNivel);
+		bool crearVistaNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop);
 };
