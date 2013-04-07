@@ -1,6 +1,7 @@
 #include "ModeloEntidad.h"
 
 void* ModeloEntidad::ModeloMovimiento::run(void* parametro) {
+	// Calcula desplazamientos
 	int deltaX = abs(this->_posicionDestino.x - this->_modeloEntidad->_posicionActual.x);
 	int deltaY = abs(this->_posicionDestino.y - this->_modeloEntidad->_posicionActual.y);
 	int desplazamientoX = (this->_modeloEntidad->_posicionActual.x < this->_posicionDestino.x) ? 1 : -1;
@@ -11,6 +12,7 @@ void* ModeloEntidad::ModeloMovimiento::run(void* parametro) {
 	
 	this->_modeloEntidad->_posicionSiguiente = this->_modeloEntidad->_posicionActual;
 
+	// Mientras el movmiento se este ejecutando obtiene el camino tile por tile hasta llegar al destino
 	this->_ejecutando = true;
 	while (this->_ejecutando && (this->_modeloEntidad->_posicionActual != this->_posicionDestino)) {
 		this->_modeloEntidad->_posicionSiguiente.x += (deltaX >= deltaY) ? desplazamientoX : 0;
