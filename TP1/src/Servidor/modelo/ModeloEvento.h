@@ -10,6 +10,9 @@
 class ModeloEvento : public Observador {
 	private:
 		ModeloNivel* _modeloNivel;
+		int mouseClickDerecho;
+		int mousePosX;
+		int mousePosY;
 
 		void obtenerTile(int xp, int yp, int &xt, int &yt);
 
@@ -22,4 +25,9 @@ class ModeloEvento : public Observador {
 
 		// Asigna el nivel al que le va a pasar los eventos
 		void asignarModeloNivel(ModeloNivel*);
+
+
+		int getMouseClickDerecho();
+		int getMousePosX();
+		int getMousePosY();
 };
