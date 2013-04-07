@@ -95,7 +95,7 @@ void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
 	// Recorre la lista de pixeles salteando segun la cantidad de cuadros, sin tener en cuenta el ultimo
 	this->_modeloEntidad->_pixelActual = posicionOrigen;
 	for (int i = 0; i < cuadros - 1; i++) {
-		advance(iterador, i * desplazamiento);
+		advance(iterador, desplazamiento);
 		this->_modeloEntidad->_pixelSiguiente = *iterador;
 		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
 		this->_modeloEntidad->notificarObservadores();
