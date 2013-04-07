@@ -15,6 +15,10 @@ ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenario
 	int dummy;
 	Posicion::convertirTileAPixel(tEscenarioAlto, tEscenarioAncho - 1, tEscenarioAlto - 1, dummy, pEscenarioAlto); 
 	Posicion::convertirTileAPixel(tEscenarioAlto, tEscenarioAncho - 1, 0, pEscenarioAncho, dummy);
+
+	pEscenarioAlto += ALTO_TILE;
+	pEscenarioAncho += ANCHO_TILE / 2;
+
 	std::cout << pEscenarioAlto << " - " << tEscenarioAlto << std::endl;
 	std::cout << pEscenarioAncho << " - " << tEscenarioAncho <<std::endl;
 
@@ -44,39 +48,30 @@ bool ModeloScroll::calcularPosicion(int mouseX, int mouseY) {
 	int maxY = 10*this->tEscenarioAlto;*/
 
 	if (mouseX <= this->margen) { // toco el margen izquierdo
-		if (this->x - velocidad <= 0) {
-			this->x = 0;
-		} else {
-			this->x -= velocidad;
-		}
+		this->x -= velocidad;
 		chg = true;
 	} else if (mouseX >= (this->pPantallaAncho - margen)) { // toco margen derecho
-		if (this->x + velocidad >= this->pEscenarioAncho) {
-			this->x = this->pEscenarioAncho;
-		} else {
-			this->x += velocidad;
-		}
-		std::cout << "X=" << this->x << std::endl;
-		/*this->x +=velocidad;*/
+		this->x += velocidad;
 		chg = true;
 	}
 
-	
+	if (this->x < 0)
+		this->x = 0;
+	else if (this->x + this->pPantallaAncho > this->pEscenarioAncho)
+		this->x = this->pEscenarioAncho - this->pPantallaAncho;
+
 	if (mouseY  <= this->margen) { // toco el margen superior
-		if (this->y - velocidad <= 0) {
-			this->y = 0;
-		} else {
-			this->y -= velocidad;
-		}
+		this->y -= velocidad;
 		chg = true;
 	} else if (mouseY >= (this->pPantallaAlto - margen)) { // toco margen inferior
-		if (this->y + velocidad >= this->pEscenarioAlto) {
-			this->y = this->pEscenarioAlto;
-		} else {
-			this->y += velocidad;
-		}
+		this->y += velocidad;
 		chg = true;
 	}
+
+	if (this->y < 0)
+		this->y = 0;
+	else if (this->y + this->pPantallaAlto > this->pEscenarioAlto)
+		this->y = this->pEscenarioAlto - this->pPantallaAlto;
 
 	return chg;
 }
