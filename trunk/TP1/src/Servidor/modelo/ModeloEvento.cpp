@@ -2,14 +2,25 @@
 
 ModeloEvento::ModeloEvento() {
 	this->_modeloNivel = NULL;
+	this->actualizado = false;
 }
 
 ModeloEvento::~ModeloEvento() {
 }
 
+bool ModeloEvento::getActualizado(void){
+	return this->actualizado;
+}
+
+void ModeloEvento::setActualizado(bool actualizado){
+	this->actualizado = actualizado;
+}
+
+
 void ModeloEvento::actualizar(Observable* observable) {
 	ControladorEvento* controladorEvento = (ControladorEvento*)observable;
-	
+	this->setActualizado(true);
+
 	// Avisa al scroll que se movio el mouse
 	//TODO: implementar
 	//this->_modeloNivel->moverScroll(controladorEvento->getPosicionMouseX(), controladorEvento->getPosicionMouseY());

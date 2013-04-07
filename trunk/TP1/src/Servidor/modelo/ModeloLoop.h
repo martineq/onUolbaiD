@@ -8,6 +8,7 @@
 class ModeloLoop {
 	private:
 		ModeloEvento _modeloEvento;
+		
 
 	public:
 		ModeloLoop();

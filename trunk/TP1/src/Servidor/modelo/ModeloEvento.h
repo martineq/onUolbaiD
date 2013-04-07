@@ -13,6 +13,7 @@ class ModeloEvento : public Observador {
 		int mouseClickDerecho;
 		int mousePosX;
 		int mousePosY;
+		bool actualizado;
 
 		void obtenerTile(int xp, int yp, int &xt, int &yt);
 
@@ -30,4 +31,7 @@ class ModeloEvento : public Observador {
 		int getMouseClickDerecho();
 		int getMousePosX();
 		int getMousePosY();
+		bool getActualizado(void);
+
+		void setActualizado(bool actualizado);
 };
