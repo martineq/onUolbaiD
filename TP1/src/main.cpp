@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 	//administrador.iniciar();
 	//administrador.loop();
 
-	ModeloEntidad::prueba();
+	Servidor::prueba();
 
 	return 0;
 }

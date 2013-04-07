@@ -141,10 +141,6 @@ void Pruebas::PruebaYAML(void){
 	ParserYaml::getInstance().cargarConfiguracionDeJuego();
 }
 
-void Pruebas::PruebaModeloEntidad(void){
-	ModeloEntidad::prueba();
-}
-
 void Pruebas::PruebaHilos(void){
 
 	HiloDePrueba hiloUno;
