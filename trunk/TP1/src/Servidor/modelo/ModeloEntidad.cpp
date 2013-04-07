@@ -26,6 +26,7 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 }
 
 ModeloEntidad::~ModeloEntidad() {
+	// Detiene si hay algun movimiento ejecutandose lo detiene
 	if (this->_modeloMovimientoActual != NULL) {
 		this->_modeloMovimientoActual->detener();
 		this->_modeloMovimientoActual->join();
@@ -79,22 +80,24 @@ Direccion ModeloEntidad::direccion() const {
 }
 
 void ModeloEntidad::mover(Posicion posicionDestino) {
+	// Detiene si hay algun movimiento ejecutandose lo detiene
 	if (this->_modeloMovimientoActual != NULL) {
 		this->_modeloMovimientoActual->detener();
 		this->_modeloMovimientoActual->join();
 		delete this->_modeloMovimientoActual;
 	}
 
+	// Ajusta los movimientos para esten dentro del mapa
 	if (posicionDestino.x < 0)
 		posicionDestino.x = 0;
 	else if (posicionDestino.x >= this->_anchoMapa)
 		posicionDestino.x = this->_anchoMapa - 1;
-	
 	if (posicionDestino.y < 0)
 		posicionDestino.y = 0;
 	else if (posicionDestino.y >= this->_altoMapa)
 		posicionDestino.y = this->_altoMapa - 1;
 
+	// Inicia un nuevo movimiento
 	this->_modeloMovimientoActual = new ModeloMovimiento(this, posicionDestino);
 	this->_modeloMovimientoActual->agregarObservador(this->_vistaMovimiento);
 	this->_modeloMovimientoActual->start(NULL);
