@@ -81,6 +81,7 @@ class Servidor {
 	public:
 		//TODO: Borrar
 		static void prueba() {
+			bool salir = false;
 			int alto = 0, ancho = 0, dummy = 0, xt = 0, yt = 0, xp = 0, yp = 0;
 			Posicion posicionPersonaje;
 			SDL_Rect destinoPersonaje;
@@ -101,7 +102,7 @@ class Servidor {
 			posicionPersonaje.x = 0;
 			posicionPersonaje.y = 0;
 			
-			ModeloScroll modeloScroll(500, 500, ancho, alto, 20, 1, 0, 0, 0);
+			ModeloScroll modeloScroll(500, 500, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, 0);
 			ModeloEntidad modeloEntidad(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			VistaScroll vistaScroll(pantalla, nivel);
 			VistaEntidad vistaEntidad(nivel);
@@ -123,7 +124,7 @@ class Servidor {
 
 			SDL_BlitSurface(nivel, NULL, pantalla, NULL);
 			
-			while (evento.type != SDL_QUIT) {
+			while (!salir) {
 				if (SDL_PollEvent(&evento)) {
 					if (evento.type == SDL_MOUSEMOTION) {
 						modeloScroll.actualizar(evento.motion.x, evento.motion.y);
@@ -135,6 +136,8 @@ class Servidor {
 				}
 
 				vistaScroll.dibujar();
+
+				salir = (evento.type == SDL_QUIT);
 			}
 
 			SDL_FreeSurface(tile);
