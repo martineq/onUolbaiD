@@ -1,0 +1,105 @@
+#include "VistaAnimacion.h"
+
+VistaAnimacion::VistaAnimacion(list<string> & sprites, int periodo, double ancho, double alto, bool automatica, int fps) {
+	list<string>::iterator it;
+	this->ancho = ancho;
+	this->alto = alto;
+	this->indice = 0;
+	this->x = 0;
+	this->y = 0;
+	this->tiempoEspera = 0;
+	this->automatica = automatica;
+	for (it = sprites.begin(); it != sprites.end();it++){
+		std::string ruta = *it;
+		SDLutil* util = new SDLutil(0,0,ancho,alto,ruta);
+		this->superficies.push_back(util);
+	}
+	this->periodo = periodo;
+	this->intervaloActualizacion = 1000 / fps;
+	this->tiempoEspera = 0;
+	this->tiempoSprite = 0;
+}
+
+
+SDLutil* VistaAnimacion::get(int index){ 
+	return this->superficies.at(index);
+}
+
+int VistaAnimacion::getTamanio(){
+	return this->superficies.size(); 
+}
+
+int VistaAnimacion::getPeriodo(){ 
+	return this->periodo; 
+}
+
+
+void VistaAnimacion::setPantalla(SDL_Surface* pantalla){	
+	for (int i = 0;i<this->superficies.size();i++){
+		superficies.at(i)->setPantalla(pantalla);
+	}	
+}
+
+bool VistaAnimacion::graficar(int index,double x,double y){
+	bool ok = false;
+	this->x = x;
+	this->y = y;
+	if (this->superficies.size() > index){
+		this->superficies.at(index)->graficar(x,y);
+		ok = true;
+	}
+	return ok;
+}
+
+
+void VistaAnimacion::graficar(double x, double y){
+	this->x = x;
+	this->y = y;
+	this->superficies.at(indice)->graficar(x,y);
+	this->incrementarIndice();
+}
+
+void VistaAnimacion::graficar(){
+	this->superficies.front()->setX(this->x);
+	this->superficies.front()->setY(this->y);
+	this->superficies.front()->graficar();	
+}
+
+void VistaAnimacion::incrementarIndice(){
+	//Devuelve true si debe esperar el período
+	double tiempoActual = SDL_GetTicks();
+	if ( esperarTiempo() == false ){
+		if (tiempoActual - this->tiempoSprite > this->intervaloActualizacion){
+			this->tiempoSprite = tiempoActual;
+			if (this->indice < this->superficies.size()-1){
+				this->indice++;				
+			}
+			else{
+				this->indice = 0;
+				this->tiempoEspera = 0;
+			}
+		}
+	}
+	this->tiempoEspera += tiempoActual;
+}
+
+bool VistaAnimacion::esperarTiempo(){
+	if (!this->automatica){
+		return false;
+	}
+	
+	if (this->tiempoEspera >= this->periodo){		
+		return false;
+	}
+	return true;	
+}
+
+VistaAnimacion::~VistaAnimacion() {
+	vector<SDLutil*>::iterator it;
+	for ( it = this->superficies.begin(); it != this->superficies.end();it++){
+		if (*it!=NULL) {
+			delete( *it );
+			*it = NULL;
+		}
+	}
+}

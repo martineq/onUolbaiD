@@ -7,7 +7,6 @@
 
 //TODO: Borrar
 #include <SDL.h>
-
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"
 #include "../../utils/Hilos/Hilo.h"

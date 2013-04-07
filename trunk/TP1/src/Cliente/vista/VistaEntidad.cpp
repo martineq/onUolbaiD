@@ -2,7 +2,7 @@
 
 long VistaEntidad::contador = 0; // Para el ID
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador){
+/*VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador){
 	this->id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
 	this->x = x;
 	this->y = y;
@@ -17,6 +17,32 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->esNecesarioRefrescar = true;
 	this->codigoAnimacion = 0;
 }
+*/
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador){
+	this->id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
+	this->x = x;
+	this->y = y;
+	this->alto = alto;
+	this->ancho = ancho;
+	this->posicionReferenciaX = posicionReferenciaX;
+	this->posicionReferenciaY = posicionReferenciaY;
+	this->fps = fps;
+	this->delay = delay;
+	this->esJugador = esJugador;
+	this->animaciones = new VistaAnimaciones();
+	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
+	this->animacionActual = NULL;
+	for (it=listaAnimaciones.begin();it!=listaAnimaciones.end();it++){
+		this->animaciones->agregar(it->front(),*it,delay,ancho,alto,fps);
+		if (this->animacionActual == NULL){
+			this->animacionActual = this->animaciones->get(it->front());
+		}
+	}
+	this->esNecesarioRefrescar = true;
+	this->codigoAnimacion = 0;
+}
+
+
 
 VistaEntidad::~VistaEntidad(void){
 
@@ -25,13 +51,13 @@ VistaEntidad::~VistaEntidad(void){
 void VistaEntidad::actualizar(class Observable* s){
 
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
-
+	
     // TODO: Completar con los métodos brindados por ModeloEntidad
-/*	this->x = ((ModeloEntidad*)s)->getX();
-	this->y = ((ModeloEntidad*)s)->getY();
-	this->codigoAnimacion = ((ModeloEntidad*)s)->getCodigoAnimacion();
-	this->esNecesarioRefrescar = true;
-*/
+//	this->x = ((ModeloEntidad*)s)->getX();
+//	this->y = ((ModeloEntidad*)s)->getY();
+//	this->codigoAnimacion = ((ModeloEntidad*)s)->getCodigoAnimacion();
+	//this->esNecesarioRefrescar = true;
+
 }
 
 
@@ -89,4 +115,16 @@ bool VistaEntidad::getEsNecesarioRefrescar(void){
 
 void VistaEntidad::setEsNecesarioRefrescar(bool boolRefrescar){
 	this->esNecesarioRefrescar = boolRefrescar;
+}
+
+void VistaEntidad::setAnimacion(std::string estado){
+	this->animacionActual = this->animaciones->get(estado);
+}
+
+void VistaEntidad::graficar(){
+	this->animacionActual->graficar(this->x,this->y);
+}
+
+void VistaEntidad::setPantalla(SDL_Surface* screen){
+	this->animaciones->setPantalla(screen);
 }

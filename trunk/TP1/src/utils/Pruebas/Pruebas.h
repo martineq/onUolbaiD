@@ -11,6 +11,9 @@
 #include "../yaml/ParserYaml.h"
 #include "../../Servidor/modelo/ModeloEntidad.h"
 #include "./HiloDePrueba.h"
+#include "../../Cliente/vista/VistaAnimacion.h"
+#include "../../Cliente/vista/VistaAnimaciones.h"
+#include "../../Cliente/vista/VistaEntidad.h"
 
 class Pruebas{
 
@@ -22,5 +25,6 @@ class Pruebas{
 		void PruebaYAML(void);
 		void PruebaModeloEntidad(void);
 		void PruebaHilos(void);
+		void PruebaAnimacion(void);
 
 };

@@ -12,7 +12,7 @@ class VistaJuego{
 		VistaNivel vistaNivel;
 		VistaLoop vistaLoop;
 		SDL_Surface *pantalla,*fondo,*textSurface;	
-		TTF_Font* font;
+		//TTF_Font* font;
 
 	public:
 		VistaJuego(void);
