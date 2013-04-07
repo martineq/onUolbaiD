@@ -102,6 +102,9 @@ SDL_Surface* ImageLoader::levantarPantalla(double w, double h){
 	return screen;
 }
 
+void ImageLoader::refrescarPantalla(SDL_Surface* screen){
+	SDL_UpdateRect(screen, 0, 0, 0, 0);
+}
 ImageLoader::~ImageLoader() {
 	// TODO Auto-generated destructor stub
 }

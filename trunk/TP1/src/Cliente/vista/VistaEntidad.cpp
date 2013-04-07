@@ -53,10 +53,42 @@ void VistaEntidad::actualizar(class Observable* s){
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
 	
     // TODO: Completar con los métodos brindados por ModeloEntidad
+	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x;
+	this->x = ((ModeloEntidad*)s)->pixelSiguiente().y;
 //	this->x = ((ModeloEntidad*)s)->getX();
 //	this->y = ((ModeloEntidad*)s)->getY();
 //	this->codigoAnimacion = ((ModeloEntidad*)s)->getCodigoAnimacion();
-	//this->esNecesarioRefrescar = true;
+	int codigo = ((ModeloEntidad*)s)->direccion();
+	if ((this->esJugador) && (codigo != this->codigoAnimacion)){
+		this->codigoAnimacion = codigo;
+		switch (codigo){
+			case NORTE:
+				this->animacionActual = this->animaciones->get("NORTE");
+				break;
+			case SUR:
+				this->animacionActual = this->animaciones->get("SUR");
+				break;
+			case ESTE:
+				this->animacionActual = this->animaciones->get("ESTE");
+				break;
+			case OESTE:
+				this->animacionActual = this->animaciones->get("OESTE");
+				break;
+			case NORESTE:
+				this->animacionActual = this->animaciones->get("NORESTE");
+				break;
+			case NOROESTE:
+				this->animacionActual = this->animaciones->get("NOROESTE");
+				break;
+			case SUDESTE:
+				this->animacionActual = this->animaciones->get("SUDESTE");
+				break;
+			case SUDOESTE:
+				this->animacionActual = this->animaciones->get("SUDOESTE");
+				break;
+		}
+	}
+	this->esNecesarioRefrescar = true;
 
 }
 
@@ -122,7 +154,11 @@ void VistaEntidad::setAnimacion(std::string estado){
 }
 
 void VistaEntidad::graficar(){
-	this->animacionActual->graficar(this->x,this->y);
+	if (this->esNecesarioRefrescar){
+		this->animacionActual->graficar(this->x,this->y);
+	}else{
+		this->animacionActual->graficar();
+	}
 }
 
 void VistaEntidad::setPantalla(SDL_Surface* screen){

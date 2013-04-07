@@ -29,6 +29,8 @@ public:
 
 	void rotar(int grados,string idImage, string newPosition);
 
+	void refrescarPantalla(SDL_Surface* screen);
+
 	bool iniciarSDL();
 
 	void cerrarSDL();
