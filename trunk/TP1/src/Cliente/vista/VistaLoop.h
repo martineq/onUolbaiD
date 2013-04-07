@@ -6,16 +6,20 @@
 
 
 class VistaLoop{
-	 // TODO: Ver si estos punteros SDL se usan así, o se usan con la nueva clase utilidad SDL
+	private:
+
 		SDL_Surface *pantalla,*fondo;			
+		void dibujarPantalla(VistaNivel& vistaNivel);			
+
 	public:
 		VistaLoop(void);
 		~VistaLoop(void);						
 		bool loop(VistaNivel& vistaNivel);
-     // TODO: Ver si estos metodos que manejan SDL se usan así, o se usan con la nueva clase utilidad SDL
+
 		//levanta el fondo y la pantalla
 		bool levantarPantalla(int,int);
-		void dibujarPantalla(VistaNivel& vistaNivel);			
+		void setPantalla(SDL_Surface *pantalla);
+		
 };
 
 // TODO: Ver implementación de los métodos para iniciar el sdl y para dibujar. Seguramente vn todo en el loop

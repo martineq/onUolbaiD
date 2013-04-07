@@ -16,6 +16,13 @@ long VistaEntidad::contador = 0; // Para el ID
 	this->listaAnimaciones = listaAnimaciones;
 	this->esNecesarioRefrescar = true;
 	this->codigoAnimacion = 0;
+
+	area.x = ancho	* 0;
+	area.y = alto	* 0;
+	area.w = ancho;
+	area.h = alto;
+
+	this->figuraActual = &this->area;
 }
 */
 VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador){

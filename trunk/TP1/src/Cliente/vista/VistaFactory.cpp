@@ -8,7 +8,9 @@ VistaFactory::~VistaFactory(void){
 
 }
 
-bool VistaFactory::crearVistaNivel(VistaNivel& vistaNivel){
+bool VistaFactory::crearVistaNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop){
+
+	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;	
 
 	ParserYaml::stJuego juego;
 	juego = ParserYaml::getInstance().cargarConfiguracionDeJuego();
@@ -17,6 +19,9 @@ bool VistaFactory::crearVistaNivel(VistaNivel& vistaNivel){
 
 	vistaNivel.setAltoPantalla(juego.pantalla.alto);
 	vistaNivel.setAnchoPantalla(juego.pantalla.ancho);
+
+	vistaLoop.setPantalla(ImageLoader::getInstance().levantarPantalla(juego.pantalla.ancho,juego.pantalla.alto));
+
 	this->crearJugadorConScroll(juego,vistaNivel);
 	this->crearEntidades(juego,vistaNivel);
 

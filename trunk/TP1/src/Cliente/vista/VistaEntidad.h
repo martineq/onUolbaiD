@@ -1,10 +1,12 @@
 #pragma once
 
 #include "../../Servidor/modelo/ModeloEntidad.h"
+#include "../../utils/Componente Para La Vista/Componente.h"
 #include "VistaAnimacion.h"
 #include "VistaAnimaciones.h"
 
-class VistaEntidad{
+
+class VistaEntidad:public Componente{
 
 	private:
 		int id;
@@ -21,7 +23,11 @@ class VistaEntidad{
 		VistaAnimacion* animacionActual;
 		VistaAnimaciones* animaciones;
 		int codigoAnimacion;
-		bool esNecesarioRefrescar;		
+		bool esNecesarioRefrescar;
+		SDL_Rect area;
+		double xFondo;
+		double yFondo;
+			
 		static long contador; // Para generar ID's Automáticos
 
 	public:
