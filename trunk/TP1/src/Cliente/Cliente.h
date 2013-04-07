@@ -17,6 +17,7 @@ class Cliente{
 		Observador* obtenerObservadorScroll(void);
 		std::list<Observador*> obtenerObservadoresEntidad(void);
 		void agregarObservadorEventos(Observador* observador);
-		bool loop(void);		// Inicia el VistaLoop y ControladorLoop
+		bool loopControl(void);
+		bool loopVista(void);
 
 };

@@ -24,5 +24,5 @@ Observador* ModeloJuego::obtenerObservadorEvento() {
 }
 
 bool ModeloJuego::loop() {
-	return this->_modeloLoop.loop();
+	return this->_modeloLoop.loop(this->_modeloNivel);
 }
