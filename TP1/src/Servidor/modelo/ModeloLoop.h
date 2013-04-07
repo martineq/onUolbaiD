@@ -19,5 +19,5 @@ class ModeloLoop {
 		// Asigna el nivel que va a manejar el loop
 		void asignarModeloNivel(ModeloNivel* modeloNivel);
 
-		bool loop();
+		bool loop(ModeloNivel& modeloNivel);
 };
