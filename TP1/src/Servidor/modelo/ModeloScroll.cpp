@@ -122,10 +122,10 @@ int ModeloScroll::obtenerId(void){	// Para el ID
     return (this->id);
 }
 
-static bool ModeloScroll::enMargen(int x, int y) {
-	if ((mouseX <= this->margen) || (mouseX >= (this->pPantallaAncho - margen) || (mouseY  <= this->margen) || (mouseY >= (this->pPantallaAlto - margen)) {
+bool ModeloScroll::enMargen(int x, int y) {
+	if ((x <= this->margen) || (x >= (this->pPantallaAncho - margen)) || (y  <= this->margen) || (y >= (this->pPantallaAlto - margen))){
 		return true;
 	} else {
-		return false
+		return false;
 	}
 }

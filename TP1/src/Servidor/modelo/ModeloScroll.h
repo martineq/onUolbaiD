@@ -18,8 +18,8 @@ class ModeloScroll: public Observable{
 
 		int id;	// ID a partir del id del jugador
 
-	static:
-		bool ModeloScroll::enMargen(int x, int y);
+	
+	
 
 	public:
 		ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje);
@@ -40,6 +40,7 @@ class ModeloScroll: public Observable{
 		void cambiarEstado();
 		int obtenerId(void);
 
+		bool enMargen(int x, int y);
 		
 };
 

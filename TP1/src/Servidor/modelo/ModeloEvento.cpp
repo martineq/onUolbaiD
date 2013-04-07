@@ -36,10 +36,10 @@ int ModeloEvento::getMouseClickDerecho() {
 }
 
 int ModeloEvento::getMousePosX() {
-	return this->mousePosX
+	return this->mousePosX;
 }
 
 
 int ModeloEvento::getMousePosY() {
-	return this->mousePosX
+	return this->mousePosX;
 }
