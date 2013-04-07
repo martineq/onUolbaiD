@@ -15,7 +15,7 @@ SDL_Surface *ImageLoader::load_image( std::string filename )
 
 	//The optimized surface that will be used
 	SDL_Surface* optimizedImage = NULL;
-
+	
 	//Load the image
 	loadedImage = IMG_Load( filename.c_str() );
 
@@ -62,6 +62,22 @@ SDL_Rect ImageLoader::createRect(double x, double y){
 	rect.x = x;
 	rect.y = y;
 	return rect;
+}
+
+void ImageLoader::rotar(int grados,string idImage, string newPosition){
+	unsigned int position = idImage.find("_");
+	unsigned int posExtension = idImage.size()-4;
+	SDL_Surface* img = IMG_Load(idImage.c_str());
+
+	string newIDImage;  
+	newIDImage = idImage.substr(0,position); //newIDImage dara como resultado nombreOriginal+_"+angulo+extension
+	newIDImage += "_";
+	newIDImage += newPosition;
+	newIDImage += idImage.substr(posExtension-1,5);
+    SDL_Surface* rot = rotozoomSurface( img, grados, 1.0, 0 );
+	SDL_SaveBMP(rot,newIDImage.c_str());
+	SDL_FreeSurface(img);
+	SDL_FreeSurface(rot);
 }
 
 bool ImageLoader::iniciarSDL(){

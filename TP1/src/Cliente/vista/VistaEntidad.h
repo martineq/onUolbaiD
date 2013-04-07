@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../../Servidor/modelo/ModeloEntidad.h"
+#include "VistaAnimacion.h"
+#include "VistaAnimaciones.h"
 
 class VistaEntidad{
 
@@ -16,13 +18,14 @@ class VistaEntidad{
 		double fps;
 		double delay;
 		std::list<std::list<std::string>> listaAnimaciones;
+		VistaAnimacion* animacionActual;
+		VistaAnimaciones* animaciones;
 		int codigoAnimacion;
-		bool esNecesarioRefrescar;
-
+		bool esNecesarioRefrescar;		
 		static long contador; // Para generar ID's Automáticos
 
 	public:
-		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador);
+		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador);		
 		~VistaEntidad(void);
 
 		void actualizar(class Observable* s);
@@ -44,5 +47,8 @@ class VistaEntidad{
 
 		// Setters
 		void setEsNecesarioRefrescar(bool boolRefrescar);
+		void setAnimacion(std::string estado);
+		void graficar();
+		void setPantalla(SDL_Surface* screen);
 
 };

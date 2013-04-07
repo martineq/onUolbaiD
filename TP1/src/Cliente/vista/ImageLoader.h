@@ -6,6 +6,7 @@ const int SCREEN_BPP = 32;
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
+#include <sstream>
 #include "../../utils/Log/Log.h"
 #include "../../utils/SDLgfx/SDL_rotozoom.h"
 using namespace std;
@@ -25,6 +26,8 @@ public:
 
 	//devuelve la pantalla
 	SDL_Surface* levantarPantalla(double w, double h);
+
+	void rotar(int grados,string idImage, string newPosition);
 
 	bool iniciarSDL();
 

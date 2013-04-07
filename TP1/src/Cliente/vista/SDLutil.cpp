@@ -56,7 +56,8 @@ void SDLutil::graficar(){
 	offset.x = this->x;
 	offset.y = this->y;
 
-	colorkey = SDL_MapRGB(this->screen->format, 255, 0, 255);
+	//colorkey = SDL_MapRGB(this->screen->format, 255, 0, 255);	
+	colorkey = SDL_MapRGB(this->mySurface->format, 0, 0, 0);	
 	SDL_SetColorKey(this->mySurface, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorkey);
 	//SDL_DisplayFormat(source);	
     //Blit
