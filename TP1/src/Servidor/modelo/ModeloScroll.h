@@ -7,11 +7,13 @@
 #include "ModeloEntidad.h"
 #include <list>
 #include <math.h>
+#include <iostream>
 
 class ModeloScroll: public Observable{
 
 	private:
 		int x, y, pPantallaAncho, pPantallaAlto, tEscenarioAncho, tEscenarioAlto;
+		int pEscenarioAlto, pEscenarioAncho;
 		int margen, velocidad;
 		std::list<Observador*> observadores;
 		bool calcularPosicion(int mouseX, int mouseY);
