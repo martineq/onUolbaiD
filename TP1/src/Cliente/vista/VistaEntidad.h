@@ -1,12 +1,11 @@
 #pragma once
 
 #include "../../Servidor/modelo/ModeloEntidad.h"
-#include "../../utils/Componente Para La Vista/Componente.h"
 #include "VistaAnimacion.h"
 #include "VistaAnimaciones.h"
 
 
-class VistaEntidad:public Componente{
+class VistaEntidad{
 
 	private:
 		int id;
