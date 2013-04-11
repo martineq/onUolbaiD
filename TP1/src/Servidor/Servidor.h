@@ -10,12 +10,28 @@
 #include <SDL.h>
 
 //TODO: Borrar
+#define ALTO_PANTALLA 500
+#define ANCHO_PANTALLA 1000
+#define ALTO_IMAGEN 70
+#define ANCHO_IMAGEN 50
 #define ALTO_MATRIZ 20
 #define ANCHO_MATRIZ 20
 #define DESPLAZAMIENTO_SCROLL 1
 
 class Servidor {
 	private:
+		static SDL_Surface* cargarImagen(const char* archivoImagen) {
+			SDL_Surface* imagen = SDL_LoadBMP(archivoImagen);
+			SDL_Surface* imagenOptimizada = SDL_DisplayFormat(imagen);
+			
+			SDL_FreeSurface(imagen);
+
+			Uint32 colorFondo = SDL_MapRGB(imagenOptimizada->format, 0xFF, 0xFF, 0xFF);
+			SDL_SetColorKey(imagenOptimizada, SDL_SRCCOLORKEY, colorFondo);
+
+			return imagenOptimizada;
+		}
+
 		ModeloJuego modeloJuego;
 
 		//TODO: Borrar
@@ -27,7 +43,7 @@ class Servidor {
 			public:
 				VistaEntidad(SDL_Surface* nivel) {
 					this->_nivel = nivel;
-					this->_personaje = SDL_LoadBMP("img/sprite.bmp");
+					this->_personaje = Servidor::cargarImagen("img/SORA_S1.bmp");
 				}
 
 				virtual ~VistaEntidad() {
@@ -38,9 +54,9 @@ class Servidor {
 					ModeloEntidad* modeloEntidad = (ModeloEntidad*)s;
 					SDL_Rect destino;
 
-					destino.h = 32;
-					destino.w = 32;
-					destino.x = modeloEntidad->pixelSiguiente().x;
+					destino.h = ALTO_IMAGEN;
+					destino.w = ANCHO_IMAGEN;
+					destino.x = modeloEntidad->pixelSiguiente().x - (ANCHO_IMAGEN / 2);
 					destino.y = modeloEntidad->pixelSiguiente().y;
 
 					SDL_BlitSurface(this->_personaje, NULL, this->_nivel, &destino);
@@ -58,8 +74,8 @@ class Servidor {
 				VistaScroll(SDL_Surface* pantalla, SDL_Surface* nivel) {
 					this->_pantalla = pantalla;
 					this->_nivel = nivel;
-					this->_destinoScroll.w = 500;
-					this->_destinoScroll.h = 500;
+					this->_destinoScroll.w = ANCHO_PANTALLA;
+					this->_destinoScroll.h = ALTO_PANTALLA;
 				}
 
 				virtual ~VistaScroll() {
@@ -90,23 +106,29 @@ class Servidor {
 			Posicion::convertirTileAPixel(ALTO_MATRIZ, ANCHO_MATRIZ - 1, ALTO_MATRIZ - 1, dummy, alto);
 			Posicion::convertirTileAPixel(ALTO_MATRIZ, ANCHO_MATRIZ - 1, 0, ancho, dummy);
 
-			alto += ALTO_TILE;
+			alto += ALTO_TILE + (ALTO_IMAGEN / 4);
 			ancho += ANCHO_TILE / 2;
 
 			SDL_Init(SDL_INIT_VIDEO);
 
-			SDL_Surface* pantalla = SDL_SetVideoMode(500, 500, 0, 0);
-			SDL_Surface* tile = SDL_LoadBMP("img/tile.bmp");
+			SDL_Surface* pantalla = SDL_SetVideoMode(ANCHO_PANTALLA, ALTO_PANTALLA, 0, 0);
+			SDL_Surface* tile = Servidor::cargarImagen("img/tile.bmp");
 			SDL_Surface* nivel = SDL_CreateRGBSurface(SDL_SWSURFACE, ancho, alto, 32, 0, 0, 0, 0);
 
 			posicionPersonaje.x = 0;
 			posicionPersonaje.y = 0;
 			
-			ModeloScroll modeloScroll(500, 500, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, 0);
+			ModeloNivel modeloNivel;
+			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, 0);
 			ModeloEntidad modeloEntidad(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			VistaScroll vistaScroll(pantalla, nivel);
 			VistaEntidad vistaEntidad(nivel);
 			
+			modeloNivel.setAltoTiles(ALTO_MATRIZ);
+			modeloNivel.setAnchoTiles(ANCHO_MATRIZ);
+			modeloNivel.agregarScroll(&modeloScroll);
+			modeloNivel.agregarJugador(&modeloEntidad);
+
 			modeloScroll.agregarObservador(&vistaScroll);
 			modeloEntidad.agregarObservador(&vistaEntidad);
 			
@@ -117,7 +139,7 @@ class Servidor {
 				for (yt = 0; yt < ALTO_MATRIZ; yt++) {
 					Posicion::convertirTileAPixel(ALTO_MATRIZ, xt, yt, xp, yp);
 					destinoPersonaje.x = (Sint16)xp - (ANCHO_TILE / 2);
-					destinoPersonaje.y = (Sint16)yp;
+					destinoPersonaje.y = (Sint16)yp + (ALTO_IMAGEN / 4);
 					SDL_BlitSurface(tile, NULL, nivel, &destinoPersonaje);
 				}
 			}
@@ -126,15 +148,13 @@ class Servidor {
 			
 			while (!salir) {
 				if (SDL_PollEvent(&evento)) {
-					if (evento.type == SDL_MOUSEMOTION) {
-						modeloScroll.actualizar(evento.motion.x, evento.motion.y);
-					}
-					else if (evento.type == SDL_MOUSEBUTTONDOWN) {
-						Posicion::convertirPixelATile(ALTO_MATRIZ, evento.motion.x + modeloScroll.getX(), evento.motion.y + modeloScroll.getY(), posicionPersonaje.x, posicionPersonaje.y);
-						modeloEntidad.mover(posicionPersonaje);
-					}
+					/*if (evento.type == SDL_MOUSEMOTION)
+						modeloNivel.moverScroll(evento.motion.x, evento.motion.y, 0);
+					else */if (evento.type == SDL_MOUSEBUTTONDOWN)
+						modeloNivel.moverPersonaje(evento.motion.x + modeloScroll.getX(), evento.motion.y + modeloScroll.getY(), 0);
 				}
-
+				
+				modeloNivel.moverScroll(evento.motion.x, evento.motion.y, 0);
 				vistaScroll.dibujar();
 
 				salir = (evento.type == SDL_QUIT);

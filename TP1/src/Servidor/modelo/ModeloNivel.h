@@ -45,6 +45,7 @@ class ModeloNivel{
 		void removerScroll(ModeloScroll *scroll);
 
 		void moverScroll (int mouseX, int mouseY, int id);
+		void moverPersonaje (int mouseX, int mouseY, int id);
 };
 
 // TODO: Ver la forma de asegurar que el ID de ModeloEntidad y VistaEntidad coincidan. 

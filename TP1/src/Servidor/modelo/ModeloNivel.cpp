@@ -152,3 +152,12 @@ void ModeloNivel::moverScroll (int mouseX, int mouseY, int id) {
 			}
 		}
 }
+
+void ModeloNivel::moverPersonaje (int mouseX, int mouseY, int id) {
+	if (this->listaJugadores.size() == 0)
+		return;
+	ModeloEntidad* personaje = *this->listaJugadores.begin();
+	Posicion posicion;
+	Posicion::convertirPixelATile(this->altoTiles, mouseX, mouseY, posicion.x, posicion.y);
+	personaje->mover(posicion);
+}

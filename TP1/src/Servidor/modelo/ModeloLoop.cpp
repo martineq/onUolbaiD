@@ -38,8 +38,7 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 		if (this->_modeloEvento.getMouseClickDerecho()) {
 			int x = 0, y = 0;
 			Posicion::convertirPixelATile(modeloNivel.getAltoTiles(),mousePosX,mousePosY, x, y);
-			//TODO: implementar
-			//modeloNivel.moverPersonaje(x, y);
+			modeloNivel.moverPersonaje(x, y, 0);
 		}
 
 

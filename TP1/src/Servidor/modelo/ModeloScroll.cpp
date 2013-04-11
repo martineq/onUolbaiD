@@ -23,19 +23,19 @@ ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenario
 	std::cout << pEscenarioAncho << " - " << tEscenarioAncho <<std::endl;
 
 	//La idea es que el personaje arranque en el medio de la pantalla
-	//Posicion::convertirTileAPixel(this->tEscenarioAlto, personajeX, personajeY, this->x, this->y);
-	//this->x -= floor((double)(this->pPantallaAncho / 2));
-	//if (this->x < 0) {
-	//	this->x =0;
-	//}
+	Posicion::convertirTileAPixel(this->tEscenarioAlto, personajeX, personajeY, this->x, this->y);
+	
+	this->x -= this->pPantallaAncho / 2;
+	if (this->x < 0) {
+		this->x = 0;
+	}
 
-	//this->y -= floor((double)(this->pPantallaAlto / 2));
-	//if (this->y < 0) {
-	//	this->y =0;
-	//}
-	this->x = 0;
-	this->y = 0;
+	this->y -= this->pPantallaAlto / 2;
+	if (this->y < 0) {
+		this->y =0;
+	}
 
+	std::cout << "(" << this->x << "," << this->y << ")" << std::endl;
 }
 
 ModeloScroll::~ModeloScroll(void){
