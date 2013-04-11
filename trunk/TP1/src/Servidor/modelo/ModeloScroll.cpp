@@ -19,9 +19,6 @@ ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenario
 	pEscenarioAlto += ALTO_TILE;
 	pEscenarioAncho += ANCHO_TILE / 2;
 
-	std::cout << pEscenarioAlto << " - " << tEscenarioAlto << std::endl;
-	std::cout << pEscenarioAncho << " - " << tEscenarioAncho <<std::endl;
-
 	//La idea es que el personaje arranque en el medio de la pantalla
 	Posicion::convertirTileAPixel(this->tEscenarioAlto, personajeX, personajeY, this->x, this->y);
 	
@@ -34,19 +31,14 @@ ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenario
 	if (this->y < 0) {
 		this->y =0;
 	}
-
-	std::cout << "(" << this->x << "," << this->y << ")" << std::endl;
 }
 
-ModeloScroll::~ModeloScroll(void){
+ModeloScroll::~ModeloScroll(){
 }
 
 bool ModeloScroll::calcularPosicion(int mouseX, int mouseY) {
 	bool chg = false;
 	
-	/*int maxX = 10*this->tEscenarioAncho;
-	int maxY = 10*this->tEscenarioAlto;*/
-
 	if (mouseX <= this->margen) { // toco el margen izquierdo
 		this->x -= velocidad;
 		chg = true;
@@ -114,19 +106,7 @@ void ModeloScroll::cambiarEstado(){
 	this->notificarObservadores();
 }
 
-//Comentado porque se va a usar el agregarObservador de la interfaz
-/*void ModeloScroll::agregarObservador(Observador *m) {
-	this->observadores.push_back(m);
-
-}*/
-
-//Comentado porque habría que implementar removerObservador en la interfaz
-/*void ModeloScroll::removerObservador(Observador *m) {
-	this->observadores.remove(m);
-
-}*/
-
-int ModeloScroll::obtenerId(void){	// Para el ID
+int ModeloScroll::obtenerId(){	// Para el ID
     return (this->id);
 }
 

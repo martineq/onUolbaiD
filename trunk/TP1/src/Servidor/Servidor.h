@@ -120,17 +120,17 @@ class Servidor {
 			
 			ModeloNivel modeloNivel;
 			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, 0);
-			ModeloEntidad modeloEntidad(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
+			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			VistaScroll vistaScroll(pantalla, nivel);
 			VistaEntidad vistaEntidad(nivel);
 			
 			modeloNivel.setAltoTiles(ALTO_MATRIZ);
 			modeloNivel.setAnchoTiles(ANCHO_MATRIZ);
 			modeloNivel.agregarScroll(&modeloScroll);
-			modeloNivel.agregarJugador(&modeloEntidad);
+			modeloNivel.agregarJugador(&modeloJugador);
 
 			modeloScroll.agregarObservador(&vistaScroll);
-			modeloEntidad.agregarObservador(&vistaEntidad);
+			modeloJugador.agregarObservador(&vistaEntidad);
 			
 			destinoPersonaje.h = ALTO_TILE;
 			destinoPersonaje.w = ANCHO_TILE;
@@ -151,7 +151,7 @@ class Servidor {
 					/*if (evento.type == SDL_MOUSEMOTION)
 						modeloNivel.moverScroll(evento.motion.x, evento.motion.y, 0);
 					else */if (evento.type == SDL_MOUSEBUTTONDOWN)
-						modeloNivel.moverPersonaje(evento.motion.x + modeloScroll.getX(), evento.motion.y + modeloScroll.getY(), 0);
+						modeloNivel.moverJugador(evento.motion.x + modeloScroll.getX(), evento.motion.y + modeloScroll.getY(), 0);
 				}
 				
 				modeloNivel.moverScroll(evento.motion.x, evento.motion.y, 0);
