@@ -15,17 +15,13 @@ class ModeloScroll: public Observable{
 		int x, y, pPantallaAncho, pPantallaAlto, tEscenarioAncho, tEscenarioAlto;
 		int pEscenarioAlto, pEscenarioAncho;
 		int margen, velocidad;
-		std::list<Observador*> observadores;
 		bool calcularPosicion(int mouseX, int mouseY);
 
 		int id;	// ID a partir del id del jugador
 
-	
-	
-
 	public:
 		ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje);
-		~ModeloScroll(void);
+		virtual ~ModeloScroll();
 
 		void actualizar(int mouseX, int mouseY);
 		int getX();
@@ -36,16 +32,11 @@ class ModeloScroll: public Observable{
 		int getAncho();
 		int getMargen();
 		
-		//void agregarObservador(Observador *m);
-		//void removerObservador(Observador *m);
-
 		void cambiarEstado();
-		int obtenerId(void);
+		int obtenerId();
 
 		bool enMargen(int x, int y);
-		
 };
-
 
 // TODO: Importante: El método cambiarEstado() tiene que estar regulado por un timer para poder controlar
 //                   el tráfico de datos que le será enviado al VistaScroll. La idea es que el ModeloLoop
