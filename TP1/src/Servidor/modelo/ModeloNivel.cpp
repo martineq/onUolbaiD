@@ -37,7 +37,7 @@ void ModeloNivel::agregarObservadoresJugador(std::list<Observador*> listaObserva
 		// Busco al que quiero observar
 		for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++) {
 			// Cuando lo encuentro, lo agrego
-			if ((*jugador)->id() == ((Identificable*)*observador)->id()) 
+			if ((*jugador)->id() == dynamic_cast<Identificable*>(*observador)->id()) 
 				(*jugador)->agregarObservador(*observador);
 		}
 	}
@@ -45,32 +45,24 @@ void ModeloNivel::agregarObservadoresJugador(std::list<Observador*> listaObserva
 
 void ModeloNivel::agregarObservadoresEntidad(std::list<Observador*> listaObservadoresEntidad) {
 	// Itero sobre los observadores
-	for (std::list<Observador*>::iterator it = listaObservadoresEntidad.begin(); it != listaObservadoresEntidad.end(); it++) {
-		Observador* pObservador = *it;
-		
+	for (std::list<Observador*>::iterator observador = listaObservadoresEntidad.begin(); observador != listaObservadoresEntidad.end(); observador++) {
 		// Busco al que quiero observar
-		for (std::list<ModeloEntidad*>::iterator it2 = this->listaEntidades.begin(); it2 != this->listaEntidades.end(); it2++) {
-			ModeloEntidad* pObservado = *it2;
-
+		for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++) {
 			// Cuando lo encuentro, lo agrego
-			if (pObservado->id() == ((Identificable*)pObservador)->id()) 
-				pObservado->agregarObservador(pObservador);
+			if ((*entidad)->id() == dynamic_cast<Identificable*>(*observador)->id()) 
+				(*entidad)->agregarObservador(*observador);
 		}
 	}
 }
 
 void ModeloNivel::agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll){
 	// Itero sobre los observadores
-	for (std::list<Observador*>::iterator it = listaObservadoresScroll.begin(); it != listaObservadoresScroll.end(); it++) {
-		Observador* pObservador = *it;
-		
+	for (std::list<Observador*>::iterator observador = listaObservadoresScroll.begin(); observador != listaObservadoresScroll.end(); observador++) {
 		// Busco al que quiero observar
-		for (std::list<ModeloScroll*>::iterator it2 = this->listaScroll.begin(); it2 != this->listaScroll.end(); it2++) {
-			ModeloScroll* pObservado = *it2;
-
+		for (std::list<ModeloScroll*>::iterator scroll = this->listaScroll.begin(); scroll != this->listaScroll.end(); scroll++) {
 			// Cuando lo encuentro, lo agrego
-			if (pObservado->id() == ((Identificable*)pObservador)->id()) 
-				pObservado->agregarObservador(pObservador);
+			if ((*scroll)->id() == dynamic_cast<Identificable*>(*observador)->id()) 
+				(*scroll)->agregarObservador(*observador);
 		}
 	}
 }

@@ -23,6 +23,10 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_modeloMovimientoActual = NULL;
 	this->_altoMapa = altoMapa;
 	this->_anchoMapa = anchoMapa;
+
+	this->_direccion = CENTRO;
+	Posicion::convertirTileAPixel(altoMapa, this->_posicionActual.x, this->_posicionActual.y, this->_pixelActual.x, this->_pixelActual.y);
+	Posicion::convertirTileAPixel(altoMapa, this->_posicionSiguiente.x, this->_posicionSiguiente.y, this->_pixelSiguiente.x, this->_pixelSiguiente.y);
 }
 
 ModeloEntidad::~ModeloEntidad() {
