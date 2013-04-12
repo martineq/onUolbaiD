@@ -1,5 +1,7 @@
 #include "ModeloLoop.h"
 
+using namespace std;
+
 ModeloLoop::ModeloLoop() {
 }
 
@@ -10,31 +12,30 @@ Observador* ModeloLoop::obtenerObservadorEvento() {
 	return &this->_modeloEvento;
 }
 
-void ModeloLoop::asignarModeloNivel(ModeloNivel* modeloNivel) {
-	this->_modeloEvento.asignarModeloNivel(modeloNivel);
-}
-
 bool ModeloLoop::loop(ModeloNivel& modeloNivel) {
-	if (this->_modeloEvento.getActualizado() == true) {
-		int mousePosX = this->_modeloEvento.getMousePosX();
-		int mousePosY = this->_modeloEvento.getMousePosY();
+	this->_modeloEvento.asignarModeloNivel(&modeloNivel);
 
-		std::list<ModeloScroll*> listaScroll = modeloNivel.getListaScroll();
-		
-		for (std::list<ModeloScroll*>::iterator it = listaScroll.begin(); it != listaScroll.end(); it++) {
-			ModeloScroll* scroll = *it;
+	if (!this->_modeloEvento.getActualizado())
+		return true;
+	
+	int mousePosX = this->_modeloEvento.getMousePosX();
+	int mousePosY = this->_modeloEvento.getMousePosY();
 
-			//TODO: Verificar la lista de ids (TP2)
-			if (scroll->enMargen(mousePosX, mousePosY) == true)
-				scroll->actualizar(mousePosX, mousePosY);
-		}
+	list<ModeloScroll*> listaScroll = modeloNivel.getListaScroll();
+	
+	for (std::list<ModeloScroll*>::iterator scroll = listaScroll.begin(); scroll != listaScroll.end(); scroll++) {
+		//TODO: Verificar la lista de ids (TP2)
+		(*scroll)->actualizar(mousePosX, mousePosY);
+	}
 
-		// Si se hizo clic con el boton derecho del mouse avisa al personaje que se mueva
-		if (this->_modeloEvento.getMouseClickDerecho()) {
-			int x = 0, y = 0;
-			Posicion::convertirPixelATile(modeloNivel.getAltoTiles(),mousePosX,mousePosY, x, y);
-			modeloNivel.moverJugador(x, y, 0);
-		}
+	// Si se hizo clic con el boton derecho del mouse avisa al personaje que se mueva
+	if (this->_modeloEvento.getMouseClickDerecho() == 1) {
+		int x = 0, y = 0;
+		//TODO: Aca necesito el scroll para calcular bien el deplazamiento en el nivel
+		//	Como por ahora solo hay un scroll solo tomo el primero de la lista
+		ModeloScroll* modeloScroll = *listaScroll.begin();
+		Posicion::convertirPixelATile(modeloNivel.getAltoTiles(), mousePosX + modeloScroll->getX(), mousePosY + modeloScroll->getY(), x, y);
+		modeloNivel.moverJugador(x, y, 0);
 	}
 
 	this->_modeloEvento.setActualizado(false);

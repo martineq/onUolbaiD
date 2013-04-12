@@ -4,8 +4,6 @@
 #include "./ModeloScroll.h"
 #include "../../utils/Observador/Observador.h"
 #include "../../utils/Observador/Identificable.h"
-#include "../../Cliente/vista/VistaEntidad.h"
-#include "../../Cliente/vista/VistaScroll.h"
 
 class ModeloNivel {
 	private:
@@ -44,7 +42,7 @@ class ModeloNivel {
 		void removerScroll(ModeloScroll *scroll);
 
 		void moverScroll(int mouseX, int mouseY, int id);
-		void moverJugador(int mouseX, int mouseY, int id);
+		void moverJugador(int tileX, int tileY, int id);
 };
 
 // TODO: Ver la forma de asegurar que el ID de ModeloEntidad y VistaEntidad coincidan. 

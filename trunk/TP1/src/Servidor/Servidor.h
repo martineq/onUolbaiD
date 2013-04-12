@@ -127,11 +127,15 @@ class Servidor {
 			posicionPersonaje.x = 0;
 			posicionPersonaje.y = 0;
 			
+			ControladorEvento controladorEvento;
+			ModeloLoop modeloLoop;
 			ModeloNivel modeloNivel;
-			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 0);
+			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, modeloJugador.id());
 			VistaEntidad vistaJugador(nivel);
 			VistaScroll vistaScroll(pantalla, nivel);
+
+			controladorEvento.agregarObservador(modeloLoop.obtenerObservadorEvento());
 
 			modeloNivel.setAltoTiles(ALTO_MATRIZ);
 			modeloNivel.setAnchoTiles(ANCHO_MATRIZ);
@@ -162,13 +166,15 @@ class Servidor {
 			
 			while (!salir) {
 				if (SDL_PollEvent(&evento)) {
-					/*if (evento.type == SDL_MOUSEMOTION)
-						modeloNivel.moverScroll(evento.motion.x, evento.motion.y, 0);
-					else */if (evento.type == SDL_MOUSEBUTTONDOWN)
-						modeloNivel.moverJugador(evento.motion.x + modeloScroll.getX(), evento.motion.y + modeloScroll.getY() - (ALTO_IMAGEN / 4), 0);
+					if (evento.type == SDL_MOUSEMOTION)
+						controladorEvento.setPosicionMouseXY(evento.motion.x, evento.motion.y);
+					else if (evento.type == SDL_MOUSEBUTTONDOWN)
+						controladorEvento.setClicMouseBotonDerecho(1);
+					else if (evento.type == SDL_MOUSEBUTTONUP)
+						controladorEvento.setClicMouseBotonDerecho(0);
 				}
 				
-				modeloNivel.moverScroll(evento.motion.x, evento.motion.y, modeloJugador.id());
+				modeloLoop.loop(modeloNivel);
 				vistaScroll.dibujar();
 
 				salir = (evento.type == SDL_QUIT);
