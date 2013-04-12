@@ -64,7 +64,7 @@ class Servidor {
 				}
 
 				int id() const {
-					return 0;
+					return 1;
 				}
 		};
 
@@ -99,7 +99,7 @@ class Servidor {
 				}
 
 				int id() const {
-					return 0;
+					return 1;
 				}
 		};
 
@@ -138,8 +138,13 @@ class Servidor {
 			modeloNivel.agregarScroll(&modeloScroll);
 			modeloNivel.agregarJugador(&modeloJugador);
 
-			modeloJugador.agregarObservador(&vistaJugador);
-			modeloScroll.agregarObservador(&vistaScroll);
+			std::list<Observador*> listaObservadoresJugador;
+			listaObservadoresJugador.push_back(&vistaJugador);
+			modeloNivel.agregarObservadoresJugador(listaObservadoresJugador);
+			
+			std::list<Observador*> listaObservadoresScroll;
+			listaObservadoresScroll.push_back(&vistaScroll);
+			modeloNivel.agregarObservadoresScroll(listaObservadoresScroll);
 			
 			destinoPersonaje.h = ALTO_TILE;
 			destinoPersonaje.w = ANCHO_TILE;
