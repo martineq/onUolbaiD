@@ -3,7 +3,7 @@
 long VistaScroll::contador = 0; // Para el ID
 
 VistaScroll::VistaScroll(double x,double y,double alto,double ancho){
-	this->id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
+	this->_id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
 	this->x = x;
 	this->y = y;
 	this->alto = alto;
@@ -13,6 +13,10 @@ VistaScroll::VistaScroll(double x,double y,double alto,double ancho){
 
 VistaScroll::~VistaScroll(void){
 
+}
+
+int VistaScroll::id() const {
+    return this->_id;
 }
 
 void VistaScroll::actualizar(class Observable* s){
@@ -26,9 +30,9 @@ void VistaScroll::actualizar(class Observable* s){
 */
 }
 
-int VistaScroll::getId(void){
+/*int VistaScroll::getId(void){
     return (this->id);
-}
+}*/
 
 double VistaScroll::getX(void){
     return (this->x);	

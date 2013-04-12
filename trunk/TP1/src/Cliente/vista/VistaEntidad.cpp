@@ -26,7 +26,7 @@ long VistaEntidad::contador = 0; // Para el ID
 }
 */
 VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador){
-	this->id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
+	this->_id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
 	this->x = x;
 	this->y = y;
 	this->alto = alto;
@@ -99,14 +99,18 @@ void VistaEntidad::actualizar(class Observable* s){
 
 }
 
+int VistaEntidad::id() const {
+    return this->_id;
+}
+
 
 bool VistaEntidad::getEsJugador(void){
 	return (this->esJugador);
 }
 
-int VistaEntidad::getId(void){	// Para el ID
+/*int VistaEntidad::getId(void){	// Para el ID
     return (this->id);
-}
+}*/
 
 double VistaEntidad::getX(void){
 	return (this->x);

@@ -1,12 +1,15 @@
 #pragma once
 
 #include "../../Servidor/modelo/ModeloScroll.h"
+#include "../../utils/Observador/Observador.h"
+#include "../../utils/Observador/Identificable.h"
 #include <winsock.h>  // Para usar InterlockedIncrement()
 
-class VistaScroll{
+class VistaScroll: public Observador, public Identificable{
 
 	private:
-		int id;
+		//int id;
+		int _id;
 		double x;
 		double y;
 		double alto;
@@ -20,9 +23,10 @@ class VistaScroll{
 		~VistaScroll(void);
 
 		void actualizar(class Observable* s);
+		int id() const;
 
 		// Getters
-		int getId(void);
+		//int getId(void);
 		double getX(void);
 		double getY(void);
 		double getAlto(void);

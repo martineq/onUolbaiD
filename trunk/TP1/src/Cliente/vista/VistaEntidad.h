@@ -3,12 +3,14 @@
 #include "../../Servidor/modelo/ModeloEntidad.h"
 #include "VistaAnimacion.h"
 #include "VistaAnimaciones.h"
+#include "../../utils/Observador/Observador.h"
+#include "../../utils/Observador/Identificable.h"
 
-
-class VistaEntidad{
+class VistaEntidad: public Observador, public Identificable{
 
 	private:
-		int id;
+		//int id;
+		int _id;
 		bool esJugador;
 		double x;
 		double y;
@@ -34,10 +36,11 @@ class VistaEntidad{
 		~VistaEntidad(void);
 
 		void actualizar(class Observable* s);
+		int id() const;
 
 		// Getters
 		bool getEsJugador(void);
-		int getId(void);
+		//int getId(void);
 		double getX(void);
 		double getY(void);
 		double getAlto(void);
