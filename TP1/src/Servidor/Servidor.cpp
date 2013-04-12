@@ -12,6 +12,10 @@ bool Servidor::iniciar(void){
 	return this->modeloJuego.iniciar();
 }
 
+void Servidor::agregarObservadoresJugador(std::list<Observador*>listaObservadoresJugador){
+	this->modeloJuego.agregarObservadoresJugador(listaObservadoresJugador);
+}
+
 void Servidor::agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll){
 	this->modeloJuego.agregarObservadoresScroll(listaObservadoresScroll);
 }

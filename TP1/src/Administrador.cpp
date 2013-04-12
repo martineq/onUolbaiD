@@ -42,6 +42,11 @@ void Administrador::vincularObservadores(void){
 	// Agrego los eventos que observan
 	this->cliente.agregarObservadorEventos(this->servidor.obtenerObservadorEvento());
 
+	// Agrego los jugadores que observan
+	std::list<Observador*> listaObservadoresJugador;	// En el futuro habra mas de un cliente, por eso es una lista
+	listaObservadoresJugador.push_back(this->cliente.obtenerObservadorJugador());
+	this->servidor.agregarObservadoresJugador(listaObservadoresJugador);
+
 	// Agrego las entidades que observan
 	this->servidor.agregarObservadoresEntidad(this->cliente.obtenerObservadoresEntidad());
 

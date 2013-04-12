@@ -186,9 +186,11 @@ class Servidor {
 		// Inicia el Modelo Juego
 		bool iniciar();
 		
-		void agregarObservadoresScroll(std::list<Observador*>);
+		void agregarObservadoresJugador(std::list<Observador*>listaObservadoresJugador);
+
+		void agregarObservadoresScroll(std::list<Observador*>listaObservadoresScroll);
 		
-		void agregarObservadoresEntidad(std::list<Observador*>);
+		void agregarObservadoresEntidad(std::list<Observador*>listaObservadoresEntidad);
 		
 		Observador* obtenerObservadorEvento();
 		

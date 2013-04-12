@@ -18,6 +18,7 @@ class VistaJuego{
 		VistaJuego(void);
 		~VistaJuego(void);
 
+		Observador* obtenerObservadorJugador(void);
 		Observador* obtenerObservadorScroll(void);
 		std::list<Observador*> obtenerObservadoresEntidad(void);
 		bool iniciar(void);		// Inicia el VistaFactory

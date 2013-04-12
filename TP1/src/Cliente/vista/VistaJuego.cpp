@@ -8,6 +8,10 @@ VistaJuego::~VistaJuego(void){
 
 }
 
+Observador* VistaJuego::obtenerObservadorJugador(void){
+	return this->vistaNivel.obtenerObservadorJugador();
+}
+
 Observador* VistaJuego::obtenerObservadorScroll(void){
 	return this->vistaNivel.obtenerObservadorScroll();
 }

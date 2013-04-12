@@ -17,6 +17,11 @@ Observador* Cliente::obtenerObservadorScroll(void){
 	return this->vistaJuego.obtenerObservadorScroll();
 }
 
+Observador* Cliente::obtenerObservadorJugador(void){
+	return this->vistaJuego.obtenerObservadorJugador();
+}
+
+
 std::list<Observador*> Cliente::obtenerObservadoresEntidad(void){
 	return this->vistaJuego.obtenerObservadoresEntidad();
 }
