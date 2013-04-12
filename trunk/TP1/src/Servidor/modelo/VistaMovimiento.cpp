@@ -89,6 +89,11 @@ void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
 	// Calcula la cantida de cuadros a mostrar y la duracion de cada uno
 	list<Posicion>::iterator iterador = posiciones.begin();
 	int cuadros = (this->_modeloEntidad->velocidad() * this->_fps) / 1000;
+	
+	// Si la cantidad de cuadros a mostrar es 0 al menos muestro el cuadro final
+	if (cuadros == 0)
+		cuadros = 1;
+	
 	int desplazamiento = posiciones.size() / cuadros;
 	DWORD espera = this->_modeloEntidad->velocidad() / cuadros;
 

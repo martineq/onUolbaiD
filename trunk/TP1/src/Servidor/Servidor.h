@@ -128,7 +128,7 @@ class Servidor {
 			posicionPersonaje.y = 0;
 			
 			ModeloNivel modeloNivel;
-			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
+			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 0);
 			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, modeloJugador.id());
 			VistaEntidad vistaJugador(nivel);
 			VistaScroll vistaScroll(pantalla, nivel);

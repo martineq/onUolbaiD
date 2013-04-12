@@ -45,18 +45,6 @@ class ModeloNivel {
 
 		void moverScroll(int mouseX, int mouseY, int id);
 		void moverJugador(int mouseX, int mouseY, int id);
-
-		void agregarObservadorJugador(Observador* observador) {
-			Identificable* identificable = (Identificable*)observador;
-			for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++) {
-				std::cout << "id jugador = " << (*jugador)->id() << std::endl;
-				std::cout << "id observador = " << identificable->id() << std::endl;
-				/*if ((*jugador)->id() == ((Identificable*)observador)->id())
-					(*jugador)->agregarObservador(observador);*/
-			}
-			std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin();
-			(*jugador)->agregarObservador(observador);
-		}
 };
 
 // TODO: Ver la forma de asegurar que el ID de ModeloEntidad y VistaEntidad coincidan. 
