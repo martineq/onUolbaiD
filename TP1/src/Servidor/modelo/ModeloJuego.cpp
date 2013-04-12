@@ -1,7 +1,6 @@
 #include "ModeloJuego.h"
 
 ModeloJuego::ModeloJuego() {
-	this->_modeloLoop.asignarModeloNivel(&this->_modeloNivel);
 }
 
 ModeloJuego::~ModeloJuego() {

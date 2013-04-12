@@ -100,18 +100,20 @@ void ModeloNivel::removerScroll(ModeloScroll *scroll) {
 }
 
 void ModeloNivel::moverScroll(int mouseX, int mouseY, int id) {
-	for (std::list<ModeloScroll*>::iterator it = this->listaScroll.begin(); it != this->listaScroll.end(); it++) {
-		if ((*it)->id() == id) {
-			(*it)->actualizar(mouseX, mouseY);
+	for (std::list<ModeloScroll*>::iterator scroll = this->listaScroll.begin(); scroll != this->listaScroll.end(); scroll++) {
+		if ((*scroll)->id() == id) {
+			(*scroll)->actualizar(mouseX, mouseY);
+			return;
 		}
 	}
 }
 
-void ModeloNivel::moverJugador(int mouseX, int mouseY, int id) {
+void ModeloNivel::moverJugador(int tileX, int tileY, int id) {
 	if (this->listaJugadores.size() == 0)
 		return;
 	ModeloEntidad* personaje = *this->listaJugadores.begin();
 	Posicion posicion;
-	Posicion::convertirPixelATile(this->altoTiles, mouseX, mouseY, posicion.x, posicion.y);
+	posicion.x = tileX;
+	posicion.y = tileY;
 	personaje->mover(posicion);
 }
