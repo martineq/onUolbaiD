@@ -33,16 +33,12 @@ int ModeloNivel::getAltoTiles() {
 
 void ModeloNivel::agregarObservadoresJugador(std::list<Observador*> listaObservadoresJugador) {
 	// Itero sobre los observadores
-	for (std::list<Observador*>::iterator it = listaObservadoresJugador.begin(); it != listaObservadoresJugador.end(); it++) {
-		Observador* pObservador = *it;
-		
+	for (std::list<Observador*>::iterator observador = listaObservadoresJugador.begin(); observador != listaObservadoresJugador.end(); observador++) {
 		// Busco al que quiero observar
-		for (std::list<ModeloEntidad*>::iterator it2 = this->listaJugadores.begin(); it2 != this->listaJugadores.end(); it2++) {
-			ModeloEntidad* pObservado = *it2;
-
+		for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++) {
 			// Cuando lo encuentro, lo agrego
-			if (pObservado->obtenerId() == ((VistaScroll*)pObservador)->getId()) 
-				pObservado->agregarObservador(pObservador);
+			if ((*jugador)->id() == ((Identificable*)*observador)->id()) 
+				(*jugador)->agregarObservador(*observador);
 		}
 	}
 }
@@ -57,7 +53,7 @@ void ModeloNivel::agregarObservadoresEntidad(std::list<Observador*> listaObserva
 			ModeloEntidad* pObservado = *it2;
 
 			// Cuando lo encuentro, lo agrego
-			if (pObservado->obtenerId() == ((VistaScroll*)pObservador)->getId()) 
+			if (pObservado->id() == ((Identificable*)pObservador)->id()) 
 				pObservado->agregarObservador(pObservador);
 		}
 	}
@@ -73,7 +69,7 @@ void ModeloNivel::agregarObservadoresScroll(std::list<Observador*> listaObservad
 			ModeloScroll* pObservado = *it2;
 
 			// Cuando lo encuentro, lo agrego
-			if ( pObservado->obtenerId() == ((VistaScroll*)pObservador)->getId()) 
+			if (pObservado->id() == ((Identificable*)pObservador)->id()) 
 				pObservado->agregarObservador(pObservador);
 		}
 	}
@@ -113,7 +109,7 @@ void ModeloNivel::removerScroll(ModeloScroll *scroll) {
 
 void ModeloNivel::moverScroll(int mouseX, int mouseY, int id) {
 	for (std::list<ModeloScroll*>::iterator it = this->listaScroll.begin(); it != this->listaScroll.end(); it++) {
-		if ((*it)->obtenerId() == id) {
+		if ((*it)->id() == id) {
 			(*it)->actualizar(mouseX, mouseY);
 		}
 	}

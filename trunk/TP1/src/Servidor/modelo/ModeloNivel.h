@@ -3,16 +3,17 @@
 #include "./ModeloEntidad.h"
 #include "./ModeloScroll.h"
 #include "../../utils/Observador/Observador.h"
+#include "../../utils/Observador/Identificable.h"
 #include "../../Cliente/vista/VistaEntidad.h"
 #include "../../Cliente/vista/VistaScroll.h"
 
-class ModeloNivel{
+class ModeloNivel {
 	private:
 		int altoTiles;
 		int anchoTiles;
-		std::list <ModeloEntidad*> listaJugadores;
-		std::list <ModeloScroll*> listaScroll;
-		std::list <ModeloEntidad*> listaEntidades;
+		std::list<ModeloEntidad*> listaJugadores;
+		std::list<ModeloScroll*> listaScroll;
+		std::list<ModeloEntidad*> listaEntidades;
 
 	public:
 		ModeloNivel();

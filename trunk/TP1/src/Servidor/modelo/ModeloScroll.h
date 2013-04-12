@@ -2,22 +2,21 @@
 
 #include <winsock.h>  // Para usar InterlockedIncrement()
 #include "../../utils/Observador/Observable.h"
-#include "../../utils/Observador/Observador.h"
+#include "../../utils/Observador/Identificable.h"
 #include "../../utils/Constantes/Constantes.h"
 #include "ModeloEntidad.h"
 #include <list>
 #include <math.h>
 #include <iostream>
 
-class ModeloScroll: public Observable{
-
+class ModeloScroll: public Observable, public Identificable {
 	private:
 		int x, y, pPantallaAncho, pPantallaAlto, tEscenarioAncho, tEscenarioAlto;
 		int pEscenarioAlto, pEscenarioAncho;
 		int margen, velocidad;
 		bool calcularPosicion(int mouseX, int mouseY);
 
-		int id;	// ID a partir del id del jugador
+		int _id;	// ID a partir del id del jugador
 
 	public:
 		ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje);
@@ -33,7 +32,7 @@ class ModeloScroll: public Observable{
 		int getMargen();
 		
 		void cambiarEstado();
-		int obtenerId();
+		int id() const;
 
 		bool enMargen(int x, int y);
 };

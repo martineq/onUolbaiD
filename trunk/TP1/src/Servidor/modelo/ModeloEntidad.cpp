@@ -39,7 +39,7 @@ void ModeloEntidad::cambiarEstado() {
 	this->notificarObservadores();
 }
 
-int ModeloEntidad::obtenerId() const {
+int ModeloEntidad::id() const {
     return this->_id;
 }
 

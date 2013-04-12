@@ -10,7 +10,7 @@ ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenario
 	this->margen = tMargen;
 	this->velocidad = tVelocidad;
 	
-	this->id = idPersonaje;
+	this->_id = idPersonaje;
 
 	int dummy;
 	Posicion::convertirTileAPixel(tEscenarioAlto, tEscenarioAncho - 1, tEscenarioAlto - 1, dummy, pEscenarioAlto); 
@@ -106,8 +106,8 @@ void ModeloScroll::cambiarEstado(){
 	this->notificarObservadores();
 }
 
-int ModeloScroll::obtenerId(){	// Para el ID
-    return (this->id);
+int ModeloScroll::id() const {
+    return this->_id;
 }
 
 bool ModeloScroll::enMargen(int x, int y) {

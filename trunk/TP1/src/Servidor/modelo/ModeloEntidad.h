@@ -7,6 +7,7 @@
 
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"
+#include "../../utils/Observador/Identificable.h"
 #include "../../utils/Hilos/Hilo.h"
 
 typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
@@ -45,7 +46,7 @@ typedef struct Posicion {
 	}
 } Posicion;
 
-class ModeloEntidad : public Observable {
+class ModeloEntidad : public Observable, public Identificable {
 	private:
 		class ModeloMovimiento : public Hilo, public Observable {
 			private:
@@ -118,7 +119,7 @@ class ModeloEntidad : public Observable {
 
 		void cambiarEstado();
 
-		int obtenerId() const;
+		int id() const;
 
 		bool esJugador() const;
 

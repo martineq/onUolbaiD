@@ -8,6 +8,7 @@
 
 //TODO: Borrar
 #include <SDL.h>
+#include "../utils/Observador/Identificable.h"
 
 //TODO: Borrar
 #define ALTO_PANTALLA 500
@@ -35,7 +36,7 @@ class Servidor {
 		ModeloJuego modeloJuego;
 
 		//TODO: Borrar
-		class VistaEntidad : public Observador {
+		class VistaEntidad : public Observador, public Identificable {
 			private:
 				SDL_Surface* _nivel;
 				SDL_Surface* _personaje;
@@ -61,10 +62,14 @@ class Servidor {
 
 					SDL_BlitSurface(this->_personaje, NULL, this->_nivel, &destino);
 				}
+
+				int id() const {
+					return 0;
+				}
 		};
 
 		//TODO: Borrar
-		class VistaScroll : public Observador {
+		class VistaScroll : public Observador, public Identificable {
 			private:
 				SDL_Surface* _pantalla;
 				SDL_Surface* _nivel;
@@ -91,6 +96,10 @@ class Servidor {
 				void dibujar() {
 					SDL_BlitSurface(this->_nivel, &this->_destinoScroll, this->_pantalla, NULL);
 					SDL_UpdateRect(this->_pantalla, 0, 0, 0, 0);
+				}
+
+				int id() const {
+					return 0;
 				}
 		};
 
@@ -119,18 +128,18 @@ class Servidor {
 			posicionPersonaje.y = 0;
 			
 			ModeloNivel modeloNivel;
-			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, 0);
 			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
+			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, modeloJugador.id());
+			VistaEntidad vistaJugador(nivel);
 			VistaScroll vistaScroll(pantalla, nivel);
-			VistaEntidad vistaEntidad(nivel);
-			
+
 			modeloNivel.setAltoTiles(ALTO_MATRIZ);
 			modeloNivel.setAnchoTiles(ANCHO_MATRIZ);
 			modeloNivel.agregarScroll(&modeloScroll);
 			modeloNivel.agregarJugador(&modeloJugador);
 
+			modeloJugador.agregarObservador(&vistaJugador);
 			modeloScroll.agregarObservador(&vistaScroll);
-			modeloJugador.agregarObservador(&vistaEntidad);
 			
 			destinoPersonaje.h = ALTO_TILE;
 			destinoPersonaje.w = ANCHO_TILE;
@@ -151,10 +160,10 @@ class Servidor {
 					/*if (evento.type == SDL_MOUSEMOTION)
 						modeloNivel.moverScroll(evento.motion.x, evento.motion.y, 0);
 					else */if (evento.type == SDL_MOUSEBUTTONDOWN)
-						modeloNivel.moverJugador(evento.motion.x + modeloScroll.getX(), evento.motion.y + modeloScroll.getY(), 0);
+						modeloNivel.moverJugador(evento.motion.x + modeloScroll.getX(), evento.motion.y + modeloScroll.getY() - (ALTO_IMAGEN / 4), 0);
 				}
 				
-				modeloNivel.moverScroll(evento.motion.x, evento.motion.y, 0);
+				modeloNivel.moverScroll(evento.motion.x, evento.motion.y, modeloJugador.id());
 				vistaScroll.dibujar();
 
 				salir = (evento.type == SDL_QUIT);
