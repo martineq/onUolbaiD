@@ -23,6 +23,7 @@ class VistaNivel{
 		~VistaNivel();
 
 		// Getters
+		Observador* obtenerObservadorJugador(void);
 		Observador* obtenerObservadorScroll(void);
 		std::list<Observador*> obtenerObservadoresEntidad(void);
 		VistaScroll* getScroll(void);

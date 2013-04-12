@@ -5,10 +5,10 @@
 
 int main(int argc, char* argv[]) {
 
-	//Administrador administrador;
+	Administrador administrador;
 	//administrador.correrPruebas();
-	//administrador.iniciar();
-	//administrador.loop();
+	administrador.iniciar();
+	administrador.loop();
 	//ModeloEntidad::prueba();
 	//Servidor::prueba();
 

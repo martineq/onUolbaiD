@@ -14,6 +14,7 @@ class Cliente{
 		Cliente(void);
 		~Cliente(void);
 		bool iniciar(void);		// Inicia el VistaJuego y ControladorJuego
+		Observador* obtenerObservadorJugador(void);
 		Observador* obtenerObservadorScroll(void);
 		std::list<Observador*> obtenerObservadoresEntidad(void);
 		void agregarObservadorEventos(Observador* observador);

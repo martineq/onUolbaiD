@@ -5,10 +5,15 @@ ModeloJuego::ModeloJuego() {
 }
 
 ModeloJuego::~ModeloJuego() {
+
 }
 
 bool ModeloJuego::iniciar() {
 	return this->_modeloFactory.crearModeloNivel(this->_modeloNivel);
+}
+
+void ModeloJuego::agregarObservadoresJugador(std::list<Observador*>listaObservadoresJugador){
+	this->_modeloNivel.agregarObservadoresScroll(listaObservadoresJugador);
 }
 
 void ModeloJuego::agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll){
