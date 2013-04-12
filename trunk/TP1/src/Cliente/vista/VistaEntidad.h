@@ -26,8 +26,8 @@ class VistaEntidad: public Observador, public Identificable{
 		int codigoAnimacion;
 		bool esNecesarioRefrescar;
 		SDL_Rect area;
-		double xFondo;
-		double yFondo;
+		double xEnPantalla;
+		double yEnPantalla;
 			
 		static long contador; // Para generar ID's Automáticos
 
@@ -54,6 +54,8 @@ class VistaEntidad: public Observador, public Identificable{
 		bool getEsNecesarioRefrescar(void);
 
 		// Setters
+		void setXEnPantalla(double scrollX);
+		void setYEnPantalla(double scrollY);
 		void setEsNecesarioRefrescar(bool boolRefrescar);
 		void setAnimacion(std::string estado);
 		void graficar();

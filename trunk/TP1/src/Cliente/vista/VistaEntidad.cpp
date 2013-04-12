@@ -55,13 +55,21 @@ VistaEntidad::~VistaEntidad(void){
 
 }
 
+void VistaEntidad::setXEnPantalla(double scrollX){
+	this->xEnPantalla = this->x - scrollX;	
+}
+
+void VistaEntidad::setYEnPantalla(double scrollY){
+	this->yEnPantalla = this->y - scrollY;
+}
+
 void VistaEntidad::actualizar(class Observable* s){
 
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
 	
     // TODO: Completar con los métodos brindados por ModeloEntidad
 	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x;
-	this->x = ((ModeloEntidad*)s)->pixelSiguiente().y;
+	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y;
 //	this->x = ((ModeloEntidad*)s)->getX();
 //	this->y = ((ModeloEntidad*)s)->getY();
 //	this->codigoAnimacion = ((ModeloEntidad*)s)->getCodigoAnimacion();
@@ -166,7 +174,7 @@ void VistaEntidad::setAnimacion(std::string estado){
 
 void VistaEntidad::graficar(){
 	if (this->esNecesarioRefrescar){
-		this->animacionActual->graficar(this->x,this->y);
+		this->animacionActual->graficar(this->xEnPantalla,this->yEnPantalla);
 	}else{
 		this->animacionActual->graficar();
 	}

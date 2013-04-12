@@ -24,10 +24,10 @@ void VistaScroll::actualizar(class Observable* s){
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloScroll*)s)
 
 	// TODO: Completar con los métodos brindados por ModeloEntidad
-/*	this->x = ((ModeloScroll*)s)->getX();
+	this->x = ((ModeloScroll*)s)->getX();
 	this->y = ((ModeloScroll*)s)->getY();
 	this->esNecesarioRefrescar = true;
-*/
+
 }
 
 /*int VistaScroll::getId(void){

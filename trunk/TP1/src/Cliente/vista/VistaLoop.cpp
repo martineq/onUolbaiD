@@ -32,6 +32,13 @@ void VistaLoop::dibujarPantalla(VistaNivel& vistaNivel){
 	list<VistaEntidad*>::iterator it = listaDeEntidades.begin();
 	while (it != listaDeEntidades.end()){
 		VistaEntidad* unaEntidad = *it;
+		//Es necesario actualizar o porque cambio de posicion o porque se actualizo el scroll
+		if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) || (unaEntidad->getEsNecesarioRefrescar() == true) ){
+			unaEntidad->setXEnPantalla(vistaNivel.getScroll()->getX());
+			unaEntidad->setYEnPantalla(vistaNivel.getScroll()->getY());
+			unaEntidad->setEsNecesarioRefrescar(false);
+			vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
+		}
 		unaEntidad->setPantalla(this->pantalla);
 		unaEntidad->graficar();
 		it++;
