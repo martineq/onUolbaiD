@@ -10,6 +10,9 @@ ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenario
 	this->margen = tMargen;
 	this->velocidad = tVelocidad;
 	
+	this->desplazamientoX = 0;
+	this->desplazamientoY = 0;
+
 	this->_id = idPersonaje;
 
 	int dummy;
@@ -97,12 +100,39 @@ int ModeloScroll::getMargen() {
 }
 
 void ModeloScroll::actualizar(int mouseX, int mouseY) {
-	if (this->calcularPosicion(mouseX, mouseY)) {
-		this->cambiarEstado();
+	this->desplazamientoX = 0;
+	if (mouseX <= this->margen) { // toco el margen izquierdo
+		this->desplazamientoX = -this->velocidad;
+	}
+	else if (mouseX >= (this->pPantallaAncho - margen)) { // toco margen derecho
+		this->desplazamientoX = this->velocidad;
+	}
+
+	this->desplazamientoY = 0;
+	if (mouseY  <= this->margen) { // toco el margen superior
+		this->desplazamientoY = -velocidad;
+	}
+	else if (mouseY >= (this->pPantallaAlto - margen)) { // toco margen inferior
+		this->desplazamientoY = velocidad;
 	}
 }
 
-void ModeloScroll::cambiarEstado(){
+void ModeloScroll::cambiarEstado() {
+	if ((this->desplazamientoX == 0) && (this->desplazamientoY == 0))
+		return;
+	this->x += this->desplazamientoX;
+	this->y += this->desplazamientoY;
+
+	if (this->x < 0)
+		this->x = 0;
+	else if (this->x + this->pPantallaAncho > this->pEscenarioAncho)
+		this->x = this->pEscenarioAncho - this->pPantallaAncho;
+
+	if (this->y < 0)
+		this->y = 0;
+	else if (this->y + this->pPantallaAlto > this->pEscenarioAlto)
+		this->y = this->pEscenarioAlto - this->pPantallaAlto;
+
 	this->notificarObservadores();
 }
 

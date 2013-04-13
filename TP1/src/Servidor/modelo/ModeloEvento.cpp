@@ -3,7 +3,6 @@
 using namespace std;
 
 ModeloEvento::ModeloEvento() {
-	this->_modeloNivel = NULL;
 	this->_mouseClickDerecho = 0;
 	this->_mouseX = 0;
 	this->_mouseY = 0;
@@ -28,10 +27,6 @@ void ModeloEvento::actualizar(Observable* observable) {
 	this->_mouseClickDerecho = controladorEvento->getClicMouseBotonDerecho();
 	this->_mouseX = controladorEvento->getPosicionMouseX();
 	this->_mouseY = controladorEvento->getPosicionMouseY();
-}
-
-void ModeloEvento::asignarModeloNivel(ModeloNivel* modeloNivel) {
-	this->_modeloNivel = modeloNivel;
 }
 
 int ModeloEvento::getMouseClickDerecho() {

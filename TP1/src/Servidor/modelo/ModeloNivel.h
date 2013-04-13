@@ -47,6 +47,8 @@ class ModeloNivel {
 
 		void moverScroll(int mouseX, int mouseY, int id);
 		void moverJugador(int tileX, int tileY, int id);
+
+		bool actualizar(int id);
 };
 
 // TODO: Ver la forma de asegurar que el ID de ModeloEntidad y VistaEntidad coincidan. 

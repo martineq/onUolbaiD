@@ -8,7 +8,6 @@
 
 class ModeloEvento : public Observador {
 	private:
-		ModeloNivel* _modeloNivel;
 		int _mouseClickDerecho;
 		int _mouseX;
 		int _mouseY;
@@ -20,9 +19,6 @@ class ModeloEvento : public Observador {
 		virtual ~ModeloEvento();
 
 		void actualizar(Observable* observable);
-
-		// Asigna el nivel al que le va a pasar los eventos
-		void asignarModeloNivel(ModeloNivel* modeloNivel);
 
 		int getMouseClickDerecho();
 		int getMousePosX();

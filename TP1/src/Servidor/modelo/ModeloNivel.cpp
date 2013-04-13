@@ -142,3 +142,10 @@ void ModeloNivel::moverJugador(int mouseX, int mouseY, int id) {
 	Posicion::convertirPixelATile(this->getAltoTiles(), mouseX, mouseY, posicion.x, posicion.y);
 	jugador->mover(posicion);
 }
+
+bool ModeloNivel::actualizar(int id) {
+	ModeloScroll* scroll = this->obtenerScroll(id);
+	if (scroll != NULL)
+		scroll->cambiarEstado();
+	return true;
+}

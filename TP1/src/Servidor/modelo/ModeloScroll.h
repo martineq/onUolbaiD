@@ -14,6 +14,7 @@ class ModeloScroll: public Observable, public Identificable {
 		int x, y, pPantallaAncho, pPantallaAlto, tEscenarioAncho, tEscenarioAlto;
 		int pEscenarioAlto, pEscenarioAncho;
 		int margen, velocidad;
+		int desplazamientoX, desplazamientoY;
 		bool calcularPosicion(int mouseX, int mouseY);
 
 		int _id;	// ID a partir del id del jugador
