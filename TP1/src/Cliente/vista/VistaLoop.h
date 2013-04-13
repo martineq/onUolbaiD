@@ -9,7 +9,7 @@ class VistaLoop{
 	private:
 
 		SDL_Surface *pantalla,*fondo;			
-		void dibujarPantalla(VistaNivel& vistaNivel);			
+		void dibujarEntidades(VistaNivel& vistaNivel);			
 
 	public:
 		VistaLoop(void);
@@ -17,7 +17,7 @@ class VistaLoop{
 		bool loop(VistaNivel& vistaNivel);
 
 		//levanta el fondo y la pantalla
-		bool levantarPantalla(int,int);
+		bool levantarFondo(int,int);
 		void setPantalla(SDL_Surface *pantalla);
 		
 };
