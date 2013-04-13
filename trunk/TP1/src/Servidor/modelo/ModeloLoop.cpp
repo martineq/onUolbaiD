@@ -13,19 +13,18 @@ Observador* ModeloLoop::obtenerObservadorEvento() {
 }
 
 bool ModeloLoop::loop(ModeloNivel& modeloNivel) {
-	this->_modeloEvento.asignarModeloNivel(&modeloNivel);
+	if (!this->_modeloEvento.getActualizado()) {
+		int mousePosX = this->_modeloEvento.getMousePosX();
+		int mousePosY = this->_modeloEvento.getMousePosY();
 
-	int mousePosX = this->_modeloEvento.getMousePosX();
-	int mousePosY = this->_modeloEvento.getMousePosY();
+		//TODO: Verificar la lista de ids (TP2)
+		modeloNivel.moverScroll(mousePosX, mousePosY, 0);
 
-	//TODO: Verificar la lista de ids (TP2)
-	modeloNivel.moverScroll(mousePosX, mousePosY, 0);
+		if (this->_modeloEvento.getMouseClickDerecho() == 1)
+			modeloNivel.moverJugador(mousePosX, mousePosY, 0);
+	}
 
-	if (!this->_modeloEvento.getActualizado())
-		return true;
-	
-	if (this->_modeloEvento.getMouseClickDerecho() == 1)
-		modeloNivel.moverJugador(mousePosX, mousePosY, 0);
+	modeloNivel.actualizar(0);
 
 	this->_modeloEvento.setActualizado(false);
 
