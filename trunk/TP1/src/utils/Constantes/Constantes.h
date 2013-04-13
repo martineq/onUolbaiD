@@ -31,6 +31,17 @@
 #define SDL_IMAGEN_DEFAULT "./img/default.png"
 #define BIKINI "./img/bikini.bmp"
 
+/************************* DIRECCIONES ***********************/
+#define ACCION_NORTE "NORTE"
+#define ACCION_SUR "SUR"
+#define ACCION_ESTE "ESTE"
+#define ACCION_OESTE "OESTE"
+#define ACCION_NOROESTE "NOROESTE"
+#define ACCION_NORESTE "NORESTE"
+#define ACCION_SUDESTE "SUDESTE"
+#define ACCION_SUDOESTE "SUDOESTE"
+//#define vector<string> vector
+
 /*********************CONTROLES EN PANTALLA ******************/
 #define DEFAULT_FONT "./src/utils/Fonts/verdana.ttf"
 
