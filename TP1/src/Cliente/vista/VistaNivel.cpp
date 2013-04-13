@@ -6,6 +6,15 @@ VistaNivel::VistaNivel(){
 }
 
 VistaNivel::~VistaNivel(){
+/*
+	// Destruyo las entidades instanciadas (incluye al personaje)
+	for (std::list<VistaEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
+		delete (*entidad);
+	}
+
+	// Destruyo el scroll
+	delete this->scroll;
+*/
 }
 
 Observador* VistaNivel::obtenerObservadorJugador(void){
@@ -76,3 +85,16 @@ void VistaNivel::setAnchoPantalla(int ancho){
 	this->ancho = ancho;
 }
 
+void VistaNivel::destruirListaEntidades(){
+	// Destruyo las entidades instanciadas (incluye al personaje)
+	for (std::list<VistaEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
+		delete (*entidad);
+	}
+	return void();
+}
+
+void VistaNivel::destruirScroll(){
+	// Destruyo el scroll
+	delete this->scroll;
+	return void();
+}

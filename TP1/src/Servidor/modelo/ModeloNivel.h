@@ -16,6 +16,10 @@ class ModeloNivel {
 		ModeloEntidad* obtenerJugador(int id);
 		ModeloScroll* obtenerScroll(int id);
 		ModeloEntidad* obtenerEntidad(int id);
+		
+		void destruirListaJugadores();
+		void destruirListaEntidades();
+		void destruirListaScroll();
 
 	public:
 		ModeloNivel();

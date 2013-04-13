@@ -18,6 +18,9 @@ class VistaNivel{
 		double alto;
 		double ancho;
 
+		void destruirListaEntidades();
+		void destruirScroll();
+
 	public:
 		VistaNivel();
 		~VistaNivel();
