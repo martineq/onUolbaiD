@@ -1,6 +1,10 @@
 #include "ControladorEvento.h"
 
 ControladorEvento::ControladorEvento(void){
+	this->posicionMouseX = 0;
+	this->posicionMouseY = 0;
+	this->clicMouseBotonDerecho = 0;
+	this->clicMouseBotonIzquierdo = 0;
 
 }
 
