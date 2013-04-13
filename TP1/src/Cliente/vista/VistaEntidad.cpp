@@ -47,7 +47,6 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->estados.push_back(ACCION_SUDOESTE);
 	this->estados.push_back(ACCION_OESTE);	
 	this->estados.push_back(ACCION_NOROESTE);
-	
 	int i = 0;
 	for (it=listaAnimaciones.begin();it!=listaAnimaciones.end();it++){
 		this->animaciones->agregar(this->estados.at(i),*it,delay,ancho,alto,fps);
@@ -76,12 +75,12 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 }
 
 void VistaEntidad::actualizar(class Observable* s){
-
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
 	
     // TODO: Completar con los métodos brindados por ModeloEntidad
-	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x;
-	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y;
+	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x - (this->ancho / 2);
+	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y - (this->alto / 2);
+
 //	this->x = ((ModeloEntidad*)s)->getX();
 //	this->y = ((ModeloEntidad*)s)->getY();
 //	this->codigoAnimacion = ((ModeloEntidad*)s)->getCodigoAnimacion();
@@ -161,7 +160,8 @@ void VistaEntidad::setAnimacion(std::string estado){
 
 void VistaEntidad::graficar(){
 	if (this->esNecesarioRefrescar){
-		this->animacionActual->graficar(this->xEnPantalla,this->yEnPantalla);
+		this->animacionActual->graficar(this->x,this->y);
+		this->esNecesarioRefrescar = false;
 	}else{
 		this->animacionActual->graficar();
 	}

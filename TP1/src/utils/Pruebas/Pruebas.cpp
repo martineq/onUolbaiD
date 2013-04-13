@@ -172,7 +172,7 @@ void Pruebas::PruebaAnimacion(){
 	SDL_Surface* temp, *pasto;
 	list<string> lista;	
 	list<list<string>> listaAnimaciones;
-	lista.push_back("./img/SORA_S1.bmp");
+	/*lista.push_back("./img/SORA_S1.bmp");
 	lista.push_back("./img/SORA_S2.bmp");
 	lista.push_back("./img/SORA_S3.bmp");
 	lista.push_back("./img/SORA_S4.bmp");
@@ -180,9 +180,9 @@ void Pruebas::PruebaAnimacion(){
 	lista.push_back("./img/SORA_S6.bmp");
 	lista.push_back("./img/SORA_S7.bmp");
 	lista.push_back("./img/SORA_S8.bmp");
-	lista.push_back("./img/SORA_S9.bmp");
+	lista.push_back("./img/SORA_S9.bmp");*/
 
-	listaAnimaciones.push_back(lista);
+	//listaAnimaciones.push_back(lista);
 /*	lista.push_back("./img/SORA_N1.bmp");
 	lista.push_back("./img/SORA_N2.bmp");
 	lista.push_back("./img/SORA_N3.bmp");
@@ -192,7 +192,14 @@ void Pruebas::PruebaAnimacion(){
 	lista.push_back("./img/SORA_N7.bmp");
 	lista.push_back("./img/SORA_N8.bmp");
 */
+	list<string> listaN;
+	list<string> listaNE;
 	list<string> listaE;
+	list<string> listaSE;
+	list<string> listaS;
+	list<string> listaSO;
+	list<string> listaO;
+	list<string> listaNO;
 	/*listaE.push_back("./img/SORA_E1.png");
 	listaE.push_back("./img/SORA_E2.png");
 	listaE.push_back("./img/SORA_E3.png");
@@ -203,43 +210,48 @@ void Pruebas::PruebaAnimacion(){
 	listaE.push_back("./img/SORA_E8.png");
 	listaAnimaciones.push_back(listaE);*/
 
+	listaN.push_back("./img/testxyh_N1.png");
+	listaN.push_back("./img/testxyh_N2.png");
+	listaN.push_back("./img/testxyh_N3.png");
+	listaN.push_back("./img/testxyh_N4.png");
+	listaNE.push_back("./img/testxyh_NE1.png");
+	listaNE.push_back("./img/testxyh_NE2.png");
+	listaNE.push_back("./img/testxyh_NE3.png");
+	listaNE.push_back("./img/testxyh_NE4.png");
+	listaE.push_back("./img/testxyh_E1.png");
+	listaE.push_back("./img/testxyh_E2.png");
+	listaE.push_back("./img/testxyh_E3.png");
+	listaE.push_back("./img/testxyh_E4.png");
+	listaSE.push_back("./img/testxyh_SE1.png");
+	listaSE.push_back("./img/testxyh_SE2.png");
+	listaSE.push_back("./img/testxyh_SE3.png");
+	listaSE.push_back("./img/testxyh_SE4.png");
+	listaS.push_back("./img/testxyh_S1.png");
+	listaS.push_back("./img/testxyh_S2.png");
+	listaS.push_back("./img/testxyh_S3.png");
+	listaS.push_back("./img/testxyh_S4.png");
+	listaSO.push_back("./img/testxyh_SO1.png");
+	listaSO.push_back("./img/testxyh_SO2.png");
+	listaSO.push_back("./img/testxyh_SO3.png");
+	listaSO.push_back("./img/testxyh_SO4.png");
+	listaO.push_back("./img/testxyh_O1.png");
+	listaO.push_back("./img/testxyh_O2.png");
+	listaO.push_back("./img/testxyh_O3.png");
+	listaO.push_back("./img/testxyh_O4.png");
+	listaNO.push_back("./img/testxyh_NO1.png");
+	listaNO.push_back("./img/testxyh_NO2.png");
+	listaNO.push_back("./img/testxyh_NO3.png");
+	listaNO.push_back("./img/testxyh_NO4.png");
+	listaAnimaciones.push_back(listaN);
+	listaAnimaciones.push_back(listaNE);
+	listaAnimaciones.push_back(listaE);
+	listaAnimaciones.push_back(listaSE);
+	listaAnimaciones.push_back(listaS);
+	listaAnimaciones.push_back(listaSO);
+	listaAnimaciones.push_back(listaO);
+	listaAnimaciones.push_back(listaNO);
 
-	list<string> listaMago;
-	listaMago.push_back("./img/testxyh_E1.png");
-	listaMago.push_back("./img/testxyh_E2.png");
-	listaMago.push_back("./img/testxyh_E3.png");
-	listaMago.push_back("./img/testxyh_E4.png");
-	listaMago.push_back("./img/testxyh_SE1.png");
-	listaMago.push_back("./img/testxyh_SE2.png");
-	listaMago.push_back("./img/testxyh_SE3.png");
-	listaMago.push_back("./img/testxyh_SE4.png");
-	listaMago.push_back("./img/testxyh_S1.png");
-	listaMago.push_back("./img/testxyh_S2.png");
-	listaMago.push_back("./img/testxyh_S3.png");
-	listaMago.push_back("./img/testxyh_S4.png");
-	listaMago.push_back("./img/testxyh_SO1.png");
-	listaMago.push_back("./img/testxyh_SO2.png");
-	listaMago.push_back("./img/testxyh_SO3.png");
-	listaMago.push_back("./img/testxyh_SO4.png");
-	listaMago.push_back("./img/testxyh_O1.png");
-	listaMago.push_back("./img/testxyh_O2.png");
-	listaMago.push_back("./img/testxyh_O3.png");
-	listaMago.push_back("./img/testxyh_O4.png");
-	listaMago.push_back("./img/testxyh_NO1.png");
-	listaMago.push_back("./img/testxyh_NO2.png");
-	listaMago.push_back("./img/testxyh_NO3.png");
-	listaMago.push_back("./img/testxyh_NO4.png");
-	listaMago.push_back("./img/testxyh_N1.png");
-	listaMago.push_back("./img/testxyh_N2.png");
-	listaMago.push_back("./img/testxyh_N3.png");
-	listaMago.push_back("./img/testxyh_N4.png");
-	listaMago.push_back("./img/testxyh_NE1.png");
-	listaMago.push_back("./img/testxyh_NE2.png");
-	listaMago.push_back("./img/testxyh_NE3.png");
-	listaMago.push_back("./img/testxyh_NE4.png");
-	listaAnimaciones.push_back(listaMago);
-
-	VistaEntidad* vEntidad = new VistaEntidad(0,0,70,50,0,0,15,10000,listaAnimaciones,true);
+	VistaEntidad* vEntidad = new VistaEntidad(0,0,70,50,0,0,15,1000,listaAnimaciones,true);
 	vEntidad->setPantalla(pantalla);
 	//VistaAnimaciones* animaciones = new VistaAnimaciones();
 	//animaciones->agregar(lista.front(),lista,200,50,70,15);
@@ -294,6 +306,7 @@ void Pruebas::PruebaAnimacion(){
 	estadoTecla = SDL_GetKeyState(NULL);
 	if (estadoTecla[SDLK_LEFT] ) {
 	  x -= 1;
+	  vEntidad->setAnimacion(ACCION_OESTE);
 	}
 	if (estadoTecla[SDLK_RIGHT] ) {
 	  x += 1;
@@ -301,6 +314,7 @@ void Pruebas::PruebaAnimacion(){
 	}
 	if (estadoTecla[SDLK_UP] ) {
 	  y -= 1;
+	  vEntidad->setAnimacion(ACCION_NORTE);
 	}
 	if (estadoTecla[SDLK_DOWN] ) {
 	  y += 1;
@@ -331,6 +345,7 @@ void Pruebas::PruebaAnimacion(){
 	}
 
 	// Dibujo el sprite
+
 	vEntidad->graficar();
 	// Refresco la pantalla
 	SDL_UpdateRect(pantalla, 0, 0, 0, 0);
