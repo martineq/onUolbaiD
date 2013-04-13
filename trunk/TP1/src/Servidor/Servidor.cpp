@@ -32,3 +32,6 @@ bool Servidor::loop(void){
 	return this->modeloJuego.loop();
 }
 
+void Servidor::destruirEntidades(void){
+	this->modeloJuego.destruirEntidades();
+}

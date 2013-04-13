@@ -202,4 +202,6 @@ class Servidor {
 		
 		// Inicia el loop de Modelo Juego
 		bool loop();
+
+		void destruirEntidades();
 };

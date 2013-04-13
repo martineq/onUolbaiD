@@ -40,7 +40,7 @@ ModeloNivel::ModeloNivel() {
 }
 
 ModeloNivel::~ModeloNivel() {
-	
+
 }
 
 std::list<ModeloEntidad*> ModeloNivel::getListaJugadores() {
