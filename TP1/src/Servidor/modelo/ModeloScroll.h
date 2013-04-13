@@ -33,8 +33,6 @@ class ModeloScroll: public Observable, public Identificable {
 		
 		void cambiarEstado();
 		int id() const;
-
-		bool enMargen(int x, int y);
 };
 
 // TODO: Importante: El método cambiarEstado() tiene que estar regulado por un timer para poder controlar

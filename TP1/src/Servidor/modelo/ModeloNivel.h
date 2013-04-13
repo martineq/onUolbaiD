@@ -13,6 +13,10 @@ class ModeloNivel {
 		std::list<ModeloScroll*> listaScroll;
 		std::list<ModeloEntidad*> listaEntidades;
 
+		ModeloEntidad* obtenerJugador(int id);
+		ModeloScroll* obtenerScroll(int id);
+		ModeloEntidad* obtenerEntidad(int id);
+
 	public:
 		ModeloNivel();
 		virtual ~ModeloNivel();

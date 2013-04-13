@@ -109,11 +109,3 @@ void ModeloScroll::cambiarEstado(){
 int ModeloScroll::id() const {
     return this->_id;
 }
-
-bool ModeloScroll::enMargen(int x, int y) {
-	if ((x <= this->margen) || (x >= (this->pPantallaAncho - margen)) || (y  <= this->margen) || (y >= (this->pPantallaAlto - margen))){
-		return true;
-	} else {
-		return false;
-	}
-}
