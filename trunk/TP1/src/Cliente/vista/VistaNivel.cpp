@@ -2,19 +2,11 @@
 
 
 VistaNivel::VistaNivel(){
-
+	this->scroll = NULL;
 }
 
 VistaNivel::~VistaNivel(){
-/*
-	// Destruyo las entidades instanciadas (incluye al personaje)
-	for (std::list<VistaEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
-		delete (*entidad);
-	}
-
-	// Destruyo el scroll
-	delete this->scroll;
-*/
+ // Los punteros ya son destruidos desde el Administrador
 }
 
 Observador* VistaNivel::obtenerObservadorJugador(void){
@@ -95,7 +87,7 @@ void VistaNivel::destruirListaEntidades(){
 
 void VistaNivel::destruirScroll(){
 	// Destruyo el scroll
-	delete this->scroll;
+	if( this->scroll != NULL ) delete this->scroll;
 	return void();
 }
 

@@ -25,19 +25,42 @@ void DetectorEventos::detectar(){
 			break;
 			// presiono el boton izquierdo del mouse
 			case SDL_MOUSEBUTTONDOWN:						
-				//if (event.button.button == 1)				
-				if (SDL_BUTTON_LEFT)
+				//if (event.button.button == 1)	
+				switch (event.button.button)
+				{
+					case SDL_BUTTON_LEFT:	
+						this->clicMouseBotonIzquierdo = 1;
+						break;
+
+					case SDL_BUTTON_RIGHT:	
+						this->clicMouseBotonDerecho = 1;
+						break;
+				}
+				/*
+				if (event.button == SDL_BUTTON_LEFT)
 					this->clicMouseBotonIzquierdo = 1;
 				else
 					this->clicMouseBotonDerecho = 1;
+					*/
 			break;
 			// suelto el boton izquierdo del mouse
 			case SDL_MOUSEBUTTONUP:				
 				//if (event.button.button == 1)		
-				if (this->clicMouseBotonIzquierdo == 1)
+				switch (event.button.button)
+				{
+					case SDL_BUTTON_LEFT:	
+						this->clicMouseBotonIzquierdo = 0;
+						break;
+
+					case SDL_BUTTON_RIGHT:	
+						this->clicMouseBotonDerecho = 0;
+						break;
+				}
+				/*if (this->clicMouseBotonIzquierdo == 1)
 					this->clicMouseBotonIzquierdo = 0;
 				else 
 					this->clicMouseBotonDerecho = 0;
+					*/
 			break;
 			// presiono escape
 			case SDL_KEYUP:

@@ -7,7 +7,6 @@
 
 class VistaLoop{
 	private:
-
 		SDL_Surface *pantalla,*fondo;			
 		void dibujarEntidades(VistaNivel& vistaNivel);			
 
