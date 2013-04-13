@@ -1,7 +1,8 @@
 #include "./VistaLoop.h"
 
 VistaLoop::VistaLoop(void){
-	
+	this->pantalla = NULL;
+	this->fondo = NULL;
 }
 
 void VistaLoop::setPantalla(SDL_Surface *pantalla){
@@ -55,7 +56,7 @@ void VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 }
 
 VistaLoop::~VistaLoop(void){
-	SDL_FreeSurface(this->pantalla);
-	SDL_FreeSurface(this->fondo);	
+	if( this->pantalla != NULL ) SDL_FreeSurface(this->pantalla);
+	if( this->fondo != NULL ) SDL_FreeSurface(this->fondo);	
 	ImageLoader::getInstance().cerrarSDL();	
 }

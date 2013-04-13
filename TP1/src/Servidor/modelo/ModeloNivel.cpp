@@ -40,7 +40,7 @@ ModeloNivel::ModeloNivel() {
 }
 
 ModeloNivel::~ModeloNivel() {
-
+	// Las listas de punteros ya son destruidos desde el Administrador
 }
 
 std::list<ModeloEntidad*> ModeloNivel::getListaJugadores() {
