@@ -9,6 +9,7 @@
 //TODO: Borrar
 #include <SDL.h>
 #include "../utils/Observador/Identificable.h"
+#include "../Cliente/vista/VistaEntidad.h"
 
 //TODO: Borrar
 #define ALTO_PANTALLA 500
@@ -36,45 +37,12 @@ class Servidor {
 		ModeloJuego modeloJuego;
 
 		//TODO: Borrar
-		class VistaEntidad : public Observador, public Identificable {
-			private:
-				SDL_Surface* _nivel;
-				SDL_Surface* _personaje;
-				
-			public:
-				VistaEntidad(SDL_Surface* nivel) {
-					this->_nivel = nivel;
-					this->_personaje = Servidor::cargarImagen("img/SORA_S1.bmp");
-				}
-
-				virtual ~VistaEntidad() {
-					SDL_FreeSurface(this->_personaje);
-				}
-
-				void actualizar(Observable* s) {
-					ModeloEntidad* modeloEntidad = (ModeloEntidad*)s;
-					SDL_Rect destino;
-
-					destino.h = ALTO_IMAGEN;
-					destino.w = ANCHO_IMAGEN;
-					destino.x = modeloEntidad->pixelSiguiente().x - (ANCHO_IMAGEN / 2);
-					destino.y = modeloEntidad->pixelSiguiente().y - (ALTO_IMAGEN / 4);
-
-					SDL_BlitSurface(this->_personaje, NULL, this->_nivel, &destino);
-				}
-
-				int id() const {
-					return 1;
-				}
-		};
-
-		//TODO: Borrar
 		class VistaScroll : public Observador, public Identificable {
 			private:
 				SDL_Surface* _pantalla;
 				SDL_Surface* _nivel;
 				SDL_Rect _destinoScroll;
-
+				
 			public:
 				VistaScroll(SDL_Surface* pantalla, SDL_Surface* nivel) {
 					this->_pantalla = pantalla;
@@ -103,6 +71,43 @@ class Servidor {
 				}
 		};
 
+		//TODO: Borrar
+		/*class VistaEntidad : public Observador, public Identificable {
+			private:
+				SDL_Surface* _nivel;
+				SDL_Surface* _personaje;
+				VistaScroll* _scroll;
+				
+			public:
+				VistaEntidad(SDL_Surface* nivel, VistaScroll* scroll) {
+					this->_nivel = nivel;
+					this->_personaje = Servidor::cargarImagen("img/SORA_S1.bmp");
+					this->_scroll = scroll;
+				}
+
+				virtual ~VistaEntidad() {
+					SDL_FreeSurface(this->_personaje);
+				}
+
+				void actualizar(Observable* s) {
+					ModeloEntidad* modeloEntidad = (ModeloEntidad*)s;
+					SDL_Rect destino;
+
+					destino.h = ALTO_IMAGEN;
+					destino.w = ANCHO_IMAGEN;
+					destino.x = modeloEntidad->pixelSiguiente().x - (ANCHO_IMAGEN / 2);
+					destino.y = modeloEntidad->pixelSiguiente().y - (ALTO_IMAGEN / 4);
+
+					SDL_BlitSurface(this->_personaje, NULL, this->_nivel, &destino);
+
+					this->_scroll->dibujar();
+				}
+
+				int id() const {
+					return 1;
+				}
+		};*/
+
 	public:
 		//TODO: Borrar
 		static void prueba() {
@@ -127,13 +132,66 @@ class Servidor {
 			posicionPersonaje.x = 0;
 			posicionPersonaje.y = 0;
 			
+			std::list<list<string>> listaAnimaciones;
+			std::list<string> listaN;
+			std::list<string> listaNE;
+			std::list<string> listaE;
+			std::list<string> listaSE;
+			std::list<string> listaS;
+			std::list<string> listaSO;
+			std::list<string> listaO;
+			std::list<string> listaNO;
+
+			listaN.push_back("./img/testxyh_N1.png");
+			listaN.push_back("./img/testxyh_N2.png");
+			listaN.push_back("./img/testxyh_N3.png");
+			listaN.push_back("./img/testxyh_N4.png");
+			listaNE.push_back("./img/testxyh_NE1.png");
+			listaNE.push_back("./img/testxyh_NE2.png");
+			listaNE.push_back("./img/testxyh_NE3.png");
+			listaNE.push_back("./img/testxyh_NE4.png");
+			listaE.push_back("./img/testxyh_E1.png");
+			listaE.push_back("./img/testxyh_E2.png");
+			listaE.push_back("./img/testxyh_E3.png");
+			listaE.push_back("./img/testxyh_E4.png");
+			listaSE.push_back("./img/testxyh_SE1.png");
+			listaSE.push_back("./img/testxyh_SE2.png");
+			listaSE.push_back("./img/testxyh_SE3.png");
+			listaSE.push_back("./img/testxyh_SE4.png");
+			listaS.push_back("./img/testxyh_S1.png");
+			listaS.push_back("./img/testxyh_S2.png");
+			listaS.push_back("./img/testxyh_S3.png");
+			listaS.push_back("./img/testxyh_S4.png");
+			listaSO.push_back("./img/testxyh_SO1.png");
+			listaSO.push_back("./img/testxyh_SO2.png");
+			listaSO.push_back("./img/testxyh_SO3.png");
+			listaSO.push_back("./img/testxyh_SO4.png");
+			listaO.push_back("./img/testxyh_O1.png");
+			listaO.push_back("./img/testxyh_O2.png");
+			listaO.push_back("./img/testxyh_O3.png");
+			listaO.push_back("./img/testxyh_O4.png");
+			listaNO.push_back("./img/testxyh_NO1.png");
+			listaNO.push_back("./img/testxyh_NO2.png");
+			listaNO.push_back("./img/testxyh_NO3.png");
+			listaNO.push_back("./img/testxyh_NO4.png");
+			listaAnimaciones.push_back(listaN);
+			listaAnimaciones.push_back(listaNE);
+			listaAnimaciones.push_back(listaE);
+			listaAnimaciones.push_back(listaSE);
+			listaAnimaciones.push_back(listaS);
+			listaAnimaciones.push_back(listaSO);
+			listaAnimaciones.push_back(listaO);
+			listaAnimaciones.push_back(listaNO);
+
 			ControladorEvento controladorEvento;
 			ModeloLoop modeloLoop;
 			ModeloNivel modeloNivel;
 			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, modeloJugador.id());
-			VistaEntidad vistaJugador(nivel);
 			VistaScroll vistaScroll(pantalla, nivel);
+			VistaEntidad vistaJugador(0, 0, 70, 50, 0, 0, 15, 1000, listaAnimaciones, true);
+			
+			vistaJugador.setPantalla(nivel);
 
 			controladorEvento.agregarObservador(modeloLoop.obtenerObservadorEvento());
 
@@ -175,6 +233,16 @@ class Servidor {
 				}
 				
 				modeloLoop.loop(modeloNivel);
+
+				for (xt = 0; xt < ANCHO_MATRIZ; xt++) {
+					for (yt = 0; yt < ALTO_MATRIZ; yt++) {
+						Posicion::convertirTileAPixel(ALTO_MATRIZ, xt, yt, xp, yp);
+						destinoPersonaje.x = (Sint16)xp - (ANCHO_TILE / 2);
+						destinoPersonaje.y = (Sint16)yp;
+						SDL_BlitSurface(tile, NULL, nivel, &destinoPersonaje);
+					}
+				}
+				vistaJugador.graficar();
 				vistaScroll.dibujar();
 
 				salir = (evento.type == SDL_QUIT);
