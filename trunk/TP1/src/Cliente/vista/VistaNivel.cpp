@@ -98,3 +98,9 @@ void VistaNivel::destruirScroll(){
 	delete this->scroll;
 	return void();
 }
+
+void VistaNivel::destruirEntidadesYScroll(){
+	this->destruirListaEntidades();
+	this->destruirScroll();
+	return void();
+}

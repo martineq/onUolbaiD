@@ -40,4 +40,6 @@ class VistaNivel{
 		void agregarScroll(VistaScroll* pScroll);
 		void setAltoPantalla(int alto);
 		void setAnchoPantalla(int ancho);
+
+		void destruirEntidadesYScroll();
 };
