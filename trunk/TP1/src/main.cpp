@@ -7,8 +7,10 @@ int main(int argc, char* argv[]) {
 
 	//Administrador administrador;
 	//administrador.correrPruebas();
-	//administrador.iniciar();
-	//administrador.loop();
+	//if( administrador.iniciar() == true ){
+	//	administrador.loop();
+	//}
+
 	//ModeloEntidad::prueba();
 	Servidor::prueba();
 
