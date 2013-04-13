@@ -5,7 +5,8 @@ Administrador::Administrador(void){
 }
 
 Administrador::~Administrador(void){
-
+	this->servidor.destruirEntidades();
+	this->cliente.destruirEntidades();
 }
 
 void Administrador::iniciar(){

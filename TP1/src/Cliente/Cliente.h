@@ -21,4 +21,6 @@ class Cliente{
 		bool loopControl(void);
 		bool loopVista(void);
 
+		void destruirEntidades();
+
 };

@@ -28,4 +28,6 @@ class ModeloJuego {
 		Observador* obtenerObservadorEvento();
 		
 		bool loop();
+
+		void destruirEntidades();
 };

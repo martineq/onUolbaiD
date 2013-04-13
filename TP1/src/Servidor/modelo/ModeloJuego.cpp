@@ -30,3 +30,7 @@ Observador* ModeloJuego::obtenerObservadorEvento() {
 bool ModeloJuego::loop() {
 	return this->_modeloLoop.loop(this->_modeloNivel);
 }
+
+void ModeloJuego::destruirEntidades(){
+	this->_modeloNivel.destruirListas();
+}

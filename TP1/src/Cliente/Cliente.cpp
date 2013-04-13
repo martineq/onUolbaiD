@@ -39,3 +39,10 @@ bool Cliente::loopControl(void){
 bool Cliente::loopVista(void){
 	return this->vistaJuego.loop();
 }
+
+
+void Cliente::destruirEntidades(void){
+	return this->vistaJuego.destruirEntidades();
+}
+
+
