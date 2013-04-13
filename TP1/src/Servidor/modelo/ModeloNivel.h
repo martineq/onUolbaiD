@@ -53,6 +53,8 @@ class ModeloNivel {
 		void moverJugador(int tileX, int tileY, int id);
 
 		bool actualizar(int id);
+
+		void destruirListas();
 };
 
 // TODO: Ver la forma de asegurar que el ID de ModeloEntidad y VistaEntidad coincidan. 

@@ -173,4 +173,9 @@ void ModeloNivel::destruirListaScroll(){
 	return void();
 }
 
-	
+void ModeloNivel::destruirListas(){	
+	this->destruirListaJugadores();
+	this->destruirListaEntidades();
+	this->destruirListaScroll();
+	return void();
+}
