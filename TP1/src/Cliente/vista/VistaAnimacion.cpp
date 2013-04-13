@@ -79,8 +79,10 @@ void VistaAnimacion::incrementarIndice(){
 				this->tiempoEspera = 0;
 			}
 		}
+	}else{
+		this->tiempoEspera = tiempoActual - this->tiempoSprite;
 	}
-	this->tiempoEspera += tiempoActual;
+	
 }
 
 bool VistaAnimacion::esperarTiempo(){

@@ -203,8 +203,7 @@ void Pruebas::PruebaAnimacion(){
 	listaE.push_back("./img/SORA_E8.png");
 	listaAnimaciones.push_back(listaE);
 
-
-	VistaEntidad* vEntidad = new VistaEntidad(0,0,70,50,0,0,15,100,listaAnimaciones,true);
+	VistaEntidad* vEntidad = new VistaEntidad(0,0,70,50,0,0,15,10000,listaAnimaciones,true);
 	vEntidad->setPantalla(pantalla);
 	//VistaAnimaciones* animaciones = new VistaAnimaciones();
 	//animaciones->agregar(lista.front(),lista,200,50,70,15);
@@ -262,14 +261,14 @@ void Pruebas::PruebaAnimacion(){
 	}
 	if (estadoTecla[SDLK_RIGHT] ) {
 	  x += 1;
-	  vEntidad->setAnimacion(listaE.front());
+	  vEntidad->setAnimacion(ACCION_ESTE);
 	}
 	if (estadoTecla[SDLK_UP] ) {
 	  y -= 1;
 	}
 	if (estadoTecla[SDLK_DOWN] ) {
 	  y += 1;
-	  vEntidad->setAnimacion(lista.front());
+	  vEntidad->setAnimacion(ACCION_SUR);
 	}
 
 	// Hago conincidir con los bordes de la pantalla

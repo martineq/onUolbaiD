@@ -39,14 +39,26 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->animaciones = new VistaAnimaciones();
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
 	this->animacionActual = NULL;
+	this->estados.push_back(ACCION_NORTE);
+	this->estados.push_back(ACCION_NORESTE);
+	this->estados.push_back(ACCION_ESTE);
+	this->estados.push_back(ACCION_SUDESTE);
+	this->estados.push_back(ACCION_SUR);
+	this->estados.push_back(ACCION_SUDOESTE);
+	this->estados.push_back(ACCION_OESTE);	
+	this->estados.push_back(ACCION_NOROESTE);
+	
+	int i = 0;
 	for (it=listaAnimaciones.begin();it!=listaAnimaciones.end();it++){
-		this->animaciones->agregar(it->front(),*it,delay,ancho,alto,fps);
+		this->animaciones->agregar(this->estados.at(i),*it,delay,ancho,alto,fps);
 		if (this->animacionActual == NULL){
-			this->animacionActual = this->animaciones->get(it->front());
+			this->animacionActual = this->animaciones->get(this->estados.at(i));
 		}
+		i++;
 	}
 	this->esNecesarioRefrescar = true;
 	this->codigoAnimacion = 0;
+	//typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
 }
 
 
@@ -76,32 +88,7 @@ void VistaEntidad::actualizar(class Observable* s){
 	int codigo = ((ModeloEntidad*)s)->direccion();
 	if ((this->esJugador) && (codigo != this->codigoAnimacion)){
 		this->codigoAnimacion = codigo;
-		switch (codigo){
-			case NORTE:
-				this->animacionActual = this->animaciones->get("NORTE");
-				break;
-			case SUR:
-				this->animacionActual = this->animaciones->get("SUR");
-				break;
-			case ESTE:
-				this->animacionActual = this->animaciones->get("ESTE");
-				break;
-			case OESTE:
-				this->animacionActual = this->animaciones->get("OESTE");
-				break;
-			case NORESTE:
-				this->animacionActual = this->animaciones->get("NORESTE");
-				break;
-			case NOROESTE:
-				this->animacionActual = this->animaciones->get("NOROESTE");
-				break;
-			case SUDESTE:
-				this->animacionActual = this->animaciones->get("SUDESTE");
-				break;
-			case SUDOESTE:
-				this->animacionActual = this->animaciones->get("SUDOESTE");
-				break;
-		}
+		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
 	}
 	this->esNecesarioRefrescar = true;
 

@@ -21,7 +21,7 @@ private:
 	double intervaloActualizacion;
 	bool automatica;
 	double tiempoEspera;
-	double tiempoSprite;
+	double tiempoSprite;	
 	
 public:
 	VistaAnimacion(list<string> & sprites, int periodo, double ancho, double alto, bool automatica, int fps);

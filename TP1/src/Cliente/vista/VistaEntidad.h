@@ -30,6 +30,7 @@ class VistaEntidad: public Observador, public Identificable{
 		double yEnPantalla;
 			
 		static long contador; // Para generar ID's Automáticos
+		vector<string> estados;		
 
 	public:
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador);		
