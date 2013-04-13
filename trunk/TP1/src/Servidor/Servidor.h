@@ -58,7 +58,7 @@ class Servidor {
 					destino.h = ALTO_IMAGEN;
 					destino.w = ANCHO_IMAGEN;
 					destino.x = modeloEntidad->pixelSiguiente().x - (ANCHO_IMAGEN / 2);
-					destino.y = modeloEntidad->pixelSiguiente().y;
+					destino.y = modeloEntidad->pixelSiguiente().y - (ALTO_IMAGEN / 4);
 
 					SDL_BlitSurface(this->_personaje, NULL, this->_nivel, &destino);
 				}
@@ -157,7 +157,7 @@ class Servidor {
 				for (yt = 0; yt < ALTO_MATRIZ; yt++) {
 					Posicion::convertirTileAPixel(ALTO_MATRIZ, xt, yt, xp, yp);
 					destinoPersonaje.x = (Sint16)xp - (ANCHO_TILE / 2);
-					destinoPersonaje.y = (Sint16)yp + (ALTO_IMAGEN / 4);
+					destinoPersonaje.y = (Sint16)yp;
 					SDL_BlitSurface(tile, NULL, nivel, &destinoPersonaje);
 				}
 			}

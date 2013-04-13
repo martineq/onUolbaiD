@@ -2,6 +2,39 @@
 
 using namespace std;
 
+ModeloEntidad* ModeloNivel::obtenerJugador(int id) {
+	//TODO: Descomentar al implementar ids
+	/*for (list<ModeloEntidad*>::iterator modeloEntidad = this->listaJugadores.begin(); modeloEntidad != this->listaJugadores.end(); modeloEntidad++)
+	{
+		if ((*modeloEntidad)->id() == id)
+			return *modeloEntidad;
+	}
+	return NULL;*/
+	return *this->listaJugadores.begin();
+}
+
+ModeloScroll* ModeloNivel::obtenerScroll(int id) {
+	//TODO: Descomentar al implementar ids
+	/*for (list<ModeloScroll*>::iterator modeloScroll = this->listaScroll.begin(); modeloScroll != this->listaScroll.end(); modeloScroll++)
+	{
+		if ((*modeloScroll)->id() == id)
+			return *modeloScroll;
+	}
+	return NULL;*/
+	return *this->listaScroll.begin();
+}
+
+ModeloEntidad* ModeloNivel::obtenerEntidad(int id) {
+	//TODO: Descomentar al implementar ids
+	/*for (list<ModeloEntidad*>::iterator modeloEntidad = this->listaEntidades.begin(); modeloEntidad != this->listaEntidades.end(); modeloEntidad++)
+	{
+		if ((*modeloEntidad)->id() == id)
+			return *modeloEntidad;
+	}
+	return NULL;*/
+	return *this->listaEntidades.begin();
+}
+
 ModeloNivel::ModeloNivel() {
 	this->listaJugadores.clear();
 	this->listaEntidades.clear();
@@ -34,36 +67,27 @@ int ModeloNivel::getAltoTiles() {
 void ModeloNivel::agregarObservadoresJugador(std::list<Observador*> listaObservadoresJugador) {
 	// Itero sobre los observadores
 	for (std::list<Observador*>::iterator observador = listaObservadoresJugador.begin(); observador != listaObservadoresJugador.end(); observador++) {
-		// Busco al que quiero observar
-		for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++) {
-			// Cuando lo encuentro, lo agrego
-			if ((*jugador)->id() == dynamic_cast<Identificable*>(*observador)->id()) 
-				(*jugador)->agregarObservador(*observador);
-		}
+		ModeloEntidad* jugador = this->obtenerJugador(dynamic_cast<Identificable*>(*observador)->id());
+		if (jugador != NULL)
+			jugador->agregarObservador(*observador);
 	}
 }
 
 void ModeloNivel::agregarObservadoresEntidad(std::list<Observador*> listaObservadoresEntidad) {
 	// Itero sobre los observadores
 	for (std::list<Observador*>::iterator observador = listaObservadoresEntidad.begin(); observador != listaObservadoresEntidad.end(); observador++) {
-		// Busco al que quiero observar
-		for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++) {
-			// Cuando lo encuentro, lo agrego
-			if ((*entidad)->id() == dynamic_cast<Identificable*>(*observador)->id()) 
-				(*entidad)->agregarObservador(*observador);
-		}
+		ModeloEntidad* entidad = this->obtenerEntidad(dynamic_cast<Identificable*>(*observador)->id());
+		if (entidad != NULL)
+			entidad->agregarObservador(*observador);
 	}
 }
 
 void ModeloNivel::agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll){
 	// Itero sobre los observadores
 	for (std::list<Observador*>::iterator observador = listaObservadoresScroll.begin(); observador != listaObservadoresScroll.end(); observador++) {
-		// Busco al que quiero observar
-		for (std::list<ModeloScroll*>::iterator scroll = this->listaScroll.begin(); scroll != this->listaScroll.end(); scroll++) {
-			// Cuando lo encuentro, lo agrego
-			if ((*scroll)->id() == dynamic_cast<Identificable*>(*observador)->id()) 
-				(*scroll)->agregarObservador(*observador);
-		}
+		ModeloScroll* scroll = this->obtenerScroll(dynamic_cast<Identificable*>(*observador)->id());
+		if (scroll != NULL)
+			scroll->agregarObservador(*observador);
 	}
 }
 
@@ -100,20 +124,21 @@ void ModeloNivel::removerScroll(ModeloScroll *scroll) {
 }
 
 void ModeloNivel::moverScroll(int mouseX, int mouseY, int id) {
-	for (std::list<ModeloScroll*>::iterator scroll = this->listaScroll.begin(); scroll != this->listaScroll.end(); scroll++) {
-		if ((*scroll)->id() == id) {
-			(*scroll)->actualizar(mouseX, mouseY);
-			return;
-		}
-	}
+	ModeloScroll* scroll = this->obtenerScroll(id);
+	if (scroll != NULL)
+		scroll->actualizar(mouseX, mouseY);
 }
 
-void ModeloNivel::moverJugador(int tileX, int tileY, int id) {
-	if (this->listaJugadores.size() == 0)
+void ModeloNivel::moverJugador(int mouseX, int mouseY, int id) {
+	ModeloEntidad* jugador = this->obtenerJugador(id);
+	if (jugador == NULL)
 		return;
-	ModeloEntidad* personaje = *this->listaJugadores.begin();
+	ModeloScroll* scroll = this->obtenerScroll(id);
+	if (scroll != NULL) {
+		mouseX += scroll->getX();
+		mouseY += scroll->getY();
+	}
 	Posicion posicion;
-	posicion.x = tileX;
-	posicion.y = tileY;
-	personaje->mover(posicion);
+	Posicion::convertirPixelATile(this->getAltoTiles(), mouseX, mouseY, posicion.x, posicion.y);
+	jugador->mover(posicion);
 }
