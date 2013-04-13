@@ -9,20 +9,20 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 }
 
 bool VistaLoop::loop(VistaNivel& vistaNivel){
-	this->dibujarPantalla(vistaNivel);
+	this->dibujarEntidades(vistaNivel);
 
 	return true;	// TODO: Implementar este return
 }
 
 //levanta el fondo y la pantalla
-bool VistaLoop::levantarPantalla(int altoPantalla, int anchoPantalla){
+bool VistaLoop::levantarFondo(int altoPantalla, int anchoPantalla){
 
 	this->fondo = ImageLoader::getInstance().load_image(SDL_RUTA_FONDO);	
 
 	return true; // TODO: Implementar el return del método
 }
 
-void VistaLoop::dibujarPantalla(VistaNivel& vistaNivel){
+void VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 	// Cargo el fondo
 	// TODO: Ver estas lineas
 	SDL_Rect rcFondo = ImageLoader::getInstance().createRect(0,0);
@@ -33,12 +33,20 @@ void VistaLoop::dibujarPantalla(VistaNivel& vistaNivel){
 	while (it != listaDeEntidades.end()){
 		VistaEntidad* unaEntidad = *it;
 		//Es necesario actualizar o porque cambio de posicion o porque se actualizo el scroll
-		if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) || (unaEntidad->getEsNecesarioRefrescar() == true) ){
+		
+		if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){
 			unaEntidad->setXEnPantalla(vistaNivel.getScroll()->getX());
 			unaEntidad->setYEnPantalla(vistaNivel.getScroll()->getY());
-			unaEntidad->setEsNecesarioRefrescar(false);
 			vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
 		}
+
+		if ( (unaEntidad->getEsNecesarioRefrescar() == true) ){
+			unaEntidad->setXEnPantalla(unaEntidad->getX());
+			unaEntidad->setYEnPantalla(unaEntidad->getY());
+			unaEntidad->setEsNecesarioRefrescar(false);			
+		}
+		
+		//Si no cambio de posicion ni se movió el scroll igual grafica.
 		unaEntidad->setPantalla(this->pantalla);
 		unaEntidad->graficar();
 		it++;
