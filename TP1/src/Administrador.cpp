@@ -1,7 +1,7 @@
 #include "./Administrador.h"
 
 Administrador::Administrador(void){
-	
+
 }
 
 Administrador::~Administrador(void){
@@ -9,11 +9,22 @@ Administrador::~Administrador(void){
 	this->cliente.destruirEntidades();
 }
 
-void Administrador::iniciar(){
+bool Administrador::iniciar(){
+	
 	// TODO: Tomar los booleanos del iniciar
-	this->servidor.iniciar();
-	this->cliente.iniciar();
+	if( this->servidor.iniciar() == false ){
+		Log::getInstance().log(1,__FILE__,__LINE__,"No se pudo iniciar el juego");
+		return false;
+	}
+
+	if( this->cliente.iniciar() == false ){
+		Log::getInstance().log(1,__FILE__,__LINE__,"No se pudo iniciar el juego");
+		return false;
+	}
+
 	this->vincularObservadores();
+
+	return true;
 }
 
 // TODO: Completar loop con cliente y servidor
@@ -62,7 +73,7 @@ void Administrador::correrPruebas(void){
 
 	Pruebas p;
 	//p.PruebaSdl(); // Prueba SDL + log
-	//p.PruebaYAML();	// Prueba YAML
+	p.PruebaYAML();	// Prueba YAML
 	//p.PruebaModeloEntidad();
 	//p.PruebaControladorJuego();
 	//p.PruebaHilos();
