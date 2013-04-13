@@ -1,7 +1,5 @@
 #include "ModeloNivel.h"
 
-using namespace std;
-
 ModeloEntidad* ModeloNivel::obtenerJugador(int id) {
 	//TODO: Descomentar al implementar ids
 	/*for (list<ModeloEntidad*>::iterator modeloEntidad = this->listaJugadores.begin(); modeloEntidad != this->listaJugadores.end(); modeloEntidad++)
@@ -42,6 +40,7 @@ ModeloNivel::ModeloNivel() {
 }
 
 ModeloNivel::~ModeloNivel() {
+	
 }
 
 std::list<ModeloEntidad*> ModeloNivel::getListaJugadores() {
@@ -149,3 +148,29 @@ bool ModeloNivel::actualizar(int id) {
 		scroll->cambiarEstado();
 	return true;
 }
+
+void ModeloNivel::destruirListaJugadores(){
+	// Destruyo los jugadores instanciados
+	for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++){
+		delete (*jugador);
+	}
+	return void();
+}
+
+void ModeloNivel::destruirListaEntidades(){
+	// Destruyo las entidades instanciadas
+	for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
+		delete (*entidad);
+	}
+	return void();
+}
+
+void ModeloNivel::destruirListaScroll(){
+	// Destruyo los scrolls instanciados
+	for (std::list<ModeloScroll*>::iterator scroll = this->listaScroll.begin(); scroll != this->listaScroll.end(); scroll++){
+		delete (*scroll);
+	}
+	return void();
+}
+
+	
