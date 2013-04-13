@@ -19,6 +19,7 @@ bool VistaLoop::loop(VistaNivel& vistaNivel){
 bool VistaLoop::levantarFondo(int altoPantalla, int anchoPantalla){
 
 	this->fondo = ImageLoader::getInstance().load_image(SDL_RUTA_FONDO);	
+	this->fondo = ImageLoader::getInstance().stretch(this->fondo,anchoPantalla,altoPantalla);
 
 	return true; // TODO: Implementar el return del método
 }
