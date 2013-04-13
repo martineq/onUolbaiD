@@ -193,7 +193,7 @@ void Pruebas::PruebaAnimacion(){
 	lista.push_back("./img/SORA_N8.bmp");
 */
 	list<string> listaE;
-	listaE.push_back("./img/SORA_E1.png");
+	/*listaE.push_back("./img/SORA_E1.png");
 	listaE.push_back("./img/SORA_E2.png");
 	listaE.push_back("./img/SORA_E3.png");
 	listaE.push_back("./img/SORA_E4.png");
@@ -201,7 +201,43 @@ void Pruebas::PruebaAnimacion(){
 	listaE.push_back("./img/SORA_E6.png");
 	listaE.push_back("./img/SORA_E7.png");
 	listaE.push_back("./img/SORA_E8.png");
-	listaAnimaciones.push_back(listaE);
+	listaAnimaciones.push_back(listaE);*/
+
+
+	list<string> listaMago;
+	listaMago.push_back("./img/testxyh_E1.png");
+	listaMago.push_back("./img/testxyh_E2.png");
+	listaMago.push_back("./img/testxyh_E3.png");
+	listaMago.push_back("./img/testxyh_E4.png");
+	listaMago.push_back("./img/testxyh_SE1.png");
+	listaMago.push_back("./img/testxyh_SE2.png");
+	listaMago.push_back("./img/testxyh_SE3.png");
+	listaMago.push_back("./img/testxyh_SE4.png");
+	listaMago.push_back("./img/testxyh_S1.png");
+	listaMago.push_back("./img/testxyh_S2.png");
+	listaMago.push_back("./img/testxyh_S3.png");
+	listaMago.push_back("./img/testxyh_S4.png");
+	listaMago.push_back("./img/testxyh_SO1.png");
+	listaMago.push_back("./img/testxyh_SO2.png");
+	listaMago.push_back("./img/testxyh_SO3.png");
+	listaMago.push_back("./img/testxyh_SO4.png");
+	listaMago.push_back("./img/testxyh_O1.png");
+	listaMago.push_back("./img/testxyh_O2.png");
+	listaMago.push_back("./img/testxyh_O3.png");
+	listaMago.push_back("./img/testxyh_O4.png");
+	listaMago.push_back("./img/testxyh_NO1.png");
+	listaMago.push_back("./img/testxyh_NO2.png");
+	listaMago.push_back("./img/testxyh_NO3.png");
+	listaMago.push_back("./img/testxyh_NO4.png");
+	listaMago.push_back("./img/testxyh_N1.png");
+	listaMago.push_back("./img/testxyh_N2.png");
+	listaMago.push_back("./img/testxyh_N3.png");
+	listaMago.push_back("./img/testxyh_N4.png");
+	listaMago.push_back("./img/testxyh_NE1.png");
+	listaMago.push_back("./img/testxyh_NE2.png");
+	listaMago.push_back("./img/testxyh_NE3.png");
+	listaMago.push_back("./img/testxyh_NE4.png");
+	listaAnimaciones.push_back(listaMago);
 
 	VistaEntidad* vEntidad = new VistaEntidad(0,0,70,50,0,0,15,10000,listaAnimaciones,true);
 	vEntidad->setPantalla(pantalla);
