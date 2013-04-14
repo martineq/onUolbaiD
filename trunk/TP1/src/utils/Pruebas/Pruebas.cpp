@@ -256,12 +256,17 @@ void Pruebas::PruebaAnimacion(){
 	//listaN.push_back("./img/CasaA03.png");
 	//listaN.push_back("./img/CasaA04.png");
 
-	listaN.push_back("./img/MiniMapa01.png");
-	listaN.push_back("./img/MiniMapa02.png");
-	listaN.push_back("./img/MiniMapa03.png");
-	listaN.push_back("./img/MiniMapa04.png");
-	listaN.push_back("./img/MiniMapa05.png");
-	
+	//listaN.push_back("./img/MiniMapa01.png");
+	//listaN.push_back("./img/MiniMapa02.png");
+	//listaN.push_back("./img/MiniMapa03.png");
+	//listaN.push_back("./img/MiniMapa04.png");
+	//listaN.push_back("./img/MiniMapa05.png");
+
+	listaN.push_back("./img/molino01.png");
+	listaN.push_back("./img/molino02.png");
+	listaN.push_back("./img/molino03.png");
+	listaN.push_back("./img/molino04.png");
+
 	/*listaN.push_back("./img/castillo01.png");
 	listaN.push_back("./img/castillo02.png");
 	listaN.push_back("./img/castillo03.png");
