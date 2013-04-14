@@ -108,6 +108,7 @@ class ParserYaml{
 		std::string leerNodoYamlString(const YAML::Node& nodo);
 		bool chequeoArchivo(std::string rutaArchivo);
 		void notificarErrorLectura(std::string tipoDato,std::string archivo, int linea, std::string msgError, bool& lecturaOk);
+		int cantidadDeAnimacionesDeEntidad(std::string entidad);
 
 	private:
 		// Los constructores permanecen privados, para evitar que sea instanciado multiples veces

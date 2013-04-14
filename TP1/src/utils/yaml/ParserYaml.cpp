@@ -562,7 +562,14 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 		}
 
 		// Valido la existencia de la entidad
-		if( this->validaExisteEntidad((*it).entidad) == false ) protagonistaOk = false;
+		if( this->validaExisteEntidad((*it).entidad) == false ){
+			protagonistaOk = false;
+		}else{
+			if( this->cantidadDeAnimacionesDeEntidad((*it).entidad) != YAML_CANTIDAD_OBLIGATORIA_DE_ANIMACIONES_PROTAGONISTA ){
+				Log::getInstance().log(1,__FILE__,__LINE__,"La cantidad de animaciones del potagonista "+ (*it).entidad +" no es la requerida.");
+				protagonistaOk = false;
+			}
+		}
 
 		// Agrego la entidad definida con errores
 		if( protagonistaOk == false){
@@ -701,6 +708,13 @@ void ParserYaml::notificarErrorLectura(std::string tipoDato,std::string archivo,
 		msg.append(msgError);
 		Log::getInstance().log(1,archivo,linea,msg);
 		lecturaOk = false;
+}
+
+int ParserYaml::cantidadDeAnimacionesDeEntidad(std::string entidad){
+	for (std::list<ParserYaml::stEntidad>::iterator it=this->juego.entidades.begin() ; it != this->juego.entidades.end(); it++ ){
+		if( (*it).nombre.compare(entidad) == 0 ) return (*it).imagenes.size();
+	}
+	return 0;
 }
 
 // TODO: Tareas:
