@@ -41,7 +41,6 @@ class VistaEntidad: public Observador, public Identificable{
 
 		// Getters
 		bool getEsJugador(void);
-		//int getId(void);
 		double getX(void);
 		double getY(void);
 		double getAlto(void);
@@ -59,7 +58,7 @@ class VistaEntidad: public Observador, public Identificable{
 		void setYEnPantalla(double scrollY);
 		void setEsNecesarioRefrescar(bool boolRefrescar);
 		void setAnimacion(std::string estado);
-		void graficar();
+		bool graficar();
 		void setPantalla(SDL_Surface* screen);
 
 };

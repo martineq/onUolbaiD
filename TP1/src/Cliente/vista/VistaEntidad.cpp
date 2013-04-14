@@ -80,7 +80,6 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 void VistaEntidad::actualizar(class Observable* s){
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
 	
-    // TODO: Completar con los métodos brindados por ModeloEntidad
 	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x - (this->ancho / 2);
 	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y - (this->alto / 2);
 
@@ -104,10 +103,6 @@ int VistaEntidad::id() const {
 bool VistaEntidad::getEsJugador(void){
 	return (this->esJugador);
 }
-
-/*int VistaEntidad::getId(void){	// Para el ID
-    return (this->id);
-}*/
 
 double VistaEntidad::getX(void){
 	return (this->x);
@@ -161,13 +156,15 @@ void VistaEntidad::setAnimacion(std::string estado){
 	this->animacionActual = this->animaciones->get(estado);
 }
 
-void VistaEntidad::graficar(){
+bool VistaEntidad::graficar(){
+	bool ok = true;
 	if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
-		this->animacionActual->graficar(this->x,this->y);
+		if( this->animacionActual->graficar(this->x,this->y) == false ) ok = false;
 		this->esNecesarioRefrescar = false;
 	}else{
-		this->animacionActual->graficar();
+		if( this->animacionActual->graficar() == false ) ok = false;
 	}
+	return ok;
 }
 
 void VistaEntidad::setPantalla(SDL_Surface* screen){

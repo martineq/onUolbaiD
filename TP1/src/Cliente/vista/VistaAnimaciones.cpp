@@ -1,8 +1,8 @@
 #include "VistaAnimaciones.h"
 
 VistaAnimaciones::VistaAnimaciones() {
-	// TODO Auto-generated constructor stub
 	this->animacionesAutomaticas = false;
+	// TODO ¿Falta agregar algo mas acá?
 }
 
 /**

@@ -20,8 +20,3 @@ void ControladorJuego::agregarObservadorEventos(Observador* observador){
 	this->controladorLoop.agregarObservadorEventos(observador);
 	return void();
 }
-
-bool ControladorJuego::iniciar(void){
-	// TODO: Implementar. Ver si hace falta
-	return false;
-}

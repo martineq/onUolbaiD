@@ -37,10 +37,13 @@ SDL_Surface *ImageLoader::load_image( std::string filename )
 	{
 		//Color key surface
 		SDL_SetColorKey( optimizedImage, SDL_SRCCOLORKEY, SDL_MapRGB( optimizedImage->format, 0, 0xFF, 0xFF ) );
+		
+		//Return the optimized surface
+		return optimizedImage;
+	}else{
+		return NULL;
 	}
 
-	//Return the optimized surface
-	return optimizedImage;
 }
 
 SDL_Surface* ImageLoader::stretch(SDL_Surface *surface, double width, double height)
@@ -52,8 +55,12 @@ SDL_Surface* ImageLoader::stretch(SDL_Surface *surface, double width, double hei
 	SDL_Surface * retornar = NULL;
 
 	retornar = SDL_DisplayFormatAlpha( zoomed );
+	if( retornar == NULL ) return NULL;
+
 	SDL_FreeSurface(zoomed);
-	SDL_SetColorKey( retornar, SDL_SRCCOLORKEY, SDL_MapRGB( retornar->format, 0, 0xFF, 0xFF ) );
+
+	if( SDL_SetColorKey(retornar, SDL_SRCCOLORKEY, SDL_MapRGB( retornar->format, 0, 0xFF, 0xFF )) != 0 ) return NULL ;
+	
 	return retornar;
 }
 
@@ -106,5 +113,5 @@ void ImageLoader::refrescarPantalla(SDL_Surface* screen){
 	SDL_UpdateRect(screen, 0, 0, 0, 0);
 }
 ImageLoader::~ImageLoader() {
-	// TODO Auto-generated destructor stub
+	// TODO ¿Falta agregar algo acá?
 }

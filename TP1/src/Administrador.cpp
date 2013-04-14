@@ -11,7 +11,6 @@ Administrador::~Administrador(void){
 
 bool Administrador::iniciar(){
 	
-	// TODO: Tomar los booleanos del iniciar
 	if( this->servidor.iniciar() == false ){
 		Log::getInstance().log(1,__FILE__,__LINE__,"No se pudo iniciar el juego");
 		return false;
