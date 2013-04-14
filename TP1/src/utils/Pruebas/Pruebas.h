@@ -14,8 +14,16 @@
 #include "../../Cliente/vista/VistaAnimacion.h"
 #include "../../Cliente/vista/VistaAnimaciones.h"
 #include "../../Cliente/vista/VistaEntidad.h"
+#include "../SDLgfx/SDL_gfxPrimitives.h"
 
 class Pruebas{
+
+	private:
+
+		void dibujarTriangulos(SDL_Surface* pantalla, int alto,int ancho,
+				int supAIni,int supAFin,int supBIni,int supBFin,int derAIni,int derAFin,int derBIni,int derBFin,
+				int infAIni,int infAFin,int infBIni,int infBFin,int izqAIni,int izqAFin,int izqBIni,int izqBFin,
+				int rojo, int verde, int azul,int alfa);
 
 	public:
 

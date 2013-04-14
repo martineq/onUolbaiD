@@ -48,7 +48,7 @@ void Pruebas::PruebaSdl(void){
 	temp  = SDL_LoadBMP(SDL_RUTA_PASTO);
 	pasto = SDL_DisplayFormat(temp);
 	SDL_FreeSurface(temp);
-
+	
 	// Seteo la posición del sprite
 	rcSprite.x = 0;
 	rcSprite.y = 0;
@@ -83,16 +83,16 @@ void Pruebas::PruebaSdl(void){
 	// Manejo el movimiento del Sprite
 	estadoTecla = SDL_GetKeyState(NULL);
 	if (estadoTecla[SDLK_LEFT] ) {
-	  rcSprite.x -= 2;
+	  rcSprite.x -= 1;
 	}
 	if (estadoTecla[SDLK_RIGHT] ) {
-	  rcSprite.x += 2;
+	  rcSprite.x += 1;
 	}
 	if (estadoTecla[SDLK_UP] ) {
-	  rcSprite.y -= 2;
+	  rcSprite.y -= 1;
 	}
 	if (estadoTecla[SDLK_DOWN] ) {
-	  rcSprite.y += 2;
+	  rcSprite.y += 1;
 	}
 
 	// Hago conincidir con los bordes de la pantalla
@@ -120,6 +120,9 @@ void Pruebas::PruebaSdl(void){
 
 	// Dibujo el sprite
 	SDL_BlitSurface(sprite, NULL, pantalla, &rcSprite);
+
+	// Dibujo los triangulos
+	dibujarTriangulos(pantalla,PANTALLA_ALTO,PANTALLA_ANCHO,0,PANTALLA_ANCHO/2,0,0,0,0,0,0,0,PANTALLA_ANCHO/2,0,0,0,PANTALLA_ALTO/2,PANTALLA_ALTO/2,PANTALLA_ALTO,0,0,0,255);
 
 	// Refresco la pantalla
 	SDL_UpdateRect(pantalla, 0, 0, 0, 0);
@@ -170,7 +173,7 @@ void Pruebas::PruebaAnimacion(){
 	double ANCHO_SPRITE = 50;
 	SDL_Surface* pantalla = ImageLoader::getInstance().levantarPantalla(PANTALLA_ANCHO,PANTALLA_ALTO);
 	SDL_Surface* temp, *pasto;
-	list<string> lista;	
+	list<string> lista;
 	list<list<string>> listaAnimaciones;
 	/*lista.push_back("./img/SORA_S1.bmp");
 	lista.push_back("./img/SORA_S2.bmp");
@@ -262,10 +265,16 @@ void Pruebas::PruebaAnimacion(){
 	//listaN.push_back("./img/MiniMapa04.png");
 	//listaN.push_back("./img/MiniMapa05.png");
 
-	listaN.push_back("./img/molino01.png");
-	listaN.push_back("./img/molino02.png");
-	listaN.push_back("./img/molino03.png");
-	listaN.push_back("./img/molino04.png");
+	//listaN.push_back("./img/molino01.png");
+	//listaN.push_back("./img/molino02.png");
+	//listaN.push_back("./img/molino03.png");
+	//listaN.push_back("./img/molino04.png");
+
+	listaN.push_back("./img/castillo01.png");
+	listaN.push_back("./img/castillo02.png");
+	listaN.push_back("./img/castillo03.png");
+	listaN.push_back("./img/castillo04.png");
+	listaN.push_back("./img/castillo05.png");
 
 	/*listaN.push_back("./img/castillo01.png");
 	listaN.push_back("./img/castillo02.png");
@@ -420,5 +429,56 @@ void Pruebas::PruebaAnimacion(){
 
 	// Salgo del SDL
 	SDL_Quit();
+
+}
+
+void Pruebas::dibujarTriangulos(SDL_Surface* pantalla, int alto,int ancho,
+	int supAIni,int supAFin,int supBIni,int supBFin,int derAIni,int derAFin,int derBIni,int derBFin,
+	int infAIni,int infAFin,int infBIni,int infBFin,int izqAIni,int izqAFin,int izqBIni,int izqBFin,
+	int rojo, int verde, int azul,int alfa){
+
+	// Dibujo un triangulo sólido en la pantalla
+	// Draw a filled triangle with vertices (x1, y1), (x2, y2), (x3, y3) and RGBA color (r, g, b, a)
+	//int filledTrigonRGBA(SDL_Surface* dst,Sint16 x1, Sint16 y1,Sint16 x2, Sint16 y2,Sint16 x3, Sint16 y3, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+	
+
+	//int alto = PANTALLA_ALTO;
+	//int ancho = PANTALLA_ANCHO;
+
+	//int supAIni = 0;
+	//int supAFin = ancho/2;
+	//int supBIni = 0;//ancho/2;
+	//int supBFin = 0;//ancho;
+	//int derAIni = 0;
+	//int derAFin = 0;//alto/2;
+	//int derBIni = 0;//alto/2;
+	//int derBFin = 0;//alto;
+	//int infAIni = 0;
+	//int infAFin = ancho/2;
+	//int infBIni = 0;//ancho/2;
+	//int infBFin = 0;//ancho;
+	//int izqAIni = 0;
+	//int izqAFin = alto/2;
+	//int izqBIni = alto/2;
+	//int izqBFin = alto;
+	//
+	//int rojo=0/*25*/, verde=0/*25*/, azul=0/*112*/, alfa=255;
+	//
+	if( (supBIni != supBFin) && (derAIni != derAFin) ){
+		filledTrigonRGBA(pantalla,supBIni,derAIni,supBFin,derAIni,supBFin,derAFin, rojo, verde, azul, alfa);
+	}
+
+	if( (derBIni != derBFin) && ( infBIni != infBFin) ){
+		filledTrigonRGBA(pantalla,infBFin,derBIni,infBIni,derBFin,infBFin,derBFin, rojo, verde, azul, alfa);
+	}
+
+	if( ( infAIni != infAFin) && (izqBIni != izqBFin) ){
+		filledTrigonRGBA(pantalla,infAIni,izqBIni,infAIni,izqBFin,infAFin,izqBFin,rojo, verde, azul, alfa);
+	}
+
+	if( (izqAIni != izqAFin) && (supAIni != supAFin) ){
+		filledTrigonRGBA(pantalla,supAIni,izqAIni,supAFin,izqAIni,supAIni,izqAFin,rojo, verde, azul, alfa);
+	}
 
 }
