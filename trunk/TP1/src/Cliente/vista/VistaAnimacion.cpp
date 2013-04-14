@@ -5,6 +5,7 @@ VistaAnimacion::VistaAnimacion(list<string> & sprites, int periodo, double ancho
 	this->ancho = ancho;
 	this->alto = alto;
 	this->indice = 0;
+	this->indiceAnterior = 0;
 	this->x = 0;
 	this->y = 0;
 	this->tiempoEspera = 0;
@@ -54,6 +55,7 @@ bool VistaAnimacion::graficar(double x, double y){
 	bool ok = false;
 	this->x = x;
 	this->y = y;
+	this->limpiar();
 	ok = this->superficies.at(indice)->graficar(x,y);
 	this->incrementarIndice();
 	return ok;
@@ -61,13 +63,13 @@ bool VistaAnimacion::graficar(double x, double y){
 
 bool VistaAnimacion::graficar(){
 	bool ok = false;
-	this->superficies.front()->setX(this->x);
-	this->superficies.front()->setY(this->y);
-	ok = this->superficies.front()->graficar();
+	this->limpiar();
+	ok = this->superficies.front()->graficar(this->x, this->y);
 	return ok;
 }
 
 void VistaAnimacion::incrementarIndice(){
+	this->indiceAnterior = this->indice;
 	//Devuelve true si debe esperar el período
 	double tiempoActual = SDL_GetTicks();
 	if ( esperarTiempo() == false ){
@@ -106,4 +108,8 @@ VistaAnimacion::~VistaAnimacion() {
 			*it = NULL;
 		}
 	}
+}
+
+void VistaAnimacion::limpiar() {
+	this->superficies.at(indiceAnterior)->limpiar();
 }

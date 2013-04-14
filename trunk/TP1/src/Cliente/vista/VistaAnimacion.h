@@ -15,7 +15,8 @@ private:
 	int periodo;
 	double ancho;
 	double alto;
-	int indice;	
+	int indice;
+	int indiceAnterior;
 	double x;
 	double y;
 	double intervaloActualizacion;
@@ -34,6 +35,7 @@ public:
 	bool graficar();
 	void incrementarIndice();
 	bool esperarTiempo();
+	void limpiar();
 
 	virtual ~VistaAnimacion();
 };
