@@ -55,6 +55,9 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 		}
 		i++;
 	}
+	if (this->esJugador == false){
+		this->animaciones->setAnimacionesAutomaticas();
+	}
 	this->esNecesarioRefrescar = true;
 	this->codigoAnimacion = 0;
 	//typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
@@ -159,7 +162,7 @@ void VistaEntidad::setAnimacion(std::string estado){
 }
 
 void VistaEntidad::graficar(){
-	if (this->esNecesarioRefrescar){
+	if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
 		this->animacionActual->graficar(this->x,this->y);
 		this->esNecesarioRefrescar = false;
 	}else{
