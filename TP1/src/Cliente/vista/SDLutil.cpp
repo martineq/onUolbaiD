@@ -79,8 +79,6 @@ bool SDLutil::graficar() {
 }
 
 bool SDLutil::graficar(double x, double y) {
-	this->limpiar();
-
 	this->x = x;
 	this->y = y;
 	

@@ -38,21 +38,21 @@ class Servidor {
 		ModeloJuego modeloJuego;
 
 		//TODO: Borrar
-		class VistaScrollPrueba : public Observador, public Identificable {
+		class VistaScrollPrueba1 : public Observador, public Identificable {
 			private:
 				SDL_Surface* _pantalla;
 				SDL_Surface* _nivel;
 				SDL_Rect _destinoScroll;
 				
 			public:
-				VistaScrollPrueba(SDL_Surface* pantalla, SDL_Surface* nivel) {
+				VistaScrollPrueba1(SDL_Surface* pantalla, SDL_Surface* nivel) {
 					this->_pantalla = pantalla;
 					this->_nivel = nivel;
 					this->_destinoScroll.w = ANCHO_PANTALLA;
 					this->_destinoScroll.h = ALTO_PANTALLA;
 				}
 
-				virtual ~VistaScrollPrueba() {
+				virtual ~VistaScrollPrueba1() {
 				}
 
 				void actualizar(Observable* s) {
@@ -151,6 +151,7 @@ class Servidor {
 				void graficar() {
 					if (!this->_actualizar)
 						return;
+					this->_utilidadSDL->limpiar();
 					this->_utilidadSDL->graficar(this->_x, this->_y);
 					this->_actualizar = false;
 				}
@@ -241,10 +242,10 @@ class Servidor {
 			ModeloNivel modeloNivel;
 			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, modeloJugador.id());
-			VistaScrollPrueba vistaScroll(pantalla, nivel);
+			VistaScrollPrueba1 vistaScroll(pantalla, nivel);
 			//VistaEntidadPrueba1 vistaJugador;
-			VistaEntidadPrueba2 vistaJugador;
-			//VistaEntidad vistaJugador(0, 0, 70, 50, 0, 0, 15, 1000, listaAnimaciones, true);
+			//VistaEntidadPrueba2 vistaJugador;
+			VistaEntidad vistaJugador(0, 0, 70, 50, 0, 0, 15, 1000, listaAnimaciones, true);
 			
 			vistaJugador.setPantalla(nivel);
 

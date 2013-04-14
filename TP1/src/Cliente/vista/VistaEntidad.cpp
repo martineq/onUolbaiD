@@ -2,29 +2,6 @@
 
 long VistaEntidad::contador = 0; // Para el ID
 
-/*VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador){
-	this->id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
-	this->x = x;
-	this->y = y;
-	this->alto = alto;
-	this->ancho = ancho;
-	this->posicionReferenciaX = posicionReferenciaX;
-	this->posicionReferenciaY = posicionReferenciaY;
-	this->fps = fps;
-	this->delay = delay;
-	this->esJugador = esJugador;
-	this->listaAnimaciones = listaAnimaciones;
-	this->esNecesarioRefrescar = true;
-	this->codigoAnimacion = 0;
-
-	area.x = ancho	* 0;
-	area.y = alto	* 0;
-	area.w = ancho;
-	area.h = alto;
-
-	this->figuraActual = &this->area;
-}
-*/
 VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador){
 	this->_id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
 	this->x = x;
@@ -79,15 +56,12 @@ VistaEntidad::~VistaEntidad(void){
 
 void VistaEntidad::actualizar(class Observable* s){
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
-	
 	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x - (this->ancho / 2);
 	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y - (this->alto / 2);
 
-//	this->x = ((ModeloEntidad*)s)->getX();
-//	this->y = ((ModeloEntidad*)s)->getY();
-//	this->codigoAnimacion = ((ModeloEntidad*)s)->getCodigoAnimacion();
 	int codigo = ((ModeloEntidad*)s)->direccion();
 	if ((this->esJugador) && (codigo != this->codigoAnimacion)){
+		this->animacionActual->limpiar();
 		this->codigoAnimacion = codigo;
 		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
 	}
