@@ -16,7 +16,7 @@ class VistaLoop{
 		bool loop(VistaNivel& vistaNivel);
 
 		//levanta el fondo y la pantalla
-		bool levantarFondo(int,int);
+		bool levantarFondo(double,double);
 		void setPantalla(SDL_Surface *pantalla);
 		
 };

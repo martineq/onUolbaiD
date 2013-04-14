@@ -17,6 +17,8 @@ class VistaNivel{
 		std::list<VistaEntidad*> listaEntidades;
 		double alto;
 		double ancho;
+		double altoNivel;
+		double anchoNivel;
 
 		void destruirListaEntidades();
 		void destruirScroll();
@@ -33,11 +35,14 @@ class VistaNivel{
 		std::list<VistaEntidad*> getListaEntidades(void);
 		int getAltoPantalla(void);
 		int getAnchoPantalla(void);
+		double getAltoNivel();
+		double getAnchoNivel();
 
 		// Setters
 		void agregarJugador(VistaEntidad* pJugador);
 		void agregarEntidad(VistaEntidad* pEntidad);
 		void agregarScroll(VistaScroll* pScroll);
+		void agregarTamanioNivel(double,double);
 		void setAltoPantalla(int alto);
 		void setAnchoPantalla(int ancho);
 

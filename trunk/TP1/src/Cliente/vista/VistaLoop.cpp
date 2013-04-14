@@ -16,10 +16,10 @@ bool VistaLoop::loop(VistaNivel& vistaNivel){
 }
 
 //levanta el fondo y la pantalla
-bool VistaLoop::levantarFondo(int altoPantalla, int anchoPantalla){
+bool VistaLoop::levantarFondo(double altoNivel, double anchoNivel){
 
 	this->fondo = ImageLoader::getInstance().load_image(SDL_RUTA_FONDO);	
-	this->fondo = ImageLoader::getInstance().stretch(this->fondo,anchoPantalla,altoPantalla);
+	this->fondo = ImageLoader::getInstance().stretch(this->fondo,anchoNivel,altoNivel);
 
 	return true; // TODO: Implementar el return del método
 }
@@ -28,7 +28,8 @@ void VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 	// Cargo el fondo
 	// TODO: Ver estas lineas
 	SDL_Rect rcFondo = ImageLoader::getInstance().createRect(0,0);
-	SDL_BlitSurface(this->fondo, NULL, this->pantalla, &rcFondo);
+	SDL_Rect rc = ImageLoader::getInstance().createRect(vistaNivel.getScroll()->getX(),vistaNivel.getScroll()->getY());
+	SDL_BlitSurface(this->fondo, &rc, this->pantalla, &rcFondo);
 
 	list<VistaEntidad*> listaDeEntidades = vistaNivel.getListaEntidades();	
 	list<VistaEntidad*>::iterator it = listaDeEntidades.begin();

@@ -34,6 +34,8 @@ void VistaFactory::crearJugadorConScroll(ParserYaml::stJuego juego, VistaNivel& 
 	std::string nombre = protagonista.entidad;
 	ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego,nombre);
 
+	double tamanioX = (double)juego.escenarios.front().tamanioX;
+	double tamanioY = (double)juego.escenarios.front().tamanioY;
 	double x = (double)protagonista.x;
 	double y = (double)protagonista.y;
 	double alto = (double)entidad.altoBase;
@@ -47,7 +49,8 @@ void VistaFactory::crearJugadorConScroll(ParserYaml::stJuego juego, VistaNivel& 
 	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true);
 	VistaScroll* pScroll = new VistaScroll(x,y,juego.pantalla.alto,juego.pantalla.ancho);	// Tomo el mismo x,y,velocidad que el personaje
 	vistaNivel.agregarJugador(pJugador);
-	vistaNivel.agregarScroll(pScroll); 
+	vistaNivel.agregarScroll(pScroll);
+	vistaNivel.agregarTamanioNivel(tamanioX,tamanioY);
 
 	return void();
 }
