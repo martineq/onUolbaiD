@@ -80,6 +80,7 @@
 #define YAML_PERSONAJE_LONGITUD_MAXIMA 50
 #define YAML_FPS_TOPE_MAXIMO 99
 #define YAML_DELAY_TOPE_MAXIMO 59
+#define YAML_CANTIDAD_OBLIGATORIA_DE_ANIMACIONES_PROTAGONISTA 8
 
 
 /*****************************  Habilitación de info de Mutex *************************/
