@@ -87,7 +87,7 @@ void ModeloNivel::agregarObservadoresScroll(std::list<Observador*> listaObservad
 		ModeloScroll* scroll = this->obtenerScroll(dynamic_cast<Identificable*>(*observador)->id());
 		if (scroll != NULL){
 			scroll->agregarObservador(*observador);
-			scroll->notificarObservadores();
+			scroll->cambiarEstado();
 		}
 	}
 }
