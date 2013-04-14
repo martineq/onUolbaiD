@@ -1,46 +1,6 @@
 #include "ModeloEntidad.h"
 
-void* ModeloEntidad::ModeloMovimiento::run(void* parametro) {
-	// Calcula desplazamientos
-	int deltaX = abs(this->_posicionDestino.x - this->_modeloEntidad->_posicionActual.x);
-	int deltaY = abs(this->_posicionDestino.y - this->_modeloEntidad->_posicionActual.y);
-	int desplazamientoX = (this->_modeloEntidad->_posicionActual.x < this->_posicionDestino.x) ? 1 : -1;
-	int desplazamientoY = (this->_modeloEntidad->_posicionActual.y < this->_posicionDestino.y) ? 1 : -1;
-	int error = (deltaX >= deltaY) ? deltaX : deltaY;
-	int desplazamientoErrorX = 2 * deltaX;
-	int desplazamientoErrorY = 2 * deltaY;
-	
-	this->_modeloEntidad->_posicionSiguiente = this->_modeloEntidad->_posicionActual;
-
-	// Mientras el movmiento se este ejecutando obtiene el camino tile por tile hasta llegar al destino
-	this->_ejecutando = true;
-	while (this->_ejecutando && (this->_modeloEntidad->_posicionActual != this->_posicionDestino)) {
-		this->_modeloEntidad->_posicionSiguiente.x += (deltaX >= deltaY) ? desplazamientoX : 0;
-		this->_modeloEntidad->_posicionSiguiente.y += (deltaX >= deltaY) ? 0 : desplazamientoY;
-		error += (deltaX >= deltaY) ? desplazamientoErrorY : desplazamientoErrorX; 
-		
-		if (deltaX >= deltaY) {
-			if (error > desplazamientoErrorX) {
-				this->_modeloEntidad->_posicionSiguiente.y += desplazamientoY; 
-				error -= desplazamientoErrorX; 
-			}
-		}
-		else {
-			if (error > desplazamientoErrorY) {
-				this->_modeloEntidad->_posicionSiguiente.x += desplazamientoX;
-				error -= desplazamientoErrorY;
-			}
-		}
-
-		this->notificarObservadores();
-		this->_modeloEntidad->_posicionActual = this->_modeloEntidad->_posicionSiguiente;
-	}
-	return NULL;
-}
-
-void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
-	this->notificarObservadores();
-}
+using namespace std;
 
 ModeloEntidad::ModeloMovimiento::ModeloMovimiento(const ModeloMovimiento &modeloMovimiento) {
 }
@@ -49,15 +9,57 @@ ModeloEntidad::ModeloMovimiento& ModeloEntidad::ModeloMovimiento::operator=(cons
 	return *this;
 }
 
-ModeloEntidad::ModeloMovimiento::ModeloMovimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino) {
+ModeloEntidad::ModeloMovimiento::ModeloMovimiento(ModeloEntidad* modeloEntidad) {
 	this->_modeloEntidad = modeloEntidad;
-	this->_posicionDestino = posicionDestino;
-	this->_ejecutando = false;
+	this->_instanteUltimoCambioEstado = 0;
 }
 
 ModeloEntidad::ModeloMovimiento::~ModeloMovimiento() {
 }
 
-void ModeloEntidad::ModeloMovimiento::detener() {
-	this->_ejecutando = false;
+void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
+	this->_posicionDestino = posicionDestino;
+	this->_deltaX = abs(this->_posicionDestino.x - this->_modeloEntidad->_posicionActual.x);
+	this->_deltaY = abs(this->_posicionDestino.y - this->_modeloEntidad->_posicionActual.y);
+	this->_desplazamientoX = (this->_modeloEntidad->_posicionActual.x < this->_posicionDestino.x) ? 1 : -1;
+	this->_desplazamientoY = (this->_modeloEntidad->_posicionActual.y < this->_posicionDestino.y) ? 1 : -1;
+	this->_error = (this->_deltaX >= this->_deltaY) ? this->_deltaX : this->_deltaY;
+	this->_desplazamientoErrorX = 2 * this->_deltaX;
+	this->_desplazamientoErrorY = 2 * this->_deltaY;
+	this->_modeloEntidad->_posicionSiguiente = this->_modeloEntidad->_posicionActual;
+}
+
+void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
+	if (this->_modeloEntidad->_posicionActual == this->_posicionDestino)
+		return;
+	
+	if (this->_instanteUltimoCambioEstado == 0) {
+		this->_instanteUltimoCambioEstado = GetTickCount();
+		return;
+	}
+
+	if (this->_modeloEntidad->velocidad() > (GetTickCount() - this->_instanteUltimoCambioEstado))
+		return;
+
+	this->_modeloEntidad->_posicionSiguiente.x += (this->_deltaX >= this->_deltaY) ? this->_desplazamientoX : 0;
+	this->_modeloEntidad->_posicionSiguiente.y += (this->_deltaX >= this->_deltaY) ? 0 : this->_desplazamientoY;
+	this->_error += (this->_deltaX >= this->_deltaY) ? this->_desplazamientoErrorY : this->_desplazamientoErrorX; 
+	
+	if (this->_deltaX >= this->_deltaY) {
+		if (this->_error > this->_desplazamientoErrorX) {
+			this->_modeloEntidad->_posicionSiguiente.y += this->_desplazamientoY; 
+			this->_error -= this->_desplazamientoErrorX; 
+		}
+	}
+	else {
+		if (this->_error > this->_desplazamientoErrorY) {
+			this->_modeloEntidad->_posicionSiguiente.x += this->_desplazamientoX;
+			this->_error -= this->_desplazamientoErrorY;
+		}
+	}
+
+	this->notificarObservadores();
+	this->_modeloEntidad->_posicionActual = this->_modeloEntidad->_posicionSiguiente;
+
+	this->_instanteUltimoCambioEstado = GetTickCount();
 }

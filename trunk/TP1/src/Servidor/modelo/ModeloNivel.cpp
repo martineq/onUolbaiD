@@ -146,6 +146,9 @@ bool ModeloNivel::actualizar(int id) {
 	ModeloScroll* scroll = this->obtenerScroll(id);
 	if (scroll != NULL)
 		scroll->cambiarEstado();
+	ModeloEntidad* jugador = this->obtenerJugador(id);
+	if (jugador != NULL)
+		jugador->cambiarEstado();
 	return true;
 }
 

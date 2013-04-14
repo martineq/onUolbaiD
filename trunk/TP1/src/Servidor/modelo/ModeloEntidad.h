@@ -10,7 +10,7 @@
 #include "../../utils/Observador/Identificable.h"
 #include "../../utils/Hilos/Hilo.h"
 
-typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
+typedef enum Direccion { NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE, NOROESTE, CENTRO };
 
 typedef struct Posicion {
 	int x;
@@ -48,34 +48,46 @@ typedef struct Posicion {
 
 class ModeloEntidad : public Observable, public Identificable {
 	private:
-		class ModeloMovimiento : public Hilo, public Observable {
+		class ModeloMovimiento : public Observable {
 			private:
 				ModeloEntidad* _modeloEntidad;
 				Posicion _posicionDestino;
-				bool _ejecutando;
-
-				void* run(void* parametro);
-
-				void cambiarEstado();
-
+				int _deltaX;
+				int _deltaY;
+				int _desplazamientoX;
+				int _desplazamientoY;
+				int _error;
+				int _desplazamientoErrorX;
+				int _desplazamientoErrorY;
+				DWORD _instanteUltimoCambioEstado;
+				
 				ModeloMovimiento(const ModeloMovimiento &modeloMovimiento);
 
 				ModeloMovimiento& operator=(const ModeloMovimiento &modeloMovimiento);
 
 			public:
-				ModeloMovimiento(ModeloEntidad* modeloEntidad, Posicion posicionDestino);
+				ModeloMovimiento(ModeloEntidad* modeloEntidad);
 
 				virtual ~ModeloMovimiento();
 
-				void detener();
+				void actualizar(Posicion posicion);
+
+				void cambiarEstado();
 		};
 
 		class VistaMovimiento : public Observador {
 			private:
 				ModeloEntidad* _modeloEntidad;
+				Posicion _posicionOrigen;
+				Posicion _posicionDestino;
 				int _altoMapa;
 				int _anchoMapa;
-				int _fps;
+				int _cantidadCuadros;
+				int _desplazamiento;
+				DWORD _espera;
+				int _cuadroActual;
+				std::list<Posicion> _posiciones;
+				DWORD _instanteUltimoCambioEstado;
 				
 				Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino);
 
@@ -89,6 +101,8 @@ class ModeloEntidad : public Observable, public Identificable {
 				virtual ~VistaMovimiento();
 				
 				void actualizar(Observable* observable);
+
+				void cambiarEstado();
 		};
 
 		static long _ultimoId;
@@ -103,8 +117,8 @@ class ModeloEntidad : public Observable, public Identificable {
 		Posicion _pixelActual;
 		Posicion _pixelSiguiente;
 		Direccion _direccion;
+		ModeloMovimiento* _modeloMovimiento;
 		VistaMovimiento* _vistaMovimiento;
-		ModeloMovimiento* _modeloMovimientoActual;
 		int _altoMapa;
 		int _anchoMapa;
 
@@ -143,3 +157,10 @@ class ModeloEntidad : public Observable, public Identificable {
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
+
+// TODO: Importante: El método cambiarEstado() tiene que estar regulado por un timer para poder controlar
+//                   el tráfico de datos que le será enviado a la VistaEntidad. La idea es que el ModeloLoop
+//					 tenga ese timer y cada cierto período (1/15 seg) ordene a toda la lista de ModeloEntidad 
+//					 que contiene ModeloNivel hacer el cambiarEstado(), si es que de verdad cambió el estado.
+//					 De esta manera el Modelo calcula todo lo que le llega a través del controlador,
+//					 pero sólo lo envía a la Vista cuando esta lo necesita. (Lo pongo acá para no olvidarme)
