@@ -39,33 +39,39 @@ ModeloEntidad::VistaMovimiento::VistaMovimiento(ModeloEntidad* modeloEntidad, in
 	this->_modeloEntidad = modeloEntidad;
 	this->_altoMapa = altoMapa;
 	this->_anchoMapa = anchoMapa;
-	this->_fps = fps;
+	this->_cantidadCuadros = (this->_modeloEntidad->velocidad() * fps) / 1000;
+	this->_espera = this->_modeloEntidad->velocidad() / this->_cantidadCuadros;
+
+	// Si la cantidad de cuadros a mostrar es 0 al menos muestro el cuadro final
+	if (this->_cantidadCuadros == 0)
+		this->_cantidadCuadros = 1;
+
+	this->_cuadroActual = this->_cantidadCuadros;
+	this->_instanteUltimoCambioEstado = 0;
 }
 
 ModeloEntidad::VistaMovimiento::~VistaMovimiento() {
 }
 
 void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
-	Posicion posicionOrigen, posicionDestino, posicionActual;
-	int deltaX, deltaY, desplazamientoX, desplazamientoY, error, desplazamientoErrorX, desplazamientoErrorY;
-	list<Posicion> posiciones;
-
 	// Calcula posiciones en pixeles
-	Posicion::convertirTileAPixel(this->_altoMapa, this->_modeloEntidad->posicionActual().x, this->_modeloEntidad->posicionActual().y, posicionOrigen.x, posicionOrigen.y);
-	Posicion::convertirTileAPixel(this->_altoMapa, this->_modeloEntidad->posicionSiguiente().x, this->_modeloEntidad->posicionSiguiente().y, posicionDestino.x, posicionDestino.y);
-	posicionActual = posicionOrigen;
+	Posicion::convertirTileAPixel(this->_altoMapa, this->_modeloEntidad->posicionActual().x, this->_modeloEntidad->posicionActual().y, this->_posicionOrigen.x, this->_posicionOrigen.y);
+	Posicion::convertirTileAPixel(this->_altoMapa, this->_modeloEntidad->posicionSiguiente().x, this->_modeloEntidad->posicionSiguiente().y, this->_posicionDestino.x, this->_posicionDestino.y);
 
 	// Calcula desplazamientos
-	deltaX = abs(posicionDestino.x - posicionOrigen.x);
-	deltaY = abs(posicionDestino.y - posicionOrigen.y);
-	desplazamientoX = (posicionOrigen.x < posicionDestino.x) ? 1 : -1;
-	desplazamientoY = (posicionOrigen.y < posicionDestino.y) ? 1 : -1;
-	error = (deltaX >= deltaY) ? deltaX : deltaY;
-	desplazamientoErrorX = 2 * deltaX;
-	desplazamientoErrorY = 2 * deltaY;
-	
+	int deltaX = abs(this->_posicionDestino.x - this->_posicionOrigen.x);
+	int deltaY = abs(this->_posicionDestino.y - this->_posicionOrigen.y);
+	int desplazamientoX = (this->_posicionOrigen.x < this->_posicionDestino.x) ? 1 : -1;
+	int desplazamientoY = (this->_posicionOrigen.y < this->_posicionDestino.y) ? 1 : -1;
+	int error = (deltaX >= deltaY) ? deltaX : deltaY;
+	int desplazamientoErrorX = 2 * deltaX;
+	int desplazamientoErrorY = 2 * deltaY;
+	Posicion posicionActual = this->_posicionOrigen;
+
+	this->_posiciones.clear();
+
 	// Obtiene el camino pixel por pixel
-	while (posicionActual != posicionDestino) {
+	while (posicionActual != this->_posicionDestino) {
 		posicionActual.x += (deltaX >= deltaY) ? desplazamientoX : 0;
 		posicionActual.y += (deltaX >= deltaY) ? 0 : desplazamientoY;
 		error += (deltaX >= deltaY) ? desplazamientoErrorY : desplazamientoErrorX; 
@@ -83,35 +89,42 @@ void ModeloEntidad::VistaMovimiento::actualizar(Observable* observable) {
 			}
 		}
 
-		posiciones.push_back(posicionActual);
+		this->_posiciones.push_back(posicionActual);
 	}
 
-	// Calcula la cantida de cuadros a mostrar y la duracion de cada uno
-	list<Posicion>::iterator iterador = posiciones.begin();
-	int cuadros = (this->_modeloEntidad->velocidad() * this->_fps) / 1000;
-	
-	// Si la cantidad de cuadros a mostrar es 0 al menos muestro el cuadro final
-	if (cuadros == 0)
-		cuadros = 1;
-	
-	int desplazamiento = posiciones.size() / cuadros;
-	DWORD espera = this->_modeloEntidad->velocidad() / cuadros;
+	this->_desplazamiento = this->_posiciones.size() / this->_cantidadCuadros;
+	this->_cuadroActual = 0;
+}
 
-	// Recorre la lista de pixeles salteando segun la cantidad de cuadros, sin tener en cuenta el ultimo
-	this->_modeloEntidad->_pixelActual = posicionOrigen;
-	for (int i = 0; i < cuadros - 1; i++) {
-		advance(iterador, desplazamiento);
+void ModeloEntidad::VistaMovimiento::cambiarEstado() {
+	if (this->_cuadroActual > this->_cantidadCuadros)
+		return;
+
+	if (this->_instanteUltimoCambioEstado == 0) {
+		this->_instanteUltimoCambioEstado = GetTickCount();
+		return;
+	}
+	
+	if (this->_espera > (GetTickCount() - this->_instanteUltimoCambioEstado))
+		return;
+
+	if (this->_cuadroActual == this->_cantidadCuadros) {
+		this->_modeloEntidad->_pixelSiguiente = this->_posicionDestino;
+		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
+		this->_modeloEntidad->notificarObservadores();
+		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
+	}
+	else {
+		list<Posicion>::iterator iterador = this->_posiciones.begin();
+		
+		advance(iterador, this->_cuadroActual * this->_desplazamiento);
+
 		this->_modeloEntidad->_pixelSiguiente = *iterador;
 		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
 		this->_modeloEntidad->notificarObservadores();
 		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
-		Sleep(espera);
 	}
 
-	// Dibuja el deplazamiento en el ultimo pixel para que quede bien ubicado en el tile que le corresponde
-	this->_modeloEntidad->_pixelSiguiente = posicionDestino;
-	this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
-	this->_modeloEntidad->notificarObservadores();
-	this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
-	Sleep(espera);
+	this->_cuadroActual++;
+	this->_instanteUltimoCambioEstado = GetTickCount();
 }

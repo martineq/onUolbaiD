@@ -1,5 +1,6 @@
 #include "ModeloLoop.h"
 
+using namespace std;
 
 ModeloLoop::ModeloLoop() {
 }
@@ -12,7 +13,7 @@ Observador* ModeloLoop::obtenerObservadorEvento() {
 }
 
 bool ModeloLoop::loop(ModeloNivel& modeloNivel) {
-	if (!this->_modeloEvento.getActualizado()) {
+	if (this->_modeloEvento.getActualizado()) {
 		int mousePosX = this->_modeloEvento.getMousePosX();
 		int mousePosY = this->_modeloEvento.getMousePosY();
 

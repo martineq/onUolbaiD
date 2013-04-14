@@ -10,6 +10,7 @@
 #include <SDL.h>
 #include "../utils/Observador/Identificable.h"
 #include "../Cliente/vista/VistaEntidad.h"
+#include "../Cliente/vista/SDLutil.h"
 
 //TODO: Borrar
 #define ALTO_PANTALLA 500
@@ -37,21 +38,21 @@ class Servidor {
 		ModeloJuego modeloJuego;
 
 		//TODO: Borrar
-		class VistaScroll : public Observador, public Identificable {
+		class VistaScrollPrueba : public Observador, public Identificable {
 			private:
 				SDL_Surface* _pantalla;
 				SDL_Surface* _nivel;
 				SDL_Rect _destinoScroll;
 				
 			public:
-				VistaScroll(SDL_Surface* pantalla, SDL_Surface* nivel) {
+				VistaScrollPrueba(SDL_Surface* pantalla, SDL_Surface* nivel) {
 					this->_pantalla = pantalla;
 					this->_nivel = nivel;
 					this->_destinoScroll.w = ANCHO_PANTALLA;
 					this->_destinoScroll.h = ALTO_PANTALLA;
 				}
 
-				virtual ~VistaScroll() {
+				virtual ~VistaScrollPrueba() {
 				}
 
 				void actualizar(Observable* s) {
@@ -61,7 +62,7 @@ class Servidor {
 					this->_destinoScroll.y = (Sint16)modeloScroll->getY();
 				}
 
-				void dibujar() {
+				void graficar() {
 					SDL_BlitSurface(this->_nivel, &this->_destinoScroll, this->_pantalla, NULL);
 					SDL_UpdateRect(this->_pantalla, 0, 0, 0, 0);
 				}
@@ -72,41 +73,92 @@ class Servidor {
 		};
 
 		//TODO: Borrar
-		/*class VistaEntidad : public Observador, public Identificable {
+		class VistaEntidadPrueba1 : public Observador, public Identificable {
 			private:
 				SDL_Surface* _nivel;
 				SDL_Surface* _personaje;
-				VistaScroll* _scroll;
+				int _x;
+				int _y;
 				
 			public:
-				VistaEntidad(SDL_Surface* nivel, VistaScroll* scroll) {
-					this->_nivel = nivel;
+				VistaEntidadPrueba1() {
 					this->_personaje = Servidor::cargarImagen("img/SORA_S1.bmp");
-					this->_scroll = scroll;
+					this->_x = 0;
+					this->_y = 0;
 				}
 
-				virtual ~VistaEntidad() {
+				virtual ~VistaEntidadPrueba1() {
 					SDL_FreeSurface(this->_personaje);
 				}
 
 				void actualizar(Observable* s) {
 					ModeloEntidad* modeloEntidad = (ModeloEntidad*)s;
+					this->_x = modeloEntidad->pixelSiguiente().x;
+					this->_y = modeloEntidad->pixelSiguiente().y;
+				}
+
+				void setPantalla(SDL_Surface* nivel) {
+					this->_nivel = nivel;
+				}
+
+				void graficar() {
 					SDL_Rect destino;
 
 					destino.h = ALTO_IMAGEN;
 					destino.w = ANCHO_IMAGEN;
-					destino.x = modeloEntidad->pixelSiguiente().x - (ANCHO_IMAGEN / 2);
-					destino.y = modeloEntidad->pixelSiguiente().y - (ALTO_IMAGEN / 4);
+					destino.x = this->_x;
+					destino.y = this->_y;
 
 					SDL_BlitSurface(this->_personaje, NULL, this->_nivel, &destino);
-
-					this->_scroll->dibujar();
 				}
 
 				int id() const {
 					return 1;
 				}
-		};*/
+		};
+
+		//TODO: Borrar
+		class VistaEntidadPrueba2 : public Observador, public Identificable {
+			private:
+				SDLutil* _utilidadSDL;
+				int _x;
+				int _y;
+				bool _actualizar;
+				
+			public:
+				VistaEntidadPrueba2() {
+					this->_utilidadSDL = new SDLutil(0, 0, ANCHO_IMAGEN, ALTO_IMAGEN, "img/testxyh_S1.png");
+					this->_x = 0;
+					this->_y = 0;
+					this->_actualizar = false;
+				}
+
+				virtual ~VistaEntidadPrueba2() {
+					delete this->_utilidadSDL;
+				}
+
+				void actualizar(Observable* s) {
+					ModeloEntidad* modeloEntidad = (ModeloEntidad*)s;
+					this->_x = modeloEntidad->pixelSiguiente().x;
+					this->_y = modeloEntidad->pixelSiguiente().y;
+					this->_actualizar = true;
+				}
+
+				void setPantalla(SDL_Surface* nivel) {
+					this->_utilidadSDL->setPantalla(nivel);
+				}
+
+				void graficar() {
+					if (!this->_actualizar)
+						return;
+					this->_utilidadSDL->graficar(this->_x, this->_y);
+					this->_actualizar = false;
+				}
+
+				int id() const {
+					return 1;
+				}
+		};
 
 	public:
 		//TODO: Borrar
@@ -174,6 +226,7 @@ class Servidor {
 			listaNO.push_back("./img/testxyh_NO2.png");
 			listaNO.push_back("./img/testxyh_NO3.png");
 			listaNO.push_back("./img/testxyh_NO4.png");
+			
 			listaAnimaciones.push_back(listaN);
 			listaAnimaciones.push_back(listaNE);
 			listaAnimaciones.push_back(listaE);
@@ -188,8 +241,10 @@ class Servidor {
 			ModeloNivel modeloNivel;
 			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, modeloJugador.id());
-			VistaScroll vistaScroll(pantalla, nivel);
-			VistaEntidad vistaJugador(0, 0, 70, 50, 0, 0, 15, 1000, listaAnimaciones, true);
+			VistaScrollPrueba vistaScroll(pantalla, nivel);
+			//VistaEntidadPrueba1 vistaJugador;
+			VistaEntidadPrueba2 vistaJugador;
+			//VistaEntidad vistaJugador(0, 0, 70, 50, 0, 0, 15, 1000, listaAnimaciones, true);
 			
 			vistaJugador.setPantalla(nivel);
 
@@ -234,16 +289,8 @@ class Servidor {
 				
 				modeloLoop.loop(modeloNivel);
 
-				for (xt = 0; xt < ANCHO_MATRIZ; xt++) {
-					for (yt = 0; yt < ALTO_MATRIZ; yt++) {
-						Posicion::convertirTileAPixel(ALTO_MATRIZ, xt, yt, xp, yp);
-						destinoPersonaje.x = (Sint16)xp - (ANCHO_TILE / 2);
-						destinoPersonaje.y = (Sint16)yp;
-						SDL_BlitSurface(tile, NULL, nivel, &destinoPersonaje);
-					}
-				}
 				vistaJugador.graficar();
-				vistaScroll.dibujar();
+				vistaScroll.graficar();
 
 				salir = (evento.type == SDL_QUIT);
 			}

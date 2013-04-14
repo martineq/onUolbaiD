@@ -19,28 +19,26 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_velocidad = velocidad;
 	this->_posicionActual = posicion;
 	this->_posicionSiguiente = posicion;
+	this->_modeloMovimiento = new ModeloMovimiento(this);
 	this->_vistaMovimiento = new VistaMovimiento(this, altoMapa, anchoMapa, fps);
-	this->_modeloMovimientoActual = NULL;
 	this->_altoMapa = altoMapa;
 	this->_anchoMapa = anchoMapa;
 
 	this->_direccion = CENTRO;
 	Posicion::convertirTileAPixel(altoMapa, this->_posicionActual.x, this->_posicionActual.y, this->_pixelActual.x, this->_pixelActual.y);
 	Posicion::convertirTileAPixel(altoMapa, this->_posicionSiguiente.x, this->_posicionSiguiente.y, this->_pixelSiguiente.x, this->_pixelSiguiente.y);
+
+	this->_modeloMovimiento->agregarObservador(this->_vistaMovimiento);
 }
 
 ModeloEntidad::~ModeloEntidad() {
-	// Detiene si hay algun movimiento ejecutandose lo detiene
-	if (this->_modeloMovimientoActual != NULL) {
-		this->_modeloMovimientoActual->detener();
-		this->_modeloMovimientoActual->join();
-		delete this->_modeloMovimientoActual;
-	}
+	delete this->_modeloMovimiento;
 	delete this->_vistaMovimiento;
 }
 
 void ModeloEntidad::cambiarEstado() {
-	this->notificarObservadores();
+	this->_modeloMovimiento->cambiarEstado();
+	this->_vistaMovimiento->cambiarEstado();
 }
 
 int ModeloEntidad::id() const {
@@ -58,7 +56,7 @@ int ModeloEntidad::alto() const {
 int ModeloEntidad::ancho() const {
 	return this->_ancho;
 }
-		
+
 int ModeloEntidad::velocidad() const {
 	return this->_velocidad;
 }
@@ -84,13 +82,6 @@ Direccion ModeloEntidad::direccion() const {
 }
 
 void ModeloEntidad::mover(Posicion posicionDestino) {
-	// Detiene si hay algun movimiento ejecutandose lo detiene
-	if (this->_modeloMovimientoActual != NULL) {
-		this->_modeloMovimientoActual->detener();
-		this->_modeloMovimientoActual->join();
-		delete this->_modeloMovimientoActual;
-	}
-
 	// Ajusta los movimientos para esten dentro del mapa
 	if (posicionDestino.x < 0)
 		posicionDestino.x = 0;
@@ -101,10 +92,7 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 	else if (posicionDestino.y >= this->_altoMapa)
 		posicionDestino.y = this->_altoMapa - 1;
 
-	// Inicia un nuevo movimiento
-	this->_modeloMovimientoActual = new ModeloMovimiento(this, posicionDestino);
-	this->_modeloMovimientoActual->agregarObservador(this->_vistaMovimiento);
-	this->_modeloMovimientoActual->start(NULL);
+	this->_modeloMovimiento->actualizar(posicionDestino);
 }
 
 bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
