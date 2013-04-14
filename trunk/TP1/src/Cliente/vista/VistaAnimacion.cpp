@@ -45,24 +45,26 @@ bool VistaAnimacion::graficar(int index,double x,double y){
 	this->x = x;
 	this->y = y;
 	if (this->superficies.size() > index){
-		this->superficies.at(index)->graficar(x,y);
-		ok = true;
+		ok = this->superficies.at(index)->graficar(x,y);
 	}
 	return ok;
 }
 
-
-void VistaAnimacion::graficar(double x, double y){
+bool VistaAnimacion::graficar(double x, double y){
+	bool ok = false;
 	this->x = x;
 	this->y = y;
-	this->superficies.at(indice)->graficar(x,y);
+	ok = this->superficies.at(indice)->graficar(x,y);
 	this->incrementarIndice();
+	return ok;
 }
 
-void VistaAnimacion::graficar(){
+bool VistaAnimacion::graficar(){
+	bool ok = false;
 	this->superficies.front()->setX(this->x);
 	this->superficies.front()->setY(this->y);
-	this->superficies.front()->graficar();	
+	ok = this->superficies.front()->graficar();
+	return ok;
 }
 
 void VistaAnimacion::incrementarIndice(){

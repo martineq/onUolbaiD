@@ -27,7 +27,7 @@ bool VistaJuego::iniciar(void){
 }
 
 bool VistaJuego::loop(){
-	return this->vistaLoop.loop(this->vistaNivel);	// El return tiene que venir del this->vistaLoop.loop();
+	return this->vistaLoop.loop(this->vistaNivel);
 }
 
 void VistaJuego::destruirEntidades(){

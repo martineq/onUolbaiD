@@ -1,6 +1,5 @@
 #include "ModeloLoop.h"
 
-using namespace std;
 
 ModeloLoop::ModeloLoop() {
 }

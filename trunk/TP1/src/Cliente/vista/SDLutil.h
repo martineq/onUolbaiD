@@ -26,8 +26,8 @@ public:
 	double getY();
 	SDL_Surface* getSurface();
 	SDL_Rect* getRect();	
-	void graficar();
-	void graficar(double x, double y);
+	bool graficar();
+	bool graficar(double x, double y);
 	virtual ~SDLutil();
 };
 

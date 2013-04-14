@@ -8,7 +8,7 @@
 class VistaLoop{
 	private:
 		SDL_Surface *pantalla,*fondo;			
-		void dibujarEntidades(VistaNivel& vistaNivel);			
+		bool dibujarEntidades(VistaNivel& vistaNivel);			
 
 	public:
 		VistaLoop(void);
@@ -20,5 +20,3 @@ class VistaLoop{
 		void setPantalla(SDL_Surface *pantalla);
 		
 };
-
-// TODO: Ver implementación de los métodos para iniciar el sdl y para dibujar. Seguramente vn todo en el loop

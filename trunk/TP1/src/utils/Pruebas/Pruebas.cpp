@@ -251,6 +251,12 @@ void Pruebas::PruebaAnimacion(){
 	listaN.push_back("./img/IMG00038.png");
 	listaN.push_back("./img/IMG00039.png");
 
+	/*listaN.push_back("./img/castillo01.png");
+	listaN.push_back("./img/castillo02.png");
+	listaN.push_back("./img/castillo03.png");
+	listaN.push_back("./img/castillo04.png");
+	listaN.push_back("./img/castillo05.png");*/
+
 	//listaN.push_back("./img/testxyh_N1.png");
 	//listaN.push_back("./img/testxyh_N2.png");
 	//listaN.push_back("./img/testxyh_N3.png");
@@ -292,7 +298,7 @@ void Pruebas::PruebaAnimacion(){
 	//listaAnimaciones.push_back(listaO);
 	//listaAnimaciones.push_back(listaNO);
 
-	VistaEntidad* vEntidad = new VistaEntidad(0,0,265,393,0,0,15,1000,listaAnimaciones,false);
+	VistaEntidad* vEntidad = new VistaEntidad(0,0,263,260,0,0,15,1000,listaAnimaciones,false);
 	vEntidad->setPantalla(pantalla);
 	//VistaAnimaciones* animaciones = new VistaAnimaciones();
 	//animaciones->agregar(lista.front(),lista,200,50,70,15);

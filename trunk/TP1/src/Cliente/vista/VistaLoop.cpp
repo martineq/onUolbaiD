@@ -10,26 +10,29 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 }
 
 bool VistaLoop::loop(VistaNivel& vistaNivel){
-	this->dibujarEntidades(vistaNivel);
+	if( this->dibujarEntidades(vistaNivel) == false) return false;
 
-	return true;	// TODO: Implementar este return
+	return true;
 }
 
-//levanta el fondo y la pantalla
+// Levanta el fondo y la pantalla
 bool VistaLoop::levantarFondo(double altoNivel, double anchoNivel){
 
 	this->fondo = ImageLoader::getInstance().load_image(SDL_RUTA_FONDO);	
+	if( this->fondo == NULL ) return false;
+	
 	this->fondo = ImageLoader::getInstance().stretch(this->fondo,anchoNivel,altoNivel);
+	if( this->fondo == NULL ) return false;
 
-	return true; // TODO: Implementar el return del método
+	return true;
 }
 
-void VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
+bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 	// Cargo el fondo
 	// TODO: Ver estas lineas
 	SDL_Rect rcFondo = ImageLoader::getInstance().createRect(0,0);
 	SDL_Rect rc = ImageLoader::getInstance().createRect(vistaNivel.getScroll()->getX(),vistaNivel.getScroll()->getY());
-	SDL_BlitSurface(this->fondo, &rc, this->pantalla, &rcFondo);
+	if( SDL_BlitSurface(this->fondo, &rc, this->pantalla, &rcFondo) != 0 ) return false;
 
 	list<VistaEntidad*> listaDeEntidades = vistaNivel.getListaEntidades();	
 	list<VistaEntidad*>::iterator it = listaDeEntidades.begin();
@@ -48,13 +51,15 @@ void VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 			unaEntidad->setYEnPantalla(unaEntidad->getY());
 			unaEntidad->setEsNecesarioRefrescar(false);			
 		}
-		
+
 		//Si no cambio de posicion ni se movió el scroll igual grafica.
 		unaEntidad->setPantalla(this->pantalla);
-		unaEntidad->graficar();
+		if( unaEntidad->graficar() == false ) return false;
 		it++;
 	}
 	ImageLoader::getInstance().refrescarPantalla(this->pantalla);
+
+	return true;
 }
 
 VistaLoop::~VistaLoop(void){

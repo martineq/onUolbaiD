@@ -49,7 +49,7 @@ SDL_Rect* SDLutil::getRect(){
 	return this->area;
 }
 
-void SDLutil::graficar(){
+bool SDLutil::graficar(){
 	int colorkey;
     //Holds offsets
 	SDL_Rect offset;
@@ -58,20 +58,25 @@ void SDLutil::graficar(){
 
 	//colorkey = SDL_MapRGB(this->screen->format, 255, 0, 255);	
 	colorkey = SDL_MapRGB(this->mySurface->format, 0, 0, 0);	
-	SDL_SetColorKey(this->mySurface, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorkey);
+	int res = SDL_SetColorKey(this->mySurface, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorkey);
+	if (res!=0) {
+    	Log::getInstance().log(1,__FILE__,__LINE__,"Error al agregar un componente a la pantalla");
+		return false;
+    }
 	//SDL_DisplayFormat(source);	
     //Blit
-	int res = SDL_BlitSurface( this->mySurface, this->area, this->screen, &offset );
+	res = SDL_BlitSurface( this->mySurface, this->area, this->screen, &offset );
     if (res!=0) {
     	Log::getInstance().log(1,__FILE__,__LINE__,"Error al agregar un componente a la pantalla");
+		return false;
     }
-
+	return true;
 }
 
-void SDLutil::graficar(double x, double y){
+bool SDLutil::graficar(double x, double y){
 	this->x = x;
 	this->y = y;
-	this->graficar();
+	return this->graficar();
 }
 
 
