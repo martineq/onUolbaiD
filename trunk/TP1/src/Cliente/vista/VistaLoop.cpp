@@ -41,23 +41,19 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 		//Es necesario actualizar o porque cambio de posicion o porque se actualizo el scroll
 		
 		if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){
-			/*unaEntidad->setXEnPantalla(vistaNivel.getScroll()->getX());
-			unaEntidad->setYEnPantalla(vistaNivel.getScroll()->getY());*/
+			unaEntidad->verificarBordePantalla(vistaNivel.getScroll());
 			vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
 		}
 
-		if ( (unaEntidad->getEsNecesarioRefrescar() == true) ){
-			/*unaEntidad->setXEnPantalla(unaEntidad->getX());
-			unaEntidad->setYEnPantalla(unaEntidad->getY());*/
-			unaEntidad->setEsNecesarioRefrescar(false);			
-		}
-
-		//Si no cambio de posicion ni se movió el scroll igual grafica.
-		//unaEntidad->setPantalla(this->pantalla);
-		unaEntidad->setPantalla(this->fondo);
+		unaEntidad->setPantalla(this->pantalla);
 		if( unaEntidad->graficar() == false ) return false;
 		it++;
 	}
+
+	if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){	
+		vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
+	}
+
 	ImageLoader::getInstance().refrescarPantalla(this->pantalla);
 
 	return true;

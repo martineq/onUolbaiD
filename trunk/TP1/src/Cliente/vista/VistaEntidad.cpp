@@ -37,6 +37,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	}
 	this->esNecesarioRefrescar = true;
 	this->codigoAnimacion = 0;
+	this->entraEnPantalla = false;
 	//typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
 }
 
@@ -46,13 +47,13 @@ VistaEntidad::~VistaEntidad(void){
 
 }
 
-/*void VistaEntidad::setXEnPantalla(double scrollX){
+void VistaEntidad::setXEnPantalla(double scrollX){
 	this->xEnPantalla = this->x - scrollX;	
-}*/
+}
 
-/*void VistaEntidad::setYEnPantalla(double scrollY){
+void VistaEntidad::setYEnPantalla(double scrollY){
 	this->yEnPantalla = this->y - scrollY;
-}*/
+}
 
 void VistaEntidad::actualizar(class Observable* s){
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
@@ -87,6 +88,8 @@ void VistaEntidad::verificarBordePantalla(VistaScroll* scroll){
        }
        if (entraEnX && entraEnY){
                this->entraEnPantalla = true;
+			   this->setXEnPantalla(scroll->getX());
+			   this->setYEnPantalla(scroll->getY());
        }
 
 
@@ -154,12 +157,14 @@ void VistaEntidad::setAnimacion(std::string estado){
 }
 
 bool VistaEntidad::graficar(){
-	bool ok = true;
-	if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
-		if( this->animacionActual->graficar(this->x,this->y) == false ) ok = false;
-		this->esNecesarioRefrescar = false;
-	}else{
-		if( this->animacionActual->graficar() == false ) ok = false;
+	bool ok = true;	
+	if (this->entraEnPantalla)  {
+		if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
+			if( this->animacionActual->graficar(this->x,this->y) == false ) ok = false;
+			this->esNecesarioRefrescar = false;
+		}else{
+			if( this->animacionActual->graficar() == false ) ok = false;
+		}
 	}
 	return ok;
 }

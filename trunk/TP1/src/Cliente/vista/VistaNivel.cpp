@@ -77,17 +77,18 @@ void VistaNivel::setAnchoPantalla(int ancho){
 	this->ancho = ancho;
 }
 
-void VistaNivel::agregarTamanioNivel(double ancho,double largo){
-	this->anchoNivel = ancho;
-	this->altoNivel = alto;
+void VistaNivel::agregarTamanioNivel(double anchoNivel,double altoNivel){	
 	int dummy = 0;
 	int altoReal = 0;
 	int anchoReal = 0;
-	Posicion::convertirTileAPixel(this->altoNivel, this->anchoNivel - 1, this->altoNivel - 1, dummy, altoReal);
-	Posicion::convertirTileAPixel(this->altoNivel, this->anchoNivel - 1, 0, anchoReal, dummy);
+	Posicion::convertirTileAPixel(altoNivel, anchoNivel - 1, altoNivel - 1, dummy, altoReal);
+	Posicion::convertirTileAPixel(altoNivel, anchoNivel - 1, 0, anchoReal, dummy);
 
-	this->altoNivel += ALTO_TILE;
-	this->anchoNivel += ANCHO_TILE / 2;
+	altoReal += ALTO_TILE;
+	anchoReal += ANCHO_TILE / 2;
+
+	this->anchoNivel = anchoReal;
+	this->altoNivel = altoReal;
 }
 
 double VistaNivel::getAltoNivel(){
