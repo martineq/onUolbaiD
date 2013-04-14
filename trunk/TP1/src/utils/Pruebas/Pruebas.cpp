@@ -210,7 +210,7 @@ void Pruebas::PruebaAnimacion(){
 	listaE.push_back("./img/SORA_E8.png");
 	listaAnimaciones.push_back(listaE);*/
 
-	listaN.push_back("./img/IMG00000.png");
+	/*listaN.push_back("./img/IMG00000.png");
 	listaN.push_back("./img/IMG00001.png");
 	listaN.push_back("./img/IMG00002.png");
 	listaN.push_back("./img/IMG00003.png");
@@ -249,8 +249,19 @@ void Pruebas::PruebaAnimacion(){
 	listaN.push_back("./img/IMG00036.png");
 	listaN.push_back("./img/IMG00037.png");
 	listaN.push_back("./img/IMG00038.png");
-	listaN.push_back("./img/IMG00039.png");
+	listaN.push_back("./img/IMG00039.png");*/
 
+	//listaN.push_back("./img/CasaA01.png");
+	//listaN.push_back("./img/CasaA02.png");
+	//listaN.push_back("./img/CasaA03.png");
+	//listaN.push_back("./img/CasaA04.png");
+
+	listaN.push_back("./img/MiniMapa01.png");
+	listaN.push_back("./img/MiniMapa02.png");
+	listaN.push_back("./img/MiniMapa03.png");
+	listaN.push_back("./img/MiniMapa04.png");
+	listaN.push_back("./img/MiniMapa05.png");
+	
 	/*listaN.push_back("./img/castillo01.png");
 	listaN.push_back("./img/castillo02.png");
 	listaN.push_back("./img/castillo03.png");
