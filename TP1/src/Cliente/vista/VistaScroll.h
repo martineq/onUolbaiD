@@ -13,7 +13,7 @@ class VistaScroll: public Observador, public Identificable{
 		double x;
 		double y;
 		double alto;
-		double ancho;
+		double ancho;		
 		bool esNecesarioRefrescar;
 
 		static long contador; // Para generar ID's Automáticos

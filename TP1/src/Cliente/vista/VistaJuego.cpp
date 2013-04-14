@@ -22,7 +22,7 @@ std::list<Observador*> VistaJuego::obtenerObservadoresEntidad(void){
 
 bool VistaJuego::iniciar(void){
 	if( this->vistaFactory.crearVistaNivel(this->vistaNivel,this->vistaLoop) == false ) return false;
-	if( this->vistaLoop.levantarFondo(this->vistaNivel.getAltoPantalla(),this->vistaNivel.getAnchoPantalla()) == false ) return false;
+	if( this->vistaLoop.levantarFondo(this->vistaNivel.getAltoNivel(),this->vistaNivel.getAnchoNivel()) == false ) return false;
 	return true;
 }
 

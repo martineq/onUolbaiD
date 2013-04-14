@@ -77,6 +77,27 @@ void VistaNivel::setAnchoPantalla(int ancho){
 	this->ancho = ancho;
 }
 
+void VistaNivel::agregarTamanioNivel(double ancho,double largo){
+	this->anchoNivel = ancho;
+	this->altoNivel = alto;
+	int dummy = 0;
+	int altoReal = 0;
+	int anchoReal = 0;
+	Posicion::convertirTileAPixel(this->altoNivel, this->anchoNivel - 1, this->altoNivel - 1, dummy, altoReal);
+	Posicion::convertirTileAPixel(this->altoNivel, this->anchoNivel - 1, 0, anchoReal, dummy);
+
+	this->altoNivel += ALTO_TILE;
+	this->anchoNivel += ANCHO_TILE / 2;
+}
+
+double VistaNivel::getAltoNivel(){
+	return this->altoNivel;
+}
+
+double VistaNivel::getAnchoNivel(){
+	return this->anchoNivel;
+}
+
 void VistaNivel::destruirListaEntidades(){
 	// Destruyo las entidades instanciadas (incluye al personaje)
 	for (std::list<VistaEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
