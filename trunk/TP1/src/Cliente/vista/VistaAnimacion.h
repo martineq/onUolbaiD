@@ -35,7 +35,6 @@ public:
 	bool graficar();
 	void incrementarIndice();
 	bool esperarTiempo();
-	void limpiar();
 
 	virtual ~VistaAnimacion();
 };

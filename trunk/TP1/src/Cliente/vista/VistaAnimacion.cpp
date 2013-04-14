@@ -55,7 +55,6 @@ bool VistaAnimacion::graficar(double x, double y){
 	bool ok = false;
 	this->x = x;
 	this->y = y;
-	this->limpiar();
 	ok = this->superficies.at(indice)->graficar(x,y);
 	this->incrementarIndice();
 	return ok;
@@ -63,7 +62,6 @@ bool VistaAnimacion::graficar(double x, double y){
 
 bool VistaAnimacion::graficar(){
 	bool ok = false;
-	this->limpiar();
 	ok = this->superficies.front()->graficar(this->x, this->y);
 	return ok;
 }
@@ -108,8 +106,4 @@ VistaAnimacion::~VistaAnimacion() {
 			*it = NULL;
 		}
 	}
-}
-
-void VistaAnimacion::limpiar() {
-	this->superficies.at(indiceAnterior)->limpiar();
 }
