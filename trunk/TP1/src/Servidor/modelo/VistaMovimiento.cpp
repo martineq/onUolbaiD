@@ -104,9 +104,8 @@ void ModeloEntidad::VistaMovimiento::cambiarEstado() {
 		this->_instanteUltimoCambioEstado = GetTickCount();
 		return;
 	}
-	
-	if (this->_espera > (GetTickCount() - this->_instanteUltimoCambioEstado))
-		return;
+	int desplazamiento = posiciones.size() / cuadros;
+	DWORD espera = this->_modeloEntidad->velocidad() / cuadros;
 
 	if (this->_cuadroActual == this->_cantidadCuadros) {
 		this->_modeloEntidad->_pixelSiguiente = this->_posicionDestino;
