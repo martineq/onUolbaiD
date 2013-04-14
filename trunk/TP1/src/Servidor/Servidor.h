@@ -23,6 +23,9 @@
 
 class Servidor {
 	private:
+		ModeloJuego modeloJuego;
+
+		//TODO: Borrar
 		static SDL_Surface* cargarImagen(const char* archivoImagen) {
 			SDL_Surface* imagen = SDL_LoadBMP(archivoImagen);
 			SDL_Surface* imagenOptimizada = SDL_DisplayFormat(imagen);
@@ -34,43 +37,6 @@ class Servidor {
 
 			return imagenOptimizada;
 		}
-
-		ModeloJuego modeloJuego;
-
-		//TODO: Borrar
-		class VistaScrollPrueba1 : public Observador, public Identificable {
-			private:
-				SDL_Surface* _pantalla;
-				SDL_Surface* _nivel;
-				SDL_Rect _destinoScroll;
-				
-			public:
-				VistaScrollPrueba1(SDL_Surface* pantalla, SDL_Surface* nivel) {
-					this->_pantalla = pantalla;
-					this->_nivel = nivel;
-					this->_destinoScroll.w = ANCHO_PANTALLA;
-					this->_destinoScroll.h = ALTO_PANTALLA;
-				}
-
-				virtual ~VistaScrollPrueba1() {
-				}
-
-				void actualizar(Observable* s) {
-					ModeloScroll* modeloScroll = (ModeloScroll*)s;
-					
-					this->_destinoScroll.x = (Sint16)modeloScroll->getX();
-					this->_destinoScroll.y = (Sint16)modeloScroll->getY();
-				}
-
-				void graficar() {
-					SDL_BlitSurface(this->_nivel, &this->_destinoScroll, this->_pantalla, NULL);
-					SDL_UpdateRect(this->_pantalla, 0, 0, 0, 0);
-				}
-
-				int id() const {
-					return 1;
-				}
-		};
 
 		//TODO: Borrar
 		class VistaEntidadPrueba1 : public Observador, public Identificable {
@@ -121,16 +87,11 @@ class Servidor {
 		class VistaEntidadPrueba2 : public Observador, public Identificable {
 			private:
 				SDLutil* _utilidadSDL;
-				int _x;
-				int _y;
-				bool _actualizar;
+				Posicion _posicion;
 				
 			public:
 				VistaEntidadPrueba2() {
 					this->_utilidadSDL = new SDLutil(0, 0, ANCHO_IMAGEN, ALTO_IMAGEN, "img/testxyh_S1.png");
-					this->_x = 0;
-					this->_y = 0;
-					this->_actualizar = false;
 				}
 
 				virtual ~VistaEntidadPrueba2() {
@@ -139,21 +100,189 @@ class Servidor {
 
 				void actualizar(Observable* s) {
 					ModeloEntidad* modeloEntidad = (ModeloEntidad*)s;
-					this->_x = modeloEntidad->pixelSiguiente().x;
-					this->_y = modeloEntidad->pixelSiguiente().y;
-					this->_actualizar = true;
+					this->_posicion = modeloEntidad->pixelSiguiente();
 				}
 
 				void setPantalla(SDL_Surface* nivel) {
 					this->_utilidadSDL->setPantalla(nivel);
 				}
 
-				void graficar() {
-					if (!this->_actualizar)
-						return;
+				void graficar(int xScroll, int yScroll) {
 					this->_utilidadSDL->limpiar();
-					this->_utilidadSDL->graficar(this->_x, this->_y);
+					this->_utilidadSDL->graficar(this->_posicion.x - xScroll, this->_posicion.y - yScroll);
+				}
+
+				Posicion posicion() {
+					return this->_posicion;
+				}
+
+				int id() const {
+					return 1;
+				}
+		};
+
+		//TODO: Borrar
+		class VistaScrollPrueba1 : public Observador, public Identificable {
+			private:
+				SDL_Surface* _pantalla;
+				SDL_Surface* _nivel;
+				SDL_Rect _destinoScroll;
+				
+			public:
+				VistaScrollPrueba1(SDL_Surface* pantalla, SDL_Surface* nivel) {
+					this->_pantalla = pantalla;
+					this->_nivel = nivel;
+					this->_destinoScroll.w = ANCHO_PANTALLA;
+					this->_destinoScroll.h = ALTO_PANTALLA;
+				}
+
+				virtual ~VistaScrollPrueba1() {
+				}
+
+				void actualizar(Observable* s) {
+					ModeloScroll* modeloScroll = (ModeloScroll*)s;
+					
+					this->_destinoScroll.x = (Sint16)modeloScroll->getX();
+					this->_destinoScroll.y = (Sint16)modeloScroll->getY();
+				}
+
+				void graficar() {
+					SDL_BlitSurface(this->_nivel, &this->_destinoScroll, this->_pantalla, NULL);
+					SDL_UpdateRect(this->_pantalla, 0, 0, 0, 0);
+				}
+
+				int id() const {
+					return 1;
+				}
+		};
+
+		//TODO: Borrar
+		class VistaScrollPrueba2 : public Observador, public Identificable {
+			private:
+				SDLutil* _utilidadSDL;
+				VistaEntidadPrueba2* _vistaEntidad;
+				Posicion _destinoScroll;
+				SDL_Surface* _pantalla;
+				bool _actualizar;
+				
+				bool entraEnPantalla(VistaEntidadPrueba2* vistaEntidad){
+					bool entraEnX = false, entraEnY = false;
+
+					if ((vistaEntidad->posicion().x > this->_destinoScroll.x) &&
+						(vistaEntidad->posicion().x < (this->_destinoScroll.x + ANCHO_PANTALLA)) ||
+						(((vistaEntidad->posicion().x + ANCHO_IMAGEN) > this->_destinoScroll.x) && 
+						((vistaEntidad->posicion().x + ANCHO_IMAGEN) < this->_destinoScroll.x + ANCHO_PANTALLA))) {
+						entraEnX = true;
+					}
+
+					if (((vistaEntidad->posicion().y > this->_destinoScroll.y) &&
+						(vistaEntidad->posicion().y < (this->_destinoScroll.y + ALTO_PANTALLA)) ||
+						(((vistaEntidad->posicion().y + ALTO_IMAGEN) > this->_destinoScroll.y) && 
+						((vistaEntidad->posicion().y + ALTO_IMAGEN) < this->_destinoScroll.y + ALTO_PANTALLA)))) {
+						entraEnY = true;
+					}
+
+					return entraEnX && entraEnY;
+				}
+
+				void obtenerTilesLimites(Posicion& posicionInicial, Posicion& posicionFinal) {
+					Posicion posicion1, posicion2, posicion3, posicion4;
+
+					Posicion::convertirPixelATile(ALTO_MATRIZ, this->_destinoScroll.x, this->_destinoScroll.y, posicion1.x, posicion1.y);
+					Posicion::convertirPixelATile(ALTO_MATRIZ, this->_destinoScroll.x + ANCHO_PANTALLA, this->_destinoScroll.y, posicion2.x, posicion2.y);
+					Posicion::convertirPixelATile(ALTO_MATRIZ, this->_destinoScroll.x, this->_destinoScroll.y + ALTO_PANTALLA, posicion3.x, posicion3.y);
+					Posicion::convertirPixelATile(ALTO_MATRIZ, this->_destinoScroll.x + ANCHO_PANTALLA, this->_destinoScroll.y + ALTO_PANTALLA, posicion4.x, posicion4.y);
+
+					posicionInicial.x = posicion1.x;
+					if (posicionInicial.x > posicion2.x)
+						posicionInicial.x = posicion2.x;
+					if (posicionInicial.x > posicion3.x)
+						posicionInicial.x = posicion3.x;
+					if (posicionInicial.x > posicion4.x)
+						posicionInicial.x = posicion4.x;
+
+					posicionInicial.y = posicion1.y;
+					if (posicionInicial.y > posicion2.y)
+						posicionInicial.y = posicion2.y;
+					if (posicionInicial.y > posicion3.y)
+						posicionInicial.y = posicion3.y;
+					if (posicionInicial.y > posicion4.y)
+						posicionInicial.y = posicion4.y;
+
+					if (posicionInicial.x < 0)
+						posicionInicial.x = 0;
+					if (posicionInicial.y < 0)
+						posicionInicial.y = 0;
+
+					posicionFinal.x = posicionFinal.x;
+					if (posicionFinal.x < posicion2.x)
+						posicionFinal.x = posicion2.x;
+					if (posicionFinal.x < posicion3.x)
+						posicionFinal.x = posicion3.x;
+					if (posicionFinal.x < posicion4.x)
+						posicionFinal.x = posicion4.x;
+
+					posicionFinal.y = posicion1.y;
+					if (posicionFinal.y < posicion2.y)
+						posicionFinal.y = posicion2.y;
+					if (posicionFinal.y < posicion3.y)
+						posicionFinal.y = posicion3.y;
+					if (posicionFinal.y < posicion4.y)
+						posicionFinal.y = posicion4.y;
+
+					posicionFinal.x++;
+					posicionFinal.y++;
+
+					if (posicionFinal.x > ANCHO_MATRIZ)
+						posicionFinal.x = ANCHO_MATRIZ;
+					if (posicionFinal.y > ALTO_MATRIZ)
+						posicionFinal.y = ALTO_MATRIZ;
+				}
+
+			public:
+				VistaScrollPrueba2(VistaEntidadPrueba2* vistaEntidad) {
+					this->_utilidadSDL = new SDLutil(0, 0, ANCHO_TILE, ALTO_TILE, "img/tile.png");
+					this->_vistaEntidad = vistaEntidad;
 					this->_actualizar = false;
+				}
+
+				virtual ~VistaScrollPrueba2() {
+				}
+
+				void actualizar(Observable* s) {
+					ModeloScroll* modeloScroll = (ModeloScroll*)s;
+					
+					this->_destinoScroll.x = (Sint16)modeloScroll->getX();
+					this->_destinoScroll.y = (Sint16)modeloScroll->getY();
+					this->_actualizar = true;
+				}
+
+				void setPantalla(SDL_Surface* pantalla) {
+					this->_pantalla = pantalla;
+					this->_utilidadSDL->setPantalla(pantalla);
+				}
+
+				void graficar() {
+					int xt = 0, yt = 0, xp = 0, yp = 0;
+					Posicion posicionInicial, posicionFinal;
+					if (this->_actualizar) {
+						this->obtenerTilesLimites(posicionInicial, posicionFinal);
+
+						SDL_FillRect(this->_pantalla, NULL, 0x000000);
+
+						for (xt = posicionInicial.x; xt < posicionFinal.x; xt++) {
+							for (yt = posicionInicial.y; yt < posicionFinal.y; yt++) {
+								Posicion::convertirTileAPixel(ALTO_MATRIZ, xt, yt, xp, yp);
+								this->_utilidadSDL->graficar(xp - this->_destinoScroll.x - (ANCHO_TILE / 2), yp - this->_destinoScroll.y);
+							}
+						}
+						this->_actualizar = false;
+					}
+
+					if (this->entraEnPantalla(this->_vistaEntidad))
+						this->_vistaEntidad->graficar(this->_destinoScroll.x, this->_destinoScroll.y);
+					
+					SDL_UpdateRect(this->_pantalla, 0, 0, 0, 0);
 				}
 
 				int id() const {
@@ -163,11 +292,42 @@ class Servidor {
 
 	public:
 		//TODO: Borrar
+		static void prueba2() {
+			bool salir = false;
+			int xt = 0, yt = 0, xp = 0, yp = 0;
+			SDL_Event evento;
+			
+			SDL_Init(SDL_INIT_VIDEO);
+
+			SDL_Surface* pantalla = SDL_SetVideoMode(ANCHO_PANTALLA, ALTO_PANTALLA, 0, 0);
+			
+			SDLutil utilidadSDL(0, 0, ANCHO_TILE, ALTO_TILE, "./img/tile.png");
+
+			utilidadSDL.setPantalla(pantalla);
+
+			for (xt = 0; xt < 20; xt++) {
+				for (yt = 10; yt < 30; yt++) {
+					Posicion::convertirTileAPixel(ALTO_MATRIZ, xt, yt, xp, yp);
+					utilidadSDL.graficar(xp, yp - 500);
+				}
+			}
+
+			SDL_UpdateRect(pantalla, 0, 0, 0, 0);
+			
+			while (!salir) {
+				SDL_PollEvent(&evento);
+				salir = (evento.type == SDL_QUIT);
+			}
+
+			SDL_Quit();
+		}
+
+		//TODO: Borrar
 		static void prueba() {
 			bool salir = false;
 			int alto = 0, ancho = 0, dummy = 0, xt = 0, yt = 0, xp = 0, yp = 0;
 			Posicion posicionPersonaje;
-			SDL_Rect destinoPersonaje;
+			//SDL_Rect destinoPersonaje;
 			SDL_Event evento;
 			
 			Posicion::convertirTileAPixel(ALTO_MATRIZ, ANCHO_MATRIZ - 1, ALTO_MATRIZ - 1, dummy, alto);
@@ -179,11 +339,8 @@ class Servidor {
 			SDL_Init(SDL_INIT_VIDEO);
 
 			SDL_Surface* pantalla = SDL_SetVideoMode(ANCHO_PANTALLA, ALTO_PANTALLA, 0, 0);
-			SDL_Surface* tile = Servidor::cargarImagen("img/tile.bmp");
-			SDL_Surface* nivel = SDL_CreateRGBSurface(SDL_SWSURFACE, ancho, alto, 32, 0, 0, 0, 0);
-
-			posicionPersonaje.x = 0;
-			posicionPersonaje.y = 0;
+			/*SDL_Surface* tile = Servidor::cargarImagen("img/tile.bmp");
+			SDL_Surface* nivel = SDL_CreateRGBSurface(SDL_SWSURFACE, ancho, alto, 32, 0, 0, 0, 0);*/
 			
 			std::list<list<string>> listaAnimaciones;
 			std::list<string> listaN;
@@ -237,18 +394,23 @@ class Servidor {
 			listaAnimaciones.push_back(listaO);
 			listaAnimaciones.push_back(listaNO);
 
+			posicionPersonaje.x = 0;
+			posicionPersonaje.y = 0;
+
 			ControladorEvento controladorEvento;
 			ModeloLoop modeloLoop;
 			ModeloNivel modeloNivel;
 			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 1, 0, 0, modeloJugador.id());
-			VistaScrollPrueba1 vistaScroll(pantalla, nivel);
 			//VistaEntidadPrueba1 vistaJugador;
-			//VistaEntidadPrueba2 vistaJugador;
-			VistaEntidad vistaJugador(0, 0, 70, 50, 0, 0, 15, 1000, listaAnimaciones, true);
-			
-			vistaJugador.setPantalla(nivel);
+			VistaEntidadPrueba2 vistaJugador;
+			//VistaEntidad vistaJugador(0, 0, 70, 50, 0, 0, 15, 1000, listaAnimaciones, true);
+			//VistaScrollPrueba1 vistaScroll(pantalla, nivel);
+			VistaScrollPrueba2 vistaScroll(&vistaJugador);
 
+			vistaScroll.setPantalla(pantalla);
+			vistaJugador.setPantalla(pantalla);
+			
 			controladorEvento.agregarObservador(modeloLoop.obtenerObservadorEvento());
 
 			modeloNivel.setAltoTiles(ALTO_MATRIZ);
@@ -264,19 +426,19 @@ class Servidor {
 			listaObservadoresScroll.push_back(&vistaScroll);
 			modeloNivel.agregarObservadoresScroll(listaObservadoresScroll);
 			
-			destinoPersonaje.h = ALTO_TILE;
-			destinoPersonaje.w = ANCHO_TILE;
+			/*destinoPersonaje.h = ALTO_TILE;
+			destinoPersonaje.w = ANCHO_TILE;*/
 
-			for (xt = 0; xt < ANCHO_MATRIZ; xt++) {
+			/*for (xt = 0; xt < ANCHO_MATRIZ; xt++) {
 				for (yt = 0; yt < ALTO_MATRIZ; yt++) {
 					Posicion::convertirTileAPixel(ALTO_MATRIZ, xt, yt, xp, yp);
 					destinoPersonaje.x = (Sint16)xp - (ANCHO_TILE / 2);
 					destinoPersonaje.y = (Sint16)yp;
 					SDL_BlitSurface(tile, NULL, nivel, &destinoPersonaje);
 				}
-			}
+			}*/
 
-			SDL_BlitSurface(nivel, NULL, pantalla, NULL);
+			//SDL_BlitSurface(nivel, NULL, pantalla, NULL);
 			
 			while (!salir) {
 				if (SDL_PollEvent(&evento)) {
@@ -290,14 +452,14 @@ class Servidor {
 				
 				modeloLoop.loop(modeloNivel);
 
-				vistaJugador.graficar();
+				//vistaJugador.graficar();
 				vistaScroll.graficar();
 
 				salir = (evento.type == SDL_QUIT);
 			}
 
-			SDL_FreeSurface(tile);
-			SDL_FreeSurface(nivel);
+			/*SDL_FreeSurface(tile);
+			SDL_FreeSurface(nivel);*/
 			SDL_Quit();
 		}
 
