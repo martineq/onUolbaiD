@@ -69,13 +69,13 @@ VistaEntidad::~VistaEntidad(void){
 
 }
 
-void VistaEntidad::setXEnPantalla(double scrollX){
+/*void VistaEntidad::setXEnPantalla(double scrollX){
 	this->xEnPantalla = this->x - scrollX;	
-}
+}*/
 
-void VistaEntidad::setYEnPantalla(double scrollY){
+/*void VistaEntidad::setYEnPantalla(double scrollY){
 	this->yEnPantalla = this->y - scrollY;
-}
+}*/
 
 void VistaEntidad::actualizar(class Observable* s){
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
@@ -92,6 +92,29 @@ void VistaEntidad::actualizar(class Observable* s){
 		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
 	}
 	this->esNecesarioRefrescar = true;
+
+}
+
+void VistaEntidad::verificarBordePantalla(VistaScroll* scroll){
+       bool entraEnX = false;
+       bool entraEnY = false;
+       
+
+       if ((this->x > scroll->getX()) && (this->x < (scroll->getX()+scroll->getAncho()))
+               || ( ( (this->x + this->ancho) > scroll->getX()) && 
+                        ((this->x + this->ancho) <  scroll->getX()+scroll->getAncho()))) {
+                       entraEnX = true;
+       }
+
+       if ( ((this->y > scroll->getY()) && (this->y < (scroll->getY()+scroll->getAlto()))
+               || ( ( (this->y + this->alto) > scroll->getY()) && 
+                        ((this->y + this->alto) <  scroll->getY()+scroll->getAlto())))) {
+                       entraEnY = true;
+       }
+       if (entraEnX && entraEnY){
+               this->entraEnPantalla = true;
+       }
+
 
 }
 
@@ -167,6 +190,6 @@ bool VistaEntidad::graficar(){
 	return ok;
 }
 
-void VistaEntidad::setPantalla(SDL_Surface* screen){
-	this->animaciones->setPantalla(screen);
+void VistaEntidad::setPantalla(SDL_Surface* fondo){
+	this->animaciones->setPantalla(fondo);
 }
