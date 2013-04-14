@@ -62,7 +62,6 @@ void VistaEntidad::actualizar(class Observable* s){
 
 	int codigo = ((ModeloEntidad*)s)->direccion();
 	if ((this->esJugador) && (codigo != this->codigoAnimacion)){
-		this->animacionActual->limpiar();
 		this->codigoAnimacion = codigo;
 		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
 	}
