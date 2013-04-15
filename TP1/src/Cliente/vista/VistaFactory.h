@@ -8,7 +8,7 @@
 class VistaFactory{
 
 	private:
-		void crearJugadorConScroll(ParserYaml::stJuego juego, VistaNivel& vistaNivel);
+		void crearJugadorConScroll(ParserYaml::stJuego juego, VistaNivel& vistaNivel,SDL_Surface* pantalla);
 		void crearEntidades(ParserYaml::stJuego juego, VistaNivel& vistaNivel);
 
 	public:

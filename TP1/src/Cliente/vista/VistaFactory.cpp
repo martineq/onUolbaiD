@@ -20,15 +20,16 @@ bool VistaFactory::crearVistaNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop){
 	vistaNivel.setAltoPantalla(juego.pantalla.alto);
 	vistaNivel.setAnchoPantalla(juego.pantalla.ancho);
 
-	vistaLoop.setPantalla(ImageLoader::getInstance().levantarPantalla(juego.pantalla.ancho,juego.pantalla.alto));
+	SDL_Surface* pantalla = ImageLoader::getInstance().levantarPantalla(juego.pantalla.ancho,juego.pantalla.alto);
+	vistaLoop.setPantalla(pantalla);
 
-	this->crearJugadorConScroll(juego,vistaNivel);
+	this->crearJugadorConScroll(juego,vistaNivel,pantalla);
 	this->crearEntidades(juego,vistaNivel);
 
 	return true;
 }
 
-void VistaFactory::crearJugadorConScroll(ParserYaml::stJuego juego, VistaNivel& vistaNivel){
+void VistaFactory::crearJugadorConScroll(ParserYaml::stJuego juego, VistaNivel& vistaNivel,SDL_Surface* pantalla){
 
 	ParserYaml::stProtagonista protagonista = juego.escenarios.front().protagonistas.front();
 	std::string nombre = protagonista.entidad;
@@ -47,7 +48,7 @@ void VistaFactory::crearJugadorConScroll(ParserYaml::stJuego juego, VistaNivel& 
 	std::list<std::list<std::string>> listaAnimaciones = entidad.imagenes;
 
 	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true);
-	VistaScroll* pScroll = new VistaScroll(x,y,juego.pantalla.alto,juego.pantalla.ancho,tamanioX,tamanioY);	// Tomo el mismo x,y,velocidad que el personaje
+	VistaScroll* pScroll = new VistaScroll(x,y,juego.pantalla.alto,juego.pantalla.ancho,tamanioX,tamanioY,pantalla);	// Tomo el mismo x,y,velocidad que el personaje
 	vistaNivel.agregarJugador(pJugador);
 	vistaNivel.agregarScroll(pScroll);
 	vistaNivel.agregarTamanioNivel(tamanioX,tamanioY);
