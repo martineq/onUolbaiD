@@ -13,7 +13,7 @@ Observador* VistaNivel::obtenerObservadorJugador(void){
 	Observador* pObservador;
 
 	for (std::list<VistaEntidad*>::iterator it=this->listaEntidades.begin() ; it != this->listaEntidades.end(); it++ ){
-		if( (*it)->getEsJugador() == false ){
+		if( (*it)->getEsJugador() == true ){
 			pObservador = ((Observador*)*it);
 		}
 	}

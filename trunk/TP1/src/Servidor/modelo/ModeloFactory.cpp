@@ -71,7 +71,7 @@ void ModeloFactory::crearEntidades(ParserYaml::stJuego juego, ModeloNivel& model
 		pos.x = x;
 		pos.y = y;
 
-		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidad.fps); 
+		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,false,altoEscenario,anchoEscenario,entidad.fps); 
 
 		modeloNivel.agregarEntidad(pEntidad);
 	}
