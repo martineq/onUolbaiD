@@ -33,5 +33,6 @@ class ModeloScroll: public Observable, public Identificable {
 		int getMargen();
 		
 		void cambiarEstado();
+		void notificarPosicionInicial();
 		int id() const;
 };

@@ -139,3 +139,7 @@ void ModeloScroll::cambiarEstado() {
 int ModeloScroll::id() const {
     return this->_id;
 }
+
+void ModeloScroll::notificarPosicionInicial() {
+	this->notificarObservadores();
+}
