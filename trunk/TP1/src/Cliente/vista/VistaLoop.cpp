@@ -35,14 +35,17 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 	if( SDL_BlitSurface(this->fondo, &rc, this->pantalla, &rcFondo) != 0 ) return false;
 
 	list<VistaEntidad*> listaDeEntidades = vistaNivel.getListaEntidades();	
-	list<VistaEntidad*>::iterator it = listaDeEntidades.begin();
+	list<VistaEntidad*>::iterator it = listaDeEntidades.begin();	
+
+	vistaNivel.getScroll()->graficar(this->pantalla);
+
 	while (it != listaDeEntidades.end()){
 		VistaEntidad* unaEntidad = *it;
 		//Es necesario actualizar o porque cambio de posicion o porque se actualizo el scroll
 		
 		if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){
-			unaEntidad->verificarBordePantalla(vistaNivel.getScroll());
-			vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
+			unaEntidad->verificarBordePantalla(vistaNivel.getScroll());			
+			//vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
 		}
 
 		unaEntidad->setPantalla(this->pantalla);
@@ -51,7 +54,7 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 	}
 
 	if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){	
-		vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
+		vistaNivel.getScroll()->setEsNecesarioRefrescar(false);		
 	}
 
 	ImageLoader::getInstance().refrescarPantalla(this->pantalla);

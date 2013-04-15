@@ -11,7 +11,15 @@ ModeloEntidad::ModeloMovimiento& ModeloEntidad::ModeloMovimiento::operator=(cons
 
 ModeloEntidad::ModeloMovimiento::ModeloMovimiento(ModeloEntidad* modeloEntidad) {
 	this->_modeloEntidad = modeloEntidad;
-	this->_instanteUltimoCambioEstado = 0;
+    this->_posicionDestino = this->_modeloEntidad->_posicionActual;
+    this->_deltaX = 0;
+    this->_deltaY = 0;
+    this->_desplazamientoX = 0;
+    this->_desplazamientoY = 0;
+    this->_error = 0;
+    this->_desplazamientoErrorX = 0;
+    this->_desplazamientoErrorY = 0;
+    this->_instanteUltimoCambioEstado = 0;
 }
 
 ModeloEntidad::ModeloMovimiento::~ModeloMovimiento() {

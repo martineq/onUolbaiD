@@ -27,6 +27,8 @@ public:
 	//devuelve la pantalla
 	SDL_Surface* levantarPantalla(double w, double h);
 
+	void blanquearPantalla (SDL_Surface*);
+
 	void rotar(int grados,string idImage, string newPosition);
 
 	void refrescarPantalla(SDL_Surface* screen);
