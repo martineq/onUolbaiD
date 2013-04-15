@@ -119,7 +119,7 @@ void VistaScroll::obtenerTilesLimites(Posicion& posicionInicial, Posicion& posic
 
 void VistaScroll::graficar(SDL_Surface* pantalla) {
 	int xt = 0, yt = 0, xp = 0, yp = 0;	
-	if (this->esNecesarioRefrescar == true) {
+	//if (this->esNecesarioRefrescar == true) {
 		this->obtenerTilesLimites(this->posicionInicial, this->posicionFinal);
 
 		ImageLoader::getInstance().blanquearPantalla(pantalla);
@@ -132,7 +132,7 @@ void VistaScroll::graficar(SDL_Surface* pantalla) {
 			}
 		}
 		//this->esNecesarioRefrescar = false;
-	}
+	//}
 					
 	ImageLoader::getInstance().refrescarPantalla(pantalla);
 }
