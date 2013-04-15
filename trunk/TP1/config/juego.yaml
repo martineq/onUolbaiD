@@ -1,4 +1,4 @@
-﻿# Archivo de configuraciÃ³n
+﻿# Archivo de configuración
 pantalla:
     ancho: 800 #pixels
     alto: 600 #pixels
@@ -43,8 +43,8 @@ entidades:
         - [default.png]
 escenarios:
     - nombre: bosque_encantado
-      size_x: 100 #tiles
-      size_y: 100 #tiles
+      size_x: 50 #tiles
+      size_y: 50 #tiles
       entidadesDef:
         - {x: 10, y: 15, entidad: tierra}
         - {x: 15, y: 20, entidad: tierra}

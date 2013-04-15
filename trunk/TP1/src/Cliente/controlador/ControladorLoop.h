@@ -13,8 +13,10 @@ class ControladorLoop{
 		int posicionMouseXAnterior;
 		int posicionMouseYAnterior;
 		int clicMouseBotonIzquierdoAnterior;
-		int clicMouseBotonDerechoAnterior;				
-	public:
+		int clicMouseBotonDerechoAnterior;	
+		bool loopInicial;
+
+public:
 		ControladorLoop(void);
 		~ControladorLoop(void);
 		void loop();		
