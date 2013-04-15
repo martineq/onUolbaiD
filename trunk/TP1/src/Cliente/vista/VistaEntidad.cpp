@@ -57,8 +57,8 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 
 void VistaEntidad::actualizar(class Observable* s){
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
-	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x - (this->ancho / 2);
-	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y - (this->alto / 2);
+	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x;
+	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y;
 
 	int codigo = ((ModeloEntidad*)s)->direccion();
 	if ((this->esJugador) && (codigo != this->codigoAnimacion)){
@@ -158,8 +158,8 @@ void VistaEntidad::setAnimacion(std::string estado){
 bool VistaEntidad::graficar(){
 	bool ok = true;	
 	if (this->entraEnPantalla)  {
-		if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
-			if( this->animacionActual->graficar(this->x,this->y) == false ) ok = false;
+		if (/*(this->esNecesarioRefrescar) || */(this->esJugador /*== false*/)){
+			if( this->animacionActual->graficar(this->xEnPantalla,this->yEnPantalla) == false ) ok = false;
 			this->esNecesarioRefrescar = false;
 		}else{
 			if( this->animacionActual->graficar() == false ) ok = false;

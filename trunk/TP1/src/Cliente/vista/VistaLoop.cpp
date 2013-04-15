@@ -46,10 +46,10 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 		VistaEntidad* unaEntidad = *it;
 		//Es necesario actualizar o porque cambio de posicion o porque se actualizo el scroll
 		
-		if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){
+		//if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){
 			unaEntidad->verificarBordePantalla(vistaNivel.getScroll());			
 			//vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
-		}
+		//}
 
 		unaEntidad->setPantalla(this->pantalla);
 		if( unaEntidad->graficar() == false ) return false;
