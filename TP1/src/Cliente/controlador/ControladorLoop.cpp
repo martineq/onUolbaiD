@@ -1,6 +1,7 @@
 #include "ControladorLoop.h"
 
 ControladorLoop::ControladorLoop(void){	
+	loopInicial = true;
 	this->posicionMouseXAnterior = 0;
 	this->posicionMouseYAnterior = 0;
 	this->clicMouseBotonDerechoAnterior = 0;
@@ -8,6 +9,13 @@ ControladorLoop::ControladorLoop(void){
 }
 
 void ControladorLoop::loop(){	
+
+	if( this->loopInicial == true ){
+		this->evento.setPosicionMouseXY(this->detector.getPosicionMouseX(),this->detector.getPosicionMouseY());
+		this->loopInicial = false;
+		return void();
+	}
+
 	this->detector.detectar();
 
 	if ((this->detector.getPosicionMouseX()!=this->posicionMouseXAnterior) && 
