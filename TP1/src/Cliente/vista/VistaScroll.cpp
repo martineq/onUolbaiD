@@ -134,5 +134,5 @@ void VistaScroll::graficar(SDL_Surface* pantalla) {
 		//this->esNecesarioRefrescar = false;
 	//}
 					
-	ImageLoader::getInstance().refrescarPantalla(pantalla);
+	//ImageLoader::getInstance().refrescarPantalla(pantalla);
 }
