@@ -3,6 +3,8 @@
 #include "../../Servidor/modelo/ModeloScroll.h"
 #include "../../utils/Observador/Observador.h"
 #include "../../utils/Observador/Identificable.h"
+#include "ImageLoader.h"
+#include "SDLutil.h"
 #include <winsock.h>  // Para usar InterlockedIncrement()
 
 class VistaScroll: public Observador, public Identificable{
@@ -15,13 +17,18 @@ class VistaScroll: public Observador, public Identificable{
 		double alto;
 		double ancho;		
 		bool esNecesarioRefrescar;
-
+		double anchoNivel;
+		double altoNivel;
+		SDLutil* utilidadSDL;
+		Posicion posicionInicial,posicionFinal;
 		static long contador; // Para generar ID's Automáticos
 
 	public:
-		VistaScroll(double x,double y,double alto,double ancho);
+		VistaScroll(double x,double y,double alto,double ancho, double anchoNivel, double altoNivel);
 		~VistaScroll(void);
 
+		void graficar(SDL_Surface*);
+		void obtenerTilesLimites(Posicion& posicionInicial, Posicion& posicionFinal);
 		void actualizar(class Observable* s);
 		int id() const;
 

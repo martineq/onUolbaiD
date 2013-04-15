@@ -71,6 +71,10 @@ SDL_Rect ImageLoader::createRect(double x, double y){
 	return rect;
 }
 
+void ImageLoader::blanquearPantalla (SDL_Surface* pantalla) {
+	SDL_FillRect(pantalla, NULL, 0x000000);
+}
+
 void ImageLoader::rotar(int grados,string idImage, string newPosition){
 	unsigned int position = idImage.find("_");
 	unsigned int posExtension = idImage.size()-4;

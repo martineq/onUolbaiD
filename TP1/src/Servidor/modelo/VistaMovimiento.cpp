@@ -38,7 +38,7 @@ ModeloEntidad::VistaMovimiento& ModeloEntidad::VistaMovimiento::operator=(const 
 ModeloEntidad::VistaMovimiento::VistaMovimiento(ModeloEntidad* modeloEntidad, int altoMapa, int anchoMapa, int fps) {
 	this->_modeloEntidad = modeloEntidad;
 	this->_altoMapa = altoMapa;
-	this->_anchoMapa = anchoMapa;
+	this->_anchoMapa = anchoMapa;	
 	this->_cantidadCuadros = (this->_modeloEntidad->velocidad() * fps) / 1000;
 	
 	// Si la cantidad de cuadros a mostrar es 0 al menos muestro el cuadro final
