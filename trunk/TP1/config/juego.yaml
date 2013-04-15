@@ -33,6 +33,8 @@ entidades:
         - [default.png,default.png]
         - [default.png,default.png]
       fps: 10
+      ancho_base: 30 #tiles
+      alto_base: 30 #tiles
     - nombre: tierra
       imagen:
         - [default.png]
