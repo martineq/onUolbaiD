@@ -8,7 +8,7 @@
 
 class ModeloEvento : public Observador {
 	private:
-		int _mouseClickDerecho;
+		int _mouseClickIzquierdo;
 		int _mouseX;
 		int _mouseY;
 		bool _actualizado;

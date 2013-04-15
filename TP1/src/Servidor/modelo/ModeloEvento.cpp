@@ -3,7 +3,7 @@
 using namespace std;
 
 ModeloEvento::ModeloEvento() {
-	this->_mouseClickDerecho = 0;
+	this->_mouseClickIzquierdo = 0;
 	this->_mouseX = 0;
 	this->_mouseY = 0;
 	this->_actualizado = false;
@@ -24,13 +24,13 @@ void ModeloEvento::actualizar(Observable* observable) {
 	ControladorEvento* controladorEvento = (ControladorEvento*)observable;
 	this->setActualizado(true);
 
-	this->_mouseClickDerecho = controladorEvento->getClicMouseBotonDerecho();
+	this->_mouseClickIzquierdo = controladorEvento->getClicMouseBotonIzquierdo();
 	this->_mouseX = controladorEvento->getPosicionMouseX();
 	this->_mouseY = controladorEvento->getPosicionMouseY();
 }
 
 int ModeloEvento::getMouseClickDerecho() {
-	return this->_mouseClickDerecho;
+	return this->_mouseClickIzquierdo;
 }
 
 int ModeloEvento::getMousePosX() {
