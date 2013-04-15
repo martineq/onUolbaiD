@@ -12,7 +12,7 @@ bool ModeloJuego::iniciar() {
 }
 
 void ModeloJuego::agregarObservadoresJugador(std::list<Observador*>listaObservadoresJugador){
-	this->_modeloNivel.agregarObservadoresScroll(listaObservadoresJugador);
+	this->_modeloNivel.agregarObservadoresJugador(listaObservadoresJugador);
 }
 
 void ModeloJuego::agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll){
