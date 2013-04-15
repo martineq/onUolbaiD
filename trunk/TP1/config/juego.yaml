@@ -25,6 +25,13 @@ entidades:
     - nombre: frodo
       imagen:
         - [default.png,default.png]
+        - [default.png,default.png]
+        - [default.png,default.png]
+        - [default.png,default.png]
+        - [default.png,default.png]
+        - [default.png,default.png]
+        - [default.png,default.png]
+        - [default.png,default.png]
       fps: 10
     - nombre: tierra
       imagen:

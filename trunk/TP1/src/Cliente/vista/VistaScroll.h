@@ -24,7 +24,7 @@ class VistaScroll: public Observador, public Identificable{
 		static long contador; // Para generar ID's Automáticos
 
 	public:
-		VistaScroll(double x,double y,double alto,double ancho, double anchoNivel, double altoNivel);
+		VistaScroll(double x,double y,double alto,double ancho, double anchoNivel, double altoNivel,SDL_Surface* pantalla);
 		~VistaScroll(void);
 
 		void graficar(SDL_Surface*);

@@ -2,7 +2,7 @@
 
 long VistaScroll::contador = 0; // Para el ID
 
-VistaScroll::VistaScroll(double x,double y,double alto,double ancho, double anchoNivel, double altoNivel){
+VistaScroll::VistaScroll(double x,double y,double alto,double ancho, double anchoNivel, double altoNivel, SDL_Surface* pantalla){
 	this->_id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
 	this->x = x;
 	this->y = y;
@@ -12,6 +12,7 @@ VistaScroll::VistaScroll(double x,double y,double alto,double ancho, double anch
 	this->anchoNivel = anchoNivel;
 	this->esNecesarioRefrescar = true;
 	this->utilidadSDL = new SDLutil(0, 0, ANCHO_TILE, ALTO_TILE, SDL_RUTA_UTIL);
+	this->utilidadSDL->setPantalla(pantalla);
 }
 
 VistaScroll::~VistaScroll(void){
