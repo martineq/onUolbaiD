@@ -31,6 +31,8 @@ entidades:
         - [testxyh_O1.png,testxyh_O2.png,testxyh_O3.png,testxyh_O4.png]
         - [testxyh_NO1.png,testxyh_NO2.png,testxyh_NO3.png,testxyh_NO4.png]
       fps: 10
+      pixel_ref_x: 40 #pixels
+      pixel_ref_y: 15 #pixels
       ancho_base: 2 #tiles
       alto_base: 2 #tiles
     - nombre: tierra
