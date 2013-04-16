@@ -3,7 +3,7 @@ pantalla:
     ancho: 800 #pixels
     alto: 600 #pixels
 configuracion:
-    vel_personaje : 1000
+    vel_personaje : 200 # Definida por el tiempo que tarda en desplazarse.
     margen_scroll : 30
 entidades:
     - nombre: arbol
@@ -18,9 +18,9 @@ entidades:
     - nombre: orco
       imagen:
         - [default.png]
-      fps: 10
+      fps: 15
       delay: 5
-    - nombre: frodo
+    - nombre: mago
       imagen:
         - [testxyh_N1.png,testxyh_N2.png,testxyh_N3.png,testxyh_N4.png]
         - [testxyh_NE1.png,testxyh_NE2.png,testxyh_NE3.png,testxyh_NE4.png]
@@ -30,7 +30,7 @@ entidades:
         - [testxyh_SO1.png,testxyh_SO2.png,testxyh_SO3.png,testxyh_SO4.png]
         - [testxyh_O1.png,testxyh_O2.png,testxyh_O3.png,testxyh_O4.png]
         - [testxyh_NO1.png,testxyh_NO2.png,testxyh_NO3.png,testxyh_NO4.png]
-      fps: 10
+      fps: 15
       pixel_ref_x: 40 #pixels
       pixel_ref_y: 15 #pixels
       ancho_base: 2 #tiles
@@ -45,7 +45,8 @@ entidades:
         - [6Actor_SO1.png,6Actor_SO2.png,6Actor_SO3.png,6Actor_SO4.png,6Actor_SO5.png,6Actor_SO6.png]
         - [6Actor_O1.png,6Actor_O2.png,6Actor_O3.png,6Actor_O4.png,6Actor_O5.png,6Actor_O6.png]
         - [6Actor_NO1.png,6Actor_NO2.png,6Actor_NO3.png,6Actor_NO4.png,6Actor_NO5.png,6Actor_NO6.png]
-      fps: 10
+      fps: 15
+      delay: 5
       pixel_ref_x: 40 #pixels
       pixel_ref_y: 15 #pixels
       ancho_base: 1 #tiles
