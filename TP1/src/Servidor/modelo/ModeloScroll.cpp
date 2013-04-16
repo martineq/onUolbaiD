@@ -1,6 +1,6 @@
 #include "ModeloScroll.h"
 
-ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje) {
+ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int personajeX, int personajeY, int idPersonaje) {
 	
 	this->pPantallaAncho = pPantallaAncho;
 	this->pPantallaAlto = pPantallaAlto;
@@ -8,7 +8,6 @@ ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenario
 	this->tEscenarioAlto = tEscenarioAlto;
 
 	this->margen = tMargen;
-	this->velocidad = tVelocidad;
 	
 	this->desplazamientoX = 0;
 	this->desplazamientoY = 0;
@@ -37,38 +36,6 @@ ModeloScroll::ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenario
 }
 
 ModeloScroll::~ModeloScroll(){
-}
-
-bool ModeloScroll::calcularPosicion(int mouseX, int mouseY) {
-	bool chg = false;
-	
-	if (mouseX <= this->margen) { // toco el margen izquierdo
-		this->x -= velocidad;
-		chg = true;
-	} else if (mouseX >= (this->pPantallaAncho - margen)) { // toco margen derecho
-		this->x += velocidad;
-		chg = true;
-	}
-
-	if (this->x < 0)
-		this->x = 0;
-	else if (this->x + this->pPantallaAncho > this->pEscenarioAncho)
-		this->x = this->pEscenarioAncho - this->pPantallaAncho;
-
-	if (mouseY  <= this->margen) { // toco el margen superior
-		this->y -= velocidad;
-		chg = true;
-	} else if (mouseY >= (this->pPantallaAlto - margen)) { // toco margen inferior
-		this->y += velocidad;
-		chg = true;
-	}
-
-	if (this->y < 0)
-		this->y = 0;
-	else if (this->y + this->pPantallaAlto > this->pEscenarioAlto)
-		this->y = this->pEscenarioAlto - this->pPantallaAlto;
-
-	return chg;
 }
 
 int ModeloScroll::getX() {
@@ -102,18 +69,18 @@ int ModeloScroll::getMargen() {
 void ModeloScroll::actualizar(int mouseX, int mouseY) {
 	this->desplazamientoX = 0;
 	if (mouseX <= this->margen) { // toco el margen izquierdo
-		this->desplazamientoX = -this->velocidad;
+		this->desplazamientoX = -VELOCIDAD_SCROLL;
 	}
 	else if (mouseX >= (this->pPantallaAncho - margen)) { // toco margen derecho
-		this->desplazamientoX = this->velocidad;
+		this->desplazamientoX = VELOCIDAD_SCROLL;
 	}
 
 	this->desplazamientoY = 0;
 	if (mouseY  <= this->margen) { // toco el margen superior
-		this->desplazamientoY = -velocidad;
+		this->desplazamientoY = -VELOCIDAD_SCROLL;
 	}
 	else if (mouseY >= (this->pPantallaAlto - margen)) { // toco margen inferior
-		this->desplazamientoY = velocidad;
+		this->desplazamientoY = VELOCIDAD_SCROLL;
 	}
 }
 

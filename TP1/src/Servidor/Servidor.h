@@ -19,7 +19,6 @@
 #define ANCHO_IMAGEN 50
 #define ALTO_MATRIZ 200
 #define ANCHO_MATRIZ 200
-#define DESPLAZAMIENTO_SCROLL 1
 
 class Servidor {
 	private:
@@ -278,7 +277,7 @@ class Servidor {
 			ModeloLoop modeloLoop;
 			ModeloNivel modeloNivel;
 			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
-			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, DESPLAZAMIENTO_SCROLL, 0, 0, modeloJugador.id());
+			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 0, 0, modeloJugador.id());
 			VistaEntidadPrueba vistaJugador;
 			//VistaEntidad vistaJugador(0, 0, 70, 50, 0, 0, 15, 1000, listaAnimaciones, true);
 			VistaScrollPrueba vistaScroll(&vistaJugador);
@@ -306,9 +305,9 @@ class Servidor {
 					if (evento.type == SDL_MOUSEMOTION)
 						controladorEvento.setPosicionMouseXY(evento.motion.x, evento.motion.y);
 					else if (evento.type == SDL_MOUSEBUTTONDOWN)
-						controladorEvento.setClicMouseBotonDerecho(1);
+						controladorEvento.setClicMouseBotonIzquierdo(1);
 					else if (evento.type == SDL_MOUSEBUTTONUP)
-						controladorEvento.setClicMouseBotonDerecho(0);
+						controladorEvento.setClicMouseBotonIzquierdo(0);
 				}
 				
 				modeloLoop.loop(modeloNivel);

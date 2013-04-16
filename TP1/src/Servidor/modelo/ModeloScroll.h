@@ -13,14 +13,13 @@ class ModeloScroll: public Observable, public Identificable {
 	private:
 		int x, y, pPantallaAncho, pPantallaAlto, tEscenarioAncho, tEscenarioAlto;
 		int pEscenarioAlto, pEscenarioAncho;
-		int margen, velocidad;
+		int margen;
 		int desplazamientoX, desplazamientoY;
-		bool calcularPosicion(int mouseX, int mouseY);
 
 		int _id;	// ID a partir del id del jugador
 
 	public:
-		ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int tVelocidad, int personajeX, int personajeY, int idPersonaje);
+		ModeloScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int personajeX, int personajeY, int idPersonaje);
 		virtual ~ModeloScroll();
 
 		void actualizar(int mouseX, int mouseY);
