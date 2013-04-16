@@ -2,14 +2,29 @@
 
 long VistaEntidad::contador = 0; // Para el ID
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador){
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel){
 	this->_id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
-	this->x = x;
-	this->y = y;
-	this->alto = alto;
-	this->ancho = ancho;
+	
+	int xAux, yAux;
+
+	//TODO: reemplazar el 20 por el alto del mapa en tiles
+	Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
+	
 	this->posicionReferenciaX = posicionReferenciaX;
 	this->posicionReferenciaY = posicionReferenciaY;
+	this->x = xAux;
+	this->y = yAux;
+
+	if (esJugador) {
+		if ((alto != 1) || (ancho != 1))
+			Log::getInstance().log(1,__FILE__,__LINE__,"El jugador no puede ocupar mas de un tile. Se setea tamanio apropiado por defecto.");
+		alto = 1;
+		ancho = 1;	
+	}
+
+	this->alto = alto * ALTO_TILE; 
+	this->ancho = ancho * ANCHO_TILE;
+
 	this->fps = fps;
 	this->delay = delay;
 	this->esJugador = esJugador;
@@ -26,7 +41,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->estados.push_back(ACCION_NOROESTE);
 	int i = 0;
 	for (it=listaAnimaciones.begin();it!=listaAnimaciones.end();it++){
-		this->animaciones->agregar(this->estados.at(i),*it,delay,ancho,alto,fps);
+		this->animaciones->agregar(this->estados.at(i),*it,delay,this->ancho,this->alto,fps);
 		if (this->animacionActual == NULL){
 			this->animacionActual = this->animaciones->get(this->estados.at(i));
 		}
@@ -158,10 +173,12 @@ void VistaEntidad::setAnimacion(std::string estado){
 bool VistaEntidad::graficar(){
 	bool ok = true;	
 	if (this->entraEnPantalla)  {
-		if (/*(this->esNecesarioRefrescar) || */(this->esJugador /*== false*/)){
-			if( this->animacionActual->graficar(this->xEnPantalla,this->yEnPantalla) == false ) ok = false;
+		if ((this->esNecesarioRefrescar) || (this->esJugador /*== false*/)){
+			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY) == false ) ok = false;
 			this->esNecesarioRefrescar = false;
 		}else{
+			this->animacionActual->setX(this->xEnPantalla - this->posicionReferenciaX);
+			this->animacionActual->setY(this->yEnPantalla - this->posicionReferenciaY);
 			if( this->animacionActual->graficar() == false ) ok = false;
 		}
 	}

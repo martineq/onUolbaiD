@@ -33,24 +33,32 @@ entidades:
         - [default.png,default.png]
         - [default.png,default.png]
       fps: 10
-      ancho_base: 30 #tiles
-      alto_base: 30 #tiles
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
     - nombre: tierra
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
       imagen:
-        - [default.png]
+        - [tierra.png]
     - nombre: agua
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
       imagen:
-        - [default.png]
+        - [hielo.png]
 escenarios:
     - nombre: bosque_encantado
-      size_x: 50 #tiles
-      size_y: 50 #tiles
+      size_x: 20 #tiles
+      size_y: 20 #tiles
       entidadesDef:
         - {x: 10, y: 15, entidad: tierra}
-        - {x: 15, y: 20, entidad: tierra}
+        - {x: 15, y: 19, entidad: tierra}
         - {x: 10, y: 15, entidad: agua}
-        - {x: 30, y: 55, entidad: castillo}
+        - {x: 19, y: 19, entidad: castillo}
       protagonista:
         - entidad: frodo
-          x: 50
-          y: 50
+          x: 0
+          y: 0
