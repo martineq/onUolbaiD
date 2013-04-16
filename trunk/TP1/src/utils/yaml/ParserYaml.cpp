@@ -350,7 +350,7 @@ void ParserYaml::validaRecorrerListaEntidades(std::list<std::list<ParserYaml::st
 		}
 
 		// Chequeo la validez de delay
-		if( (*it).delay < 0 || (*it).fps > YAML_DELAY_TOPE_MAXIMO ){
+		if( (*it).delay < 0 || (*it).delay > YAML_DELAY_TOPE_MAXIMO ){
 			Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ (*it).nombre +" tiene el valor delay fuera del rango permitido.");
 			entidadOk = false;
 		}
