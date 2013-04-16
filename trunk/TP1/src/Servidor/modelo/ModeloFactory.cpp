@@ -41,7 +41,7 @@ void ModeloFactory::crearJugadorConScroll(ParserYaml::stJuego juego, ModeloNivel
 	pos.y = y;
 
 	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidad.fps); 
-	ModeloScroll* pScroll = new ModeloScroll(juego.pantalla.ancho,juego.pantalla.alto,anchoEscenario,altoEscenario,juego.configuracion.margenScroll,velocidad,x,y,pJugador->id());  // Tomo el mismo x,y,velocidad que el personaje
+	ModeloScroll* pScroll = new ModeloScroll(juego.pantalla.ancho,juego.pantalla.alto,anchoEscenario,altoEscenario,juego.configuracion.margenScroll,x,y,pJugador->id());  // Tomo el mismo x,y,velocidad que el personaje
 
 	modeloNivel.agregarJugador(pJugador);
 	modeloNivel.agregarScroll(pScroll); 
