@@ -10,7 +10,7 @@
 #include "../../utils/Observador/Identificable.h"
 #include "../../utils/Hilos/Hilo.h"
 
-typedef enum Direccion { NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE, NOROESTE, CENTRO };
+typedef enum Direccion { NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE, NOROESTE };
 
 typedef struct Posicion {
 	int x;
@@ -119,6 +119,7 @@ class ModeloEntidad : public Observable, public Identificable {
 		Direccion _direccion;
 		ModeloMovimiento* _modeloMovimiento;
 		VistaMovimiento* _vistaMovimiento;
+		bool _esUltimoMovimiento;
 		int _altoMapa;
 		int _anchoMapa;
 
@@ -152,6 +153,8 @@ class ModeloEntidad : public Observable, public Identificable {
 		Posicion pixelSiguiente() const;
 
 		Direccion direccion() const;
+
+		bool esUltimoMovimiento() const;
 
 		void mover(Posicion posicion);
 

@@ -3,7 +3,7 @@ pantalla:
     ancho: 800 #pixels
     alto: 600 #pixels
 configuracion:
-    vel_personaje : 200 # Definida por el tiempo que tarda en desplazarse.
+    vel_personaje : 500 # Definida por el tiempo que tarda en desplazarse.
     margen_scroll : 30
 entidades:
     - nombre: arbol
@@ -13,8 +13,10 @@ entidades:
     - nombre: castillo
       imagen:
         - [castillo01.png,castillo02.png,castillo03.png,castillo04.png,castillo05.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
+      ancho_base: 3 #tiles
+      alto_base: 3 #tiles
+      pixel_ref_x: 155 #pixels
+      pixel_ref_y: 45 #pixels
     - nombre: orco
       imagen:
         - [default.png]
@@ -30,7 +32,7 @@ entidades:
         - [testxyh_SO1.png,testxyh_SO2.png,testxyh_SO3.png,testxyh_SO4.png]
         - [testxyh_O1.png,testxyh_O2.png,testxyh_O3.png,testxyh_O4.png]
         - [testxyh_NO1.png,testxyh_NO2.png,testxyh_NO3.png,testxyh_NO4.png]
-      fps: 15
+      fps: 10
       pixel_ref_x: 40 #pixels
       pixel_ref_y: 15 #pixels
       ancho_base: 2 #tiles
@@ -39,7 +41,7 @@ entidades:
       imagen:
         - [6Actor_N1.png,6Actor_N2.png,6Actor_N3.png,6Actor_N4.png,6Actor_N5.png,6Actor_N6.png]
         - [6Actor_NE1.png,6Actor_NE2.png,6Actor_NE3.png,6Actor_NE4.png,6Actor_NE5.png,6Actor_NE6.png]
-        - [PRUEBA6Actor_E1.png,PRUEBA6Actor_E2.png,PRUEBA6Actor_E3.png,PRUEBA6Actor_E4.png,PRUEBA6Actor_E5.png,PRUEBA6Actor_E6.png]
+        - [6Actor_E1.png,6Actor_E2.png,6Actor_E3.png,6Actor_E4.png,6Actor_E5.png,6Actor_E6.png]
         - [6Actor_SE1.png,6Actor_SE2.png,6Actor_SE3.png,6Actor_SE4.png,6Actor_SE5.png,6Actor_SE6.png]
         - [6Actor_S1.png,6Actor_S2.png,6Actor_S3.png,6Actor_S4.png,6Actor_S5.png,6Actor_S6.png]
         - [6Actor_SO1.png,6Actor_SO2.png,6Actor_SO3.png,6Actor_SO4.png,6Actor_SO5.png,6Actor_SO6.png]
@@ -47,7 +49,7 @@ entidades:
         - [6Actor_NO1.png,6Actor_NO2.png,6Actor_NO3.png,6Actor_NO4.png,6Actor_NO5.png,6Actor_NO6.png]
       fps: 15
       delay: 5
-      pixel_ref_x: 40 #pixels
+      pixel_ref_x: 50 #pixels
       pixel_ref_y: 15 #pixels
       ancho_base: 1 #tiles
       alto_base: 1 #tiles
@@ -58,21 +60,34 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [tierra.png]
-    - nombre: agua
+    - nombre: hielo
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 0 #pixels
       ancho_base: 1 #tiles
       alto_base: 1 #tiles
       imagen:
         - [hielo.png]
+    - nombre: agua
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [agua.png]
 escenarios:
     - nombre: bosque_encantado
       size_x: 20 #tiles
       size_y: 20 #tiles
       entidadesDef:
-        - {x: 10, y: 15, entidad: tierra}
-        - {x: 15, y: 19, entidad: tierra}
-        - {x: 10, y: 15, entidad: agua}
+        - {x: 5, y: 5, entidad: agua}
+        - {x: 5, y: 6, entidad: agua}
+        - {x: 5, y: 7, entidad: agua}
+        - {x: 6, y: 5, entidad: agua}
+        - {x: 6, y: 6, entidad: agua}
+        - {x: 6, y: 7, entidad: agua}
+        - {x: 7, y: 5, entidad: agua}
+        - {x: 7, y: 6, entidad: agua}
+        - {x: 7, y: 7, entidad: agua}
         - {x: 5, y: 5, entidad: castillo}
       protagonista:
         - entidad: chibi
