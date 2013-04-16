@@ -5,14 +5,14 @@
 
 int main(int argc, char* argv[]) {
 
-	Administrador administrador;
+	/*Administrador administrador;
 	//administrador.correrPruebas();
 	if( administrador.iniciar() == true ){
 		administrador.loop();
-	}
+	}*/
 
 	//ModeloEntidad::prueba();
-	//Servidor::prueba();
+	Servidor::prueba();
 
 	return 0;
 }

@@ -173,7 +173,7 @@ void VistaEntidad::setAnimacion(std::string estado){
 bool VistaEntidad::graficar(){
 	bool ok = true;	
 	if (this->entraEnPantalla)  {
-		if ((this->esNecesarioRefrescar) || (this->esJugador /*== false*/)){
+		if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
 			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY) == false ) ok = false;
 			this->esNecesarioRefrescar = false;
 		}else{
