@@ -21,15 +21,21 @@ void ControladorLoop::loop(){
 	if ((this->detector.getPosicionMouseX()!=this->posicionMouseXAnterior) && 
 		(this->detector.getPosicionMouseY()!=this->posicionMouseYAnterior)){
 			this->evento.setPosicionMouseXY(this->detector.getPosicionMouseX(),this->detector.getPosicionMouseY());
+			this->evento.setClicMouseBotonIzquierdo(0); // Con esto aclaro que no estoy mandando un evento de click
+			this->evento.setClicMouseBotonDerecho(0);   // Con esto aclaro que no estoy mandando un evento de click
 			this->posicionMouseXAnterior = detector.getPosicionMouseX();
 			this->posicionMouseYAnterior = detector.getPosicionMouseY();
 	}
 	else if (this->detector.getPosicionMouseX()!=this->posicionMouseXAnterior) {
 		this->evento.setPosicionMouseX(this->detector.getPosicionMouseX());
+		this->evento.setClicMouseBotonIzquierdo(0);  // Con esto aclaro que no estoy mandando un evento de click
+		this->evento.setClicMouseBotonDerecho(0);    // Con esto aclaro que no estoy mandando un evento de click
 		this->posicionMouseXAnterior = detector.getPosicionMouseX();
 	}
 	else if (this->detector.getPosicionMouseY()!=this->posicionMouseYAnterior) {
 		this->evento.setPosicionMouseY(this->detector.getPosicionMouseY());
+		this->evento.setClicMouseBotonIzquierdo(0); // Con esto aclaro que no estoy mandando un evento de click
+		this->evento.setClicMouseBotonDerecho(0);   // Con esto aclaro que no estoy mandando un evento de click
 		this->posicionMouseYAnterior = detector.getPosicionMouseY();
 	}
 	if (this->detector.getClicMouseBotonIzquierdo()!=this->clicMouseBotonIzquierdoAnterior) {
