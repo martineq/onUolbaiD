@@ -47,7 +47,7 @@ ModeloEntidad::VistaMovimiento::VistaMovimiento(ModeloEntidad* modeloEntidad, in
 
 	this->_espera = this->_modeloEntidad->velocidad() / this->_cantidadCuadros;
 
-	this->_cuadroActual = this->_cantidadCuadros;
+	this->_cuadroActual = this->_cantidadCuadros + 1;
 	this->_instanteUltimoCambioEstado = 0;
 }
 
