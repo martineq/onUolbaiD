@@ -3,7 +3,7 @@ pantalla:
     ancho: 800 #pixels
     alto: 600 #pixels
 configuracion:
-    vel_personaje : 200
+    vel_personaje : 1000
     margen_scroll : 30
 entidades:
     - nombre: arbol
@@ -39,7 +39,7 @@ entidades:
       imagen:
         - [6Actor_N1.png,6Actor_N2.png,6Actor_N3.png,6Actor_N4.png,6Actor_N5.png,6Actor_N6.png]
         - [6Actor_NE1.png,6Actor_NE2.png,6Actor_NE3.png,6Actor_NE4.png,6Actor_NE5.png,6Actor_NE6.png]
-        - [6Actor_E1.png,6Actor_E2.png,6Actor_E3.png,6Actor_E4.png,6Actor_E5.png,6Actor_E6.png]
+        - [PRUEBA6Actor_E1.png,PRUEBA6Actor_E2.png,PRUEBA6Actor_E3.png,PRUEBA6Actor_E4.png,PRUEBA6Actor_E5.png,PRUEBA6Actor_E6.png]
         - [6Actor_SE1.png,6Actor_SE2.png,6Actor_SE3.png,6Actor_SE4.png,6Actor_SE5.png,6Actor_SE6.png]
         - [6Actor_S1.png,6Actor_S2.png,6Actor_S3.png,6Actor_S4.png,6Actor_S5.png,6Actor_S6.png]
         - [6Actor_SO1.png,6Actor_SO2.png,6Actor_SO3.png,6Actor_SO4.png,6Actor_SO5.png,6Actor_SO6.png]
