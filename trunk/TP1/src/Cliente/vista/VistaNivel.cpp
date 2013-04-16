@@ -3,6 +3,7 @@
 
 VistaNivel::VistaNivel(){
 	this->scroll = NULL;
+	this->jugador = NULL;
 }
 
 VistaNivel::~VistaNivel(){
@@ -10,14 +11,7 @@ VistaNivel::~VistaNivel(){
 }
 
 Observador* VistaNivel::obtenerObservadorJugador(void){
-	Observador* pObservador;
-
-	for (std::list<VistaEntidad*>::iterator it=this->listaEntidades.begin() ; it != this->listaEntidades.end(); it++ ){
-		if( (*it)->getEsJugador() == true ){
-			pObservador = ((Observador*)*it);
-		}
-	}
-	return pObservador;
+	return (Observador*)this->jugador;
 }
 
 Observador* VistaNivel::obtenerObservadorScroll(void){
@@ -42,12 +36,17 @@ VistaScroll* VistaNivel::getScroll(void){
 	return this->scroll;
 }
 
+VistaEntidad* VistaNivel::getJugador(void){
+	return this->jugador;
+}
+
+
 std::list<VistaEntidad*> VistaNivel::getListaEntidades(void){
 	return this->listaEntidades;
 }
 
 void VistaNivel::agregarJugador(VistaEntidad* pJugador){
-	this->listaEntidades.push_back(pJugador);
+	this->jugador = pJugador;
 	return void();
 }
 
@@ -100,10 +99,11 @@ double VistaNivel::getAnchoNivel(){
 }
 
 void VistaNivel::destruirListaEntidades(){
-	// Destruyo las entidades instanciadas (incluye al personaje)
+	// Destruyo las entidades instanciadas (incluye al jugador)
 	for (std::list<VistaEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
 		delete (*entidad);
 	}
+	if( this->jugador != NULL ) delete this->jugador;
 	return void();
 }
 

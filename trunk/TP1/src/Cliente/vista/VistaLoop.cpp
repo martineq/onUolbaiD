@@ -2,7 +2,6 @@
 
 VistaLoop::VistaLoop(void){
 	this->pantalla = NULL;
-	//this->fondo = NULL;
 }
 
 void VistaLoop::setPantalla(SDL_Surface *pantalla){
@@ -15,39 +14,20 @@ bool VistaLoop::loop(VistaNivel& vistaNivel){
 	return true;
 }
 
-// Levanta el fondo y la pantalla
-//bool VistaLoop::levantarFondo(double altoNivel, double anchoNivel){
-//
-//	this->fondo = ImageLoader::getInstance().load_image(SDL_RUTA_FONDO);	
-//	if( this->fondo == NULL ) return false;
-//	
-//	this->fondo = ImageLoader::getInstance().stretch(this->fondo,anchoNivel,altoNivel);
-//	if( this->fondo == NULL ) return false;
-//
-//	return true;
-//}
-
 bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
-	// Cargo el fondo
-	// TODO: No hace falta la imagen de fondo, ya que se hace blanquearPantalla()
-	/*SDL_Rect rcFondo = ImageLoader::getInstance().createRect(0,0);
-	SDL_Rect rc = ImageLoader::getInstance().createRect(vistaNivel.getScroll()->getX(),vistaNivel.getScroll()->getY());
-	if( SDL_BlitSurface(this->fondo, &rc, this->pantalla, &rcFondo) != 0 ){
-		Log::getInstance().log(1, __FILE__, __LINE__, "Error al agregar un componente a la pantalla");
-		return false;
-	}*/
 
 	list<VistaEntidad*> listaDeEntidades = vistaNivel.getListaEntidades();	
 	list<VistaEntidad*>::iterator it = listaDeEntidades.begin();	
 
 	vistaNivel.getScroll()->graficar(this->pantalla);
 
+	// Primero dibujo todas las entidades que no son el jugador
 	while (it != listaDeEntidades.end()){
 		VistaEntidad* unaEntidad = *it;
 		//Es necesario actualizar o porque cambio de posicion o porque se actualizo el scroll
 		
 		//if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){
-			unaEntidad->verificarBordePantalla(vistaNivel.getScroll());			
+			unaEntidad->verificarBordePantalla(vistaNivel.getScroll());
 			//vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
 		//}
 
@@ -56,6 +36,11 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 		it++;
 	}
 
+	// Al final dibujo al jugador
+	vistaNivel.getJugador()->verificarBordePantalla(vistaNivel.getScroll());
+	vistaNivel.getJugador()->setPantalla(this->pantalla);
+	if( vistaNivel.getJugador()->graficar() == false ) return false;
+	
 	if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){	
 		vistaNivel.getScroll()->setEsNecesarioRefrescar(false);		
 	}
