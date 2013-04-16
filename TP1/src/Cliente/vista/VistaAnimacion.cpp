@@ -107,3 +107,11 @@ VistaAnimacion::~VistaAnimacion() {
 		}
 	}
 }
+
+void VistaAnimacion::setX(double x) {
+	this->x = x;
+}
+
+void VistaAnimacion::setY(double y)  {
+	this->y = y;
+}

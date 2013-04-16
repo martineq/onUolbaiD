@@ -47,7 +47,7 @@ void VistaFactory::crearJugadorConScroll(ParserYaml::stJuego juego, VistaNivel& 
 	double delay = (double)entidad.delay;
 	std::list<std::list<std::string>> listaAnimaciones = entidad.imagenes;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true);
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY);
 	VistaScroll* pScroll = new VistaScroll(x,y,juego.pantalla.alto,juego.pantalla.ancho,tamanioX,tamanioY,pantalla);	// Tomo el mismo x,y,velocidad que el personaje
 	vistaNivel.agregarJugador(pJugador);
 	vistaNivel.agregarScroll(pScroll);
@@ -67,6 +67,8 @@ void VistaFactory::crearEntidades(ParserYaml::stJuego juego, VistaNivel& vistaNi
 		std::string nombre = entidadDef.entidad;
 		ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego,nombre);
 
+		double tamanioX = (double)juego.escenarios.front().tamanioX;
+		double tamanioY = (double)juego.escenarios.front().tamanioY;
 		double x = (double)entidadDef.x;
 		double y = (double)entidadDef.y;
 		double alto = (double)entidad.altoBase;
@@ -77,7 +79,7 @@ void VistaFactory::crearEntidades(ParserYaml::stJuego juego, VistaNivel& vistaNi
 		double delay = (double)entidad.delay;
 		std::list<std::list<std::string>> listaAnimaciones = entidad.imagenes;
 
-		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false);
+		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY);
 		vistaNivel.agregarEntidad(pEntidad);
 	}
 

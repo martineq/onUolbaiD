@@ -323,7 +323,7 @@ void Pruebas::PruebaAnimacion(){
 	//listaAnimaciones.push_back(listaO);
 	//listaAnimaciones.push_back(listaNO);
 
-	VistaEntidad* vEntidad = new VistaEntidad(0,0,263,260,0,0,15,1000,listaAnimaciones,false);
+	VistaEntidad* vEntidad = new VistaEntidad(0,0,263,260,0,0,15,1000,listaAnimaciones,false,0,0);
 	vEntidad->setPantalla(pantalla);
 	//VistaAnimaciones* animaciones = new VistaAnimaciones();
 	//animaciones->agregar(lista.front(),lista,200,50,70,15);
