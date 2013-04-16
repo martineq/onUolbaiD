@@ -84,29 +84,28 @@ void VistaEntidad::actualizar(class Observable* s){
 
 }
 
-void VistaEntidad::verificarBordePantalla(VistaScroll* scroll){
-       bool entraEnX = false;
-       bool entraEnY = false;
-       
+void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
+	int xReal = this->x - (ANCHO_TILE / 2);
+	int yReal = this->y;
+	bool entraEnX = false;
+	bool entraEnY = false;
+	
+	if ((xReal > scroll->getX()) && (xReal < (scroll->getX() + scroll->getAncho())) ||
+		(((xReal + this->ancho) > scroll->getX()) && (xReal + this->ancho) < (scroll->getX() + scroll->getAncho()))) {
+		entraEnX = true;
+	}
 
-       if ((this->x > scroll->getX()) && (this->x < (scroll->getX()+scroll->getAncho()))
-               || ( ( (this->x + this->ancho) > scroll->getX()) && 
-                        ((this->x + this->ancho) <  scroll->getX()+scroll->getAncho()))) {
-                       entraEnX = true;
-       }
+	if (((yReal > scroll->getY()) && (yReal < (scroll->getY() + scroll->getAlto())) ||
+		(((yReal + this->alto) > scroll->getY()) && ((yReal + this->alto) < (scroll->getY() + scroll->getAlto()))))) {
+		entraEnY = true;
+	}
 
-       if ( ((this->y > scroll->getY()) && (this->y < (scroll->getY()+scroll->getAlto()))
-               || ( ( (this->y + this->alto) > scroll->getY()) && 
-                        ((this->y + this->alto) <  scroll->getY()+scroll->getAlto())))) {
-                       entraEnY = true;
-       }
-       if (entraEnX && entraEnY){
-               this->entraEnPantalla = true;
-			   this->setXEnPantalla(scroll->getX());
-			   this->setYEnPantalla(scroll->getY());
-       }
-
-
+	this->entraEnPantalla = false;
+	if (entraEnX && entraEnY) {
+		this->entraEnPantalla = true;
+		this->setXEnPantalla(scroll->getX());
+		this->setYEnPantalla(scroll->getY());
+	}
 }
 
 int VistaEntidad::id() const {
