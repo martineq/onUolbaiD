@@ -7,7 +7,6 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	
 	int xAux, yAux;
 
-	//TODO: reemplazar el 20 por el alto del mapa en tiles
 	Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
 	
 	this->posicionReferenciaX = posicionReferenciaX;
@@ -50,13 +49,13 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 		}
 		i++;
 	}
-	this->esNecesarioRefrescar = true;
+	if (this->esJugador)
+		this->animacionActual = this->animaciones->get(this->estados.at(SUR));
+	this->esNecesarioRefrescar = false;
 	this->codigoAnimacion = 0;
 	this->entraEnPantalla = false;
 	//typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
 }
-
-
 
 VistaEntidad::~VistaEntidad(void){
 
@@ -80,8 +79,9 @@ void VistaEntidad::actualizar(class Observable* s){
 		this->codigoAnimacion = codigo;
 		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
 	}
-	this->esNecesarioRefrescar = true;
-
+	
+	//this->esNecesarioRefrescar = true;
+	this->esNecesarioRefrescar = !((ModeloEntidad*)s)->esUltimoMovimiento();
 }
 
 void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
@@ -94,12 +94,12 @@ void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
 		(((xReal + this->ancho) > scroll->getX()) && (xReal + this->ancho) < (scroll->getX() + scroll->getAncho()))) {
 		entraEnX = true;
 	}
-	   this->entraEnPantalla = false;
+	
+	this->entraEnPantalla = false;
 	if (((yReal > scroll->getY()) && (yReal < (scroll->getY() + scroll->getAlto())) ||
 		(((yReal + this->alto) > scroll->getY()) && ((yReal + this->alto) < (scroll->getY() + scroll->getAlto()))))) {
 		entraEnY = true;
 	}
-
 
 	this->entraEnPantalla = false;
 	if (entraEnX && entraEnY) {
@@ -112,7 +112,6 @@ void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
 int VistaEntidad::id() const {
     return this->_id;
 }
-
 
 bool VistaEntidad::getEsJugador(void){
 	return (this->esJugador);
@@ -175,7 +174,7 @@ bool VistaEntidad::graficar(){
 	if (this->entraEnPantalla)  {
 		if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
 			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY) == false ) ok = false;
-			this->esNecesarioRefrescar = false;
+			//this->esNecesarioRefrescar = false;
 		}else{			
 			this->animacionActual->setX(this->xEnPantalla - this->posicionReferenciaX);
 			this->animacionActual->setY(this->yEnPantalla - this->posicionReferenciaY);

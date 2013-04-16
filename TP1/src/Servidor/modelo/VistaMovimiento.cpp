@@ -24,7 +24,7 @@ Direccion ModeloEntidad::VistaMovimiento::obtenerDireccion(Posicion posicionOrig
 		else if (posicionOrigen.y < posicionDestino.y)
 			return SUR;
 		else
-			return CENTRO;
+			return SUR;
 	}
 }
 
@@ -112,6 +112,7 @@ void ModeloEntidad::VistaMovimiento::cambiarEstado() {
 	if (this->_cuadroActual == this->_cantidadCuadros) {
 		this->_modeloEntidad->_pixelSiguiente = this->_posicionDestino;
 		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
+		this->_modeloEntidad->_esUltimoMovimiento = true;
 		this->_modeloEntidad->notificarObservadores();
 		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
 	}
@@ -122,6 +123,7 @@ void ModeloEntidad::VistaMovimiento::cambiarEstado() {
 
 		this->_modeloEntidad->_pixelSiguiente = *iterador;
 		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
+		this->_modeloEntidad->_esUltimoMovimiento = false;
 		this->_modeloEntidad->notificarObservadores();
 		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
 	}

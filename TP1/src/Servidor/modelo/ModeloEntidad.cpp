@@ -24,7 +24,7 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_altoMapa = altoMapa;
 	this->_anchoMapa = anchoMapa;
 
-	this->_direccion = CENTRO;
+	this->_direccion = SUR;
 	Posicion::convertirTileAPixel(altoMapa, this->_posicionActual.x, this->_posicionActual.y, this->_pixelActual.x, this->_pixelActual.y);
 	Posicion::convertirTileAPixel(altoMapa, this->_posicionSiguiente.x, this->_posicionSiguiente.y, this->_pixelSiguiente.x, this->_pixelSiguiente.y);
 
@@ -79,6 +79,10 @@ Posicion ModeloEntidad::pixelSiguiente() const {
 
 Direccion ModeloEntidad::direccion() const {
 	return this->_direccion;
+}
+
+bool ModeloEntidad::esUltimoMovimiento() const {
+	return this->_esUltimoMovimiento;
 }
 
 void ModeloEntidad::mover(Posicion posicionDestino) {
