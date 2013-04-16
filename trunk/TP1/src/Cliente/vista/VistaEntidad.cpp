@@ -85,8 +85,8 @@ void VistaEntidad::actualizar(class Observable* s){
 }
 
 void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
-	int xReal = this->x - (ANCHO_TILE / 2);
-	int yReal = this->y;
+	int xReal = this->x - (ANCHO_TILE / 2) - this->posicionReferenciaX;
+	int yReal = this->y  - this->posicionReferenciaY;
 	bool entraEnX = false;
 	bool entraEnY = false;
 	
