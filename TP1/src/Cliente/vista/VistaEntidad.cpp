@@ -40,15 +40,15 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->estados.push_back(ACCION_OESTE);	
 	this->estados.push_back(ACCION_NOROESTE);
 	int i = 0;
+	if (this->esJugador == false){
+		this->animaciones->setAnimacionesAutomaticas();	
+	}
 	for (it=listaAnimaciones.begin();it!=listaAnimaciones.end();it++){
-		this->animaciones->agregar(this->estados.at(i),*it,delay,this->ancho,this->alto,fps);
+		this->animaciones->agregar(this->estados.at(i),*it,delay*1000,this->ancho,this->alto,fps);
 		if (this->animacionActual == NULL){
 			this->animacionActual = this->animaciones->get(this->estados.at(i));
 		}
 		i++;
-	}
-	if (this->esJugador == false){
-		this->animaciones->setAnimacionesAutomaticas();
 	}
 	this->esNecesarioRefrescar = true;
 	this->codigoAnimacion = 0;
@@ -94,11 +94,12 @@ void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
 		(((xReal + this->ancho) > scroll->getX()) && (xReal + this->ancho) < (scroll->getX() + scroll->getAncho()))) {
 		entraEnX = true;
 	}
-
+	   this->entraEnPantalla = false;
 	if (((yReal > scroll->getY()) && (yReal < (scroll->getY() + scroll->getAlto())) ||
 		(((yReal + this->alto) > scroll->getY()) && ((yReal + this->alto) < (scroll->getY() + scroll->getAlto()))))) {
 		entraEnY = true;
 	}
+
 
 	this->entraEnPantalla = false;
 	if (entraEnX && entraEnY) {
@@ -175,7 +176,7 @@ bool VistaEntidad::graficar(){
 		if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
 			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY) == false ) ok = false;
 			this->esNecesarioRefrescar = false;
-		}else{
+		}else{			
 			this->animacionActual->setX(this->xEnPantalla - this->posicionReferenciaX);
 			this->animacionActual->setY(this->yEnPantalla - this->posicionReferenciaY);
 			if( this->animacionActual->graficar() == false ) ok = false;
