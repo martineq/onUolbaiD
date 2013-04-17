@@ -69,9 +69,8 @@ entidades:
         - [castillo01.png,castillo02.png,castillo03.png,castillo04.png,castillo05.png]
       ancho_base: 4 #tiles
       alto_base: 4 #tiles
-      pixel_ref_x: 310 #pixels
-      pixel_ref_y: 110 #pixels
-      fps: 10
+      pixel_ref_x: 210 #pixels
+      pixel_ref_y: 55 #pixels
       delay: 5
     - nombre: casa_selva
       imagen:
@@ -88,7 +87,7 @@ entidades:
       alto_base: 2 #tiles
       pixel_ref_x: 100 #pixels
       pixel_ref_y: 10 #pixels
-      delay: 0
+      delay: 1
     - nombre: molino
       imagen:
         - [molino01.png,molino02.png,molino03.png,molino04.png]
@@ -198,7 +197,7 @@ escenarios:
         - {x: 17, y: 41, entidad: agua}
         - {x: 17, y: 42, entidad: agua}
         - {x: 17, y: 43, entidad: agua}
-        - {x: 16, y: 40, entidad: castillo}
+        - {x: 14, y: 40, entidad: castillo}
 
         - {x: 19, y: 40, entidad: agua}
         - {x: 19, y: 41, entidad: agua}
