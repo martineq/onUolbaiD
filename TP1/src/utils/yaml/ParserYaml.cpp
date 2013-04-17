@@ -57,7 +57,8 @@ ParserYaml::stJuego ParserYaml::cargarConfiguracionDeJuego(void){
 	if( this->juego.juegoValido == true){
 		Log::getInstance().log(1,__FILE__,__LINE__,"Se obtuvo una configuración de juego válida");
 	}else{
-		Log::getInstance().log(1,__FILE__,__LINE__,"NO se pudo obtener una configuración de juego válida");
+		Log::getInstance().log(1,__FILE__,__LINE__,"NO se pudo obtener una configuración de juego válida. Se asignará un juego por defecto.");
+		this->juego = this->crearJuegoDefault();
 	}
 
 	this->archivoYaLeido = true;
@@ -410,12 +411,7 @@ bool ParserYaml::validaListaImagenes(std::list<std::list<std::string>>& listaIma
 
 		// Chequeo si la lista de animaciones está vacía
 		if ( listaImagenes.empty() == true){
-			std::string rutaImagen(YAML_RUTA_DIRECTORIO_IMG);
-			rutaImagen.append(YAML_DEAFAULT_RUTA_IMAGEN);
-			std::list<std::string> listaImagenDefault;
-			listaImagenDefault.clear();
-			listaImagenDefault.push_back(rutaImagen);
-			listaImagenes.push_back(listaImagenDefault);
+			this->cargaListasAnimacionesDefault(listaImagenes);
 			Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ nombreEntidad +" no tiene imagenes asignadas. Se asignará la animación por defecto");
 		}
 
@@ -427,6 +423,13 @@ bool ParserYaml::validaListaImagenes(std::list<std::list<std::string>>& listaIma
 					Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ nombreEntidad +" tiene una ruta de imagen inválida.");
 					imagenesOk = false;
 				}
+			}
+			if( imagenesOk == false ){
+				std::list<std::string> animacionesDefault;
+				this->cargaListaImagenesDefault(animacionesDefault);
+				(*it).swap(animacionesDefault);
+				Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ nombreEntidad +" tiene animaciones inválidas, se asignará una lista por defecto.");
+				imagenesOk = true;
 			}
 		}
 
@@ -581,15 +584,16 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 
 	// Borro los protagonistas con errores
 	if ( tipoProtagonistaABorrar.empty() == false ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"escenarios->protagonista: existen protagonistas definidos inválidos para el escenario "+ nombreEscenario +". Los mismos se descartarán.");
+		Log::getInstance().log(1,__FILE__,__LINE__,"escenarios->protagonista: existen protagonistas inválidos para el escenario "+ nombreEscenario +". Los mismos se descartarán.");
 		for (std::list<std::list<stProtagonista>::iterator>::iterator it=tipoProtagonistaABorrar.begin() ; it != tipoProtagonistaABorrar.end(); it++ ){
 			protagonistas.erase(*it);
 		}
 	}
 
 	if ( protagonistas.empty() == true ){ // Si está vacío
-		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de personajes del escenario "+ nombreEscenario +" se encuentra vacía.");
-		return false;
+		protagonistas.push_back(this->crearJugadorDefault());
+		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de personajes del escenario "+ nombreEscenario +" se encuentra vacía. Se agregará uno por defecto.");
+		return true;
 	}else{	// Si no se encuentra vacío
 		int tamanioListaProtagonistas = protagonistas.size();
 		if( tamanioListaProtagonistas > 1 ){ // Si tiene mas de un solo protagonista, saco a los que sobran
@@ -715,6 +719,65 @@ int ParserYaml::cantidadDeAnimacionesDeEntidad(std::string entidad){
 		if( (*it).nombre.compare(entidad) == 0 ) return (*it).imagenes.size();
 	}
 	return 0;
+}
+
+ParserYaml::stProtagonista ParserYaml::crearJugadorDefault(void){
+	
+	// Cargo la entidad default
+	stEntidad entidad;
+	this->cargaDefaultStEntidad(entidad);
+	this->cargaListasAnimacionesDefault(entidad.imagenes);
+	this->juego.entidades.push_back(entidad);
+
+	//Cargo el jugador default
+	stProtagonista protagonista;
+	protagonista.entidad = entidad.nombre;
+	protagonista.x = 0;
+	protagonista.y = 0;
+
+	return protagonista;
+}
+
+
+void ParserYaml::cargaListasAnimacionesDefault(std::list<std::list<std::string>>& listaAnimaciones){
+	std::list<std::string> listaImagenDefault;
+	this->cargaListaImagenesDefault(listaImagenDefault);
+	for (unsigned int i=0; i<YAML_CANTIDAD_OBLIGATORIA_DE_ANIMACIONES_PROTAGONISTA; i++ ){	
+		listaAnimaciones.push_back(listaImagenDefault);
+	}
+}
+
+void ParserYaml::cargaListaImagenesDefault(std::list<std::string>& listaImagenes){
+	std::string rutaImagen(YAML_RUTA_DIRECTORIO_IMG);
+	rutaImagen.append(YAML_DEAFAULT_RUTA_IMAGEN);
+	listaImagenes.clear();
+	listaImagenes.push_back(rutaImagen);
+}
+
+ParserYaml::stJuego ParserYaml::crearJuegoDefault(void){
+	stJuego juegoDefault;
+
+	juegoDefault.juegoValido = true;
+	juegoDefault.pantalla.alto = YAML_DEAFAULT_PANTALLA_ALTO;
+	juegoDefault.pantalla.ancho = YAML_DEAFAULT_PANTALLA_ANCHO;
+	juegoDefault.configuracion.margenScroll = YAML_DEAFAULT_MARGEN_SCROLL;
+	juegoDefault.configuracion.velocidadPersonaje = YAML_DEAFAULT_VEL_PERSONAJE;
+
+	// Cargo la entidad default
+	stEntidad entidad;
+	this->cargaDefaultStEntidad(entidad);
+	this->cargaListasAnimacionesDefault(entidad.imagenes);
+	juegoDefault.entidades.push_back(entidad);
+
+	// Cargo el escenario default
+	stEscenario escenarioDefault;
+	escenarioDefault.nombre = YAML_DEAFAULT_NOMBRE;
+	escenarioDefault.tamanioX = YAML_DEAFAULT_ANCHO_NIVEL;
+	escenarioDefault.tamanioY = YAML_DEAFAULT_ALTO_NIVEL;
+	escenarioDefault.protagonistas.push_back(this->crearJugadorDefault());
+	juegoDefault.escenarios.push_back(escenarioDefault);
+	
+	return juegoDefault;
 }
 
 // TODO: Tareas:

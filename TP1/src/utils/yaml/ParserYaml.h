@@ -109,6 +109,10 @@ class ParserYaml{
 		bool chequeoArchivo(std::string rutaArchivo);
 		void notificarErrorLectura(std::string tipoDato,std::string archivo, int linea, std::string msgError, bool& lecturaOk);
 		int cantidadDeAnimacionesDeEntidad(std::string entidad);
+		stProtagonista crearJugadorDefault(void);
+		void cargaListasAnimacionesDefault(std::list<std::list<std::string>>& listaAnimaciones);
+		void cargaListaImagenesDefault(std::list<std::string>& listaImagenes);
+		stJuego crearJuegoDefault(void);
 
 	private:
 		// Los constructores permanecen privados, para evitar que sea instanciado multiples veces
