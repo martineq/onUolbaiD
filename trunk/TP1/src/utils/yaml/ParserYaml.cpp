@@ -404,7 +404,7 @@ int ParserYaml::validaCantidadVecesEnEntidadABorrar(std::list<stEntidad>::iterat
 	return vecesRepetidas;
 }
 
-bool ParserYaml::validaListaImagenes(std::list<std::list<std::string>> listaImagenes, std::string nombreEntidad){
+bool ParserYaml::validaListaImagenes(std::list<std::list<std::string>>& listaImagenes, std::string nombreEntidad){
 
 		bool imagenesOk = true;	// Lo pongo antes del ciclo for porque una sola imagen descalifica todo
 
