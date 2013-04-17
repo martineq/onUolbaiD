@@ -107,6 +107,14 @@ void ModeloScroll::cambiarEstado() {
 	if (this->y < 0)
 		this->y = 0;
 
+	Posicion tileFoco;
+	Posicion::convertirPixelATile(this->tEscenarioAlto, this->x + (this->pPantallaAncho / 2), this->y + (this->pPantallaAlto / 2), tileFoco.x, tileFoco.y);
+	
+	if ((tileFoco.x < 0) || (tileFoco.x >= this->tEscenarioAncho) || (tileFoco.y < 0) || (tileFoco.y >= this->tEscenarioAlto)) {
+		this->x = xAnterior;
+		this->y = yAnterior;
+	}
+
 	if ((this->x != xAnterior) || (this->y != yAnterior))
 		this->notificarObservadores();
 }
