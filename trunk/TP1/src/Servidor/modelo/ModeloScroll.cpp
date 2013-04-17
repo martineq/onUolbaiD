@@ -68,39 +68,47 @@ int ModeloScroll::getMargen() {
 
 void ModeloScroll::actualizar(int mouseX, int mouseY) {
 	this->desplazamientoX = 0;
-	if (mouseX <= this->margen) { // toco el margen izquierdo
-		this->desplazamientoX = -VELOCIDAD_SCROLL;
-	}
-	else if (mouseX >= (this->pPantallaAncho - margen)) { // toco margen derecho
-		this->desplazamientoX = VELOCIDAD_SCROLL;
+	if (this->pPantallaAncho < this->pEscenarioAncho) {
+		if (mouseX <= this->margen) { // toco el margen izquierdo
+			this->desplazamientoX = -VELOCIDAD_SCROLL;
+		}
+		else if (mouseX >= (this->pPantallaAncho - margen)) { // toco margen derecho
+			this->desplazamientoX = VELOCIDAD_SCROLL;
+		}
 	}
 
 	this->desplazamientoY = 0;
-	if (mouseY  <= this->margen) { // toco el margen superior
-		this->desplazamientoY = -VELOCIDAD_SCROLL;
-	}
-	else if (mouseY >= (this->pPantallaAlto - margen)) { // toco margen inferior
-		this->desplazamientoY = VELOCIDAD_SCROLL;
+	if (this->pPantallaAlto < this->pEscenarioAlto) {
+		if (mouseY  <= this->margen) { // toco el margen superior
+			this->desplazamientoY = -VELOCIDAD_SCROLL;
+		}
+		else if (mouseY >= (this->pPantallaAlto - margen)) { // toco margen inferior
+			this->desplazamientoY = VELOCIDAD_SCROLL;
+		}
 	}
 }
 
 void ModeloScroll::cambiarEstado() {
 	if ((this->desplazamientoX == 0) && (this->desplazamientoY == 0))
 		return;
+
+	int xAnterior = this->x, yAnterior = this->y;
+
 	this->x += this->desplazamientoX;
 	this->y += this->desplazamientoY;
 
+	if (this->x + this->pPantallaAncho > this->pEscenarioAncho)
+		this->x = this->pEscenarioAncho - this->pPantallaAncho;
 	if (this->x < 0)
 		this->x = 0;
-	else if (this->x + this->pPantallaAncho > this->pEscenarioAncho)
-		this->x = this->pEscenarioAncho - this->pPantallaAncho;
 
+	if (this->y + this->pPantallaAlto > this->pEscenarioAlto)
+		this->y = this->pEscenarioAlto - this->pPantallaAlto;
 	if (this->y < 0)
 		this->y = 0;
-	else if (this->y + this->pPantallaAlto > this->pEscenarioAlto)
-		this->y = this->pEscenarioAlto - this->pPantallaAlto;
 
-	this->notificarObservadores();
+	if ((this->x != xAnterior) || (this->y != yAnterior))
+		this->notificarObservadores();
 }
 
 int ModeloScroll::id() const {
