@@ -58,7 +58,8 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 }
 
 VistaEntidad::~VistaEntidad(void){
-
+	if (this->animaciones != NULL) delete this->animaciones;
+	this->animaciones = NULL;
 }
 
 void VistaEntidad::setXEnPantalla(double scrollX){

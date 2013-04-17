@@ -52,6 +52,5 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 
 VistaLoop::~VistaLoop(void){
 	if( this->pantalla != NULL ) SDL_FreeSurface(this->pantalla);
-//	if( this->fondo != NULL ) SDL_FreeSurface(this->fondo);	
 	ImageLoader::getInstance().cerrarSDL();	
 }
