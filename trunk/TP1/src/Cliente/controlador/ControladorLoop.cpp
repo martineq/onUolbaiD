@@ -6,6 +6,7 @@ ControladorLoop::ControladorLoop(void){
 	this->posicionMouseYAnterior = 0;
 	this->clicMouseBotonDerechoAnterior = 0;
 	this->clicMouseBotonIzquierdoAnterior = 0;
+	this->dentroDePantalla = true;
 }
 
 void ControladorLoop::loop(){	
@@ -17,6 +18,12 @@ void ControladorLoop::loop(){
 	}
 
 	this->detector.detectar();
+
+	if ( this->detector.getDentroDePantalla() == false ) {
+		this->evento.setMouseDentroDePantalla(false);
+		return void();
+	}
+	else this->evento.setMouseDentroDePantalla(true);
 
 	if ((this->detector.getPosicionMouseX()!=this->posicionMouseXAnterior) && 
 		(this->detector.getPosicionMouseY()!=this->posicionMouseYAnterior)){

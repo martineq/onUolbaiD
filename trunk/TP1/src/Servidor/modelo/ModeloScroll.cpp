@@ -88,6 +88,11 @@ void ModeloScroll::actualizar(int mouseX, int mouseY) {
 	}
 }
 
+void ModeloScroll::detener() {
+	this->desplazamientoX = 0;
+	this->desplazamientoY = 0;
+}
+
 void ModeloScroll::cambiarEstado() {
 	if ((this->desplazamientoX == 0) && (this->desplazamientoY == 0))
 		return;

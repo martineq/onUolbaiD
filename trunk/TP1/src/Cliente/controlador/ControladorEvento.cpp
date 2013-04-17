@@ -4,12 +4,17 @@ ControladorEvento::ControladorEvento(void){
 	this->posicionMouseX = 0;
 	this->posicionMouseY = 0;
 	this->clicMouseBotonDerecho = 0;
-	this->clicMouseBotonIzquierdo = 0;
-
+	this->clicMouseBotonIzquierdo = 0;	
+	this->mouseDentroDePantalla = true;
 }
 
 ControladorEvento::~ControladorEvento(void){
 
+}
+
+void ControladorEvento::setMouseDentroDePantalla(bool dentroDePantalla){
+	this->mouseDentroDePantalla = dentroDePantalla;
+	if ( this->mouseDentroDePantalla == false) this->cambiarEstado();
 }
 
 void ControladorEvento::setPosicionMouseX(int posicion){
@@ -52,6 +57,10 @@ int ControladorEvento::getClicMouseBotonIzquierdo(){
 
 int ControladorEvento::getClicMouseBotonDerecho(){
 	return this->clicMouseBotonDerecho;	
+}
+
+bool ControladorEvento::getMouseDentroDePantalla(){
+	return this->mouseDentroDePantalla;
 }
 
 

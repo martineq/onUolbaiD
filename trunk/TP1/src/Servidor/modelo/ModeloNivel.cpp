@@ -129,6 +129,12 @@ void ModeloNivel::moverScroll(int mouseX, int mouseY, int id) {
 		scroll->actualizar(mouseX, mouseY);
 }
 
+void ModeloNivel::detenerScroll(int id) {
+	ModeloScroll* scroll = this->obtenerScroll(id);
+	if (scroll != NULL)
+		scroll->detener();
+}
+
 void ModeloNivel::moverJugador(int mouseX, int mouseY, int id) {
 	ModeloEntidad* jugador = this->obtenerJugador(id);
 	if (jugador == NULL)

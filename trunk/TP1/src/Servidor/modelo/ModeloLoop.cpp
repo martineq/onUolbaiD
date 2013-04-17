@@ -18,9 +18,12 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel) {
 		int mousePosY = this->_modeloEvento.getMousePosY();
 
 		//TODO: Verificar la lista de ids (TP2)
-		modeloNivel.moverScroll(mousePosX, mousePosY, 0);
+		if (this->_modeloEvento.getMouseDentroPantalla())
+			modeloNivel.moverScroll(mousePosX, mousePosY, 0);
+		else
+			modeloNivel.detenerScroll(0);
 
-		if (this->_modeloEvento.getMouseClickDerecho() == 1)
+		if (this->_modeloEvento.getMouseClickIzquierdo())
 			modeloNivel.moverJugador(mousePosX, mousePosY, 0);
 	}
 

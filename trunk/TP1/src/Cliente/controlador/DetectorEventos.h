@@ -10,6 +10,7 @@ class DetectorEventos{
 		int clicMouseBotonIzquierdo;
 		int clicMouseBotonDerecho;
 		bool quit;
+		bool dentroDePantalla;
 	public:
 		DetectorEventos(void);		
 		~DetectorEventos(void);
@@ -19,6 +20,7 @@ class DetectorEventos{
 		int getClicMouseBotonIzquierdo();
 		int getClicMouseBotonDerecho();
 		bool getQuit();
+		bool getDentroDePantalla();
 		std::vector<int> getEventos();
 
 };

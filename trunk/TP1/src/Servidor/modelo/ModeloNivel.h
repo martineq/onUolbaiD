@@ -50,6 +50,7 @@ class ModeloNivel {
 		void removerScroll(ModeloScroll *scroll);
 
 		void moverScroll(int mouseX, int mouseY, int id);
+		void detenerScroll(int id);
 		void moverJugador(int tileX, int tileY, int id);
 
 		bool actualizar(int id);

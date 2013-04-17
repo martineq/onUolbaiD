@@ -15,6 +15,7 @@ class ControladorLoop{
 		int clicMouseBotonIzquierdoAnterior;
 		int clicMouseBotonDerechoAnterior;	
 		bool loopInicial;
+		bool dentroDePantalla;
 
 public:
 		ControladorLoop(void);

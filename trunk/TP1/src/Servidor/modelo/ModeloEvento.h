@@ -8,9 +8,10 @@
 
 class ModeloEvento : public Observador {
 	private:
-		int _mouseClickIzquierdo;
 		int _mouseX;
 		int _mouseY;
+		bool _mouseClickIzquierdo;
+		bool _mouseDentroPantalla;
 		bool _actualizado;
 
 	public:
@@ -20,9 +21,10 @@ class ModeloEvento : public Observador {
 
 		void actualizar(Observable* observable);
 
-		int getMouseClickDerecho();
 		int getMousePosX();
 		int getMousePosY();
+		bool getMouseClickIzquierdo();
+		bool getMouseDentroPantalla();
 		bool getActualizado();
 
 		void setActualizado(bool actualizado);

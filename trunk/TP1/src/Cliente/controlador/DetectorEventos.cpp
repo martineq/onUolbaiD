@@ -6,18 +6,33 @@ DetectorEventos::DetectorEventos(void){
 	this->posicionMouseY = 0;
 	this->clicMouseBotonDerecho = 0;
 	this->clicMouseBotonIzquierdo = 0;
+	this->dentroDePantalla = true;
 }
 
 bool DetectorEventos::getQuit() {
 	return this->quit;
 }
 
+bool DetectorEventos::getDentroDePantalla(){
+	return this->dentroDePantalla;
+}
+
 void DetectorEventos::detectar(){
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
+		if (event.type == SDL_APPMOUSEFOCUS){
+		//if (SDL_ACTIVEEVENT){
+           //if( event.active.state & SDL_APPACTIVE || event.active.state & SDL_APPINPUTFOCUS ) {
+                if (event.active.gain == 0) {
+					this->dentroDePantalla = false;
+					return void();
+				}
+				else this->dentroDePantalla = true;				
+			//}
+		}
 		switch (event.type)
-		{
+		{			
 			// si el mouse se mueve.
 			case SDL_MOUSEMOTION:				
 				this->posicionMouseX = event.motion.x;
@@ -75,6 +90,7 @@ void DetectorEventos::detectar(){
 		}
 	}	
 }
+
 
 int DetectorEventos::getPosicionMouseX(){
 	return this->posicionMouseX;
