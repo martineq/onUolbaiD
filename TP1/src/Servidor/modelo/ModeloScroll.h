@@ -23,6 +23,7 @@ class ModeloScroll: public Observable, public Identificable {
 		virtual ~ModeloScroll();
 
 		void actualizar(int mouseX, int mouseY);
+		void detener();
 		int getX();
 		int getY();
 		int getAlto();

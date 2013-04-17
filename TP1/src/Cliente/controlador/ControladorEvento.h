@@ -6,7 +6,8 @@ class ControladorEvento: public Observable{
 		int posicionMouseX;
 		int posicionMouseY;
 		int clicMouseBotonDerecho;
-		int clicMouseBotonIzquierdo;
+		int clicMouseBotonIzquierdo;	
+		bool mouseDentroDePantalla;
 	public:
 		ControladorEvento(void);
 		~ControladorEvento(void);		
@@ -15,10 +16,12 @@ class ControladorEvento: public Observable{
 		void setPosicionMouseXY (int,int);
 		void setClicMouseBotonDerecho(int);
 		void setClicMouseBotonIzquierdo(int);
+		void setMouseDentroDePantalla(bool);
 		int getPosicionMouseX();
 		int getPosicionMouseY();
 		int getClicMouseBotonDerecho();
 		int getClicMouseBotonIzquierdo();
+		bool getMouseDentroDePantalla();
 		void cambiarEstado();
 
 };
