@@ -99,12 +99,10 @@ bool VistaAnimacion::esperarTiempo(){
 }
 
 VistaAnimacion::~VistaAnimacion() {
-	vector<SDLutil*>::iterator it;
-	for ( it = this->superficies.begin(); it != this->superficies.end();it++){
-		if (*it!=NULL) {
-			delete( *it );
-			*it = NULL;
-		}
+	while (!this->superficies.empty()){
+		SDLutil* pUtil = this->superficies.back();
+		delete pUtil;
+		this->superficies.pop_back();
 	}
 }
 

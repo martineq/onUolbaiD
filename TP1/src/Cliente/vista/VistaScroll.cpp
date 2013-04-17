@@ -16,7 +16,8 @@ VistaScroll::VistaScroll(double x,double y,double alto,double ancho, double anch
 }
 
 VistaScroll::~VistaScroll(void){
-
+	if (this->utilidadSDL != NULL) delete this->utilidadSDL;
+	this->utilidadSDL = NULL;
 }
 
 int VistaScroll::id() const {

@@ -10,7 +10,6 @@
 class VistaEntidad: public Observador, public Identificable{
 
 	private:
-		//int id;
 		int _id;
 		bool esJugador;
 		double x;
