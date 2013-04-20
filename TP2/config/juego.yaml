@@ -146,6 +146,21 @@ entidades:
       fps: 10
       pixel_ref_x: 40 #pixels
       pixel_ref_y: 15 #pixels
+    - nombre: guerrero2
+      imagen:
+        - [Pers1_N1.png,Pers1_N2.png,Pers1_N3.png,Pers1_N4.png,Pers1_N5.png,Pers1_N6.png,Pers1_N7.png,Pers1_N8.png,Pers1_N9.png]
+        - [Pers1_NE1.png,Pers1_NE2.png,Pers1_NE3.png,Pers1_NE4.png,Pers1_NE5.png,Pers1_NE6.png,Pers1_NE7.png,Pers1_NE8.png,Pers1_NE9.png]
+        - [Pers1_E1.png,Pers1_E2.png,Pers1_E3.png,Pers1_E4.png,Pers1_E5.png,Pers1_E6.png,Pers1_E7.png,Pers1_E8.png]
+        - [Pers1_SE1.png,Pers1_SE2.png,Pers1_SE3.png,Pers1_SE4.png,Pers1_SE5.png,Pers1_SE6.png,Pers1_SE7.png,Pers1_SE8.png]
+        - [Pers1_S1.png,Pers1_S2.png,Pers1_S3.png,Pers1_S4.png,Pers1_S5.png,Pers1_S6.png,Pers1_S7.png,Pers1_S8.png,Pers1_S9.png]
+        - [Pers1_SO1.png,Pers1_SO2.png,Pers1_SO3.png,Pers1_SO4.png,Pers1_SO5.png,Pers1_SO6.png,Pers1_SO7.png,Pers1_SO8.png,Pers1_SO9.png]
+        - [Pers1_O1.png,Pers1_O2.png,Pers1_O3.png,Pers1_O4.png,Pers1_O5.png,Pers1_O6.png,Pers1_O7.png,Pers1_O8.png]
+        - [Pers1_NO1.png,Pers1_NO2.png,Pers1_NO3.png,Pers1_NO4.png,Pers1_NO5.png,Pers1_NO6.png,Pers1_NO7.png,Pers1_NO8.png,Pers1_NO9.png]
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 10 #pixels
+      fps: 10
 escenarios:
     - nombre: bosque_encantado
       size_x: 200 #tiles
@@ -210,6 +225,6 @@ escenarios:
         - {x: 21, y: 42, entidad: agua}
         - {x: 19, y: 40, entidad: casa_selva}
       protagonista:
-        - entidad: guerrero
+        - entidad: guerrero2
           x: 0
           y: 40
