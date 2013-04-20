@@ -1,0 +1,215 @@
+﻿# Archivo de configuración
+pantalla:
+    ancho: 800 #pixels
+    alto: 600 #pixels
+configuracion:
+    vel_personaje : 200
+    margen_scroll : 20
+entidades:
+    - nombre: tierra
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [tierra.png]
+    - nombre: hielo
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [hielo.png]
+    - nombre: pasto
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [pasto.png]
+    - nombre: agua
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [agua.png]
+    - nombre: cemento
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [cemento.png]
+    - nombre: arena
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [arena.png]
+    - nombre: granja_llamas
+      imagen:
+        - [FireFarm01.png,FireFarm02.png,FireFarm03.png,FireFarm04.png,FireFarm05.png,FireFarm06.png,FireFarm07.png,FireFarm08.png,FireFarm09.png,FireFarm10.png,FireFarm11.png,FireFarm12.png,FireFarm13.png,FireFarm14.png,FireFarm15.png]
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
+      pixel_ref_x: 110 #pixels
+      pixel_ref_y: 20 #pixels
+      delay: 5
+    - nombre: casa_molino
+      imagen:
+        - [CasaB01.png,CasaB02.png,CasaB03.png,CasaB04.png,CasaB05.png,CasaB06.png,CasaB07.png,CasaB08.png,CasaB09.png,CasaB10.png]
+      ancho_base: 3 #tiles
+      alto_base: 3 #tiles
+      pixel_ref_x: 150 #pixels
+      pixel_ref_y: 20 #pixels
+      delay: 0
+    - nombre: castillo
+      imagen:
+        - [castillo01.png,castillo02.png,castillo03.png,castillo04.png,castillo05.png]
+      ancho_base: 4 #tiles
+      alto_base: 4 #tiles
+      pixel_ref_x: 210 #pixels
+      pixel_ref_y: 55 #pixels
+      delay: 5
+    - nombre: casa_selva
+      imagen:
+        - [CasaC01.png,CasaC02.png,CasaC03.png,CasaC04.png,CasaC04.png,CasaC06.png]
+      ancho_base: 3 #tiles
+      alto_base: 3 #tiles
+      pixel_ref_x: 150 #pixels
+      pixel_ref_y: 20 #pixels
+      delay: 5
+    - nombre: rancho
+      imagen:
+        - [CasaA01.png,CasaA02.png,CasaA03.png,CasaA04.png]
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
+      pixel_ref_x: 100 #pixels
+      pixel_ref_y: 10 #pixels
+      delay: 1
+    - nombre: molino
+      imagen:
+        - [molino01.png,molino02.png,molino03.png,molino04.png]
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
+      pixel_ref_x: 100 #pixels
+      pixel_ref_y: 20 #pixels
+      delay: 0
+    - nombre: miniMapa
+      imagen:
+        - [MiniMapa01.png,MiniMapa02.png,MiniMapa03.png,MiniMapa04.png,MiniMapa05.png]
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
+      pixel_ref_x: 30 #pixels
+      pixel_ref_y: 40 #pixels
+      fps: 10
+      delay: 3
+    - nombre: violeta
+      imagen:
+        - [6Actor_N1.png,6Actor_N2.png,6Actor_N3.png,6Actor_N4.png,6Actor_N5.png,6Actor_N6.png]
+        - [6Actor_NE1.png,6Actor_NE2.png,6Actor_NE3.png,6Actor_NE4.png,6Actor_NE5.png,6Actor_NE6.png]
+        - [6Actor_E1.png,6Actor_E2.png,6Actor_E3.png,6Actor_E4.png,6Actor_E5.png,6Actor_E6.png]
+        - [6Actor_SE1.png,6Actor_SE2.png,6Actor_SE3.png,6Actor_SE4.png,6Actor_SE5.png,6Actor_SE6.png]
+        - [6Actor_S1.png,6Actor_S2.png,6Actor_S3.png,6Actor_S4.png,6Actor_S5.png,6Actor_S6.png]
+        - [6Actor_SO1.png,6Actor_SO2.png,6Actor_SO3.png,6Actor_SO4.png,6Actor_SO5.png,6Actor_SO6.png]
+        - [6Actor_O1.png,6Actor_O2.png,6Actor_O3.png,6Actor_O4.png,6Actor_O5.png,6Actor_O6.png]
+        - [6Actor_NO1.png,6Actor_NO2.png,6Actor_NO3.png,6Actor_NO4.png,6Actor_NO5.png,6Actor_NO6.png]
+      fps: 15
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 15 #pixels
+    - nombre: guerrero
+      imagen:
+        - [actor1N1.png,actor1N2.png,actor1N3.png,actor1N4.png]
+        - [actor1NE1.png,actor1NE2.png,actor1NE3.png,actor1NE4.png]
+        - [actor1E1.png,actor1E2.png,actor1E3.png,actor1E4.png]
+        - [actor1SE1.png,actor1SE2.png,actor1SE3.png,actor1SE4.png]
+        - [actor1S1.png,actor1S2.png,actor1S3.png,actor1S4.png]
+        - [actor1SO1.png,actor1SO2.png,actor1SO3.png,actor1SO4.png]
+        - [actor1O1.png,actor1O2.png,actor1O3.png,actor1O4.png]
+        - [actor1NO1.png,actor1NO2.png,actor1NO3.png,actor1NO4.png]
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 10 #pixels
+      fps: 10
+    - nombre: mago
+      imagen:
+        - [testxyh_N1.png,testxyh_N2.png,testxyh_N3.png,testxyh_N4.png]
+        - [testxyh_NE1.png,testxyh_NE2.png,testxyh_NE3.png,testxyh_NE4.png]
+        - [testxyh_E1.png,testxyh_E2.png,testxyh_E3.png,testxyh_E4.png]
+        - [testxyh_SE1.png,testxyh_SE2.png,testxyh_SE3.png,testxyh_SE4.png]
+        - [testxyh_S1.png,testxyh_S2.png,testxyh_S3.png,testxyh_S4.png]
+        - [testxyh_SO1.png,testxyh_SO2.png,testxyh_SO3.png,testxyh_SO4.png]
+        - [testxyh_O1.png,testxyh_O2.png,testxyh_O3.png,testxyh_O4.png]
+        - [testxyh_NO1.png,testxyh_NO2.png,testxyh_NO3.png,testxyh_NO4.png]
+      fps: 10
+      pixel_ref_x: 40 #pixels
+      pixel_ref_y: 15 #pixels
+escenarios:
+    - nombre: bosque_encantado
+      size_x: 200 #tiles
+      size_y: 200 #tiles
+      entidadesDef:
+        - {x: 1, y: 40, entidad: agua}
+        - {x: 1, y: 41, entidad: agua}
+        - {x: 2, y: 40, entidad: agua}
+        - {x: 2, y: 41, entidad: agua}
+        - {x: 1, y: 40, entidad: molino}
+
+        - {x: 4, y: 40, entidad: agua}
+        - {x: 4, y: 41, entidad: agua}
+        - {x: 5, y: 40, entidad: agua}
+        - {x: 5, y: 41, entidad: agua}
+        - {x: 4, y: 40, entidad: rancho}
+
+        - {x: 7, y: 40, entidad: agua}
+        - {x: 7, y: 41, entidad: agua}
+        - {x: 8, y: 40, entidad: agua}
+        - {x: 8, y: 41, entidad: agua}
+        - {x: 7, y: 40, entidad: granja_llamas}
+
+
+        - {x: 10, y: 40, entidad: agua}
+        - {x: 10, y: 41, entidad: agua}
+        - {x: 10, y: 42, entidad: agua}
+        - {x: 11, y: 40, entidad: agua}
+        - {x: 11, y: 41, entidad: agua}
+        - {x: 11, y: 42, entidad: agua}
+        - {x: 12, y: 40, entidad: agua}
+        - {x: 12, y: 41, entidad: agua}
+        - {x: 12, y: 42, entidad: agua}
+        - {x: 10, y: 40, entidad: casa_molino}
+
+        - {x: 14, y: 40, entidad: agua}
+        - {x: 14, y: 41, entidad: agua}
+        - {x: 14, y: 42, entidad: agua}
+        - {x: 14, y: 43, entidad: agua}
+        - {x: 15, y: 40, entidad: agua}
+        - {x: 15, y: 41, entidad: agua}
+        - {x: 15, y: 42, entidad: agua}
+        - {x: 15, y: 43, entidad: agua}
+        - {x: 16, y: 40, entidad: agua}
+        - {x: 16, y: 41, entidad: agua}
+        - {x: 16, y: 42, entidad: agua}
+        - {x: 16, y: 43, entidad: agua}
+        - {x: 17, y: 40, entidad: agua}
+        - {x: 17, y: 41, entidad: agua}
+        - {x: 17, y: 42, entidad: agua}
+        - {x: 17, y: 43, entidad: agua}
+        - {x: 14, y: 40, entidad: castillo}
+
+        - {x: 19, y: 40, entidad: agua}
+        - {x: 19, y: 41, entidad: agua}
+        - {x: 19, y: 42, entidad: agua}
+        - {x: 20, y: 40, entidad: agua}
+        - {x: 20, y: 41, entidad: agua}
+        - {x: 20, y: 42, entidad: agua}
+        - {x: 21, y: 40, entidad: agua}
+        - {x: 21, y: 41, entidad: agua}
+        - {x: 21, y: 42, entidad: agua}
+        - {x: 19, y: 40, entidad: casa_selva}
+      protagonista:
+        - entidad: guerrero
+          x: 0
+          y: 40
