@@ -5,7 +5,6 @@
 #include <winsock.h>  // Para usar InterlockedIncrement()
 #include "../../utils/Observador/Observador.h"
 #include "../../utils/Observador/Identificable.h"
-#include "../../Servidor/modelo/ModeloScroll.h"
 #include "../Controlador/ControladorScroll.h"
 
 class VistaScroll: public Observador, public Identificable{

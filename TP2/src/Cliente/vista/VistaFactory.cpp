@@ -29,6 +29,7 @@ bool VistaFactory::crearVistaNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,C
 
 	this->crearJugadorConScroll(juego,vistaNivel,pantalla);
 	this->crearEntidades(juego,vistaNivel);
+	this->crearControladorScroll(juego,evento);
 
 	return true;
 }
@@ -88,4 +89,15 @@ void VistaFactory::crearEntidades(ParserYaml::stJuego juego, VistaNivel& vistaNi
 	}
 
 	return void();
+}
+
+void VistaFactory::crearControladorScroll(ParserYaml::stJuego juego, ControladorEvento* evento) {
+	ParserYaml::stProtagonista protagonista = juego.escenarios.front().protagonistas.front();
+	int x = protagonista.x;
+	int y = protagonista.y;
+	int anchoEscenario = juego.escenarios.front().tamanioX;
+	int altoEscenario = juego.escenarios.front().tamanioY;
+
+	ControladorScroll* pScroll = new ControladorScroll(juego.pantalla.ancho,juego.pantalla.alto,anchoEscenario,altoEscenario,juego.configuracion.margenScroll,x,y);
+	evento->setControladorScroll(pScroll);
 }

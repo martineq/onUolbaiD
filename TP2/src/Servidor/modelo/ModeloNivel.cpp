@@ -11,17 +11,6 @@ ModeloEntidad* ModeloNivel::obtenerJugador(int id) {
 	return *this->listaJugadores.begin();
 }
 
-ModeloScroll* ModeloNivel::obtenerScroll(int id) {
-	//TODO: Descomentar al implementar ids
-	/*for (list<ModeloScroll*>::iterator modeloScroll = this->listaScroll.begin(); modeloScroll != this->listaScroll.end(); modeloScroll++)
-	{
-		if ((*modeloScroll)->id() == id)
-			return *modeloScroll;
-	}
-	return NULL;*/
-	return *this->listaScroll.begin();
-}
-
 ModeloEntidad* ModeloNivel::obtenerEntidad(int id) {
 	//TODO: Descomentar al implementar ids
 	/*for (list<ModeloEntidad*>::iterator modeloEntidad = this->listaEntidades.begin(); modeloEntidad != this->listaEntidades.end(); modeloEntidad++)
@@ -36,7 +25,6 @@ ModeloEntidad* ModeloNivel::obtenerEntidad(int id) {
 ModeloNivel::ModeloNivel() {
 	this->listaJugadores.clear();
 	this->listaEntidades.clear();
-	this->listaScroll.clear();
 }
 
 ModeloNivel::~ModeloNivel() {
@@ -45,10 +33,6 @@ ModeloNivel::~ModeloNivel() {
 
 std::list<ModeloEntidad*> ModeloNivel::getListaJugadores() {
 	return this->listaJugadores;
-}
-
-std::list<ModeloScroll*> ModeloNivel::getListaScroll() {
-	return this->listaScroll;
 }
 
 std::list<ModeloEntidad*> ModeloNivel::getListaEntidades() {
@@ -71,10 +55,6 @@ void ModeloNivel::agregarEntidad(ModeloEntidad *entidad) {
 	this->listaEntidades.push_back(entidad);
 }
 
-void ModeloNivel::agregarScroll(ModeloScroll *scroll) {
-	this->listaScroll.push_back(scroll);
-}
-
 void ModeloNivel::setAltoTiles(int alto){
 	this->altoTiles = alto;
 }
@@ -91,40 +71,16 @@ void ModeloNivel::removerEntidad(ModeloEntidad *entidad) {
 	this->listaEntidades.remove(entidad);
 }
 
-void ModeloNivel::removerScroll(ModeloScroll *scroll) {
-	this->listaScroll.remove(scroll);
-}
-
-void ModeloNivel::moverScroll(int mouseX, int mouseY, int id) {
-	ModeloScroll* scroll = this->obtenerScroll(id);
-	if (scroll != NULL)
-		scroll->actualizar(mouseX, mouseY);
-}
-
-void ModeloNivel::detenerScroll(int id) {
-	ModeloScroll* scroll = this->obtenerScroll(id);
-	if (scroll != NULL)
-		scroll->detener();
-}
-
 void ModeloNivel::moverJugador(int mouseX, int mouseY, int id) {
 	ModeloEntidad* jugador = this->obtenerJugador(id);
 	if (jugador == NULL)
 		return;
-	ModeloScroll* scroll = this->obtenerScroll(id);
-	if (scroll != NULL) {
-		mouseX += scroll->getX();
-		mouseY += scroll->getY();
-	}
 	Posicion posicion;
 	Posicion::convertirPixelATile(this->getAltoTiles(), mouseX, mouseY, posicion.x, posicion.y);
 	jugador->mover(posicion);
 }
 
 bool ModeloNivel::actualizar(int id) {
-	ModeloScroll* scroll = this->obtenerScroll(id);
-	if (scroll != NULL)
-		scroll->cambiarEstado();
 	ModeloEntidad* jugador = this->obtenerJugador(id);
 	if (jugador != NULL)
 		jugador->cambiarEstado();
@@ -147,17 +103,8 @@ void ModeloNivel::destruirListaEntidades(){
 	return void();
 }
 
-void ModeloNivel::destruirListaScroll(){
-	// Destruyo los scrolls instanciados
-	for (std::list<ModeloScroll*>::iterator scroll = this->listaScroll.begin(); scroll != this->listaScroll.end(); scroll++){
-		delete (*scroll);
-	}
-	return void();
-}
-
 void ModeloNivel::destruirListas(){	
 	this->destruirListaJugadores();
 	this->destruirListaEntidades();
-	this->destruirListaScroll();
 	return void();
 }

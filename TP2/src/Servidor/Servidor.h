@@ -2,7 +2,6 @@
 
 #include <SDL.h>
 #include "./modelo/ModeloJuego.h"
-#include "./modelo/ModeloScroll.h"
 #include "../utils/Sockets/SocketServidor.h"
 
 class Servidor{

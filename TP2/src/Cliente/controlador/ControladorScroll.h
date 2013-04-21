@@ -1,13 +1,29 @@
 #pragma once
 
+#include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"
+#include "../../utils/Posicion/Posicion.h"
 
-class ControladorScroll: public Observable{
+class ControladorScroll : public Observable {
+	private:
+		int x, y, pPantallaAncho, pPantallaAlto, tEscenarioAncho, tEscenarioAlto;
+		int pEscenarioAlto, pEscenarioAncho;
+		int margen;
+		int desplazamientoX, desplazamientoY;
 
 	public:
-		ControladorScroll(void);
-		~ControladorScroll(void);
+		ControladorScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int personajeX, int personajeY);
+		virtual ~ControladorScroll();
+
+		void actualizar(int mouseX, int mouseY);
+		void detener();
+		int getX();
+		int getY();
+		int getAlto();
+		void setAlto(int nuevoAlto);
+		void setAncho(int nuevoAncho);
+		int getAncho();
+		int getMargen();
 		
 		void cambiarEstado();
-
 };
