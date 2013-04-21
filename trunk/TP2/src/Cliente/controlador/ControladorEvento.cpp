@@ -68,6 +68,10 @@ void ControladorEvento::cambiarEstado(){
 	// TODO: Acá debo usar el ProxyControladorEvento
 }
 
-void ControladorEvento::agregarObservadorScroll(Observador* observadorScroll){
-	this->controladorScroll.agregarObservador(observadorScroll);
+ControladorScroll* ControladorEvento::getControladorScroll(void){
+	return (&(this->controladorScroll));
+}
+
+ProxyControladorEvento* ControladorEvento::getProxyEvento(void){
+	return (&(this->proxyEvento));
 }

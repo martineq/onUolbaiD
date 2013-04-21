@@ -28,7 +28,8 @@ class ControladorEvento{
 		int getClicMouseBotonIzquierdo();
 		bool getMouseDentroDePantalla();
 		void cambiarEstado();
-		void agregarObservadorScroll(Observador* observadorScroll);
+		ControladorScroll* getControladorScroll(void);
+		ProxyControladorEvento* getProxyEvento(void);
 
 };
 

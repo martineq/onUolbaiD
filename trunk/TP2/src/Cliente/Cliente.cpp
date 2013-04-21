@@ -10,9 +10,8 @@ Cliente::~Cliente(void){
 
 bool Cliente::iniciar(void){
 	
-	// Instancia el nivel en vistaJuego
-	if( this->vistaJuego.iniciar() == false ) return false;
-	this->controladorJuego.agregarObservadorScroll(this->vistaJuego.obtenerObservadorScroll());
+	// Instancia el nivel en vistaJuego y el scroll con su proxy en ControladorEvento
+	if( this->vistaJuego.iniciar(this->controladorJuego.getControladorLoop()->getControladorEvento()) == false ) return false;
 	
 	return true;
 }
