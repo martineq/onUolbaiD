@@ -1,14 +1,12 @@
 #pragma once
 
 #include "./ControladorLoop.h"
-#include "./ControladorScroll.h"
 #include "../../utils/Observador/Observador.h"
 
 class ControladorJuego{
 
 	private:
 		ControladorLoop controladorLoop;	
-		ControladorScroll controladorScroll;
 
 	public:
 		ControladorJuego(void);

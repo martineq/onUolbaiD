@@ -17,6 +17,6 @@ bool ControladorJuego::loop(){
 }
 
 void ControladorJuego::agregarObservadorScroll(Observador* observadorScroll){
-	this->controladorScroll.agregarObservador(observadorScroll);
+	this->controladorLoop.agregarObservadorScroll(observadorScroll);
 	return void();
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../utils/Proxy/ProxyControladorEvento.h"
+#include "./ControladorScroll.h"
 
 class ControladorEvento{
 	private:
@@ -9,6 +10,7 @@ class ControladorEvento{
 		int clicMouseBotonDerecho;
 		int clicMouseBotonIzquierdo;	
 		bool mouseDentroDePantalla;
+		ControladorScroll controladorScroll;
 		ProxyControladorEvento proxyEvento;
 
 	public:
@@ -26,6 +28,7 @@ class ControladorEvento{
 		int getClicMouseBotonIzquierdo();
 		bool getMouseDentroDePantalla();
 		void cambiarEstado();
+		void agregarObservadorScroll(Observador* observadorScroll);
 
 };
 
