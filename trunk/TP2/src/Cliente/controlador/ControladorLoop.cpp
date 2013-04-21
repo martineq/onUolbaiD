@@ -59,6 +59,9 @@ bool ControladorLoop::getQuit(){
 	return this->detector.getQuit();
 }
 
+void ControladorLoop::agregarObservadorScroll(Observador* observadorScroll){
+	this->evento.agregarObservadorScroll(observadorScroll);
+}
 
 
 ControladorLoop::~ControladorLoop(void){

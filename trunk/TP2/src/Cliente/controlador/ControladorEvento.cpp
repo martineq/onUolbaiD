@@ -67,3 +67,7 @@ bool ControladorEvento::getMouseDentroDePantalla(){
 void ControladorEvento::cambiarEstado(){
 	// TODO: Acá debo usar el ProxyControladorEvento
 }
+
+void ControladorEvento::agregarObservadorScroll(Observador* observadorScroll){
+	this->controladorScroll.agregarObservador(observadorScroll);
+}

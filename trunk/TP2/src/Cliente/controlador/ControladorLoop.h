@@ -22,4 +22,5 @@ public:
 		~ControladorLoop(void);
 		void loop();		
 		bool getQuit();
+		void agregarObservadorScroll(Observador* observadorScroll);
 };
