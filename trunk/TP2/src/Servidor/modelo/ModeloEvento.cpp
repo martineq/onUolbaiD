@@ -21,12 +21,15 @@ void ModeloEvento::setActualizado(bool actualizado) {
 }
 
 void ModeloEvento::actualizar(Observable* observable) {
-	ControladorEvento* controladorEvento = (ControladorEvento*)observable;
-	this->setActualizado(true);
-	this->_mouseClickIzquierdo = controladorEvento->getClicMouseBotonIzquierdo() == 1;
-	this->_mouseX = controladorEvento->getPosicionMouseX();
-	this->_mouseY = controladorEvento->getPosicionMouseY();
-	this->_mouseDentroPantalla = controladorEvento->getMouseDentroDePantalla();
+	// TODO: Implementar estos métodos en ProxyControladorEvento
+	// Y luego descomentar
+
+	//ProxyControladorEvento* proxyControladorEvento = (ProxyControladorEvento*)observable;
+	//this->setActualizado(true);
+	//this->_mouseClickIzquierdo = proxyControladorEvento->getClicMouseBotonIzquierdo() == 1;
+	//this->_mouseX = proxyControladorEvento->getPosicionMouseX();
+	//this->_mouseY = proxyControladorEvento->getPosicionMouseY();
+	//this->_mouseDentroPantalla = proxyControladorEvento->getMouseDentroDePantalla();
 }
 
 bool ModeloEvento::getMouseClickIzquierdo() {

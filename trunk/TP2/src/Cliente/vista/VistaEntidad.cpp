@@ -71,18 +71,21 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 }
 
 void VistaEntidad::actualizar(class Observable* s){
-	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
-	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x;
-	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y;
+	// TODO: Implementar estos métodos en ProxyModeloEntidad
+	// Y luego descomentar
 
-	int codigo = ((ModeloEntidad*)s)->direccion();
-	if ((this->esJugador) && (codigo != this->codigoAnimacion)){
-		this->codigoAnimacion = codigo;
-		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
-	}
-	
-	//this->esNecesarioRefrescar = true;
-	this->esNecesarioRefrescar = !((ModeloEntidad*)s)->esUltimoMovimiento();
+	//// En este punto ya se que el parámetro <s> se puede castear a ((ProxyModeloEntidad*)s)
+	//this->x = ((ProxyModeloEntidad*)s)->pixelSiguiente().x;
+	//this->y = ((ProxyModeloEntidad*)s)->pixelSiguiente().y;
+
+	//int codigo = ((ProxyModeloEntidad*)s)->direccion();
+	//if ((this->esJugador) && (codigo != this->codigoAnimacion)){
+	//	this->codigoAnimacion = codigo;
+	//	this->animacionActual = this->animaciones->get(this->estados.at(codigo));
+	//}
+	//
+	////this->esNecesarioRefrescar = true;
+	//this->esNecesarioRefrescar = !((ProxyModeloEntidad*)s)->esUltimoMovimiento();
 }
 
 void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {

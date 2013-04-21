@@ -9,6 +9,7 @@
 #include "./VistaEntidad.h"
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observador.h"
+#include "../../utils/Proxy/ProxyModeloEntidad.h"
 
 class VistaNivel{
 
@@ -16,6 +17,7 @@ class VistaNivel{
 		VistaScroll* scroll;
 		VistaEntidad* jugador;
 		std::list<VistaEntidad*> listaEntidades;
+		std::list<ProxyModeloEntidad*> listaProxyEntidades;
 		double alto;
 		double ancho;
 		double altoNivel;
