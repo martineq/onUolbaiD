@@ -17,35 +17,31 @@ bool ModeloFactory::crearModeloNivel(ModeloNivel& modeloNivel){
 
 	modeloNivel.setAnchoTiles(juego.escenarios.front().tamanioX);
 	modeloNivel.setAltoTiles(juego.escenarios.front().tamanioY);
-	this->crearJugadorConScroll(juego,modeloNivel);
+	this->crearJugador(juego,modeloNivel);
 	this->crearEntidades(juego,modeloNivel);
 
 	return true;
 }
 
-void ModeloFactory::crearJugadorConScroll(ParserYaml::stJuego juego, ModeloNivel& modeloNivel){
+void ModeloFactory::crearJugador(ParserYaml::stJuego juego, ModeloNivel& modeloNivel){
 
 	ParserYaml::stProtagonista protagonista = juego.escenarios.front().protagonistas.front();
 	std::string nombre = protagonista.entidad;
 	ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego,nombre);
 
-	int x = protagonista.x;
-	int y = protagonista.y;
 	int alto = entidad.altoBase;
 	int ancho = entidad.anchoBase;
 	int velocidad = juego.configuracion.velocidadPersonaje;
 	int anchoEscenario = juego.escenarios.front().tamanioX;
 	int altoEscenario = juego.escenarios.front().tamanioY;
 	Posicion pos;
-	pos.x = x;
-	pos.y = y;
+	pos.x = protagonista.x;
+	pos.y = protagonista.y;
 
 	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidad.fps); 
-	ModeloScroll* pScroll = new ModeloScroll(juego.pantalla.ancho,juego.pantalla.alto,anchoEscenario,altoEscenario,juego.configuracion.margenScroll,x,y,pJugador->id());  // Tomo el mismo x,y,velocidad que el personaje
 
 	modeloNivel.agregarJugador(pJugador);
-	modeloNivel.agregarScroll(pScroll); 
-
+	
 	return void();
 }
 

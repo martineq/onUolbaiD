@@ -10,7 +10,7 @@ class ControladorEvento{
 		int clicMouseBotonDerecho;
 		int clicMouseBotonIzquierdo;	
 		bool mouseDentroDePantalla;
-		ControladorScroll controladorScroll;
+		ControladorScroll* controladorScroll;
 		ProxyControladorEvento proxyEvento;
 
 	public:
@@ -28,6 +28,7 @@ class ControladorEvento{
 		int getClicMouseBotonIzquierdo();
 		bool getMouseDentroDePantalla();
 		void cambiarEstado();
+		void setControladorScroll(ControladorScroll*);
 		ControladorScroll* getControladorScroll(void);
 		ProxyControladorEvento* getProxyEvento(void);
 

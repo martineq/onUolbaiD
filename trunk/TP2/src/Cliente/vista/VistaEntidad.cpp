@@ -50,7 +50,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 		i++;
 	}
 	if (this->esJugador)
-		this->animacionActual = this->animaciones->get(this->estados.at(SUR));
+		this->animacionActual = this->animaciones->get(this->estados.at(4));
 	this->esNecesarioRefrescar = false;
 	this->codigoAnimacion = 0;
 	this->entraEnPantalla = false;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "./ModeloEntidad.h"
-#include "./ModeloScroll.h"
 #include "../../utils/Observador/Identificable.h"
 
 class ModeloNivel {
@@ -9,11 +8,9 @@ class ModeloNivel {
 		int altoTiles;
 		int anchoTiles;
 		std::list<ModeloEntidad*> listaJugadores;
-		std::list<ModeloScroll*> listaScroll;
 		std::list<ModeloEntidad*> listaEntidades;
 
 		ModeloEntidad* obtenerJugador(int id);
-		ModeloScroll* obtenerScroll(int id);
 		ModeloEntidad* obtenerEntidad(int id);
 		
 		void destruirListaJugadores();
@@ -26,7 +23,6 @@ class ModeloNivel {
 
 		// Getters
 		std::list<ModeloEntidad*> getListaJugadores();
-		std::list<ModeloScroll*> getListaScroll();
 		std::list<ModeloEntidad*> getListaEntidades();
 		
 		int getAltoTiles();
@@ -38,14 +34,10 @@ class ModeloNivel {
 
 		void agregarJugador(ModeloEntidad *jugador);
 		void agregarEntidad(ModeloEntidad *entidad);
-		void agregarScroll(ModeloScroll *scroll);
-
+		
 		void removerJugador(ModeloEntidad *jugador);
 		void removerEntidad(ModeloEntidad *entidad);
-		void removerScroll(ModeloScroll *scroll);
-
-		void moverScroll(int mouseX, int mouseY, int id);
-		void detenerScroll(int id);
+		
 		void moverJugador(int tileX, int tileY, int id);
 
 		bool actualizar(int id);

@@ -9,7 +9,7 @@ ControladorEvento::ControladorEvento(void){
 }
 
 ControladorEvento::~ControladorEvento(void){
-
+	delete this->controladorScroll;
 }
 
 void ControladorEvento::setMouseDentroDePantalla(bool dentroDePantalla){
@@ -68,8 +68,12 @@ void ControladorEvento::cambiarEstado(){
 	// TODO: Acá debo usar el ProxyControladorEvento
 }
 
+void ControladorEvento::setControladorScroll(ControladorScroll* controladorScroll) {
+	this->controladorScroll = controladorScroll;
+}
+
 ControladorScroll* ControladorEvento::getControladorScroll(void){
-	return (&(this->controladorScroll));
+	return this->controladorScroll;
 }
 
 ProxyControladorEvento* ControladorEvento::getProxyEvento(void){
