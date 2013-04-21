@@ -10,26 +10,8 @@ VistaNivel::~VistaNivel(){
  // Los punteros ya son destruidos desde el Administrador
 }
 
-Observador* VistaNivel::obtenerObservadorJugador(void){
-	return (Observador*)this->jugador;
-}
-
 Observador* VistaNivel::obtenerObservadorScroll(void){
 	return (Observador*)this->scroll;
-}
-
-std::list<Observador*> VistaNivel::obtenerObservadoresEntidad(void){
-
-	std::list<Observador*> listaObservadoresEntidad;
-
-	for (std::list<VistaEntidad*>::iterator it=this->listaEntidades.begin() ; it != this->listaEntidades.end(); it++ ){
-		if( (*it)->getEsJugador() == false ){
-			listaObservadoresEntidad.push_back( ((Observador*)*it) );
-		}
-	}
-
-	return listaObservadoresEntidad;
-
 }
 
 VistaScroll* VistaNivel::getScroll(void){

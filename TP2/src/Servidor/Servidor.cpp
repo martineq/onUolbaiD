@@ -12,24 +12,23 @@ bool Servidor::iniciar(void){
 	return this->modeloJuego.iniciar();
 }
 
-void Servidor::agregarObservadoresJugador(std::list<Observador*>listaObservadoresJugador){
-	this->modeloJuego.agregarObservadoresJugador(listaObservadoresJugador);
-}
+void Servidor::loop(void){
+	// TODO: Ver si el while queda acá
+	int fps = 50;
+	int delay = 1000/fps;	
+	bool quit = false;		
+	while (quit == false){
+		int tickViejo = SDL_GetTicks();		
 
-void Servidor::agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll){
-	this->modeloJuego.agregarObservadoresScroll(listaObservadoresScroll);
-}
-
-void Servidor::agregarObservadoresEntidad(std::list<Observador*> listaObservadoresEntidad){
-	this->modeloJuego.agregarObservadoresEntidad(listaObservadoresEntidad);
-}
-
-Observador* Servidor::obtenerObservadorEvento(void){
-	return this->modeloJuego.obtenerObservadorEvento();
-}
-
-bool Servidor::loop(void){
-	return this->modeloJuego.loop();
+		if( this->modeloJuego.loop() == false) quit = true;
+	
+		int intervaloTranscurrido = SDL_GetTicks() - tickViejo;
+		if (intervaloTranscurrido < delay){
+			SDL_Delay(delay - intervaloTranscurrido);
+		}
+	}
+	 	 
+	 return void();
 }
 
 void Servidor::destruirEntidades(void){

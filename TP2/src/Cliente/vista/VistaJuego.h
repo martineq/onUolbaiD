@@ -18,9 +18,7 @@ class VistaJuego{
 		VistaJuego(void);
 		~VistaJuego(void);
 
-		Observador* obtenerObservadorJugador(void);
 		Observador* obtenerObservadorScroll(void);
-		std::list<Observador*> obtenerObservadoresEntidad(void);
 		bool iniciar(void);		// Inicia el VistaFactory
 		bool loop(void);		// Inicia el VistaLoop y le pasa el VistaNivel
 		

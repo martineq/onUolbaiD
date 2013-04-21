@@ -2,7 +2,6 @@
 
 #include <list>
 
-#include "../utils/Observador/Observador.h"
 #include "modelo/ModeloJuego.h"
 #include "modelo/ModeloScroll.h"
 
@@ -285,7 +284,7 @@ class Servidor {
 			vistaScroll.setPantalla(pantalla);
 			vistaJugador.setPantalla(pantalla);
 			
-			controladorEvento.agregarObservador(modeloLoop.obtenerObservadorEvento());
+//			controladorEvento.agregarObservador(modeloLoop.obtenerObservadorEvento());
 
 			modeloNivel.setAltoTiles(ALTO_MATRIZ);
 			modeloNivel.setAnchoTiles(ANCHO_MATRIZ);
@@ -294,11 +293,11 @@ class Servidor {
 
 			std::list<Observador*> listaObservadoresJugador;
 			listaObservadoresJugador.push_back(&vistaJugador);
-			modeloNivel.agregarObservadoresJugador(listaObservadoresJugador);
+//			modeloNivel.agregarObservadoresJugador(listaObservadoresJugador);
 			
 			std::list<Observador*> listaObservadoresScroll;
 			listaObservadoresScroll.push_back(&vistaScroll);
-			modeloNivel.agregarObservadoresScroll(listaObservadoresScroll);
+//			modeloNivel.agregarObservadoresScroll(listaObservadoresScroll);
 			
 			while (!salir) {
 				if (SDL_PollEvent(&evento)) {
@@ -326,17 +325,11 @@ class Servidor {
 
 		// Inicia el Modelo Juego
 		bool iniciar();
-		
-		void agregarObservadoresJugador(std::list<Observador*>listaObservadoresJugador);
 
-		void agregarObservadoresScroll(std::list<Observador*>listaObservadoresScroll);
-		
-		void agregarObservadoresEntidad(std::list<Observador*>listaObservadoresEntidad);
-		
-		Observador* obtenerObservadorEvento();
-		
 		// Inicia el loop de Modelo Juego
-		bool loop();
+		void loop();
 
 		void destruirEntidades();
 };
+
+// TODO: Sacar los vincular observadores

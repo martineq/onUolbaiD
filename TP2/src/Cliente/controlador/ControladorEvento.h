@@ -1,7 +1,7 @@
 #pragma once
 #include "../../utils/Observador/Observable.h"
 		
-class ControladorEvento: public Observable{
+class ControladorEvento{
 	private:
 		int posicionMouseX;
 		int posicionMouseY;
@@ -25,3 +25,5 @@ class ControladorEvento: public Observable{
 		void cambiarEstado();
 
 };
+
+// TODO: Agregar ProxyControladorEvento

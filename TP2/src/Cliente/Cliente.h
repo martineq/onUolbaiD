@@ -2,7 +2,6 @@
 
 #include "./vista/VistaJuego.h"
 #include "./controlador/ControladorJuego.h"
-#include "../utils/Observador/Observador.h"
 
 class Cliente{
 
@@ -14,13 +13,9 @@ class Cliente{
 		Cliente(void);
 		~Cliente(void);
 		bool iniciar(void);		// Inicia el VistaJuego y ControladorJuego
-		Observador* obtenerObservadorJugador(void);
-		Observador* obtenerObservadorScroll(void);
-		std::list<Observador*> obtenerObservadoresEntidad(void);
-		void agregarObservadorEventos(Observador* observador);
-		bool loopControl(void);
-		bool loopVista(void);
-
+		void loop(void);
 		void destruirEntidades();
 
 };
+
+// TODO: hacer el this->vincularObservadores(); para el scroll

@@ -7,11 +7,12 @@ class ControladorJuego{
 
 	private:
 		ControladorLoop controladorLoop;	
+		//ControladorScroll controladorScroll; // TODO: Implementar
 
 	public:
 		ControladorJuego(void);
-		~ControladorJuego(void);		
-		void agregarObservadorEventos(Observador* observador);
+		~ControladorJuego(void);
+		void agregarObservadorScroll(Observador* observadorScroll);
 		bool loop(void);		// Inicia el ModeloLoop y le pasa el ModeloNivel
 
 };

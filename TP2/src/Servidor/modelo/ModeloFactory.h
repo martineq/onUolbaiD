@@ -18,5 +18,6 @@ class ModeloFactory{
 		bool crearModeloNivel(ModeloNivel& modeloNivel);
 };
 
-// TODO: Tareas:
-// 
+// TODO: Ahora la creación de ProxyModeloEntidad y ProxyControladorEvento se realiza en el factory. Implementar
+// TODO: Ahora el agregarObservador... se realiza en el factory, a la par de la creación del ProxyModeloEntidad. Implementar
+// TODO: crearJugadorConScroll tiene que recibir el ModeloLoop para agregar el observador

@@ -2,7 +2,6 @@
 
 #include "./ModeloEntidad.h"
 #include "./ModeloScroll.h"
-#include "../../utils/Observador/Observador.h"
 #include "../../utils/Observador/Identificable.h"
 
 class ModeloNivel {
@@ -36,10 +35,6 @@ class ModeloNivel {
 		// Setters
 		void setAltoTiles(int alto);
 		void setAnchoTiles(int ancho);
-
-		void agregarObservadoresJugador(std::list<Observador*> listaObservadoresJugador);
-		void agregarObservadoresEntidad(std::list<Observador*> listaObservadoresEntidad);
-		void agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll);
 
 		void agregarJugador(ModeloEntidad *jugador);
 		void agregarEntidad(ModeloEntidad *entidad);
