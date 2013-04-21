@@ -17,3 +17,5 @@ class VistaFactory{
 
 		bool crearVistaNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop);
 };
+
+// TODO: Ahora la creación de Proxys se realiza en el factory. Implementar

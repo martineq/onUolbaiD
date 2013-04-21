@@ -65,5 +65,5 @@ bool ControladorEvento::getMouseDentroDePantalla(){
 
 
 void ControladorEvento::cambiarEstado(){
-	this->notificarObservadores();
+	// TODO: Acá debo usar el ProxyControladorEvento
 }

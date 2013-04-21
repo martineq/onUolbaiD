@@ -11,15 +11,16 @@
 class Administrador{
 
 	private:
-		Servidor servidor;
-		Cliente cliente;
-		void vincularObservadores(void);	// Vincula todos los patron observer
+		bool modoServidor;
+		Servidor* servidor;
+		Cliente* cliente;
 
 	public:
 		Administrador(void);
 		~Administrador(void);
-		bool iniciar(void);					// Inicia el servidor y cliente
-		void loop(void);					// Inicia los loops de servidor y cliente
+		void setModoServidor(bool modoServidor);	// Seteo el modo en que va a correr el adminstrador (Servidor o Cliente)
+		bool iniciar(void);							// Inicia el servidor o cliente, según corresponda
+		void loop(void);							// Inicia el loop correspondiente
 
 		// Solo para correr pruebas, no influye en el proyecto del juego
 		void correrPruebas(void);

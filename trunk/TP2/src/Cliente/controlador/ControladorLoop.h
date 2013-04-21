@@ -22,5 +22,4 @@ public:
 		~ControladorLoop(void);
 		void loop();		
 		bool getQuit();
-		void agregarObservadorEventos(Observador* observador);
 };

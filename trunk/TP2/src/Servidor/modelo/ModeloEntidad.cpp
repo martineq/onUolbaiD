@@ -38,7 +38,7 @@ ModeloEntidad::~ModeloEntidad() {
 
 void ModeloEntidad::cambiarEstado() {
 	this->_modeloMovimiento->cambiarEstado();
-	this->_vistaMovimiento->cambiarEstado();
+	this->_vistaMovimiento->cambiarEstado(); // TODO: Acá se usaría el ProxyModeloEntidad, en reemplazo de esta línea
 }
 
 int ModeloEntidad::id() const {

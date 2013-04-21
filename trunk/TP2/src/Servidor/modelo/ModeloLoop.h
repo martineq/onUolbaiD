@@ -3,7 +3,6 @@
 #include <list>
 #include "ModeloNivel.h"
 #include "ModeloEvento.h"
-#include "../../utils/Observador/Observador.h"
 
 class ModeloLoop {
 	private:
@@ -14,7 +13,8 @@ class ModeloLoop {
 		
 		virtual ~ModeloLoop();
 
-		Observador* obtenerObservadorEvento();
-
 		bool loop(ModeloNivel& modeloNivel);
 };
+
+// TODO: Ver si se creará ModeloEvento conteniendo una lista de todos los eventos de todos los jugadores
+//       O si se crea una std::list<ModeloEvento> con una cantidad igual a la de Clientes conectados

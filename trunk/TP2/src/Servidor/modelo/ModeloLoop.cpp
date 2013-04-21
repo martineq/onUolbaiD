@@ -8,10 +8,6 @@ ModeloLoop::ModeloLoop() {
 ModeloLoop::~ModeloLoop() {
 }
 
-Observador* ModeloLoop::obtenerObservadorEvento() {
-	return &this->_modeloEvento;
-}
-
 bool ModeloLoop::loop(ModeloNivel& modeloNivel) {
 	if (this->_modeloEvento.getActualizado()) {
 		int mousePosX = this->_modeloEvento.getMousePosX();

@@ -63,34 +63,6 @@ int ModeloNivel::getAltoTiles() {
 	return this->anchoTiles;
 }
 
-void ModeloNivel::agregarObservadoresJugador(std::list<Observador*> listaObservadoresJugador) {
-	// Itero sobre los observadores
-	for (std::list<Observador*>::iterator observador = listaObservadoresJugador.begin(); observador != listaObservadoresJugador.end(); observador++) {
-		ModeloEntidad* jugador = this->obtenerJugador(dynamic_cast<Identificable*>(*observador)->id());
-		if (jugador != NULL)
-			jugador->agregarObservador(*observador);
-	}
-}
-
-void ModeloNivel::agregarObservadoresEntidad(std::list<Observador*> listaObservadoresEntidad) {
-	// Itero sobre los observadores
-	for (std::list<Observador*>::iterator observador = listaObservadoresEntidad.begin(); observador != listaObservadoresEntidad.end(); observador++) {
-		ModeloEntidad* entidad = this->obtenerEntidad(dynamic_cast<Identificable*>(*observador)->id());
-		if (entidad != NULL)
-			entidad->agregarObservador(*observador);
-	}
-}
-
-void ModeloNivel::agregarObservadoresScroll(std::list<Observador*> listaObservadoresScroll){
-	// Itero sobre los observadores
-	for (std::list<Observador*>::iterator observador = listaObservadoresScroll.begin(); observador != listaObservadoresScroll.end(); observador++) {
-		ModeloScroll* scroll = this->obtenerScroll(dynamic_cast<Identificable*>(*observador)->id());
-		if (scroll != NULL)
-			scroll->agregarObservador(*observador);
-			scroll->notificarPosicionInicial();
-	}
-}
-
 void ModeloNivel::agregarJugador(ModeloEntidad *jugador) {
 	this->listaJugadores.push_back(jugador);
 }

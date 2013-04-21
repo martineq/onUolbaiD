@@ -9,35 +9,31 @@ Cliente::~Cliente(void){
 }
 
 bool Cliente::iniciar(void){
-	//instancia el nivel en vistaJuego
-	return this->vistaJuego.iniciar();
+	
+	// Instancia el nivel en vistaJuego
+	if( this->vistaJuego.iniciar() == false ) return false;
+	this->controladorJuego.agregarObservadorScroll(this->vistaJuego.obtenerObservadorScroll());
+	return true;
 }
 
-Observador* Cliente::obtenerObservadorScroll(void){
-	return this->vistaJuego.obtenerObservadorScroll();
-}
+void Cliente::loop(void){
+	// TODO: Ver si el while queda acá
+	int fps = 50;
+	int delay = 1000/fps;	
+	bool quit = false;		
+	while (quit == false){
+		int tickViejo = SDL_GetTicks();		
 
-Observador* Cliente::obtenerObservadorJugador(void){
-	return this->vistaJuego.obtenerObservadorJugador();
-}
+		if( this->controladorJuego.loop() == false) quit = true;
+		if( this->vistaJuego.loop() == false) quit = true;
 
-
-std::list<Observador*> Cliente::obtenerObservadoresEntidad(void){
-	return this->vistaJuego.obtenerObservadoresEntidad();
-}
-
-void Cliente::agregarObservadorEventos(Observador* observador){
-	this->controladorJuego.agregarObservadorEventos(observador);
-	return void();
-}
-
-
-bool Cliente::loopControl(void){
-	return this->controladorJuego.loop();
-}
-
-bool Cliente::loopVista(void){
-	return this->vistaJuego.loop();
+		int intervaloTranscurrido = SDL_GetTicks() - tickViejo;
+		if (intervaloTranscurrido < delay){
+			SDL_Delay(delay - intervaloTranscurrido);
+		}
+	}
+	 	 
+	 return void();
 }
 
 

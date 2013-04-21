@@ -65,9 +65,6 @@ ControladorLoop::~ControladorLoop(void){
 
 }
 
-void ControladorLoop::agregarObservadorEventos(Observador* observador){
-	this->evento.agregarObservador(observador);
-}
 
 // TODO: (Para el TP2) El controlador tendría que ser capaz de detectar la posición del mouse, determinar si
 //        se encuentra en el margen de scroll, y una vez calculado eso, mandar el evento. Esto es para

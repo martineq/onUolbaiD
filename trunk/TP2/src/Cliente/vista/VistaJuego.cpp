@@ -8,21 +8,13 @@ VistaJuego::~VistaJuego(void){
 
 }
 
-Observador* VistaJuego::obtenerObservadorJugador(void){
-	return this->vistaNivel.obtenerObservadorJugador();
-}
-
 Observador* VistaJuego::obtenerObservadorScroll(void){
 	return this->vistaNivel.obtenerObservadorScroll();
 }
 
-std::list<Observador*> VistaJuego::obtenerObservadoresEntidad(void){
-	return this->vistaNivel.obtenerObservadoresEntidad();
-}
-
 bool VistaJuego::iniciar(void){
+	// TODO: Por acá aparecerá todo el diálogo de sockets para obtener archivos del servidor y config final
 	if( this->vistaFactory.crearVistaNivel(this->vistaNivel,this->vistaLoop) == false ) return false;
-//	if( this->vistaLoop.levantarFondo(this->vistaNivel.getAltoNivel(),this->vistaNivel.getAnchoNivel()) == false ) return false;
 	return true;
 }
 
