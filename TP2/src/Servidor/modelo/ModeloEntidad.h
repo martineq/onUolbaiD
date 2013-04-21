@@ -9,6 +9,7 @@
 #include "../../utils/Observador/Observable.h"
 #include "../../utils/Observador/Identificable.h"
 #include "../../utils/Hilos/Hilo.h"
+#include "../../utils/Proxy/ProxyModeloEntidad.h"
 
 typedef enum Direccion { NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE, NOROESTE };
 
@@ -122,6 +123,7 @@ class ModeloEntidad : public Observable, public Identificable {
 		bool _esUltimoMovimiento;
 		int _altoMapa;
 		int _anchoMapa;
+		ProxyModeloEntidad proxyEntidad;
 
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
 

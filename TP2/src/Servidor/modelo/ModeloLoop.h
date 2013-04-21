@@ -3,11 +3,14 @@
 #include <list>
 #include "ModeloNivel.h"
 #include "ModeloEvento.h"
+#include "../../utils/Proxy/ProxyControladorEvento.h"
 
 class ModeloLoop {
+
 	private:
 		ModeloEvento _modeloEvento;
-		
+		ProxyControladorEvento proxyControlador;
+
 	public:
 		ModeloLoop();
 		

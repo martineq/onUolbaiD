@@ -25,14 +25,13 @@ int VistaScroll::id() const {
 }
 
 void VistaScroll::actualizar(class Observable* s){
-
-	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloScroll*)s)
-
-	// TODO: Ver si están todos los métodos necesarios
-	this->x = ((ModeloScroll*)s)->getX();
-	this->y = ((ModeloScroll*)s)->getY();	
-	this->obtenerTilesLimites(this->posicionInicial,this->posicionFinal);
-	this->esNecesarioRefrescar = true;
+	// TODO: Implementar estos métodos en ControladorScroll
+	// Y luego descomentar
+	// En este punto ya se que el parámetro <s> se puede castear a ((ControladorScroll*)s)
+	//this->x = ((ControladorScroll*)s)->getX();
+	//this->y = ((ControladorScroll*)s)->getY();	
+	//this->obtenerTilesLimites(this->posicionInicial,this->posicionFinal);
+	//this->esNecesarioRefrescar = true;
 
 }
 

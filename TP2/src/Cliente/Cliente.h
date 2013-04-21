@@ -2,12 +2,14 @@
 
 #include "./vista/VistaJuego.h"
 #include "./controlador/ControladorJuego.h"
+#include "../utils/Sockets/SocketCliente.h"
 
 class Cliente{
 
 	private:
 		VistaJuego vistaJuego;
 		ControladorJuego controladorJuego;
+		SocketCliente socket;
 
 	public:
 		Cliente(void);
@@ -17,5 +19,3 @@ class Cliente{
 		void destruirEntidades();
 
 };
-
-// TODO: hacer el this->vincularObservadores(); para el scroll

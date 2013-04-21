@@ -2,7 +2,6 @@
 
 #include "./Servidor/Servidor.h"
 #include "./Cliente/Cliente.h"
-#include "./utils/Observador/Observador.h"
 #include "./utils/Log/Log.h"
 
 // Include para las pruebas. Para agregar pruebas nuevas, agregarlas en esa clase.

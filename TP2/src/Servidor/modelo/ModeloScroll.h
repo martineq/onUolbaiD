@@ -36,3 +36,5 @@ class ModeloScroll: public Observable, public Identificable {
 		void notificarPosicionInicial();
 		int id() const;
 };
+
+// TODO: Mudar a ControladorScroll

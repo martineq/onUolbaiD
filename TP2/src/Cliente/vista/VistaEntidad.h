@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../../Servidor/modelo/ModeloEntidad.h"
 #include "VistaAnimacion.h"
 #include "VistaAnimaciones.h"
+#include "VistaScroll.h"
 #include "../../utils/Observador/Observador.h"
 #include "../../utils/Observador/Identificable.h"
-#include "VistaScroll.h"
+#include "../../utils/Proxy/ProxyModeloEntidad.h"
 
 class VistaEntidad: public Observador, public Identificable{
 

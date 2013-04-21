@@ -13,6 +13,7 @@ bool Cliente::iniciar(void){
 	// Instancia el nivel en vistaJuego
 	if( this->vistaJuego.iniciar() == false ) return false;
 	this->controladorJuego.agregarObservadorScroll(this->vistaJuego.obtenerObservadorScroll());
+	
 	return true;
 }
 

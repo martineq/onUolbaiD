@@ -1,10 +1,10 @@
 #pragma once
 
 #include <math.h>
-
-#include "../../utils/Observador/Observador.h"
-#include "../../Cliente/controlador/ControladorEvento.h"
 #include "ModeloNivel.h"
+#include "../../utils/Observador/Observador.h"
+#include "../../utils/Proxy/ProxyControladorEvento.h"
+
 
 class ModeloEvento : public Observador {
 	private:

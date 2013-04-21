@@ -17,7 +17,6 @@ bool ControladorJuego::loop(){
 }
 
 void ControladorJuego::agregarObservadorScroll(Observador* observadorScroll){
-	// TODO: Implementar agregando observadorScroll a this->controladorScroll
-	
+	this->controladorScroll.agregarObservador(observadorScroll);
 	return void();
 }
