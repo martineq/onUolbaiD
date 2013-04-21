@@ -2,7 +2,6 @@
 
 #include "DetectorEventos.h"
 #include "ControladorEvento.h"
-#include "../../utils/Observador/Observador.h"
 #include "../../utils/Timer/Timer.h"
 #include <vector>
 
@@ -22,5 +21,5 @@ public:
 		~ControladorLoop(void);
 		void loop();		
 		bool getQuit();
-		void agregarObservadorScroll(Observador* observadorScroll);
+		ControladorEvento* getControladorEvento(void);
 };

@@ -8,7 +8,11 @@ VistaFactory::~VistaFactory(void){
 
 }
 
-bool VistaFactory::crearVistaNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop){
+bool VistaFactory::crearVistaNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento){
+
+	// TODO: A <evento> le tengo que llenar el <ControladorScroll>, el <ProxyControladorEvento> y luego tengo que
+	// vincular <ControladorScroll> con <VistaScroll>
+	// Usar para eso evento->getControladorScroll() y evento->getProxyEvento()
 
 	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;	
 
