@@ -140,4 +140,8 @@ class ModeloEntidad : public Observable, public Identificable {
 		void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
+
+		void accion1();
+
+		void accion2();
 };

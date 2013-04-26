@@ -178,3 +178,19 @@ void ModeloNivel::destruirListas(){
 	this->destruirListaScroll();
 	return void();
 }
+
+void ModeloNivel::jugadorAccion1() {
+	ModeloEntidad* jugador = this->obtenerJugador(1);
+	if (jugador == NULL)
+		return;
+
+	jugador->accion1();
+}
+
+void ModeloNivel::jugadorAccion2() {
+	ModeloEntidad* jugador = this->obtenerJugador(1);
+	if (jugador == NULL)
+		return;
+
+	jugador->accion2();
+}

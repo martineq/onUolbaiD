@@ -6,6 +6,8 @@ ModeloEvento::ModeloEvento() {
 	this->_mouseClickIzquierdo = 0;
 	this->_mouseX = 0;
 	this->_mouseY = 0;
+	this->teclaA = false;
+	this->teclaS = false;
 	this->_actualizado = false;
 }
 
@@ -27,6 +29,8 @@ void ModeloEvento::actualizar(Observable* observable) {
 	this->_mouseX = controladorEvento->getPosicionMouseX();
 	this->_mouseY = controladorEvento->getPosicionMouseY();
 	this->_mouseDentroPantalla = controladorEvento->getMouseDentroDePantalla();
+	this->teclaA = controladorEvento->getTeclaAApretada();
+	this->teclaS = controladorEvento->getTeclaSApretada();
 }
 
 bool ModeloEvento::getMouseClickIzquierdo() {
@@ -43,4 +47,12 @@ int ModeloEvento::getMousePosX() {
 
 int ModeloEvento::getMousePosY() {
 	return this->_mouseY;
+}
+
+bool ModeloEvento::getTeclaA() {
+	return this->teclaA;
+}
+
+bool ModeloEvento::getTeclaS() {
+	return this->teclaS;
 }

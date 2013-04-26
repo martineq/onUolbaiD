@@ -125,3 +125,11 @@ void ModeloEntidad::asignarListaEntidades(std::list<ModeloEntidad*>* listaEntida
 bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 	return this == &modeloEntidad;
 }
+
+void ModeloEntidad::accion1() {
+	std::cout << "Tecla A" << std::endl;
+}
+
+void ModeloEntidad::accion2() {
+	std::cout << "Tecla S" << std::endl;
+}
