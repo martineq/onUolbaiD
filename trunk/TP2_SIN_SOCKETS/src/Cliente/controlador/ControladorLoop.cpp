@@ -7,6 +7,8 @@ ControladorLoop::ControladorLoop(void){
 	this->clicMouseBotonDerechoAnterior = 0;
 	this->clicMouseBotonIzquierdoAnterior = 0;
 	this->dentroDePantalla = true;
+	this->teclaAApretada = false;
+	this->teclaSApretada = false;
 }
 
 void ControladorLoop::loop(){	
@@ -19,11 +21,11 @@ void ControladorLoop::loop(){
 
 	this->detector.detectar();
 
-	if ( this->detector.getDentroDePantalla() == false ) {
+	/*if ( this->detector.getDentroDePantalla() == false ) {
 		this->evento.setMouseDentroDePantalla(false);
 		return void();
 	}
-	else this->evento.setMouseDentroDePantalla(true);
+	else this->evento.setMouseDentroDePantalla(true);*/
 
 	if ((this->detector.getPosicionMouseX()!=this->posicionMouseXAnterior) && 
 		(this->detector.getPosicionMouseY()!=this->posicionMouseYAnterior)){
@@ -45,13 +47,25 @@ void ControladorLoop::loop(){
 		this->evento.setClicMouseBotonDerecho(0);   // Con esto aclaro que no estoy mandando un evento de click
 		this->posicionMouseYAnterior = detector.getPosicionMouseY();
 	}
+
 	if (this->detector.getClicMouseBotonIzquierdo()!=this->clicMouseBotonIzquierdoAnterior) {
 		this->evento.setClicMouseBotonIzquierdo(this->detector.getClicMouseBotonIzquierdo());
 		this->clicMouseBotonIzquierdoAnterior = detector.getClicMouseBotonIzquierdo();
 	}
+
 	if (this->detector.getClicMouseBotonDerecho()!=this->clicMouseBotonDerechoAnterior) {
 		this->evento.setClicMouseBotonDerecho(this->detector.getClicMouseBotonDerecho());
 		this->clicMouseBotonDerechoAnterior = detector.getClicMouseBotonDerecho();
+	}
+
+	if (this->detector.getTeclaAApretada()!=this->teclaAApretada){
+		this->evento.setTeclaAApretada(this->detector.getTeclaAApretada());
+		this->teclaAApretada = this->detector.getTeclaAApretada();
+	}
+
+	if (this->detector.getTeclaSApretada()!=this->teclaSApretada){
+		this->evento.setTeclaSApretada(this->detector.getTeclaSApretada());
+		this->teclaSApretada = this->detector.getTeclaSApretada();
 	}
 }
 

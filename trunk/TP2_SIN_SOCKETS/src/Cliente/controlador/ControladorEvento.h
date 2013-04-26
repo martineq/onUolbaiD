@@ -8,6 +8,8 @@ class ControladorEvento: public Observable{
 		int clicMouseBotonDerecho;
 		int clicMouseBotonIzquierdo;	
 		bool mouseDentroDePantalla;
+		bool teclaAApretada;
+		bool teclaSApretada;
 	public:
 		ControladorEvento(void);
 		~ControladorEvento(void);		
@@ -17,11 +19,15 @@ class ControladorEvento: public Observable{
 		void setClicMouseBotonDerecho(int);
 		void setClicMouseBotonIzquierdo(int);
 		void setMouseDentroDePantalla(bool);
+		void setTeclaAApretada(bool);
+		void setTeclaSApretada(bool);
 		int getPosicionMouseX();
 		int getPosicionMouseY();
 		int getClicMouseBotonDerecho();
 		int getClicMouseBotonIzquierdo();
 		bool getMouseDentroDePantalla();
+		bool getTeclaAApretada();
+		bool getTeclaSApretada();
 		void cambiarEstado();
 
 };

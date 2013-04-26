@@ -6,6 +6,8 @@ ControladorEvento::ControladorEvento(void){
 	this->clicMouseBotonDerecho = 0;
 	this->clicMouseBotonIzquierdo = 0;	
 	this->mouseDentroDePantalla = true;
+	this->teclaAApretada = false;
+	this->teclaSApretada = false;
 }
 
 ControladorEvento::~ControladorEvento(void){
@@ -43,6 +45,16 @@ void ControladorEvento::setClicMouseBotonDerecho(int clic){
 	this->cambiarEstado();
 }
 
+void ControladorEvento::setTeclaAApretada(bool apretada){
+	this->teclaAApretada = apretada;
+	this->cambiarEstado();
+}
+
+void ControladorEvento::setTeclaSApretada(bool apretada){
+	this->teclaSApretada = apretada;
+	this->cambiarEstado();
+}
+
 int ControladorEvento::getPosicionMouseX(){
 	return this->posicionMouseX;
 }
@@ -63,6 +75,13 @@ bool ControladorEvento::getMouseDentroDePantalla(){
 	return this->mouseDentroDePantalla;
 }
 
+bool ControladorEvento::getTeclaAApretada(){
+	return this->teclaAApretada;
+}
+
+bool ControladorEvento::getTeclaSApretada(){
+	return this->teclaSApretada;
+}
 
 void ControladorEvento::cambiarEstado(){
 	this->notificarObservadores();
