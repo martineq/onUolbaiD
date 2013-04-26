@@ -1,7 +1,16 @@
 #include "./VistaNivel.h"
 
 bool VistaNivel::ordenadorEntidades(VistaEntidad* entidad1, VistaEntidad* entidad2) {
-	return entidad1->posicion() <= entidad2->posicion();
+	if (entidad1->getY() + entidad1->getAlto() < entidad2->getY() + entidad2->getAlto())
+		return true;
+	else if (entidad1->getY() + entidad1->getAlto() > entidad2->getY() + entidad2->getAlto())
+		return false;
+	else if (entidad1->getX() < entidad2->getX())
+		return true;
+	else if (entidad1->getX() < entidad2->getX())
+		return false;
+	else
+		return entidad1->id() < entidad2->id();
 }
 
 VistaNivel::VistaNivel(){

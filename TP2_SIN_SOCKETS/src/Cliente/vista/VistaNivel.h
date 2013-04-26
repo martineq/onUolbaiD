@@ -21,12 +21,12 @@ class VistaNivel{
 		double altoNivel;
 		double anchoNivel;
 
-		static bool ordenadorEntidades(VistaEntidad* entidad1, VistaEntidad* entidad2);
-
 		void destruirListaEntidades();
 		void destruirScroll();
 
 	public:
+		static bool ordenadorEntidades(VistaEntidad* entidad1, VistaEntidad* entidad2);
+
 		VistaNivel();
 		~VistaNivel();
 

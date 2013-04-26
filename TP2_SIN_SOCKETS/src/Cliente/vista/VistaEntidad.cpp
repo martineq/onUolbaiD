@@ -7,9 +7,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	
 	int xAux, yAux;
 
-	this->_posicion.x = x;
-	this->_posicion.y = y;
-	Posicion::convertirTileAPixel(altoNivel, this->_posicion.x, this->_posicion.y, xAux, yAux);
+	Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
 	
 	this->posicionReferenciaX = posicionReferenciaX;
 	this->posicionReferenciaY = posicionReferenciaY;
@@ -73,8 +71,6 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 }
 
 void VistaEntidad::actualizar(class Observable* s){
-	this->_posicion = ((ModeloEntidad*)s)->posicionSiguiente();
-
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
 	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x;
 	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y;
@@ -164,10 +160,6 @@ std::list<std::list<std::string>> VistaEntidad::getListaAnimaciones(void){
 
 bool VistaEntidad::getEsNecesarioRefrescar(void){
 	return this->esNecesarioRefrescar;
-}
-
-Posicion VistaEntidad::posicion() const {
-	return this->_posicion;
 }
 
 void VistaEntidad::setEsNecesarioRefrescar(bool boolRefrescar){
