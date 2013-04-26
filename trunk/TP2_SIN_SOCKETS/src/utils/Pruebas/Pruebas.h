@@ -1,8 +1,8 @@
 #pragma once
 
 // ************************************************************************************* //
-// Esta clase no pertenece al proyecto. Es sÛlo para correr pruebas de distintas clases. //
-// Sirve para poner ese cÛdigo ac· en vez de dejarlo mezclado con el cÛdigo del proyecto //
+// Esta clase no pertenece al proyecto. Es s√≥lo para correr pruebas de distintas clases. //
+// Sirve para poner ese c√≥digo ac√° en vez de dejarlo mezclado con el c√≥digo del proyecto //
 // ************************************************************************************* //
 
 #include <SDL.h>
@@ -34,5 +34,6 @@ class Pruebas{
 		void PruebaModeloEntidad(void);
 		void PruebaHilos(void);
 		void PruebaAnimacion(void);
+    void PruebaNieblaDeGuerra();
 
 };
