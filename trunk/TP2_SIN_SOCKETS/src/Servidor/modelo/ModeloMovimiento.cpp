@@ -94,10 +94,28 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 		}
 	}
 
+	list<ModeloEntidad*>::iterator iterador = this->_listaEntidades->begin();
+
+	while (iterador != this->_listaEntidades->end()) {
+		if (((*iterador) != this->_modeloEntidad) && 
+			(posicionSiguiente.x >= (*iterador)->posicionActual().x) &&
+			(posicionSiguiente.x <= (*iterador)->posicionActual().x + (*iterador)->ancho() - 1) &&
+			(posicionSiguiente.y >= (*iterador)->posicionActual().y) &&
+			(posicionSiguiente.y <= (*iterador)->posicionActual().y + (*iterador)->alto() - 1)) {
+			this->_posicionDestino = this->_modeloEntidad->posicionActual();
+			return;
+		}
+		iterador++;
+	}
+
 	this->_modeloEntidad->posicionSiguiente(posicionSiguiente);
 	this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), this->_modeloEntidad->posicionSiguiente()));
 	this->notificarObservadores();
 	this->_modeloEntidad->posicionActual(this->_modeloEntidad->posicionSiguiente());
-	
+
 	this->_instanteUltimoCambioEstado = GetTickCount();
+}
+
+void ModeloEntidad::ModeloMovimiento::asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades) {
+	this->_listaEntidades = listaEntidades;
 }

@@ -151,64 +151,9 @@ escenarios:
       size_x: 200 #tiles
       size_y: 200 #tiles
       entidadesDef:
-        - {x: 1, y: 40, entidad: agua}
-        - {x: 1, y: 41, entidad: agua}
-        - {x: 2, y: 40, entidad: agua}
-        - {x: 2, y: 41, entidad: agua}
+        - {x: 3, y: 40, entidad: castillo}
+        
         - {x: 1, y: 40, entidad: molino}
-
-        - {x: 4, y: 40, entidad: agua}
-        - {x: 4, y: 41, entidad: agua}
-        - {x: 5, y: 40, entidad: agua}
-        - {x: 5, y: 41, entidad: agua}
-        - {x: 4, y: 40, entidad: rancho}
-
-        - {x: 7, y: 40, entidad: agua}
-        - {x: 7, y: 41, entidad: agua}
-        - {x: 8, y: 40, entidad: agua}
-        - {x: 8, y: 41, entidad: agua}
-        - {x: 7, y: 40, entidad: granja_llamas}
-
-
-        - {x: 10, y: 40, entidad: agua}
-        - {x: 10, y: 41, entidad: agua}
-        - {x: 10, y: 42, entidad: agua}
-        - {x: 11, y: 40, entidad: agua}
-        - {x: 11, y: 41, entidad: agua}
-        - {x: 11, y: 42, entidad: agua}
-        - {x: 12, y: 40, entidad: agua}
-        - {x: 12, y: 41, entidad: agua}
-        - {x: 12, y: 42, entidad: agua}
-        - {x: 10, y: 40, entidad: casa_molino}
-
-        - {x: 14, y: 40, entidad: agua}
-        - {x: 14, y: 41, entidad: agua}
-        - {x: 14, y: 42, entidad: agua}
-        - {x: 14, y: 43, entidad: agua}
-        - {x: 15, y: 40, entidad: agua}
-        - {x: 15, y: 41, entidad: agua}
-        - {x: 15, y: 42, entidad: agua}
-        - {x: 15, y: 43, entidad: agua}
-        - {x: 16, y: 40, entidad: agua}
-        - {x: 16, y: 41, entidad: agua}
-        - {x: 16, y: 42, entidad: agua}
-        - {x: 16, y: 43, entidad: agua}
-        - {x: 17, y: 40, entidad: agua}
-        - {x: 17, y: 41, entidad: agua}
-        - {x: 17, y: 42, entidad: agua}
-        - {x: 17, y: 43, entidad: agua}
-        - {x: 14, y: 40, entidad: castillo}
-
-        - {x: 19, y: 40, entidad: agua}
-        - {x: 19, y: 41, entidad: agua}
-        - {x: 19, y: 42, entidad: agua}
-        - {x: 20, y: 40, entidad: agua}
-        - {x: 20, y: 41, entidad: agua}
-        - {x: 20, y: 42, entidad: agua}
-        - {x: 21, y: 40, entidad: agua}
-        - {x: 21, y: 41, entidad: agua}
-        - {x: 21, y: 42, entidad: agua}
-        - {x: 19, y: 40, entidad: casa_selva}
       protagonista:
         - entidad: guerrero
           x: 0

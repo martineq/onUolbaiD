@@ -118,6 +118,10 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 	this->_modeloMovimiento->actualizar(posicionDestino);
 }
 
+void ModeloEntidad::asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades) {
+	this->_modeloMovimiento->asignarListaEntidades(listaEntidades);
+}
+
 bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 	return this == &modeloEntidad;
 }

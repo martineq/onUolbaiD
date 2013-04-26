@@ -19,6 +19,7 @@ class ModeloEntidad : public Observable, public Identificable {
 		class ModeloMovimiento : public Observable {
 			private:
 				ModeloEntidad* _modeloEntidad;
+				std::list<ModeloEntidad*>* _listaEntidades;
 				Posicion _posicionDestino;
 				int _deltaX;
 				int _deltaY;
@@ -43,6 +44,8 @@ class ModeloEntidad : public Observable, public Identificable {
 				void actualizar(Posicion posicion);
 
 				void cambiarEstado();
+
+				void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
 		};
 
 		class VistaMovimiento : public Observador {
@@ -133,6 +136,8 @@ class ModeloEntidad : public Observable, public Identificable {
 		bool esUltimoMovimiento() const;
 
 		void mover(Posicion posicion);
+
+		void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
