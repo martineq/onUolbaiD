@@ -276,7 +276,7 @@ class Servidor {
 			ControladorEvento controladorEvento;
 			ModeloLoop modeloLoop;
 			ModeloNivel modeloNivel;
-			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, true, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
+			ModeloEntidad modeloJugador(1, 1, 200, posicionPersonaje, ALTO_MATRIZ, ANCHO_MATRIZ, 15);
 			ModeloScroll modeloScroll(ANCHO_PANTALLA, ALTO_PANTALLA, ANCHO_MATRIZ, ALTO_MATRIZ, 20, 0, 0, modeloJugador.id());
 			VistaEntidadPrueba vistaJugador;
 			//VistaEntidad vistaJugador(0, 0, 70, 50, 0, 0, 15, 1000, listaAnimaciones, true);
