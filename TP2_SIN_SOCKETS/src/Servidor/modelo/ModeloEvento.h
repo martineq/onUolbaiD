@@ -11,6 +11,8 @@ class ModeloEvento : public Observador {
 		int _mouseX;
 		int _mouseY;
 		bool _mouseClickIzquierdo;
+		bool teclaA;
+		bool teclaS;
 		bool _mouseDentroPantalla;
 		bool _actualizado;
 
@@ -26,6 +28,8 @@ class ModeloEvento : public Observador {
 		bool getMouseClickIzquierdo();
 		bool getMouseDentroPantalla();
 		bool getActualizado();
+		bool getTeclaA();
+		bool getTeclaS();
 
 		void setActualizado(bool actualizado);
 };

@@ -25,6 +25,14 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel) {
 
 		if (this->_modeloEvento.getMouseClickIzquierdo())
 			modeloNivel.moverJugador(mousePosX, mousePosY, 0);
+
+		if (this->_modeloEvento.getTeclaA()) {
+			modeloNivel.jugadorAccion1();
+		}
+
+		if (this->_modeloEvento.getTeclaS()) {
+			modeloNivel.jugadorAccion2();
+		}
 	}
 
 	modeloNivel.actualizar(0);
