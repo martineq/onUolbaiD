@@ -2,32 +2,6 @@
 
 using namespace std;
 
-Direccion ModeloEntidad::VistaMovimiento::obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino) {
-	if (posicionOrigen.x > posicionDestino.x) {
-		if (posicionOrigen.y > posicionDestino.y)
-			return NOROESTE;
-		else if (posicionOrigen.y < posicionDestino.y)
-			return SUDOESTE;
-		else
-			return OESTE;
-	}
-	else if (posicionOrigen.x < posicionDestino.x)
-		if (posicionOrigen.y > posicionDestino.y)
-			return NORESTE;
-		else if (posicionOrigen.y < posicionDestino.y)
-			return SUDESTE;
-		else
-			return ESTE;
-	else {
-		if (posicionOrigen.y > posicionDestino.y)
-			return NORTE;
-		else if (posicionOrigen.y < posicionDestino.y)
-			return SUR;
-		else
-			return SUR;
-	}
-}
-
 ModeloEntidad::VistaMovimiento::VistaMovimiento(const VistaMovimiento &modeloMovimiento) {
 }
 
@@ -109,24 +83,21 @@ void ModeloEntidad::VistaMovimiento::cambiarEstado() {
 	if (this->_espera > (GetTickCount() - this->_instanteUltimoCambioEstado))
 		return;
 
-	if (this->_cuadroActual == this->_cantidadCuadros) {
-		this->_modeloEntidad->_pixelSiguiente = this->_posicionDestino;
-		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
-		this->_modeloEntidad->_esUltimoMovimiento = true;
-		this->_modeloEntidad->notificarObservadores();
-		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
+	Posicion pixelSiguiente;
+	this->_modeloEntidad->esUltimoMovimiento(this->_cuadroActual == this->_cantidadCuadros);
+
+	if (this->_modeloEntidad->esUltimoMovimiento()) {
+		pixelSiguiente = this->_posicionDestino;
 	}
 	else {
 		list<Posicion>::iterator iterador = this->_posiciones.begin();
-		
 		advance(iterador, this->_cuadroActual * this->_desplazamiento);
-
-		this->_modeloEntidad->_pixelSiguiente = *iterador;
-		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
-		this->_modeloEntidad->_esUltimoMovimiento = false;
-		this->_modeloEntidad->notificarObservadores();
-		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
+		pixelSiguiente = *iterador;
 	}
+
+	this->_modeloEntidad->pixelSiguiente(pixelSiguiente);
+	this->_modeloEntidad->notificarObservadores();
+	this->_modeloEntidad->pixelActual(this->_modeloEntidad->pixelSiguiente());
 
 	this->_cuadroActual++;
 	this->_instanteUltimoCambioEstado = GetTickCount();

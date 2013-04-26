@@ -11,9 +11,32 @@ ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {
 	return *this;
 }
 
-ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps) {
+void ModeloEntidad::posicionActual(Posicion posicionActual) {
+	this->_posicionActual = posicionActual;
+}
+
+void ModeloEntidad::posicionSiguiente(Posicion posicionSiguiente) {
+	this->_posicionSiguiente = posicionSiguiente;
+}
+
+void ModeloEntidad::pixelActual(Posicion pixelActual) {
+	this->_pixelActual = pixelActual;
+}
+
+void ModeloEntidad::pixelSiguiente(Posicion pixelSiguiente) {
+	this->_pixelSiguiente = pixelSiguiente;
+}
+
+void ModeloEntidad::esUltimoMovimiento(bool esUltimoMovimiento) {
+	this->_esUltimoMovimiento = esUltimoMovimiento;
+}
+
+void ModeloEntidad::direccion(Direccion direccion) {
+	this->_direccion = direccion;
+}
+
+ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoMapa, int anchoMapa, int fps) {
 	this->_id = (int)InterlockedIncrement(&this->_ultimoId);
-	this->_esJugador = esJugador;
 	this->_alto = alto;
 	this->_ancho = ancho;
 	this->_velocidad = velocidad;
@@ -43,10 +66,6 @@ void ModeloEntidad::cambiarEstado() {
 
 int ModeloEntidad::id() const {
     return this->_id;
-}
-
-bool ModeloEntidad::esJugador() const {
-	return this->_esJugador;
 }
 
 int ModeloEntidad::alto() const {
