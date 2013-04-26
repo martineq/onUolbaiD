@@ -43,18 +43,6 @@ ModeloNivel::~ModeloNivel() {
 	// Las listas de punteros ya son destruidos desde el Administrador
 }
 
-std::list<ModeloEntidad*> ModeloNivel::getListaJugadores() {
-	return this->listaJugadores;
-}
-
-std::list<ModeloScroll*> ModeloNivel::getListaScroll() {
-	return this->listaScroll;
-}
-
-std::list<ModeloEntidad*> ModeloNivel::getListaEntidades() {
-	return this->listaEntidades;
-}
-
 int ModeloNivel::getAnchoTiles() {
 	return this->altoTiles;
 }
@@ -93,6 +81,7 @@ void ModeloNivel::agregarObservadoresScroll(std::list<Observador*> listaObservad
 
 void ModeloNivel::agregarJugador(ModeloEntidad *jugador) {
 	this->listaJugadores.push_back(jugador);
+	jugador->asignarListaEntidades(&this->listaEntidades);
 }
 
 void ModeloNivel::agregarEntidad(ModeloEntidad *entidad) {

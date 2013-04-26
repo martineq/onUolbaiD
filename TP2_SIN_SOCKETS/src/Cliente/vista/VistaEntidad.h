@@ -29,7 +29,8 @@ class VistaEntidad: public Observador, public Identificable{
 		bool entraEnPantalla;
 		double xEnPantalla;
 		double yEnPantalla;
-			
+		Posicion _posicion;
+		
 		static long contador; // Para generar ID's Automáticos
 		vector<string> estados;		
 
@@ -54,6 +55,7 @@ class VistaEntidad: public Observador, public Identificable{
 		int getCodigoAnimacion(void);
 		std::list<std::list<std::string>> getListaAnimaciones(void);
 		bool getEsNecesarioRefrescar(void);
+		Posicion posicion() const;
 
 		// Setters
 		void setXEnPantalla(double scrollX);

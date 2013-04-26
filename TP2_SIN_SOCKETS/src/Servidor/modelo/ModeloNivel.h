@@ -16,7 +16,7 @@ class ModeloNivel {
 		ModeloEntidad* obtenerJugador(int id);
 		ModeloScroll* obtenerScroll(int id);
 		ModeloEntidad* obtenerEntidad(int id);
-		
+
 		void destruirListaJugadores();
 		void destruirListaEntidades();
 		void destruirListaScroll();
@@ -25,11 +25,6 @@ class ModeloNivel {
 		ModeloNivel();
 		virtual ~ModeloNivel();
 
-		// Getters
-		std::list<ModeloEntidad*> getListaJugadores();
-		std::list<ModeloScroll*> getListaScroll();
-		std::list<ModeloEntidad*> getListaEntidades();
-		
 		int getAltoTiles();
 		int getAnchoTiles();
 

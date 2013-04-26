@@ -1,5 +1,8 @@
 #include "./VistaNivel.h"
 
+bool VistaNivel::ordenadorEntidades(VistaEntidad* entidad1, VistaEntidad* entidad2) {
+	return entidad1->posicion() <= entidad2->posicion();
+}
 
 VistaNivel::VistaNivel(){
 	this->scroll = NULL;
@@ -47,12 +50,11 @@ std::list<VistaEntidad*> VistaNivel::getListaEntidades(void){
 
 void VistaNivel::agregarJugador(VistaEntidad* pJugador){
 	this->jugador = pJugador;
-	return void();
 }
 
 void VistaNivel::agregarEntidad(VistaEntidad* pEntidad){
 	this->listaEntidades.push_back(pEntidad);
-	return void();
+	this->listaEntidades.sort(VistaNivel::ordenadorEntidades);
 }
 
 void VistaNivel::agregarScroll(VistaScroll* pScroll){

@@ -14,33 +14,40 @@ bool VistaLoop::loop(VistaNivel& vistaNivel){
 	return true;
 }
 
-bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
-
-	list<VistaEntidad*> listaDeEntidades = vistaNivel.getListaEntidades();	
+bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel) {
+	list<VistaEntidad*> listaDeEntidades = vistaNivel.getListaEntidades();
 	list<VistaEntidad*>::iterator it = listaDeEntidades.begin();	
+	bool jugadorDibujado = false;
 
 	vistaNivel.getScroll()->graficar(this->pantalla);
 
-	// Primero dibujo todas las entidades que no son el jugador
-	while (it != listaDeEntidades.end()){
+	while (it != listaDeEntidades.end()) {
 		VistaEntidad* unaEntidad = *it;
-		//Es necesario actualizar o porque cambio de posicion o porque se actualizo el scroll
-		
-		//if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){
-			unaEntidad->verificarBordePantalla(vistaNivel.getScroll());
-			//vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
-		//}
-
-		unaEntidad->setPantalla(this->pantalla);
-		if( unaEntidad->graficar() == false ) return false;
 		it++;
+
+		// Si el jugador esta antes que la entidad que voy a dibujar lo dibujo primero
+		if (!jugadorDibujado && (vistaNivel.getJugador()->posicion() < unaEntidad->posicion())) {
+			vistaNivel.getJugador()->verificarBordePantalla(vistaNivel.getScroll());
+			vistaNivel.getJugador()->setPantalla(this->pantalla);
+			if (!vistaNivel.getJugador()->graficar())
+				return false;
+			jugadorDibujado = true;
+		}
+
+		unaEntidad->verificarBordePantalla(vistaNivel.getScroll());
+		unaEntidad->setPantalla(this->pantalla);
+		if(!unaEntidad->graficar())
+			return false;
+	}
+	
+	// Si no dibuje el jugador lo dibujo ahora
+	if (!jugadorDibujado) {
+		vistaNivel.getJugador()->verificarBordePantalla(vistaNivel.getScroll());
+		vistaNivel.getJugador()->setPantalla(this->pantalla);
+		if (!vistaNivel.getJugador()->graficar())
+			return false;
 	}
 
-	// Al final dibujo al jugador
-	vistaNivel.getJugador()->verificarBordePantalla(vistaNivel.getScroll());
-	vistaNivel.getJugador()->setPantalla(this->pantalla);
-	if( vistaNivel.getJugador()->graficar() == false ) return false;
-	
 	if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){	
 		vistaNivel.getScroll()->setEsNecesarioRefrescar(false);		
 	}
