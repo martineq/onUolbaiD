@@ -26,7 +26,7 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel) {
 		it++;
 
 		// Si el jugador esta antes que la entidad que voy a dibujar lo dibujo primero
-		if (!jugadorDibujado && (vistaNivel.getJugador()->posicion() < unaEntidad->posicion())) {
+		if (!jugadorDibujado && VistaNivel::ordenadorEntidades(vistaNivel.getJugador(), unaEntidad)) {
 			vistaNivel.getJugador()->verificarBordePantalla(vistaNivel.getScroll());
 			vistaNivel.getJugador()->setPantalla(this->pantalla);
 			if (!vistaNivel.getJugador()->graficar())
