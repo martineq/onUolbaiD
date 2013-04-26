@@ -16,6 +16,8 @@ class ControladorLoop{
 		int clicMouseBotonDerechoAnterior;	
 		bool loopInicial;
 		bool dentroDePantalla;
+		bool teclaAApretada;
+		bool teclaSApretada;
 
 public:
 		ControladorLoop(void);

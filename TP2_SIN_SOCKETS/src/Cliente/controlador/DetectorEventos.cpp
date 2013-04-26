@@ -7,6 +7,8 @@ DetectorEventos::DetectorEventos(void){
 	this->clicMouseBotonDerecho = 0;
 	this->clicMouseBotonIzquierdo = 0;
 	this->dentroDePantalla = true;
+	this->teclaAApretada = false;
+	this->teclaSApretada = false;
 }
 
 bool DetectorEventos::getQuit() {
@@ -78,11 +80,32 @@ void DetectorEventos::detectar(){
 					*/
 			break;
 			// presiono escape
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym) {
+					case SDLK_s:								
+						this->teclaSApretada = true;							
+						break;
+					case SDLK_a:								
+						this->teclaAApretada = true;							
+						break;
+					default:
+						break;
+				}
+			break;
 			case SDL_KEYUP:
+				switch (event.key.keysym.sym){
+					case SDLK_s:
+						this->teclaSApretada = false;
+						break;
+					case SDLK_a:
+						this->teclaAApretada = false;
+						break;
+					default:
+						break;
+				}
 				if (event.key.keysym.sym == SDLK_ESCAPE)
 				quit = true;
 			break;
-			// hago clic en la ventana para cerrarla
 			case SDL_QUIT:
 				quit = true;
 			break;
@@ -90,7 +113,6 @@ void DetectorEventos::detectar(){
 		}
 	}	
 }
-
 
 int DetectorEventos::getPosicionMouseX(){
 	return this->posicionMouseX;
@@ -106,6 +128,14 @@ int DetectorEventos::getClicMouseBotonIzquierdo(){
 
 int DetectorEventos::getClicMouseBotonDerecho(){
 	return this->clicMouseBotonDerecho;
+}
+
+bool DetectorEventos::getTeclaAApretada(){
+	return this->teclaAApretada;
+}
+
+bool DetectorEventos::getTeclaSApretada(){
+	return this->teclaSApretada;
 }
 
 DetectorEventos::~DetectorEventos(void){
