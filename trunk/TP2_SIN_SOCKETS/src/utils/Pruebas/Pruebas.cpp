@@ -8,13 +8,295 @@ Pruebas::~Pruebas(void){
 
 }
 
+void Pruebas::PruebaNieblaDeGuerra(void){
+
+	// Estructura para la superficie gr√°fica, donde se va a dibujar
+	SDL_Surface *pantalla, *temp, *sprite, *pasto;
+
+	// Define un √°rea rectangular
+	SDL_Rect rcSprite, rcPasto;
+
+	// Estructura para los eventos generales (teclado, mouse, etc.)
+	SDL_Event event;
+
+	Uint8 *estadoTecla;
+	int colorkey, finJuego;
+
+	// Escribo una linea en el archivo de log
+	Log::getInstance().log(1,__FILE__,__LINE__,"Inicio de prueba SDL");
+
+	// Inicio SDL
+	SDL_Init(SDL_INIT_VIDEO);
+
+	// Seteo el nombre en la barra
+	SDL_WM_SetCaption("..::Prueba SDL::..", "<Prueba SDL>");
+
+	// Creo la ventana
+	pantalla = SDL_SetVideoMode(PANTALLA_ANCHO, PANTALLA_ALTO, 32,  SDL_HWSURFACE|SDL_DOUBLEBUF);
+
+	// Carga el sprite
+	temp   = SDL_LoadBMP(SDL_RUTA_SPRITE);
+	sprite = SDL_DisplayFormat(temp);
+	SDL_FreeSurface(temp);
+
+	// Seteo el color del sprite  y lo transforma en RLE (Run-length encoding)
+	colorkey = SDL_MapRGB(pantalla->format, 255, 0, 255);
+	SDL_SetColorKey(sprite, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorkey);
+
+	// Cargo el pasto
+	temp  = SDL_LoadBMP(SDL_RUTA_PASTO);
+	pasto = SDL_DisplayFormat(temp);
+	SDL_FreeSurface(temp);
+
+	// Seteo la posici√≥n del sprite
+	rcSprite.x = 0;
+	rcSprite.y = 0;
+
+	// Seteo la posicion anterior del sprite que voy a usar para pintar de gris.
+	int posicionAnteriorDelSpriteX = 0;
+	int posicionAnteriorDelSpriteY = 0;	
+
+	// Dibujo el pasto o sea el fondo completo
+	/*for (int x = 0; x < PANTALLA_ANCHO / TAMANIO_SPRITE; x++) {
+		for (int y = 0; y < PANTALLA_ALTO / TAMANIO_SPRITE; y++) {
+		rcPasto.x = x * TAMANIO_SPRITE;
+		rcPasto.y = y * TAMANIO_SPRITE;
+		SDL_BlitSurface(pasto, NULL, pantalla, &rcPasto);
+		}
+	}*/
+
+	//ZONA PARA DIBUJAR EL LIENZO NEGRO QUE CUBRE TODO EL NIVEL AL INICIO.
+	//creo una superficie para meter el rectangulo porque solo dibujo superficies no rectangulos
+	SDL_Surface* zonaNoDescubiertaSup = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, PANTALLA_ANCHO, PANTALLA_ALTO, 32, 0, 0, 0, 0);
+	//dibujo la superficie negra en la pantalla, no la quiero recortar asi que el primer rect es NULL
+	//quiero que pegue la superficie sobre la pantalla desde la posicion 0,0 asi que el segundo rectangulo tambien es nulo.
+	SDL_BlitSurface(zonaNoDescubiertaSup, NULL, pantalla, NULL);
+	
+	// Pongo fin del juego en falso
+	finJuego = 0;
+
+	// Variables para indicar hacia donde fue el movimiento.
+	bool seMovioHaciaLaIzquierda = false;
+	bool seMovioHaciaLaDerecha = false;
+	bool seMovioHaciaAbajo = false;
+	bool seMovioHaciaArriba = false;
+
+	// Tomo las acciones
+	while (!finJuego)
+	{
+		//me guardo la posicion anterior para dibujar la zona no visible pero descubierta
+		posicionAnteriorDelSpriteX = rcSprite.x;
+		posicionAnteriorDelSpriteY = rcSprite.y;
+
+		// Miro si hay un evento <event>
+		if (SDL_PollEvent(&event)) {
+			// Encontr√≥ un evento
+			switch (event.type) {
+			// Se presion√≥ el bot√≥n de salir
+			case SDL_QUIT:
+				finJuego = 1;
+				break;
+
+			// Manejo eventos del teclado
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym) {
+				case SDLK_ESCAPE:
+				case SDLK_q:
+					finJuego = 1;
+					break;
+				}
+				break;
+			}
+		}
+
+		// Manejo el movimiento del Sprite
+		estadoTecla = SDL_GetKeyState(NULL);
+		if (estadoTecla[SDLK_LEFT] ) {
+			rcSprite.x -= 2;
+			seMovioHaciaLaIzquierda = true;
+			seMovioHaciaLaDerecha = false;
+			seMovioHaciaAbajo= false;
+			seMovioHaciaArriba = false;			
+		}
+		if (estadoTecla[SDLK_RIGHT] ) {
+			rcSprite.x += 2;
+			seMovioHaciaLaDerecha = true;
+			seMovioHaciaAbajo= false;
+			seMovioHaciaArriba = false;			
+			seMovioHaciaLaIzquierda = false;
+		}
+		if (estadoTecla[SDLK_UP] ) {
+			rcSprite.y -= 2;
+			seMovioHaciaArriba = true;
+			seMovioHaciaLaIzquierda = false;
+			seMovioHaciaLaDerecha = false;
+			seMovioHaciaAbajo= false;
+		}
+		if (estadoTecla[SDLK_DOWN] ) {
+			rcSprite.y += 2;
+			seMovioHaciaAbajo= true;
+			seMovioHaciaArriba = false;
+			seMovioHaciaLaDerecha = false;
+			seMovioHaciaLaIzquierda = false;
+		}
+
+		// Hago conincidir con los bordes de la pantalla
+		if ( rcSprite.x < 0 ) {
+			rcSprite.x = 0;
+		}
+		else if ( rcSprite.x > PANTALLA_ANCHO-TAMANIO_SPRITE ) {
+			rcSprite.x = PANTALLA_ANCHO-TAMANIO_SPRITE;
+		}
+		if ( rcSprite.y < 0 ) {
+			rcSprite.y = 0;
+		}
+		else if ( rcSprite.y > PANTALLA_ALTO-TAMANIO_SPRITE ) {
+			rcSprite.y = PANTALLA_ALTO-TAMANIO_SPRITE;
+		}
+
+		// Dibujo el pasto visible por el personaje
+		for (int x = rcSprite.x - TAMANIO_SPRITE; x < rcSprite.x + 2*TAMANIO_SPRITE; x+=TAMANIO_SPRITE) {
+			for (int y = rcSprite.y - TAMANIO_SPRITE; y < rcSprite.y + 2*TAMANIO_SPRITE; y+=TAMANIO_SPRITE) {
+				rcPasto.x = x;
+				rcPasto.y = y;
+				SDL_BlitSurface(pasto, NULL, pantalla, &rcPasto);
+			}
+		}
+		
+		// Dibujo el sprite
+		SDL_BlitSurface(sprite, NULL, pantalla, &rcSprite);	
+
+		//ZONA PARA DIBUJAR LA ZONA GRIS NO VISIBLE PERO DESCUBIERTA			
+		//obtengo color gris
+		Uint32 colorGris = SDL_MapRGB(pantalla->format, 127, 127, 127);
+		//creo un rectangulo que va a hacer la zona visible del personaje
+		SDL_Rect zonaDescubiertaNoVisibleRect;
+		//quiero encajar este rectangulo en la pantalla y sobre el personaje (x,y) y hacer un area visible (w,h)
+		if (rcSprite.x > posicionAnteriorDelSpriteX) {
+			zonaDescubiertaNoVisibleRect.x = posicionAnteriorDelSpriteX - TAMANIO_SPRITE; 
+			zonaDescubiertaNoVisibleRect.y = rcSprite.y - TAMANIO_SPRITE; 
+			zonaDescubiertaNoVisibleRect.w = 2; 
+			zonaDescubiertaNoVisibleRect.h = 3*TAMANIO_SPRITE;
+			//creo una superficie para meter el rectangulo porque solo dibujo superficies no rectangulos
+			SDL_Surface* zonaDescubiertaNoVisibleSup = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 2, 3*TAMANIO_SPRITE, 32, 0, 0, 0, 0);
+			//seteo la transparencia de la superfice a la mitad
+			SDL_SetAlpha(zonaDescubiertaNoVisibleSup, SDL_SRCALPHA|SDL_RLEACCEL, 255);
+			//relleno la superficie con el rectangulo
+			SDL_FillRect(zonaDescubiertaNoVisibleSup, NULL, colorGris);	
+			//dibujo la superficie negra en la pantalla, no la quiero recortar asi que el primer rect es NULL
+			//pero el segundo rectangulo no es NULL porque quiero que vaya sobre el sprite.
+			SDL_BlitSurface(zonaDescubiertaNoVisibleSup, NULL, pantalla, &zonaDescubiertaNoVisibleRect);	
+			SDL_FreeSurface(zonaDescubiertaNoVisibleSup);
+		}
+		if (rcSprite.x < posicionAnteriorDelSpriteX) {
+			zonaDescubiertaNoVisibleRect.x = posicionAnteriorDelSpriteX + 2*TAMANIO_SPRITE - 2; 
+			zonaDescubiertaNoVisibleRect.y = rcSprite.y - TAMANIO_SPRITE; 
+			zonaDescubiertaNoVisibleRect.w = 2; 
+			zonaDescubiertaNoVisibleRect.h = 3*TAMANIO_SPRITE;
+			//creo una superficie para meter el rectangulo porque solo dibujo superficies no rectangulos
+			SDL_Surface* zonaDescubiertaNoVisibleSup = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 2, 3*TAMANIO_SPRITE, 32, 0, 0, 0, 0);
+			//seteo la transparencia de la superfice a la mitad
+			SDL_SetAlpha(zonaDescubiertaNoVisibleSup, SDL_SRCALPHA|SDL_RLEACCEL, 255);
+			//relleno la superficie con el rectangulo
+			SDL_FillRect(zonaDescubiertaNoVisibleSup, NULL, colorGris);	
+			//dibujo la superficie negra en la pantalla, no la quiero recortar asi que el primer rect es NULL
+			//pero el segundo rectangulo no es NULL porque quiero que vaya sobre el sprite.
+			SDL_BlitSurface(zonaDescubiertaNoVisibleSup, NULL, pantalla, &zonaDescubiertaNoVisibleRect);	
+			SDL_FreeSurface(zonaDescubiertaNoVisibleSup);
+		}
+		if (rcSprite.y < posicionAnteriorDelSpriteY) {
+			zonaDescubiertaNoVisibleRect.x = rcSprite.x - TAMANIO_SPRITE; 
+			zonaDescubiertaNoVisibleRect.y = posicionAnteriorDelSpriteY + 2*TAMANIO_SPRITE - 2; 
+			zonaDescubiertaNoVisibleRect.w = 3*TAMANIO_SPRITE; 
+			zonaDescubiertaNoVisibleRect.h = 2;
+			//creo una superficie para meter el rectangulo porque solo dibujo superficies no rectangulos
+			SDL_Surface* zonaDescubiertaNoVisibleSup = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 3*TAMANIO_SPRITE, 2, 32, 0, 0, 0, 0);
+			//seteo la transparencia de la superfice a la mitad
+			SDL_SetAlpha(zonaDescubiertaNoVisibleSup, SDL_SRCALPHA|SDL_RLEACCEL, 255);
+			//relleno la superficie con el rectangulo
+			SDL_FillRect(zonaDescubiertaNoVisibleSup, NULL, colorGris);	
+			//dibujo la superficie negra en la pantalla, no la quiero recortar asi que el primer rect es NULL
+			//pero el segundo rectangulo no es NULL porque quiero que vaya sobre el sprite.
+			SDL_BlitSurface(zonaDescubiertaNoVisibleSup, NULL, pantalla, &zonaDescubiertaNoVisibleRect);	
+			SDL_FreeSurface(zonaDescubiertaNoVisibleSup);
+		}
+		if (rcSprite.y > posicionAnteriorDelSpriteY) {
+			zonaDescubiertaNoVisibleRect.x = rcSprite.x - TAMANIO_SPRITE; 
+			zonaDescubiertaNoVisibleRect.y = posicionAnteriorDelSpriteY - TAMANIO_SPRITE; 
+			zonaDescubiertaNoVisibleRect.w = 3*TAMANIO_SPRITE; 
+			zonaDescubiertaNoVisibleRect.h = 2;
+			//creo una superficie para meter el rectangulo porque solo dibujo superficies no rectangulos
+			SDL_Surface* zonaDescubiertaNoVisibleSup = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 3*TAMANIO_SPRITE, 2, 32, 0, 0, 0, 0);
+			//seteo la transparencia de la superfice a la mitad
+			SDL_SetAlpha(zonaDescubiertaNoVisibleSup, SDL_SRCALPHA|SDL_RLEACCEL, 255);
+			//relleno la superficie con el rectangulo
+			SDL_FillRect(zonaDescubiertaNoVisibleSup, NULL, colorGris);	
+			//dibujo la superficie negra en la pantalla, no la quiero recortar asi que el primer rect es NULL
+			//pero el segundo rectangulo no es NULL porque quiero que vaya sobre el sprite.
+			SDL_BlitSurface(zonaDescubiertaNoVisibleSup, NULL, pantalla, &zonaDescubiertaNoVisibleRect);	
+			SDL_FreeSurface(zonaDescubiertaNoVisibleSup);
+		}			
+		
+		/*
+		//ZONA PARA DIBUJAR LOS 3 RECTANGULOS DE ARRIBA
+		//obtengo el color
+		Uint32 unColor = SDL_MapRGB(pantalla->format, 255, 128, 128);
+		//creo una superficie
+		SDL_Surface* unaSuperficie = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 96, 96, 32, 0, 0, 0, 0);
+		//creo un rectangulo
+		SDL_Rect unRectangulo;
+		//seteo el lugar de la superficie donde quiero encajar el rectangulo (x,y) y su tama√±o (w,h)
+		unRectangulo.x = 0; unRectangulo.y = 0; unRectangulo.w = 96; unRectangulo.h = 96;
+		//seteo la transparencia de la superfice 0 es transparente, 255 es opaco
+		SDL_SetAlpha(unaSuperficie, SDL_SRCALPHA|SDL_RLEACCEL, 128);
+		//relleno el rectangulo del color y lo dibujo en la superficie. Si no le paso ningun rectangulo pinta la superficie completa. 
+		//o sea aca lo que hago es pintar la superficie.
+		SDL_FillRect(unaSuperficie, NULL, unColor);		
+		//dibuja la superficie en la pantalla pero recortandola segun los rectangulos que ponga. 
+		//del primer rectangulo toma x,y,w,h y recorta la superficie. Del segundo toma la posicion para colocar en la pantalla lo que recorto.
+		SDL_BlitSurface(unaSuperficie, NULL, pantalla, NULL);	
+
+		Uint32 otroColor = SDL_MapRGB(pantalla->format, 128, 255, 128);
+		SDL_Surface* otraSuperficie = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 96, 96, 32, 0, 0, 0, 0);
+		SDL_Rect otroRectangulo;
+		otroRectangulo.x = 250; otroRectangulo.y = 0; otroRectangulo.w = 96; otroRectangulo.h = 96;
+		SDL_SetAlpha(otraSuperficie, SDL_SRCALPHA|SDL_RLEACCEL, 128);
+		SDL_FillRect(otraSuperficie, NULL, otroColor);		
+		SDL_BlitSurface(otraSuperficie, NULL, pantalla, &otroRectangulo);	
+
+		Uint32 otroColorMas = SDL_MapRGB(pantalla->format, 128, 128, 255);
+		SDL_Surface* otraSuperficieMas = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 96, 96, 32, 0, 0, 0, 0);
+		SDL_Rect otroRectanguloMas;
+		otroRectanguloMas.x = 500; otroRectanguloMas.y = 0; otroRectanguloMas.w = 96; otroRectanguloMas.h = 96;
+		SDL_SetAlpha(otraSuperficieMas, SDL_SRCALPHA|SDL_RLEACCEL, 128);
+		SDL_FillRect(otraSuperficieMas, NULL, otroColorMas);		
+		SDL_BlitSurface(otraSuperficieMas, NULL, pantalla, &otroRectanguloMas);	
+
+		*/
+
+		// Refresco la pantalla		
+		SDL_Flip (pantalla);	
+		//SDL_FreeSurface(unaSuperficie); SDL_FreeSurface(otraSuperficie); SDL_FreeSurface(otraSuperficieMas);
+		//SDL_FreeSurface(zonaDescubiertaNoVisibleSup);
+		//SDL_UpdateRect(pantalla, 0, 0, 0, 0);
+		
+	}
+
+	// Limpio la superficie
+	SDL_FreeSurface(sprite);
+	SDL_FreeSurface(pasto);	
+
+	// Salgo del SDL
+	SDL_Quit();
+
+}
 
 void Pruebas::PruebaSdl(void){
 
-	// Estructura para la superficie gr·fica, donde se va a dibujar
+	// Estructura para la superficie gr√°fica, donde se va a dibujar
 	SDL_Surface *pantalla, *temp, *sprite, *pasto;
 
-	// Define un ·rea rectangular
+	// Define un √°rea rectangular
 	SDL_Rect rcSprite, rcPasto;
 
 	// Estructura para los eventos generales (teclado, mouse, etc.)
@@ -49,7 +331,7 @@ void Pruebas::PruebaSdl(void){
 	pasto = SDL_DisplayFormat(temp);
 	SDL_FreeSurface(temp);
 	
-	// Seteo la posiciÛn del sprite
+	// Seteo la posici√≥n del sprite
 	rcSprite.x = 0;
 	rcSprite.y = 0;
 
@@ -61,9 +343,9 @@ void Pruebas::PruebaSdl(void){
 	{
 	// Miro si hay un evento <event>
 	if (SDL_PollEvent(&event)) {
-	  // EncontrÛ un evento
+	  // Encontr√≥ un evento
 	  switch (event.type) {
-		// Se presionÛ el botÛn de salir
+		// Se presion√≥ el bot√≥n de salir
 		case SDL_QUIT:
 		  finJuego = 1;
 		  break;
@@ -149,8 +431,8 @@ void Pruebas::PruebaHilos(void){
 	HiloDePrueba hiloUno;
 	HiloDePrueba hiloDos;
 
-	// Lanzo los hilos. Si lo necesito puedo pasar por par·metro un void*
-	// para luego ser usado en la implementaciÛn del run(void*) HiloDePrueba
+	// Lanzo los hilos. Si lo necesito puedo pasar por par√°metro un void*
+	// para luego ser usado en la implementaci√≥n del run(void*) HiloDePrueba
 	hiloUno.start(NULL);
 	hiloDos.start(NULL);
 	
@@ -355,9 +637,9 @@ void Pruebas::PruebaAnimacion(){
 	{
 	// Miro si hay un evento <event>
 	if (SDL_PollEvent(&event)) {
-	  // EncontrÛ un evento
+	  // Encontr√≥ un evento
 	  switch (event.type) {
-		// Se presionÛ el botÛn de salir
+		// Se presion√≥ el bot√≥n de salir
 		case SDL_QUIT:
 		  finJuego = 1;
 		  break;
@@ -437,7 +719,7 @@ void Pruebas::dibujarTriangulos(SDL_Surface* pantalla, int alto,int ancho,
 	int infAIni,int infAFin,int infBIni,int infBFin,int izqAIni,int izqAFin,int izqBIni,int izqBFin,
 	int rojo, int verde, int azul,int alfa){
 
-	// Dibujo un triangulo sÛlido en la pantalla
+	// Dibujo un triangulo s√≥lido en la pantalla
 	// Draw a filled triangle with vertices (x1, y1), (x2, y2), (x3, y3) and RGBA color (r, g, b, a)
 	//int filledTrigonRGBA(SDL_Surface* dst,Sint16 x1, Sint16 y1,Sint16 x2, Sint16 y2,Sint16 x3, Sint16 y3, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
