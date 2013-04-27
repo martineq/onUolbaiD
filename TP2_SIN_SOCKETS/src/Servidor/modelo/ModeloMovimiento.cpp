@@ -78,9 +78,12 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 	int desvioOeste = this->_modeloEntidad->posicionActual().x - modeloEntidad->posicionActual().x + 1;
 	int desvioEste = modeloEntidad->posicionActual().x + modeloEntidad->ancho() - this->_modeloEntidad->posicionActual().x;
 
-	if (this->_modeloEntidad->direccion() == ESTE) {
+	// Choco con cara norte
+	if (this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x) {
+		// Si el obstaculo esta en el inicio del nivel
 		if (modeloEntidad->posicionActual().y == 0)
 			posicionDestino.y += desvioSur;
+		// Si el obstaculo llega hasta el fin del nivel
 		else if (modeloEntidad->posicionActual().y + modeloEntidad->alto() == this->_altoNivel)
 			posicionDestino.y -= desvioNorte;
 		else if (direccion == ESTE) {
@@ -98,7 +101,8 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		else
 			return false;
 	}
-	else if (this->_modeloEntidad->direccion() == OESTE) {
+	// Choco con cara sur
+	else if (this->_modeloEntidad->posicionActual().x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho()) {
 		if (modeloEntidad->posicionActual().y == 0)
 			posicionDestino.y += desvioSur;
 		else if (modeloEntidad->posicionActual().y + modeloEntidad->alto() == this->_altoNivel)
@@ -118,7 +122,8 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		else
 			return false;
 	}
-	else if (this->_modeloEntidad->direccion() == NORTE) {
+	// Choco con cara este
+	else if (this->_modeloEntidad->posicionActual().y >= modeloEntidad->posicionActual().y + modeloEntidad->alto()) {
 		if (modeloEntidad->posicionActual().x == 0)
 			posicionDestino.x += desvioEste;
 		else if (modeloEntidad->posicionActual().x + modeloEntidad->ancho() == this->_anchoNivel)
@@ -138,7 +143,8 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		else
 			false;
 	}
-	else if (this->_modeloEntidad->direccion() == SUR) {
+	// Choco con cara oeste
+	else if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y) {
 		if (modeloEntidad->posicionActual().x == 0)
 			posicionDestino.x += desvioEste;
 		else if (modeloEntidad->posicionActual().x + modeloEntidad->ancho() == this->_anchoNivel)
@@ -158,42 +164,9 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		else
 			false;
 	}
-	else if (this->_modeloEntidad->direccion() == SUDESTE) {
-		if (this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x)
-			posicionDestino.y += desvioSur;
-		else if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y)
-			posicionDestino.x += desvioEste;
-		else
-			return false;
-	}
-	else if (this->_modeloEntidad->direccion() == SUDOESTE) {
-		if (this->_modeloEntidad->posicionActual().x > modeloEntidad->posicionActual().x + modeloEntidad->ancho())
-			posicionDestino.y += desvioSur;
-		else if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y)
-			posicionDestino.x -= desvioOeste;
-		else
-			return false;
-	}
-	else if (this->_modeloEntidad->direccion() == NORESTE) {
-		if (this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x)
-			posicionDestino.y -= desvioNorte;
-		else if (this->_modeloEntidad->posicionActual().y > modeloEntidad->posicionActual().y + modeloEntidad->alto())
-			posicionDestino.x += desvioEste;
-		else
-			return false;
-		posicionDestino.x += desvioEste;
-	}
-	else if (this->_modeloEntidad->direccion() == NOROESTE) {
-		if (this->_modeloEntidad->posicionActual().x > modeloEntidad->posicionActual().x + modeloEntidad->ancho())
-			posicionDestino.y -= desvioNorte;
-		else if (this->_modeloEntidad->posicionActual().y > modeloEntidad->posicionActual().y + modeloEntidad->alto())
-			posicionDestino.x -= desvioOeste;
-		else
-			return false;
-	}
 	else
-		return false;
-
+		false;
+	
 	this->_posicionDestinoDesvio = posicionDestino;
 	this->_deltaX = abs(this->_posicionDestinoDesvio.x - this->_modeloEntidad->posicionActual().x);
 	this->_deltaY = abs(this->_posicionDestinoDesvio.y - this->_modeloEntidad->posicionActual().y);
