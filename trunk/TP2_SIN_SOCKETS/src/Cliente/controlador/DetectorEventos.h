@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <vector>
+#include <Windows.h>
 
 class DetectorEventos{
 
@@ -13,6 +14,7 @@ class DetectorEventos{
 		bool dentroDePantalla;
 		bool teclaSApretada;
 		bool teclaAApretada;
+		int ticks;
 	public:
 		DetectorEventos(void);		
 		~DetectorEventos(void);
