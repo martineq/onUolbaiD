@@ -9,6 +9,7 @@ DetectorEventos::DetectorEventos(void){
 	this->dentroDePantalla = true;
 	this->teclaAApretada = false;
 	this->teclaSApretada = false;
+	this->ticks = 0;
 }
 
 bool DetectorEventos::getQuit() {
@@ -83,10 +84,16 @@ void DetectorEventos::detectar(){
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym) {
 					case SDLK_s:								
-						this->teclaSApretada = true;							
+						if (GetTickCount() - this->ticks > 2000) {
+							this->teclaSApretada = true;
+							this->ticks = GetTickCount();
+						}
 						break;
 					case SDLK_a:								
-						this->teclaAApretada = true;							
+						if (GetTickCount() - this->ticks > 2000) {
+							this->teclaAApretada = true;
+							this->ticks = GetTickCount();
+						}							
 						break;
 					default:
 						break;
