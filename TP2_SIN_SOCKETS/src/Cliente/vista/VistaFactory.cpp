@@ -79,7 +79,8 @@ void VistaFactory::crearEntidades(ParserYaml::stJuego juego, VistaNivel& vistaNi
 		double delay = (double)entidad.delay;
 		std::list<std::list<std::string>> listaAnimaciones = entidad.imagenes;
 
-		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY);
+//		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY);
+		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,nombre);
 		vistaNivel.agregarEntidad(pEntidad);
 	}
 
