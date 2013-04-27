@@ -158,6 +158,39 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		else
 			false;
 	}
+	else if (this->_modeloEntidad->direccion() == SUDESTE) {
+		if (this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x)
+			posicionDestino.y += desvioSur;
+		else if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y)
+			posicionDestino.x += desvioEste;
+		else
+			return false;
+	}
+	else if (this->_modeloEntidad->direccion() == SUDOESTE) {
+		if (this->_modeloEntidad->posicionActual().x > modeloEntidad->posicionActual().x + modeloEntidad->ancho())
+			posicionDestino.y += desvioSur;
+		else if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y)
+			posicionDestino.x -= desvioOeste;
+		else
+			return false;
+	}
+	else if (this->_modeloEntidad->direccion() == NORESTE) {
+		if (this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x)
+			posicionDestino.y -= desvioNorte;
+		else if (this->_modeloEntidad->posicionActual().y > modeloEntidad->posicionActual().y + modeloEntidad->alto())
+			posicionDestino.x += desvioEste;
+		else
+			return false;
+		posicionDestino.x += desvioEste;
+	}
+	else if (this->_modeloEntidad->direccion() == NOROESTE) {
+		if (this->_modeloEntidad->posicionActual().x > modeloEntidad->posicionActual().x + modeloEntidad->ancho())
+			posicionDestino.y -= desvioNorte;
+		else if (this->_modeloEntidad->posicionActual().y > modeloEntidad->posicionActual().y + modeloEntidad->alto())
+			posicionDestino.x -= desvioOeste;
+		else
+			return false;
+	}
 	else
 		return false;
 
