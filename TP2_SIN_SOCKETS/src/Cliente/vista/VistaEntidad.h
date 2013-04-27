@@ -32,6 +32,8 @@ class VistaEntidad: public Observador, public Identificable{
 		std::string nombreEntidad;
 		static long contador; // Para generar ID's Automáticos
 		vector<string> estados;
+		int tileX;
+		int tileY;
 	public:
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel);
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel, std::string nombreEntidad);
@@ -51,6 +53,8 @@ class VistaEntidad: public Observador, public Identificable{
 		double getPosRefY(void);
 		double getFps(void);
 		double getDelay(void);
+		int getTileX();
+		int getTileY();
 		int getCodigoAnimacion(void);
 		std::list<std::list<std::string>> getListaAnimaciones(void);
 		bool getEsNecesarioRefrescar(void);

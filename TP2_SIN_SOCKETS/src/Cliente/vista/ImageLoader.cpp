@@ -12,38 +12,45 @@ SDL_Surface *ImageLoader::load_image( std::string filename )
 {
 	//The image that's loaded
 	SDL_Surface* loadedImage = NULL;
+	map<std::string, SDL_Surface* >::iterator it = this->surfaces.find(filename);
+	if (it != this->surfaces.end()) {
+		loadedImage = (*it).second;
+	}
 
-	//The optimized surface that will be used
-	SDL_Surface* optimizedImage = NULL;
+	if (loadedImage == NULL){
+
+		//The optimized surface that will be used
+		SDL_Surface* optimizedImage = NULL;
 	
-	//Load the image
-	loadedImage = IMG_Load( filename.c_str() );
+		//Load the image
+		loadedImage = IMG_Load( filename.c_str() );
 
-	//If the image loaded
-	if( loadedImage == NULL ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"No se cargará la siguiente imagen:");
-		Log::getInstance().log(1,__FILE__,__LINE__,filename);
-		loadedImage = IMG_Load( SDL_IMAGEN_DEFAULT );
+		//If the image loaded
+		if( loadedImage == NULL ){
+			Log::getInstance().log(1,__FILE__,__LINE__,"No se cargará la siguiente imagen:");
+			Log::getInstance().log(1,__FILE__,__LINE__,filename);
+			loadedImage = IMG_Load( SDL_IMAGEN_DEFAULT );
+		}
+
+		//Create an optimized surface
+		optimizedImage = SDL_DisplayFormatAlpha( loadedImage );
+
+		//Free the old surface
+		SDL_FreeSurface( loadedImage );
+
+		//If the surface was optimized
+		if( optimizedImage != NULL )
+		{
+			//Color key surface
+			SDL_SetColorKey( optimizedImage, SDL_SRCCOLORKEY, SDL_MapRGB( optimizedImage->format, 0, 0xFF, 0xFF ) );
+			this->surfaces.insert(std::make_pair(filename,optimizedImage));
+			//Return the optimized surface
+			return optimizedImage;
+		}else{
+			return NULL;
+		}
 	}
-
-	//Create an optimized surface
-	optimizedImage = SDL_DisplayFormatAlpha( loadedImage );
-
-	//Free the old surface
-	SDL_FreeSurface( loadedImage );
-
-	//If the surface was optimized
-	if( optimizedImage != NULL )
-	{
-		//Color key surface
-		SDL_SetColorKey( optimizedImage, SDL_SRCCOLORKEY, SDL_MapRGB( optimizedImage->format, 0, 0xFF, 0xFF ) );
-		
-		//Return the optimized surface
-		return optimizedImage;
-	}else{
-		return NULL;
-	}
-
+	return loadedImage;
 }
 
 SDL_Surface* ImageLoader::stretch(SDL_Surface *surface, double width, double height)

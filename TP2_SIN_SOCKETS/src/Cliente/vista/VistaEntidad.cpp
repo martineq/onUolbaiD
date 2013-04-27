@@ -55,6 +55,8 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->codigoAnimacion = 0;
 	this->entraEnPantalla = false;
 	//typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
+	this->tileX = 0;
+	this->tileY = 0;
 }
 
 VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel, std::string nombreEntidad){
@@ -74,16 +76,34 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 		if ((alto != 1) || (ancho != 1))
 			Log::getInstance().log(1,__FILE__,__LINE__,"El jugador no puede ocupar mas de un tile. Se setea tamanio apropiado por defecto.");
 		alto = 1;
-		ancho = 1;	
+		ancho = 1;
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_NORTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_NORESTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_ESTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_SUDESTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_SUR);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_SUDOESTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_OESTE);	
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_NOROESTE);
 
-		this->estados.push_back(nombreEntidad+ACCION_NORTE);
-		this->estados.push_back(nombreEntidad+ACCION_NORESTE);
-		this->estados.push_back(nombreEntidad+ACCION_ESTE);
-		this->estados.push_back(nombreEntidad+ACCION_SUDESTE);
-		this->estados.push_back(nombreEntidad+ACCION_SUR);
-		this->estados.push_back(nombreEntidad+ACCION_SUDOESTE);
-		this->estados.push_back(nombreEntidad+ACCION_OESTE);	
-		this->estados.push_back(nombreEntidad+ACCION_NOROESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_NORTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_NORESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_ESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_SUDESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_SUR);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_SUDOESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_OESTE);	
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_NOROESTE);
+
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_NORTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_NORESTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_ESTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_SUDESTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_SUR);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_SUDOESTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_OESTE);	
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_NOROESTE);
+
 	}else{
 		this->animaciones->setAnimacionesAutomaticas();	
 		this->estados.push_back(nombreEntidad);
@@ -96,7 +116,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->delay = delay;
 	this->esJugador = esJugador;	
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
-	this->animacionActual = NULL;
+  	this->animacionActual = NULL;
 	int i = 0;
 	for (it=listaAnimaciones.begin();it!=listaAnimaciones.end();it++){
 		this->animaciones->agregar(this->estados.at(i),*it,delay*1000,this->ancho,this->alto,fps);
@@ -130,11 +150,13 @@ void VistaEntidad::actualizar(class Observable* s){
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
 	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x;
 	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y;
+	this->tileX = ((ModeloEntidad*)s)->posicionSiguiente().x;
+	this->tileY = ((ModeloEntidad*)s)->posicionSiguiente().y;
 
 	int codigo = ((ModeloEntidad*)s)->direccion();
 	if ((this->esJugador) && (codigo != this->codigoAnimacion)){
 		this->codigoAnimacion = codigo;
-		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
+		this->animacionActual = this->animaciones->get(this->estados.at(codigo));		
 	}
 	
 	//this->esNecesarioRefrescar = true;
@@ -204,6 +226,14 @@ double VistaEntidad::getFps(void){
 
 double VistaEntidad::getDelay(void){
 	return (this->delay);
+}
+
+int VistaEntidad::getTileX(){
+	return (this->tileX);
+}
+
+int VistaEntidad::getTileY(){
+	return (this->tileY);
 }
 
 int VistaEntidad::getCodigoAnimacion(void){

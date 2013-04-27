@@ -42,6 +42,10 @@
 #define ACCION_SUDESTE "SUDESTE"
 #define ACCION_SUDOESTE "SUDOESTE"
 //#define vector<string> vector
+/************************* ACCIONES ***********************/
+#define ACCION_CAMINAR "THEWALKINGDEAD"
+#define ACCION_ATACAR "ATTACK"
+#define ACCION_DEFENDER "SHIELD"
 
 /*********************CONTROLES EN PANTALLA ******************/
 #define DEFAULT_FONT "./src/utils/Fonts/verdana.ttf"
@@ -85,6 +89,15 @@
 #define YAML_DELAY_TOPE_MAXIMO 99
 #define YAML_CANTIDAD_OBLIGATORIA_DE_ANIMACIONES_PROTAGONISTA 8
 
+
+/**************************** Tamanio serializacion ****************************/
+#define TAM_BOOL sizeof(bool)
+#define TAM_LONG sizeof(long)
+#define TAM_LONG_LONG sizeof(long long)
+#define TAM_UNSINT sizeof(unsigned int)
+#define TAM_INT sizeof(int)
+#define TAM_SINT sizeof (short int)
+#define TAM_DBL sizeof(double)
 
 /*****************************  Habilitación de info de Mutex *************************/
 #define ESTADO_IMPRIMIR_INFO_MUTEX NO_IMPRIMIR_INFO_MUTEX  // <<< Acá hago el cambio, este es el que se toca
