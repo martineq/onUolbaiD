@@ -7,6 +7,7 @@ const int SCREEN_BPP = 32;
 #include <SDL_image.h>
 #include <string>
 #include <sstream>
+#include <map>
 #include "../../utils/Log/Log.h"
 #include "../../utils/SDLgfx/SDL_rotozoom.h"
 using namespace std;
@@ -42,8 +43,8 @@ public:
 private:
 	ImageLoader();
 	ImageLoader(const ImageLoader&);
-	ImageLoader& operator =(const ImageLoader&);		
-
+	ImageLoader& operator =(const ImageLoader&);
+	map<std::string, SDL_Surface* > surfaces;
 };
 
 inline ImageLoader& ImageLoader::getInstance(){
@@ -52,3 +53,4 @@ inline ImageLoader& ImageLoader::getInstance(){
 }
 
 #endif /* IMAGELOADER_H_ */
+
