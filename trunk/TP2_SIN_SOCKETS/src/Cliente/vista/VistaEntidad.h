@@ -29,12 +29,12 @@ class VistaEntidad: public Observador, public Identificable{
 		bool entraEnPantalla;
 		double xEnPantalla;
 		double yEnPantalla;
-		
+		std::string nombreEntidad;
 		static long contador; // Para generar ID's Automáticos
-		vector<string> estados;		
-
+		vector<string> estados;
 	public:
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel);
+		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel, std::string nombreEntidad);
 		~VistaEntidad(void);
 
 		void actualizar(class Observable* s);

@@ -57,6 +57,62 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	//typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
 }
 
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel, std::string nombreEntidad){
+	this->_id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
+	
+	int xAux, yAux;
+
+	Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
+	
+	this->posicionReferenciaX = posicionReferenciaX;
+	this->posicionReferenciaY = posicionReferenciaY;
+	this->x = xAux;
+	this->y = yAux;
+
+	this->animaciones = new VistaAnimaciones();
+	if (esJugador) {
+		if ((alto != 1) || (ancho != 1))
+			Log::getInstance().log(1,__FILE__,__LINE__,"El jugador no puede ocupar mas de un tile. Se setea tamanio apropiado por defecto.");
+		alto = 1;
+		ancho = 1;	
+
+		this->estados.push_back(nombreEntidad+ACCION_NORTE);
+		this->estados.push_back(nombreEntidad+ACCION_NORESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ESTE);
+		this->estados.push_back(nombreEntidad+ACCION_SUDESTE);
+		this->estados.push_back(nombreEntidad+ACCION_SUR);
+		this->estados.push_back(nombreEntidad+ACCION_SUDOESTE);
+		this->estados.push_back(nombreEntidad+ACCION_OESTE);	
+		this->estados.push_back(nombreEntidad+ACCION_NOROESTE);
+	}else{
+		this->animaciones->setAnimacionesAutomaticas();	
+		this->estados.push_back(nombreEntidad);
+	}
+
+	this->alto = alto * ALTO_TILE; 
+	this->ancho = ancho * ANCHO_TILE;
+
+	this->fps = fps;
+	this->delay = delay;
+	this->esJugador = esJugador;	
+	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
+	this->animacionActual = NULL;
+	int i = 0;
+	for (it=listaAnimaciones.begin();it!=listaAnimaciones.end();it++){
+		this->animaciones->agregar(this->estados.at(i),*it,delay*1000,this->ancho,this->alto,fps);
+		if (this->animacionActual == NULL){
+			this->animacionActual = this->animaciones->get(this->estados.at(i));
+		}
+		i++;
+	}
+	if (this->esJugador)
+		this->animacionActual = this->animaciones->get(this->estados.at(SUR));
+	this->esNecesarioRefrescar = false;
+	this->codigoAnimacion = 0;
+	this->entraEnPantalla = false;	
+}
+
+
 VistaEntidad::~VistaEntidad(void){
 	if (this->animaciones != NULL) delete this->animaciones;
 	this->animaciones = NULL;
