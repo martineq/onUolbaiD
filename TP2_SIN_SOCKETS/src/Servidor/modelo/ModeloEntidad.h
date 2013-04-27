@@ -10,7 +10,7 @@
 #include "../../utils/Observador/Identificable.h"
 #include "../../utils/Posicion/Posicion.h"
 
-typedef enum Direccion { NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE, NOROESTE };
+typedef enum Direccion { NOROESTE, NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE };
 
 class ModeloEntidad : public Observable, public Identificable {
 	private:
@@ -18,6 +18,8 @@ class ModeloEntidad : public Observable, public Identificable {
 		
 		class ModeloMovimiento : public Observable {
 			private:
+				int _altoNivel;
+				int _anchoNivel;
 				ModeloEntidad* _modeloEntidad;
 				std::list<ModeloEntidad*>* _listaEntidades;
 				Posicion _posicionDestino;
@@ -29,15 +31,25 @@ class ModeloEntidad : public Observable, public Identificable {
 				int _desplazamientoErrorX;
 				int _desplazamientoErrorY;
 				DWORD _instanteUltimoCambioEstado;
+
+				Posicion _posicionDestinoDesvio;
 				
 				Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino);
+
+				Posicion obtenerPosicionSiguiente();
+
+				ModeloEntidad* detectarColision(Posicion posicion);
+
+				bool calcularDesvio(ModeloEntidad* modeloEntidad);
+
+				bool resolviendoDesvio() const;
 
 				ModeloMovimiento(const ModeloMovimiento &modeloMovimiento);
 
 				ModeloMovimiento& operator=(const ModeloMovimiento &modeloMovimiento);
 
 			public:
-				ModeloMovimiento(ModeloEntidad* modeloEntidad);
+				ModeloMovimiento(int altoNivel, int anchoNivel, ModeloEntidad* modeloEntidad);
 
 				virtual ~ModeloMovimiento();
 
@@ -109,7 +121,7 @@ class ModeloEntidad : public Observable, public Identificable {
 		void direccion(Direccion direccion);
 
 	public:
-		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoMapa, int anchoMapa, int fps);
+		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps);
 
 		virtual ~ModeloEntidad();
 

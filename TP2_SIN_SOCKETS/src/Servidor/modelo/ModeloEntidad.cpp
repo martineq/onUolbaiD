@@ -35,21 +35,21 @@ void ModeloEntidad::direccion(Direccion direccion) {
 	this->_direccion = direccion;
 }
 
-ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoMapa, int anchoMapa, int fps) {
+ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps) {
 	this->_id = (int)InterlockedIncrement(&this->_ultimoId);
 	this->_alto = alto;
 	this->_ancho = ancho;
 	this->_velocidad = velocidad;
 	this->_posicionActual = posicion;
 	this->_posicionSiguiente = posicion;
-	this->_modeloMovimiento = new ModeloMovimiento(this);
-	this->_vistaMovimiento = new VistaMovimiento(this, altoMapa, anchoMapa, fps);
-	this->_altoMapa = altoMapa;
-	this->_anchoMapa = anchoMapa;
+	this->_modeloMovimiento = new ModeloMovimiento(altoNivel, anchoNivel, this);
+	this->_vistaMovimiento = new VistaMovimiento(this, altoNivel, anchoNivel, fps);
+	this->_altoMapa = altoNivel;
+	this->_anchoMapa = anchoNivel;
 
 	this->_direccion = SUR;
-	Posicion::convertirTileAPixel(altoMapa, this->_posicionActual.x, this->_posicionActual.y, this->_pixelActual.x, this->_pixelActual.y);
-	Posicion::convertirTileAPixel(altoMapa, this->_posicionSiguiente.x, this->_posicionSiguiente.y, this->_pixelSiguiente.x, this->_pixelSiguiente.y);
+	Posicion::convertirTileAPixel(altoNivel, this->_posicionActual.x, this->_posicionActual.y, this->_pixelActual.x, this->_pixelActual.y);
+	Posicion::convertirTileAPixel(altoNivel, this->_posicionSiguiente.x, this->_posicionSiguiente.y, this->_pixelSiguiente.x, this->_pixelSiguiente.y);
 
 	this->_modeloMovimiento->agregarObservador(this->_vistaMovimiento);
 }
