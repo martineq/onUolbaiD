@@ -68,6 +68,7 @@ ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posici
 }
 
 bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntidad) {
+	// Si estoy en el medio de un desvio no lo vuelvo a calcular
 	if (this->resolviendoDesvio())
 		return false;
 	
@@ -103,8 +104,10 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 	}
 	// Choco con cara sur
 	else if (this->_modeloEntidad->posicionActual().x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho()) {
+		// Si el obstaculo esta en el inicio del nivel
 		if (modeloEntidad->posicionActual().y == 0)
 			posicionDestino.y += desvioSur;
+		// Si el obstaculo llega hasta el fin del nivel
 		else if (modeloEntidad->posicionActual().y + modeloEntidad->alto() == this->_altoNivel)
 			posicionDestino.y -= desvioNorte;
 		else if (direccion == OESTE) {
@@ -124,8 +127,10 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 	}
 	// Choco con cara este
 	else if (this->_modeloEntidad->posicionActual().y >= modeloEntidad->posicionActual().y + modeloEntidad->alto()) {
+		// Si el obstaculo esta en el inicio del nivel
 		if (modeloEntidad->posicionActual().x == 0)
 			posicionDestino.x += desvioEste;
+		// Si el obstaculo llega hasta el fin del nivel
 		else if (modeloEntidad->posicionActual().x + modeloEntidad->ancho() == this->_anchoNivel)
 			posicionDestino.x -= desvioOeste;
 		else if (direccion == NORTE) {
@@ -145,8 +150,10 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 	}
 	// Choco con cara oeste
 	else if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y) {
+		// Si el obstaculo esta en el inicio del nivel
 		if (modeloEntidad->posicionActual().x == 0)
 			posicionDestino.x += desvioEste;
+		// Si el obstaculo llega hasta el fin del nivel
 		else if (modeloEntidad->posicionActual().x + modeloEntidad->ancho() == this->_anchoNivel)
 			posicionDestino.x -= desvioOeste;
 		else if (direccion == SUR) {
@@ -235,11 +242,9 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	if (this->_modeloEntidad->velocidad() > (GetTickCount() - this->_instanteUltimoCambioEstado))
 		return;
 
-	if (this->resolviendoDesvio() && (this->_modeloEntidad->posicionActual() == this->_posicionDestinoDesvio)) {
-		this->_posicionDestino = this->_modeloEntidad->posicionActual();
-		this->_posicionDestinoDesvio = this->_posicionDestino;
-		return;
-	}
+	// Si ya resolvi el desvio vuelvo a asignar la posicion destino
+	if (this->resolviendoDesvio() && (this->_modeloEntidad->posicionActual() == this->_posicionDestinoDesvio))
+		this->actualizar(this->_posicionDestino);
 
 	Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
 	this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
