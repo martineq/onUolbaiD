@@ -181,24 +181,22 @@ bool SocketServidor::inciarServidor(int puerto){
 	return true;
 }
 
-bool SocketServidor::selectLectura(void){
-	return this->miConexion.selectLectura();
-}
-
-bool SocketServidor::selectEscritura(void){
-	return this->miConexion.selectEscritura();
-}
-
 // Acepta a un cliente que quiera conectarse al servidor
-// Si la conexión fue exitosa devuelve el ID de la conexión. En caso erróneo devuelve un ID inválido (-1)
+// Si la conexión fue exitosa devuelve el ID de la conexión. En otro caso devuelve un valor menor a 0
+// En caso de Time Out devuelve el valor ACEPTAR_TIMEOUT
+// En caso erróneo devuelve el valor ACEPTAR_ERROR
 long SocketServidor::aceptarCliente(){
 
 	ConexionCliente* cliente = new ConexionCliente;
+
+	// Usa el select() para no quedar bloqueado por el accept(). Con esto solo hago accept sii hay un cliente que quiere conectarse
+	if( this->miConexion.selectLectura() == false ) return ACEPTAR_TIMEOUT;
+
 	bool aceptoOk = this->miConexion.aceptarCliente(cliente);
 
 	if ( aceptoOk == false ){
 		delete cliente;
-		return -1;
+		return ACEPTAR_ERROR;
 	}else{
 		this->mutexConexionClientes.lockEscritura(__FILE__,__LINE__);
 		this->conexionClientes.push_back(cliente);

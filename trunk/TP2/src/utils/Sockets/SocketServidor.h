@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./ConexionServidor.h"
+#include "../Constantes/Constantes.h"
 #include "../Timer/Timer.h"
 #include "../Timer/Temporizador.h"
 
@@ -34,8 +35,6 @@ class SocketServidor{
 		bool inciarServidor(int puerto);
 
 		// Para aceptar/eliminar clientes, identificar los clientes erróneos
-		bool selectLectura(void);
-		bool selectEscritura(void);
 		long aceptarCliente();
 		bool eliminarCliente(long idCliente);
 		std::list<long> getNuevosClientesErroneos(void);
