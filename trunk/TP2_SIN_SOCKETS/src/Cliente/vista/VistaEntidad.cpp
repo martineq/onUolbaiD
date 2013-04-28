@@ -55,8 +55,8 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->codigoAnimacion = 0;
 	this->entraEnPantalla = false;
 	//typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
-	this->tileX = 0;
-	this->tileY = 0;
+	this->tileX = x;
+	this->tileY = y;
 }
 
 VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel, std::string nombreEntidad){
@@ -129,7 +129,9 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 		this->animacionActual = this->animaciones->get(this->estados.at(SUR));
 	this->esNecesarioRefrescar = false;
 	this->codigoAnimacion = 0;
-	this->entraEnPantalla = false;	
+	this->entraEnPantalla = false;
+	this->tileX = x;
+	this->tileY = y;
 }
 
 
