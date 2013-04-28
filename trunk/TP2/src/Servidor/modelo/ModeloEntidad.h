@@ -2,8 +2,7 @@
 
 #include <math.h>
 #include <iostream>
-#include <Windows.h>
-#include <WinSock.h>
+#include <winsock.h>
 
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"

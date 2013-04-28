@@ -15,6 +15,7 @@
 #include "../../Cliente/vista/VistaAnimaciones.h"
 #include "../../Cliente/vista/VistaEntidad.h"
 #include "../SDLgfx/SDL_gfxPrimitives.h"
+#include "../Sockets/MenuSocket.h"
 
 class Pruebas{
 
@@ -34,5 +35,6 @@ class Pruebas{
 		void PruebaModeloEntidad(void);
 		void PruebaHilos(void);
 		void PruebaAnimacion(void);
+		void PruebaSockets(void);
 
 };

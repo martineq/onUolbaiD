@@ -482,3 +482,9 @@ void Pruebas::dibujarTriangulos(SDL_Surface* pantalla, int alto,int ancho,
 	}
 
 }
+
+void Pruebas::PruebaSockets(void){
+	MenuSocket ms;
+	ms.prueba();
+	return void();
+}
