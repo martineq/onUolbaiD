@@ -85,6 +85,14 @@
 #define YAML_DELAY_TOPE_MAXIMO 99
 #define YAML_CANTIDAD_OBLIGATORIA_DE_ANIMACIONES_PROTAGONISTA 8
 
+/*****************************  Serializacion *****************************************/
+#define TAM_BOOL sizeof(bool)
+#define TAM_LONG sizeof(long)
+#define TAM_LONG_LONG sizeof(long long)
+#define TAM_UNSINT sizeof(unsigned int)
+#define TAM_INT sizeof(int)
+#define TAM_SINT sizeof (short int)
+#define TAM_DBL sizeof(double)
 
 /*****************************  Habilitación de info de Mutex *************************/
 #define ESTADO_IMPRIMIR_INFO_MUTEX NO_IMPRIMIR_INFO_MUTEX  // <<< Acá hago el cambio, este es el que se toca

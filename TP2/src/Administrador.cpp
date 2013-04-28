@@ -64,4 +64,5 @@ void Administrador::correrPruebas(void){
 	//p.PruebaControladorJuego();
 	//p.PruebaHilos();
 	//p.PruebaAnimacion();
+	p.PruebaSockets();
 }
