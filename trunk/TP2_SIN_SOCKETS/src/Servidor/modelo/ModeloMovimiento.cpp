@@ -218,6 +218,19 @@ ModeloEntidad::ModeloMovimiento::~ModeloMovimiento() {
 }
 
 void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
+	// Si la posicion destino pertenece a una entidad me muevo una posicion antes
+	ModeloEntidad* modeloEntidad = this->detectarColision(posicionDestino);
+	if (modeloEntidad != NULL) {
+		if (this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x)
+			posicionDestino.x = modeloEntidad->posicionActual().x - 1;
+		else if (this->_modeloEntidad->posicionActual().x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho())
+			posicionDestino.x = modeloEntidad->posicionActual().x + modeloEntidad->ancho();
+		else if (this->_modeloEntidad->posicionActual().y >= modeloEntidad->posicionActual().y + modeloEntidad->alto())
+			posicionDestino.y = modeloEntidad->posicionActual().y + modeloEntidad->alto();
+		else if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y)
+			posicionDestino.y = modeloEntidad->posicionActual().y - 1;
+	}
+
 	this->_posicionDestino = posicionDestino;
 	this->_posicionDestinoDesvio = this->_posicionDestino;
 	this->_deltaX = abs(this->_posicionDestino.x - this->_modeloEntidad->posicionActual().x);

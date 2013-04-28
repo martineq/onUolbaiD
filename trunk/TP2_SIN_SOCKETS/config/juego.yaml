@@ -151,7 +151,7 @@ escenarios:
       size_x: 200 #tiles
       size_y: 200 #tiles
       entidadesDef:
-        - {x: 3, y: 40, entidad: castillo}
+        - {x: 4, y: 40, entidad: castillo}
         - {x: 1, y: 42, entidad: molino}
       protagonista:
         - entidad: guerrero
