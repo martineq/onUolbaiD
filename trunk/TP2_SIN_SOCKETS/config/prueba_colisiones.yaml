@@ -1,0 +1,48 @@
+﻿# Archivo de configuración
+pantalla:
+    ancho: 800 #pixels
+    alto: 600 #pixels
+configuracion:
+    vel_personaje : 200
+    margen_scroll : 20
+entidades:
+    - nombre: agua
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 3 #tiles
+      alto_base: 3 #tiles
+      imagen:
+        - [agua.png]
+    - nombre: violeta
+      imagen:
+        - [6Actor_N1.png,6Actor_N2.png,6Actor_N3.png,6Actor_N4.png,6Actor_N5.png,6Actor_N6.png]
+        - [6Actor_NE1.png,6Actor_NE2.png,6Actor_NE3.png,6Actor_NE4.png,6Actor_NE5.png,6Actor_NE6.png]
+        - [6Actor_E1.png,6Actor_E2.png,6Actor_E3.png,6Actor_E4.png,6Actor_E5.png,6Actor_E6.png]
+        - [6Actor_SE1.png,6Actor_SE2.png,6Actor_SE3.png,6Actor_SE4.png,6Actor_SE5.png,6Actor_SE6.png]
+        - [6Actor_S1.png,6Actor_S2.png,6Actor_S3.png,6Actor_S4.png,6Actor_S5.png,6Actor_S6.png]
+        - [6Actor_SO1.png,6Actor_SO2.png,6Actor_SO3.png,6Actor_SO4.png,6Actor_SO5.png,6Actor_SO6.png]
+        - [6Actor_O1.png,6Actor_O2.png,6Actor_O3.png,6Actor_O4.png,6Actor_O5.png,6Actor_O6.png]
+        - [6Actor_NO1.png,6Actor_NO2.png,6Actor_NO3.png,6Actor_NO4.png,6Actor_NO5.png,6Actor_NO6.png]
+      fps: 15
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 15 #pixels
+escenarios:
+    - nombre: bosque_encantado
+      size_x: 13 #tiles
+      size_y: 13 #tiles
+      entidadesDef:
+        - {x: 0, y: 0, entidad: agua}
+        - {x: 5, y: 0, entidad: agua}
+        - {x: 10, y: 0, entidad: agua}
+        
+        - {x: 0, y: 5, entidad: agua}
+        - {x: 5, y: 5, entidad: agua}
+        - {x: 10, y: 5, entidad: agua}
+        
+        - {x: 0, y: 10, entidad: agua}
+        - {x: 5, y: 10, entidad: agua}
+        - {x: 10, y: 10, entidad: agua}
+      protagonista:
+        - entidad: violeta
+          x: 3
+          y: 0

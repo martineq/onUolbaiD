@@ -21,6 +21,7 @@ class ModeloEntidad : public Observable, public Identificable {
 				int _altoNivel;
 				int _anchoNivel;
 				ModeloEntidad* _modeloEntidad;
+				std::list<ModeloEntidad*>* _listaJugadores;
 				std::list<ModeloEntidad*>* _listaEntidades;
 				Posicion _posicionDestino;
 				int _deltaX;
@@ -56,6 +57,8 @@ class ModeloEntidad : public Observable, public Identificable {
 				void actualizar(Posicion posicion);
 
 				void cambiarEstado();
+
+				void asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores);
 
 				void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
 		};
@@ -148,6 +151,10 @@ class ModeloEntidad : public Observable, public Identificable {
 		bool esUltimoMovimiento() const;
 
 		void mover(Posicion posicion);
+
+		bool ocupaPosicion(Posicion posicion);
+
+		void asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores);
 
 		void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
 
