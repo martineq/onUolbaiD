@@ -7,7 +7,7 @@ configuracion:
     margen_scroll : 20
 entidades:
     - nombre: agua
-      pixel_ref_x: 50 #pixels
+      pixel_ref_x: 150 #pixels
       pixel_ref_y: 0 #pixels
       ancho_base: 3 #tiles
       alto_base: 3 #tiles
