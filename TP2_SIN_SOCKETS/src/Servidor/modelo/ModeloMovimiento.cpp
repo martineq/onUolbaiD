@@ -52,17 +52,26 @@ Posicion ModeloEntidad::ModeloMovimiento::obtenerPosicionSiguiente() {
 }
 
 ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posicion) {
-	list<ModeloEntidad*>::iterator iterador = this->_listaEntidades->begin();
+	// Detecto colision con jugadores
+	if (this->_listaJugadores != NULL) {
+		list<ModeloEntidad*>::iterator iterador = this->_listaJugadores->begin();
 
-	while (iterador != this->_listaEntidades->end()) {
-		if (((*iterador) != this->_modeloEntidad) && 
-			(posicion.x >= (*iterador)->posicionActual().x) &&
-			(posicion.x <= (*iterador)->posicionActual().x + (*iterador)->ancho() - 1) &&
-			(posicion.y >= (*iterador)->posicionActual().y) &&
-			(posicion.y <= (*iterador)->posicionActual().y + (*iterador)->alto() - 1)) {
-			return *iterador;
+		while (iterador != this->_listaJugadores->end()) {
+			if (((*iterador) != this->_modeloEntidad) && (*iterador)->ocupaPosicion(posicion))
+				return *iterador;
+			iterador++;
 		}
-		iterador++;
+	}
+
+	// Detecto colision con entidades
+	if (this->_listaEntidades != NULL) {
+		list<ModeloEntidad*>::iterator iterador = this->_listaEntidades->begin();
+
+		while (iterador != this->_listaEntidades->end()) {
+			if (((*iterador) != this->_modeloEntidad) && (*iterador)->ocupaPosicion(posicion))
+				return *iterador;
+			iterador++;
+		}
 	}
 	return NULL;
 }
@@ -202,6 +211,8 @@ ModeloEntidad::ModeloMovimiento::ModeloMovimiento(int altoNivel, int anchoNivel,
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_modeloEntidad = modeloEntidad;
+	this->_listaJugadores = NULL;
+	this->_listaEntidades = NULL;
 	this->_posicionDestino = this->_modeloEntidad->posicionActual();
     this->_posicionDestinoDesvio = this->_posicionDestino;
 	this->_deltaX = 0;
@@ -218,19 +229,6 @@ ModeloEntidad::ModeloMovimiento::~ModeloMovimiento() {
 }
 
 void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
-	// Si la posicion destino pertenece a una entidad me muevo una posicion antes
-	ModeloEntidad* modeloEntidad = this->detectarColision(posicionDestino);
-	if (modeloEntidad != NULL) {
-		if (this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x)
-			posicionDestino.x = modeloEntidad->posicionActual().x - 1;
-		else if (this->_modeloEntidad->posicionActual().x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho())
-			posicionDestino.x = modeloEntidad->posicionActual().x + modeloEntidad->ancho();
-		else if (this->_modeloEntidad->posicionActual().y >= modeloEntidad->posicionActual().y + modeloEntidad->alto())
-			posicionDestino.y = modeloEntidad->posicionActual().y + modeloEntidad->alto();
-		else if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y)
-			posicionDestino.y = modeloEntidad->posicionActual().y - 1;
-	}
-
 	this->_posicionDestino = posicionDestino;
 	this->_posicionDestinoDesvio = this->_posicionDestino;
 	this->_deltaX = abs(this->_posicionDestino.x - this->_modeloEntidad->posicionActual().x);
@@ -264,7 +262,8 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	
 	ModeloEntidad* entidadColisionada = this->detectarColision(posicionSiguiente);
 	if (entidadColisionada != NULL) {
-		if (!this->calcularDesvio(entidadColisionada)) {
+		// Si la posicion destino esta dentro de la entidad colisionada o si no pudo resolver el desvio se queda quieto
+		if (entidadColisionada->ocupaPosicion(this->_posicionDestino) || !this->calcularDesvio(entidadColisionada)) {
 			this->_posicionDestino = this->_modeloEntidad->posicionActual();
 			this->_posicionDestinoDesvio = this->_posicionDestino;
 			return;
@@ -278,6 +277,10 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	this->_modeloEntidad->posicionActual(this->_modeloEntidad->posicionSiguiente());
 
 	this->_instanteUltimoCambioEstado = GetTickCount();
+}
+
+void ModeloEntidad::ModeloMovimiento::asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores) {
+	this->_listaJugadores = listaJugadores;
 }
 
 void ModeloEntidad::ModeloMovimiento::asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades) {

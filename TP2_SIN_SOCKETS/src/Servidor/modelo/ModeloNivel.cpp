@@ -81,6 +81,7 @@ void ModeloNivel::agregarObservadoresScroll(std::list<Observador*> listaObservad
 
 void ModeloNivel::agregarJugador(ModeloEntidad *jugador) {
 	this->listaJugadores.push_back(jugador);
+	jugador->asignarListaJugadores(&this->listaJugadores);
 	jugador->asignarListaEntidades(&this->listaEntidades);
 }
 

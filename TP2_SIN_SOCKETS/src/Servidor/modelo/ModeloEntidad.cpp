@@ -118,7 +118,18 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 	this->_modeloMovimiento->actualizar(posicionDestino);
 }
 
-void ModeloEntidad::asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades) {
+bool ModeloEntidad::ocupaPosicion(Posicion posicion) {
+	return (posicion.x >= this->posicionActual().x) &&
+		(posicion.x <= this->posicionActual().x + this->ancho() - 1) &&
+		(posicion.y >= this->posicionActual().y) &&
+		(posicion.y <= this->posicionActual().y + this->alto() - 1);
+}
+
+void ModeloEntidad::asignarListaJugadores(list<ModeloEntidad*>* listaJugadores) {
+	this->_modeloMovimiento->asignarListaJugadores(listaJugadores);
+}
+
+void ModeloEntidad::asignarListaEntidades(list<ModeloEntidad*>* listaEntidades) {
 	this->_modeloMovimiento->asignarListaEntidades(listaEntidades);
 }
 
