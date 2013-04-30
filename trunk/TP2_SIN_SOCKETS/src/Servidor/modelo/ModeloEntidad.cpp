@@ -35,6 +35,10 @@ void ModeloEntidad::direccion(Direccion direccion) {
 	this->_direccion = direccion;
 }
 
+void ModeloEntidad::accion(Accion accion) {
+	this->_accion = accion;
+}
+
 ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps) {
 	this->_id = (int)InterlockedIncrement(&this->_ultimoId);
 	this->_alto = alto;
@@ -48,6 +52,7 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_anchoMapa = anchoNivel;
 
 	this->_direccion = SUR;
+	this->_accion = QUIETO;
 	Posicion::convertirTileAPixel(altoNivel, this->_posicionActual.x, this->_posicionActual.y, this->_pixelActual.x, this->_pixelActual.y);
 	Posicion::convertirTileAPixel(altoNivel, this->_posicionSiguiente.x, this->_posicionSiguiente.y, this->_pixelSiguiente.x, this->_pixelSiguiente.y);
 
@@ -60,7 +65,12 @@ ModeloEntidad::~ModeloEntidad() {
 }
 
 void ModeloEntidad::cambiarEstado() {
-	this->_modeloMovimiento->cambiarEstado();
+	if (this->_accion == CAMINANDO)
+		this->_modeloMovimiento->cambiarEstado();
+	else if ((this->_accion == ATACANDO) || (this->_accion == DEFENDIENDO)) {
+		this->notificarObservadores();
+		this->_accion = QUIETO;
+	}
 	this->_vistaMovimiento->cambiarEstado();
 }
 
@@ -100,6 +110,10 @@ Direccion ModeloEntidad::direccion() const {
 	return this->_direccion;
 }
 
+Accion ModeloEntidad::accion() const {
+	return this->_accion;
+}
+
 bool ModeloEntidad::esUltimoMovimiento() const {
 	return this->_esUltimoMovimiento;
 }
@@ -116,6 +130,7 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 		posicionDestino.y = this->_altoMapa - 1;
 
 	this->_modeloMovimiento->actualizar(posicionDestino);
+	this->_accion = CAMINANDO;
 }
 
 bool ModeloEntidad::ocupaPosicion(Posicion posicion) {
@@ -137,10 +152,14 @@ bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 	return this == &modeloEntidad;
 }
 
-void ModeloEntidad::accion1() {
+void ModeloEntidad::atacar() {
 	std::cout << "Tecla A" << std::endl;
+	this->_accion = ATACANDO;
+	this->_modeloMovimiento->actualizar(this->_posicionActual);
 }
 
-void ModeloEntidad::accion2() {
+void ModeloEntidad::defender() {
 	std::cout << "Tecla S" << std::endl;
+	this->_accion = DEFENDIENDO;
+	this->_modeloMovimiento->actualizar(this->_posicionActual);
 }

@@ -265,9 +265,10 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
 	this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
 	
+	// Detecto si hubo colision
 	ModeloEntidad* entidadColisionada = this->detectarColision(posicionSiguiente);
 	if (entidadColisionada != NULL) {
-		// Si la posicion destino esta dentro de la entidad colisionada o si no pudo resolver el desvio se queda quieto
+		// Si la posicion destino esta dentro de la entidad colisionada o si no pudo calcular el desvio se queda quieto
 		if (entidadColisionada->ocupaPosicion(this->_posicionDestino) || !this->calcularDesvio(entidadColisionada)) {
 			this->_posicionDestino = this->_modeloEntidad->posicionActual();
 			this->_posicionDestinoDesvio = this->_posicionDestino;
@@ -277,9 +278,14 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 		this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
 	}
 
+	// Notifico a VistaMovimiento
 	this->_modeloEntidad->posicionSiguiente(posicionSiguiente);
 	this->notificarObservadores();
 	this->_modeloEntidad->posicionActual(this->_modeloEntidad->posicionSiguiente());
+
+	// Si llegue a destino cambio el estado a quieto
+	if (this->_modeloEntidad->posicionActual() == this->_posicionDestino)
+		this->_modeloEntidad->accion(QUIETO);
 
 	this->_instanteUltimoCambioEstado = GetTickCount();
 }

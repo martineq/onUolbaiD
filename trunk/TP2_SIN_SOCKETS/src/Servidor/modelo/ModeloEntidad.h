@@ -11,6 +11,7 @@
 #include "../../utils/Posicion/Posicion.h"
 
 typedef enum Direccion { NOROESTE, NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE };
+typedef enum Accion { CAMINANDO, ATACANDO, DEFENDIENDO, QUIETO };
 
 class ModeloEntidad : public Observable, public Identificable {
 	private:
@@ -100,6 +101,7 @@ class ModeloEntidad : public Observable, public Identificable {
 		Posicion _pixelActual;
 		Posicion _pixelSiguiente;
 		Direccion _direccion;
+		Accion _accion;
 		ModeloMovimiento* _modeloMovimiento;
 		VistaMovimiento* _vistaMovimiento;
 		bool _esUltimoMovimiento;
@@ -122,6 +124,8 @@ class ModeloEntidad : public Observable, public Identificable {
 		void esUltimoMovimiento(bool esUltimoMovimiento);
 
 		void direccion(Direccion direccion);
+		
+		void accion(Accion accion);
 
 	public:
 		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps);
@@ -148,6 +152,8 @@ class ModeloEntidad : public Observable, public Identificable {
 
 		Direccion direccion() const;
 
+		Accion accion() const;
+
 		bool esUltimoMovimiento() const;
 
 		void mover(Posicion posicion);
@@ -160,7 +166,7 @@ class ModeloEntidad : public Observable, public Identificable {
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 
-		void accion1();
+		void atacar();
 
-		void accion2();
+		void defender();
 };

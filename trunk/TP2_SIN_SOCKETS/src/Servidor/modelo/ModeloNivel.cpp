@@ -180,18 +180,18 @@ void ModeloNivel::destruirListas(){
 	return void();
 }
 
-void ModeloNivel::jugadorAccion1() {
+void ModeloNivel::jugadorAtacar() {
 	ModeloEntidad* jugador = this->obtenerJugador(1);
 	if (jugador == NULL)
 		return;
 
-	jugador->accion1();
+	jugador->atacar();
 }
 
-void ModeloNivel::jugadorAccion2() {
+void ModeloNivel::jugadorDefender() {
 	ModeloEntidad* jugador = this->obtenerJugador(1);
 	if (jugador == NULL)
 		return;
 
-	jugador->accion2();
+	jugador->defender();
 }
