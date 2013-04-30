@@ -215,6 +215,10 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 	// Si el desvio es igual a la posicion actual no lo pude resolver
 	if (posicionDestino == this->_modeloEntidad->posicionActual())
 		return false;
+	
+	// Si el desvio colisiona con algo no lo pude resolver
+	if (this->detectarColision(posicionDestino) != NULL)
+		return false;
 
 	this->_posicionDestinoDesvio = posicionDestino;
 	this->_deltaX = abs(this->_posicionDestinoDesvio.x - this->_modeloEntidad->posicionActual().x);
