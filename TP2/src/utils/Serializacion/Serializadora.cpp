@@ -1,6 +1,5 @@
 #include "Serializadora.h"
 
-
 Serializadora::Serializadora() {
 	stream = new stringstream();
 }

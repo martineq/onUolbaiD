@@ -2,22 +2,18 @@
 
 #include "../Timer/Timer.h"
 
-class Temporizador {
+class Temporizador{
 
+	private:
+		static Temporizador* _instancia;
+		Timer fps;
+		Temporizador();
 
-private:
-	Temporizador();
-
-	static Temporizador* _instancia;
-
-	Timer fps;
-
-public:
-	static Temporizador* getInstancia();
-	void start();
-	void stop();
-	uint get_ticks();
-	void cerrar();
-
-	virtual ~Temporizador();
+	public:
+		static Temporizador* getInstancia();
+		void start();
+		void stop();
+		uint get_ticks();
+		void cerrar();
+		virtual ~Temporizador();
 };

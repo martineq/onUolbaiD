@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef SERIALIZADORA_H_
-#define SERIALIZADORA_H_
-
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -13,93 +10,93 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
-class Serializadora {
-private:
+class Serializadora{
 
-	stringstream*	stream;
-public:
-	/*
-	 * Instancia para serializar
-	 */
-	Serializadora();
+	private:
+		stringstream*	stream;
 
-	/*
-	 * Instancia para deserializar.
-	 */
-	Serializadora(string* stringSerializado);
+	public:
+		/*
+		 * Instancia para serializar
+		 */
+		Serializadora();
 
-	/*
-	 * Agrega un int al stream.
-	 */
-	void addInt(int valor);
+		/*
+		 * Instancia para deserializar.
+		 */
+		Serializadora(string* stringSerializado);
 
-	/*
-	 * Agrega un short int al stream.
-	 */
-	void addShortInt(short int valor);
+		/*
+		 * Agrega un int al stream.
+		 */
+		void addInt(int valor);
 
-	/*
-	 * Agrega un short int al stream.
-	 */
-	void addDouble(double valor);
+		/*
+		 * Agrega un short int al stream.
+		 */
+		void addShortInt(short int valor);
 
-	/*
-	 * Agrega un unsigned int.
-	 */
-	void addUnsignedInt(unsigned int valor);
+		/*
+		 * Agrega un short int al stream.
+		 */
+		void addDouble(double valor);
 
-	/*
-	 * Agrega un bool al stream.
-	 */
-	void addBool(bool valor);
+		/*
+		 * Agrega un unsigned int.
+		 */
+		void addUnsignedInt(unsigned int valor);
 
-	/*
-	 * Agrega un string al stream.
-	 */
-	void addString(string cadena);
+		/*
+		 * Agrega un bool al stream.
+		 */
+		void addBool(bool valor);
 
-	void addStringPointer(string* cadena, int size);
-	/*
-	 * Devuelve el resultado de la serializacion.
-	 */
-	string* getSerializacion();
+		/*
+		 * Agrega un string al stream.
+		 */
+		void addString(string cadena);
 
-	/*
-	 * Devuelve un int.
-	 */
-	int		getInt();
+		void addStringPointer(string* cadena, int size);
+		/*
+		 * Devuelve el resultado de la serializacion.
+		 */
+		string* getSerializacion();
 
-	/*
-	 * Obtiene un short int del stream.
-	 */
-	short int getShortInt();
+		/*
+		 * Devuelve un int.
+		 */
+		int		getInt();
 
-	/*
-	 * Obtiene un double del stream.
-	 */
-	double getDouble();
+		/*
+		 * Obtiene un short int del stream.
+		 */
+		short int getShortInt();
 
-	/*
-	 * Obtiene un bool del stream.
-	 */
-	bool getBool();
+		/*
+		 * Obtiene un double del stream.
+		 */
+		double getDouble();
 
-	/*
-	 * Obtiene un unsigned int del stream.
-	 */
-	unsigned int getUnsignedInt();
+		/*
+		 * Obtiene un bool del stream.
+		 */
+		bool getBool();
 
-	/*
-	 * Devuelve un string, debe ser liberado luego de ser usado.
-	 */
-	string*	getStringPointer();
+		/*
+		 * Obtiene un unsigned int del stream.
+		 */
+		unsigned int getUnsignedInt();
 
-	/*
-	 * Devuelve un string.
-	 */
-	string	getString();
+		/*
+		 * Devuelve un string, debe ser liberado luego de ser usado.
+		 */
+		string*	getStringPointer();
 
-	virtual ~Serializadora();
+		/*
+		 * Devuelve un string.
+		 */
+		string	getString();
+
+		virtual ~Serializadora();
+		
 };
-
-#endif /* SERIALIZADORA_H_ */

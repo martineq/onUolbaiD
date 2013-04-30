@@ -34,10 +34,12 @@ bool SocketApp::iniciarAplicacion(void){
 
 // Finaliza y limpia Winsock
 bool SocketApp::finalizarAplicacion(void){
-	if (WSACleanup()!=0){
-		Log::getInstance().log(3,__FILE__,__LINE__, "limpieza fallida!");
-		return false;
-	}   
+	if (this->miSocket!=INVALID_SOCKET){ 
+		if (WSACleanup()!=0){
+			Log::getInstance().log(3,__FILE__,__LINE__, "limpieza fallida!");
+			return false;
+		}   
+	}
 	Log::getInstance().log(3,__FILE__,__LINE__, "listo.");
 	return true;
 }	
@@ -70,8 +72,7 @@ bool SocketApp::cerrar(void){
 	if (this->miSocket!=INVALID_SOCKET){ 
 		closesocket(this->miSocket); // Cierro el socket
 	}else{
-		std::cout << "No se pudo cerrar el socket!\n";
-		Log::getInstance().log(3,__FILE__,__LINE__, "No se pudo cerrar el socket!");
+		//Log::getInstance().log(3,__FILE__,__LINE__, "No se pudo cerrar el socket!");
 		return false;
 	}
 

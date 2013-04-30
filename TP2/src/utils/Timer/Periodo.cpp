@@ -1,7 +1,11 @@
 #include "Periodo.h"
 
-Periodo::Periodo() {
+Periodo::Periodo(){
 	this->esperandoPeriodo = false;
+}
+
+Periodo::~Periodo(){
+
 }
 
 void Periodo::iniciar(int cantSegundos){
@@ -11,23 +15,18 @@ void Periodo::iniciar(int cantSegundos){
 	this->segundos = cantSegundos;
 }
 
-/**
-*	Pre:: tiene que ejecutarse inciar, para usar este metodo;
-*/
-bool Periodo::estaCumplido() {
+// Pre:: tiene que ejecutarse inciar, para usar este metodo;
+bool Periodo::estaCumplido(){
 	bool estaCumplido = false;
 	uint tiempoTranscurrido = timer.get_ticks() - this->tiempoInicio;
-	if (tiempoTranscurrido > 1000 * this->segundos) {
+	if (tiempoTranscurrido > 1000 * this->segundos){
 		estaCumplido = true;
 	}
 	return estaCumplido;
 }
 
-void Periodo::finalizar() {
+void Periodo::finalizar(){
 	this->esperandoPeriodo = false;
 	timer.stop();
 }
 
-
-Periodo::~Periodo() {
-}
