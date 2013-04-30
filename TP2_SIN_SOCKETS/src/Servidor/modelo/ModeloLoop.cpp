@@ -27,11 +27,11 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel) {
 			modeloNivel.moverJugador(mousePosX, mousePosY, 0);
 
 		if (this->_modeloEvento.getTeclaA()) {
-			modeloNivel.jugadorAccion1();
+			modeloNivel.jugadorAtacar();
 		}
 
 		if (this->_modeloEvento.getTeclaS()) {
-			modeloNivel.jugadorAccion2();
+			modeloNivel.jugadorDefender();
 		}
 	}
 
