@@ -87,8 +87,44 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 	int desvioOeste = this->_modeloEntidad->posicionActual().x - modeloEntidad->posicionActual().x + 1;
 	int desvioEste = modeloEntidad->posicionActual().x + modeloEntidad->ancho() - this->_modeloEntidad->posicionActual().x;
 
+	// Choco con esquina superior izquierda
+	if ((this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x) && (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y)) {
+		// Voy a cara este
+		if (this->_posicionDestino.x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho())
+			posicionDestino.x += desvioEste;
+		// Voy a cara sur
+		else if (this->_posicionDestino.y >= modeloEntidad->posicionActual().y + modeloEntidad->alto())
+			posicionDestino.y += desvioSur;
+	}
+	// Choco con esquina superior derecha
+	else if ((this->_modeloEntidad->posicionActual().x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho()) && (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y)) {
+		// Voy a cara oeste
+		if (this->_posicionDestino.x < modeloEntidad->posicionActual().x)
+			posicionDestino.x -= desvioOeste;
+		// Voy a cara sur
+		else if (this->_posicionDestino.y >= modeloEntidad->posicionActual().y + modeloEntidad->alto())
+			posicionDestino.y += desvioSur;
+	}
+	// Choco con esquina inferior izquierda
+	else if ((this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x) && (this->_modeloEntidad->posicionActual().y >= modeloEntidad->posicionActual().y + modeloEntidad->alto())) {
+		// Voy a cara este
+		if (this->_posicionDestino.x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho())
+			posicionDestino.x += desvioEste;
+		// Voy a cara norte
+		else if (this->_posicionDestino.y < modeloEntidad->posicionActual().y)
+			posicionDestino.y -= desvioNorte;
+	}
+	// Choco con esquina inferior derecha
+	else if ((this->_modeloEntidad->posicionActual().x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho()) && (this->_modeloEntidad->posicionActual().y  >= modeloEntidad->posicionActual().y + modeloEntidad->alto())) {
+		// Voy a cara oeste
+		if (this->_posicionDestino.x < modeloEntidad->posicionActual().x)
+			posicionDestino.x -= desvioOeste;
+		// Voy a cara norte
+		else if (this->_posicionDestino.y < modeloEntidad->posicionActual().y)
+			posicionDestino.y -= desvioNorte;
+	}
 	// Choco con cara norte
-	if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y) {
+	else if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y) {
 		// Voy a cara este
 		if (this->_posicionDestino.x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho())
 			posicionDestino.x += desvioEste;
@@ -99,7 +135,7 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		else if (this->_posicionDestino.y >= modeloEntidad->posicionActual().y + modeloEntidad->alto()) {
 			if (modeloEntidad->posicionActual().x == 0)
 				posicionDestino.x += desvioEste;
-			else if (modeloEntidad->posicionActual().x + modeloEntidad->ancho() == this->_anchoNivel - 1)
+			else if (modeloEntidad->posicionActual().x + modeloEntidad->ancho() == this->_anchoNivel)
 				posicionDestino.x -= desvioOeste;
 			else if (desvioEste < desvioOeste)
 				posicionDestino.x += desvioEste;
@@ -108,8 +144,6 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 			else
 				posicionDestino.x += desvioEste;
 		}
-		else
-			return false;
 	}
 	// Choco con cara sur
 	else if (this->_modeloEntidad->posicionActual().y >= modeloEntidad->posicionActual().y + modeloEntidad->alto()) {
@@ -123,7 +157,7 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		else if (this->_posicionDestino.y < modeloEntidad->posicionActual().y) {
 			if (modeloEntidad->posicionActual().x == 0)
 				posicionDestino.x += desvioEste;
-			else if (modeloEntidad->posicionActual().x + modeloEntidad->ancho() == this->_anchoNivel - 1)
+			else if (modeloEntidad->posicionActual().x + modeloEntidad->ancho() == this->_anchoNivel)
 				posicionDestino.x -= desvioOeste;
 			else if (desvioEste < desvioOeste)
 				posicionDestino.x += desvioEste;
@@ -132,8 +166,6 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 			else
 				posicionDestino.x -= desvioOeste;
 		}
-		else
-			return false;
 	}
 	// Choco con cara este
 	else if (this->_modeloEntidad->posicionActual().x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho()) {
@@ -147,7 +179,7 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		else if (this->_posicionDestino.x < modeloEntidad->posicionActual().x) {
 			if (modeloEntidad->posicionActual().y == 0)
 				posicionDestino.y += desvioSur;
-			else if (modeloEntidad->posicionActual().y + modeloEntidad->alto() == this->_altoNivel - 1)
+			else if (modeloEntidad->posicionActual().y + modeloEntidad->alto() == this->_altoNivel)
 				posicionDestino.y -= desvioNorte;
 			else if (desvioNorte < desvioSur)
 				posicionDestino.y -= desvioNorte;
@@ -169,7 +201,7 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		else if (this->_posicionDestino.x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho()) {
 			if (modeloEntidad->posicionActual().y == 0)
 				posicionDestino.y += desvioSur;
-			else if (modeloEntidad->posicionActual().y + modeloEntidad->alto() == this->_altoNivel - 1)
+			else if (modeloEntidad->posicionActual().y + modeloEntidad->alto() == this->_altoNivel)
 				posicionDestino.y -= desvioNorte;
 			else if (desvioNorte < desvioSur)
 				posicionDestino.y -= desvioNorte;
@@ -179,14 +211,10 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 				posicionDestino.y += desvioSur;
 		}
 	}
-	else
-		false;
 	
-	// Si el desvio es igual a la posicion actual lo tomo como resuelto
-	if (this->_posicionDestinoDesvio == this->_modeloEntidad->posicionActual()) {
-		this->actualizar(this->_posicionDestino);
-		return true;
-	}
+	// Si el desvio es igual a la posicion actual no lo pude resolver
+	if (posicionDestino == this->_modeloEntidad->posicionActual())
+		return false;
 
 	this->_posicionDestinoDesvio = posicionDestino;
 	this->_deltaX = abs(this->_posicionDestinoDesvio.x - this->_modeloEntidad->posicionActual().x);
@@ -276,6 +304,13 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 		}
 		posicionSiguiente = this->obtenerPosicionSiguiente();
 		this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
+	}
+
+	// Si el movimiento sale del nivel me detengo
+	if ((posicionSiguiente.x < 0) || (posicionSiguiente.x >= this->_anchoNivel) || (posicionSiguiente.y < 0) || (posicionSiguiente.y >= this->_altoNivel)) {
+		this->_posicionDestino = this->_modeloEntidad->posicionActual();
+		this->_posicionDestinoDesvio = this->_posicionDestino;
+		return;
 	}
 
 	// Notifico a VistaMovimiento
