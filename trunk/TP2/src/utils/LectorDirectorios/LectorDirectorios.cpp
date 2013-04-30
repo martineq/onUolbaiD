@@ -1,9 +1,11 @@
 #include "LectorDirectorios.h"
 
 LectorDirectorios::LectorDirectorios(void){
+
 }
 
 LectorDirectorios::~LectorDirectorios(void){
+
 }
 
 // Devuelve todos los nombres de archivos encontrados en el directorio <rutaDirectorio> dado
@@ -46,13 +48,11 @@ std::vector<std::string> LectorDirectorios::leerDirectorio(const char* rutaDirec
 
 			// Agrego los demas
 			if(estructuraFindData.dwFileAttributes != FILE_ATTRIBUTE_DIRECTORY){
-			
 				if( this->nombreValido(estructuraFindData.cFileName) ){
 					rutaCompleta.assign(rutaDir);
 					rutaCompleta.append(estructuraFindData.cFileName);
 					nombresDeArchivo.push_back(rutaCompleta);
 				}
-
 			}
 
 		}

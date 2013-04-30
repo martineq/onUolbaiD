@@ -29,12 +29,12 @@ class HiloConexion: public Hilo{
 		};
 
 	private:
-		stParametrosRun parametros;
+		stParametrosRun parametrosRun;
 		bool corriendo;
 		Mutex mutexCorriendo;
 
 		void* run(void* parametro); // Se invoca a "this->start" (heredada de la clase Hilo) para que se use el run con hilo
-	
+
 		// Métodos dentro del run
 		void rutina(stParametrosRun* parametrosEntrada);
 		void loopEntradaIndividual(stParametrosRun* parametrosEntrada);
@@ -49,13 +49,10 @@ class HiloConexion: public Hilo{
 		~HiloConexion(void);
 
 		// Inicio de actividad
-		void correrConexion(stParametrosRun parametrosRun);
+		void correrConexion(HiloConexion::stParametrosRun parametrosRun);
 
 		// Verificación y finalización de actividad
 		void detenerActividad(void);		
 		bool estaActivo(void);
 
 };
-
-// TODO: Primer tarea >> Refactorizar todo HiloConexion::run() en sub-métodos mas pequeños
-// TODO: Segunda tarea >> Implementar y/o chequear el uso de todos los mutex de esta clase. Verificar cada uno de los lock()
