@@ -77,7 +77,7 @@ ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posici
 }
 
 bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntidad) {
-	// Si estoy en el medio de un desvio no lo vuelvo a calcular
+	// Si ya estoy en el medio de un desvio no lo puedo resolver
 	if (this->resolviendoDesvio())
 		return false;
 	
@@ -215,10 +215,6 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 	// Si el desvio es igual a la posicion actual no lo pude resolver
 	if (posicionDestino == this->_modeloEntidad->posicionActual())
 		return false;
-	
-	// Si el desvio colisiona con algo no lo pude resolver
-	if (this->detectarColision(posicionDestino) != NULL)
-		return false;
 
 	this->_posicionDestinoDesvio = posicionDestino;
 	this->_deltaX = abs(this->_posicionDestinoDesvio.x - this->_modeloEntidad->posicionActual().x);
@@ -294,24 +290,34 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	if (this->resolviendoDesvio() && (this->_modeloEntidad->posicionActual() == this->_posicionDestinoDesvio))
 		this->actualizar(this->_posicionDestino);
 
+	// Obtengo la siguente posicion del movimiento actual
 	Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
 	this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
 	
 	// Detecto si hubo colision
 	ModeloEntidad* entidadColisionada = this->detectarColision(posicionSiguiente);
 	if (entidadColisionada != NULL) {
-		// Si la posicion destino esta dentro de la entidad colisionada o si no pudo calcular el desvio se queda quieto
+		// Si la posicion destino esta dentro de la entidad colisionada o si no pudo calcular el desvio me detengo
 		if (entidadColisionada->ocupaPosicion(this->_posicionDestino) || !this->calcularDesvio(entidadColisionada)) {
 			this->_posicionDestino = this->_modeloEntidad->posicionActual();
 			this->_posicionDestinoDesvio = this->_posicionDestino;
 			return;
 		}
+
+		// Obtengo al nueva posicion con el desvio
 		posicionSiguiente = this->obtenerPosicionSiguiente();
 		this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
 	}
 
 	// Si el movimiento sale del nivel me detengo
 	if ((posicionSiguiente.x < 0) || (posicionSiguiente.x >= this->_anchoNivel) || (posicionSiguiente.y < 0) || (posicionSiguiente.y >= this->_altoNivel)) {
+		this->_posicionDestino = this->_modeloEntidad->posicionActual();
+		this->_posicionDestinoDesvio = this->_posicionDestino;
+		return;
+	}
+
+	// Si despues de calcular el desvio la siguiente posicion siguie colisionando me detengo
+	if (this->detectarColision(posicionSiguiente) != NULL) {
 		this->_posicionDestino = this->_modeloEntidad->posicionActual();
 		this->_posicionDestinoDesvio = this->_posicionDestino;
 		return;
