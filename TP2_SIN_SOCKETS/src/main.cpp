@@ -4,16 +4,12 @@
 //#include <vld.h>
 
 int main(int argc, char* argv[]) {
-
 	Administrador administrador;
-	//administrador.correrPruebas();
-	if( administrador.iniciar() == true ){
+	if (administrador.iniciar()) {
 		administrador.loop();
 	}
 
-	//ModeloEntidad::prueba();
-	//Servidor::prueba();
-
+	//administrador.correrPruebas();
+	
 	return 0;
 }
-
