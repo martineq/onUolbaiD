@@ -72,20 +72,28 @@ void VistaNivel::agregarScroll(VistaScroll* pScroll){
 	return void();
 }
 
-int VistaNivel::getAltoPantalla(void){
-	return this->alto;
+int VistaNivel::getAltoDePantallaEnPixel(void){
+	return this->altoDePantallaEnPixel;
 }
 
-int VistaNivel::getAnchoPantalla(void){
-	return this->ancho;
+int VistaNivel::getAnchoDePantallaEnPixel(void){
+	return this->anchoDePantallaEnPixel;
 }
 
-void VistaNivel::setAltoPantalla(int alto){
-	this->alto = alto;
+void VistaNivel::setAltoDePantallaEnPixel(int alto){
+	this->altoDePantallaEnPixel = alto;
 }
 
-void VistaNivel::setAnchoPantalla(int ancho){
-	this->ancho = ancho;
+void VistaNivel::setAnchoDePantallaEnPixel(int ancho){
+	this->anchoDePantallaEnPixel = ancho;
+}
+
+void VistaNivel::setAltoDeNivelEnTiles(int alto){
+	this->altoDeNivelEnTiles = alto;
+}
+
+void VistaNivel::setAnchoDeNivelEnTiles(int ancho){
+	this->anchoDeNivelEnTiles = ancho;
 }
 
 void VistaNivel::agregarTamanioNivel(double anchoNivel,double altoNivel){	
@@ -98,16 +106,26 @@ void VistaNivel::agregarTamanioNivel(double anchoNivel,double altoNivel){
 	altoReal += ALTO_TILE;
 	anchoReal += ANCHO_TILE / 2;
 
-	this->anchoNivel = anchoReal;
-	this->altoNivel = altoReal;
+	this->anchoNivelEnPixel = anchoReal;
+	this->altoNivelEnPixel = altoReal;
+	this->altoDeNivelEnTiles = altoNivel;
+	this->anchoDeNivelEnTiles = anchoNivel;
 }
 
-double VistaNivel::getAltoNivel(){
-	return this->altoNivel;
+double VistaNivel::getAltoDeNivelEnPixel(){
+	return this->altoNivelEnPixel;
 }
 
-double VistaNivel::getAnchoNivel(){
-	return this->anchoNivel;
+double VistaNivel::getAnchoDeNivelEnPixel(){
+	return this->anchoNivelEnPixel;
+}
+
+int VistaNivel::getAltoDeNivelEnTiles(){
+	return this->altoDeNivelEnTiles;
+}
+
+int VistaNivel::getAnchoDeNivelEnTiles(){
+	return this->anchoDeNivelEnTiles;
 }
 
 void VistaNivel::destruirListaEntidades(){

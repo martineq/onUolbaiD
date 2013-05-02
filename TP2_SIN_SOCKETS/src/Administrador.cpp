@@ -76,5 +76,6 @@ void Administrador::correrPruebas(void){
 	//p.PruebaModeloEntidad();
 	//p.PruebaControladorJuego();
 	//p.PruebaHilos();
-	p.PruebaAnimacion();
+	//p.PruebaAnimacion();
+	p.PruebaNieblaDeGuerra();
 }

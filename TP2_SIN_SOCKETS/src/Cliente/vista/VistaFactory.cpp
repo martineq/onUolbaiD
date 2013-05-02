@@ -17,8 +17,8 @@ bool VistaFactory::crearVistaNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop){
 
 	if( juego.juegoValido == false ) return false;
 
-	vistaNivel.setAltoPantalla(juego.pantalla.alto);
-	vistaNivel.setAnchoPantalla(juego.pantalla.ancho);
+	vistaNivel.setAltoDePantallaEnPixel(juego.pantalla.alto);
+	vistaNivel.setAnchoDePantallaEnPixel(juego.pantalla.ancho);
 
 	SDL_Surface* pantalla = ImageLoader::getInstance().levantarPantalla(juego.pantalla.ancho,juego.pantalla.alto);
 	vistaLoop.setPantalla(pantalla);

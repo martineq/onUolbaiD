@@ -57,6 +57,8 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	//typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
 	this->tileX = x;
 	this->tileY = y;
+	this->tileXAnterior = x;
+	this->tileYAnterior = y;
 }
 
 VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel, std::string nombreEntidad){
@@ -132,6 +134,8 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->entraEnPantalla = false;
 	this->tileX = x;
 	this->tileY = y;
+	this->tileXAnterior = x;
+	this->tileYAnterior = y;
 }
 
 
@@ -148,12 +152,18 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 	this->yEnPantalla = this->y - scrollY;
 }
 
+void VistaEntidad::setPosicionAnteriorEnTiles(){
+	this->tileXAnterior = this->tileX;
+	this->tileYAnterior = this->tileY;
+}
+
 void VistaEntidad::actualizar(class Observable* s){
 	// En este punto ya se que el parámetro <s> se puede castear a ((ModeloEntidad*)s)
+	this->setPosicionAnteriorEnTiles();
 	this->x = ((ModeloEntidad*)s)->pixelSiguiente().x;
 	this->y = ((ModeloEntidad*)s)->pixelSiguiente().y;
 	this->tileX = ((ModeloEntidad*)s)->posicionSiguiente().x;
-	this->tileY = ((ModeloEntidad*)s)->posicionSiguiente().y;
+	this->tileY = ((ModeloEntidad*)s)->posicionSiguiente().y;	
 
 	int codigo = ((ModeloEntidad*)s)->direccion();
 	if ((this->esJugador) && (codigo != this->codigoAnimacion)){
@@ -162,10 +172,10 @@ void VistaEntidad::actualizar(class Observable* s){
 	}
 	
 	//this->esNecesarioRefrescar = true;
-	this->esNecesarioRefrescar = !((ModeloEntidad*)s)->esUltimoMovimiento();
+	this->esNecesarioRefrescar = !((ModeloEntidad*)s)->esUltimoMovimiento();	
 }
 
-void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
+bool VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
 	int xReal = this->x - this->posicionReferenciaX;
 	int yReal = this->y  - this->posicionReferenciaY;
 	bool entraEnX = false;
@@ -188,6 +198,8 @@ void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
 		this->setXEnPantalla(scroll->getX());
 		this->setYEnPantalla(scroll->getY());
 	}
+
+	return this->entraEnPantalla;
 }
 
 int VistaEntidad::id() const {
@@ -238,6 +250,15 @@ int VistaEntidad::getTileY(){
 	return (this->tileY);
 }
 
+int VistaEntidad::getTileXAnterior(){
+	return (this->tileXAnterior);
+}
+
+int VistaEntidad::getTileYAnterior(){
+	return (this->tileYAnterior);
+}
+
+
 int VistaEntidad::getCodigoAnimacion(void){
 	return this->codigoAnimacion;
 }
@@ -258,11 +279,11 @@ void VistaEntidad::setAnimacion(std::string estado){
 	this->animacionActual = this->animaciones->get(estado);
 }
 
-bool VistaEntidad::graficar(){
+bool VistaEntidad::graficar(char visibilidad){
 	bool ok = true;	
 	if (this->entraEnPantalla)  {
 		if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
-			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY) == false ) ok = false;
+			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY, visibilidad) == false ) ok = false;
 			//this->esNecesarioRefrescar = false;
 		}else{			
 			this->animacionActual->setX(this->xEnPantalla - this->posicionReferenciaX);
