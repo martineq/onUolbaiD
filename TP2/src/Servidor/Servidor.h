@@ -10,15 +10,16 @@ class Servidor{
 		ModeloJuego modeloJuego;
 		SocketServidor socket;
 
+		bool iniciar();
+		void loop();
+		
 	public:
 		Servidor();
 		virtual ~Servidor();
 
-		// Inicia el Modelo Juego
-		bool iniciar();
-
-		// Inicia el loop de Modelo Juego
-		void loop();
-
+		bool correrJuego(void);
 		void destruirEntidades();
 };
+
+
+// TODO: Implementar iniciar() y loop() con todo lo de sockets

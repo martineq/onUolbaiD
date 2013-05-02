@@ -20,38 +20,48 @@ Administrador::~Administrador(void){
 	}
 }
 
-bool Administrador::iniciar(){
+void Administrador::correrJuego(){
+
+	this->menuLineaComandos();
 
 	if( this->modoServidor == true ){
 		this->servidor = new Servidor();
-		if( this->servidor->iniciar() == false ){
-			Log::getInstance().log(1,__FILE__,__LINE__,"No se pudo iniciar el juego en modo Servidor");
-			return false;
+		if( this->servidor->correrJuego() == false ){
+			Log::getInstance().log(1,__FILE__,__LINE__,"Error al correr el juego en modo Servidor");
 		}
 	}else{
 		this->cliente = new Cliente();
-		if( this->cliente->iniciar() == false ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"No se pudo iniciar el juego en modo Cliente");
-		return false;
+		if( this->cliente->correrJuego() == false ){
+		Log::getInstance().log(1,__FILE__,__LINE__,"Error al correr el juego en modo Cliente");
 		}	
 	}
-	
-	return true;
-}
-
-void Administrador::loop(){
-
-	if( this->modoServidor == true ){
-		this->servidor->loop();
-	}else{
-		this->cliente->loop();
-	}
-
 	return void();
 }
 
-void Administrador::setModoServidor(bool modoServidor){
-	this->modoServidor = modoServidor;
+void Administrador::menuLineaComandos(void){
+
+	std::string opc;
+
+	while( opc.compare("s") != 0 && opc.compare("S") != 0  && opc.compare("c") != 0 && opc.compare("C") != 0 ){
+		std::cout << "Ingrese \"s\" para iniciar el juego en modo Servidor o \"c\" para iniciar en modo Cliente: " << std::endl;
+		getline (std::cin,opc);
+		if( opc.compare("s") != 0 && opc.compare("S") != 0  && opc.compare("c") != 0 && opc.compare("C") != 0 ){
+			std::cout << "Se ha ingresado: "<< opc << std::endl;
+		}
+	}
+
+	if( opc.compare("s") == 0 || opc.compare("S") == 0 ){
+		this->modoServidor = true;
+		std::cout << "Modo Servidor seleccionado" << std::endl;
+		Log::getInstance().log(1,__FILE__,__LINE__,"Modo Servidor seleccionado");
+	}
+
+	if( opc.compare("c") == 0 || opc.compare("C") == 0 ){
+		this->modoServidor = false;
+		std::cout << "Modo Cliente seleccionado" << std::endl;
+		Log::getInstance().log(1,__FILE__,__LINE__,"Modo Cliente seleccionado");
+	}
+
 	return void();
 }
 

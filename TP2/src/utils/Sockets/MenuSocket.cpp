@@ -15,7 +15,7 @@ std::string MenuSocket::menuVisual(){
 	while ( opc.compare("s") != 0 && opc.compare("c") != 0){
 		std::cout << "Ingrese \"s\" para iniciar servidor o \"c\" para iniciar cliente" << std::endl;
 		getline (std::cin,opc);
-		std::cout << "Ingreso: "<<opc << std::endl;
+		std::cout << "Ingreso: "<< opc << std::endl;
 	}
 	return opc;
 }

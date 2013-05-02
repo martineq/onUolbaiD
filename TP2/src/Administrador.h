@@ -14,12 +14,12 @@ class Administrador{
 		Servidor* servidor;
 		Cliente* cliente;
 
+		void menuLineaComandos(void);
+
 	public:
 		Administrador(void);
 		~Administrador(void);
-		void setModoServidor(bool modoServidor);	// Seteo el modo en que va a correr el adminstrador (Servidor o Cliente)
-		bool iniciar(void);							// Inicia el servidor o cliente, según corresponda
-		void loop(void);							// Inicia el loop correspondiente
+		void correrJuego(void);						// Inicia el loop correspondiente
 
 		// Solo para correr pruebas, no influye en el proyecto del juego
 		void correrPruebas(void);
