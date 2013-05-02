@@ -776,9 +776,11 @@ void Pruebas::PruebaChat() {
 	posicion.x = 0;
 	posicion.y = 431;
 
-	VistaChat* vistaChat = new VistaChat(posicion);
+	VistaChat* vistaChat = new VistaChat(posicion, "remitente");
 	SDL_Surface* pantalla = SDL_SetVideoMode(800, 600, 0, 0);
 	
+	vistaChat->asignarDestinatario("destinatario");
+
 	SDL_EnableUNICODE(SDL_ENABLE);
 
 	while (!salir) {
