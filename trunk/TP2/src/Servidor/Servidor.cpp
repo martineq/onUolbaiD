@@ -9,6 +9,7 @@ Servidor::~Servidor(void){
 }
 
 bool Servidor::iniciar(void){
+	// Acá le mando el pSocket y lo inicia adentro
 	return this->modeloJuego.iniciar();
 }
 
@@ -29,6 +30,17 @@ void Servidor::loop(void){
 	}
 	 	 
 	 return void();
+}
+
+bool Servidor::correrJuego(void){
+	if( this->iniciar() == true ){
+		this->loop();
+		// TODO: ¿Acá cerraria todo lo de sockets? Ver eso
+	}else{
+		Log::getInstance().log(1,__FILE__,__LINE__,"Error al iniciar el juego el cliente.");
+		return false;
+	}
+	return true;
 }
 
 void Servidor::destruirEntidades(void){

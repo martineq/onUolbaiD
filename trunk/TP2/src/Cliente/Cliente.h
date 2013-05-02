@@ -11,11 +11,16 @@ class Cliente{
 		ControladorJuego controladorJuego;
 		SocketCliente socket;
 
-	public:
-		Cliente(void);
-		~Cliente(void);
 		bool iniciar(void);		// Inicia el VistaJuego y ControladorJuego
 		void loop(void);
+		
+	public:
+		Cliente(void);
+		virtual ~Cliente(void);
+
+		bool correrJuego(void);
 		void destruirEntidades();
 
 };
+
+// TODO: Implementar iniciar() y loop() con todo lo de sockets
