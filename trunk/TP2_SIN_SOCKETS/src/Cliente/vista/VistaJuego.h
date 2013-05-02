@@ -14,6 +14,8 @@ class VistaJuego{
 		SDL_Surface *pantalla,*fondo,*textSurface;	
 		//TTF_Font* font;
 
+		char** matriz;
+
 	public:
 		VistaJuego(void);
 		~VistaJuego(void);

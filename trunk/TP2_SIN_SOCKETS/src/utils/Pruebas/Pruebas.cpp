@@ -700,7 +700,7 @@ void Pruebas::PruebaAnimacion(){
 
 	// Dibujo el sprite
 
-	vEntidad->graficar();
+//	vEntidad->graficar();
 	// Refresco la pantalla
 	SDL_UpdateRect(pantalla, 0, 0, 0, 0);
 	}

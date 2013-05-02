@@ -4,7 +4,7 @@ SDLutil::SDLutil() {
 	this->mySurface = NULL;
 	this->screen = NULL;
 	this->fondo = NULL;
-	this->area = NULL;
+	this->area = NULL;	
 }
 
 SDLutil::SDLutil(double x, double y, int w, int h, std::string filename) {
@@ -19,6 +19,10 @@ SDLutil::SDLutil(double x, double y, int w, int h, std::string filename) {
 	this->area->w = w;
 	this->area->x = x;
 	this->area->y = y;
+
+	this->visible = 0;
+	this->gris = 0;
+	this->negro = 0;
 }
 
 void SDLutil::setX(double x) {
@@ -50,9 +54,10 @@ SDL_Rect* SDLutil::getRect() {
 	return this->area;
 }
 
-bool SDLutil::graficar() {
+bool SDLutil::graficar(char visibilidad) {
 	int colorClave;
 	SDL_Rect posicionPantalla;
+	SDL_Surface* prueba = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 100, 50, 32, 0, 0, 0, 0);
 	
 	colorClave = SDL_MapRGB(this->mySurface->format, 0, 0, 0);	
 
@@ -61,28 +66,69 @@ bool SDLutil::graficar() {
 	posicionPantalla.x = this->x;
 	posicionPantalla.y = this->y;
 
-	if (SDL_SetColorKey(this->mySurface, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorClave) != 0) {
+	/*if (SDL_SetColorKey(this->mySurface, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorClave) != 0) {
     	Log::getInstance().log(1, __FILE__, __LINE__, "Error al agregar un componente a la pantalla");
 		return false;
     }
 	
 	if (this->fondo == NULL)
 		this->fondo = SDL_CreateRGBSurface(SDL_SWSURFACE, this->area->w, this->area->h, 32, 0, 0, 0, 0);
-	SDL_BlitSurface(this->screen, &posicionPantalla, this->fondo, NULL);
+	SDL_BlitSurface(this->screen, &posicionPantalla, this->fondo, NULL);*/
 
-    if (SDL_BlitSurface(this->mySurface, this->area, this->screen, &posicionPantalla) != 0) {
+	if (visibilidad == 1) {
+		//opcion 1
+		//Uint32 colorGris = SDL_MapRGB(this->screen->format, 128, 128, 128); 
+		//SDL_FillRect(this->mySurface, NULL, colorGris);		
+		//opcion 2
+		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( this->mySurface->format, 128, 128, 128 ) );
+		//bueno pruebo esto sino
+
+		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( prueba->format, 128, 128, 128 ) );
+		SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 255));//AZUL
+	}
+	else if (visibilidad == 0) {
+		//opcion 1
+		//Uint32 colorNegro = SDL_MapRGB(this->screen->format, 255, 255, 255); 
+		//SDL_FillRect(this->mySurface, NULL, colorNegro);		
+		//opcion 2
+		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( this->mySurface->format, 255, 255, 255 ) );
+		//bueno pruebo esto sino
+
+		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( prueba->format, 255, 255, 255 ) );		
+		SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 0));//NEGRO
+	}
+	else if (visibilidad == 2) {
+		//lo puse por ahora pero en teoria como deberia pintarse igual que en tp1 no iria este if
+		//Uint32 colorNegro = SDL_MapRGB(this->screen->format, 255, 255, 255); 
+		//SDL_FillRect(this->mySurface, NULL, colorNegro);		
+		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( this->mySurface->format, 0xff, 0xff, 0x00 ) );
+		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( prueba->format, 0xff, 0xff, 0x00 ) );
+		SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 255, 255, 0));//AMARILLO	
+		
+	}
+
+	
+	if (visibilidad == 2) 
+		this->visible++;
+	if (visibilidad == 0)
+		this->negro++;
+	if (visibilidad == 1)
+		this->gris++;
+
+    if (SDL_BlitSurface(prueba, this->area, this->screen, &posicionPantalla) != 0) {
     	Log::getInstance().log(1, __FILE__, __LINE__, "Error al agregar un componente a la pantalla");
 		return false;
     }
 	
+	SDL_FreeSurface(prueba);
 	return true;
 }
 
-bool SDLutil::graficar(double x, double y) {
+bool SDLutil::graficar(double x, double y, char visibilidad) {
 	this->x = x;
 	this->y = y;
 	
-	return this->graficar();
+	return this->graficar(visibilidad);
 }
 
 void SDLutil::limpiar() {

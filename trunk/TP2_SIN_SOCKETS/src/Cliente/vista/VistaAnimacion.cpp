@@ -46,23 +46,23 @@ bool VistaAnimacion::graficar(int index,double x,double y){
 	this->x = x;
 	this->y = y;
 	if (this->superficies.size() > index){
-		ok = this->superficies.at(index)->graficar(x,y);
+		//ok = this->superficies.at(index)->graficar(x,y);
 	}
 	return ok;
 }
 
-bool VistaAnimacion::graficar(double x, double y){
+bool VistaAnimacion::graficar(double x, double y, char visibilidad){
 	bool ok = false;
 	this->x = x;
 	this->y = y;
-	ok = this->superficies.at(indice)->graficar(x,y);
+	ok = this->superficies.at(indice)->graficar(x,y,visibilidad);
 	this->incrementarIndice();
 	return ok;
 }
 
 bool VistaAnimacion::graficar(){
 	bool ok = false;
-	ok = this->superficies.front()->graficar(this->x, this->y);
+	ok = this->superficies.front()->graficar(this->x, this->y,2);
 	return ok;
 }
 
