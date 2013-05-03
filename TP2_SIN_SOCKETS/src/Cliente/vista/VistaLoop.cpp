@@ -41,70 +41,60 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 	int posicionDelJugadorX = vistaNivel.getJugador()->getTileX();
 	int posicionDelJugadorY = vistaNivel.getJugador()->getTileY();
 
-	if (inicioX < 0) inicioX = 0;
-	if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
-	if (inicioY < 0) inicioY = 0;
-	if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();	
-
-	//***********************movimiento arriba y abajo**********************************************//
-
-	//se movio hacia arriba
-	if ( jugador->getTileY() < jugador->getTileYAnterior() ) {		
+	//se movio hacia arriba 
+	if ( (jugador->getTileY() < jugador->getTileYAnterior()) && (!(jugador->getTileX() < jugador->getTileXAnterior()))
+		&& (!(jugador->getTileX() > jugador->getTileXAnterior())) ) {		
+		if (inicioX < 0) inicioX = 0;
+		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (inicioY < 0) inicioY = 0;
+		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();	
 		
 		for (int i = inicioX; i <= finX; i++){
 			matriz[i][finY] = 1;
-		}
-		
-		for (int i = inicioX; i <= finX; i++){
 			matriz[i][inicioY] = 2;
 		}
+		
+	}
+
+	//se movio a la derecha
+	else if ( (jugador->getTileX() > jugador->getTileXAnterior()) && (!(jugador->getTileY() < jugador->getTileYAnterior()))
+		&& (!(jugador->getTileY() > jugador->getTileYAnterior())) ) {
+
+		inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible - 1; 
+		finX = vistaNivel.getJugador()->getTileX() + mitadDeZonaVisible; 
+		if (inicioX < 0) inicioX = 0;	
+		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+
+		inicioY = jugador->getTileY() - mitadDeZonaVisible;
+		finY = jugador->getTileY() + mitadDeZonaVisible;
+		if (inicioY < 0) inicioY = 0;
+		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+
+		for (int i = inicioY; i <= finY; i++){
+			matriz[inicioX][i] = 1;
+			matriz[finX][i] = 2;
+		}		
 
 	}
 
+	
+	//se movio hacia abajo
 	inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible; 
 	finX = vistaNivel.getJugador()->getTileX() + 2; 
 	if (inicioX < 0) inicioX = 0;	
 	if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
 
-	inicioY = jugador->getTileY() - 3;
+	inicioY = jugador->getTileY() - mitadDeZonaVisible - 1;
 	finY = jugador->getTileY() + 2;
 	if (inicioY < 0) inicioY = 0;
 	if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
-
-	//se movio hacia abajo
-	else if ( jugador->getTileY() > jugador->getTileYAnterior() ) {
+		
+	else if ( (jugador->getTileY() > jugador->getTileYAnterior()) && (!(jugador->getTileX() < jugador->getTileXAnterior()))
+		&& (!(jugador->getTileX() > jugador->getTileXAnterior())) ) {
 		
 		for (int i = inicioX; i <= finX; i++){
 			matriz[i][inicioY] = 1;
-		}
-		
-		for (int i = inicioX; i <= finX; i++){
 			matriz[i][finY] = 2;
-		}
-
-	}
-
-
-	inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible - 1; 
-	finX = vistaNivel.getJugador()->getTileX() + 2; 
-	if (inicioX < 0) inicioX = 0;	
-	if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
-
-	inicioY = jugador->getTileY() - 2;
-	finY = jugador->getTileY() + 2;
-	if (inicioY < 0) inicioY = 0;
-	if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
-	//****************movimiento derecha e izquierda*************//
-
-	//se movio a la derecha
-	else if ( jugador->getTileX() > jugador->getTileXAnterior() ) {
-
-		for (int i = inicioY; i <= finY; i++){
-			matriz[inicioX][i] = 1;
-		}
-		
-		for (int i = inicioY; i <= finY; i++){
-			matriz[finX][i] = 2;
 		}
 
 	}
@@ -120,7 +110,8 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 	if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
 
 	//se movio a la izquierda
-	else if ( jugador->getTileX() < jugador->getTileXAnterior() ) {
+	else if ( (jugador->getTileX() < jugador->getTileXAnterior()) && (!(jugador->getTileY() < jugador->getTileYAnterior()))
+		&& (!(jugador->getTileY() > jugador->getTileYAnterior())) ) {
 		
 		for (int i = inicioY; i <= finY; i++){
 			matriz[finX][i] = 1;
