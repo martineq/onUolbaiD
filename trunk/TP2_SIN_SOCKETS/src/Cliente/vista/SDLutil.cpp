@@ -55,12 +55,11 @@ SDL_Rect* SDLutil::getRect() {
 }
 
 bool SDLutil::graficar(char visibilidad) {
-	int colorClave;
-	SDL_Rect posicionPantalla;
-	SDL_Surface* prueba = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 100, 50, 32, 0, 0, 0, 0);
-	
-	colorClave = SDL_MapRGB(this->mySurface->format, 0, 0, 0);	
+	//int colorClave;		
+	//colorClave = SDL_MapRGB(this->mySurface->format, 0, 0, 0);	
+	SDL_Surface* prueba = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 100, 50, 32, 0, 0, 0, 0);	
 
+	SDL_Rect posicionPantalla;
 	posicionPantalla.h = this->area->h;
 	posicionPantalla.w = this->area->w;
 	posicionPantalla.x = this->x;
@@ -77,45 +76,43 @@ bool SDLutil::graficar(char visibilidad) {
 
 	if (visibilidad == 1) {
 		//opcion 1
-		//Uint32 colorGris = SDL_MapRGB(this->screen->format, 128, 128, 128); 
+		//Uint32 colorGris = SDL_MapRGB(this->screen->format, 127, 127, 127); 
 		//SDL_FillRect(this->mySurface, NULL, colorGris);		
 		//opcion 2
-		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( this->mySurface->format, 128, 128, 128 ) );
-		//bueno pruebo esto sino
-
-		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( prueba->format, 128, 128, 128 ) );
-		SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 255));//AZUL
+		//SDL_SetAlpha(this->mySurface, SDL_SRCALPHA|SDL_RLEACCEL, 127);
+		//opcion 3 
+		//SDL_Color colors[3];
+		//colors[0].r=127;
+        //colors[1].g=127;
+        //colors[2].b=127;
+		//SDL_SetPalette(this->mySurface, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 3);
+		//opcion con la que anda la prueba
+		SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 255));//AZUL		
 	}
 	else if (visibilidad == 0) {
-		//opcion 1
+		//opcion 1 negro fillrect
 		//Uint32 colorNegro = SDL_MapRGB(this->screen->format, 255, 255, 255); 
 		//SDL_FillRect(this->mySurface, NULL, colorNegro);		
-		//opcion 2
-		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( this->mySurface->format, 255, 255, 255 ) );
-		//bueno pruebo esto sino
-
-		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( prueba->format, 255, 255, 255 ) );		
+		//opcion 2 alpha
+		//SDL_SetAlpha(this->mySurface, SDL_SRCALPHA|SDL_RLEACCEL, 127);
+		//opcion 3
+		//SDL_Color colors[3];
+		//colors[0].r=255;
+        //colors[1].g=255;
+        //colors[2].b=255;
+		//SDL_SetPalette(this->mySurface, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 3);
+		//bueno pruebo esto sino		
 		SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 0));//NEGRO
 	}
 	else if (visibilidad == 2) {
-		//lo puse por ahora pero en teoria como deberia pintarse igual que en tp1 no iria este if
-		//Uint32 colorNegro = SDL_MapRGB(this->screen->format, 255, 255, 255); 
-		//SDL_FillRect(this->mySurface, NULL, colorNegro);		
-		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( this->mySurface->format, 0xff, 0xff, 0x00 ) );
-		//SDL_SetColorKey( prueba, SDL_SRCCOLORKEY, SDL_MapRGB( prueba->format, 0xff, 0xff, 0x00 ) );
+		//SDL_SetAlpha(this->mySurface, SDL_SRCALPHA|SDL_RLEACCEL, 127);
 		SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 255, 255, 0));//AMARILLO	
+		//SDL_FillRect(this->mySurface, NULL, SDL_MapRGB(this->screen->format, 255, 255, 0));//AMARILLO	
 		
 	}
 
-	
-	if (visibilidad == 2) 
-		this->visible++;
-	if (visibilidad == 0)
-		this->negro++;
-	if (visibilidad == 1)
-		this->gris++;
-
-    if (SDL_BlitSurface(prueba, this->area, this->screen, &posicionPantalla) != 0) {
+	if (SDL_BlitSurface(prueba, this->area, this->screen, &posicionPantalla) != 0) {
+	//if (SDL_BlitSurface(this->mySurface, this->area, this->screen, &posicionPantalla) != 0) {
     	Log::getInstance().log(1, __FILE__, __LINE__, "Error al agregar un componente a la pantalla");
 		return false;
     }
