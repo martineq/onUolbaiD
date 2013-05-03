@@ -18,9 +18,8 @@ class VistaChat {
 		std::string _textoIngresado;
 		TTF_Font* _fuente;
 		SDL_Surface* _ventana;
-		SDL_Surface* _cajaTextoMensajes;
-		SDL_Surface* _cajaTextoIngresado;
-
+		int _altoOcupadoTextoMensajes;
+	
 	public:
 		VistaChat(Posicion posicion, std::string remitente);
 

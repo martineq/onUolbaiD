@@ -780,7 +780,7 @@ void Pruebas::PruebaChat() {
 	SDL_Surface* pantalla = SDL_SetVideoMode(800, 600, 0, 0);
 	
 	vistaChat->asignarDestinatario("destinatario");
-
+	
 	SDL_EnableUNICODE(SDL_ENABLE);
 
 	while (!salir) {

@@ -1,34 +1,49 @@
 #include "VistaChat.h"
 
-//TODO: Ver de usar esta funcion para mejorar el tema de los tamaños
-//TTF_SizeText
-
 #define MARGEN 5
-#define ALTO_LETRA 14
-#define ANCHO_LETRA 11
-#define CANTIDAD_MAXIMA_CARACTERES_DESTINATARIO 10
-#define CANTIDAD_MAXIMA_CARACTERES_MENSAJE 55
-#define CANTIDAD_MAXIMA_MENSAJES 10
-
-#define ALTO_TEXTO_MENSAJES (ALTO_LETRA * CANTIDAD_MAXIMA_MENSAJES)
-#define ANCHO_TEXTO_MENSAJES (ANCHO_LETRA * (CANTIDAD_MAXIMA_CARACTERES_DESTINATARIO + MARGEN + CANTIDAD_MAXIMA_CARACTERES_MENSAJE))
-
-#define ALTO_TEXTO_INGRESADO (ALTO_LETRA)
-#define ANCHO_TEXTO_INGRESADO (ANCHO_LETRA * CANTIDAD_MAXIMA_CARACTERES_MENSAJE)
-
+#define ALTO_TEXTO_MENSAJES 140
+#define ANCHO_TEXTO_MENSAJES 200
+#define ALTO_TEXTO_INGRESADO 14
+#define ANCHO_TEXTO_INGRESADO 200
 #define ALTO_VENTANA (ALTO_TEXTO_MENSAJES + ALTO_TEXTO_INGRESADO + (3 * MARGEN))
 #define ANCHO_VENTANA (ANCHO_TEXTO_MENSAJES + (2 * MARGEN))
 
 using namespace std;
+
+SDL_Surface* crearVentana() {
+	SDL_Surface* ventana = SDL_CreateRGBSurface(SDL_SWSURFACE, ANCHO_VENTANA, ALTO_VENTANA, 32, 0, 0, 0, 0);
+	SDL_Surface* cajaTextoMensajes = SDL_CreateRGBSurface(SDL_SWSURFACE, ANCHO_TEXTO_MENSAJES, ALTO_TEXTO_MENSAJES, 32, 0, 0, 0, 0);
+	SDL_Surface* cajaTextoIngresado = SDL_CreateRGBSurface(SDL_SWSURFACE, ANCHO_TEXTO_INGRESADO, ALTO_TEXTO_INGRESADO, 32, 0, 0, 0, 0);
+	SDL_Rect rectanguloDestino;
+
+	SDL_FillRect(ventana, NULL, SDL_MapRGB(ventana->format, 255, 0, 0));
+	
+	rectanguloDestino.h = cajaTextoMensajes->h;
+	rectanguloDestino.w = cajaTextoMensajes->w;
+	rectanguloDestino.x = MARGEN;
+	rectanguloDestino.y = MARGEN;
+
+	SDL_FillRect(cajaTextoMensajes, NULL, SDL_MapRGB(ventana->format, 255, 255, 255));
+	SDL_BlitSurface(cajaTextoMensajes, NULL, ventana, &rectanguloDestino);
+	
+	rectanguloDestino.h = cajaTextoIngresado->h;
+	rectanguloDestino.w = cajaTextoIngresado->w;
+	rectanguloDestino.x = MARGEN;
+	rectanguloDestino.y = cajaTextoMensajes->h + (2 * MARGEN);
+
+	SDL_FillRect(cajaTextoIngresado, NULL, SDL_MapRGB(ventana->format, 255, 255, 255));
+	SDL_BlitSurface(cajaTextoIngresado, NULL, ventana, &rectanguloDestino);
+
+	return ventana;
+}
 
 VistaChat::VistaChat(Posicion posicion, string remitente) {
 	this->_posicion = posicion;
 	this->_remitente = remitente;
 	this->_visible = false;
 	this->_fuente = TTF_OpenFont("verdana.ttf", 10);
-	this->_ventana = SDL_CreateRGBSurface(SDL_SWSURFACE, ANCHO_VENTANA, ALTO_VENTANA, 32, 0, 0, 0, 0);
-	this->_cajaTextoMensajes = SDL_CreateRGBSurface(SDL_SWSURFACE, ANCHO_TEXTO_MENSAJES, ALTO_TEXTO_MENSAJES, 32, 0, 0, 0, 0);
-	this->_cajaTextoIngresado = SDL_CreateRGBSurface(SDL_SWSURFACE, ANCHO_TEXTO_INGRESADO, ALTO_TEXTO_INGRESADO, 32, 0, 0, 0, 0);
+	this->_ventana = crearVentana();
+	this->_altoOcupadoTextoMensajes = 0;
 }
 
 VistaChat::~VistaChat() {
@@ -36,17 +51,19 @@ VistaChat::~VistaChat() {
 		TTF_CloseFont(this->_fuente);
 	if (this->_ventana != NULL)
 		SDL_FreeSurface(this->_ventana);
-	if (this->_cajaTextoMensajes != NULL)
-		SDL_FreeSurface(this->_cajaTextoMensajes);
-	if (this->_cajaTextoIngresado != NULL)
-		SDL_FreeSurface(this->_cajaTextoIngresado);
 }
 
 void VistaChat::agregarMensaje(string remitente, string mensaje) {
-	if (this->_mensajes.size() == 10)
+	// Calculo el tamaño que tendria el texto mostrado en pantalla
+	int ancho = 0, alto = 0;
+	TTF_SizeText(this->_fuente, (remitente + ": " + mensaje).c_str(), &ancho, &alto);
+
+	// Si alcanzo el alto del texto quito el primer mensaje
+	if (this->_altoOcupadoTextoMensajes + alto >= ALTO_TEXTO_MENSAJES)
 		this->_mensajes.pop_front();
-	string cadena = remitente + ": " + mensaje;
-	this->_mensajes.push_back(cadena.substr(0, CANTIDAD_MAXIMA_CARACTERES_MENSAJE));
+	else
+		this->_altoOcupadoTextoMensajes += alto;
+	this->_mensajes.push_back(remitente + ": " + mensaje);
 }
 
 void VistaChat::asignarDestinatario(std::string destinatario) {
@@ -57,69 +74,54 @@ bool VistaChat::graficar(SDL_Surface* pantalla) {
 	if (!this->_visible)
 		return true;
 
-	if ((this->_fuente == NULL) || (this->_ventana == NULL) || (this->_cajaTextoMensajes == NULL) || (this->_cajaTextoIngresado == NULL))
+	if ((this->_fuente == NULL) || (this->_ventana == NULL))
 		return false;
 	
-	SDL_Rect posicionDestino;
+	SDL_Rect rectanguloOrigen, rectanguloDestino;
 	SDL_Color colorTexto = { 0, 0, 0 };
-	SDL_Color colorFondo = { 255, 255, 255 };
-	SDL_Surface* textoIngresado = TTF_RenderText_Shaded(this->_fuente, this->_textoIngresado.c_str(), colorTexto, colorFondo);
-	SDL_Surface* textoDestinatario = TTF_RenderText_Blended(this->_fuente, (this->_destinatario.substr(0, CANTIDAD_MAXIMA_CARACTERES_DESTINATARIO) + ":").c_str(), colorTexto);
+	SDL_Surface* textoIngresado = TTF_RenderText_Blended(this->_fuente, this->_textoIngresado.c_str(), colorTexto);
 	int contadorMensajes = 0;
 	
 	// Muestra la ventana completa
-	posicionDestino.h = this->_ventana->h;
-	posicionDestino.w = this->_ventana->w;
-	posicionDestino.x = this->_posicion.x;
-	posicionDestino.y = this->_posicion.y;
+	rectanguloDestino.h = this->_ventana->h;
+	rectanguloDestino.w = this->_ventana->w;
+	rectanguloDestino.x = this->_posicion.x;
+	rectanguloDestino.y = this->_posicion.y;
 
-	SDL_FillRect(this->_ventana, NULL, SDL_MapRGB(this->_cajaTextoIngresado->format, 255, 0, 0));
-	SDL_BlitSurface(this->_ventana, NULL, pantalla, &posicionDestino);
-
-	posicionDestino.h = this->_cajaTextoMensajes->h;
-	posicionDestino.w = this->_cajaTextoMensajes->w;
-	posicionDestino.x = this->_posicion.x + MARGEN;
-	posicionDestino.y = this->_posicion.y + MARGEN;
+	SDL_BlitSurface(this->_ventana, NULL, pantalla, &rectanguloDestino);
 
 	// Muestra los mensajes
-	SDL_FillRect(this->_cajaTextoMensajes, NULL, SDL_MapRGB(this->_cajaTextoIngresado->format, 255, 255, 255));
-	SDL_BlitSurface(this->_cajaTextoMensajes, NULL, pantalla, &posicionDestino);
-
 	for (list<string>::iterator mensaje = this->_mensajes.begin(); mensaje != this->_mensajes.end(); mensaje++) {
-		SDL_Surface* textoMensaje = TTF_RenderText_Shaded(this->_fuente, (*mensaje).c_str(), colorTexto, colorFondo);
+		SDL_Surface* textoMensaje = TTF_RenderText_Blended(this->_fuente, (*mensaje).c_str(), colorTexto);
 		if (textoMensaje != NULL) {
-			posicionDestino.h = textoMensaje->h;
-			posicionDestino.w = textoMensaje->w;
-			posicionDestino.y = this->_posicion.y + MARGEN + (contadorMensajes++ * 14);
+			rectanguloOrigen.h = textoMensaje->h;
+			rectanguloOrigen.w = ANCHO_TEXTO_MENSAJES;
+			rectanguloOrigen.x = 0;
+			rectanguloOrigen.y = 0;
 
-			SDL_BlitSurface(textoMensaje, NULL, pantalla, &posicionDestino);
+			rectanguloDestino.h = textoMensaje->h;
+			rectanguloDestino.w = textoMensaje->w;
+			rectanguloDestino.x = this->_posicion.x + MARGEN;
+			rectanguloDestino.y = this->_posicion.y + MARGEN + (contadorMensajes++ * 14);
+
+			SDL_BlitSurface(textoMensaje, &rectanguloOrigen, pantalla, &rectanguloDestino);
 			SDL_FreeSurface(textoMensaje);
 		}
 	}
 
-	// Muestro destinatario
-	if (textoDestinatario != NULL) {
-		posicionDestino.h = textoDestinatario->h;
-		posicionDestino.w = textoDestinatario->w;
-		posicionDestino.x = this->_posicion.x + MARGEN;
-		posicionDestino.y = this->_posicion.y + this->_cajaTextoMensajes->h + (2 * MARGEN);
-		SDL_BlitSurface(textoDestinatario, NULL, pantalla, &posicionDestino);
-		SDL_FreeSurface(textoDestinatario);
-	}
-	
 	// Muestro el mensaje ingresado
-	posicionDestino.h = this->_cajaTextoIngresado->h;
-	posicionDestino.w = this->_cajaTextoIngresado->w;
-	posicionDestino.x = this->_posicion.x + this->_ventana->w - MARGEN - this->_cajaTextoIngresado->w;
-	posicionDestino.y = this->_posicion.y + this->_cajaTextoMensajes->h + (2 * MARGEN);
-
-	SDL_FillRect(this->_cajaTextoIngresado, NULL, SDL_MapRGB(this->_cajaTextoIngresado->format, 255, 255, 255));
-	SDL_BlitSurface(this->_cajaTextoIngresado, NULL, pantalla, &posicionDestino);
-
 	if (textoIngresado != NULL) {
-		posicionDestino.h = textoIngresado->h;
-		posicionDestino.w = textoIngresado->w;
-		SDL_BlitSurface(textoIngresado, NULL, pantalla, &posicionDestino);
+		rectanguloOrigen.h = textoIngresado->h;
+		rectanguloOrigen.w = ANCHO_TEXTO_INGRESADO;
+		rectanguloOrigen.x = 0;
+		rectanguloOrigen.y = 0;
+
+		rectanguloDestino.h = textoIngresado->h;
+		rectanguloDestino.w = textoIngresado->w;
+		rectanguloDestino.x = this->_posicion.x + MARGEN;
+		rectanguloDestino.y = this->_posicion.y + (2 * MARGEN) + ALTO_TEXTO_MENSAJES;
+
+		SDL_BlitSurface(textoIngresado, &rectanguloOrigen, pantalla, &rectanguloDestino);
 		SDL_FreeSurface(textoIngresado);
 	}
 	
@@ -140,8 +142,12 @@ void VistaChat::teclaPresionada(Uint16 tecla) {
 		return;
 	}
 
-	// Si alcanzo la cantidad maxima de caracteres salgo
-	if (this->_textoIngresado.length() >= CANTIDAD_MAXIMA_CARACTERES_MENSAJE)
+	// Calculo el tamaño que tendria el texto mostrado en pantalla
+	int ancho = 0, alto = 0;
+	TTF_SizeText(this->_fuente, (this->_textoIngresado + (char)tecla).c_str(), &ancho, &alto);
+
+	// Si alcanzo el ancho del texto salgo
+	if (ancho >= ANCHO_TEXTO_INGRESADO)
 		return;
 	
 	// Si presiono un caracter valido lo agrego a la cadena
