@@ -57,13 +57,7 @@ SDL_Rect* SDLutil::getRect() {
 bool SDLutil::graficar(char visibilidad) {
 	//int colorClave;		
 	//colorClave = SDL_MapRGB(this->mySurface->format, 0, 0, 0);	
-	SDL_Surface* prueba = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 100, 50, 32, 0, 0, 0, 0);	
-
-	SDL_Rect posicionPantalla;
-	posicionPantalla.h = this->area->h;
-	posicionPantalla.w = this->area->w;
-	posicionPantalla.x = this->x;
-	posicionPantalla.y = this->y;
+	//SDL_Surface* prueba = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCALPHA, 100, 50, 32, 0, 0, 0, 0);		
 
 	/*if (SDL_SetColorKey(this->mySurface, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorClave) != 0) {
     	Log::getInstance().log(1, __FILE__, __LINE__, "Error al agregar un componente a la pantalla");
@@ -81,13 +75,19 @@ bool SDLutil::graficar(char visibilidad) {
 		//opcion 2
 		//SDL_SetAlpha(this->mySurface, SDL_SRCALPHA|SDL_RLEACCEL, 127);
 		//opcion 3 
-		//SDL_Color colors[3];
-		//colors[0].r=127;
-        //colors[1].g=127;
-        //colors[2].b=127;
-		//SDL_SetPalette(this->mySurface, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 3);
+			/* Create a display surface with a grayscale palette */
+			SDL_Surface *screen;
+			SDL_Color colors[256];
+			int i;
+			/* Fill colors with color information */
+			for(i=0;i<256;i++){
+				colors[i].r=i;
+				colors[i].g=i;
+				colors[i].b=i;
+			}
+			SDL_SetPalette(this->mySurface, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 256);
 		//opcion con la que anda la prueba
-		SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 255));//AZUL		
+		//SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 255));//AZUL				
 	}
 	else if (visibilidad == 0) {
 		//opcion 1 negro fillrect
@@ -96,28 +96,39 @@ bool SDLutil::graficar(char visibilidad) {
 		//opcion 2 alpha
 		//SDL_SetAlpha(this->mySurface, SDL_SRCALPHA|SDL_RLEACCEL, 127);
 		//opcion 3
-		//SDL_Color colors[3];
-		//colors[0].r=255;
-        //colors[1].g=255;
-        //colors[2].b=255;
-		//SDL_SetPalette(this->mySurface, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 3);
+		/* Create a display surface with a grayscale palette */
+			SDL_Surface *screen;
+			SDL_Color colors[256];
+			int i;
+			/* Fill colors with color information */
+			for(i=0;i<256;i++){
+				colors[i].r=i;
+				colors[i].g=i;
+				colors[i].b=i;
+			}
+			SDL_SetPalette(this->mySurface, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 256);
 		//bueno pruebo esto sino		
-		SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 0));//NEGRO
+		//SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 0));//NEGRO		
 	}
 	else if (visibilidad == 2) {
 		//SDL_SetAlpha(this->mySurface, SDL_SRCALPHA|SDL_RLEACCEL, 127);
-		SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 255, 255, 0));//AMARILLO	
-		//SDL_FillRect(this->mySurface, NULL, SDL_MapRGB(this->screen->format, 255, 255, 0));//AMARILLO	
-		
+		//SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 255, 255, 0));//AMARILLO	
+		//SDL_FillRect(this->mySurface, NULL, SDL_MapRGB(this->screen->format, 255, 255, 0));//AMARILLO			
 	}
+	
+	SDL_Rect posicionPantalla;
+	posicionPantalla.h = this->area->h;
+	posicionPantalla.w = this->area->w;
+	posicionPantalla.x = this->x;
+	posicionPantalla.y = this->y;
 
-	if (SDL_BlitSurface(prueba, this->area, this->screen, &posicionPantalla) != 0) {
-	//if (SDL_BlitSurface(this->mySurface, this->area, this->screen, &posicionPantalla) != 0) {
+	//if (SDL_BlitSurface(prueba, this->area, this->screen, &posicionPantalla) != 0) {
+	if (SDL_BlitSurface(this->mySurface, this->area, this->screen, &posicionPantalla) != 0) {
     	Log::getInstance().log(1, __FILE__, __LINE__, "Error al agregar un componente a la pantalla");
 		return false;
     }
 	
-	SDL_FreeSurface(prueba);
+	//SDL_FreeSurface(prueba);	
 	return true;
 }
 
