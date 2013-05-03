@@ -10,21 +10,21 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 
 char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, char** matriz){
 	//si alguna esquina tiene el numero 2 es porque es visible
-	if ( (matriz[unaEntidad->getTileX()][unaEntidad->getTileY()] == 2) || 
-		 ((matriz[(int)(unaEntidad->getTileX())][(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)]) == 2) ||
-		 ((matriz[(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)][(int)unaEntidad->getTileY()]) == 2) || 
-		 ((matriz[(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)][(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)]) == 2) )
-	return 2;
+	if ( (matriz[unaEntidad->getTileX()][unaEntidad->getTileY()] == VISIBLE) || 
+		 ((matriz[(int)(unaEntidad->getTileX())][(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)]) == VISIBLE) ||
+		 ((matriz[(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)][(int)unaEntidad->getTileY()]) == VISIBLE) || 
+		 ((matriz[(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)][(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)]) == VISIBLE) )
+	return VISIBLE;
 
 	//si alguna esquina tiene el numero 1 es porque es gris
-	else if ( (matriz[unaEntidad->getTileX()][unaEntidad->getTileY()] == 1) || 
-		 ((matriz[(int)(unaEntidad->getTileX())][(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)]) == 1) ||
-		 ((matriz[(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)][(int)unaEntidad->getTileY()]) == 1) || 
-		 ((matriz[(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)][(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)]) == 1) )
-	return 1;
+	else if ( (matriz[unaEntidad->getTileX()][unaEntidad->getTileY()] == CONOCIDO_NO_VISIBLE) || 
+		 ((matriz[(int)(unaEntidad->getTileX())][(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)]) == CONOCIDO_NO_VISIBLE) ||
+		 ((matriz[(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)][(int)unaEntidad->getTileY()]) == CONOCIDO_NO_VISIBLE) || 
+		 ((matriz[(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)][(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)]) == CONOCIDO_NO_VISIBLE) )
+	return CONOCIDO_NO_VISIBLE;
 	
 	//si ninguna esquina es 1 o 2 es porque es 0
-	else return 0;
+	else return NO_CONOCIDO;
 }
 
 void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
@@ -33,8 +33,7 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 
 	//******************************Validacion de posicion para arriba o abajo*****************************//
 
-	int zonaVisible = 5; 
-	int mitadDeZonaVisible = (int)zonaVisible/2;
+	int mitadDeZonaVisible = ZONA_VISIBLE/2;
 	int inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible;
 	int finX = vistaNivel.getJugador()->getTileX() + mitadDeZonaVisible;		
 	int inicioY = vistaNivel.getJugador()->getTileY() - mitadDeZonaVisible;
