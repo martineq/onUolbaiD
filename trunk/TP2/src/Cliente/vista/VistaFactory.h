@@ -13,6 +13,7 @@ class VistaFactory{
 
 	private:
 		struct stVistaJuegoElegido{
+			int idJugador;
 			std::list<ParserYaml::stEntidad> listaEntidades;
 			ParserYaml::stEscenario escenario;
 			ParserYaml::stProtagonista protagonista;
@@ -24,7 +25,7 @@ class VistaFactory{
 		bool recibirArchivos(SocketCliente* pSocket);
 		bool recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket);
 		ParserYaml::stEscenario elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket);
-		ParserYaml::stProtagonista elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,SocketCliente* pSocket);
+		ParserYaml::stProtagonista elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,int& idJugador,SocketCliente* pSocket);
 
 		bool crearElementosVista(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);
 		void crearJugadorConScroll(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket);

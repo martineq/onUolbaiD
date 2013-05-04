@@ -2,6 +2,7 @@
 
 #include "./ModeloEntidad.h"
 #include "../../utils/Observador/Identificable.h"
+#include "../../utils/Hilos/Mutex.h"
 
 class ModeloNivel {
 	private:
@@ -9,6 +10,7 @@ class ModeloNivel {
 		int anchoTiles;
 		std::list<ModeloEntidad*> listaJugadores;
 		std::list<ModeloEntidad*> listaEntidades;
+		Mutex mutexListaJugadores; //TODO: Ver como implementar este mutex, porque en realidad tambien hay que proteger a cada ModeloEntidad* individualmente 
 
 		ModeloEntidad* obtenerJugador(int id);
 		ModeloEntidad* obtenerEntidad(int id);

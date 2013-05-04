@@ -4,7 +4,6 @@
 #include <fstream> 
 #include <string>
 #include <list>
-#include <winsock.h>
 #include "../Constantes/Constantes.h"
 #include "../Log/Log.h"
 #include "../Hilos/Hilo.h"

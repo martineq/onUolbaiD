@@ -1,9 +1,7 @@
 #include "Hilo.h"
 
-long Hilo::contador = 0;
-
 Hilo::Hilo(){
-	this->id = InterlockedIncrement(&(this->contador));
+	this->id = Ticket::getInstance().pedirNumero();
 }
 
 int Hilo::getId(void){

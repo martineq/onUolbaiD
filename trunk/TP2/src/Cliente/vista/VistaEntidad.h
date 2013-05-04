@@ -28,12 +28,10 @@ class VistaEntidad: public Identificable{
 		bool entraEnPantalla;
 		double xEnPantalla;
 		double yEnPantalla;
-			
-		static long contador; // Para generar ID's Automáticos
 		vector<string> estados;		
 
 	public:
-		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel);
+		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id);
 		~VistaEntidad(void);
 
 		void actualizar(ProxyModeloEntidad::stEntidad entidad);

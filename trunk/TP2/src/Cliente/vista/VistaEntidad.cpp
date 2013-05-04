@@ -1,9 +1,7 @@
 #include "VistaEntidad.h"
 
-long VistaEntidad::contador = 0; // Para el ID
-
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel){
-	this->_id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id){
+	this->_id = id;
 
 	int xAux, yAux;
 
@@ -70,7 +68,7 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 	this->yEnPantalla = this->y - scrollY;
 }
 
-// TODO: Este método será usado ahora por el ProxyModeloEntidad
+// Este método será usado ahora por el ProxyModeloEntidad
 void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad entidad){
 
 	this->x = entidad.pixelSiguienteX;

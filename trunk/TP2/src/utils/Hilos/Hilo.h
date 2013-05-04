@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <pthread.h>
-#include <winsock.h>  // Para usar InterlockedIncrement()
+#include "../Ticket/Ticket.h"
 
 class Hilo {
 
@@ -12,9 +12,6 @@ class Hilo {
 			void* parametro;
 		};
 		pthread_t thread;
-
-		// Para generar ID's Automáticos
-		static long contador;
 		long id;
 
 		static void* rutina(void* parametro);

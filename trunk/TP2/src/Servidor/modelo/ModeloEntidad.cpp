@@ -1,18 +1,15 @@
 #include "ModeloEntidad.h"
 
-using namespace std;
+ModeloEntidad::ModeloEntidad(const ModeloEntidad &modeloEntidad){
 
-long ModeloEntidad::_ultimoId = 0;
-
-ModeloEntidad::ModeloEntidad(const ModeloEntidad &modeloEntidad) {
 }
 
-ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {
+ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad){
 	return *this;
 }
 
-ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad) {
-	this->_id = (int)InterlockedIncrement(&this->_ultimoId);
+ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad,int id) {
+	this->_id = id;
 	this->_esJugador = esJugador;
 	this->_alto = alto;
 	this->_ancho = ancho;

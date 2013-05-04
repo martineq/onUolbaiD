@@ -1,9 +1,7 @@
 #include "VistaScroll.h"
 
-long VistaScroll::contador = 0; // Para el ID
-
-VistaScroll::VistaScroll(double x,double y,double alto,double ancho, double anchoNivel, double altoNivel, SDL_Surface* pantalla){
-	this->_id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
+VistaScroll::VistaScroll(double x,double y,double alto,double ancho, double anchoNivel, double altoNivel, SDL_Surface* pantalla,int id){
+	this->_id = id;
 	this->x = x;
 	this->y = y;
 	this->alto = alto;
