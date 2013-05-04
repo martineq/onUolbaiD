@@ -12,7 +12,7 @@ class ProxyModeloEntidad{
 			double pixelSiguienteY;
 			int direccion;
 			bool esUltimoMovimiento;
-	};
+		};
 
 	private:
 		SocketCliente* pCliente;

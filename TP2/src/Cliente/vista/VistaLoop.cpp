@@ -18,7 +18,7 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 }
 
 bool VistaLoop::loop(VistaNivel& vistaNivel){
-	this->actualizarEntidadesPorProxy(vistaNivel);
+	this->actualizarEntidadesPorProxy(vistaNivel);  // Nuevo: Actuliza lo que vino por el proxy
 	if( this->dibujarEntidades(vistaNivel) == false) return false;
 	return true;
 }
@@ -64,7 +64,7 @@ void VistaLoop::SetProxyModeloEntidad(ProxyModeloEntidad* pProxyEntidad){
 }
 
 void VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel){
-	// TODO: Repasar y ver si cumple con todo.
+	// TODO: Repasar y ver si cumple lo pedido.
 
 	// Si antes corté por tener entidad con ID repetido, la misma quedó en espera y entonces ahora la actualizo primero
 	if( this->hayEntidadEnEspera == true ){
@@ -106,4 +106,5 @@ void VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel){
 void VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel){
 
 	// TODO: Implementar. Busco la entidad en VistaNivel por su ID y actualizo los datos
+
 }

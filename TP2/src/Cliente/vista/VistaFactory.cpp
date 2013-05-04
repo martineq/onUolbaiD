@@ -209,6 +209,9 @@ void VistaFactory::crearEntidades(stVistaJuegoElegido& juego, VistaNivel& vistaN
 
 bool VistaFactory::crearElementosControlador(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket){
 
+	// Seteo el ID del jugador en el Evento
+	evento->setIdJugador(juego.idJugador);
+
 	// Creo el Scroll
 	this->crearControladorScroll(juego,evento);
 	

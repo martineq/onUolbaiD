@@ -103,6 +103,14 @@ bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 }
 
 void ModeloEntidad::notificarAlProxy(void){
-	// TODO: implementar usando this->proxyEntidad.enviarEntidad(...)
+	ProxyModeloEntidad::stEntidad entidad;
+	entidad.id = this->id();
+	entidad.pixelSiguienteX = this->pixelSiguiente().x;
+	entidad.pixelSiguienteY = this->pixelSiguiente().y;
+	entidad.direccion = this->direccion();
+	entidad.esUltimoMovimiento = this->esUltimoMovimiento();
+	// TODO: agregar en el ProxyModeloEntidad::stEntidad y acá los nuevos atributos para el TP2
+	this->_pProxyEntidad->enviarEntidad(entidad);
+
 	return void();
 }
