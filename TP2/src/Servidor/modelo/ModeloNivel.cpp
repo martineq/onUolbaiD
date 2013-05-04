@@ -2,12 +2,15 @@
 
 ModeloEntidad* ModeloNivel::obtenerJugador(int id) {
 	//TODO: Descomentar al implementar ids
-	/*for (list<ModeloEntidad*>::iterator modeloEntidad = this->listaJugadores.begin(); modeloEntidad != this->listaJugadores.end(); modeloEntidad++)
+	/*
+	
+	for (list<ModeloEntidad*>::iterator modeloEntidad = this->listaJugadores.begin(); modeloEntidad != this->listaJugadores.end(); modeloEntidad++)
 	{
 		if ((*modeloEntidad)->id() == id)
 			return *modeloEntidad;
 	}
-	return NULL;*/
+	
+	*/
 	return *this->listaJugadores.begin();
 }
 

@@ -117,5 +117,5 @@ void ImageLoader::refrescarPantalla(SDL_Surface* screen){
 	SDL_UpdateRect(screen, 0, 0, 0, 0);
 }
 ImageLoader::~ImageLoader() {
-	// TODO ¿Falta agregar algo acá?
+	// ¿Falta agregar algo acá?
 }

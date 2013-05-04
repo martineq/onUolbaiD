@@ -30,7 +30,7 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 	juegoElegido.pantalla = juegoYaml.pantalla;
 	juegoElegido.configuracion = juegoYaml.configuracion;
 	juegoElegido.escenario = this->elegirEscenario(juegoYaml.escenarios,pSocket);
-	juegoElegido.protagonista = this->elegirProtagonista(juegoElegido.escenario.protagonistas,pSocket);
+	juegoElegido.protagonista = this->elegirProtagonista(juegoElegido.escenario.protagonistas,juegoElegido.idJugador,pSocket);
 
 	// Creo los elementos de la Vista
 	if( this->crearElementosVista(juegoElegido,vistaNivel,vistaLoop,pSocket) == false ) return false;
@@ -115,12 +115,12 @@ bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCl
 ParserYaml::stEscenario VistaFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket){
 	ParserYaml::stEscenario escenario = listaEscenarios.front();
 	
-	// TODO: Ver si el escenario siempre va a poder ser el 1ro de la lista o si el Servidor me dice cual tengo que elegir
+	// TODO: Implementar. Ver si el escenario siempre va a poder ser el 1ro de la lista o si el Servidor me dice cual tengo que elegir
 
 	return escenario;
 }
 
-ParserYaml::stProtagonista VistaFactory::elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,SocketCliente* pSocket){
+ParserYaml::stProtagonista VistaFactory::elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,int& idJugador,SocketCliente* pSocket){
 // TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del ModeloFactory::crearJugador() ***
 
 	ParserYaml::stProtagonista protagonista = listaProtagonistas.front();
@@ -168,8 +168,8 @@ void VistaFactory::crearJugadorConScroll(stVistaJuegoElegido& juego, VistaNivel&
 	double delay = (double)entidadProtagonista.delay;
 	std::list<std::list<std::string>> listaAnimaciones = entidadProtagonista.imagenes;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY);
-	VistaScroll* pScroll = new VistaScroll(x,y,juego.pantalla.alto,juego.pantalla.ancho,tamanioX,tamanioY,pantalla);	// Tomo el mismo x,y,velocidad que el personaje
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,juego.idJugador);
+	VistaScroll* pScroll = new VistaScroll(x,y,juego.pantalla.alto,juego.pantalla.ancho,tamanioX,tamanioY,pantalla,juego.idJugador);	// Tomo el mismo x,y,velocidad que el personaje
 	vistaNivel.agregarJugador(pJugador);
 	vistaNivel.agregarScroll(pScroll);
 	vistaNivel.agregarTamanioNivel(tamanioX,tamanioY);
@@ -199,7 +199,7 @@ void VistaFactory::crearEntidades(stVistaJuegoElegido& juego, VistaNivel& vistaN
 		double delay = (double)entidad.delay;
 		std::list<std::list<std::string>> listaAnimaciones = entidad.imagenes;
 
-		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY);
+		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,juego.idJugador);
 		vistaNivel.agregarEntidad(pEntidad);
 
 	}

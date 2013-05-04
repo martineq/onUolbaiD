@@ -2,8 +2,6 @@
 
 #include <math.h>
 #include <iostream>
-#include <winsock.h>
-
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"
 #include "../../utils/Observador/Identificable.h"
@@ -72,8 +70,6 @@ class ModeloEntidad: public Identificable {
 				void cambiarEstado();
 		};
 
-		static long _ultimoId;
-
 		int _id;
 		bool _esJugador;
 		int _alto;
@@ -96,7 +92,7 @@ class ModeloEntidad: public Identificable {
 		ModeloEntidad& operator=(const ModeloEntidad &modeloEntidad);
 
 	public:
-		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad);
+		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad,int id);
 
 		virtual ~ModeloEntidad();
 

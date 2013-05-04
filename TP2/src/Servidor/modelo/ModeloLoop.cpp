@@ -25,7 +25,7 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel,int* jugadoresConectados,Mutex* m
 		
 		this->_modeloEvento.cargarProximoEvento();  // Con esto descarto el evento que acabo de leer y carga el próximo
 
-		modeloNivel.actualizar(idJugador); // TODO: Ver si esta línea va acá o si va afuera del while y se debe actualizar a todos los jugadores existentes
+		modeloNivel.actualizar(idJugador); // TODO: Ver si esta línea va acá, o si va afuera del while, y de esa forma se debe actualizar a todos los jugadores existentes Preguntar Mati
 	}
 
 	return true;

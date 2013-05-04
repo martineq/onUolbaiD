@@ -28,7 +28,6 @@ ParserYaml::~ParserYaml(void){
 ParserYaml::stJuego ParserYaml::cargarConfiguracionDeJuego(void){
 
 	if( this->archivoYaLeido == true ){
-		// TODO: ¿Pongo un sleep por las dudas de acceso mientras está parseando?
 		return this->juego; // Para poder leer los datos varias veces
 	}
 
@@ -404,7 +403,7 @@ int ParserYaml::validaCantidadVecesEnEntidadABorrar(std::list<stEntidad>::iterat
 
 bool ParserYaml::validaListaImagenes(std::list<std::list<std::string>>& listaImagenes, std::string nombreEntidad){
 
-		bool imagenesOk = true;	// Lo pongo antes del ciclo for porque una sola imagen descalifica todo
+		bool imagenesOk = true;	// Lo pongo antes del ciclo for porque una sola imagen descalifica a todas las demas
 
 		// Chequeo si la lista de animaciones está vacía
 		if ( listaImagenes.empty() == true){

@@ -2,7 +2,7 @@
 
 VistaAnimaciones::VistaAnimaciones() {
 	this->animacionesAutomaticas = false;
-	// TODO ¿Falta agregar algo mas acá?
+	// ¿Falta agregar algo mas acá?
 }
 
 /**

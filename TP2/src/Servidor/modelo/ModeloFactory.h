@@ -6,6 +6,7 @@
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/yaml/ParserYaml.h"
 #include "../../utils/Sockets/SocketServidor.h"
+#include "../../utils/Ticket/Ticket.h"
 
 class ModeloFactory{
 
@@ -17,7 +18,9 @@ class ModeloFactory{
 			ParserYaml::stConfiguracion configuracion;
 			ParserYaml::stPantalla pantalla;
 		};
-		
+		std::list<int> listaIdEntidades;
+		std::string escenarioElegido;
+
 		void crearEntidades(stModeloJuegoElegido& juego, ModeloNivel& modeloNivel,SocketServidor* pSocket);
 		ParserYaml::stEscenario elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketServidor* pSocket);
 		ParserYaml::stProtagonista elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,SocketServidor* pSocket);

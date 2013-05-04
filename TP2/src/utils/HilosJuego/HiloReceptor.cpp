@@ -6,7 +6,7 @@ HiloReceptor::HiloReceptor(void){
 }
 
 HiloReceptor::~HiloReceptor(void){
-	// Cerramos todos los hilos (se hayan terminado de configurar o no) porque su hilo padre está por destruirse. Ver si cierra todo bien
+	// Cerramos todos los hilos (se hayan terminado de configurar o no) porque su hilo padre está por destruirse. Ver si cierra bien
 	int cantidadHilos = this->clientesEnConfiguracion.size();
 	for(int i = 0 ; i < cantidadHilos ; i++){
 		this->clientesEnConfiguracion[i]->detenerActividad();
