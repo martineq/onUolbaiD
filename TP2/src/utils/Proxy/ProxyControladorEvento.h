@@ -28,5 +28,3 @@ class ProxyControladorEvento{
 		bool recibirEvento(ProxyControladorEvento::stEvento& evento);
 		
 };
-
-// TODO: Implementar todos los métodos necesarios para la parte de cliente y servidor

@@ -53,7 +53,6 @@ ParserYaml::stJuego ParserYaml::cargarConfiguracionDeJuego(void){
 		Log::getInstance().log(1,__FILE__,__LINE__,(std::string)"Error al abrir el archivo YAML: "+YAML_RUTA_ARCHIVO_JUEGO);
 	}
 
-	// TODO: Luego borrar este if
 	if( this->juego.juegoValido == true){
 		Log::getInstance().log(1,__FILE__,__LINE__,"Se obtuvo una configuración de juego válida");
 	}else{
@@ -79,8 +78,6 @@ void ParserYaml::cargaStJuego(YAML::Node& nodoRaiz, ParserYaml::stJuego& juego){
 		}else if ( clave.compare("escenarios") == 0 ){ cargaListaEscenarios(nodo,juego.escenarios);
 		}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
 
-		// TODO: Una vez finalizada la clase, borrar esta todas estas líneas de reporte
-		//Log::getInstance().log(3,__FILE__,__LINE__,"Clave <"+clave+"> Leída.");
 	}
 
 	return void();
@@ -780,5 +777,3 @@ ParserYaml::stJuego ParserYaml::crearJuegoDefault(void){
 	return juegoDefault;
 }
 
-// TODO: Tareas:
-// + Verificar que la rutina de validación cubre todos los casos

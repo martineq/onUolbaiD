@@ -7,19 +7,16 @@
 #include "../LectorDirectorios/LectorDirectorios.h"
 #include "../Constantes/Constantes.h"
 
-// TODO: Agregar las clases correspondientes
-
-
 class HiloConfiguracion: public Hilo{
-
+	
 	public:
 		// Para usar hilos
 		struct stParametrosConfiguracion{
-			void* pJuego;
-			void* pMenu;
-			int* pCantidadJugadores;
-			Mutex* pMutexCantidadJugadores;
 			SocketServidor* pServidor;		// Para el envío/recepción de datos
+			void* pModeloJuego;
+			void* pModeloFactory;
+			int* pJugadoresConectados;
+			Mutex* pMutexJugadoresConectados;
 		};
 
 	private:

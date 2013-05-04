@@ -33,4 +33,4 @@ class MenuSocket{
 		void prueba(void);
 };
 
-// TODO: + Chequear si se están usando todos los métodos necesarios de Servidor y Cliente para cumplir con un caso real
+// Chequear si se están usando todos los métodos necesarios de Servidor y Cliente para cumplir con un caso real

@@ -2,21 +2,30 @@
 
 #include "./ModeloNivel.h"
 #include "./ModeloEntidad.h"
+#include "./ModeloLoop.h"
+#include "../../utils/Constantes/Constantes.h"
 #include "../../utils/yaml/ParserYaml.h"
+#include "../../utils/Sockets/SocketServidor.h"
 
 class ModeloFactory{
 
 	private:
-		void crearJugador(ParserYaml::stJuego juego, ModeloNivel& modeloNivel);
-		void crearEntidades(ParserYaml::stJuego juego, ModeloNivel& modeloNivel);
+		struct stModeloJuegoElegido{
+			std::list<ParserYaml::stEntidad> listaEntidades;
+			ParserYaml::stEscenario escenario;
+			ParserYaml::stProtagonista protagonista;
+			ParserYaml::stConfiguracion configuracion;
+			ParserYaml::stPantalla pantalla;
+		};
+		
+		void crearEntidades(stModeloJuegoElegido& juego, ModeloNivel& modeloNivel,SocketServidor* pSocket);
+		ParserYaml::stEscenario elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketServidor* pSocket);
+		ParserYaml::stProtagonista elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,SocketServidor* pSocket);
 
 	public:
 		ModeloFactory(void);
 		~ModeloFactory(void);
 
-		bool crearModeloNivel(ModeloNivel& modeloNivel);
+		bool crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,SocketServidor* pSocket);
+		void crearJugador(ModeloNivel& modeloNivel,SocketServidor* pSocket);
 };
-
-// TODO: Ahora la creación de ProxyModeloEntidad y ProxyControladorEvento se realiza en el factory. Implementar
-// TODO: Ahora el agregarObservador... se realiza en el factory, a la par de la creación del ProxyModeloEntidad. Implementar
-// TODO: crearJugadorConScroll tiene que recibir el ModeloLoop para agregar el observador

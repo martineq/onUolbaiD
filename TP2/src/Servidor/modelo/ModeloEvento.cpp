@@ -72,7 +72,12 @@ bool ModeloEvento::getMouseDentroPantalla() {
 	return this->listaEventos.front().mouseDentroPantalla;
 }
 
-void ModeloEvento::SetProxyControladorEvento(ProxyControladorEvento* pProxyEvento){
+void ModeloEvento::setProxyControladorEvento(ProxyControladorEvento* pProxyEvento){
 	this->pProxyEvento = pProxyEvento;
+	return void();
+}
+
+void ModeloEvento::cargarProximoEvento(void){
+	this->listaEventos.pop_front();
 	return void();
 }

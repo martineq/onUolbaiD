@@ -89,14 +89,14 @@ class ModeloEntidad: public Identificable {
 		bool _esUltimoMovimiento;
 		int _altoMapa;
 		int _anchoMapa;
-		ProxyModeloEntidad proxyEntidad;
+		ProxyModeloEntidad* _pProxyEntidad;
 
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
 
 		ModeloEntidad& operator=(const ModeloEntidad &modeloEntidad);
 
 	public:
-		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps);
+		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad);
 
 		virtual ~ModeloEntidad();
 
@@ -130,5 +130,3 @@ class ModeloEntidad: public Identificable {
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
-
-// TODO: ModeloEntidad ya no es observado por la vista, por el uso del proxy

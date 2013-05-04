@@ -64,7 +64,7 @@ void VistaLoop::SetProxyModeloEntidad(ProxyModeloEntidad* pProxyEntidad){
 }
 
 void VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel){
-	// TODO Implementar de forma parecida al funcionamiento de ModeloEvento::getActualizado()
+	// TODO: Repasar y ver si cumple con todo.
 
 	// Si antes corté por tener entidad con ID repetido, la misma quedó en espera y entonces ahora la actualizo primero
 	if( this->hayEntidadEnEspera == true ){

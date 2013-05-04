@@ -44,5 +44,3 @@ class ModeloNivel {
 
 		void destruirListas();
 };
-
-// TODO: Ver la forma de asegurar que el ID de ModeloEntidad y VistaEntidad coincidan. 

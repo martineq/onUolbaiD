@@ -11,7 +11,7 @@ ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {
 	return *this;
 }
 
-ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps) {
+ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad) {
 	this->_id = (int)InterlockedIncrement(&this->_ultimoId);
 	this->_esJugador = esJugador;
 	this->_alto = alto;
@@ -23,6 +23,7 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_vistaMovimiento = new VistaMovimiento(this, altoMapa, anchoMapa, fps);
 	this->_altoMapa = altoMapa;
 	this->_anchoMapa = anchoMapa;
+	this->_pProxyEntidad = pProxyEntidad;
 
 	this->_direccion = SUR;
 	Posicion::convertirTileAPixel(altoMapa, this->_posicionActual.x, this->_posicionActual.y, this->_pixelActual.x, this->_pixelActual.y);
@@ -34,6 +35,7 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 ModeloEntidad::~ModeloEntidad() {
 	delete this->_modeloMovimiento;
 	delete this->_vistaMovimiento;
+	delete this->_pProxyEntidad;
 }
 
 void ModeloEntidad::cambiarEstado() {
