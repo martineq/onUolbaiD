@@ -25,6 +25,6 @@ class ModeloEvento{
 		bool getMouseDentroPantalla();
 		bool getActualizado();
 
-		void SetProxyControladorEvento(ProxyControladorEvento* pProxyEvento);
-		void cargarProximoEvento(void); // TODO: Implementar. Saca el primer evento de la lista
+		void setProxyControladorEvento(ProxyControladorEvento* pProxyEvento);
+		void cargarProximoEvento(void); 
 };

@@ -105,6 +105,7 @@
 #define VERSION_WINSOCK_REQUERIDA 2 // Version de Winsock mínima requerida
 #define ACEPTAR_TIMEOUT -2			// Código de time out al hacer el accept del servidor
 #define ACEPTAR_ERROR -1			// Código de error al hacer el accept del servidor
+#define PUERTO_SERVIDOR 444			// Puerto que usará el Servidor para hacer el bind
 
 /*****************************  Delays *****************************************/
 #define DELAY_HILO_CONEXION 1000000 // En microsegundos. 1000000 uSeg = 1 seg

@@ -20,6 +20,3 @@ class Servidor{
 		bool correrJuego(void);
 		void destruirEntidades();
 };
-
-
-// TODO: Implementar iniciar() y loop() con todo lo de sockets

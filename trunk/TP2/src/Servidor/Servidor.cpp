@@ -9,12 +9,24 @@ Servidor::~Servidor(void){
 }
 
 bool Servidor::iniciar(void){
-	// Acá le mando el pSocket y lo inicia adentro
-	return this->modeloJuego.iniciar();
+
+	SocketServidor* pSocket = &(this->socket);
+
+	// Inicio el escenario sin jugadores
+	if( this->modeloJuego.iniciarEscenario(pSocket) == false ) return false;
+	
+	// inicio el hilo que recibe a cada uno de los jugadores
+	if( this->modeloJuego.iniciarRecepcion(pSocket) == false ) return false;
+
+	return true;
 }
 
 void Servidor::loop(void){
-	// TODO: Ver si el while queda acá
+
+	while( this->modeloJuego.hayJugadores() == false ){
+		// Se puede poner un delay de tiempo para que no de muchas vueltas mientras espera un jugador
+	}
+
 	int fps = 50;
 	int delay = 1000/fps;	
 	bool quit = false;		
@@ -28,14 +40,17 @@ void Servidor::loop(void){
 			SDL_Delay(delay - intervaloTranscurrido);
 		}
 	}
-	 	 
-	 return void();
+
+	// Al finalizar el juego cierro la recepción de jugadores
+	this->modeloJuego.finalizarRecepcion();
+	
+		return void();
 }
 
 bool Servidor::correrJuego(void){
 	if( this->iniciar() == true ){
 		this->loop();
-		// TODO: ¿Acá cerraria todo lo de sockets? Ver eso
+		// ¿Acá cerraria todo lo de sockets? Ver eso
 	}else{
 		Log::getInstance().log(1,__FILE__,__LINE__,"Error al iniciar el juego el cliente.");
 		return false;

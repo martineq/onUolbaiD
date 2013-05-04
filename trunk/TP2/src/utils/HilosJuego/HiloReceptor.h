@@ -31,5 +31,3 @@ class HiloReceptor: public Hilo{
 		bool estaActivo(void);
 
 };
-
-// TODO: Ver que variables deben ir en stParametrosConfiguracion

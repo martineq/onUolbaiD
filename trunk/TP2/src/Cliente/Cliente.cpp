@@ -19,7 +19,7 @@ bool Cliente::iniciar(void){
 }
 
 void Cliente::loop(void){
-	// TODO: Ver si el while queda acá
+
 	int fps = 50;
 	int delay = 1000/fps;	
 	bool quit = false;		

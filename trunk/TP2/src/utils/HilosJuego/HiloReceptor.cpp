@@ -6,7 +6,7 @@ HiloReceptor::HiloReceptor(void){
 }
 
 HiloReceptor::~HiloReceptor(void){
-	// Cerramos todos los hilos (se hayan terminado de configurar o no) porque su hilo padre está por destruirse // TODO: Ver si cierra todo bien
+	// Cerramos todos los hilos (se hayan terminado de configurar o no) porque su hilo padre está por destruirse. Ver si cierra todo bien
 	int cantidadHilos = this->clientesEnConfiguracion.size();
 	for(int i = 0 ; i < cantidadHilos ; i++){
 		this->clientesEnConfiguracion[i]->detenerActividad();
@@ -38,7 +38,7 @@ void HiloReceptor::rutina(HiloConfiguracion::stParametrosConfiguracion* parametr
 	while(this->estaActivo()==true){		
 		long idCliente;
 		HiloConfiguracion* pHiloConfig;
-		//if ( this->estaActivo() == false ) break; // TODO: Confirmar que puedo sacar esta línea
+		
 		// Agrego un Cliente nuevo, y por ende un nuevo HiloConfiguracion. Inmediatamente después, inicio ese hilo
 		idCliente = pServidor->aceptarCliente();
 		if ( idCliente != -1 ){

@@ -52,5 +52,3 @@ class SocketServidor{
 		bool recibirArchivosIndividual(std::list<std::string> rutaDeArchivosParaRecibir,long idCliente);
 
 };
-
-// TODO: Ver si al aceptarCliente() le puedo poner el selectLectura, así puedo borrar las funciones SocketServidor::selectLectura(void); SocketServidor::selectEscritura(void)

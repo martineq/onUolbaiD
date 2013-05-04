@@ -27,5 +27,3 @@ class ProxyModeloEntidad{
 		bool enviarEntidad(ProxyModeloEntidad::stEntidad entidad);
 		bool recibirEntidad(ProxyModeloEntidad::stEntidad& entidad);
 };
-
-// TODO: Implementar todos los métodos necesarios para la parte de cliente y servidor

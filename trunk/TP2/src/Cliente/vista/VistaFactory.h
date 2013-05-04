@@ -11,7 +11,7 @@
 class VistaFactory{
 
 	private:
-		struct stJuegoElegido{
+		struct stVistaJuegoElegido{
 			std::list<ParserYaml::stEntidad> listaEntidades;
 			ParserYaml::stEscenario escenario;
 			ParserYaml::stProtagonista protagonista;
@@ -24,12 +24,12 @@ class VistaFactory{
 		ParserYaml::stEscenario elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket);
 		ParserYaml::stProtagonista elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,SocketCliente* pSocket);
 
-		bool crearElementosVista(stJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);
-		void crearJugadorConScroll(stJuegoElegido& juego,VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket);
-		void crearEntidades(stJuegoElegido& juego, VistaNivel& vistaNivel);
+		bool crearElementosVista(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);
+		void crearJugadorConScroll(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket);
+		void crearEntidades(stVistaJuegoElegido& juego, VistaNivel& vistaNivel);
 
-		bool crearElementosControlador(stJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket);
-		void crearControladorScroll(stJuegoElegido& juego,ControladorEvento* evento);		
+		bool crearElementosControlador(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket);
+		void crearControladorScroll(stVistaJuegoElegido& juego,ControladorEvento* evento);		
 		void crearProxyControladorEvento(ControladorEvento* evento,SocketCliente* pSocket);
 		void vincularScroll(VistaNivel& vistaNivel,ControladorEvento* evento);
 
@@ -40,5 +40,4 @@ class VistaFactory{
 		bool crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket);
 };
 
-// TODO: Ahora la creación de Proxys se realiza en el factory. Implementar
 // TODO: Ver si conectarSocket() va a recibir el puerto y el IP desde consola o de un archivo de configuración

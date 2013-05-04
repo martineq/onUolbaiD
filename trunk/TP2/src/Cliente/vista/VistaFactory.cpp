@@ -25,7 +25,7 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 	}
 
 	// Preparo el juego elegido
-	stJuegoElegido juegoElegido;
+	stVistaJuegoElegido juegoElegido;
 	juegoElegido.listaEntidades = juegoYaml.entidades;
 	juegoElegido.pantalla = juegoYaml.pantalla;
 	juegoElegido.configuracion = juegoYaml.configuracion;
@@ -87,6 +87,8 @@ ParserYaml::stEscenario VistaFactory::elegirEscenario(std::list<ParserYaml::stEs
 }
 
 ParserYaml::stProtagonista VistaFactory::elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,SocketCliente* pSocket){
+// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del ModeloFactory::crearJugador() ***
+
 	ParserYaml::stProtagonista protagonista = listaProtagonistas.front();
 	
 	// TODO: Implementar toda la comunicación con el Servidor para decirle el protagonista elelgido, el nombre de usuario y
@@ -95,7 +97,7 @@ ParserYaml::stProtagonista VistaFactory::elegirProtagonista(std::list<ParserYaml
 	return protagonista;
 }
 
-bool VistaFactory::crearElementosVista(stJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket){
+bool VistaFactory::crearElementosVista(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket){
 
 	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;	
 
@@ -115,7 +117,7 @@ bool VistaFactory::crearElementosVista(stJuegoElegido& juego,VistaNivel& vistaNi
 	return true;
 }
 
-void VistaFactory::crearJugadorConScroll(stJuegoElegido& juego, VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket){
+void VistaFactory::crearJugadorConScroll(stVistaJuegoElegido& juego, VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket){
 
 	std::string nombreProtagonista = juego.protagonista.entidad;
 	ParserYaml::stEntidad entidadProtagonista = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,nombreProtagonista);
@@ -141,10 +143,9 @@ void VistaFactory::crearJugadorConScroll(stJuegoElegido& juego, VistaNivel& vist
 	return void();
 }
 
-void VistaFactory::crearEntidades(stJuegoElegido& juego, VistaNivel& vistaNivel){
+void VistaFactory::crearEntidades(stVistaJuegoElegido& juego, VistaNivel& vistaNivel){
 
 	std::list<ParserYaml::stEntidadDefinida> entidadesDef = juego.escenario.entidadesDefinidas;
-	//std::string nombre = juego.protagonista.entidad;	// >>> TODO: Ver si necesito usar al protagonista acá... me parece que no
 
 	for (std::list<ParserYaml::stEntidadDefinida>::iterator it=entidadesDef.begin() ; it != entidadesDef.end(); it++ ){	
 
@@ -167,16 +168,12 @@ void VistaFactory::crearEntidades(stJuegoElegido& juego, VistaNivel& vistaNivel)
 		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY);
 		vistaNivel.agregarEntidad(pEntidad);
 
-		// TODO: Crear el <ProxyModeloEntidad> correspondiente al <VistaEntidad> de cada entidad
-
-		// TODO: Luego de crear todo, vincular el <ProxyModeloEntidad> con el correspondiente <VistaEntidad>
-
 	}
 
 	return void();
 }
 
-bool VistaFactory::crearElementosControlador(stJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket){
+bool VistaFactory::crearElementosControlador(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket){
 
 	// Creo el Scroll
 	this->crearControladorScroll(juego,evento);
@@ -190,7 +187,7 @@ bool VistaFactory::crearElementosControlador(stJuegoElegido& juego,VistaNivel& v
 	return true;
 }
 
-void VistaFactory::crearControladorScroll(stJuegoElegido& juego,ControladorEvento* evento){
+void VistaFactory::crearControladorScroll(stVistaJuegoElegido& juego,ControladorEvento* evento){
 	int x = juego.protagonista.x;
 	int y = juego.protagonista.y;
 	int anchoEscenario = juego.escenario.tamanioX;
@@ -203,7 +200,6 @@ void VistaFactory::crearControladorScroll(stJuegoElegido& juego,ControladorEvent
 }
 
 void VistaFactory::crearProxyControladorEvento(ControladorEvento* evento,SocketCliente* pSocket){
-	// TODO: Ver si hay que traer algun parámetro mas
 
 	ProxyControladorEvento* pProxyEvento = new ProxyControladorEvento();
 	pProxyEvento->setSocketCliente(pSocket);
