@@ -21,7 +21,6 @@ class HiloConfiguracion: public Hilo{
 
 	private:
 		stParametrosConfiguracion parametrosRun;
-		long idCliente; // TODO: Ver si hace falta
 		bool corriendo;
 		bool configuracionFinalizada;
 		Mutex mutexCorriendo;
@@ -32,8 +31,8 @@ class HiloConfiguracion: public Hilo{
 		// Métodos dentro del run
 		void rutina(stParametrosConfiguracion* parametrosConfiguracion);
 		void finalizarConfiguracion(void);
-		bool enviarArchivosDeConfiguracion(void);
-		bool enviarListaDeArchivos(std::vector<std::string> lista);
+		bool enviarArchivosDeConfiguracion(SocketServidor* pServidor);
+		bool enviarListaDeArchivos(std::vector<std::string> lista,SocketServidor* pServidor);
 
 	public:
 		HiloConfiguracion(void);
@@ -52,3 +51,4 @@ class HiloConfiguracion: public Hilo{
 // TODO: PASO UNO >>> Modificar el código de este hilo según el modelo del juego. Hacer uso de los mutex necesarios para el uso de esas variables
 // TODO: PASO DOS >>> Refactorizar rutina() en métodos mas pequeños
 // TODO: PASO TRES >>> Antes que se usen los parámetros exteriores se debe preguntar si este hilo se encuentra en actividad, sino se debe salir inmediatamente (Importante: debe hacerse siempre)
+// TODO: El ID del cliente será dado por el ID del Hilo que lo generó, o sea "Cliente->ID" = "hiloConfiguracion->ID"
