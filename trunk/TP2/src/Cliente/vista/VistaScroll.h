@@ -33,7 +33,6 @@ class VistaScroll: public Observador, public Identificable{
 		int id() const;
 
 		// Getters
-		//int getId(void);
 		double getX(void);
 		double getY(void);
 		double getAlto(void);

@@ -1,31 +1,30 @@
 #pragma once
 
+#include <list>
 #include <math.h>
 #include "ModeloNivel.h"
 #include "../../utils/Observador/Observador.h"
 #include "../../utils/Proxy/ProxyControladorEvento.h"
 
-
-class ModeloEvento : public Observador {
+class ModeloEvento{
 	private:
-		int _mouseX;
-		int _mouseY;
-		bool _mouseClickIzquierdo;
-		bool _mouseDentroPantalla;
-		bool _actualizado;
+		std::list<ProxyControladorEvento::stEvento> listaEventos;
+		ProxyControladorEvento* pProxyEvento; // Al ProxyEvento lo uso para tomar eventos de a uno hasta que se repita un ID
+		ProxyControladorEvento::stEvento eventoEnEspera;
+		bool hayEventoEnEspera;
 
 	public:
 		ModeloEvento();
 		
 		virtual ~ModeloEvento();
 
-		void actualizar(Observable* observable);
-
+		int getIdJugador();
 		int getMousePosX();
 		int getMousePosY();
 		bool getMouseClickIzquierdo();
 		bool getMouseDentroPantalla();
 		bool getActualizado();
 
-		void setActualizado(bool actualizado);
+		void SetProxyControladorEvento(ProxyControladorEvento* pProxyEvento);
+		void cargarProximoEvento(void); // TODO: Implementar. Saca el primer evento de la lista
 };

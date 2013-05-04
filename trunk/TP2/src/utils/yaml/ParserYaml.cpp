@@ -629,11 +629,11 @@ void ParserYaml::validaListaEscenariosVacia(void){
 }
 
 // Busca una entidad determinada, con existencia ya validada
-ParserYaml::stEntidad ParserYaml::buscarStEntidad(ParserYaml::stJuego juego, std::string nombre){
+ParserYaml::stEntidad ParserYaml::buscarStEntidad(std::list<ParserYaml::stEntidad>& listaEntidades, std::string nombre){
 	
 	ParserYaml::stEntidad entidad;
 
-	for (std::list<ParserYaml::stEntidad>::iterator it=juego.entidades.begin() ; it != juego.entidades.end(); it++ ){	
+	for (std::list<ParserYaml::stEntidad>::iterator it=listaEntidades.begin() ; it != listaEntidades.end(); it++ ){	
 		if( (*it).nombre.compare(nombre) == 0 ){
 			entidad = (*it);
 		}

@@ -10,10 +10,6 @@ VistaNivel::~VistaNivel(){
  // Los punteros ya son destruidos desde el Administrador
 }
 
-Observador* VistaNivel::obtenerObservadorScroll(void){
-	return (Observador*)this->scroll;
-}
-
 VistaScroll* VistaNivel::getScroll(void){
 	return this->scroll;
 }

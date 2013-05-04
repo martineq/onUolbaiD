@@ -27,7 +27,7 @@ void ModeloFactory::crearJugador(ParserYaml::stJuego juego, ModeloNivel& modeloN
 
 	ParserYaml::stProtagonista protagonista = juego.escenarios.front().protagonistas.front();
 	std::string nombre = protagonista.entidad;
-	ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego,nombre);
+	ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego.entidades,nombre); // TODO: sacar el front()
 
 	int alto = entidad.altoBase;
 	int ancho = entidad.anchoBase;
@@ -54,7 +54,7 @@ void ModeloFactory::crearEntidades(ParserYaml::stJuego juego, ModeloNivel& model
 
 		ParserYaml::stEntidadDefinida entidadDef = (*it);
 		std::string nombre = entidadDef.entidad;
-		ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego,nombre);
+		ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego.entidades,nombre); // TODO: sacar el front()
 
 		int x = entidadDef.x;
 		int y = entidadDef.y;

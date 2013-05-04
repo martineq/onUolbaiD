@@ -8,13 +8,8 @@ VistaJuego::~VistaJuego(void){
 
 }
 
-Observador* VistaJuego::obtenerObservadorScroll(void){
-	return this->vistaNivel.obtenerObservadorScroll();
-}
-
-bool VistaJuego::iniciar(ControladorEvento* evento){
-	// TODO: Por acá aparecerá todo el diálogo de sockets para obtener archivos del servidor y config final
-	if( this->vistaFactory.crearVistaNivel(this->vistaNivel,this->vistaLoop,evento) == false ) return false;
+bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento){
+	if( this->vistaFactory.crearNivel(this->vistaNivel,this->vistaLoop,evento,pSocket) == false ) return false;
 	return true;
 }
 

@@ -3,6 +3,7 @@
 #include "./VistaFactory.h"
 #include "./VistaNivel.h"
 #include "./VistaLoop.h"
+#include "../../utils/Sockets/SocketCliente.h"
 
 class VistaJuego{
 
@@ -11,15 +12,13 @@ class VistaJuego{
 		VistaNivel vistaNivel;
 		VistaLoop vistaLoop;
 		SDL_Surface *pantalla,*fondo,*textSurface;	
-		//TTF_Font* font;
 
 	public:
 		VistaJuego(void);
 		~VistaJuego(void);
 
-		Observador* obtenerObservadorScroll(void);
-		bool iniciar(ControladorEvento* evento);	// Inicia el VistaFactory
-		bool loop(void);							// Inicia el VistaLoop y le pasa el VistaNivel
+		bool iniciar(SocketCliente* pSocket,ControladorEvento* evento);	// Inicia el VistaFactory y el ControladorEvento
+		bool loop(void);												// Inicia el VistaLoop y le pasa el VistaNivel
 		
 		void destruirEntidades();
 };

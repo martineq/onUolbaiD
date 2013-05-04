@@ -4,7 +4,7 @@ long VistaEntidad::contador = 0; // Para el ID
 
 VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel){
 	this->_id = (int)InterlockedIncrement(&(this->contador));  // Genera un ID
-	
+
 	int xAux, yAux;
 
 	Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
@@ -70,22 +70,19 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 	this->yEnPantalla = this->y - scrollY;
 }
 
-void VistaEntidad::actualizar(class Observable* s){
-	// TODO: Implementar estos métodos en ProxyModeloEntidad
-	// Y luego descomentar
+// TODO: Este método será usado ahora por el ProxyModeloEntidad
+void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad entidad){
 
-	//// En este punto ya se que el parámetro <s> se puede castear a ((ProxyModeloEntidad*)s)
-	//this->x = ((ProxyModeloEntidad*)s)->pixelSiguiente().x;
-	//this->y = ((ProxyModeloEntidad*)s)->pixelSiguiente().y;
+	this->x = entidad.pixelSiguienteX;
+	this->y = entidad.pixelSiguienteY;
 
-	//int codigo = ((ProxyModeloEntidad*)s)->direccion();
-	//if ((this->esJugador) && (codigo != this->codigoAnimacion)){
-	//	this->codigoAnimacion = codigo;
-	//	this->animacionActual = this->animaciones->get(this->estados.at(codigo));
-	//}
-	//
-	////this->esNecesarioRefrescar = true;
-	//this->esNecesarioRefrescar = !((ProxyModeloEntidad*)s)->esUltimoMovimiento();
+	int codigo = entidad.direccion;
+	if( (this->esJugador) && (codigo != this->codigoAnimacion)){
+		this->codigoAnimacion = codigo;
+		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
+	}
+	
+	this->esNecesarioRefrescar = !(entidad.esUltimoMovimiento);
 }
 
 void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
@@ -191,3 +188,4 @@ bool VistaEntidad::graficar(){
 void VistaEntidad::setPantalla(SDL_Surface* fondo){
 	this->animaciones->setPantalla(fondo);
 }
+

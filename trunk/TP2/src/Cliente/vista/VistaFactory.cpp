@@ -8,49 +8,129 @@ VistaFactory::~VistaFactory(void){
 
 }
 
-bool VistaFactory::crearVistaNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento){
+bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket){
 
-	// TODO: A <evento> le tengo que llenar el <ControladorScroll>, el <ProxyControladorEvento> y luego tengo que
-	// vincular <ControladorScroll> con <VistaScroll>
-	// Usar para eso evento->getControladorScroll() y evento->getProxyEvento()
+	// Me conecto al servidor
+	if( this->conectarSocket(pSocket) == false ) return false;
 
-	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;	
+	// Recibo los archivos desde el servidor
+	if( this->recibirArchivos(pSocket) == false ) return false;
 
-	ParserYaml::stJuego juego;
-	juego = ParserYaml::getInstance().cargarConfiguracionDeJuego();
+	// Cargo el archivo de configuración
+	ParserYaml::stJuego juegoYaml;
+	juegoYaml = ParserYaml::getInstance().cargarConfiguracionDeJuego();
+	if( juegoYaml.juegoValido == false ){
+		Log::getInstance().log(1,__FILE__,__LINE__,"Error al obtener la configuración de juego.");
+		return false;
+	}
 
-	if( juego.juegoValido == false ) return false;
+	// Preparo el juego elegido
+	stJuegoElegido juegoElegido;
+	juegoElegido.listaEntidades = juegoYaml.entidades;
+	juegoElegido.pantalla = juegoYaml.pantalla;
+	juegoElegido.configuracion = juegoYaml.configuracion;
+	juegoElegido.escenario = this->elegirEscenario(juegoYaml.escenarios,pSocket);
+	juegoElegido.protagonista = this->elegirProtagonista(juegoElegido.escenario.protagonistas,pSocket);
 
-	vistaNivel.setAltoPantalla(juego.pantalla.alto);
-	vistaNivel.setAnchoPantalla(juego.pantalla.ancho);
+	// Creo los elementos de la Vista
+	if( this->crearElementosVista(juegoElegido,vistaNivel,vistaLoop,pSocket) == false ) return false;
 
-	SDL_Surface* pantalla = ImageLoader::getInstance().levantarPantalla(juego.pantalla.ancho,juego.pantalla.alto);
-	vistaLoop.setPantalla(pantalla);
-
-	this->crearJugadorConScroll(juego,vistaNivel,pantalla);
-	this->crearEntidades(juego,vistaNivel);
-	this->crearControladorScroll(juego,evento);
+	// Creo los elementos del Controlador
+	if( this->crearElementosControlador(juegoElegido,vistaNivel,vistaLoop,evento,pSocket) == false ) return false;
 
 	return true;
 }
 
-void VistaFactory::crearJugadorConScroll(ParserYaml::stJuego juego, VistaNivel& vistaNivel,SDL_Surface* pantalla){
+bool VistaFactory::conectarSocket(SocketCliente* pSocket){
+	// Tomo el puerto
+	std::cout << "Ingrese el puerto donde se encuentra el servidor (Enter para 444)" << std::endl;
+	std::string entradaTexto;
+	getline(std::cin,entradaTexto);
+	if( entradaTexto.empty() == true ) entradaTexto.assign("444");
+	std::cout << "Puerto ingresado: "<<entradaTexto <<" "<< std::endl;
+	std::stringstream str(entradaTexto);
+	int puerto;
+	str >> puerto;	// Lo paso a int
 
-	ParserYaml::stProtagonista protagonista = juego.escenarios.front().protagonistas.front();
-	std::string nombre = protagonista.entidad;
-	ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego,nombre);
+	// Tomo el ip
+	std::cout << "Ingrese el host al cual desea conectarse (Enter para \"localhost\")" << std::endl;
+	entradaTexto.clear();
+	getline(std::cin,entradaTexto);
+	if (entradaTexto.empty()==true) entradaTexto.assign("localhost");
+	std::cout << "Ingreso: |"<<entradaTexto.c_str() <<"| "<< std::endl;
 
-	double tamanioX = (double)juego.escenarios.front().tamanioX;
-	double tamanioY = (double)juego.escenarios.front().tamanioY;
-	double x = (double)protagonista.x;
-	double y = (double)protagonista.y;
-	double alto = (double)entidad.altoBase;
-	double ancho = (double)entidad.anchoBase;
-	double posicionReferenciaX = (double)entidad.pixelReferenciaX;
-	double posicionReferenciaY = (double)entidad.pixelReferenciaY;
-	double fps = (double)entidad.fps;
-	double delay = (double)entidad.delay;
-	std::list<std::list<std::string>> listaAnimaciones = entidad.imagenes;
+	// Me conecto al servidor
+	if( pSocket->iniciarCliente(entradaTexto.c_str(),puerto) == false ){
+		std::cerr << "Error al iniciar la conexion cliente." << std::endl;
+		Log::getInstance().log(1,__FILE__,__LINE__,"Error al iniciar la conexion cliente.");
+		return false;
+	}else{
+		pSocket->setEnvioDirecto();
+	}
+
+	return true;
+}
+
+bool VistaFactory::recibirArchivos(SocketCliente* pSocket){
+	
+	//std::cerr << "Error al recibir archivos desde el servidor." << std::endl;
+
+	return true;
+}
+
+ParserYaml::stEscenario VistaFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket){
+	ParserYaml::stEscenario escenario = listaEscenarios.front();
+	
+	// TODO: Ver si el escenario siempre va a poder ser el 1ro de la lista o si el Servidor me dice cual tengo que elegir
+
+	return escenario;
+}
+
+ParserYaml::stProtagonista VistaFactory::elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,SocketCliente* pSocket){
+	ParserYaml::stProtagonista protagonista = listaProtagonistas.front();
+	
+	// TODO: Implementar toda la comunicación con el Servidor para decirle el protagonista elelgido, el nombre de usuario y
+	// luego de obtener una respuesta positiva del servidor devolver el protagonista elegido. (Por ahora devuelvo el primero)
+
+	return protagonista;
+}
+
+bool VistaFactory::crearElementosVista(stJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket){
+
+	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;	
+
+	vistaNivel.setAltoPantalla(juego.pantalla.alto);
+	vistaNivel.setAnchoPantalla(juego.pantalla.ancho);
+
+	SDL_Surface* pPantallaSDL = ImageLoader::getInstance().levantarPantalla(juego.pantalla.ancho,juego.pantalla.alto);
+	vistaLoop.setPantalla(pPantallaSDL);
+
+	ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
+	pProxyEntidad->setSocketCliente(pSocket);
+	vistaLoop.SetProxyModeloEntidad(pProxyEntidad);
+
+	this->crearJugadorConScroll(juego,vistaNivel,pPantallaSDL,pSocket);
+	this->crearEntidades(juego,vistaNivel);
+
+	return true;
+}
+
+void VistaFactory::crearJugadorConScroll(stJuegoElegido& juego, VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket){
+
+	std::string nombreProtagonista = juego.protagonista.entidad;
+	ParserYaml::stEntidad entidadProtagonista = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,nombreProtagonista);
+
+	double tamanioX = (double)juego.escenario.tamanioX;
+	double tamanioY = (double)juego.escenario.tamanioY;
+	double x = (double)juego.protagonista.x;
+	double y = (double)juego.protagonista.y;
+	double alto = (double)entidadProtagonista.altoBase;
+	double ancho = (double)entidadProtagonista.anchoBase;
+	double posicionReferenciaX = (double)entidadProtagonista.pixelReferenciaX;
+	double posicionReferenciaY = (double)entidadProtagonista.pixelReferenciaY;
+	double fps = (double)entidadProtagonista.fps;
+	double delay = (double)entidadProtagonista.delay;
+	std::list<std::list<std::string>> listaAnimaciones = entidadProtagonista.imagenes;
 
 	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY);
 	VistaScroll* pScroll = new VistaScroll(x,y,juego.pantalla.alto,juego.pantalla.ancho,tamanioX,tamanioY,pantalla);	// Tomo el mismo x,y,velocidad que el personaje
@@ -61,19 +141,19 @@ void VistaFactory::crearJugadorConScroll(ParserYaml::stJuego juego, VistaNivel& 
 	return void();
 }
 
-void VistaFactory::crearEntidades(ParserYaml::stJuego juego, VistaNivel& vistaNivel){
-	
-	std::list<ParserYaml::stEntidadDefinida> entidadesDef = juego.escenarios.front().entidadesDefinidas;
-	std::string nombre = juego.escenarios.front().protagonistas.front().entidad;	
+void VistaFactory::crearEntidades(stJuegoElegido& juego, VistaNivel& vistaNivel){
+
+	std::list<ParserYaml::stEntidadDefinida> entidadesDef = juego.escenario.entidadesDefinidas;
+	//std::string nombre = juego.protagonista.entidad;	// >>> TODO: Ver si necesito usar al protagonista acá... me parece que no
 
 	for (std::list<ParserYaml::stEntidadDefinida>::iterator it=entidadesDef.begin() ; it != entidadesDef.end(); it++ ){	
 
 		ParserYaml::stEntidadDefinida entidadDef = (*it);
-		std::string nombre = entidadDef.entidad;
-		ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego,nombre);
+		std::string nombreEntidad = entidadDef.entidad;
+		ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,nombreEntidad);
 
-		double tamanioX = (double)juego.escenarios.front().tamanioX;
-		double tamanioY = (double)juego.escenarios.front().tamanioY;
+		double tamanioX = (double)juego.escenario.tamanioX;
+		double tamanioY = (double)juego.escenario.tamanioY;
 		double x = (double)entidadDef.x;
 		double y = (double)entidadDef.y;
 		double alto = (double)entidad.altoBase;
@@ -86,18 +166,58 @@ void VistaFactory::crearEntidades(ParserYaml::stJuego juego, VistaNivel& vistaNi
 
 		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY);
 		vistaNivel.agregarEntidad(pEntidad);
+
+		// TODO: Crear el <ProxyModeloEntidad> correspondiente al <VistaEntidad> de cada entidad
+
+		// TODO: Luego de crear todo, vincular el <ProxyModeloEntidad> con el correspondiente <VistaEntidad>
+
 	}
 
 	return void();
 }
 
-void VistaFactory::crearControladorScroll(ParserYaml::stJuego juego, ControladorEvento* evento) {
-	ParserYaml::stProtagonista protagonista = juego.escenarios.front().protagonistas.front();
-	int x = protagonista.x;
-	int y = protagonista.y;
-	int anchoEscenario = juego.escenarios.front().tamanioX;
-	int altoEscenario = juego.escenarios.front().tamanioY;
+bool VistaFactory::crearElementosControlador(stJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket){
+
+	// Creo el Scroll
+	this->crearControladorScroll(juego,evento);
+	
+	// Creo el Proxy
+	this->crearProxyControladorEvento(evento,pSocket);
+
+	// Vinculo el VistaScroll con el ControladorScroll
+	this->vincularScroll(vistaNivel,evento);
+
+	return true;
+}
+
+void VistaFactory::crearControladorScroll(stJuegoElegido& juego,ControladorEvento* evento){
+	int x = juego.protagonista.x;
+	int y = juego.protagonista.y;
+	int anchoEscenario = juego.escenario.tamanioX;
+	int altoEscenario = juego.escenario.tamanioY;
 
 	ControladorScroll* pScroll = new ControladorScroll(juego.pantalla.ancho,juego.pantalla.alto,anchoEscenario,altoEscenario,juego.configuracion.margenScroll,x,y);
 	evento->setControladorScroll(pScroll);
+
+	return void();
+}
+
+void VistaFactory::crearProxyControladorEvento(ControladorEvento* evento,SocketCliente* pSocket){
+	// TODO: Ver si hay que traer algun parámetro mas
+
+	ProxyControladorEvento* pProxyEvento = new ProxyControladorEvento();
+	pProxyEvento->setSocketCliente(pSocket);
+	evento->setProxyEvento(pProxyEvento);
+
+	return void();
+}
+
+void VistaFactory::vincularScroll(VistaNivel& vistaNivel,ControladorEvento* evento){
+
+	ControladorScroll* pCtrlScroll = evento->getControladorScroll();
+	VistaScroll* pVistaScroll = vistaNivel.getScroll();
+
+	pCtrlScroll->agregarObservador(pVistaScroll);
+
+	return void();
 }
