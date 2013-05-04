@@ -69,7 +69,7 @@ void ModeloEntidad::cambiarEstado() {
 		this->_modeloMovimiento->cambiarEstado();
 	else if ((this->_accion == ATACANDO) || (this->_accion == DEFENDIENDO)) {
 		this->notificarObservadores();
-		this->_accion = QUIETO;
+		//this->_accion = QUIETO;
 	}
 	this->_vistaMovimiento->cambiarEstado();
 }
@@ -155,11 +155,29 @@ bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 void ModeloEntidad::atacar() {
 	std::cout << "Tecla A" << std::endl;
 	this->_accion = ATACANDO;
+	this->_tickCounts = GetTickCount();
 	this->_modeloMovimiento->actualizar(this->_posicionActual);
 }
 
 void ModeloEntidad::defender() {
 	std::cout << "Tecla S" << std::endl;
 	this->_accion = DEFENDIENDO;
+	this->_tickCounts = GetTickCount();
 	this->_modeloMovimiento->actualizar(this->_posicionActual);
+}
+
+void ModeloEntidad::setTickCounts(int ticks) {
+	this->_tickCounts = ticks;
+}
+
+int ModeloEntidad::getTickCounts() {
+	return this->_tickCounts;
+}
+
+int ModeloEntidad::getAccion() {
+	return this->_accion;
+}
+
+void ModeloEntidad::setAccion(int estado) {
+	this->_accion = (Accion)estado;
 }

@@ -195,3 +195,35 @@ void ModeloNivel::jugadorDefender() {
 
 	jugador->defender();
 }
+
+void ModeloNivel::setTicksJugador(int ticks) {
+	ModeloEntidad* jugador = this->obtenerJugador(1);
+	if (jugador == NULL)
+		return;
+
+	jugador->setTickCounts(ticks);
+}
+		
+int ModeloNivel::getTicksJugador(){
+	ModeloEntidad* jugador = this->obtenerJugador(1);
+	if (jugador == NULL)
+		return -1;
+
+	return jugador->getTickCounts();
+}
+
+int ModeloNivel::getAccionJugador() {
+	ModeloEntidad* jugador = this->obtenerJugador(1);
+	if (jugador == NULL)
+		return -1;
+
+	return jugador->getAccion();
+}
+
+void ModeloNivel::setAccionJugador(int accion) {
+	ModeloEntidad* jugador = this->obtenerJugador(1);
+	if (jugador == NULL)
+		return;
+
+	jugador->setAccion(accion);
+}

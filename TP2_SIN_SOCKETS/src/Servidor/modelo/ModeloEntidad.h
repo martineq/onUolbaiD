@@ -107,6 +107,7 @@ class ModeloEntidad : public Observable, public Identificable {
 		bool _esUltimoMovimiento;
 		int _altoMapa;
 		int _anchoMapa;
+		int _tickCounts;
 
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
 
@@ -169,4 +170,12 @@ class ModeloEntidad : public Observable, public Identificable {
 		void atacar();
 
 		void defender();
+
+		void setTickCounts(int ticks);
+
+		int getTickCounts();
+
+		int getAccion();
+
+		void setAccion(int estado);
 };
