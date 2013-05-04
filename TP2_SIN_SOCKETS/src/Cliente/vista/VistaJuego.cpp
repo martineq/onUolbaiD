@@ -35,7 +35,7 @@ bool VistaJuego::iniciar(void){
 	//inicializo la matriz con 0 excepto alrededor del personaje la zona visible de 5x5 es con 2.
 	for (int i= 0; i < this->vistaNivel.getAltoDeNivelEnTiles(); i++) {
 		for (int j = 0; j < this->vistaNivel.getAnchoDeNivelEnTiles(); j++) {
-			this->matriz[i][j] = 0;
+			this->matriz[i][j] = NO_CONOCIDO;
 		}
 	}
 
@@ -66,7 +66,7 @@ bool VistaJuego::iniciar(void){
 	
 	for (int i = inicioX; i <=  finX; i++){
 		for (int j = inicioY; j <= finY; j++){
-			this->matriz[i][j] = 2;
+			this->matriz[i][j] = VISIBLE;
 		}
 	}
 	
