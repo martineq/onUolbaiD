@@ -10,10 +10,10 @@ Cliente::~Cliente(void){
 
 bool Cliente::iniciar(void){
 
-	// Acá le mando el pSocket y lo inicia adentro
+	SocketCliente* pSocket = &(this->socket);
 	
 	// Instancia el nivel en vistaJuego y el scroll con su proxy en ControladorEvento
-	if( this->vistaJuego.iniciar(this->controladorJuego.getControladorLoop()->getControladorEvento()) == false ) return false;
+	if( this->vistaJuego.iniciar(pSocket,this->controladorJuego.getControladorLoop()->getControladorEvento()) == false ) return false;
 	
 	return true;
 }

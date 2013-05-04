@@ -3,11 +3,10 @@
 #include "VistaAnimacion.h"
 #include "VistaAnimaciones.h"
 #include "VistaScroll.h"
-#include "../../utils/Observador/Observador.h"
 #include "../../utils/Observador/Identificable.h"
-#include "../../utils/Proxy/ProxyModeloEntidad.h"
+#include "../../utils/Proxy/ProxyModeloEntidad.h"	// Para usar el ProxyModeloEntidad::stEntidad
 
-class VistaEntidad: public Observador, public Identificable{
+class VistaEntidad: public Identificable{
 
 	private:
 		int _id;
@@ -37,7 +36,7 @@ class VistaEntidad: public Observador, public Identificable{
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel);
 		~VistaEntidad(void);
 
-		void actualizar(class Observable* s);
+		void actualizar(ProxyModeloEntidad::stEntidad entidad);
 		void verificarBordePantalla(VistaScroll* scroll);
 		int id() const;
 
@@ -55,6 +54,7 @@ class VistaEntidad: public Observador, public Identificable{
 		std::list<std::list<std::string>> getListaAnimaciones(void);
 		bool getEsNecesarioRefrescar(void);
 
+		
 		// Setters
 		void setXEnPantalla(double scrollX);
 		void setYEnPantalla(double scrollY);
@@ -62,5 +62,6 @@ class VistaEntidad: public Observador, public Identificable{
 		void setAnimacion(std::string estado);
 		bool graficar();
 		void setPantalla(SDL_Surface* screen);
+
 
 };

@@ -13,7 +13,7 @@
 
 typedef enum Direccion { NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE, NOROESTE };
 
-class ModeloEntidad : public Observable, public Identificable {
+class ModeloEntidad: public Identificable {
 	private:
 		class ModeloMovimiento : public Observable {
 			private:
@@ -100,7 +100,9 @@ class ModeloEntidad : public Observable, public Identificable {
 
 		virtual ~ModeloEntidad();
 
-		void cambiarEstado();
+		void cambiarEstado();	// Este cambiarEstado() no corresponde mas al patrón Observer
+
+		void notificarAlProxy(void);
 
 		int id() const;
 

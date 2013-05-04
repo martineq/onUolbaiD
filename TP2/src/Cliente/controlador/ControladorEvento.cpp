@@ -6,10 +6,13 @@ ControladorEvento::ControladorEvento(void){
 	this->clicMouseBotonDerecho = 0;
 	this->clicMouseBotonIzquierdo = 0;	
 	this->mouseDentroDePantalla = true;
+	this->controladorScroll = NULL;
+	this->proxyEvento = NULL;
 }
 
 ControladorEvento::~ControladorEvento(void){
-	delete this->controladorScroll;
+	if( this->controladorScroll != NULL ) delete this->controladorScroll;
+	if( this->proxyEvento != NULL ) delete this->proxyEvento;
 }
 
 void ControladorEvento::setMouseDentroDePantalla(bool dentroDePantalla){
@@ -63,9 +66,9 @@ bool ControladorEvento::getMouseDentroDePantalla(){
 	return this->mouseDentroDePantalla;
 }
 
-
 void ControladorEvento::cambiarEstado(){
-	// TODO: Acá debo usar el ProxyControladorEvento
+	// this->proxyEvento.enviarDatos(...)
+	// TODO: Acá debo usar el ProxyControladorEvento. Ver que datos hay que mandar
 }
 
 void ControladorEvento::setControladorScroll(ControladorScroll* controladorScroll) {
@@ -76,6 +79,10 @@ ControladorScroll* ControladorEvento::getControladorScroll(void){
 	return this->controladorScroll;
 }
 
+void ControladorEvento::setProxyEvento(ProxyControladorEvento* pProxyEvento){
+	this->proxyEvento;
+}
+
 ProxyControladorEvento* ControladorEvento::getProxyEvento(void){
-	return (&(this->proxyEvento));
+	return this->proxyEvento;
 }

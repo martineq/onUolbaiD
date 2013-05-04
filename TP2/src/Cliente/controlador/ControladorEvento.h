@@ -4,6 +4,7 @@
 #include "./ControladorScroll.h"
 
 class ControladorEvento{
+
 	private:
 		int posicionMouseX;
 		int posicionMouseY;
@@ -11,7 +12,7 @@ class ControladorEvento{
 		int clicMouseBotonIzquierdo;	
 		bool mouseDentroDePantalla;
 		ControladorScroll* controladorScroll;
-		ProxyControladorEvento proxyEvento;
+		ProxyControladorEvento* proxyEvento;
 
 	public:
 		ControladorEvento(void);
@@ -30,6 +31,7 @@ class ControladorEvento{
 		void cambiarEstado();
 		void setControladorScroll(ControladorScroll*);
 		ControladorScroll* getControladorScroll(void);
+		void setProxyEvento(ProxyControladorEvento* pProxyEvento);
 		ProxyControladorEvento* getProxyEvento(void);
 
 };

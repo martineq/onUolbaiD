@@ -113,7 +113,7 @@ void ModeloEntidad::VistaMovimiento::cambiarEstado() {
 		this->_modeloEntidad->_pixelSiguiente = this->_posicionDestino;
 		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
 		this->_modeloEntidad->_esUltimoMovimiento = true;
-		this->_modeloEntidad->notificarObservadores();
+		this->_modeloEntidad->notificarAlProxy();
 		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
 	}
 	else {
@@ -124,7 +124,7 @@ void ModeloEntidad::VistaMovimiento::cambiarEstado() {
 		this->_modeloEntidad->_pixelSiguiente = *iterador;
 		this->_modeloEntidad->_direccion = this->obtenerDireccion(this->_modeloEntidad->_pixelActual, this->_modeloEntidad->_pixelSiguiente);
 		this->_modeloEntidad->_esUltimoMovimiento = false;
-		this->_modeloEntidad->notificarObservadores();
+		this->_modeloEntidad->notificarAlProxy();
 		this->_modeloEntidad->_pixelActual = this->_modeloEntidad->_pixelSiguiente;
 	}
 

@@ -38,7 +38,7 @@ ModeloEntidad::~ModeloEntidad() {
 
 void ModeloEntidad::cambiarEstado() {
 	this->_modeloMovimiento->cambiarEstado();
-	this->_vistaMovimiento->cambiarEstado(); // TODO: Acá se usaría el ProxyModeloEntidad, en reemplazo de esta línea
+	this->_vistaMovimiento->cambiarEstado(); 
 }
 
 int ModeloEntidad::id() const {
@@ -101,4 +101,9 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 
 bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 	return this == &modeloEntidad;
+}
+
+void ModeloEntidad::notificarAlProxy(void){
+	// TODO: implementar usando this->proxyEntidad.enviarEntidad(...)
+	return void();
 }

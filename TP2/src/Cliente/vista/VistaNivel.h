@@ -8,7 +8,6 @@
 #include "./VistaScroll.h"
 #include "./VistaEntidad.h"
 #include "../../utils/Constantes/Constantes.h"
-#include "../../utils/Proxy/ProxyModeloEntidad.h"
 
 class VistaNivel{
 
@@ -16,7 +15,7 @@ class VistaNivel{
 		VistaScroll* scroll;
 		VistaEntidad* jugador;
 		std::list<VistaEntidad*> listaEntidades;
-		std::list<ProxyModeloEntidad*> listaProxyEntidades;
+
 		double alto;
 		double ancho;
 		double altoNivel;
@@ -30,7 +29,6 @@ class VistaNivel{
 		~VistaNivel();
 
 		// Getters
-		Observador* obtenerObservadorScroll(void);
 		VistaScroll* getScroll(void);
 		VistaEntidad* getJugador(void);
 		std::list<VistaEntidad*> getListaEntidades(void);
