@@ -111,6 +111,7 @@
 
 /*****************************  Delays *****************************************/
 #define DELAY_HILO_CONEXION 1000000 // En microsegundos. 1000000 uSeg = 1 seg
+#define DELAY_ACCIONES_PERSONAJE 2000 // En milesimas (valor temporal hasta que lo discutamos)
 
 /**************************** Juego ****************************/
 #define ALTO_TILE 50

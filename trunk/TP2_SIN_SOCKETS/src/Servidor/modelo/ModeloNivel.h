@@ -49,6 +49,10 @@ class ModeloNivel {
 		void moverJugador(int tileX, int tileY, int id);
 		void jugadorAtacar();
 		void jugadorDefender();
+		void setTicksJugador(int ticks);
+		int getTicksJugador();
+		int getAccionJugador();
+		void setAccionJugador(int accion);
 
 		bool actualizar(int id);
 
