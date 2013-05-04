@@ -10,6 +10,8 @@ class ProxyControladorEvento{
 			int id;
 			int mouseX;
 			int mouseY;
+			bool teclaA;
+			bool teclaS;
 			bool mouseClickIzquierdo;
 			bool mouseDentroPantalla;
 	};

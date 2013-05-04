@@ -3,6 +3,7 @@
 #include "../Hilos/Mutex.h"
 #include "./HiloConexion.h"
 #include "./SocketApp.h"
+#include "../Ticket/Ticket.h"
 
 class ConexionCliente{
 
@@ -10,8 +11,7 @@ class ConexionCliente{
 		SocketApp socketApp;						// Datos del socket
 		long id;									// ID de la conexión
 		bool esIndividual;							// Indica si los mensajes se reciben/envian en una cola individual (==true) o si van a una cola común a todas las conexiones (==false)
-		static long ticket;							// Variable para obtener un valor de ID único. Es como un talonario de numeros	
-
+	
 		// Colas de datos
 		std::list<std::string> colaEntrada;			// Cola de entrada de datos
 		std::list<std::string> colaSalida;			// Cola de salida de datos
