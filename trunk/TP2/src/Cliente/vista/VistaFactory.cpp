@@ -71,12 +71,46 @@ bool VistaFactory::conectarSocket(SocketCliente* pSocket){
 	return true;
 }
 
+// Recibe del servidor todos los archivos necesarios para el funcionamiento del juego
 bool VistaFactory::recibirArchivos(SocketCliente* pSocket){
-	
-	//std::cerr << "Error al recibir archivos desde el servidor." << std::endl;
+
+	// Recibo los archivos de configuracion
+	if( this->recibirListaDeArchivos(DIRECTORIO_IMG,pSocket) == false) return false;
+
+	// Recibo los archivos de imagenes
+	if( this->recibirListaDeArchivos(DIRECTORIO_CONFIG,pSocket) == false) return false;
 
 	return true;
 }
+
+bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket){
+	std::string cadena;
+	unsigned int tamanioRecibido = 0;
+	char* cadenaRaw = NULL;
+
+	// Recibo el vector de strings serializado en una cadena de chars
+	if( pSocket->recibir(&cadenaRaw,tamanioRecibido) == false ) return false;
+	if( tamanioRecibido > 0 ){
+		cadena.assign(cadenaRaw,tamanioRecibido);
+		delete[] cadenaRaw;
+	}else{
+		// "Error al obtener archivos"
+		return false;
+	}
+
+	// Hidrato el vector de strings y recibo cada archivo
+	int cantidadDeArchivos = 0;
+	Serializadora s(&cadena);
+	cantidadDeArchivos = s.getInt();
+	for ( int i=0 ; i < cantidadDeArchivos ; i++ ){
+		std::string rutaDestino(s.getString());
+		// Log::getInstance().log(3,__FILE__,__LINE__,"El cliente recibe :",  rutaDestino);
+		if ( pSocket->recibirArchivo(rutaDestino.c_str()) == false) return false; // Recibo el archivo binario
+	}
+
+	return true;
+}
+
 
 ParserYaml::stEscenario VistaFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket){
 	ParserYaml::stEscenario escenario = listaEscenarios.front();

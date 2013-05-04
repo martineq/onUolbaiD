@@ -7,6 +7,7 @@
 #include "../Controlador/ControladorEvento.h"
 #include "../../utils/Sockets/SocketCliente.h"
 #include "../../utils/Log/Log.h"
+#include "../../utils/Serializacion/Serializadora.h"
 
 class VistaFactory{
 
@@ -21,6 +22,7 @@ class VistaFactory{
 
 		bool conectarSocket(SocketCliente* pSocket);
 		bool recibirArchivos(SocketCliente* pSocket);
+		bool recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket);
 		ParserYaml::stEscenario elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket);
 		ParserYaml::stProtagonista elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,SocketCliente* pSocket);
 
