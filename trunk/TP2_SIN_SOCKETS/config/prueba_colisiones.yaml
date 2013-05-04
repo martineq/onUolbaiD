@@ -7,10 +7,10 @@ configuracion:
     margen_scroll : 20
 entidades:
     - nombre: agua
-      pixel_ref_x: 150 #pixels
+      pixel_ref_x: 50 #pixels
       pixel_ref_y: 0 #pixels
-      ancho_base: 3 #tiles
-      alto_base: 3 #tiles
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
       imagen:
         - [agua.png]
     - nombre: violeta
@@ -32,16 +32,94 @@ escenarios:
       size_y: 13 #tiles
       entidadesDef:
         - {x: 0, y: 0, entidad: agua}
+        - {x: 0, y: 1, entidad: agua}
+        - {x: 0, y: 2, entidad: agua}
+        - {x: 1, y: 0, entidad: agua}
+        - {x: 1, y: 1, entidad: agua}
+        - {x: 1, y: 2, entidad: agua}
+        - {x: 2, y: 0, entidad: agua}
+        - {x: 2, y: 1, entidad: agua}
+        - {x: 2, y: 2, entidad: agua}
+        
         - {x: 5, y: 0, entidad: agua}
+        - {x: 5, y: 1, entidad: agua}
+        - {x: 5, y: 2, entidad: agua}
+        - {x: 6, y: 0, entidad: agua}
+        - {x: 6, y: 1, entidad: agua}
+        - {x: 6, y: 2, entidad: agua}
+        - {x: 7, y: 0, entidad: agua}
+        - {x: 7, y: 1, entidad: agua}
+        - {x: 7, y: 2, entidad: agua}
+        
         - {x: 10, y: 0, entidad: agua}
+        - {x: 10, y: 1, entidad: agua}
+        - {x: 10, y: 2, entidad: agua}
+        - {x: 11, y: 0, entidad: agua}
+        - {x: 11, y: 1, entidad: agua}
+        - {x: 11, y: 2, entidad: agua}
+        - {x: 12, y: 0, entidad: agua}
+        - {x: 12, y: 1, entidad: agua}
+        - {x: 12, y: 2, entidad: agua}
         
         - {x: 0, y: 5, entidad: agua}
+        - {x: 0, y: 6, entidad: agua}
+        - {x: 0, y: 7, entidad: agua}
+        - {x: 1, y: 5, entidad: agua}
+        - {x: 1, y: 6, entidad: agua}
+        - {x: 1, y: 7, entidad: agua}
+        - {x: 2, y: 5, entidad: agua}
+        - {x: 2, y: 6, entidad: agua}
+        - {x: 2, y: 7, entidad: agua}
+        
         - {x: 5, y: 5, entidad: agua}
+        - {x: 5, y: 6, entidad: agua}
+        - {x: 5, y: 7, entidad: agua}
+        - {x: 6, y: 5, entidad: agua}
+        - {x: 6, y: 6, entidad: agua}
+        - {x: 6, y: 7, entidad: agua}
+        - {x: 7, y: 5, entidad: agua}
+        - {x: 7, y: 6, entidad: agua}
+        - {x: 7, y: 7, entidad: agua}
+        
         - {x: 10, y: 5, entidad: agua}
+        - {x: 10, y: 6, entidad: agua}
+        - {x: 10, y: 7, entidad: agua}
+        - {x: 11, y: 5, entidad: agua}
+        - {x: 11, y: 6, entidad: agua}
+        - {x: 11, y: 7, entidad: agua}
+        - {x: 12, y: 5, entidad: agua}
+        - {x: 12, y: 6, entidad: agua}
+        - {x: 12, y: 7, entidad: agua}
         
         - {x: 0, y: 10, entidad: agua}
+        - {x: 0, y: 11, entidad: agua}
+        - {x: 0, y: 12, entidad: agua}
+        - {x: 1, y: 10, entidad: agua}
+        - {x: 1, y: 11, entidad: agua}
+        - {x: 1, y: 12, entidad: agua}
+        - {x: 2, y: 10, entidad: agua}
+        - {x: 2, y: 11, entidad: agua}
+        - {x: 2, y: 12, entidad: agua}
+        
         - {x: 5, y: 10, entidad: agua}
+        - {x: 5, y: 11, entidad: agua}
+        - {x: 5, y: 12, entidad: agua}
+        - {x: 6, y: 10, entidad: agua}
+        - {x: 6, y: 11, entidad: agua}
+        - {x: 6, y: 12, entidad: agua}
+        - {x: 7, y: 10, entidad: agua}
+        - {x: 7, y: 11, entidad: agua}
+        - {x: 7, y: 12, entidad: agua}
+        
         - {x: 10, y: 10, entidad: agua}
+        - {x: 10, y: 11, entidad: agua}
+        - {x: 10, y: 12, entidad: agua}
+        - {x: 11, y: 10, entidad: agua}
+        - {x: 11, y: 11, entidad: agua}
+        - {x: 11, y: 12, entidad: agua}
+        - {x: 12, y: 10, entidad: agua}
+        - {x: 12, y: 11, entidad: agua}
+        - {x: 12, y: 12, entidad: agua}
       protagonista:
         - entidad: violeta
           x: 3
