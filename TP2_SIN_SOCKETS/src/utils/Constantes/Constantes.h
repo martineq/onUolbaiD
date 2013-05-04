@@ -99,6 +99,11 @@
 #define TAM_SINT sizeof (short int)
 #define TAM_DBL sizeof(double)
 
+/**************************** Tipos de Proxy ***********************************/
+#define PROXY_ENTIDAD "entidad"
+#define PROXY_JUEGO "juego"
+#define PROXY_CONTROLADOR "controlador"
+
 /*****************************  Habilitación de info de Mutex *************************/
 #define ESTADO_IMPRIMIR_INFO_MUTEX NO_IMPRIMIR_INFO_MUTEX  // <<< Acá hago el cambio, este es el que se toca
 #define SI_IMPRIMIR_INFO_MUTEX "si"	// "si" para que imprima
