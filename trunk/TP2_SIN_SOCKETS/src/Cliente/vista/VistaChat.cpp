@@ -1,12 +1,12 @@
 #include "VistaChat.h"
 
-#define MARGEN 5
-#define ALTO_TEXTO_MENSAJES 140
-#define ANCHO_TEXTO_MENSAJES 200
+#define MARGEN 20
+#define ALTO_TEXTO_MENSAJES 100
+#define ANCHO_TEXTO_MENSAJES 190
 #define ALTO_TEXTO_INGRESADO 14
-#define ANCHO_TEXTO_INGRESADO 200
-#define ALTO_VENTANA (ALTO_TEXTO_MENSAJES + ALTO_TEXTO_INGRESADO + (3 * MARGEN))
-#define ANCHO_VENTANA (ANCHO_TEXTO_MENSAJES + (2 * MARGEN))
+#define ANCHO_TEXTO_INGRESADO 190
+#define ALTO_VENTANA 184
+#define ANCHO_VENTANA 237
 
 using namespace std;
 
@@ -42,7 +42,7 @@ VistaChat::VistaChat(Posicion posicion, string remitente) {
 	this->_remitente = remitente;
 	this->_visible = false;
 	this->_fuente = TTF_OpenFont("verdana.ttf", 10);
-	this->_ventana = crearVentana();
+	this->_ventana = IMG_Load("img/chat.png");
 	this->_altoOcupadoTextoMensajes = 0;
 }
 
@@ -79,7 +79,7 @@ bool VistaChat::graficar(SDL_Surface* pantalla) {
 	
 	SDL_Rect rectanguloOrigen, rectanguloDestino;
 	SDL_Color colorTexto = { 0, 0, 0 };
-	SDL_Surface* textoIngresado = TTF_RenderText_Blended(this->_fuente, this->_textoIngresado.c_str(), colorTexto);
+	SDL_Surface* textoIngresado = TTF_RenderText_Blended(this->_fuente, (this->_destinatario + ": " + this->_textoIngresado).c_str(), colorTexto);
 	int contadorMensajes = 0;
 	
 	// Muestra la ventana completa
@@ -101,8 +101,8 @@ bool VistaChat::graficar(SDL_Surface* pantalla) {
 
 			rectanguloDestino.h = textoMensaje->h;
 			rectanguloDestino.w = textoMensaje->w;
-			rectanguloDestino.x = this->_posicion.x + MARGEN;
-			rectanguloDestino.y = this->_posicion.y + MARGEN + (contadorMensajes++ * 14);
+			rectanguloDestino.x = this->_posicion.x + MARGEN + 5;
+			rectanguloDestino.y = this->_posicion.y + MARGEN + (contadorMensajes++ * 14) + 5;
 
 			SDL_BlitSurface(textoMensaje, &rectanguloOrigen, pantalla, &rectanguloDestino);
 			SDL_FreeSurface(textoMensaje);
@@ -119,7 +119,7 @@ bool VistaChat::graficar(SDL_Surface* pantalla) {
 		rectanguloDestino.h = textoIngresado->h;
 		rectanguloDestino.w = textoIngresado->w;
 		rectanguloDestino.x = this->_posicion.x + MARGEN;
-		rectanguloDestino.y = this->_posicion.y + (2 * MARGEN) + ALTO_TEXTO_MENSAJES;
+		rectanguloDestino.y = this->_posicion.y + (2 * MARGEN) + ALTO_TEXTO_MENSAJES + 8;
 
 		SDL_BlitSurface(textoIngresado, &rectanguloOrigen, pantalla, &rectanguloDestino);
 		SDL_FreeSurface(textoIngresado);
@@ -144,7 +144,7 @@ void VistaChat::teclaPresionada(Uint16 tecla) {
 
 	// Calculo el tamaño que tendria el texto mostrado en pantalla
 	int ancho = 0, alto = 0;
-	TTF_SizeText(this->_fuente, (this->_textoIngresado + (char)tecla).c_str(), &ancho, &alto);
+	TTF_SizeText(this->_fuente, (this->_destinatario + ": " + this->_textoIngresado + (char)tecla).c_str(), &ancho, &alto);
 
 	// Si alcanzo el ancho del texto salgo
 	if (ancho >= ANCHO_TEXTO_INGRESADO)

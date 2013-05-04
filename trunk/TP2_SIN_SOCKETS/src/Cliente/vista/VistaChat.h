@@ -7,6 +7,7 @@
 #include <SDL_ttf.h>
 
 #include "../../utils/Posicion/Posicion.h"
+#include <SDL_image.h>
 
 class VistaChat {
 	private:

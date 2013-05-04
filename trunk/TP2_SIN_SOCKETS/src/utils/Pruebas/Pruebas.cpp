@@ -774,7 +774,7 @@ void Pruebas::PruebaChat() {
 	Posicion posicion;
 
 	posicion.x = 0;
-	posicion.y = 431;
+	posicion.y = 416;
 
 	VistaChat* vistaChat = new VistaChat(posicion, "remitente");
 	SDL_Surface* pantalla = SDL_SetVideoMode(800, 600, 0, 0);
