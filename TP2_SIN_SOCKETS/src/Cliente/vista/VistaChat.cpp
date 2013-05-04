@@ -151,10 +151,7 @@ void VistaChat::teclaPresionada(Uint16 tecla) {
 		return;
 	
 	// Si presiono un caracter valido lo agrego a la cadena
-	if ((tecla == (Uint16)' ') ||
-		((tecla >= (Uint16)'0') && (tecla <= (Uint16)'9')) ||
-		((tecla >= (Uint16)'A') && (tecla <= (Uint16)'Z')) ||
-		((tecla >= (Uint16)'a') && (tecla <= (Uint16)'z')))
+	if ((tecla >= 32) && (tecla <= 126))
 		this->_textoIngresado += (char)tecla;
 }
 

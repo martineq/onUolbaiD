@@ -76,18 +76,19 @@ bool SDLutil::graficar(char visibilidad) {
 		//SDL_SetAlpha(this->mySurface, SDL_SRCALPHA|SDL_RLEACCEL, 127);
 		//opcion 3 
 			/* Create a display surface with a grayscale palette */
-			SDL_Surface *screen;
+			/*SDL_Surface *screen;
 			SDL_Color colors[256];
 			int i;
 			/* Fill colors with color information */
-			for(i=0;i<256;i++){
+			/*for(i=0;i<256;i++){
 				colors[i].r=i;
 				colors[i].g=i;
 				colors[i].b=i;
 			}
-			SDL_SetPalette(this->mySurface, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 256);
+			SDL_SetPalette(this->mySurface, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 256);*/
 		//opcion con la que anda la prueba
-		//SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 255));//AZUL				
+		//SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 255));//AZUL
+		SDL_SetAlpha(this->mySurface, SDL_SRCALPHA, SDL_ALPHA_OPAQUE / 2);
 	}
 	else if (visibilidad == 0) {
 		//opcion 1 negro fillrect
@@ -97,23 +98,25 @@ bool SDLutil::graficar(char visibilidad) {
 		//SDL_SetAlpha(this->mySurface, SDL_SRCALPHA|SDL_RLEACCEL, 127);
 		//opcion 3
 		/* Create a display surface with a grayscale palette */
-			SDL_Surface *screen;
+			/*SDL_Surface *screen;
 			SDL_Color colors[256];
-			int i;
+			int i;*/
 			/* Fill colors with color information */
-			for(i=0;i<256;i++){
+			/*for(i=0;i<256;i++){
 				colors[i].r=i;
 				colors[i].g=i;
 				colors[i].b=i;
 			}
-			SDL_SetPalette(this->mySurface, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 256);
+			SDL_SetPalette(this->mySurface, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 256);*/
 		//bueno pruebo esto sino		
-		//SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 0));//NEGRO		
+		//SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 0, 0, 0));//NEGRO
+		SDL_SetAlpha(this->mySurface, SDL_SRCALPHA, SDL_ALPHA_TRANSPARENT);
 	}
 	else if (visibilidad == 2) {
 		//SDL_SetAlpha(this->mySurface, SDL_SRCALPHA|SDL_RLEACCEL, 127);
 		//SDL_FillRect(prueba, NULL, SDL_MapRGB(this->screen->format, 255, 255, 0));//AMARILLO	
-		//SDL_FillRect(this->mySurface, NULL, SDL_MapRGB(this->screen->format, 255, 255, 0));//AMARILLO			
+		//SDL_FillRect(this->mySurface, NULL, SDL_MapRGB(this->screen->format, 255, 255, 0));//AMARILLO
+		SDL_SetAlpha(this->mySurface, SDL_SRCALPHA, SDL_ALPHA_OPAQUE);
 	}
 	
 	SDL_Rect posicionPantalla;

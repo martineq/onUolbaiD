@@ -33,7 +33,7 @@ SDL_Surface *ImageLoader::load_image( std::string filename )
 		}
 
 		//Create an optimized surface
-		optimizedImage = SDL_DisplayFormatAlpha( loadedImage );
+		optimizedImage = SDL_DisplayFormat( loadedImage );
 
 		//Free the old surface
 		SDL_FreeSurface( loadedImage );
@@ -42,7 +42,7 @@ SDL_Surface *ImageLoader::load_image( std::string filename )
 		if( optimizedImage != NULL )
 		{
 			//Color key surface
-			SDL_SetColorKey( optimizedImage, SDL_SRCCOLORKEY, SDL_MapRGB( optimizedImage->format, 0, 0xFF, 0xFF ) );
+			SDL_SetColorKey( optimizedImage, SDL_SRCCOLORKEY, SDL_MapRGB( optimizedImage->format, 0xFF, 0xFF, 0xFF ) );
 			this->surfaces.insert(std::make_pair(filename,optimizedImage));
 			//Return the optimized surface
 			return optimizedImage;
@@ -61,12 +61,12 @@ SDL_Surface* ImageLoader::stretch(SDL_Surface *surface, double width, double hei
 	SDL_Surface * zoomed = zoomSurface (surface,escalaAncho,escalaAlto,1);
 	SDL_Surface * retornar = NULL;
 
-	retornar = SDL_DisplayFormatAlpha( zoomed );
+	retornar = SDL_DisplayFormat( zoomed );
 	if( retornar == NULL ) return NULL;
 
 	SDL_FreeSurface(zoomed);
 
-	if( SDL_SetColorKey(retornar, SDL_SRCCOLORKEY, SDL_MapRGB( retornar->format, 0, 0xFF, 0xFF )) != 0 ) return NULL ;
+	if( SDL_SetColorKey(retornar, SDL_SRCCOLORKEY, SDL_MapRGB( retornar->format, 0xFF, 0xFF, 0xFF )) != 0 ) return NULL ;
 	
 	return retornar;
 }
