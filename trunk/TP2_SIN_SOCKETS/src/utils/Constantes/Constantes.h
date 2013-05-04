@@ -29,7 +29,7 @@
 #define SDL_RUTA_PASTO "./img/pasto.bmp"
 #define SDL_RUTA_FONDO "./img/nivel.bmp"
 #define SDL_IMAGEN_DEFAULT "./img/default.png"
-#define SDL_RUTA_UTIL "img/tile8bits.bmp"
+#define SDL_RUTA_UTIL "img/tilePNG.png"
 #define BIKINI "./img/bikini.bmp"
 
 /************************* DIRECCIONES ***********************/

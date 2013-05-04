@@ -9,7 +9,7 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 }
 
 char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, char** matriz){
-	//si alguna esquina tiene el numero 2 es porque es visible
+	//si alguna esquina tiene el numero VISIBLE es porque es visible
 	if ( (matriz[unaEntidad->getTileX()][unaEntidad->getTileY()] == VISIBLE) || 
 		 ((matriz[(int)(unaEntidad->getTileX())][(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)]) == VISIBLE) ||
 		 ((matriz[(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)][(int)unaEntidad->getTileY()]) == VISIBLE) || 
@@ -37,21 +37,20 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 	int inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible;
 	int finX = vistaNivel.getJugador()->getTileX() + mitadDeZonaVisible;		
 	int inicioY = vistaNivel.getJugador()->getTileY() - mitadDeZonaVisible;
-	int finY = vistaNivel.getJugador()->getTileY() + mitadDeZonaVisible + 1;	
-	int posicionDelJugadorX = vistaNivel.getJugador()->getTileX();
-	int posicionDelJugadorY = vistaNivel.getJugador()->getTileY();
+	int finY = vistaNivel.getJugador()->getTileY() + mitadDeZonaVisible + 1;		
 
 	//se movio hacia arriba 
 	if ( (jugador->getTileY() < jugador->getTileYAnterior()) && (!(jugador->getTileX() < jugador->getTileXAnterior()))
 		&& (!(jugador->getTileX() > jugador->getTileXAnterior())) ) {		
+		
 		if (inicioX < 0) inicioX = 0;
-		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
 		if (inicioY < 0) inicioY = 0;
-		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();	
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;	
 		
 		for (int i = inicioX; i <= finX; i++){
-			matriz[i][finY] = 1;
-			matriz[i][inicioY] = 2;
+			if (jugador->getTileY() < vistaNivel.getAltoDeNivelEnTiles() - mitadDeZonaVisible - 1) matriz[i][finY] = CONOCIDO_NO_VISIBLE;
+			matriz[i][inicioY] = VISIBLE;
 		}
 		
 	}
@@ -63,63 +62,61 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 		inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible - 1; 
 		finX = vistaNivel.getJugador()->getTileX() + mitadDeZonaVisible; 
 		if (inicioX < 0) inicioX = 0;	
-		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
 
 		inicioY = jugador->getTileY() - mitadDeZonaVisible;
 		finY = jugador->getTileY() + mitadDeZonaVisible;
 		if (inicioY < 0) inicioY = 0;
-		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
 
 		for (int i = inicioY; i <= finY; i++){
-			matriz[inicioX][i] = 1;
-			matriz[finX][i] = 2;
+			if (jugador->getTileX() > mitadDeZonaVisible)  matriz[inicioX][i] = CONOCIDO_NO_VISIBLE; //posicion del jugador +3 del alto ahora del nivel
+			matriz[finX][i] = VISIBLE;
 		}		
 
 	}
 
 	
-	//se movio hacia abajo
-	inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible; 
-	finX = vistaNivel.getJugador()->getTileX() + 2; 
-	if (inicioX < 0) inicioX = 0;	
-	if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
-
-	inicioY = jugador->getTileY() - mitadDeZonaVisible - 1;
-	finY = jugador->getTileY() + 2;
-	if (inicioY < 0) inicioY = 0;
-	if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
-		
+	//se movio hacia abajo		
 	else if ( (jugador->getTileY() > jugador->getTileYAnterior()) && (!(jugador->getTileX() < jugador->getTileXAnterior()))
 		&& (!(jugador->getTileX() > jugador->getTileXAnterior())) ) {
 		
+		inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible; 
+		finX = vistaNivel.getJugador()->getTileX() + mitadDeZonaVisible; 
+		if (inicioX < 0) inicioX = 0;	
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
+
+		inicioY = jugador->getTileY() - mitadDeZonaVisible - 1;
+		finY = jugador->getTileY() + mitadDeZonaVisible;
+		if (inicioY < 0) inicioY = 0;
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
+
 		for (int i = inicioX; i <= finX; i++){
-			matriz[i][inicioY] = 1;
-			matriz[i][finY] = 2;
+			if (jugador->getTileY() > mitadDeZonaVisible) matriz[i][inicioY] = CONOCIDO_NO_VISIBLE;
+			matriz[i][finY] = VISIBLE;
 		}
 
-	}
-	
-	inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible; 
-	finX = vistaNivel.getJugador()->getTileX() + 3; 
-	if (inicioX < 0) inicioX = 0;	
-	if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
-
-	inicioY = jugador->getTileY() - 2;
-	finY = jugador->getTileY() + 2;
-	if (inicioY < 0) inicioY = 0;
-	if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+	}	
 
 	//se movio a la izquierda
 	else if ( (jugador->getTileX() < jugador->getTileXAnterior()) && (!(jugador->getTileY() < jugador->getTileYAnterior()))
 		&& (!(jugador->getTileY() > jugador->getTileYAnterior())) ) {
+
+		inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible; 
+		finX = vistaNivel.getJugador()->getTileX() + mitadDeZonaVisible + 1; 
+		if (inicioX < 0) inicioX = 0;	
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
+
+		inicioY = jugador->getTileY() - mitadDeZonaVisible;
+		finY = jugador->getTileY() + mitadDeZonaVisible;
+		if (inicioY < 0) inicioY = 0;
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
 		
 		for (int i = inicioY; i <= finY; i++){
-			matriz[finX][i] = 1;
-		}
-		
-		for (int i = inicioY; i <= finY; i++){
-			matriz[inicioX][i] = 2;
-		}
+			if (jugador->getTileX() < vistaNivel.getAnchoDeNivelEnTiles() - mitadDeZonaVisible -1) 
+				matriz[finX][i] = CONOCIDO_NO_VISIBLE;
+			matriz[inicioX][i] = VISIBLE;
+		}		
 
 	}
 
@@ -129,81 +126,81 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 		inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible - 1; //-3
 		finX = vistaNivel.getJugador()->getTileX() + 1; 
 		if (inicioX < 0) inicioX = 0;	
-		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;  
 
 		inicioY = jugador->getTileY() - 1;
-		finY = jugador->getTileY() + 3;
+		finY = jugador->getTileY() + mitadDeZonaVisible + 1;
 		if (inicioY < 0) inicioY = 0;
-		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
 
 		
 		// pinta gris la columna de la izquierda 
 		for (int i = inicioY; i <= finY; i++){
-			matriz[inicioX][i] = 1;
+			if (jugador->getTileX() > mitadDeZonaVisible) matriz[inicioX][i] = CONOCIDO_NO_VISIBLE;
 		}
 		
 		//pinta gris la fila de abajo
 		for (int i = inicioX; i <= finX; i++){
-			matriz[i][finY] = 1;
+			if (jugador->getTileY() < vistaNivel.getAltoDeNivelEnTiles() - mitadDeZonaVisible - 1) matriz[i][finY] = CONOCIDO_NO_VISIBLE;
 		}
 
-		inicioY = jugador->getTileY() - 2;
-		finY = jugador->getTileY() + 2;
+		inicioY = jugador->getTileY() - mitadDeZonaVisible;
+		finY = jugador->getTileY() + mitadDeZonaVisible;
 		if (inicioY < 0) inicioY = 0;
-		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
 
-		inicioX = jugador->getTileX() - 2;
-		finX = jugador->getTileX() + 2;
+		inicioX = jugador->getTileX() - mitadDeZonaVisible;
+		finX = jugador->getTileX() + mitadDeZonaVisible;
 		if (inicioX < 0) inicioX = 0;
-		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
 
 		for (int i = inicioY; i <= finY; i++){
-			matriz[finX][i] = 2;
+			matriz[finX][i] = VISIBLE;
 		}
 		
 		for (int i = inicioX; i <= finX; i++){
-			matriz[i][inicioY] = 2;
+			matriz[i][inicioY] = VISIBLE;
 		}
 	}
 
 	// se movio a la derecha y abajo
 	else if ( (jugador->getTileX() > jugador->getTileXAnterior()) && (jugador->getTileY() > jugador->getTileYAnterior()) ) {
 
-		inicioY = jugador->getTileY() - 3;
+		inicioY = jugador->getTileY() - mitadDeZonaVisible - 1;
 		finY = jugador->getTileY() + 1;
 		if (inicioY < 0) inicioY = 0;
-		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
 
-		inicioX = jugador->getTileX() - 3;
+		inicioX = jugador->getTileX() - mitadDeZonaVisible - 1;
 		finX = jugador->getTileX() + 1;
 		if (inicioX < 0) inicioX = 0;
-		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
 
 		
 		for (int i = inicioY; i <= finY; i++){
-			matriz[inicioX][i] = 1;
+			if (jugador->getTileX() > mitadDeZonaVisible) matriz[inicioX][i] = CONOCIDO_NO_VISIBLE;
 		}
 		
 		for (int i = inicioX; i <= finX; i++){
-			matriz[i][inicioY] = 1;
+			if (jugador->getTileY() > mitadDeZonaVisible) matriz[i][inicioY] = CONOCIDO_NO_VISIBLE;
 		}
 
-		inicioY = jugador->getTileY() - 2;
-		finY = jugador->getTileY() + 2;
+		inicioY = jugador->getTileY() - mitadDeZonaVisible;
+		finY = jugador->getTileY() + mitadDeZonaVisible;
 		if (inicioY < 0) inicioY = 0;
-		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
 
-		inicioX = jugador->getTileX() - 2;
-		finX = jugador->getTileX() + 2;
+		inicioX = jugador->getTileX() - mitadDeZonaVisible;
+		finX = jugador->getTileX() + mitadDeZonaVisible;
 		if (inicioX < 0) inicioX = 0;
-		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
 
 		for (int i = inicioY; i <= finY; i++){
-			matriz[finX][i] = 2;
+			matriz[finX][i] = VISIBLE;
 		}
 		
 		for (int i = inicioX; i <= finX; i++){
-			matriz[i][finY] = 2;
+			matriz[i][finY] = VISIBLE;
 		}
 	}
 
@@ -211,79 +208,79 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 	else if ( (jugador->getTileX() < jugador->getTileXAnterior()) && (jugador->getTileY() < jugador->getTileYAnterior()) ) {
 
 		inicioY = jugador->getTileY() - 1;
-		finY = jugador->getTileY() + 3;
+		finY = jugador->getTileY() + mitadDeZonaVisible + 1;
 		if (inicioY < 0) inicioY = 0;
-		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
 
 		inicioX = jugador->getTileX() - 1;
-		finX = jugador->getTileX() + 3;
+		finX = jugador->getTileX() + mitadDeZonaVisible + 1;
 		if (inicioX < 0) inicioX = 0;
-		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
 		
 		for (int i = inicioY; i <= finY; i++){
-			matriz[finX][i] = 1;
+			if (jugador->getTileX() < vistaNivel.getAnchoDeNivelEnTiles() - mitadDeZonaVisible - 1) matriz[finX][i] = CONOCIDO_NO_VISIBLE;
 		}
 		
 		for (int i = inicioX; i <= finX; i++){
-			matriz[i][finY] = 1;
+			if (jugador->getTileY() < vistaNivel.getAltoDeNivelEnTiles() - mitadDeZonaVisible - 1) matriz[i][finY] = CONOCIDO_NO_VISIBLE;
 		}
 
-		inicioY = jugador->getTileY() - 2;
-		finY = jugador->getTileY() + 2;
+		inicioY = jugador->getTileY() - mitadDeZonaVisible;
+		finY = jugador->getTileY() + mitadDeZonaVisible;
 		if (inicioY < 0) inicioY = 0;
-		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
 
-		inicioX = jugador->getTileX() - 2;
-		finX = jugador->getTileX() + 2;
+		inicioX = jugador->getTileX() - mitadDeZonaVisible;
+		finX = jugador->getTileX() + mitadDeZonaVisible;
 		if (inicioX < 0) inicioX = 0;
-		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
 
 		for (int i = inicioY; i <= finY; i++){
-			matriz[inicioX][i] = 2;
+			matriz[inicioX][i] = VISIBLE;
 		}
 		
 		for (int i = inicioX; i <= finX; i++){
-			matriz[i][inicioY] = 2;
+			matriz[i][inicioY] = VISIBLE;
 		}
 	}
 
 	// se movio a la izquierda y abajo
 	else if ( (jugador->getTileX() < jugador->getTileXAnterior()) && (jugador->getTileY() > jugador->getTileYAnterior()) ) {
 		
-		inicioY = jugador->getTileY() - 3;
+		inicioY = jugador->getTileY() - mitadDeZonaVisible - 1;
 		finY = jugador->getTileY() + 1;
 		if (inicioY < 0) inicioY = 0;
-		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
 
 		inicioX = jugador->getTileX() - 1;
-		finX = jugador->getTileX() + 3;
+		finX = jugador->getTileX() + mitadDeZonaVisible + 1;
 		if (inicioX < 0) inicioX = 0;
-		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
 
 		for (int i = inicioY; i <= finY; i++){
-			matriz[finX][i] = 1;
+			if (jugador->getTileX() < vistaNivel.getAnchoDeNivelEnTiles() - mitadDeZonaVisible - 1) matriz[finX][i] = CONOCIDO_NO_VISIBLE;
 		}
 		
 		for (int i = inicioX; i <= finX; i++){
-			matriz[i][inicioY] = 1;
+			if (jugador->getTileY() > mitadDeZonaVisible) matriz[i][inicioY] = CONOCIDO_NO_VISIBLE;
 		}
 
-		inicioY = jugador->getTileY() - 2;
-		finY = jugador->getTileY() + 2;
+		inicioY = jugador->getTileY() - mitadDeZonaVisible;
+		finY = jugador->getTileY() + mitadDeZonaVisible;
 		if (inicioY < 0) inicioY = 0;
-		if (finY > vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles();
+		if (finY >= vistaNivel.getAltoDeNivelEnTiles()) finY = vistaNivel.getAltoDeNivelEnTiles() - 1;
 
-		inicioX = jugador->getTileX() - 2;
-		finX = jugador->getTileX() + 2;
+		inicioX = jugador->getTileX() - mitadDeZonaVisible;
+		finX = jugador->getTileX() + mitadDeZonaVisible;
 		if (inicioX < 0) inicioX = 0;
-		if (finX > vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles();
+		if (finX >= vistaNivel.getAnchoDeNivelEnTiles()) finX = vistaNivel.getAnchoDeNivelEnTiles() - 1;
 
 		for (int i = inicioY; i <= finY; i++){
-			matriz[inicioX][i] = 2;
+			matriz[inicioX][i] = VISIBLE;
 		}
 		
 		for (int i = inicioX; i <= finX; i++){
-			matriz[i][finY] = 2;
+			matriz[i][finY] = VISIBLE;
 		}
 	}
 
@@ -291,6 +288,9 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 
 bool VistaLoop::loop(VistaNivel& vistaNivel, char** matriz){
 	//Antes de dibujar las entidades me fijo si tengo que refrescar la matriz
+	if (vistaNivel.getJugador()->getTileX() > vistaNivel.getJugador()->getTileXAnterior())
+				int a = 9;
+
 	if ( (vistaNivel.getJugador()->getTileXAnterior() != vistaNivel.getJugador()->getTileX())
 		|| (vistaNivel.getJugador()->getTileYAnterior() != vistaNivel.getJugador()->getTileY()) ) {
 			this->refrescarMatriz(vistaNivel,matriz);
@@ -318,13 +318,13 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz) {
 		if (!jugadorDibujado && VistaNivel::ordenadorEntidades(vistaNivel.getJugador(), unaEntidad)) {
 			vistaNivel.getJugador()->verificarBordePantalla(vistaNivel.getScroll());
 			vistaNivel.getJugador()->setPantalla(this->pantalla);
-			if (!vistaNivel.getJugador()->graficar(2))
+			if (!vistaNivel.getJugador()->graficar(VISIBLE))
 				return false;
 			jugadorDibujado = true;
 		}
 
 		if (unaEntidad->verificarBordePantalla(vistaNivel.getScroll())) {
-			unaEntidad->setPantalla(this->pantalla);			
+			unaEntidad->setPantalla(this->pantalla);						
 			bool funciona = unaEntidad->graficar(this->visibilidadDeLaEntidad(unaEntidad,matriz));
 			if( funciona == false)
 				return false;
@@ -336,7 +336,7 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz) {
 	if (!jugadorDibujado) {
 		vistaNivel.getJugador()->verificarBordePantalla(vistaNivel.getScroll());
 		vistaNivel.getJugador()->setPantalla(this->pantalla);
-		if (!vistaNivel.getJugador()->graficar(2))
+		if (!vistaNivel.getJugador()->graficar(VISIBLE))
 			return false;
 	}
 
