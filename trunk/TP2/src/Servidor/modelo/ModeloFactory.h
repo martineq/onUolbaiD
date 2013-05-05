@@ -7,6 +7,7 @@
 #include "../../utils/yaml/ParserYaml.h"
 #include "../../utils/Sockets/SocketServidor.h"
 #include "../../utils/Ticket/Ticket.h"
+#include "../../utils/Serializacion/Serializadora.h"
 
 class ModeloFactory{
 
@@ -28,9 +29,9 @@ class ModeloFactory{
 		void crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSocket);
 
 		// Métodos usados por el HiloConfiguracion
-		bool enviarEscenario(SocketServidor* pSocket);
+		bool enviarEscenario(SocketServidor* pSocket, int id);
 		bool elegirProtagonista(SocketServidor* pSocket, int id);
-		bool enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket);
+		bool enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador);
 		void crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
 		
 	public:
