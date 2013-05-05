@@ -10,14 +10,12 @@ class ModeloNivel {
 		int anchoTiles;
 		std::list<ModeloEntidad*> listaJugadores;
 		std::list<ModeloEntidad*> listaEntidades;
-		Mutex mutexListaJugadores; //TODO: Ver como implementar este mutex, porque en realidad tambien hay que proteger a cada ModeloEntidad* individualmente 
 
 		ModeloEntidad* obtenerJugador(int id);
 		ModeloEntidad* obtenerEntidad(int id);
 		
 		void destruirListaJugadores();
 		void destruirListaEntidades();
-		void destruirListaScroll();
 
 	public:
 		ModeloNivel();
@@ -26,7 +24,7 @@ class ModeloNivel {
 		// Getters
 		std::list<ModeloEntidad*> getListaJugadores();
 		std::list<ModeloEntidad*> getListaEntidades();
-		
+
 		int getAltoTiles();
 		int getAnchoTiles();
 

@@ -68,7 +68,7 @@ bool ModeloFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEsc
 
 bool ModeloFactory::rutinaAgregarNuevoCliente(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
 	if( this->enviarEscenario(pSocket,id) == false ) return false;
-	if( this->elegirProtagonista(pSocket,id) == false ) return false;
+	if( this->elegirProtagonista(modeloNivel,pSocket,id) == false ) return false;
 	if( this->enviarOtrosJugadores(modeloNivel,pSocket,id) == false ) return false;
 	return true;
 }
@@ -102,7 +102,7 @@ bool ModeloFactory::enviarEscenario(SocketServidor* pSocket, int id){
 }
 
 // Para que lo use el hilo de configuración
-bool ModeloFactory::elegirProtagonista(SocketServidor* pSocket, int id){
+bool ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
 	ParserYaml::stProtagonista protagonista = this->juegoElegido.escenario.protagonistas.front();
 	// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del VistaFactory::recibirProtagonista() ***
 	//		 + Acá es donde le paso this->listaIdEntidades a cada cliente para que sepa que ID ponerle a sus entidades vista. 
@@ -119,8 +119,43 @@ bool ModeloFactory::elegirProtagonista(SocketServidor* pSocket, int id){
 
 bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador){
 	// TODO: Implementar. Acá envio los datos necesarios para crear en la vista a los otros jugadores conectados (si es que hay) 
+	std::list<ModeloEntidad*> listaJugadores = modeloNivel->getListaJugadores();
+	int cantidadOtrosJugadores = listaJugadores.size() - 1;  // Descarto a mi jugador
+	ProxyModeloEntidad proxy;
+	proxy.setSocketServidor(pSocket);
+	ProxyModeloEntidad::stEntidad entidad;
 
-	return true; // return false si hay error de sockets
+	// Envío la cantidad de jugadores que voy a transferir
+	Serializadora s;
+	s.addInt(cantidadOtrosJugadores);
+	std::string* pStr = s.getSerializacion();
+	if( pSocket->enviarIndividual(pStr->c_str(),pStr->size(),idMiJugador) == false ){
+		delete pStr;
+		return false;
+	}else{
+		delete pStr;
+	}
+
+	// Envío los datos de los jugadores, a través de un proxy
+	for (std::list<ModeloEntidad*>::iterator it=listaJugadores.begin() ; it != listaJugadores.end(); it++ ){ 
+		ModeloEntidad* pEntidad = (*it);
+		if( pEntidad->id() != idMiJugador ){
+			// Cargo los datos
+			entidad.eliminarEntidad = false;
+			entidad.errorEnSocket = false;
+			entidad.direccion = pEntidad->direccion();
+			entidad.esUltimoMovimiento = pEntidad->esUltimoMovimiento();
+			entidad.id = pEntidad->id();
+			entidad.nombreNuevaEntidad = pEntidad->nombreEntidad();
+			entidad.pixelSiguienteX = pEntidad->pixelSiguiente().x;
+			entidad.pixelSiguienteY = pEntidad->pixelSiguiente().y;
+
+			// Los envio a través del proxy
+			if( proxy.enviarEntidadIndividual(entidad,idMiJugador) == false ) return false;
+		}
+	}
+
+	return true; 
 }
 
 // Para que lo use el hilo de configuración
@@ -131,8 +166,8 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocke
 //		para luego ponerlo en el construcotr de ModeloEntidad del personaje
 
 /*	ParserYaml::stProtagonista protagonista = juego.escenarios.front().protagonistas.front();
-	std::string nombre = protagonista.entidad;
-	ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego.entidades,nombre);
+	std::string nombreEntidad = protagonista.entidad;
+	ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego.entidades,nombreEntidad);
 
 	int alto = entidad.altoBase;
 	int ancho = entidad.anchoBase;
@@ -143,7 +178,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocke
 	pos.x = protagonista.x;
 	pos.y = protagonista.y;
 
-	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidad.fps); 
+	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidad.fps,id,nombreEntidad); 
 
 	modeloNivel.agregarJugador(pJugador);
 	*/
@@ -179,7 +214,7 @@ void ModeloFactory::crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSoc
 		// De esta forma cada EntidadModelo y cada EntidadVista van a tener el mismo ID
 		int nuevoID = Ticket::getInstance().pedirNumero();
 		this->juegoElegido.listaIdEntidades.push_back(nuevoID);
-		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,false,altoEscenario,anchoEscenario,entidad.fps,pProxyEntidad,nuevoID);
+		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,false,altoEscenario,anchoEscenario,entidad.fps,pProxyEntidad,nuevoID,nombreEntidad);
 		modeloNivel.agregarEntidad(pEntidad);
 	}
 

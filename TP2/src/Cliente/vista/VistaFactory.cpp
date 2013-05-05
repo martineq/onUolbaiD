@@ -90,27 +90,16 @@ bool VistaFactory::recibirArchivos(SocketCliente* pSocket){
 }
 
 bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket){
-	std::string cadena;
-	unsigned int tamanioRecibido = 0;
-	char* cadenaRaw = NULL;
 
-	// Recibo el vector de strings serializado en una cadena de chars
-	if( pSocket->recibir(&cadenaRaw,tamanioRecibido) == false ) return false;
-	if( tamanioRecibido > 0 ){
-		cadena.assign(cadenaRaw,tamanioRecibido);
-		delete[] cadenaRaw;
-	}else{
-		// "Error al obtener archivos"
-		return false;
-	}
-
+	std::string cadenaRecibida;
+	if( this->recibirCadenaSerializada(cadenaRecibida,pSocket) == false ) return false;
+	
 	// Hidrato el vector de strings y recibo cada archivo
 	int cantidadDeArchivos = 0;
-	Serializadora s(&cadena);
+	Serializadora s(&cadenaRecibida);
 	cantidadDeArchivos = s.getInt();
 	for ( int i=0 ; i < cantidadDeArchivos ; i++ ){
 		std::string rutaDestino(s.getString());
-		// Log::getInstance().log(3,__FILE__,__LINE__,"El cliente recibe :",  rutaDestino);
 		if ( pSocket->recibirArchivo(rutaDestino.c_str()) == false) return false; // Recibo el archivo binario
 	}
 
@@ -120,18 +109,8 @@ bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCl
 bool VistaFactory::recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,ParserYaml::stEscenario& escenario,std::list<int>& listaIdEntidades,SocketCliente* pSocket){
 
 	std::string cadenaRecibida;
-	unsigned int tamanioRecibido = 0;
-	char* cadenaRaw = NULL;
-
-	// Recibo desde el Servidor el nombre y la lista de ID's serializados en una cadena de chars
-	if( pSocket->recibir(&cadenaRaw,tamanioRecibido) == false ) return false;
-	if( tamanioRecibido > 0 ){
-		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
-		delete[] cadenaRaw;
-	}else{
-		return false;	// Error al obtener archivos
-	}
-
+	if( this->recibirCadenaSerializada(cadenaRecibida,pSocket) == false ) return false;
+	
 	// Comienzo a hidratar. Hidrato el nombre de escenario
 	Serializadora s(&cadenaRecibida);
 	std::string nombreEscenario = s.getString();
@@ -171,9 +150,40 @@ bool VistaFactory::recibirProtagonista(std::list<ParserYaml::stProtagonista>& li
 
 bool VistaFactory::recibirOtrosJugadores(std::list<ParserYaml::stProtagonista> listaDeOtrosJugadores,std::list<int>,SocketCliente* pSocket){
 
-	return true; // return false si hay error de sockets
+	std::string cadenaRecibida;
+	if( this->recibirCadenaSerializada(cadenaRecibida,pSocket) == false ) return false;
+	
+	// Hidrato la cantidad de personajes que me van a mandar
+	Serializadora s(&cadenaRecibida);
+	int cantidadOtrosJugadores = s.getInt();
+
+	// Recibo los datos de los jugadores, a través de un proxy
+	ProxyModeloEntidad proxy;
+	proxy.setSocketCliente(pSocket);
+	ProxyModeloEntidad::stEntidad entidad;
+	for ( unsigned int i=0 ; i<cantidadOtrosJugadores ; i++ ){ 
+		if( proxy.recibirEntidadIndividual(entidad) == false ) return false;
+		// TODO: cargar todos los datos. usar this->crearJugadorSinScroll(...)
+	}
+
+	return true; 
 }
 
+bool VistaFactory::recibirCadenaSerializada(std::string& cadenaRecibida,SocketCliente* pSocket){
+	unsigned int tamanioRecibido = 0;
+	char* cadenaRaw = NULL;
+
+	// Recibo desde el Servidor datos serializados en una cadena de chars
+	if( pSocket->recibir(&cadenaRaw,tamanioRecibido) == false ) return false;
+	if( tamanioRecibido > 0 ){
+		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
+		delete[] cadenaRaw;
+	}else{
+		return false;	// Error al obtener archivos
+	}
+
+	return true;
+}
 
 bool VistaFactory::crearElementosVista(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket){
 
@@ -217,6 +227,29 @@ void VistaFactory::crearJugadorConScroll(stVistaJuegoElegido& juego, VistaNivel&
 	vistaNivel.agregarJugador(pJugador);
 	vistaNivel.agregarScroll(pScroll);
 	vistaNivel.agregarTamanioNivel(tamanioX,tamanioY);
+
+	return void();
+}
+
+void VistaFactory::crearJugadorSinScroll(stVistaJuegoElegido& juego, VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket){
+// TODO hacer refactor de esto
+	std::string nombreProtagonista = juego.protagonista.entidad;
+	ParserYaml::stEntidad entidadProtagonista = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,nombreProtagonista);
+
+	double tamanioX = (double)juego.escenario.tamanioX;
+	double tamanioY = (double)juego.escenario.tamanioY;
+	double x = (double)juego.protagonista.x;
+	double y = (double)juego.protagonista.y;
+	double alto = (double)entidadProtagonista.altoBase;
+	double ancho = (double)entidadProtagonista.anchoBase;
+	double posicionReferenciaX = (double)entidadProtagonista.pixelReferenciaX;
+	double posicionReferenciaY = (double)entidadProtagonista.pixelReferenciaY;
+	double fps = (double)entidadProtagonista.fps;
+	double delay = (double)entidadProtagonista.delay;
+	std::list<std::list<std::string>> listaAnimaciones = entidadProtagonista.imagenes;
+
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,juego.idJugador);
+	vistaNivel.agregarJugador(pJugador);
 
 	return void();
 }

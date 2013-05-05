@@ -30,7 +30,7 @@ class ModeloFactory{
 
 		// Métodos usados por el HiloConfiguracion
 		bool enviarEscenario(SocketServidor* pSocket, int id);
-		bool elegirProtagonista(SocketServidor* pSocket, int id);
+		bool elegirProtagonista(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
 		bool enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador);
 		void crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
 		
