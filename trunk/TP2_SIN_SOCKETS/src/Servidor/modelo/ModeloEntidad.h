@@ -42,6 +42,14 @@ class ModeloEntidad : public Observable, public Identificable {
 
 				ModeloEntidad* detectarColision(Posicion posicion);
 
+				int obtenerX(ModeloEntidad* modeloEntidad);
+
+				int obtenerY(ModeloEntidad* modeloEntidad);
+
+				int obtenerAlto(int y, ModeloEntidad* modeloEntidad);
+
+				int obtenerAncho(int x, ModeloEntidad* modeloEntidad);
+
 				bool calcularDesvio(ModeloEntidad* modeloEntidad);
 
 				bool resolviendoDesvio() const;

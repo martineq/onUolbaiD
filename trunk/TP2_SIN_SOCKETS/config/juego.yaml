@@ -4,7 +4,7 @@ pantalla:
     alto: 600 #pixels
 configuracion:
     vel_personaje : 200
-    margen_scroll : 20
+    margen_scroll : 50
 entidades:
     - nombre: tierra
       pixel_ref_x: 50 #pixels
@@ -96,13 +96,13 @@ entidades:
       pixel_ref_x: 100 #pixels
       pixel_ref_y: 20 #pixels
       delay: 0
-    - nombre: miniMapa
+    - nombre: mini_mapa
       imagen:
         - [MiniMapa01.png,MiniMapa02.png,MiniMapa03.png,MiniMapa04.png,MiniMapa05.png]
       ancho_base: 2 #tiles
       alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
+      pixel_ref_x: 100 #pixels
+      pixel_ref_y: 10 #pixels
       fps: 10
       delay: 3
     - nombre: violeta
@@ -151,8 +151,70 @@ escenarios:
       size_x: 200 #tiles
       size_y: 200 #tiles
       entidadesDef:
-        - {x: 4, y: 40, entidad: castillo}
-        - {x: 1, y: 42, entidad: molino}
+        - {x: 1, y: 40, entidad: agua}
+        - {x: 1, y: 41, entidad: agua}
+        - {x: 2, y: 40, entidad: agua}
+        - {x: 2, y: 41, entidad: agua}
+        - {x: 1, y: 40, entidad: molino}
+
+        - {x: 4, y: 40, entidad: agua}
+        - {x: 4, y: 41, entidad: agua}
+        - {x: 5, y: 40, entidad: agua}
+        - {x: 5, y: 41, entidad: agua}
+        - {x: 4, y: 40, entidad: rancho}
+
+        - {x: 7, y: 40, entidad: agua}
+        - {x: 7, y: 41, entidad: agua}
+        - {x: 8, y: 40, entidad: agua}
+        - {x: 8, y: 41, entidad: agua}
+        - {x: 7, y: 40, entidad: granja_llamas}
+
+
+        - {x: 10, y: 40, entidad: agua}
+        - {x: 10, y: 41, entidad: agua}
+        - {x: 10, y: 42, entidad: agua}
+        - {x: 11, y: 40, entidad: agua}
+        - {x: 11, y: 41, entidad: agua}
+        - {x: 11, y: 42, entidad: agua}
+        - {x: 12, y: 40, entidad: agua}
+        - {x: 12, y: 41, entidad: agua}
+        - {x: 12, y: 42, entidad: agua}
+        - {x: 10, y: 40, entidad: casa_molino}
+
+        - {x: 14, y: 40, entidad: agua}
+        - {x: 14, y: 41, entidad: agua}
+        - {x: 14, y: 42, entidad: agua}
+        - {x: 14, y: 43, entidad: agua}
+        - {x: 15, y: 40, entidad: agua}
+        - {x: 15, y: 41, entidad: agua}
+        - {x: 15, y: 42, entidad: agua}
+        - {x: 15, y: 43, entidad: agua}
+        - {x: 16, y: 40, entidad: agua}
+        - {x: 16, y: 41, entidad: agua}
+        - {x: 16, y: 42, entidad: agua}
+        - {x: 16, y: 43, entidad: agua}
+        - {x: 17, y: 40, entidad: agua}
+        - {x: 17, y: 41, entidad: agua}
+        - {x: 17, y: 42, entidad: agua}
+        - {x: 17, y: 43, entidad: agua}
+        - {x: 14, y: 40, entidad: castillo}
+
+        - {x: 19, y: 40, entidad: agua}
+        - {x: 19, y: 41, entidad: agua}
+        - {x: 19, y: 42, entidad: agua}
+        - {x: 20, y: 40, entidad: agua}
+        - {x: 20, y: 41, entidad: agua}
+        - {x: 20, y: 42, entidad: agua}
+        - {x: 21, y: 40, entidad: agua}
+        - {x: 21, y: 41, entidad: agua}
+        - {x: 21, y: 42, entidad: agua}
+        - {x: 19, y: 40, entidad: casa_selva}
+        
+        - {x: 23, y: 40, entidad: agua}
+        - {x: 23, y: 41, entidad: agua}
+        - {x: 24, y: 40, entidad: agua}
+        - {x: 24, y: 41, entidad: agua}
+        - {x: 23, y: 40, entidad: mini_mapa}
       protagonista:
         - entidad: guerrero
           x: 0
