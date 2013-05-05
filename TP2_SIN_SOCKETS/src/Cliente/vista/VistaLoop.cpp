@@ -9,8 +9,12 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 }
 
 char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, char** matriz){
+
+	if (int(unaEntidad->getAncho() / ANCHO_TILE) == 1 && int(unaEntidad->getAlto() / ALTO_TILE) == 1) {
+		return matriz[unaEntidad->getTileX()][unaEntidad->getTileY()];
+	}
 	//si alguna esquina tiene el numero VISIBLE es porque es visible
-	if ( (matriz[unaEntidad->getTileX()][unaEntidad->getTileY()] == VISIBLE) || 
+	else if ( (matriz[unaEntidad->getTileX()][unaEntidad->getTileY()] == VISIBLE) || 
 		 ((matriz[(int)(unaEntidad->getTileX())][(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)]) == VISIBLE) ||
 		 ((matriz[(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)][(int)unaEntidad->getTileY()]) == VISIBLE) || 
 		 ((matriz[(int)((unaEntidad->getTileX() + unaEntidad->getAncho() / ANCHO_TILE) - 1)][(int)((unaEntidad->getTileY() + unaEntidad->getAlto() / ALTO_TILE) - 1)]) == VISIBLE) )
