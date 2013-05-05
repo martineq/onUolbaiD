@@ -306,9 +306,6 @@ bool SocketServidor::enviarIndividual(const char *pBuffer,unsigned int tamanio,l
 // Devuelve true en caso de éxito al enviar a todos los clientes que deben recibir el mensaje y false en cualquier otro caso
 bool SocketServidor::enviarMasivo(const char *pBuffer,unsigned int tamanio){
 	bool todosOk = true;
-	//Prueba
-	unsigned int tiempoInicio = Temporizador::getInstancia()->get_ticks();
-	std::stringstream sstr;
 	
 	for ( int i=0 ; i < this->tamanioConexionClientes() ; i++ ){
 		//std::cout<<"Miro al cliente ("<< this->getConexionCliente(i)->getId() <<") \n";
@@ -329,9 +326,6 @@ bool SocketServidor::enviarMasivo(const char *pBuffer,unsigned int tamanio){
 		}
 	}
 
-	sstr<< "enviarMasivoDuro: " << Temporizador::getInstancia()->get_ticks() - tiempoInicio << " milisegundos\n";
-	std::cout<<sstr.str();
-	
 	return todosOk;
 }
 

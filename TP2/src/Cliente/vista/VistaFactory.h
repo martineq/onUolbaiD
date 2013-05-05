@@ -42,5 +42,3 @@ class VistaFactory{
 
 		bool crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket);
 };
-
-// TODO: Ver si conectarSocket() va a recibir el puerto y el IP desde consola o de un archivo de configuración

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SDL.h>
 #include "./modelo/ModeloJuego.h"
 #include "../utils/Sockets/SocketServidor.h"
+#include "../utils/Temporizador/Temporizador.h"
 
 class Servidor{
 

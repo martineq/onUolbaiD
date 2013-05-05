@@ -4,6 +4,7 @@
 #include "../Hilos/Hilo.h"
 #include "../Hilos/Mutex.h"
 #include "../Sockets/SocketServidor.h"
+#include "../Temporizador/Temporizador.h"
 
 class HiloReceptor: public Hilo{
 

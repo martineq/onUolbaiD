@@ -2,8 +2,6 @@
 
 #include "./ConexionServidor.h"
 #include "../Constantes/Constantes.h"
-#include "../Timer/Timer.h"
-#include "../Timer/Temporizador.h"
 
 class SocketServidor{
 

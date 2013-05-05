@@ -69,7 +69,7 @@ void HiloReceptor::rutina(HiloConfiguracion::stParametrosConfiguracion* parametr
 		}
 
 		// Delay de tiempo (~1000ms) para que no quede dando vueltas tan rápido.
-		SDL_Delay(1000);	// TODO: Usar la clase Timer para pedir un delay
+		Temporizador::getInstance().crearDelay(1000);
 	}
 
 	// Cerramos todos los hilos que terminaron de configurarse, justo después del último for, dentro del último ciclo while

@@ -112,7 +112,7 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 		return false;
 	}
 	
-	// Preparo todo para la búsqueda de la entidad
+	// Preparo la búsqueda de la entidad
 	VistaEntidad* jugador = vistaNivel.getJugador();
 	std::list<VistaEntidad*> entidades = vistaNivel.getListaEntidades();
 	VistaEntidad* entidadEncontrada = NULL;

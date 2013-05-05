@@ -49,6 +49,6 @@ class HiloConfiguracion: public Hilo{
 };
 
 // TODO: PASO UNO >>> Modificar el código de este hilo según el modelo del juego. Hacer uso de los mutex necesarios para el uso de esas variables
-// TODO: PASO DOS >>> Refactorizar rutina() en métodos mas pequeños
+// TODO: PASO DOS >>> Refactorizar rutina() en métodos mas pequeños. >>> Esto quedará solucionado con el uso de los métodos desde el factory
 // TODO: PASO TRES >>> Antes que se usen los parámetros exteriores se debe preguntar si este hilo se encuentra en actividad, sino se debe salir inmediatamente (Importante: debe hacerse siempre)
 // TODO: El ID del cliente será dado por el ID de socket que me de el SockeServidor al realizar el aceptar(), o sea "ModeloJugador->ID" = "SocketCliente->ID"

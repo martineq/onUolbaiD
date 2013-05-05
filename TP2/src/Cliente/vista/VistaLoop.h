@@ -1,6 +1,5 @@
 #pragma once
 
-#include <SDL.h>
 #include "./VistaNivel.h"
 #include "./ImageLoader.h"
 #include "../../utils/Proxy/ProxyModeloEntidad.h"
