@@ -9,6 +9,8 @@ ControladorEvento::ControladorEvento(void){
 	this->mouseDentroDePantalla = true;
 	this->controladorScroll = NULL;
 	this->pProxyEvento = NULL;
+	this->teclaAApretada = false;
+	this->teclaSApretada = false;
 }
 
 ControladorEvento::~ControladorEvento(void){
@@ -27,17 +29,19 @@ void ControladorEvento::setMouseDentroDePantalla(bool dentroDePantalla){
 
 void ControladorEvento::setPosicionMouseX(int posicion){
 	this->posicionMouseX = posicion;
-	this->notificarAlProxy();
+	if ( ((this->posicionMouseX < controladorScroll->getMargen()) || (this->posicionMouseX > (this->anchoNivelEnPixel) - controladorScroll->getMargen())) ) this->notificarAlProxy();
 }
 
 void ControladorEvento::setPosicionMouseY(int posicion){
 	this->posicionMouseY = posicion;
-	this->notificarAlProxy();
+	if ( (this->posicionMouseY < controladorScroll->getMargen()) || (this->posicionMouseY > (this->altoNivelEnPixel - controladorScroll->getMargen())) ) this->notificarAlProxy();
 }
 
 void ControladorEvento::setPosicionMouseXY(int posicionX,int posicionY){
 	this->posicionMouseX = posicionX;
 	this->posicionMouseY = posicionY;
+	if ( (this->posicionMouseX < controladorScroll->getMargen()) || (this->posicionMouseX > (this->anchoNivelEnPixel - controladorScroll->getMargen()))
+		|| (this->posicionMouseY < controladorScroll->getMargen()) || (this->posicionMouseY > (this->altoNivelEnPixel - controladorScroll->getMargen())) ) this->notificarAlProxy();
 	this->notificarAlProxy();
 }
 
@@ -48,6 +52,16 @@ void ControladorEvento::setClicMouseBotonIzquierdo(int clic){
 
 void ControladorEvento::setClicMouseBotonDerecho(int clic){
 	this->clicMouseBotonDerecho = clic;
+	this->notificarAlProxy();
+}
+
+void ControladorEvento::setTeclaAApretada(bool apretada){
+	this->teclaAApretada = apretada;
+	this->notificarAlProxy();
+}
+
+void ControladorEvento::setTeclaSApretada(bool apretada){
+	this->teclaSApretada = apretada;
 	this->notificarAlProxy();
 }
 
@@ -71,6 +85,14 @@ bool ControladorEvento::getMouseDentroDePantalla(){
 	return this->mouseDentroDePantalla;
 }
 
+bool ControladorEvento::getTeclaAApretada(){
+	return this->teclaAApretada;
+}
+
+bool ControladorEvento::getTeclaSApretada(){
+	return this->teclaSApretada;
+}
+
 void ControladorEvento::notificarAlProxy(){
 	ProxyControladorEvento::stEvento evento;
 	evento.id = this->idJugador;
@@ -78,14 +100,15 @@ void ControladorEvento::notificarAlProxy(){
 	evento.mouseY = this->getPosicionMouseY();
 	evento.mouseClickIzquierdo = (this->getClicMouseBotonIzquierdo() == 1 );
 	evento.mouseDentroPantalla = this->getMouseDentroDePantalla();
-	// TODO: Falta agregar:
-	//evento.teclaA = this->getTeclaAApretada();
-	//evento.teclaS = this->getTeclaSApretada();
+	evento.teclaA = this->getTeclaAApretada();
+	evento.teclaS = this->getTeclaSApretada();
 	this->pProxyEvento->enviarEvento(evento);
 }
 
-void ControladorEvento::setControladorScroll(ControladorScroll* controladorScroll) {
+void ControladorEvento::setControladorScroll(ControladorScroll* controladorScroll, double anchoNivelEnPixel, double altoNivelEnPixel) {
 	this->controladorScroll = controladorScroll;
+	this->altoNivelEnPixel = altoNivelEnPixel;
+	this->anchoNivelEnPixel = anchoNivelEnPixel;
 }
 
 ControladorScroll* ControladorEvento::getControladorScroll(void){
