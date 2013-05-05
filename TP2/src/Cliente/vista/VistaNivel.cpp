@@ -1,6 +1,5 @@
 #include "./VistaNivel.h"
 
-
 VistaNivel::VistaNivel(){
 	this->scroll = NULL;
 	this->jugador = NULL;

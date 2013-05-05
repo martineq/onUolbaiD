@@ -18,7 +18,7 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 }
 
 bool VistaLoop::loop(VistaNivel& vistaNivel){
-	this->actualizarEntidadesPorProxy(vistaNivel);  // Nuevo: Actuliza lo que vino por el proxy
+	if( this->actualizarEntidadesPorProxy(vistaNivel) == false) return false;	// Nuevo: Actuliza lo que vino por el proxy
 	if( this->dibujarEntidades(vistaNivel) == false) return false;
 	return true;
 }
@@ -63,20 +63,20 @@ void VistaLoop::SetProxyModeloEntidad(ProxyModeloEntidad* pProxyEntidad){
 	this->pProxyEntidad = pProxyEntidad;
 }
 
-void VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel){
-	// TODO: Repasar y ver si cumple lo pedido.
+// Tomo todas las notificaciones de actualización de entidades y las proceso
+bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel){
 
 	// Si antes corté por tener entidad con ID repetido, la misma quedó en espera y entonces ahora la actualizo primero
 	if( this->hayEntidadEnEspera == true ){
-		this->actualizarEntidad(this->entidadEnEspera,vistaNivel);
+		if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel) == false ) return false;
 		this->entidadEnEspera.id = -1;
 		this->hayEntidadEnEspera = false;
 	}else{
 		if( this->pProxyEntidad->recibirEntidad(this->entidadEnEspera) == false ){
-				return void();
+				return true;
 		}else{
 				this->hayEntidadEnEspera = false;
-				this->actualizarEntidad(this->entidadEnEspera,vistaNivel);
+				if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel) == false ) return false;
 		}
 	}
 
@@ -94,17 +94,55 @@ void VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel){
 			}else{																// Caso: Recibo entidad de un ID que no tenía hasta ahora
 				this->entidadEnEspera = entidadObtenida;
 				this->hayEntidadEnEspera = false;
-				this->actualizarEntidad(entidadObtenida,vistaNivel);
+				if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel) == false ) return false;
 			}
 
 		}
 		
 	}
-	return void();
+	return true;
 }
 
-void VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel){
+// Recorro todas las entidades tratando de actualizar o eliminar la entidad indicada por el stEntidad
+bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel){
 
-	// TODO: Implementar. Busco la entidad en VistaNivel por su ID y actualizo los datos
+	// Primero me fijo si no hubo error de sockets
+	if( entidad.errorEnSocket == true ){
+		Log::getInstance().log(1,__FILE__,__LINE__,"Error al recibir datos desde el Servidor");	
+		return false;
+	}
+	
+	// Preparo todo para la búsqueda de la entidad
+	VistaEntidad* jugador = vistaNivel.getJugador();
+	std::list<VistaEntidad*> entidades = vistaNivel.getListaEntidades();
+	VistaEntidad* entidadEncontrada = NULL;
+	int idBuscado = entidad.id;
+	std::list<VistaEntidad*>::iterator iteradorEntidadEncontrada;
+	
+	// Primero miro si la entidad que busco es el jugador
+	if( jugador->id() == idBuscado){
+		entidadEncontrada = jugador;
+	}else{	// Si no es el jugador entonces busco en las otras entidades
+		for (std::list<VistaEntidad*>::iterator it=entidades.begin() ; it != entidades.end() ; it++ ){ // Busco en el vector por el ID
+			if( (*it)->id() == idBuscado ){
+				iteradorEntidadEncontrada = it;
+				entidadEncontrada = (*it);
+			}
+		}
+	}
 
+	// Actuo si encontré la entidad que buscaba
+	if( entidadEncontrada != NULL ){
+		if( entidad.eliminarEntidad == true ){  // Si me pide eliminar
+			if( entidadEncontrada == jugador ){
+				return false;		// Doy por terminado el juego porque me pide eliminar a mi jugador
+			}else{
+				entidades.erase(iteradorEntidadEncontrada);		// Elimino a la entidad encontrada
+			}
+		}else{	// Si no me pide eliminar entonces actualizo los datos
+			entidadEncontrada->actualizar(entidad);			
+		}
+	}
+	return true;
 }
+

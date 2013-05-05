@@ -12,8 +12,8 @@ class VistaLoop{
 		ProxyModeloEntidad::stEntidad entidadEnEspera;
 		bool hayEntidadEnEspera;
 
-		void actualizarEntidadesPorProxy(VistaNivel& vistaNivel);
-		void actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel);
+		bool actualizarEntidadesPorProxy(VistaNivel& vistaNivel);
+		bool actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel);
 		bool dibujarEntidades(VistaNivel& vistaNivel);			
 
 	public:
