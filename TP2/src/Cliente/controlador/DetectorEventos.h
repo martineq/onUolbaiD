@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <vector>
+#include <Windows.h>
 
 class DetectorEventos{
 
@@ -9,8 +10,11 @@ class DetectorEventos{
 		int posicionMouseY;
 		int clicMouseBotonIzquierdo;
 		int clicMouseBotonDerecho;
+		int ticks;
 		bool quit;
 		bool dentroDePantalla;
+		bool teclaSApretada;
+		bool teclaAApretada;
 	public:
 		DetectorEventos(void);		
 		~DetectorEventos(void);
@@ -21,6 +25,8 @@ class DetectorEventos{
 		int getClicMouseBotonDerecho();
 		bool getQuit();
 		bool getDentroDePantalla();
+		bool getTeclaAApretada();
+		bool getTeclaSApretada();
 		std::vector<int> getEventos();
 
 };

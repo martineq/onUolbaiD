@@ -308,7 +308,7 @@ void VistaFactory::crearControladorScroll(stVistaJuegoElegido& juego,Controlador
 	int altoEscenario = juego.escenario.tamanioY;
 
 	ControladorScroll* pScroll = new ControladorScroll(juego.pantalla.ancho,juego.pantalla.alto,anchoEscenario,altoEscenario,juego.configuracion.margenScroll,x,y);
-	evento->setControladorScroll(pScroll);
+	evento->setControladorScroll(pScroll, juego.escenario.tamanioX, juego.escenario.tamanioY);
 
 	return void();
 }

@@ -11,9 +11,13 @@ class ControladorEvento{
 		int posicionMouseY;
 		int clicMouseBotonDerecho;
 		int clicMouseBotonIzquierdo;	
+		double altoNivelEnPixel;
+		double anchoNivelEnPixel;
 		bool mouseDentroDePantalla;
 		ControladorScroll* controladorScroll;
 		ProxyControladorEvento* pProxyEvento;
+		bool teclaAApretada;
+		bool teclaSApretada;
 
 	public:
 		ControladorEvento(void);
@@ -25,15 +29,19 @@ class ControladorEvento{
 		void setClicMouseBotonDerecho(int);
 		void setClicMouseBotonIzquierdo(int);
 		void setMouseDentroDePantalla(bool);
+		void setTeclaAApretada(bool);
+		void setTeclaSApretada(bool);
+		void setProxyEvento(ProxyControladorEvento* pProxyEvento);
+		void setControladorScroll(ControladorScroll*, double, double);
 		int getPosicionMouseX();
 		int getPosicionMouseY();
 		int getClicMouseBotonDerecho();
 		int getClicMouseBotonIzquierdo();
 		bool getMouseDentroDePantalla();
-		void notificarAlProxy();
-		void setControladorScroll(ControladorScroll*);
-		ControladorScroll* getControladorScroll(void);
-		void setProxyEvento(ProxyControladorEvento* pProxyEvento);
+		bool getTeclaAApretada();
+		bool getTeclaSApretada();
+		void notificarAlProxy();		
+		ControladorScroll* getControladorScroll(void);		
 		ProxyControladorEvento* getProxyEvento(void);
 
 };
