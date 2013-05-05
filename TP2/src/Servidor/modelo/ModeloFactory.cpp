@@ -66,20 +66,39 @@ bool ModeloFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEsc
 	return true;
 }
 
-bool rutinaAgregarNuevoCliente(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
-	// TODO: Implementar. Acá lanzo las subrutinas:
-		//bool enviarEscenario(SocketServidor* pSocket);
-		//bool elegirProtagonista(SocketServidor* pSocket);
-		//bool enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket);
-
-	return true; // return false si hay error de sockets en las subrutinas
+bool ModeloFactory::rutinaAgregarNuevoCliente(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
+	if( this->enviarEscenario(pSocket,id) == false ) return false;
+	if( this->elegirProtagonista(pSocket,id) == false ) return false;
+	if( this->enviarOtrosJugadores(modeloNivel,pSocket,id) == false ) return false;
+	return true;
 }
 
-bool ModeloFactory::enviarEscenario(SocketServidor* pSocket){
-	// TODO: Implementar. Envío el escenario elegido al Cliente
-	// Acá envio this->juegoElegido.escenarioElegido y this->juegoElegido.listaIdEntidades
+bool ModeloFactory::enviarEscenario(SocketServidor* pSocket, int id){
 
-	return true; // return false si hay error de sockets
+	std::string nombre = this->juegoElegido.escenarioElegido;
+	std::list<int> listaId = this->juegoElegido.listaIdEntidades;
+	Serializadora s;
+
+	// Serializo primero el nombre del escenario
+	s.addString(nombre);
+
+	// Luego agregro la lista de ID's
+	int cantidadDeIds = (int)listaId.size();
+	s.addInt(cantidadDeIds);	// Al principio agrego la cantidad total de ID's que estoy mandando
+	for (std::list<int>::iterator it=listaId.begin() ; it != listaId.end(); it++ ){ // Luego agrego todos los ID's
+		s.addInt( (*it) );
+	}
+
+	// Envio el nombre y la lista de ID's serializados en una cadena de chars
+	std::string* pStr = s.getSerializacion();
+	if( pSocket->enviarIndividual(pStr->c_str(),pStr->size(),id) == false ){
+		delete pStr;
+		return false;
+	}else{
+		delete pStr;
+	}
+
+	return true; 
 }
 
 // Para que lo use el hilo de configuración
@@ -98,7 +117,7 @@ bool ModeloFactory::elegirProtagonista(SocketServidor* pSocket, int id){
 	return true; // return false si hay error de sockets
 }
 
-bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket){
+bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador){
 	// TODO: Implementar. Acá envio los datos necesarios para crear en la vista a los otros jugadores conectados (si es que hay) 
 
 	return true; // return false si hay error de sockets

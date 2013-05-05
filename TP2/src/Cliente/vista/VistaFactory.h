@@ -28,17 +28,21 @@ class VistaFactory{
 			std::list<ParserYaml::stEntidad> listaEntidades;
 		};
 
+		// Recepción de todos los datos necesarios para crear la Vista y el Controlador
 		bool conectarSocket(SocketCliente* pSocket);
 		bool recibirArchivos(SocketCliente* pSocket);
 		bool recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket);
-		bool recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,ParserYaml::stEscenario escenario,std::list<int> listaIdEntidades,SocketCliente* pSocket);
+		bool recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,ParserYaml::stEscenario& escenario,std::list<int>& listaIdEntidades,SocketCliente* pSocket);
 		bool recibirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,int& idJugador,ParserYaml::stProtagonista protagonista,SocketCliente* pSocket);
 		bool recibirOtrosJugadores(std::list<ParserYaml::stProtagonista> listaDeOtrosJugadores,std::list<int>,SocketCliente* pSocket);
+		void asignarEscenarioElegido(std::string nombreEscenario,std::list<ParserYaml::stEscenario>& listaEscenarios,ParserYaml::stEscenario& escenario);
 
+		// Creación de la Vista
 		bool crearElementosVista(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);
 		void crearJugadorConScroll(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket);
 		void crearEntidades(stVistaJuegoElegido& juego, VistaNivel& vistaNivel);
 
+		// Creación del Controlador
 		bool crearElementosControlador(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket);
 		void crearControladorScroll(stVistaJuegoElegido& juego,ControladorEvento* evento);		
 		void crearProxyControladorEvento(ControladorEvento* evento,SocketCliente* pSocket);

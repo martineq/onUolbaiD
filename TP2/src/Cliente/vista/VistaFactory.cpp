@@ -117,12 +117,46 @@ bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCl
 	return true;
 }
 
-bool VistaFactory::recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,ParserYaml::stEscenario escenario,std::list<int> listaIdEntidades,SocketCliente* pSocket){
-	escenario = listaEscenarios.front();
-	
-	// TODO: Implementar. Ver si el escenario siempre va a poder ser el 1ro de la lista o si el Servidor me dice cual tengo que elegir
+bool VistaFactory::recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,ParserYaml::stEscenario& escenario,std::list<int>& listaIdEntidades,SocketCliente* pSocket){
 
-	return true; // return false si hay error de sockets
+	std::string cadenaRecibida;
+	unsigned int tamanioRecibido = 0;
+	char* cadenaRaw = NULL;
+
+	// Recibo desde el Servidor el nombre y la lista de ID's serializados en una cadena de chars
+	if( pSocket->recibir(&cadenaRaw,tamanioRecibido) == false ) return false;
+	if( tamanioRecibido > 0 ){
+		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
+		delete[] cadenaRaw;
+	}else{
+		return false;	// Error al obtener archivos
+	}
+
+	// Comienzo a hidratar. Hidrato el nombre de escenario
+	Serializadora s(&cadenaRecibida);
+	std::string nombreEscenario = s.getString();
+	this->asignarEscenarioElegido(nombreEscenario,listaEscenarios,escenario); // A partir del nombre recibido, asigno el escenario
+
+	// Hidrato la lista de ID's serializados
+	listaIdEntidades.clear();
+	int cantidadDeIds = s.getInt();
+	for ( int i=0 ; i < cantidadDeIds ; i++ ){
+		listaIdEntidades.push_back(s.getInt());
+	}
+
+	return true; 
+}
+
+void VistaFactory::asignarEscenarioElegido(std::string nombreEscenario,std::list<ParserYaml::stEscenario>& listaEscenarios,ParserYaml::stEscenario& escenario){
+	
+	for (std::list<ParserYaml::stEscenario>::iterator it=listaEscenarios.begin() ; it != listaEscenarios.end(); it++ ){
+		if( (*it).nombre.compare(nombreEscenario) == 0 ){
+			escenario = (*it);
+			return void();
+		}
+	}
+	
+	return void();
 }
 
 bool VistaFactory::recibirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,int& idJugador,ParserYaml::stProtagonista protagonista,SocketCliente* pSocket){
