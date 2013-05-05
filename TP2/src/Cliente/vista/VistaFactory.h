@@ -13,19 +13,27 @@ class VistaFactory{
 
 	private:
 		struct stVistaJuegoElegido{
-			int idJugador;
-			std::list<ParserYaml::stEntidad> listaEntidades;
-			ParserYaml::stEscenario escenario;
-			ParserYaml::stProtagonista protagonista;
+			// Mi jugador
+			int idJugador;													// Lo recibo desde el Servidor
+			ParserYaml::stProtagonista protagonista;						// Lo recibo desde el Servidor
+			// Otros Jugadores
+			std::list<ParserYaml::stProtagonista> listaDeOtrosJugadores;	// Lo recibo desde el Servidor
+			std::list<int> listaIdDeOtrosJugadores;							// Lo recibo desde el Servidor
+			// Entidades del escenario que no son jugadores
+			ParserYaml::stEscenario escenario;								// Lo recibo desde el Servidor
+			std::list<int> listaIdEntidades;								// Lo recibo desde el Servidor
+			// Otros atributos que se leen del yaml
 			ParserYaml::stConfiguracion configuracion;
 			ParserYaml::stPantalla pantalla;
+			std::list<ParserYaml::stEntidad> listaEntidades;
 		};
 
 		bool conectarSocket(SocketCliente* pSocket);
 		bool recibirArchivos(SocketCliente* pSocket);
 		bool recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket);
-		ParserYaml::stEscenario elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket);
-		ParserYaml::stProtagonista elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,int& idJugador,SocketCliente* pSocket);
+		bool recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,ParserYaml::stEscenario escenario,std::list<int> listaIdEntidades,SocketCliente* pSocket);
+		bool recibirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,int& idJugador,ParserYaml::stProtagonista protagonista,SocketCliente* pSocket);
+		bool recibirOtrosJugadores(std::list<ParserYaml::stProtagonista> listaDeOtrosJugadores,std::list<int>,SocketCliente* pSocket);
 
 		bool crearElementosVista(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);
 		void crearJugadorConScroll(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket);

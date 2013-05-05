@@ -12,23 +12,31 @@ class ModeloFactory{
 
 	private:
 		struct stModeloJuegoElegido{
-			std::list<ParserYaml::stEntidad> listaEntidades;
-			ParserYaml::stEscenario escenario;
-			ParserYaml::stProtagonista protagonista;
+			// Atributos que se leen del yaml
+			ParserYaml::stEscenario escenario;				// Se elige a partir de consola o de un archivo de configuracion
 			ParserYaml::stConfiguracion configuracion;
 			ParserYaml::stPantalla pantalla;
+			std::list<ParserYaml::stEntidad> listaEntidades;
+			// Atributos que se llenan mientras de crean entidades
+			std::string escenarioElegido;
+			std::list<int> listaIdEntidades;
 		};
-		std::list<int> listaIdEntidades;
-		std::string escenarioElegido;
+		ModeloFactory::stModeloJuegoElegido juegoElegido;
 
-		void crearEntidades(stModeloJuegoElegido& juego, ModeloNivel& modeloNivel,SocketServidor* pSocket);
-		ParserYaml::stEscenario elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketServidor* pSocket);
-		ParserYaml::stProtagonista elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,SocketServidor* pSocket);
+		// Métodos para ser usados por el factory mismo, el iniciar
+		bool elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios);
+		void crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSocket);
 
+		// Métodos usados por el HiloConfiguracion
+		bool enviarEscenario(SocketServidor* pSocket);
+		bool elegirProtagonista(SocketServidor* pSocket, int id);
+		bool enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket);
+		void crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
+		
 	public:
 		ModeloFactory(void);
 		~ModeloFactory(void);
 
 		bool crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,SocketServidor* pSocket);
-		void crearJugador(ModeloNivel& modeloNivel,SocketServidor* pSocket);
+		bool rutinaAgregarNuevoCliente(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
 };

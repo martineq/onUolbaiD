@@ -50,7 +50,7 @@ void Servidor::loop(void){
 bool Servidor::correrJuego(void){
 	if( this->iniciar() == true ){
 		this->loop();
-		// ¿Acá cerraria todo lo de sockets? Ver eso
+		// ¿Acá cerraria lo de sockets? Ver eso
 	}else{
 		Log::getInstance().log(1,__FILE__,__LINE__,"Error al iniciar el juego el cliente.");
 		return false;

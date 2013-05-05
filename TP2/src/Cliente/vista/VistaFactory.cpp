@@ -29,8 +29,11 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 	juegoElegido.listaEntidades = juegoYaml.entidades;
 	juegoElegido.pantalla = juegoYaml.pantalla;
 	juegoElegido.configuracion = juegoYaml.configuracion;
-	juegoElegido.escenario = this->elegirEscenario(juegoYaml.escenarios,pSocket);
-	juegoElegido.protagonista = this->elegirProtagonista(juegoElegido.escenario.protagonistas,juegoElegido.idJugador,pSocket);
+
+	// Recibo datos desde el Servidor
+	if( this->recibirEscenario(juegoYaml.escenarios,juegoElegido.escenario,juegoElegido.listaIdEntidades,pSocket) == false ) return false;
+	if( this->recibirProtagonista(juegoElegido.escenario.protagonistas,juegoElegido.idJugador,juegoElegido.protagonista,pSocket) == false ) return false;
+	if( this->recibirOtrosJugadores(juegoElegido.listaDeOtrosJugadores,juegoElegido.listaIdDeOtrosJugadores,pSocket) == false ) return false;
 
 	// Creo los elementos de la Vista
 	if( this->crearElementosVista(juegoElegido,vistaNivel,vistaLoop,pSocket) == false ) return false;
@@ -114,25 +117,29 @@ bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCl
 	return true;
 }
 
-
-ParserYaml::stEscenario VistaFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket){
-	ParserYaml::stEscenario escenario = listaEscenarios.front();
+bool VistaFactory::recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,ParserYaml::stEscenario escenario,std::list<int> listaIdEntidades,SocketCliente* pSocket){
+	escenario = listaEscenarios.front();
 	
 	// TODO: Implementar. Ver si el escenario siempre va a poder ser el 1ro de la lista o si el Servidor me dice cual tengo que elegir
 
-	return escenario;
+	return true; // return false si hay error de sockets
 }
 
-ParserYaml::stProtagonista VistaFactory::elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,int& idJugador,SocketCliente* pSocket){
-// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del ModeloFactory::crearJugador() ***
-
-	ParserYaml::stProtagonista protagonista = listaProtagonistas.front();
-	
-	// TODO: Implementar toda la comunicación con el Servidor para decirle el protagonista elegido, el nombre de usuario y
+bool VistaFactory::recibirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,int& idJugador,ParserYaml::stProtagonista protagonista,SocketCliente* pSocket){
+	// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del ModeloFactory::crearJugador() ***
+	// Implementar toda la comunicación con el Servidor para decirle el protagonista elegido, el nombre de usuario y
 	// luego de obtener una respuesta positiva del servidor devolver el protagonista elegido. (Por ahora devuelvo el primero)
-
-	return protagonista;
+	
+	protagonista = listaProtagonistas.front();
+	
+	return true; // return false si hay error de sockets
 }
+
+bool VistaFactory::recibirOtrosJugadores(std::list<ParserYaml::stProtagonista> listaDeOtrosJugadores,std::list<int>,SocketCliente* pSocket){
+
+	return true; // return false si hay error de sockets
+}
+
 
 bool VistaFactory::crearElementosVista(stVistaJuegoElegido& juego,VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket){
 
