@@ -3,6 +3,7 @@
 #include "./vista/VistaJuego.h"
 #include "./controlador/ControladorJuego.h"
 #include "../utils/Sockets/SocketCliente.h"
+#include "../utils/Temporizador/Temporizador.h"
 
 class Cliente{
 

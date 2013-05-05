@@ -1,9 +1,8 @@
 #pragma once
 
+#include <vector>
 #include "DetectorEventos.h"
 #include "ControladorEvento.h"
-#include "../../utils/Timer/Timer.h"
-#include <vector>
 
 class ControladorLoop{
 	private:

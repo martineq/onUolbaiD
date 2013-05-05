@@ -72,7 +72,7 @@ void HiloConexion::rutina(HiloConexion::stParametrosRun* parametros){
 }
 
 void HiloConexion::loopEntradaIndividual(stParametrosRun* parametrosEntrada){
-	return this->delay(); // Hago este sleep para que el while no se quede dando vueltas con tanta velocidad
+	return this->delay(); // Hago este delay para que el while no se quede dando vueltas con tanta velocidad
 }
 
 void HiloConexion::loopEntradaMasivo(stParametrosRun* parametrosEntrada){
@@ -137,7 +137,7 @@ void HiloConexion::loopEntradaMasivo(stParametrosRun* parametrosEntrada){
 }
 
 void HiloConexion::loopSalidaIndividual(stParametrosRun* parametrosSalida){
-	return this->delay(); // Hago este sleep para que el while no se quede dando vueltas con tanta velocidad
+	return this->delay(); // Hago este delay para que el while no se quede dando vueltas con tanta velocidad
 }
 
 void HiloConexion::loopSalidaMasivo(stParametrosRun* parametrosSalida){
@@ -190,6 +190,6 @@ void HiloConexion::loopSalidaMasivo(stParametrosRun* parametrosSalida){
 
 void HiloConexion::delay(void){
 	std::cout << "(esIndividual == true) > Aplico delay de: 1000 milisegundos\n";
-	Sleep(1000);
+	Temporizador::getInstance().crearDelay(1000);
 	return void();
 }

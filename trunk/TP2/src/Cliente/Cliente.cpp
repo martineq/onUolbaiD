@@ -24,14 +24,14 @@ void Cliente::loop(void){
 	int delay = 1000/fps;	
 	bool quit = false;		
 	while (quit == false){
-		int tickViejo = SDL_GetTicks();		
+		int tickViejo = Temporizador::getInstance().obtenerTics();				
 
 		if( this->controladorJuego.loop() == false) quit = true;
 		if( this->vistaJuego.loop() == false) quit = true;
 
-		int intervaloTranscurrido = SDL_GetTicks() - tickViejo;
+		int intervaloTranscurrido = Temporizador::getInstance().obtenerTics() - tickViejo;
 		if (intervaloTranscurrido < delay){
-			SDL_Delay(delay - intervaloTranscurrido);
+			Temporizador::getInstance().crearDelay(delay - intervaloTranscurrido);
 		}
 	}
 	 return void();

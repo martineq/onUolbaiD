@@ -42,6 +42,9 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 }
 
 bool VistaFactory::conectarSocket(SocketCliente* pSocket){
+
+	// TODO: Ver si conectarSocket() va a recibir el puerto y el IP desde consola o de un archivo (¿De cuál sería?). Por ahora está desde consola
+
 	// Tomo el puerto
 	std::cout << "Ingrese el puerto donde se encuentra el servidor (Enter para 444)" << std::endl;
 	std::string entradaTexto;
@@ -125,7 +128,7 @@ ParserYaml::stProtagonista VistaFactory::elegirProtagonista(std::list<ParserYaml
 
 	ParserYaml::stProtagonista protagonista = listaProtagonistas.front();
 	
-	// TODO: Implementar toda la comunicación con el Servidor para decirle el protagonista elelgido, el nombre de usuario y
+	// TODO: Implementar toda la comunicación con el Servidor para decirle el protagonista elegido, el nombre de usuario y
 	// luego de obtener una respuesta positiva del servidor devolver el protagonista elegido. (Por ahora devuelvo el primero)
 
 	return protagonista;

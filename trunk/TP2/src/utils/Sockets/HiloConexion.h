@@ -9,9 +9,10 @@
 #include "../Hilos/Hilo.h"
 #include "../Hilos/Mutex.h"
 #include "./SocketApp.h"
+#include "../Temporizador/Temporizador.h"
 
 class HiloConexion: public Hilo{
- 
+
 	public:
 		// Para usar hilos
 		struct stParametrosRun{
