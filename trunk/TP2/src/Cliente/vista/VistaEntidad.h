@@ -34,7 +34,7 @@ class VistaEntidad: public Identificable{
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id);
 		~VistaEntidad(void);
 
-		void actualizar(ProxyModeloEntidad::stEntidad entidad);
+		void actualizar(ProxyModeloEntidad::stEntidad& entidad);
 		void verificarBordePantalla(VistaScroll* scroll);
 		int id() const;
 

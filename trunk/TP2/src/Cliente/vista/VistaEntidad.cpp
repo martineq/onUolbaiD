@@ -69,7 +69,7 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 }
 
 // Este método será usado ahora por el ProxyModeloEntidad
-void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad entidad){
+void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 
 	this->x = entidad.pixelSiguienteX;
 	this->y = entidad.pixelSiguienteY;
