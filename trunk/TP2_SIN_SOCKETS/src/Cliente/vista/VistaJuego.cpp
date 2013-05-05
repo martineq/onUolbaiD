@@ -38,7 +38,7 @@ bool VistaJuego::iniciar(void){
 			this->matriz[i][j] = NO_CONOCIDO;
 		}
 	}
-	/*
+	
 	int zonaVisible = 5; 
 	int k = (int)zonaVisible/2;
 	int inicioX = this->vistaNivel.getJugador()->getTileX() - k;
@@ -68,7 +68,7 @@ bool VistaJuego::iniciar(void){
 		for (int j = inicioY; j <= finY; j++){
 			this->matriz[i][j] = VISIBLE;
 		}
-	}*/
+	}
 	
 //	if( this->vistaLoop.levantarFondo(this->vistaNivel.getAltoNivel(),this->vistaNivel.getAnchoNivel()) == false ) return false;
 	return true;
