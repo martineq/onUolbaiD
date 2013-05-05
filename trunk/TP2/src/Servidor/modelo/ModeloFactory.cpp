@@ -23,18 +23,19 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 	}
 
 	// Preparo el juego elegido
-	stModeloJuegoElegido juegoElegido;
-	juegoElegido.listaEntidades = juegoYaml.entidades;
-	juegoElegido.pantalla = juegoYaml.pantalla;
-	juegoElegido.configuracion = juegoYaml.configuracion;
-	juegoElegido.escenario = this->elegirEscenario(juegoYaml.escenarios,pSocket);
-	juegoElegido.protagonista = this->elegirProtagonista(juegoElegido.escenario.protagonistas,pSocket);
+	this->juegoElegido.listaEntidades = juegoYaml.entidades;
+	this->juegoElegido.pantalla = juegoYaml.pantalla;
+	this->juegoElegido.configuracion = juegoYaml.configuracion;
+	if( this->elegirEscenario(juegoYaml.escenarios) == false) return false;
 
-	modeloNivel.setAnchoTiles(juegoElegido.escenario.tamanioX);
-	modeloNivel.setAltoTiles(juegoElegido.escenario.tamanioY);
+	// Seteo alto y ancho
+	modeloNivel.setAnchoTiles(this->juegoElegido.escenario.tamanioX);
+	modeloNivel.setAltoTiles(this->juegoElegido.escenario.tamanioY);
 
-	this->crearEntidades(juegoElegido,modeloNivel,pSocket);
+	// Creo las entidades del nivel, las que no son los jugadores
+	this->crearEntidades(modeloNivel,pSocket);
 
+	// Agrego el ProxyControladorEvento
 	ProxyControladorEvento* pProxyEvento = new ProxyControladorEvento();
 	pProxyEvento->setSocketServidor(pSocket);
 	modeloLoop.setProxyControladorEvento(pProxyEvento);
@@ -42,34 +43,69 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 	return true;
 }
 
-
-ParserYaml::stEscenario ModeloFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketServidor* pSocket){
-	ParserYaml::stEscenario escenario = listaEscenarios.front();
+bool ModeloFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios){
 	
-	// TODO: Implementar. Ver si el escenario siempre va a poder ser el 1ro de la lista o si el Servidor me dice cual tengo que elegir
-	// Acá se setea this->escenarioElegido, para luego mandarlo a cada cliente para su conocimiento
+	// Ver si el escenario se elije desde consola, o si hay que levantarlo de archivo. Por ahora lo tomo de consola
+	std::cout << "Elija el escenario: " << std::endl;
+	for (std::list<ParserYaml::stEscenario>::iterator it=listaEscenarios.begin() ; it != listaEscenarios.end(); it++ ){
+		std::string opc;
+		std::cout << "Elije el escenario: "<< (*it).nombre << " ? (s) para confirmar, otra tecla para rechazar" << std::endl;
+		getline (std::cin,opc);
+		if( opc.compare("s") == 0 || opc.compare("S") == 0 ){
+			std::cout << "Se usara el escenario: "<< (*it).nombre << std::endl;
+			this->juegoElegido.escenarioElegido = (*it).nombre;
+			this->juegoElegido.escenario = (*it);
+			return true;
+		}
+	}
 
-	return escenario;
+	// Si no eligió nada
+	std::cout << "Se usara el escenario: "<< listaEscenarios.front().nombre << std::endl;
+	this->juegoElegido.escenarioElegido = listaEscenarios.front().nombre;
+	this->juegoElegido.escenario = listaEscenarios.front();
+	return true;
 }
 
-ParserYaml::stProtagonista ModeloFactory::elegirProtagonista(std::list<ParserYaml::stProtagonista>& listaProtagonistas,SocketServidor* pSocket){
-	ParserYaml::stProtagonista protagonista = listaProtagonistas.front();
-	// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del VistaFactory::elegirProtagonista() ***
-	// TODO: + Acá es donde le paso this->listaIdEntidades a cada cliente para que sepa que ID ponerle a sus entidades vista. 
-	//	     + Ademas le paso aparte el ID de la entidad que es el jugador
-	//		 + Aparte le paso los id y los datos de los jugadores que se agregaron además de el
+bool rutinaAgregarNuevoCliente(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
+	// TODO: Implementar. Acá lanzo las subrutinas:
+		//bool enviarEscenario(SocketServidor* pSocket);
+		//bool elegirProtagonista(SocketServidor* pSocket);
+		//bool enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket);
 
-	// TODO: Implementar toda la comunicación con el Servidor para decirle el protagonista elelgido, el nombre de usuario y
-	// luego de obtener una respuesta positiva del servidor devolver el protagonista elegido. (Por ahora devuelvo el primero)
-
-	// TODO: Acá llamo a this->crearJugador() una vez elegido por el cliente
-
-	return protagonista;
+	return true; // return false si hay error de sockets en las subrutinas
 }
 
+bool ModeloFactory::enviarEscenario(SocketServidor* pSocket){
+	// TODO: Implementar. Envío el escenario elegido al Cliente
+	// Acá envio this->juegoElegido.escenarioElegido y this->juegoElegido.listaIdEntidades
+
+	return true; // return false si hay error de sockets
+}
 
 // Para que lo use el hilo de configuración
-void ModeloFactory::crearJugador(ModeloNivel& modeloNivel,SocketServidor* pSocket){
+bool ModeloFactory::elegirProtagonista(SocketServidor* pSocket, int id){
+	ParserYaml::stProtagonista protagonista = this->juegoElegido.escenario.protagonistas.front();
+	// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del VistaFactory::recibirProtagonista() ***
+	//		 + Acá es donde le paso this->listaIdEntidades a cada cliente para que sepa que ID ponerle a sus entidades vista. 
+	//	     + Ademas le paso aparte el ID de la entidad que es el jugador
+	//		 + Aparte le paso los id y los datos de los jugadores que se agregaron además de el
+	
+	// Implementar toda la comunicación con el Servidor para decirle el protagonista elelgido, el nombre de usuario y
+	// luego de obtener una respuesta positiva del servidor devolver el protagonista elegido. (Por ahora devuelvo el primero)
+
+	// Acá llamo a this->crearJugador() una vez elegido por el cliente
+
+	return true; // return false si hay error de sockets
+}
+
+bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket){
+	// TODO: Implementar. Acá envio los datos necesarios para crear en la vista a los otros jugadores conectados (si es que hay) 
+
+	return true; // return false si hay error de sockets
+}
+
+// Para que lo use el hilo de configuración
+void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
 // TODO: acá tengo que agregar las líneas:
 //		ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
 //		pProxyEntidad->setSocketServidor(pSocket);
@@ -95,8 +131,10 @@ void ModeloFactory::crearJugador(ModeloNivel& modeloNivel,SocketServidor* pSocke
 	return void();
 }
 
-void ModeloFactory::crearEntidades(stModeloJuegoElegido& juego, ModeloNivel& modeloNivel,SocketServidor* pSocket){
+void ModeloFactory::crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSocket){
 	
+	ModeloFactory::stModeloJuegoElegido juego = this->juegoElegido;
+
 	std::list<ParserYaml::stEntidadDefinida> entidadesDef = juego.escenario.entidadesDefinidas;
 
 	for (std::list<ParserYaml::stEntidadDefinida>::iterator it=entidadesDef.begin() ; it != entidadesDef.end(); it++ ){	
@@ -121,7 +159,7 @@ void ModeloFactory::crearEntidades(stModeloJuegoElegido& juego, ModeloNivel& mod
 		// Voy guardando todos los ID's que se crean por cada entidad en uan lista, para luego pasarle esta a cada cliente así puede numerar de la misma forma a todas las entidades vista.
 		// De esta forma cada EntidadModelo y cada EntidadVista van a tener el mismo ID
 		int nuevoID = Ticket::getInstance().pedirNumero();
-		this->listaIdEntidades.push_back(nuevoID);
+		this->juegoElegido.listaIdEntidades.push_back(nuevoID);
 		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,false,altoEscenario,anchoEscenario,entidad.fps,pProxyEntidad,nuevoID);
 		modeloNivel.agregarEntidad(pEntidad);
 	}
