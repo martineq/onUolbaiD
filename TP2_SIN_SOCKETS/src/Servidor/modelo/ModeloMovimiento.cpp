@@ -76,66 +76,112 @@ ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posici
 	return NULL;
 }
 
+int ModeloEntidad::ModeloMovimiento::obtenerX(ModeloEntidad* modeloEntidad) {
+	int x = 0;
+	while (modeloEntidad != NULL) {
+		Posicion posicion = modeloEntidad->posicionActual();
+		x = posicion.x--;
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return x;
+}
+
+int ModeloEntidad::ModeloMovimiento::obtenerY(ModeloEntidad* modeloEntidad) {
+	int y = 0;
+	while (modeloEntidad != NULL) {
+		Posicion posicion = modeloEntidad->posicionActual();
+		y = posicion.y--;
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return y;
+}
+
+int ModeloEntidad::ModeloMovimiento::obtenerAlto(int y, ModeloEntidad* modeloEntidad) {
+	int alto = modeloEntidad->posicionActual().y - y;
+	while (modeloEntidad != NULL) {
+		alto += modeloEntidad->alto();
+		Posicion posicion = modeloEntidad->posicionActual();
+		posicion.y += modeloEntidad->alto();
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return alto;
+}
+
+int ModeloEntidad::ModeloMovimiento::obtenerAncho(int x, ModeloEntidad* modeloEntidad) {
+	int ancho = modeloEntidad->posicionActual().x - x;
+	while (modeloEntidad != NULL) {
+		ancho += modeloEntidad->alto();
+		Posicion posicion = modeloEntidad->posicionActual();
+		posicion.x += modeloEntidad->ancho();
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return ancho;
+}
+
 bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntidad) {
 	// Si ya estoy en el medio de un desvio no lo puedo resolver
 	if (this->resolviendoDesvio())
 		return false;
 	
 	Posicion posicionDestino = this->_modeloEntidad->posicionActual();
-	int desvioNorte = this->_modeloEntidad->posicionActual().y - modeloEntidad->posicionActual().y + 1;
-	int desvioSur = modeloEntidad->posicionActual().y + modeloEntidad->alto() - this->_modeloEntidad->posicionActual().y;
-	int desvioOeste = this->_modeloEntidad->posicionActual().x - modeloEntidad->posicionActual().x + 1;
-	int desvioEste = modeloEntidad->posicionActual().x + modeloEntidad->ancho() - this->_modeloEntidad->posicionActual().x;
+	int x = this->obtenerX(modeloEntidad);
+	int y = this->obtenerY(modeloEntidad);
+	int alto = this->obtenerAlto(y, modeloEntidad);
+	int ancho = this->obtenerAncho(x, modeloEntidad);
+	int desvioNorte = this->_modeloEntidad->posicionActual().y - y + 1;
+	int desvioSur = y + alto - this->_modeloEntidad->posicionActual().y;
+	int desvioOeste = this->_modeloEntidad->posicionActual().x - x + 1;
+	int desvioEste = x + ancho - this->_modeloEntidad->posicionActual().x;
 
 	// Choco con esquina superior izquierda
-	if ((this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x) && (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y)) {
+	if ((this->_modeloEntidad->posicionActual().x < x) && (this->_modeloEntidad->posicionActual().y < y)) {
 		// Voy a cara este
-		if (this->_posicionDestino.x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho())
+		if (this->_posicionDestino.x >= x + ancho)
 			posicionDestino.x += desvioEste;
 		// Voy a cara sur
-		else if (this->_posicionDestino.y >= modeloEntidad->posicionActual().y + modeloEntidad->alto())
+		else if (this->_posicionDestino.y >= y + alto)
 			posicionDestino.y += desvioSur;
 	}
 	// Choco con esquina superior derecha
-	else if ((this->_modeloEntidad->posicionActual().x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho()) && (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y)) {
+	else if ((this->_modeloEntidad->posicionActual().x >= x + ancho) && (this->_modeloEntidad->posicionActual().y < y)) {
 		// Voy a cara oeste
-		if (this->_posicionDestino.x < modeloEntidad->posicionActual().x)
+		if (this->_posicionDestino.x < x)
 			posicionDestino.x -= desvioOeste;
 		// Voy a cara sur
-		else if (this->_posicionDestino.y >= modeloEntidad->posicionActual().y + modeloEntidad->alto())
+		else if (this->_posicionDestino.y >= y + alto)
 			posicionDestino.y += desvioSur;
 	}
 	// Choco con esquina inferior izquierda
-	else if ((this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x) && (this->_modeloEntidad->posicionActual().y >= modeloEntidad->posicionActual().y + modeloEntidad->alto())) {
+	else if ((this->_modeloEntidad->posicionActual().x < x) && (this->_modeloEntidad->posicionActual().y >= y + alto)) {
 		// Voy a cara este
-		if (this->_posicionDestino.x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho())
+		if (this->_posicionDestino.x >= x + ancho)
 			posicionDestino.x += desvioEste;
 		// Voy a cara norte
-		else if (this->_posicionDestino.y < modeloEntidad->posicionActual().y)
+		else if (this->_posicionDestino.y < y)
 			posicionDestino.y -= desvioNorte;
 	}
 	// Choco con esquina inferior derecha
-	else if ((this->_modeloEntidad->posicionActual().x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho()) && (this->_modeloEntidad->posicionActual().y  >= modeloEntidad->posicionActual().y + modeloEntidad->alto())) {
+	else if ((this->_modeloEntidad->posicionActual().x >= x + ancho) && (this->_modeloEntidad->posicionActual().y  >= y + alto)) {
 		// Voy a cara oeste
-		if (this->_posicionDestino.x < modeloEntidad->posicionActual().x)
+		if (this->_posicionDestino.x < x)
 			posicionDestino.x -= desvioOeste;
 		// Voy a cara norte
-		else if (this->_posicionDestino.y < modeloEntidad->posicionActual().y)
+		else if (this->_posicionDestino.y < y)
 			posicionDestino.y -= desvioNorte;
 	}
 	// Choco con cara norte
-	else if (this->_modeloEntidad->posicionActual().y < modeloEntidad->posicionActual().y) {
+	else if (this->_modeloEntidad->posicionActual().y < y) {
 		// Voy a cara este
-		if (this->_posicionDestino.x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho())
+		if (this->_posicionDestino.x >= x + ancho)
 			posicionDestino.x += desvioEste;
 		// Voy a cara oeste
-		else if (this->_posicionDestino.x < modeloEntidad->posicionActual().x)
+		else if (this->_posicionDestino.x < x)
 			posicionDestino.x -= desvioOeste;
 		// Voy a cara sur
-		else if (this->_posicionDestino.y >= modeloEntidad->posicionActual().y + modeloEntidad->alto()) {
-			if (modeloEntidad->posicionActual().x == 0)
+		else if (this->_posicionDestino.y >= y + alto) {
+			if (x == 0)
 				posicionDestino.x += desvioEste;
-			else if (modeloEntidad->posicionActual().x + modeloEntidad->ancho() == this->_anchoNivel)
+			else if (x + ancho == this->_anchoNivel)
 				posicionDestino.x -= desvioOeste;
 			else if (desvioEste < desvioOeste)
 				posicionDestino.x += desvioEste;
@@ -146,18 +192,18 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		}
 	}
 	// Choco con cara sur
-	else if (this->_modeloEntidad->posicionActual().y >= modeloEntidad->posicionActual().y + modeloEntidad->alto()) {
+	else if (this->_modeloEntidad->posicionActual().y >= y + alto) {
 		// Voy a cara este
-		if (this->_posicionDestino.x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho())
+		if (this->_posicionDestino.x >= x + ancho)
 			posicionDestino.x += desvioEste;
 		// Voy a cara oeste
-		else if (this->_posicionDestino.x < modeloEntidad->posicionActual().x)
+		else if (this->_posicionDestino.x < x)
 			posicionDestino.x -= desvioOeste;
 		// Voy a cara norte
-		else if (this->_posicionDestino.y < modeloEntidad->posicionActual().y) {
-			if (modeloEntidad->posicionActual().x == 0)
+		else if (this->_posicionDestino.y < y) {
+			if (x == 0)
 				posicionDestino.x += desvioEste;
-			else if (modeloEntidad->posicionActual().x + modeloEntidad->ancho() == this->_anchoNivel)
+			else if (x + ancho == this->_anchoNivel)
 				posicionDestino.x -= desvioOeste;
 			else if (desvioEste < desvioOeste)
 				posicionDestino.x += desvioEste;
@@ -168,18 +214,18 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		}
 	}
 	// Choco con cara este
-	else if (this->_modeloEntidad->posicionActual().x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho()) {
+	else if (this->_modeloEntidad->posicionActual().x >= x + ancho) {
 		// Voy a cara norte
-		if (this->_posicionDestino.y < modeloEntidad->posicionActual().y)
+		if (this->_posicionDestino.y < y)
 			posicionDestino.y -= desvioNorte;
 		// Voy a cara sur
-		else if (this->_posicionDestino.y >= modeloEntidad->posicionActual().y + modeloEntidad->alto())
+		else if (this->_posicionDestino.y >= y + alto)
 			posicionDestino.y += desvioSur;
 		// Voy a cara oeste
-		else if (this->_posicionDestino.x < modeloEntidad->posicionActual().x) {
-			if (modeloEntidad->posicionActual().y == 0)
+		else if (this->_posicionDestino.x < x) {
+			if (y == 0)
 				posicionDestino.y += desvioSur;
-			else if (modeloEntidad->posicionActual().y + modeloEntidad->alto() == this->_altoNivel)
+			else if (y + alto == this->_altoNivel)
 				posicionDestino.y -= desvioNorte;
 			else if (desvioNorte < desvioSur)
 				posicionDestino.y -= desvioNorte;
@@ -190,18 +236,18 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 		}
 	}
 	// Choco con cara oeste
-	else if (this->_modeloEntidad->posicionActual().x < modeloEntidad->posicionActual().x) {
+	else if (this->_modeloEntidad->posicionActual().x < x) {
 		// Voy a cara norte
-		if (this->_posicionDestino.y < modeloEntidad->posicionActual().y)
+		if (this->_posicionDestino.y < y)
 			posicionDestino.y -= desvioNorte;
 		// Voy a cara sur
-		else if (this->_posicionDestino.y >= modeloEntidad->posicionActual().y + modeloEntidad->alto())
+		else if (this->_posicionDestino.y >= y + alto)
 			posicionDestino.y += desvioSur;
 		// Voy a cara este
-		else if (this->_posicionDestino.x >= modeloEntidad->posicionActual().x + modeloEntidad->ancho()) {
-			if (modeloEntidad->posicionActual().y == 0)
+		else if (this->_posicionDestino.x >= x + ancho) {
+			if (y == 0)
 				posicionDestino.y += desvioSur;
-			else if (modeloEntidad->posicionActual().y + modeloEntidad->alto() == this->_altoNivel)
+			else if (y + alto == this->_altoNivel)
 				posicionDestino.y -= desvioNorte;
 			else if (desvioNorte < desvioSur)
 				posicionDestino.y -= desvioNorte;
