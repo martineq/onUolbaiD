@@ -9,8 +9,19 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 }
 
 char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, char** matriz){
+	int x1 = unaEntidad->getTileX();
+	int x2 = unaEntidad->getTileX() + (unaEntidad->getAncho() / ANCHO_TILE) - 1;
+	int y1 = unaEntidad->getTileY();
+	int y2 = unaEntidad->getTileY() + (unaEntidad->getAlto() / ALTO_TILE) - 1;
 
-	if (int(unaEntidad->getAncho() / ANCHO_TILE) == 1 && int(unaEntidad->getAlto() / ALTO_TILE) == 1) {
+	if ((matriz[x1][y1] == VISIBLE) || (matriz[x1][y2] == VISIBLE) || (matriz[x2][y1] == VISIBLE) || (matriz[x2][y2] == VISIBLE))
+		return VISIBLE;
+	else if ((matriz[x1][y1] == CONOCIDO_NO_VISIBLE) || (matriz[x1][y2] == CONOCIDO_NO_VISIBLE) || (matriz[x2][y1] == CONOCIDO_NO_VISIBLE) || (matriz[x2][y2] == CONOCIDO_NO_VISIBLE))
+		return CONOCIDO_NO_VISIBLE;
+	else
+		return NO_CONOCIDO;
+
+	/*if (int(unaEntidad->getAncho() / ANCHO_TILE) == 1 && int(unaEntidad->getAlto() / ALTO_TILE) == 1) {
 		return matriz[unaEntidad->getTileX()][unaEntidad->getTileY()];
 	}
 	//si alguna esquina tiene el numero VISIBLE es porque es visible
@@ -28,7 +39,7 @@ char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, char** matriz){
 	return CONOCIDO_NO_VISIBLE;
 	
 	//si ninguna esquina es 1 o 2 es porque es 0
-	else return NO_CONOCIDO;
+	else return NO_CONOCIDO;*/
 }
 
 void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
