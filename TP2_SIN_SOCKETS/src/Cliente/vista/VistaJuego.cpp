@@ -39,8 +39,9 @@ bool VistaJuego::iniciar(void){
 		}
 	}
 	
-	int zonaVisible = 5; 
-	int k = (int)zonaVisible/2;
+	//int zonaVisible = 5; 
+	//int k = (int)zonaVisible/2;
+	int k = (int) ZONA_VISIBLE / 2;
 	int inicioX = this->vistaNivel.getJugador()->getTileX() - k;
 	int finX = this->vistaNivel.getJugador()->getTileX() + k;		
 	int inicioY = this->vistaNivel.getJugador()->getTileY() - k;
