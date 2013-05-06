@@ -33,7 +33,7 @@ class SocketServidor{
 		bool inciarServidor(int puerto);
 
 		// Para aceptar/eliminar clientes, identificar los clientes erróneos
-		long aceptarCliente();
+		int aceptarCliente();
 		bool eliminarCliente(long idCliente);
 		std::list<long> getNuevosClientesErroneos(void);
 

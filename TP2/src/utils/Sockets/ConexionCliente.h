@@ -9,7 +9,7 @@ class ConexionCliente{
 
 	private:
 		SocketApp socketApp;						// Datos del socket
-		long id;									// ID de la conexión
+		int id;									// ID de la conexión
 		bool esIndividual;							// Indica si los mensajes se reciben/envian en una cola individual (==true) o si van a una cola común a todas las conexiones (==false)
 	
 		// Colas de datos
@@ -39,7 +39,7 @@ class ConexionCliente{
 		bool conectar(const char* nombreHost, int puerto);
 	
 		// Configuración e identificación de la conexión (Usado por <Servidor>)
-		long getId(void);
+		int getId(void);
 		void setMasiva(void);
 		void setEsIndividual(void);
 		bool getEsIndividual(void);

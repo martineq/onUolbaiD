@@ -45,7 +45,7 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 
 bool VistaFactory::conectarSocket(SocketCliente* pSocket){
 
-	// TODO: Ver si conectarSocket() va a recibir el puerto y el IP desde consola o de un archivo (¿De cuál sería?). Por ahora está desde consola
+	// Ver si conectarSocket() va a recibir el puerto y el IP desde consola o de un archivo (¿De cuál sería?). Por ahora está desde consola
 
 	// Tomo el puerto
 	std::cout << "Ingrese el puerto donde se encuentra el servidor (Enter para 444)" << std::endl;
@@ -143,7 +143,7 @@ bool VistaFactory::recibirProtagonista(SocketCliente* pSocket){
 	// luego de obtener una respuesta positiva del servidor devolver el protagonista elegido. (Por ahora devuelvo el primero)
 	
 	// >>> No instancio al jugador acá, sólo cargo los datos para luego instanciarlo
-	// Supuestamente uso: juegoElegido.escenario.protagonistas,juegoElegido.idJugador,juegoElegido.protagonista ver si hace falta todo esto
+	// Supuestamente uso: juegoElegido.escenario.protagonistas,juegoElegido.idJugador,juegoElegido.protagonista ver si hace falta esto
 
 	this->juegoElegido.protagonista = this->juegoElegido.escenario.protagonistas.front();
 	

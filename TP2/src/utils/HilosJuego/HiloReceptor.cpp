@@ -32,7 +32,7 @@ void HiloReceptor::correrRecepcion(HiloConfiguracion::stParametrosConfiguracion 
 
 void HiloReceptor::rutina(HiloConfiguracion::stParametrosConfiguracion* parametrosEntrada){
 
-	SocketServidor* pServidor = parametrosEntrada->pServidor;
+	SocketServidor* pServidor = (SocketServidor*)parametrosEntrada->pServidor;
 
 	// El hilo hará su tarea mientras se encuentre activo
 	while(this->estaActivo()==true){		
@@ -41,14 +41,19 @@ void HiloReceptor::rutina(HiloConfiguracion::stParametrosConfiguracion* parametr
 		
 		// Agrego un Cliente nuevo, y por ende un nuevo HiloConfiguracion. Inmediatamente después, inicio ese hilo
 		idCliente = pServidor->aceptarCliente();
-		if ( idCliente != -1 ){
+		if ( idCliente != ACEPTAR_TIMEOUT && idCliente != ACEPTAR_ERROR ){
 			pHiloConfig = new HiloConfiguracion();
+			parametrosEntrada->idCliente = idCliente;
 			pHiloConfig->correrConfiguracion(*parametrosEntrada);
 			this->clientesEnConfiguracion.push_back(pHiloConfig);
 		}else{
 			if( idCliente == ACEPTAR_ERROR ){
 				Log::getInstance().log(1,__FILE__,__LINE__,"[SERVIDOR] Error al acerptar cliente!!!");
 				this->detenerActividad();
+			}
+			if( idCliente == ACEPTAR_TIMEOUT ){
+				// Si hubo time out, no pasa nada, vuelvo a probar para ver si alguien quiere conectarse
+				// Entro otra vez al while
 			}
 		}
 

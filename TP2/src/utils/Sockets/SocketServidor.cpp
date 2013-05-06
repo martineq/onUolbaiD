@@ -185,7 +185,7 @@ bool SocketServidor::inciarServidor(int puerto){
 // Si la conexión fue exitosa devuelve el ID de la conexión. En otro caso devuelve un valor menor a 0
 // En caso de Time Out devuelve el valor ACEPTAR_TIMEOUT
 // En caso erróneo devuelve el valor ACEPTAR_ERROR
-long SocketServidor::aceptarCliente(){
+int SocketServidor::aceptarCliente(){
 
 	ConexionCliente* cliente = new ConexionCliente;
 

@@ -11,6 +11,9 @@ class ModeloNivel {
 		std::list<ModeloEntidad*> listaJugadores;
 		std::list<ModeloEntidad*> listaEntidades;
 
+		int jugadoresConectados;
+		Mutex mutexJugadoresConectados;
+
 		ModeloEntidad* obtenerJugador(int id);
 		ModeloEntidad* obtenerEntidad(int id);
 		
@@ -41,6 +44,12 @@ class ModeloNivel {
 		void moverJugador(int tileX, int tileY, int id);
 
 		bool actualizar(int id);
+
+		int cantidadJugadores(void);
+		
+		void incrementarJugadores(void);
+
+		void decrementarJugadores(void);
 
 		void destruirListas();
 };

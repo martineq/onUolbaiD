@@ -27,61 +27,37 @@ void HiloConfiguracion::correrConfiguracion(stParametrosConfiguracion parametros
 
 // + Se encarga se enviar y recibir datos y archivos al cliente a través del Servidor, para dejar listo al jugador para entrar al ciclo de juego. Una vez hecha su tarea el hilo finaliza
 void HiloConfiguracion::rutina(stParametrosConfiguracion* parametrosConfiguracion){
-	// TODO: Implementar
-	// Acá se usa this->enviarArchivosDeConfiguracion(...)
-	return void();
-}
 
-// Envia al cliente todos los archivos necesarios para el funcionamiento del juego
-bool HiloConfiguracion::enviarArchivosDeConfiguracion(SocketServidor* pServidor,int idSocketCliente){
-	bool exito = true;
-	LectorDirectorios lector;	// Para obtener todos los nombres de los archivos
-	std::vector<std::string> listaArchivos;
+	int id;
+	SocketServidor* pServidor;
+	ModeloFactory* pModeloFactory; 
+	void* pModeloNivel;
 
-	// Envio los archivos de configuracion
-	listaArchivos = lector.leerDirectorio(DIRECTORIO_IMG);
-	if( !this->enviarListaDeArchivos(listaArchivos,pServidor,idSocketCliente)) {
-		Log::getInstance().log(1,__FILE__,__LINE__,"El Servidor no pudo enviar todos los archivos de imagenes al cliente con ID ",idSocketCliente);
-		exito = false;
-	}
-	
-	// Envio los archivos de imagenes
-		listaArchivos = lector.leerDirectorio(DIRECTORIO_CONFIG);
-	if( this->enviarListaDeArchivos(listaArchivos,pServidor,idSocketCliente) == false)  {
-		Log::getInstance().log(1,__FILE__,__LINE__,"El Servidor no pudo enviar todos los archivos de imagenes al cliente con ID ",idSocketCliente);
-		exito = false;
-	}
-
-	return exito;
-}
-
-bool HiloConfiguracion::enviarListaDeArchivos(std::vector<std::string> vector,SocketServidor* pServidor,int idSocketCliente){
-
-	// Lista con todos las rutas de los archivos que voy a enviar
-	std::list<std::string> rutaDeArchivosParaEnviar;
-
-	// Serializo el vector de strings
-	Serializadora s;
-	int cantidadDeArchivos = (int)vector.size();
-	s.addInt(cantidadDeArchivos);
-	for ( int i=0 ; i < cantidadDeArchivos ; i++ ){
-		s.addString(vector[i]);								// Los agrego al serializado
-		rutaDeArchivosParaEnviar.push_back(vector[i]);		// Los agrego a la lista de archivos
-	}
-
-	// Envio el vector de strings serializado en una cadena de chars
-	std::string* pStr = s.getSerializacion();
-	if( pServidor->enviarIndividual(pStr->c_str(),pStr->size(),idSocketCliente) == false ){
-		delete pStr;
-		return false;
+	// Preparo los parámetros a usar
+	if( this->estaActivo() == true ){
+		id = parametrosConfiguracion->idCliente;
+		pServidor = (SocketServidor*)parametrosConfiguracion->pServidor;
+		pModeloFactory = parametrosConfiguracion->pModeloFactory; 
+		pModeloNivel = parametrosConfiguracion->pModeloNivel;
 	}else{
-		delete pStr;
+		return void();
 	}
 
-	// Envio todos los archivos 
-	pServidor->enviarArchivosIndividual(rutaDeArchivosParaEnviar,idSocketCliente);
+	// Corro la configuración del cliente desde el ModeloFactory
+	if( this->estaActivo() == true ){
+		if( pModeloFactory->rutinaAgregarNuevoCliente(pModeloNivel,pServidor,id) == false ){
+				this->finalizarConfiguracion();	
+				Log::getInstance().log(1,__FILE__,__LINE__,"Error: No se pudo configurar el cliente. ");
+				return void();
+			}
+	}else{
+		this->finalizarConfiguracion();
+		return void();
+	}
 
-	return true;
+	// Doy por terminada la configuración para avisar que luego se cierre este hilo
+	this->finalizarConfiguracion();
+	return void();
 }
 
 void HiloConfiguracion::detenerActividad(void){

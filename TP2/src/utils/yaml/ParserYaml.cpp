@@ -591,13 +591,17 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de personajes del escenario "+ nombreEscenario +" se encuentra vacía. Se agregará uno por defecto.");
 		return true;
 	}else{	// Si no se encuentra vacío
-		int tamanioListaProtagonistas = protagonistas.size();
-		if( tamanioListaProtagonistas > 1 ){ // Si tiene mas de un solo protagonista, saco a los que sobran
-			for(unsigned int i = 0; i < (tamanioListaProtagonistas-1); i++){
-				protagonistas.pop_back();
-			}
-			Log::getInstance().log(1,__FILE__,__LINE__,"En el escenario <"+ nombreEscenario +"> existe mas de un protagonista válido. Se elige como protagonista a la entidad: <"+ protagonistas.front().entidad +">.");
-		}
+		
+		// Comentado para que en el TP2 reciba a todos los protagonistas, sin borrar a ninguno
+		//int tamanioListaProtagonistas = protagonistas.size();	
+		//if( tamanioListaProtagonistas > 1 ){ // Si tiene mas de un solo protagonista, saco a los que sobran
+		//	for(unsigned int i = 0; i < (tamanioListaProtagonistas-1); i++){
+		//		protagonistas.pop_back();
+		//	}
+		//	Log::getInstance().log(1,__FILE__,__LINE__,"En el escenario <"+ nombreEscenario +"> existe mas de un protagonista válido. Se elige como protagonista a la entidad: <"+ protagonistas.front().entidad +">.");
+		//
+		//}
+
 		return true;
 	}
 
@@ -625,17 +629,30 @@ void ParserYaml::validaListaEscenariosVacia(void){
 }
 
 // Busca una entidad determinada, con existencia ya validada
-ParserYaml::stEntidad ParserYaml::buscarStEntidad(std::list<ParserYaml::stEntidad>& listaEntidades, std::string nombre){
+ParserYaml::stEntidad ParserYaml::buscarStEntidad(std::list<ParserYaml::stEntidad>& listaEntidades, std::string nombreEntidad){
 	
 	ParserYaml::stEntidad entidad;
 
 	for (std::list<ParserYaml::stEntidad>::iterator it=listaEntidades.begin() ; it != listaEntidades.end(); it++ ){	
-		if( (*it).nombre.compare(nombre) == 0 ){
+		if( (*it).nombre.compare(nombreEntidad) == 0 ){
 			entidad = (*it);
 		}
 	}
 
 	return entidad;
+}
+
+ParserYaml::stProtagonista ParserYaml::buscarStProtagonista(ParserYaml::stEscenario escenario,std::string nombreProtagonista){
+	ParserYaml::stProtagonista protagonista;
+	std::list<ParserYaml::stProtagonista> listaProtagonistas = escenario.protagonistas;
+
+	for (std::list<ParserYaml::stProtagonista>::iterator it=listaProtagonistas.begin() ; it != listaProtagonistas.end(); it++ ){	
+		if( (*it).entidad.compare(nombreProtagonista) == 0 ){
+			protagonista = (*it);
+		}
+	}
+
+	return protagonista;
 }
 
 ////////////////////////////

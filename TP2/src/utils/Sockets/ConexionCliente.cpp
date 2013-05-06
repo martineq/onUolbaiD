@@ -42,7 +42,7 @@ void ConexionCliente::iniciarEnvio(void){
 	this->hiloSalida.correrConexion(iniciarParametrosRun('S',NULL,NULL,NULL));
 }
 
-long ConexionCliente::getId(void){
+int ConexionCliente::getId(void){
 	return this->id;
 }
 

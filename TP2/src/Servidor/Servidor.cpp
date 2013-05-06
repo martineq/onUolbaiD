@@ -23,7 +23,7 @@ bool Servidor::iniciar(void){
 
 void Servidor::loop(void){
 
-	while( this->modeloJuego.hayJugadores() == false ){
+	while( this->modeloJuego.cantidadJugadores() < 1 ){  // Espero mientras no haya jugadores
 		// Se puede poner un delay de tiempo para que no de muchas vueltas mientras espera un jugador
 	}
 
@@ -50,7 +50,7 @@ void Servidor::loop(void){
 bool Servidor::correrJuego(void){
 	if( this->iniciar() == true ){
 		this->loop();
-		// ¿Acá cerraria lo de sockets? Ver eso
+		this->modeloJuego.finalizarRecepcion();
 	}else{
 		Log::getInstance().log(1,__FILE__,__LINE__,"Error al iniciar el juego el cliente.");
 		return false;

@@ -125,8 +125,9 @@ class ParserYaml{
 
 		static ParserYaml& getInstance(); // Aplico Singleton
 		ParserYaml::stJuego cargarConfiguracionDeJuego(void);
-		ParserYaml::stEntidad buscarStEntidad(std::list<ParserYaml::stEntidad>& listaEntidades, std::string nombre);
-
+		ParserYaml::stEntidad buscarStEntidad(std::list<ParserYaml::stEntidad>& listaEntidades, std::string nombreEntidad);
+		ParserYaml::stProtagonista buscarStProtagonista(ParserYaml::stEscenario escenario,std::string nombreProtagonista);
+		
 		virtual ~ParserYaml();
 };
 

@@ -8,6 +8,7 @@
 #include "../../utils/Sockets/SocketServidor.h"
 #include "../../utils/Ticket/Ticket.h"
 #include "../../utils/Serializacion/Serializadora.h"
+#include "../../utils/LectorDirectorios/LectorDirectorios.h"
 
 class ModeloFactory{
 
@@ -19,10 +20,11 @@ class ModeloFactory{
 			ParserYaml::stPantalla pantalla;
 			std::list<ParserYaml::stEntidad> listaEntidades;
 			// Atributos que se llenan mientras de crean entidades
-			std::string escenarioElegido;
+			std::string nombreEscenario;
 			std::list<int> listaIdEntidades;
 		};
 		ModeloFactory::stModeloJuegoElegido juegoElegido;
+		Mutex mutexJuegoElegido;
 
 		// Métodos para ser usados por el factory mismo, el iniciar
 		bool elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios);
@@ -32,12 +34,15 @@ class ModeloFactory{
 		bool enviarEscenario(SocketServidor* pSocket, int id);
 		bool elegirProtagonista(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
 		bool enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador);
-		void crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
+		void crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocket,std::string nombreJugador, int id);
+		bool enviarArchivosDeConfiguracion(SocketServidor* pServidor,int idSocketCliente);
+		bool enviarListaDeArchivos(std::vector<std::string> lista,SocketServidor* pServidor,int idSocketCliente);
+		ModeloFactory::stModeloJuegoElegido getCopiaJuegoElegido(void);
 		
 	public:
 		ModeloFactory(void);
 		~ModeloFactory(void);
 
 		bool crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,SocketServidor* pSocket);
-		bool rutinaAgregarNuevoCliente(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
+		bool rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* pSocket,int id);
 };

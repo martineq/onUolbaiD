@@ -21,7 +21,7 @@ void ProxyControladorEvento::setSocketServidor(SocketServidor* pServidor){
 // Envío el evento a través del socket
 // Devuelve true lo pudo enviar exitosamente. Devuelve false si hubo error al enviar 
 bool ProxyControladorEvento::enviarEvento(ProxyControladorEvento::stEvento entidad){
-	// TODO: Implementar
+	// >>> Implementar
 	// Acá uso this->pCliente;
 	return true;
 }
@@ -29,8 +29,9 @@ bool ProxyControladorEvento::enviarEvento(ProxyControladorEvento::stEvento entid
 // Devuelve true si sacó datos de la cola de sockets. Devuelve false si la cola estaba vacía
 // Para ver si hubo errores al recibir del socket debo ver ProxyModeloEntidad::stEntidad.errorEnSocket, y ver si es true
 bool ProxyControladorEvento::recibirEvento(ProxyControladorEvento::stEvento& evento){
-	// TODO: Implementar
+	// >>> Implementar
 	// Acá uso this->pServidor;
 	return true;
 }
 
+// TODO: Implementar los métodos de los proxys

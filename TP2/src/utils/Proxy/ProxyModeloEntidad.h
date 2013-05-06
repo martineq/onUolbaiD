@@ -41,4 +41,3 @@ class ProxyModeloEntidad{
 		bool recibirEntidad(ProxyModeloEntidad::stEntidad& entidad);				// Lo usa el lado Cliente
 };
 
-// TODO: El ProxyModeloEntidad::recibirEntidad() tiene que hacerse cargo de poner en true o false el valor errorEnSocket
