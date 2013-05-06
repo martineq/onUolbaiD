@@ -118,7 +118,7 @@ bool ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,SocketServidor* 
 }
 
 bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador){
-	// TODO: Implementar. Acá envio los datos necesarios para crear en la vista a los otros jugadores conectados (si es que hay) 
+
 	std::list<ModeloEntidad*> listaJugadores = modeloNivel->getListaJugadores();
 	int cantidadOtrosJugadores = listaJugadores.size() - 1;  // Descarto a mi jugador
 	ProxyModeloEntidad proxy;
@@ -160,7 +160,7 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 
 // Para que lo use el hilo de configuración
 void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
-// TODO: acá tengo que agregar las líneas:
+// TODO: Implementar. Acá tengo que agregar las líneas:
 //		ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
 //		pProxyEntidad->setSocketServidor(pSocket);
 //		para luego ponerlo en el construcotr de ModeloEntidad del personaje
