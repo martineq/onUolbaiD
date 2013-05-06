@@ -115,7 +115,7 @@ void ModeloEntidad::notificarAlProxy(void){
 	entidad.direccion = this->direccion();
 	entidad.esUltimoMovimiento = this->esUltimoMovimiento();
 	// TODO: agregar en el ProxyModeloEntidad::stEntidad y acá los nuevos atributos para el TP2
-	// Agregar un: entidad.eliminarEntidad = this->eliminarEntidad();
+	//  Ver si hace falta un: entidad.eliminarEntidad = this->eliminarEntidad(); o algo parecido para cuando el jugador se "congela"
 	this->_pProxyEntidad->enviarEntidad(entidad);
 
 	return void();

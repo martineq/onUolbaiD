@@ -1,31 +1,23 @@
 #include "ModeloNivel.h"
 
-ModeloEntidad* ModeloNivel::obtenerJugador(int id) {
-	//TODO: Descomentar al implementar ids
-	/*
-	
-	for (list<ModeloEntidad*>::iterator modeloEntidad = this->listaJugadores.begin(); modeloEntidad != this->listaJugadores.end(); modeloEntidad++)
-	{
-		if ((*modeloEntidad)->id() == id)
-			return *modeloEntidad;
+ModeloEntidad* ModeloNivel::obtenerJugador(int id){
+	for (std::list<ModeloEntidad*>::iterator itModeloEntidad = this->listaJugadores.begin(); itModeloEntidad != this->listaJugadores.end(); itModeloEntidad++){
+		if ((*itModeloEntidad)->id() == id)
+			return (*itModeloEntidad);
 	}
-	
-	*/
-	return *this->listaJugadores.begin();
+	return NULL;
 }
 
-ModeloEntidad* ModeloNivel::obtenerEntidad(int id) {
-	//TODO: Descomentar al implementar ids
-	/*for (list<ModeloEntidad*>::iterator modeloEntidad = this->listaEntidades.begin(); modeloEntidad != this->listaEntidades.end(); modeloEntidad++)
-	{
-		if ((*modeloEntidad)->id() == id)
-			return *modeloEntidad;
+ModeloEntidad* ModeloNivel::obtenerEntidad(int id){
+	for (std::list<ModeloEntidad*>::iterator itModeloEntidad = this->listaEntidades.begin(); itModeloEntidad != this->listaEntidades.end(); itModeloEntidad++){
+		if ((*itModeloEntidad)->id() == id)
+			return (*itModeloEntidad);
 	}
-	return NULL;*/
-	return *this->listaEntidades.begin();
+	return NULL;
 }
 
 ModeloNivel::ModeloNivel() {
+	this->jugadoresConectados = 0;
 	this->listaJugadores.clear();
 	this->listaEntidades.clear();
 }
@@ -103,6 +95,29 @@ void ModeloNivel::destruirListaEntidades(){
 	for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
 		delete (*entidad);
 	}
+	return void();
+}
+
+
+int ModeloNivel::cantidadJugadores(void){
+	int cantidad;
+	this->mutexJugadoresConectados.lockLectura(__FILE__,__LINE__);
+	cantidad = this->jugadoresConectados;
+	this->mutexJugadoresConectados.unlock(__FILE__,__LINE__);
+	return cantidad;
+}
+
+void ModeloNivel::incrementarJugadores(void){
+	this->mutexJugadoresConectados.lockEscritura(__FILE__,__LINE__);
+	this->jugadoresConectados = this->jugadoresConectados + 1;
+	this->mutexJugadoresConectados.unlock(__FILE__,__LINE__);
+	return void();
+}
+
+void ModeloNivel::decrementarJugadores(void){
+	this->mutexJugadoresConectados.lockEscritura(__FILE__,__LINE__);
+	this->jugadoresConectados = this->jugadoresConectados - 1;
+	this->mutexJugadoresConectados.unlock(__FILE__,__LINE__);
 	return void();
 }
 

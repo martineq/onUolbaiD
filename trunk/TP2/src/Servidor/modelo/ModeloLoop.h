@@ -8,11 +8,11 @@ class ModeloLoop {
 	private:
 		ModeloEvento _modeloEvento;
 
-		void procesarJugadoresEliminados(ModeloNivel& modeloNivel,int* jugadoresConectados,Mutex* mutexJugadoresConectados);
+		void procesarJugadoresEliminados(ModeloNivel& modeloNivel);
 
 	public:
 		ModeloLoop();
 		virtual ~ModeloLoop();
 		void setProxyControladorEvento(ProxyControladorEvento* pProxyEvento);
-		bool loop(ModeloNivel& modeloNivel,int* jugadoresConectados,Mutex* mutexJugadoresConectados);
+		bool loop(ModeloNivel& modeloNivel);
 };

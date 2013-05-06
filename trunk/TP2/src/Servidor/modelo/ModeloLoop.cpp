@@ -8,9 +8,9 @@ ModeloLoop::~ModeloLoop(){
 
 }
 
-bool ModeloLoop::loop(ModeloNivel& modeloNivel,int* jugadoresConectados,Mutex* mutexJugadoresConectados){
-	
-	this->procesarJugadoresEliminados(modeloNivel,jugadoresConectados,mutexJugadoresConectados);
+bool ModeloLoop::loop(ModeloNivel& modeloNivel){
+
+	this->procesarJugadoresEliminados(modeloNivel);
 
 	// Recorro varios eventos en un solo loop. Está asegurado que no habrá 2 eventos del mismo ID.
 	while( this->_modeloEvento.getActualizado() ){
@@ -35,7 +35,7 @@ void ModeloLoop::setProxyControladorEvento(ProxyControladorEvento* pProxyEvento)
 	return void();
 }
 
-void ModeloLoop::procesarJugadoresEliminados(ModeloNivel& modeloNivel,int* jugadoresConectados,Mutex* mutexJugadoresConectados){
-	// TODO: Implementar. La idea es tomar todos los jugadores que tienen error de socket y borrarlos del modelo nivel, restando la cantidad de jugadores conectados
+void ModeloLoop::procesarJugadoresEliminados(ModeloNivel& modeloNivel){
+	// TODO: Implementar. La idea es tomar todos los jugadores que tienen error de socket y marcarlos como congelados en el modelo nivel, restando la cantidad de jugadores conectados
 	return void();
 }

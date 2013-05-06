@@ -130,4 +130,4 @@ class ModeloEntidad: public Identificable {
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
 
-// TODO: Hay que agregar mutex para todos los atributos de ModeloEntidad ya que puede ser leido por 2 hilos a la vez
+// TODO: Hay que agregar mutex para todos los atributos de ModeloEntidad ya que puede ser leido por varios hilos a la vez

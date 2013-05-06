@@ -14,8 +14,6 @@ class ModeloJuego {
 		ModeloNivel _modeloNivel;
 		ModeloLoop _modeloLoop;
 		HiloReceptor* pHiloReceptor;
-		int jugadoresConectados;
-		Mutex mutexJugadoresConectados;
 
 	public:
 		ModeloJuego();
@@ -24,12 +22,12 @@ class ModeloJuego {
 
 		bool iniciarEscenario(SocketServidor* pSocket);
 		bool iniciarRecepcion(SocketServidor* pSocket);
-		
+
 		bool loop();
 
 		void finalizarRecepcion(void);
 
-		bool hayJugadores(void);
+		int cantidadJugadores(void);
 
 		void destruirEntidades();
 };

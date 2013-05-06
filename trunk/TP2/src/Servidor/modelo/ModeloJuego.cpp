@@ -1,7 +1,6 @@
 #include "ModeloJuego.h"
 
 ModeloJuego::ModeloJuego() {
-	this->jugadoresConectados = 0;
 	this->pHiloReceptor = NULL;
 }
 
@@ -18,10 +17,8 @@ bool ModeloJuego::iniciarRecepcion(SocketServidor* pSocket){
 
 	//Cargo los prámetros necesarios para la configuración del jugador
 	HiloConfiguracion::stParametrosConfiguracion parametros;
-	parametros.pJugadoresConectados = &(this->jugadoresConectados);
+	parametros.pModeloNivel = &(this->_modeloNivel);
 	parametros.pModeloFactory = &(this->_modeloFactory);
-	parametros.pModeloJuego = (this);
-	parametros.pMutexJugadoresConectados = &(this->mutexJugadoresConectados);
 	parametros.pServidor = pSocket;
 
 	this->pHiloReceptor = new HiloReceptor();
@@ -41,17 +38,15 @@ void ModeloJuego::finalizarRecepcion(){
 }
 
 bool ModeloJuego::loop() {
-	return this->_modeloLoop.loop(this->_modeloNivel,&(this->jugadoresConectados), &(this->mutexJugadoresConectados));
+	return this->_modeloLoop.loop(this->_modeloNivel);
 }
+
+int ModeloJuego::cantidadJugadores(void){
+	return this->_modeloNivel.cantidadJugadores();
+}
+
 
 void ModeloJuego::destruirEntidades(){
 	this->_modeloNivel.destruirListas();
 }
 
-bool ModeloJuego::hayJugadores(void){
-	bool resultado = false;
-	this->mutexJugadoresConectados.lockLectura(__FILE__,__LINE__);
-	if( this->jugadoresConectados > 0 ) resultado = true;
-	this->mutexJugadoresConectados.unlock(__FILE__,__LINE__);
-	return resultado;
-}
