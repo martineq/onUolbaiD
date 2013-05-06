@@ -118,7 +118,7 @@ namespace YAML
 			throw ParserException(token.mark, ErrorMsg::YAML_MAJOR_VERSION);
 
 		m_pDirectives->version.isDefault = false;
-		// TODO: warning on major == 1, minor > 2?
+		// warning on major == 1, minor > 2?
 	}
 
 	// HandleTagDirective

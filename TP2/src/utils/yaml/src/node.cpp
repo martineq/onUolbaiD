@@ -120,19 +120,19 @@ namespace YAML
 	
 	void Node::SetScalarData(const std::string& data)
 	{
-		assert(m_type == NodeType::Scalar); // TODO: throw?
+		assert(m_type == NodeType::Scalar); // throw?
 		m_scalarData = data;
 	}
 
 	void Node::Append(Node& node)
 	{
-		assert(m_type == NodeType::Sequence); // TODO: throw?
+		assert(m_type == NodeType::Sequence); // throw?
 		m_seqData.push_back(&node);
 	}
 	
 	void Node::Insert(Node& key, Node& value)
 	{
-		assert(m_type == NodeType::Map); // TODO: throw?
+		assert(m_type == NodeType::Map); // throw?
 		m_mapData[&key] = &value;
 	}
 

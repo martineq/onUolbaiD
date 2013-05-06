@@ -18,9 +18,8 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel,int* jugadoresConectados,Mutex* m
 		int mousePosX = this->_modeloEvento.getMousePosX();
 		int mousePosY = this->_modeloEvento.getMousePosY();
 
-		//TODO: Verificar la lista de ids (TP2)
 		if (this->_modeloEvento.getMouseClickIzquierdo()){
-			modeloNivel.moverJugador(mousePosX,mousePosY,idJugador);
+			modeloNivel.moverJugador(mousePosX,mousePosY,idJugador); // Busca por ID el jugador a mover
 		}
 		
 		this->_modeloEvento.cargarProximoEvento();  // Con esto descarto el evento que acabo de leer y carga el próximo
