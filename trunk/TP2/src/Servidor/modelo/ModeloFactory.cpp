@@ -109,30 +109,17 @@ bool ModeloFactory::enviarEscenario(SocketServidor* pSocket, int id){
 	}
 
 	// Envio el nombre y la lista de ID's serializados en una cadena de chars
-	std::string* pStr = s.getSerializacion();
-	if( pSocket->enviarIndividual(pStr->c_str(),pStr->size(),id) == false ){
-		delete pStr;
-		return false;
-	}else{
-		delete pStr;
-	}
-
-	return true; 
+	return pSocket->enviarIndividual(s,id); 
 }
 
-// Para que lo use el hilo de configuración
+// Selecciona y envia los datos del protagonista elegido. Además crea la EntidadModelo correspondiente y la setea en el ModeloNivel. Método usado por el hilo de configuración
 bool ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
+	// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del VistaFactory::recibirProtagonista() ***
+	//	     + Le paso el ID de la entidad y demas datos del jugador
+	// Acá llamo a this->crearJugador() una vez elegido por el cliente
 	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
 	ParserYaml::stProtagonista protagonista = juego.escenario.protagonistas.front();
-	// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del VistaFactory::recibirProtagonista() ***
-	//		 + Acá es donde le paso this->listaIdEntidades a cada cliente para que sepa que ID ponerle a sus entidades vista. 
-	//	     + Ademas le paso aparte el ID de la entidad que es el jugador
-	//		 + Aparte le paso los id y los datos de los jugadores que se agregaron además de el
-	
-	// Implementar toda la comunicación con el Servidor para decirle el protagonista elegido, el nombre de usuario y
-	// luego de obtener una respuesta positiva del servidor devolver el protagonista elegido. (Por ahora devuelvo el primero)
 
-	// Acá llamo a this->crearJugador() una vez elegido por el cliente
 
 	return true; // return false si hay error de sockets
 }
@@ -148,27 +135,15 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 	// Envío la cantidad de jugadores que voy a transferir
 	Serializadora s;
 	s.addInt(cantidadOtrosJugadores);
-	std::string* pStr = s.getSerializacion();
-	if( pSocket->enviarIndividual(pStr->c_str(),pStr->size(),idMiJugador) == false ){
-		delete pStr;
-		return false;
-	}else{
-		delete pStr;
-	}
+ 
+	if( pSocket->enviarIndividual(s,idMiJugador) == false ) return false;
 
 	// Envío los datos de los jugadores, a través de un proxy
 	for (std::list<ModeloEntidad*>::iterator it=listaJugadores.begin() ; it != listaJugadores.end(); it++ ){ 
 		ModeloEntidad* pEntidad = (*it);
 		if( pEntidad->id() != idMiJugador ){
 			// Cargo los datos
-			entidad.eliminarEntidad = false;
-			entidad.errorEnSocket = false;
-			entidad.direccion = pEntidad->direccion();
-			entidad.esUltimoMovimiento = pEntidad->esUltimoMovimiento();
-			entidad.id = pEntidad->id();
-			entidad.nombreNuevaEntidad = pEntidad->nombreEntidad();
-			entidad.pixelSiguienteX = pEntidad->pixelSiguiente().x;
-			entidad.pixelSiguienteY = pEntidad->pixelSiguiente().y;
+			proxy.cargarStEntidad(entidad,pEntidad->id(),false,false,pEntidad->nombreEntidad(),pEntidad->pixelSiguiente().x,pEntidad->pixelSiguiente().y,pEntidad->direccion(),pEntidad->esUltimoMovimiento());
 
 			// Los envio a través del proxy
 			if( proxy.enviarEntidadIndividual(entidad,idMiJugador) == false ) return false;
@@ -185,12 +160,16 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocke
 	ParserYaml::stEntidad entidadJugador = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,nombreJugador);
 	ParserYaml::stProtagonista protagonista = ParserYaml::getInstance().buscarStProtagonista(juego.escenario,nombreJugador);
 
-	// Seteo todos los valores
+	// Valores tomados desde la entidad
 	int alto = entidadJugador.altoBase;
 	int ancho = entidadJugador.anchoBase;
-	int velocidad = juego.configuracion.velocidadPersonaje;
+
+	// Valores tomados desde el escenario
 	int anchoEscenario = juego.escenario.tamanioX;
 	int altoEscenario = juego.escenario.tamanioY;
+	int velocidad = juego.configuracion.velocidadPersonaje;
+
+	// Valores tomados desde el protagonista elegido
 	Posicion pos;
 	pos.x = protagonista.x;
 	pos.y = protagonista.y;
@@ -200,7 +179,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocke
 	pProxyEntidad->setSocketServidor(pSocket);
 
 	// Creo la entidad y la agrego al nivel
-	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre); 
+	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,nombreJugador); 
 	modeloNivel->agregarJugador(pJugador);
 
 	return void();
@@ -216,17 +195,24 @@ void ModeloFactory::crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSoc
 		ParserYaml::stEntidadDefinida entidadDef = (*it);
 		std::string nombreEntidad = entidadDef.entidad;
 		ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,nombreEntidad); 
+
+		// Valores tomados desde la entidad definida
 		int x = entidadDef.x;
 		int y = entidadDef.y;
-		int alto = entidad.altoBase;
-		int ancho = entidad.anchoBase;
-		int velocidad = 0;
-		int anchoEscenario = juego.escenario.tamanioX;
-		int altoEscenario = juego.escenario.tamanioY;
 		Posicion pos;
 		pos.x = x;
 		pos.y = y;
+		
+		// Valores tomados desde la entidad
+		int alto = entidad.altoBase;
+		int ancho = entidad.anchoBase;
+		int velocidad = 0;
 
+		// Valores tomados desde el escenario elegido
+		int anchoEscenario = juego.escenario.tamanioX;
+		int altoEscenario = juego.escenario.tamanioY;
+
+		// Creo el proxy para esta entidad
 		ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
 		pProxyEntidad->setSocketServidor(pSocket);
 
@@ -234,8 +220,12 @@ void ModeloFactory::crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSoc
 		// De esta forma cada EntidadModelo y cada EntidadVista van a tener el mismo ID
 		int nuevoID = Ticket::getInstance().pedirNumero();
 		this->juegoElegido.listaIdEntidades.push_back(nuevoID);	// Puedo escribirlo directamente porque a esta altura no hay hilos (no hace falta usar el mutex)
-		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,false,altoEscenario,anchoEscenario,entidad.fps,pProxyEntidad,nuevoID,nombreEntidad);
+
+		// Creo la entidad y la agrego al nivel
+		std::string nombreJugador("Entidad_Sin_Duenio");
+		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,false,altoEscenario,anchoEscenario,entidad.fps,pProxyEntidad,nuevoID,nombreEntidad,nombreJugador);
 		modeloNivel.agregarEntidad(pEntidad);
+
 	}
 	return void();
 }
@@ -279,14 +269,8 @@ bool ModeloFactory::enviarListaDeArchivos(std::vector<std::string> vector,Socket
 	}
 
 	// Envio el vector de strings serializado en una cadena de chars
-	std::string* pStr = s.getSerializacion();
-	if( pServidor->enviarIndividual(pStr->c_str(),pStr->size(),idSocketCliente) == false ){
-		delete pStr;
-		return false;
-	}else{
-		delete pStr;
-	}
-
+	if( pServidor->enviarIndividual(s,idSocketCliente) == false ) return false;
+	
 	// Envio todos los archivos 
 	pServidor->enviarArchivosIndividual(rutaDeArchivosParaEnviar,idSocketCliente);
 

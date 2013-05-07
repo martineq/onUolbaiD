@@ -91,7 +91,7 @@ bool VistaFactory::recibirArchivos(SocketCliente* pSocket){
 bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket){
 
 	std::string cadenaRecibida;
-	if( this->recibirCadenaSerializada(cadenaRecibida,pSocket) == false ) return false;
+	if( pSocket->recibir(cadenaRecibida) == false ) return false;
 	
 	// Hidrato el vector de strings y recibo cada archivo
 	int cantidadDeArchivos = 0;
@@ -108,7 +108,7 @@ bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCl
 bool VistaFactory::recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket){
 
 	std::string cadenaRecibida;
-	if( this->recibirCadenaSerializada(cadenaRecibida,pSocket) == false ) return false;
+	if( pSocket->recibir(cadenaRecibida) == false ) return false;
 	
 	// Comienzo a hidratar. Hidrato el nombre de escenario
 	Serializadora s(&cadenaRecibida);
@@ -137,24 +137,62 @@ void VistaFactory::asignarEscenarioElegido(std::string nombreEscenario,std::list
 	return void();
 }
 
+// Recibe los datos del protagonista elegido y los setea, pero no lo crea (se hace luego, en crearNivel() )
 bool VistaFactory::recibirProtagonista(SocketCliente* pSocket){
 	// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del ModeloFactory::crearJugador() ***
 	// Implementar toda la comunicación con el Servidor para decirle el protagonista elegido, el nombre de usuario y
 	// luego de obtener una respuesta positiva del servidor devolver el protagonista elegido. (Por ahora devuelvo el primero)
-	
 	// >>> No instancio al jugador acá, sólo cargo los datos para luego instanciarlo
 	// Supuestamente uso: juegoElegido.escenario.protagonistas,juegoElegido.idJugador,juegoElegido.protagonista ver si hace falta esto
+	// >> Preguntar por (entidad.errorEnSocket == false) al usar el proxy
 
-	this->juegoElegido.protagonista = this->juegoElegido.escenario.protagonistas.front();
+	// El cliente elije su nombre
+	std::string nombreUsuario;
+	std::cout << "Elija el nombre de usuario: " << std::endl;
+	getline (std::cin,nombreUsuario);
+
+	// El cliente elije el personaje
+	std::string nombrePersonaje;
+	this->menuSeleccionPersonaje(nombreUsuario,nombrePersonaje);
+	
+
+
+
+
+	// Al final queda seteado que protagonista se eligió, con:
+	//this->juegoElegido.protagonista = ....;
 	
 	return true; // return false si hay error de sockets
+}
+
+void VistaFactory::menuSeleccionPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje){
+
+	std::list<ParserYaml::stProtagonista> listaProtagonistas = this->juegoElegido.escenario.protagonistas;
+
+	std::cout << "Seleccion de personaje: " << std::endl;
+	bool yaEligio = false;
+
+	while( yaEligio == false){
+		for (std::list<ParserYaml::stProtagonista>::iterator it=listaProtagonistas.begin() ; (it != listaProtagonistas.end()) && (yaEligio == false) ; it++ ){
+			std::string opc;
+			std::cout << "Elije el personaje: "<< (*it).entidad << " ? (s) para confirmar, otra tecla para rechazar" << std::endl;
+			getline (std::cin,opc);
+			if( opc.compare("s") == 0 || opc.compare("S") == 0 ){
+				std::cout << "Se eligio el personaje: "<< (*it).entidad << std::endl;
+				nombrePersonaje = (*it).entidad;
+				yaEligio = true;
+			}
+		}
+	}
+
+	return void();
 }
 
 // Instancia a todos los jugadores que no son controlados por este cliente
 bool VistaFactory::recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* pSocket){
 
 	std::string cadenaRecibida;
-	if( this->recibirCadenaSerializada(cadenaRecibida,pSocket) == false ) return false;
+	if( pSocket->recibir(cadenaRecibida) == false ) return false;
 	
 	// Hidrato la cantidad de personajes que me van a mandar
 	Serializadora s(&cadenaRecibida);
@@ -170,22 +208,6 @@ bool VistaFactory::recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* p
 	}
 
 	return true; 
-}
-
-bool VistaFactory::recibirCadenaSerializada(std::string& cadenaRecibida,SocketCliente* pSocket){
-	unsigned int tamanioRecibido = 0;
-	char* cadenaRaw = NULL;
-
-	// Recibo desde el Servidor datos serializados en una cadena de chars
-	if( pSocket->recibir(&cadenaRaw,tamanioRecibido) == false ) return false;
-	if( tamanioRecibido > 0 ){
-		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
-		delete[] cadenaRaw;
-	}else{
-		return false;	// Error al obtener archivos
-	}
-
-	return true;
 }
 
 bool VistaFactory::crearElementosVista(VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket){
@@ -206,7 +228,7 @@ bool VistaFactory::crearElementosVista(VistaNivel& vistaNivel,VistaLoop& vistaLo
 
 	// Creo al protagonista y a las entidades (no creo a otros jugadores)
 	this->crearJugadorConScroll(vistaNivel,pPantallaSDL,pSocket);
-	this->crearEntidades(vistaNivel);
+	this->crearEntidadesNoJugadores(vistaNivel);
 
 	return true;
 }
@@ -215,11 +237,13 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 
 	std::string nombreProtagonista = this->juegoElegido.protagonista.entidad;
 	ParserYaml::stEntidad entidadProtagonista = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreProtagonista);
-
-	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
-	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
+	
+	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
 	double x = (double)this->juegoElegido.protagonista.x;
 	double y = (double)this->juegoElegido.protagonista.y;
+	int id = this->juegoElegido.idJugador;
+
+	// Valores tomados desde la entidad
 	double alto = (double)entidadProtagonista.altoBase;
 	double ancho = (double)entidadProtagonista.anchoBase;
 	double posicionReferenciaX = (double)entidadProtagonista.pixelReferenciaX;
@@ -228,8 +252,12 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	double delay = (double)entidadProtagonista.delay;
 	std::list<std::list<std::string>> listaAnimaciones = entidadProtagonista.imagenes;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,this->juegoElegido.idJugador);
-	VistaScroll* pScroll = new VistaScroll(x,y,this->juegoElegido.pantalla.alto,this->juegoElegido.pantalla.ancho,tamanioX,tamanioY,pantalla,this->juegoElegido.idJugador);	// Tomo el mismo x,y,velocidad que el personaje
+	// Valores tomados desde el escenario
+	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
+	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
+
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id);
+	VistaScroll* pScroll = new VistaScroll(x,y,this->juegoElegido.pantalla.alto,this->juegoElegido.pantalla.ancho,tamanioX,tamanioY,pantalla,id);	// Tomo el mismo x,y,velocidad que el personaje
 	vistaNivel.agregarJugador(pJugador);
 	vistaNivel.agregarScroll(pScroll);
 	vistaNivel.agregarTamanioNivel(tamanioX,tamanioY);
@@ -242,10 +270,14 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	std::string nombreJugador = entidad.nombreNuevaEntidad;
 	ParserYaml::stEntidad entidadJugador = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreJugador);
 
-	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
-	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
+	// Valores tomados desde el proxy
+	int id = entidad.id;
 	double x = (double)entidad.pixelSiguienteX;
-	double y = (double)entidad.pixelSiguienteY;
+	double y = (double)entidad.pixelSiguienteY;	
+	//entidad.direccion				// Para el primer seteo no hace falta ¿no?
+	//entidad.esUltimoMovimiento
+	
+	// Valores tomados desde la entidad
 	double alto = (double)entidadJugador.altoBase;
 	double ancho = (double)entidadJugador.anchoBase;
 	double posicionReferenciaX = (double)entidadJugador.pixelReferenciaX;
@@ -254,13 +286,17 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	double delay = (double)entidadJugador.delay;
 	std::list<std::list<std::string>> listaAnimaciones = entidadJugador.imagenes;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,this->juegoElegido.idJugador);
+	// Valores tomados desde el escenario elegido
+	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
+	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
+
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id);
 	vistaNivel.agregarJugador(pJugador);
 
 	return void();
 }
 
-void VistaFactory::crearEntidades(VistaNivel& vistaNivel){
+void VistaFactory::crearEntidadesNoJugadores(VistaNivel& vistaNivel){
 
 	std::list<ParserYaml::stEntidadDefinida> entidadesDef = this->juegoElegido.escenario.entidadesDefinidas;
 	std::list<int>idEntidadesDef = this->juegoElegido.listaIdEntidades;
@@ -271,10 +307,11 @@ void VistaFactory::crearEntidades(VistaNivel& vistaNivel){
 		std::string nombreEntidad = entidadDef.entidad;
 		ParserYaml::stEntidad entidad = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreEntidad);
 
-		double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
-		double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
+		// Valores tomados desde la entidad definida
 		double x = (double)entidadDef.x;
 		double y = (double)entidadDef.y;
+
+		// Valores tomados desde la entidad
 		double alto = (double)entidad.altoBase;
 		double ancho = (double)entidad.anchoBase;
 		double posicionReferenciaX = (double)entidad.pixelReferenciaX;
@@ -283,8 +320,16 @@ void VistaFactory::crearEntidades(VistaNivel& vistaNivel){
 		double delay = (double)entidad.delay;
 		std::list<std::list<std::string>> listaAnimaciones = entidad.imagenes;
 
-		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,idEntidadesDef.front());
+		// Valores tomados desde el escenario elegido
+		double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
+		double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
+
+		// Valores tomados desde el servidor, cargados posteriormente en una variable
+		int id = idEntidadesDef.front();
+
+		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id);
 		vistaNivel.agregarEntidad(pEntidad);
+
 		idEntidadesDef.pop_front();	// Una vez que usé el ID lo tiro para tener acceso al próximo
 	}
 
@@ -309,8 +354,12 @@ bool VistaFactory::crearElementosControlador(VistaNivel& vistaNivel,VistaLoop& v
 }
 
 void VistaFactory::crearControladorScroll(ControladorEvento* evento){
+	
+	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
 	int x = this->juegoElegido.protagonista.x;
 	int y = this->juegoElegido.protagonista.y;
+
+	// Valores tomados desde el escenario elegido
 	int anchoEscenario = this->juegoElegido.escenario.tamanioX;
 	int altoEscenario = this->juegoElegido.escenario.tamanioY;
 

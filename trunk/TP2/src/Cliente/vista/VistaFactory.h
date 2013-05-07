@@ -34,12 +34,12 @@ class VistaFactory{
 		bool recibirProtagonista(SocketCliente* pSocket);
 		bool recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* pSocket);
 		void asignarEscenarioElegido(std::string nombreEscenario,std::list<ParserYaml::stEscenario>& listaEscenarios);
-		bool recibirCadenaSerializada(std::string& cadenaRecibida,SocketCliente* pSocket);
+		void menuSeleccionPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje);
 		
 		// Creación de la Vista
 		bool crearElementosVista(VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);
 		void crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket);
-		void crearEntidades(VistaNivel& vistaNivel);
+		void crearEntidadesNoJugadores(VistaNivel& vistaNivel);
 		void crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntidad::stEntidad& entidad,SocketCliente* pSocket);
 
 		// Creación del Controlador

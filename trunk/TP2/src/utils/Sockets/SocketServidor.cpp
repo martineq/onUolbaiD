@@ -33,11 +33,8 @@ bool SocketServidor::desconectar(void){
 	this->mutexConexionClientes.unlock(__FILE__,__LINE__);
 
 	// Cierro el socket del Servidor
-	bool ok = this->miConexion.cerrar();
-
-	ok = this->miConexion.finalizarAplicacion();
-
-	if (ok==false) return false;
+	if (this->miConexion.cerrar() == false ) return false;
+	if (this->miConexion.finalizarAplicacion() == false ) return false;
 
 	return true;
 }
@@ -274,11 +271,27 @@ bool SocketServidor::setClienteMasivo(long idCliente){
 	return true;
 }
 
+// Envía los datos de la Serializadora <s>
+// El cliente indicado tiene que estar en modo Individual para que pueda enviar los datos, en caso contrario se obvia el cliente
+// Devuelve true en caso de éxito al enviar
+// Devuelve false en caso de error de conexión, eliminando al cliente.
+bool SocketServidor::enviarIndividual(Serializadora s,int idCliente){
+	std::string* pStr = s.getSerializacion();
+	if( this->enviarIndividualChar(pStr->c_str(),pStr->size(),idCliente) == false ){
+		delete pStr;
+		return false;
+	}else{
+		delete pStr;
+		return true;
+	}
+	return true;
+}
+
 // Envía los datos del <pBuffer> de un tamaño en bytes <tamanio> al cliente indicado con <idCliente>
 // El cliente indicado tiene que estar en modo Individual para que pueda enviar los datos, en caso contrario se obvia el cliente
 // Devuelve true en caso de éxito al enviar
 // Devuelve false en caso de error de conexión, eliminando al cliente.
-bool SocketServidor::enviarIndividual(const char *pBuffer,unsigned int tamanio,long idCliente){
+bool SocketServidor::enviarIndividualChar(const char *pBuffer,unsigned int tamanio,long idCliente){
 	long indice = this->buscarCliente(idCliente);
 	if ( indice >= 0 ){
 		if (this->getConexionCliente(indice)->getEsIndividual() == true){
@@ -301,10 +314,25 @@ bool SocketServidor::enviarIndividual(const char *pBuffer,unsigned int tamanio,l
 	return true;
 }
 
+// Envía los datos de la Serializadora <s> a todos los clientes existentes que se encuentren en modo Masivo
+// Los clientes "individuales" se obvian
+// Devuelve true en caso de éxito al enviar a todos los clientes que deben recibir el mensaje y false en cualquier otro caso
+bool SocketServidor::enviarMasivo(Serializadora s){
+	std::string* pStr = s.getSerializacion();
+	if( this->enviarMasivoChar(pStr->c_str(),pStr->size()) == false ){
+		delete pStr;
+		return false;
+	}else{
+		delete pStr;
+		return true;
+	}
+	return true;
+}
+
 // Envía los datos del <pBuffer> de un tamaño en bytes <tamanio> a todos los clientes existentes que se encuentren en modo Masivo
 // Los clientes "individuales" se obvian
 // Devuelve true en caso de éxito al enviar a todos los clientes que deben recibir el mensaje y false en cualquier otro caso
-bool SocketServidor::enviarMasivo(const char *pBuffer,unsigned int tamanio){
+bool SocketServidor::enviarMasivoChar(const char *pBuffer,unsigned int tamanio){
 	bool todosOk = true;
 	
 	for ( int i=0 ; i < this->tamanioConexionClientes() ; i++ ){
@@ -329,13 +357,42 @@ bool SocketServidor::enviarMasivo(const char *pBuffer,unsigned int tamanio){
 	return todosOk;
 }
 
+// Recibe los datos del cliente indicado con <idCliente>, a través de la <cadenaRecibida>
+// El cliente indicado tiene que estar en modo Individual para que pueda enviar los datos al servidor
+// Devuelve true, junto con la <cadenaRecibida> en caso de éxito al recibir
+// En caso de no tener ningun mensaje recibido del cliente indicado se devuelve true, junto con un tamaño de <cadenaRecibida> = 0
+// En caso de indicar un cliente que no existe o que su estado no es "individual" se devuelve true junto con un tamaño de <cadenaRecibida> = 0
+// Devuelve false en caso de error en la conexión
+bool SocketServidor::recibirIndividual(std::string& cadenaRecibida,int idCliente){
+	int tamanioRecibido = 0;
+	char* cadenaRaw = NULL;
+
+	// Recibo desde el Servidor datos serializados en una cadena de chars
+	if( this->recibirIndividualChar(&cadenaRaw,tamanioRecibido,idCliente) == false ) return false;
+	
+	if( tamanioRecibido > 0 ){
+		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
+		delete[] cadenaRaw;
+	}else{
+		if( tamanioRecibido == 0 ){
+			// No hay mensaje recibido
+			cadenaRecibida.clear(); // Emulo ponerlo en cero
+		}else{
+			// El cliente no es individual, entonces no recibo nada. // Separo el caso por si quiero implementarlo
+			cadenaRecibida.clear(); // Emulo ponerlo en cero
+		}
+	}
+
+	return true;
+}
+
 // Recibe los datos del cliente indicado con <idCliente>, a traves de <pbuffer> y su tamaño a través de <tamanioRecibido>
 // El cliente indicado tiene que estar en modo Individual para que pueda enviar los datos al servidor
 // Devuelve true, junto con la cadena recibida e instanciada en memoria (con new) en <pbuffer> y el <tamanioRecibido> en caso de éxito al recibir
 // En caso de no tener ningun mensaje recibido del cliente indicado se devuelve true, junto con un tamanio = 0
 // En caso de indicar un cliente que no existe o que su estado no es "individual" se devuelve true junto con un tamaño negativo (-1)
 // Devuelve false en caso de error en la conexión
-bool SocketServidor::recibirIndividual(char** pbuffer,int& tamanioRecibido,long idCliente){
+bool SocketServidor::recibirIndividualChar(char** pbuffer,int& tamanioRecibido,long idCliente){
 	// Chequeo existencia
 	long indice = this->buscarCliente(idCliente);
 		if ( indice >= 0 ){
@@ -365,13 +422,35 @@ bool SocketServidor::recibirIndividual(char** pbuffer,int& tamanioRecibido,long 
 }
 
 // Recibe el primero de todos los mensajes de la cola de entrada común a todos los clientes "Masivos"
+// La cadena se recibe a través de la <cadenaRecibida>
+// Solo se recibirán mensajes de clientes que se encuentren en modo Masivo
+// Devuelve true si nadie tuvo errores de conexion al recibir en modo "masivo"
+// Devuelve false si algún cliente "masivo" tuvo errores de conexion al recibir. Se puede chequear quien fue con getNuevosClientesErroneos()
+bool SocketServidor::recibirMasivo(std::string& cadenaRecibida){
+	int tamanioRecibido = 0;
+	char* cadenaRaw = NULL;
+
+	// Recibo desde el Servidor datos serializados en una cadena de chars
+	if( this->recibirMasivoChar(&cadenaRaw,tamanioRecibido) == false ) return false;
+	
+	if( tamanioRecibido > 0 ){
+		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
+		delete[] cadenaRaw;
+	}else{
+		cadenaRecibida.clear(); // Emulo ponerlo en cero
+	}
+
+	return true;
+}
+
+// Recibe el primero de todos los mensajes de la cola de entrada común a todos los clientes "Masivos"
 // La cadena se recibe a través de <pbuffer> y su tamaño a través de <tamanioRecibido>
 // Solo se recibirán mensajes de clientes que se encuentren en modo Masivo
 // Siempre (sin importar el valor del return) se devuelve la cadena recibida e instanciada en memoria (con new) y su <tamanioRecibido>
 // En el caso de no haber ningún mensaje, se recibe <tamanioRecibido> = 0
 // Devuelve true si nadie tuvo errores de conexion al recibir en modo "masivo"
 // Devuelve false si algún cliente "masivo" tuvo errores de conexion al recibir.
-bool SocketServidor::recibirMasivo(char** pbuffer,int& tamanioRecibido){
+bool SocketServidor::recibirMasivoChar(char** pbuffer,int& tamanioRecibido){
 
 	bool todosOk = true;
 	if (this->procesarClientesMasivosConError() == true) todosOk = false;  // Si se porceso algún cliente con error, entonces ya no están todos los clientes ok

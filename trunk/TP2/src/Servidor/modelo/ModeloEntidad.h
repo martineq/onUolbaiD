@@ -72,6 +72,8 @@ class ModeloEntidad: public Identificable {
 
 		int _id;
 		std::string _nombreEntidad;
+		std::string _nombreJugador;
+		bool _estaCongelado;
 		bool _esJugador;
 		int _alto;
 		int _ancho;
@@ -93,7 +95,7 @@ class ModeloEntidad: public Identificable {
 		ModeloEntidad& operator=(const ModeloEntidad &modeloEntidad);
 
 	public:
-		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad,int id,std::string nombreEntidad);
+		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad,int id,std::string nombreEntidad,std::string nombreJugador);
 
 		virtual ~ModeloEntidad();
 
@@ -128,6 +130,16 @@ class ModeloEntidad: public Identificable {
 		void mover(Posicion posicion);
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
+
+		void setNombreJugador(std::string nombre);
+
+		std::string getNombreJugador() const;
+
+		void setEstaCongelado(bool estado);
+
+		bool getEstaCongelado() const;
+
 };
 
 // TODO: Hay que agregar mutex para todos los atributos de ModeloEntidad ya que puede ser leido por varios hilos a la vez
+// Se agregará solo un mutex por cada ModeloEntidad
