@@ -51,4 +51,16 @@ bool ProxyModeloEntidad::recibirEntidad(ProxyModeloEntidad::stEntidad& entidad){
 	return true;
 }
 
+// para los que usan el proxy y quieren cargar el struct
+void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool eliminarEntidad,std::string nombreNuevaEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento){
+	entidad.id = id;
+	entidad.errorEnSocket = errorEnSocket;
+	entidad.eliminarEntidad = eliminarEntidad;
+	entidad.nombreNuevaEntidad = nombreNuevaEntidad;
+	entidad.pixelSiguienteX = pixelSiguienteX;
+	entidad.pixelSiguienteY = pixelSiguienteY;
+	entidad.direccion = direccion;
+	entidad.esUltimoMovimiento = esUltimoMovimiento;
+}
+
 // TODO: Implementar los métodos de los proxys

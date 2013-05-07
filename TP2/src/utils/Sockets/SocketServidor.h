@@ -2,6 +2,7 @@
 
 #include "./ConexionServidor.h"
 #include "../Constantes/Constantes.h"
+#include "../../utils/Serializacion/Serializadora.h"
 
 class SocketServidor{
 
@@ -25,6 +26,12 @@ class SocketServidor{
 		ConexionCliente* getConexionCliente(int indice);
 		long tamanioConexionClientes(void);
 
+		// Funciones de envio recepción con uso directo de char*
+		bool enviarIndividualChar(const char *pBuffer,unsigned int tamanio,long idCliente);
+		bool enviarMasivoChar(const char *pBuffer,unsigned int tamanio);
+		bool recibirIndividualChar(char** pbuffer, int& tamanioRecibido,long idCliente);
+		bool recibirMasivoChar(char** pbuffer, int& tamanioRecibido);
+
 	public:
 		SocketServidor(void);
 		~SocketServidor(void);
@@ -41,11 +48,12 @@ class SocketServidor{
 		bool setClienteIndividual(long idCliente);
 		bool setClienteMasivo(long idCliente);
 
-		// Para enviar/recibir
-		bool enviarIndividual(const char *pBuffer,unsigned int tamanio,long idCliente);
-		bool enviarMasivo(const char *pBuffer,unsigned int tamanio);
-		bool recibirIndividual(char** pbuffer, int& tamanioRecibido,long idCliente);
-		bool recibirMasivo(char** pbuffer, int& tamanioRecibido);
+		// Para enviar/recibir. Integradas con la clase Serializadora
+		bool enviarIndividual(Serializadora s,int idCliente);
+		bool enviarMasivo(Serializadora s);
+		bool recibirIndividual(std::string& cadenaRecibida,int idCliente);
+		bool recibirMasivo(std::string& cadenaRecibida);
+
 		bool enviarArchivosIndividual(std::list<std::string> rutaDeArchivosParaEnviar,long idCliente);
 		bool recibirArchivosIndividual(std::list<std::string> rutaDeArchivosParaRecibir,long idCliente);
 

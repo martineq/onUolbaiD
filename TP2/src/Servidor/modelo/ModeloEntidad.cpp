@@ -8,9 +8,11 @@ ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad){
 	return *this;
 }
 
-ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad,int id,std::string nombreEntidad) {
+ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad,int id,std::string nombreEntidad,std::string nombreJugador) {
 	this->_id = id;
 	this->_nombreEntidad = nombreEntidad;
+	this->_nombreJugador = nombreJugador;
+	this->_estaCongelado = false;
 	this->_esJugador = esJugador;
 	this->_alto = alto;
 	this->_ancho = ancho;
@@ -119,4 +121,20 @@ void ModeloEntidad::notificarAlProxy(void){
 	this->_pProxyEntidad->enviarEntidad(entidad);
 
 	return void();
+}
+
+void ModeloEntidad::setNombreJugador(std::string nombre){
+	this->_nombreJugador = nombre;
+}
+
+std::string ModeloEntidad::getNombreJugador() const {
+	return this->_nombreJugador;
+}
+
+void ModeloEntidad::setEstaCongelado(bool estado){
+	this->_estaCongelado = estado;
+}
+
+bool ModeloEntidad::getEstaCongelado() const {
+	return this->_estaCongelado;
 }

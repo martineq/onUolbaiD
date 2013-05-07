@@ -9,6 +9,7 @@
 #include "../../utils/Ticket/Ticket.h"
 #include "../../utils/Serializacion/Serializadora.h"
 #include "../../utils/LectorDirectorios/LectorDirectorios.h"
+#include "../../utils/Serializacion/Serializadora.h"
 
 class ModeloFactory{
 
@@ -38,7 +39,7 @@ class ModeloFactory{
 		bool enviarArchivosDeConfiguracion(SocketServidor* pServidor,int idSocketCliente);
 		bool enviarListaDeArchivos(std::vector<std::string> lista,SocketServidor* pServidor,int idSocketCliente);
 		ModeloFactory::stModeloJuegoElegido getCopiaJuegoElegido(void);
-		
+
 	public:
 		ModeloFactory(void);
 		~ModeloFactory(void);

@@ -1,12 +1,17 @@
 #pragma once
 
 #include "./ConexionCliente.h"
+#include "../../utils/Serializacion/Serializadora.h"
 
 class SocketCliente {
 
 	private:
 		ConexionCliente miConexion;
 		bool envioDirecto;
+
+		// Funciones de envio recepción con uso directo de char*
+		bool enviarChar(const char *pBuffer,unsigned int tamanio);
+		bool recibirChar(char **pBuffer,unsigned int& tamanioRecibido);
 
 	public:
 		SocketCliente(void);
@@ -20,8 +25,8 @@ class SocketCliente {
 		void setEnvioIndirecto(void);
 
 		// Para enviar/recibir
-		bool enviar(const char *pBuffer,unsigned int tamanio);
-		bool recibir(char **pBuffer,unsigned int& tamanioRecibido);
+		bool enviar(Serializadora s);
+		bool recibir(std::string& cadenaRecibida);
 		bool enviarArchivo(const char *rutaOrigen);
 		bool recibirArchivo(const char *rutaDestino);
 

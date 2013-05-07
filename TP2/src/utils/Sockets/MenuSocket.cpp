@@ -107,34 +107,28 @@ void MenuSocket::cicloJuegoServidor(){
 
 	std::cout << "Se recibirán mensajes hasta recibir \"EOF\" o hasta que se cierre el cliente. " << std::endl;
 	bool seguir = true;
-	char* charTemp = NULL;
-	char* charStr = NULL;
+	std::string str;
 	int tamanio;
 	
 	while ( seguir == true ){
 
-		seguir = this->serv->recibirMasivo(&charTemp,tamanio);	// El recibirMasivo hace un new
+		seguir = this->serv->recibirMasivo(str);	// El recibirMasivo hace un new
 	
 		if ( seguir == true ){
-			//std::cout << "Msg B. Tamanio: "<<tamanio<< std::endl;
-			if ( tamanio > 0){
-				//std::cout << "Msg A"<< std::endl;
-				charStr = new char[tamanio+1]; // el +1 para guardar el "/0"
-				memcpy(charStr,charTemp,tamanio);
-				charStr[tamanio] = 0;
+			
+			if ( str.size() > 0){
 
-				if ( strcmp(charTemp,"EOF") == 0 ){	seguir = false;	}
+				if ( str.compare("EOF") == 0 ){	seguir = false;	}
 				
-				std::cout << "Mensaje recibido ( "<< strlen(charStr)<<" bytes): " << charStr << std::endl;
+				std::cout << "Mensaje recibido ( "<< str.size() <<" bytes): " << str << std::endl;
 				
 				if ( seguir == true){
-					std::string txt("Alguien dijo: ");
-					txt.append(charStr);
-					seguir = this->serv->enviarMasivo(txt.c_str(),(unsigned int)txt.size()+1);
+					str.append("Alguien dijo: ");
+					Serializadora s;
+					s.addString(str);
+					seguir = this->serv->enviarMasivo(s);
 				}
 				
-				delete[] charTemp;
-				delete[] charStr;
 			}
 
 		}else{
@@ -153,34 +147,28 @@ void MenuSocket::cicloJuegoServidor(){
 
 void MenuSocket::cicloJuegoCliente(){
 	bool seguir = true;
-	char* charTemp = NULL;
-	char* charStr = NULL;
-	unsigned int tamanio;
 	std::string entradaTexto;
+	std::string cadenaRecibida;
 
 	while ( seguir == true ){
 		std::cout << "Mensaje a enviar > ";
 		getline (std::cin,entradaTexto);
 
 		if (entradaTexto.compare("EOF")==0) seguir = false;
-		//std::cout << "Cliente corriendo" << std::endl;
-		seguir = this->cli->enviar(entradaTexto.c_str(),(unsigned int)entradaTexto.size()+1);
-		
+
+		Serializadora s;
+		s.addString(entradaTexto);
+		seguir = this->cli->enviar(s);
+
 		if ( seguir == true){
 
 			std::cout <<"Mensaje devueltos :\n";
-			seguir = this->cli->recibir(&charTemp,tamanio);
-			std::cout <<"Tamanio: "<< tamanio <<" Mensaje devueltos: \n";
+			seguir = this->cli->recibir(cadenaRecibida);
+			std::cout <<"Tamanio: "<< cadenaRecibida.size() <<" Mensaje devueltos: \n";
 
-			while (seguir == true && tamanio > 0 ){ 	
-				charStr = new char[tamanio+1]; // el +1 para guardar el "/0"
-				memcpy(charStr,charTemp,tamanio);
-				charStr[tamanio] = 0;
-				std::cout << "( "<< strlen(charStr)<<" bytes): " << charStr << std::endl;
-				delete[] charTemp;
-				delete[] charStr;
-				seguir = this->cli->recibir(&charTemp,tamanio); // Hace un 
-				
+			while (seguir == true && cadenaRecibida.size() > 0 ){ 	
+				std::cout << "( "<< cadenaRecibida.size() <<" bytes): " << cadenaRecibida << std::endl;
+				seguir = this->cli->recibir(cadenaRecibida);
 			}
 
 		}
@@ -273,7 +261,8 @@ bool MenuSocket::cicloArchivoServidor2(){
 	// Envio el vector de strings serializado en una cadena de chars
 	std::string* pStr = s.getSerializacion();
 	std::cout<<"Envio una cadena de "<<pStr->size()<<" bytes al id: "<<this->ids.front()<<std::endl;
-	if( this->serv->enviarIndividual(pStr->c_str(),pStr->size(),this->ids.front()) == false ){
+	
+	if( this->serv->enviarIndividual(s,this->ids.front()) == false ){
 		delete pStr;
 		std::cout<<"enviarIndividual == false\n";
 		return false;
@@ -289,15 +278,12 @@ bool MenuSocket::cicloArchivoServidor2(){
 bool MenuSocket::cicloArchivoCliente2(){
 
 	std::string cadena;
-	unsigned int tamanioRecibido = 0;
-	char* cadenaRaw = NULL;
 
 	// Recibo el vector de strings serializado en una cadena de chars
-	if( this->cli->recibir(&cadenaRaw,tamanioRecibido) == false ) return false;
-	std::cout<<"tamanioRecibido: "<<tamanioRecibido<<std::endl;
-	if( tamanioRecibido > 0 ){
-		cadena.assign(cadenaRaw,tamanioRecibido);
-		delete[] cadenaRaw;
+	if( this->cli->recibir(cadena) == false ) return false;
+	std::cout<<"tamanioRecibido: "<<cadena.size()<<std::endl;
+	if( cadena.size() > 0 ){
+
 	}else{
 		// "Error al obtener archivos"
 		return false;
@@ -342,7 +328,8 @@ bool MenuSocket::cicloArchivoServidor3(){
 	// Envio el vector de strings serializado en una cadena de chars
 	std::string* pStr = s.getSerializacion();
 	std::cout<<"Envio una cadena de "<<pStr->size()<<" bytes al id: "<<this->ids.front()<<std::endl;
-	if( this->serv->enviarIndividual(pStr->c_str(),pStr->size(),this->ids.front()) == false ){
+
+	if( this->serv->enviarIndividual(s,this->ids.front()) == false ){
 		delete pStr;
 		std::cout<<"enviarIndividual == false\n";
 		return false;
@@ -365,15 +352,12 @@ bool MenuSocket::cicloArchivoServidor3(){
 bool MenuSocket::cicloArchivoCliente3(){
 
 	std::string cadena;
-	unsigned int tamanioRecibido = 0;
-	char* cadenaRaw = NULL;
 
 	// Recibo el vector de strings serializado en una cadena de chars
-	if( this->cli->recibir(&cadenaRaw,tamanioRecibido) == false ) return false;
-	std::cout<<"tamanioRecibido: "<<tamanioRecibido<<std::endl;
-	if( tamanioRecibido > 0 ){
-		cadena.assign(cadenaRaw,tamanioRecibido);
-		delete[] cadenaRaw;
+	if( this->cli->recibir(cadena) == false ) return false;
+	std::cout<<"tamanioRecibido: "<<cadena.size()<<std::endl;
+	if( cadena.size() > 0 ){
+
 	}else{
 		// "Error al obtener archivos"
 		return false;

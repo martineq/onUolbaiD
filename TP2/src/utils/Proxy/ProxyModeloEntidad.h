@@ -39,5 +39,8 @@ class ProxyModeloEntidad{
 		// Para usar en el momento de juego. Debe estar seteado el modo Masivo.
 		bool enviarEntidad(ProxyModeloEntidad::stEntidad entidad);					// Lo usa el lado Servidor
 		bool recibirEntidad(ProxyModeloEntidad::stEntidad& entidad);				// Lo usa el lado Cliente
+
+		// Auxiliares
+		void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool eliminarEntidad,std::string nombreNuevaEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento);
 };
 

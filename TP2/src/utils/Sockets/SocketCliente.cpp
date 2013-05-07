@@ -31,7 +31,18 @@ void SocketCliente::setEnvioIndirecto(void){
 	this->envioDirecto = false;
 }
 
-bool SocketCliente::enviar(const char *pBuffer,unsigned int tamanio){
+bool SocketCliente::enviar(Serializadora s){
+	std::string* pStr = s.getSerializacion();
+	if( this->enviarChar(pStr->c_str(),pStr->size()) == false ){
+		delete pStr;
+		return false;
+	}else{
+		delete pStr;
+		return true;
+	}
+}
+
+bool SocketCliente::enviarChar(const char *pBuffer,unsigned int tamanio){
 
 	if( this->envioDirecto == true ){
 		return this->miConexion.enviarDirecto(pBuffer,tamanio);
@@ -40,7 +51,24 @@ bool SocketCliente::enviar(const char *pBuffer,unsigned int tamanio){
 	}
 }
 
-bool SocketCliente::recibir(char **pBuffer,unsigned int& tamanioRecibido){
+bool SocketCliente::recibir(std::string& cadenaRecibida){
+	unsigned int tamanioRecibido = 0;
+	char* cadenaRaw = NULL;
+
+	// Recibo desde el Servidor datos serializados en una cadena de chars
+	if( this->recibirChar(&cadenaRaw,tamanioRecibido) == false ) return false;
+
+	if( tamanioRecibido > 0 ){
+		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
+		delete[] cadenaRaw;
+	}else{	
+		cadenaRecibida.clear(); // Emulo ponerlo en cero
+	}
+
+	return true;
+}
+
+bool SocketCliente::recibirChar(char **pBuffer,unsigned int& tamanioRecibido){
 	if( this->envioDirecto == true ){
 		return this->miConexion.recibirDirecto(pBuffer,tamanioRecibido);
 	}else{
