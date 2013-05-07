@@ -40,14 +40,29 @@ void MenuSocket::cicloConfigServidor(int cantClientes,bool clientesSonIndividual
 	std::cout << "Se recibirán "<< cantidadDeClientes << " clientes, modo de envio masivo"<< std::endl;
 
 	for(int i = 0; i<cantidadDeClientes; i++){ 
-		long id = this->serv->aceptarCliente();
-		if (id>0){
-			this->ids.push_back(id);
-			if (clientesSonIndividuales == false){
-				this->serv->setClienteMasivo(id);
-				std::cout << "Seteo cliente " << id << " masivo" << std::endl;
+		
+		bool seguir = true;
+		while(seguir==true){
+			long idCliente = this->serv->aceptarCliente();
+			if ( idCliente != ACEPTAR_TIMEOUT && idCliente != ACEPTAR_ERROR ){
+				this->ids.push_back(idCliente);
+				if (clientesSonIndividuales == false){
+					this->serv->setClienteMasivo(idCliente);
+					std::cout << "Seteo cliente " << idCliente << " masivo" << std::endl;
+				}
+				seguir = false;
+			}else{
+				if( idCliente == ACEPTAR_ERROR ){
+					std::cout << "Error al acerptar cliente!!!" << std::endl;
+				}
+				if( idCliente == ACEPTAR_TIMEOUT ){
+					// Si hubo time out, no pasa nada, vuelvo a probar para ver si alguien quiere conectarse
+					// Entro otra vez al while
+				}
 			}
 		}
+
+
 	}
 /*
 	if (this->serv->enviarMasivo("Hola! Este es un mensaje del servidor",sizeof("Hola! Este es un mensaje del servidor"))==false){
@@ -101,8 +116,9 @@ void MenuSocket::cicloJuegoServidor(){
 		seguir = this->serv->recibirMasivo(&charTemp,tamanio);	// El recibirMasivo hace un new
 	
 		if ( seguir == true ){
-		
+			//std::cout << "Msg B. Tamanio: "<<tamanio<< std::endl;
 			if ( tamanio > 0){
+				//std::cout << "Msg A"<< std::endl;
 				charStr = new char[tamanio+1]; // el +1 para guardar el "/0"
 				memcpy(charStr,charTemp,tamanio);
 				charStr[tamanio] = 0;
