@@ -26,7 +26,7 @@ class SocketCliente {
 
 		// Para enviar/recibir
 		bool enviar(Serializadora s);
-		bool recibir(std::string& cadenaRecibida);
+		bool recibir(Serializadora& s);
 		bool enviarArchivo(const char *rutaOrigen);
 		bool recibirArchivo(const char *rutaDestino);
 

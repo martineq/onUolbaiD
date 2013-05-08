@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 #include "../Constantes/Constantes.h"
 
 using std::string;
@@ -96,6 +97,16 @@ class Serializadora{
 		 * Devuelve un string.
 		 */
 		string	getString();
+
+		/*
+		 * Devuelve el tamaño total de lo serializado.
+		 */
+		unsigned int size();
+
+		/*
+		 * Borra todo el contenido serializado hasta el momento
+		 */
+		void clear();
 
 		virtual ~Serializadora();
 		

@@ -47,3 +47,4 @@ class ModeloFactory{
 		bool crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,SocketServidor* pSocket);
 		bool rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* pSocket,int id);
 };
+// TODO: Ver que se use bien el enviar/recibir con lo nuevo de la Serializadora

@@ -357,29 +357,32 @@ bool SocketServidor::enviarMasivoChar(const char *pBuffer,unsigned int tamanio){
 	return todosOk;
 }
 
-// Recibe los datos del cliente indicado con <idCliente>, a través de la <cadenaRecibida>
+// Recibe los datos del cliente indicado con <idCliente>, a través de la Serializadora <s>
 // El cliente indicado tiene que estar en modo Individual para que pueda enviar los datos al servidor
-// Devuelve true, junto con la <cadenaRecibida> en caso de éxito al recibir
-// En caso de no tener ningun mensaje recibido del cliente indicado se devuelve true, junto con un tamaño de <cadenaRecibida> = 0
-// En caso de indicar un cliente que no existe o que su estado no es "individual" se devuelve true junto con un tamaño de <cadenaRecibida> = 0
+// Devuelve true, junto con la <s> en caso de éxito al recibir
+// En caso de no tener ningun mensaje recibido del cliente indicado se devuelve true, junto con <s> con tamaño nulo, o sea (s.size()==0)
+// En caso de indicar un cliente que no existe o que su estado no es "individual" se devuelve true junto con <s> con tamaño nulo, o sea (s.size()==0)
 // Devuelve false en caso de error en la conexión
-bool SocketServidor::recibirIndividual(std::string& cadenaRecibida,int idCliente){
+bool SocketServidor::recibirIndividual(Serializadora& s,int idCliente){
+	std::string cadenaRecibida;
 	int tamanioRecibido = 0;
 	char* cadenaRaw = NULL;
 
 	// Recibo desde el Servidor datos serializados en una cadena de chars
 	if( this->recibirIndividualChar(&cadenaRaw,tamanioRecibido,idCliente) == false ) return false;
-	
+
 	if( tamanioRecibido > 0 ){
 		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
+		Serializadora sAux(&cadenaRecibida);
+		s = sAux;
 		delete[] cadenaRaw;
 	}else{
-		if( tamanioRecibido == 0 ){
-			// No hay mensaje recibido
-			cadenaRecibida.clear(); // Emulo ponerlo en cero
+		if( tamanioRecibido == 0 ){	
+			// Caso: No hay mensaje recibido
+			s.clear();	// Lo dejo vacio mostrando que no recibió nada
 		}else{
-			// El cliente no es individual, entonces no recibo nada. // Separo el caso por si quiero implementarlo
-			cadenaRecibida.clear(); // Emulo ponerlo en cero
+			// Caso: El cliente no es individual, entonces no recibo nada. // Separo el caso por si quiero implementar algo aparte
+			s.clear();	// Lo dejo vacio mostrando que no recibió nada
 		}
 	}
 
@@ -422,11 +425,12 @@ bool SocketServidor::recibirIndividualChar(char** pbuffer,int& tamanioRecibido,l
 }
 
 // Recibe el primero de todos los mensajes de la cola de entrada común a todos los clientes "Masivos"
-// La cadena se recibe a través de la <cadenaRecibida>
+// La cadena se recibe a través de la Serializadora <s>
 // Solo se recibirán mensajes de clientes que se encuentren en modo Masivo
 // Devuelve true si nadie tuvo errores de conexion al recibir en modo "masivo"
 // Devuelve false si algún cliente "masivo" tuvo errores de conexion al recibir. Se puede chequear quien fue con getNuevosClientesErroneos()
-bool SocketServidor::recibirMasivo(std::string& cadenaRecibida){
+bool SocketServidor::recibirMasivo(Serializadora& s){
+	std::string cadenaRecibida;
 	int tamanioRecibido = 0;
 	char* cadenaRaw = NULL;
 
@@ -435,9 +439,13 @@ bool SocketServidor::recibirMasivo(std::string& cadenaRecibida){
 	
 	if( tamanioRecibido > 0 ){
 		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
+		Serializadora sAux(&cadenaRecibida);
+		s = sAux;
 		delete[] cadenaRaw;
 	}else{
 		cadenaRecibida.clear(); // Emulo ponerlo en cero
+		Serializadora sAux(&cadenaRecibida); // La lleno con "nada"
+		s = sAux;
 	}
 
 	return true;

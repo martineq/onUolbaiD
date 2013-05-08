@@ -51,7 +51,8 @@ bool SocketCliente::enviarChar(const char *pBuffer,unsigned int tamanio){
 	}
 }
 
-bool SocketCliente::recibir(std::string& cadenaRecibida){
+bool SocketCliente::recibir(Serializadora& s){
+	std::string cadenaRecibida;
 	unsigned int tamanioRecibido = 0;
 	char* cadenaRaw = NULL;
 
@@ -60,9 +61,11 @@ bool SocketCliente::recibir(std::string& cadenaRecibida){
 
 	if( tamanioRecibido > 0 ){
 		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
+		Serializadora sAux(&cadenaRecibida);
+		s = sAux;
 		delete[] cadenaRaw;
-	}else{	
-		cadenaRecibida.clear(); // Emulo ponerlo en cero
+	}else{
+		s.clear();	// Lo dejo vacio mostrando que no recibió nada
 	}
 
 	return true;

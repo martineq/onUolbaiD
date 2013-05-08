@@ -90,8 +90,9 @@ bool VistaFactory::recibirArchivos(SocketCliente* pSocket){
 
 bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket){
 
-	std::string cadenaRecibida;
-	if( pSocket->recibir(cadenaRecibida) == false ) return false;
+	Serializadora si;
+	if( pSocket->recibir(si) == false ) return false;
+	std::string cadenaRecibida(si.getString());
 	
 	// Hidrato el vector de strings y recibo cada archivo
 	int cantidadDeArchivos = 0;
@@ -107,11 +108,10 @@ bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCl
 
 bool VistaFactory::recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket){
 
-	std::string cadenaRecibida;
-	if( pSocket->recibir(cadenaRecibida) == false ) return false;
-	
+	Serializadora s;
+	if( pSocket->recibir(s) == false ) return false;
+
 	// Comienzo a hidratar. Hidrato el nombre de escenario
-	Serializadora s(&cadenaRecibida);
 	std::string nombreEscenario = s.getString();
 	this->asignarEscenarioElegido(nombreEscenario,listaEscenarios); // A partir del nombre recibido, asigno el escenario
 
@@ -191,11 +191,10 @@ void VistaFactory::menuSeleccionPersonaje(std::string& nombreUsuario,std::string
 // Instancia a todos los jugadores que no son controlados por este cliente
 bool VistaFactory::recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* pSocket){
 
-	std::string cadenaRecibida;
-	if( pSocket->recibir(cadenaRecibida) == false ) return false;
-	
+	Serializadora s;
+	if( pSocket->recibir(s) == false ) return false;
+
 	// Hidrato la cantidad de personajes que me van a mandar
-	Serializadora s(&cadenaRecibida);
 	int cantidadOtrosJugadores = s.getInt();
 
 	// Recibo los datos de los jugadores, a través de un proxy

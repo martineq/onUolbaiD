@@ -112,8 +112,36 @@ unsigned int Serializadora::getUnsignedInt()
 	return valor;
 }
 
+unsigned int Serializadora::size(){
+
+	// Me guardo la posición donde estaba antes de preguntar
+	std::ifstream::pos_type posicionInicial = stream->tellp();
+
+	// Calculo la longitud, o sea la cantidad de bytes desde el principio hasta el final
+	stream->seekg(0, std::ios::beg);
+	stream->seekg(0, std::ios::end);
+	std::ifstream::pos_type tamanio = stream->tellp();
+	
+	// Lo vuelvo a la posición que estaba antes
+	stream->seekg(posicionInicial);
+
+	unsigned int salida;
+	if( tamanio < 0){
+        salida = 0;
+	}else{
+		salida = tamanio;
+	}
+
+    return salida;
+
+}
+
+void Serializadora::clear(){
+	this->stream->str(std::string());
+}
+
 Serializadora::~Serializadora() {
-	delete stream;
+	delete this->stream;
 }
 
 
