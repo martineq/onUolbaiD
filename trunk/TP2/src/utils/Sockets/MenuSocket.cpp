@@ -112,8 +112,10 @@ void MenuSocket::cicloJuegoServidor(){
 	
 	while ( seguir == true ){
 
-		seguir = this->serv->recibirMasivo(str);	// El recibirMasivo hace un new
-	
+		Serializadora s;
+		seguir = this->serv->recibirMasivo(s);	// El recibirMasivo hace un new
+		str.assign(s.getString());
+
 		if ( seguir == true ){
 			
 			if ( str.size() > 0){
@@ -156,19 +158,23 @@ void MenuSocket::cicloJuegoCliente(){
 
 		if (entradaTexto.compare("EOF")==0) seguir = false;
 
-		Serializadora s;
-		s.addString(entradaTexto);
-		seguir = this->cli->enviar(s);
+		Serializadora so;
+		so.addString(entradaTexto);
+		seguir = this->cli->enviar(so);
 
 		if ( seguir == true){
 
 			std::cout <<"Mensaje devueltos :\n";
-			seguir = this->cli->recibir(cadenaRecibida);
+			Serializadora si;
+			seguir = this->cli->recibir(si);
+			cadenaRecibida.assign(si.getString());
 			std::cout <<"Tamanio: "<< cadenaRecibida.size() <<" Mensaje devueltos: \n";
 
 			while (seguir == true && cadenaRecibida.size() > 0 ){ 	
 				std::cout << "( "<< cadenaRecibida.size() <<" bytes): " << cadenaRecibida << std::endl;
-				seguir = this->cli->recibir(cadenaRecibida);
+				Serializadora si2;
+				seguir = this->cli->recibir(si2);
+				cadenaRecibida.assign(si2.getString());
 			}
 
 		}
@@ -277,22 +283,16 @@ bool MenuSocket::cicloArchivoServidor2(){
 
 bool MenuSocket::cicloArchivoCliente2(){
 
-	std::string cadena;
+	Serializadora s;
 
 	// Recibo el vector de strings serializado en una cadena de chars
-	if( this->cli->recibir(cadena) == false ) return false;
-	std::cout<<"tamanioRecibido: "<<cadena.size()<<std::endl;
-	if( cadena.size() > 0 ){
+	if( this->cli->recibir(s) == false ) return false;
 
-	}else{
-		// "Error al obtener archivos"
-		return false;
-	}
 
 	// Hidrato el vector de strings y recibo cada archivo
 	int cantidadDeArchivos = 0;
-	std::cout<<"tamanioCadena: "<<cadena.size()<<std::endl;
-	Serializadora s(&cadena);
+	std::cout<<"tamanioCadena: "<<s.size()<<std::endl;
+
 	cantidadDeArchivos = s.getInt();
 	std::cout<<"Cantidad de archivos: "<<cantidadDeArchivos<<std::endl;
 	for ( int i=0 ; i < cantidadDeArchivos ; i++ ){
@@ -351,22 +351,14 @@ bool MenuSocket::cicloArchivoServidor3(){
 
 bool MenuSocket::cicloArchivoCliente3(){
 
-	std::string cadena;
+	Serializadora s;
 
 	// Recibo el vector de strings serializado en una cadena de chars
-	if( this->cli->recibir(cadena) == false ) return false;
-	std::cout<<"tamanioRecibido: "<<cadena.size()<<std::endl;
-	if( cadena.size() > 0 ){
-
-	}else{
-		// "Error al obtener archivos"
-		return false;
-	}
+	if( this->cli->recibir(s) == false ) return false;
 
 	// Hidrato el vector de strings y recibo cada archivo
 	int cantidadDeArchivos = 0;
-	std::cout<<"tamanioCadena: "<<cadena.size()<<std::endl;
-	Serializadora s(&cadena);
+	std::cout<<"tamanioCadena: "<<s.size()<<std::endl;
 	cantidadDeArchivos = s.getInt();
 	std::cout<<"Cantidad de archivos: "<<cantidadDeArchivos<<std::endl;
 	for ( int i=0 ; i < cantidadDeArchivos ; i++ ){

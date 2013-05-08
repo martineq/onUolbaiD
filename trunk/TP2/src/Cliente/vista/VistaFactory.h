@@ -54,3 +54,5 @@ class VistaFactory{
 
 		bool crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket);
 };
+
+// TODO: Ver que se use bien el enviar/recibir con lo nuevo de la Serializadora

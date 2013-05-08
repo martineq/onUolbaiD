@@ -51,8 +51,8 @@ class SocketServidor{
 		// Para enviar/recibir. Integradas con la clase Serializadora
 		bool enviarIndividual(Serializadora s,int idCliente);
 		bool enviarMasivo(Serializadora s);
-		bool recibirIndividual(std::string& cadenaRecibida,int idCliente);
-		bool recibirMasivo(std::string& cadenaRecibida);
+		bool recibirIndividual(Serializadora& s,int idCliente);
+		bool recibirMasivo(Serializadora& s);
 
 		bool enviarArchivosIndividual(std::list<std::string> rutaDeArchivosParaEnviar,long idCliente);
 		bool recibirArchivosIndividual(std::list<std::string> rutaDeArchivosParaRecibir,long idCliente);
