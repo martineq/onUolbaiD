@@ -49,8 +49,8 @@ class SocketServidor{
 		bool setClienteMasivo(long idCliente);
 
 		// Para enviar/recibir. Integradas con la clase Serializadora
-		bool enviarIndividual(Serializadora s,int idCliente);
-		bool enviarMasivo(Serializadora s);
+		bool enviarIndividual(Serializadora& s,int idCliente);
+		bool enviarMasivo(Serializadora& s);
 		bool recibirIndividual(Serializadora& s,int idCliente);
 		bool recibirMasivo(Serializadora& s);
 
