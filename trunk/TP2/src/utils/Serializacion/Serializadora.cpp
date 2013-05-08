@@ -4,9 +4,9 @@ Serializadora::Serializadora() {
 	stream = new stringstream();
 }
 
-Serializadora::Serializadora(string *stringSerializado)
+Serializadora::Serializadora(string stringSerializado)
 {
-	stream = new stringstream(*stringSerializado);
+	stream = new stringstream(stringSerializado);
 }
 
 void Serializadora::addInt(int valor)
@@ -113,35 +113,50 @@ unsigned int Serializadora::getUnsignedInt()
 }
 
 unsigned int Serializadora::size(){
+/*
+	// >>> Versión "elegante" <<<
 
 	// Me guardo la posición donde estaba antes de preguntar
-	std::ifstream::pos_type posicionInicial = stream->tellp();
+	std::stringstream::pos_type posicionInicial = stream->tellp();
 
 	// Calculo la longitud, o sea la cantidad de bytes desde el principio hasta el final
 	stream->seekg(0, std::ios::beg);
 	stream->seekg(0, std::ios::end);
-	std::ifstream::pos_type tamanio = stream->tellp();
+	std::stringstream::pos_type tamanio = stream->tellp();
 	
 	// Lo vuelvo a la posición que estaba antes
 	stream->seekg(posicionInicial);
-
+	
 	unsigned int salida;
-	if( tamanio < 0){
+	if( tamanio == std::stringstream::pos_type(-1) ){
         salida = 0;
 	}else{
-		salida = tamanio;
-	}
+		if( tamanio == std::stringstream::pos_type(0)){ 
+			salida = 0;
+		}
 
+		if( tamanio > std::stringstream::pos_type(0)){
+			salida = (unsigned int)tamanio;
+		}
+	}
     return salida;
+*/
+	// Versión corta
+	std::string str = this->stream->str();
+	unsigned int tamanio = str.size();
+	return tamanio;
+}
+
+void Serializadora::nuevaSerializacion(){
+	this->stream->str(std::string());		// Le inicialo con un string vacio
+	this->stream->clear();					// Seteo la bandera de eof
 
 }
 
-void Serializadora::clear(){
-	this->stream->str(std::string());
+void Serializadora::nuevaSerializacion(string stringSerializado){
+	this->stream->str(stringSerializado);	// Piso lo que habia antes con el nuevo serializado
 }
 
 Serializadora::~Serializadora() {
 	delete this->stream;
 }
-
-

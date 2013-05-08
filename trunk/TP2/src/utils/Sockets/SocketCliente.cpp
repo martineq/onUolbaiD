@@ -31,13 +31,15 @@ void SocketCliente::setEnvioIndirecto(void){
 	this->envioDirecto = false;
 }
 
-bool SocketCliente::enviar(Serializadora s){
+// En caso de envio positivo devuelve true y borra lo que enviado en <s>
+bool SocketCliente::enviar(Serializadora& s){
 	std::string* pStr = s.getSerializacion();
 	if( this->enviarChar(pStr->c_str(),pStr->size()) == false ){
 		delete pStr;
 		return false;
 	}else{
 		delete pStr;
+		s.nuevaSerializacion();	// Como lo envió bien, descarto estos datos
 		return true;
 	}
 }
@@ -61,11 +63,10 @@ bool SocketCliente::recibir(Serializadora& s){
 
 	if( tamanioRecibido > 0 ){
 		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
-		Serializadora sAux(&cadenaRecibida);
-		s = sAux;
+		s.nuevaSerializacion(cadenaRecibida);
 		delete[] cadenaRaw;
 	}else{
-		s.clear();	// Lo dejo vacio mostrando que no recibió nada
+		s.nuevaSerializacion();// Lo dejo vacio mostrando que no recibió nada
 	}
 
 	return true;

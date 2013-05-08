@@ -275,16 +275,17 @@ bool SocketServidor::setClienteMasivo(long idCliente){
 // El cliente indicado tiene que estar en modo Individual para que pueda enviar los datos, en caso contrario se obvia el cliente
 // Devuelve true en caso de éxito al enviar
 // Devuelve false en caso de error de conexión, eliminando al cliente.
-bool SocketServidor::enviarIndividual(Serializadora s,int idCliente){
+// En caso de envio positivo devuelve true y borra lo que enviado en <s>
+bool SocketServidor::enviarIndividual(Serializadora& s,int idCliente){
 	std::string* pStr = s.getSerializacion();
 	if( this->enviarIndividualChar(pStr->c_str(),pStr->size(),idCliente) == false ){
 		delete pStr;
 		return false;
 	}else{
 		delete pStr;
+		s.nuevaSerializacion();	// Como lo envió bien, descarto estos datos
 		return true;
 	}
-	return true;
 }
 
 // Envía los datos del <pBuffer> de un tamaño en bytes <tamanio> al cliente indicado con <idCliente>
@@ -317,13 +318,15 @@ bool SocketServidor::enviarIndividualChar(const char *pBuffer,unsigned int taman
 // Envía los datos de la Serializadora <s> a todos los clientes existentes que se encuentren en modo Masivo
 // Los clientes "individuales" se obvian
 // Devuelve true en caso de éxito al enviar a todos los clientes que deben recibir el mensaje y false en cualquier otro caso
-bool SocketServidor::enviarMasivo(Serializadora s){
+// En caso de envio positivo devuelve true y borra lo enviado en <s>
+bool SocketServidor::enviarMasivo(Serializadora& s){
 	std::string* pStr = s.getSerializacion();
 	if( this->enviarMasivoChar(pStr->c_str(),pStr->size()) == false ){
 		delete pStr;
 		return false;
 	}else{
 		delete pStr;
+		s.nuevaSerializacion();	// Como lo envió bien, descarto estos datos
 		return true;
 	}
 	return true;
@@ -373,16 +376,15 @@ bool SocketServidor::recibirIndividual(Serializadora& s,int idCliente){
 
 	if( tamanioRecibido > 0 ){
 		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
-		Serializadora sAux(&cadenaRecibida);
-		s = sAux;
+		s.nuevaSerializacion(cadenaRecibida);
 		delete[] cadenaRaw;
 	}else{
 		if( tamanioRecibido == 0 ){	
 			// Caso: No hay mensaje recibido
-			s.clear();	// Lo dejo vacio mostrando que no recibió nada
+			s.nuevaSerializacion();	// Lo dejo vacio mostrando que no recibió nada
 		}else{
 			// Caso: El cliente no es individual, entonces no recibo nada. // Separo el caso por si quiero implementar algo aparte
-			s.clear();	// Lo dejo vacio mostrando que no recibió nada
+			s.nuevaSerializacion();	// Lo dejo vacio mostrando que no recibió nada
 		}
 	}
 
@@ -436,16 +438,12 @@ bool SocketServidor::recibirMasivo(Serializadora& s){
 
 	// Recibo desde el Servidor datos serializados en una cadena de chars
 	if( this->recibirMasivoChar(&cadenaRaw,tamanioRecibido) == false ) return false;
-	
 	if( tamanioRecibido > 0 ){
 		cadenaRecibida.assign(cadenaRaw,tamanioRecibido);
-		Serializadora sAux(&cadenaRecibida);
-		s = sAux;
+		s.nuevaSerializacion(cadenaRecibida);
 		delete[] cadenaRaw;
 	}else{
-		cadenaRecibida.clear(); // Emulo ponerlo en cero
-		Serializadora sAux(&cadenaRecibida); // La lleno con "nada"
-		s = sAux;
+		s.nuevaSerializacion(); // Emulo ponerlo en cero
 	}
 
 	return true;

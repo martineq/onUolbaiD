@@ -96,7 +96,7 @@ bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCl
 	
 	// Hidrato el vector de strings y recibo cada archivo
 	int cantidadDeArchivos = 0;
-	Serializadora s(&cadenaRecibida);
+	Serializadora s(cadenaRecibida);
 	cantidadDeArchivos = s.getInt();
 	for ( int i=0 ; i < cantidadDeArchivos ; i++ ){
 		std::string rutaDestino(s.getString());

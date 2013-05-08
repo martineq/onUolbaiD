@@ -14,7 +14,7 @@ using std::endl;
 class Serializadora{
 
 	private:
-		stringstream*	stream;
+		stringstream* 	stream;
 
 	public:
 		/*
@@ -25,7 +25,7 @@ class Serializadora{
 		/*
 		 * Instancia para deserializar.
 		 */
-		Serializadora(string* stringSerializado);
+		Serializadora(string stringSerializado);
 
 		/*
 		 * Agrega un int al stream.
@@ -102,11 +102,18 @@ class Serializadora{
 		 * Devuelve el tamaño total de lo serializado.
 		 */
 		unsigned int size();
+		
+		/*
+		 * Idem al constructor Serializadora(). Sirve para reusar la instancia si quiero hacer una nueva serialización
+		 * Elimina todo contenido anterior.
+		 */
+		void nuevaSerializacion();
 
 		/*
-		 * Borra todo el contenido serializado hasta el momento
+		 * Idem al constructor Serializadora(string* stringSerializado). Sirve para reusar la instancia si quiero hacer una nueva hidratacion
+		 * Elimina todo contenido anterior.
 		 */
-		void clear();
+		void nuevaSerializacion(string stringSerializado);
 
 		virtual ~Serializadora();
 		

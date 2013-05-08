@@ -25,7 +25,7 @@ class SocketCliente {
 		void setEnvioIndirecto(void);
 
 		// Para enviar/recibir
-		bool enviar(Serializadora s);
+		bool enviar(Serializadora& s);
 		bool recibir(Serializadora& s);
 		bool enviarArchivo(const char *rutaOrigen);
 		bool recibirArchivo(const char *rutaDestino);

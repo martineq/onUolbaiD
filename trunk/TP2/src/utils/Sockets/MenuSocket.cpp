@@ -105,32 +105,36 @@ void MenuSocket::cicloConfigCliente(bool clientesEsIndividual){
 
 void MenuSocket::cicloJuegoServidor(){
 
-	std::cout << "Se recibirán mensajes hasta recibir \"EOF\" o hasta que se cierre el cliente. " << std::endl;
-	bool seguir = true;
+	Serializadora s;
 	std::string str;
+	bool seguir = true;
 	int tamanio;
-	
+	std::cout << "Se recibirán mensajes hasta recibir \"EOF\" o hasta que se cierre el cliente. " << std::endl;
+
 	while ( seguir == true ){
 
-		Serializadora s;
-		seguir = this->serv->recibirMasivo(s);	// El recibirMasivo hace un new
-		str.assign(s.getString());
+		seguir = this->serv->recibirMasivo(s);
+
+		if( s.size() < 1){
+			str.clear();
+		}else{
+			str.assign(s.getString());
+		}
 
 		if ( seguir == true ){
 			
 			if ( str.size() > 0){
 
-				if ( str.compare("EOF") == 0 ){	seguir = false;	}
-				
 				std::cout << "Mensaje recibido ( "<< str.size() <<" bytes): " << str << std::endl;
-				
+				if ( str.compare("EOF") == 0 ){	seguir = false;	}
+
 				if ( seguir == true){
-					str.append("Alguien dijo: ");
-					Serializadora s;
+					str.insert(0,"Alguien dijo: ");
+					s.nuevaSerializacion();
 					s.addString(str);
 					seguir = this->serv->enviarMasivo(s);
 				}
-				
+
 			}
 
 		}else{
@@ -148,36 +152,49 @@ void MenuSocket::cicloJuegoServidor(){
 }
 
 void MenuSocket::cicloJuegoCliente(){
+	Serializadora s;
 	bool seguir = true;
-	std::string entradaTexto;
-	std::string cadenaRecibida;
+	std::string str;
 
 	while ( seguir == true ){
 		std::cout << "Mensaje a enviar > ";
-		getline (std::cin,entradaTexto);
+		getline(std::cin,str);
 
-		if (entradaTexto.compare("EOF")==0) seguir = false;
-
-		Serializadora so;
-		so.addString(entradaTexto);
-		seguir = this->cli->enviar(so);
+		if (str.compare("EOF")==0) seguir = false;
+		s.addString(str);
+		s.nuevaSerializacion();
+		s.addString(str);
+		seguir = this->cli->enviar(s);
 
 		if ( seguir == true){
 
 			std::cout <<"Mensaje devueltos :\n";
-			Serializadora si;
-			seguir = this->cli->recibir(si);
-			cadenaRecibida.assign(si.getString());
-			std::cout <<"Tamanio: "<< cadenaRecibida.size() <<" Mensaje devueltos: \n";
+			seguir = this->cli->recibir(s);
 
-			while (seguir == true && cadenaRecibida.size() > 0 ){ 	
-				std::cout << "( "<< cadenaRecibida.size() <<" bytes): " << cadenaRecibida << std::endl;
-				Serializadora si2;
-				seguir = this->cli->recibir(si2);
-				cadenaRecibida.assign(si2.getString());
+			// Asigno lo recibido
+			if( s.size() < 1){
+				str.clear();
+			}else{
+				str.assign(s.getString());
+			}
+
+			std::cout <<" Mensaje devueltos: \n";
+
+			while (seguir == true && str.size() > 0 ){ 	
+				std::cout << "( "<< str.size() <<" bytes): " << str << std::endl;
+				seguir = this->cli->recibir(s);
+
+				// Asigno lo recibido
+				if( s.size() < 1){
+					str.clear();
+				}else{
+					str.assign(s.getString());
+				}
+
 			}
 
 		}
+
 		std::cout << "Cliente corriendo" << std::endl;
 	}
 	std::cout << "El cliente se cerrara..."<< std::endl;
