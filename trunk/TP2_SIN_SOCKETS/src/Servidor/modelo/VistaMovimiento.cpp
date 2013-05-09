@@ -103,6 +103,6 @@ void ModeloEntidad::VistaMovimiento::cambiarEstado() {
 	this->_instanteUltimoCambioEstado = GetTickCount();
 }
 
-void ModeloEntidad::VistaMovimiento::detener() {
-	this->_cuadroActual = this->_cantidadCuadros + 1;
+bool ModeloEntidad::VistaMovimiento::terminado() const {
+	return this->_cuadroActual > this->_cantidadCuadros;
 }

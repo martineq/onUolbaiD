@@ -65,13 +65,12 @@ ModeloEntidad::~ModeloEntidad() {
 }
 
 void ModeloEntidad::cambiarEstado() {
-	//si es quieto no hace nada, puede estar caminando pero que la posicion actual sea igual a la de destino
-	if (this->_accion == CAMINANDO)
-		this->_modeloMovimiento->cambiarEstado();
-	else if ((this->_accion == ATACANDO) || (this->_accion == DEFENDIENDO)) {
+	if (((this->_accion == ATACANDO) || (this->_accion == DEFENDIENDO)) && this->_vistaMovimiento->terminado()) {
 		this->notificarObservadores();
 		this->_accion = QUIETO;
+		return;
 	}
+	this->_modeloMovimiento->cambiarEstado();
 	this->_vistaMovimiento->cambiarEstado();
 }
 
@@ -130,8 +129,8 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 	else if (posicionDestino.y >= this->_altoMapa)
 		posicionDestino.y = this->_altoMapa - 1;
 
-	this->_accion = CAMINANDO;
 	this->_modeloMovimiento->actualizar(posicionDestino);
+	this->_accion = CAMINANDO;
 }
 
 bool ModeloEntidad::ocupaPosicion(Posicion posicion) {
@@ -155,12 +154,12 @@ bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 
 void ModeloEntidad::atacar() {
 	this->_modeloMovimiento->detener();
-	this->_vistaMovimiento->detener();
+	//this->_vistaMovimiento->detener();
 	this->_accion = ATACANDO;
 }
 
 void ModeloEntidad::defender() {
 	this->_modeloMovimiento->detener();
-	this->_vistaMovimiento->detener();
+	//this->_vistaMovimiento->detener();
 	this->_accion = DEFENDIENDO;
 }
