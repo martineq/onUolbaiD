@@ -16,6 +16,8 @@
 #include "../../Cliente/vista/VistaEntidad.h"
 #include "../SDLgfx/SDL_gfxPrimitives.h"
 #include "../Sockets/MenuSocket.h"
+#include "../../Cliente/vista/VistaChat.h"
+#include "../../Cliente/controlador/DetectorEventos.h"
 
 class Pruebas{
 
@@ -36,5 +38,6 @@ class Pruebas{
 		void PruebaHilos(void);
 		void PruebaAnimacion(void);
 		void PruebaSockets(void);
-
+		void PruebaServidorChat();
+		void PruebaClienteChat();
 };

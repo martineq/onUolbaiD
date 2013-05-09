@@ -1,16 +1,14 @@
 #include "Pruebas.h"
 
-Pruebas::Pruebas(void){
+using namespace std;
 
+Pruebas::Pruebas() {
 }
 
-Pruebas::~Pruebas(void){
-
+Pruebas::~Pruebas() {
 }
 
-
-void Pruebas::PruebaSdl(void){
-
+void Pruebas::PruebaSdl() {
 	// Estructura para la superficie gráfica, donde se va a dibujar
 	SDL_Surface *pantalla, *temp, *sprite, *pasto;
 
@@ -139,13 +137,12 @@ void Pruebas::PruebaSdl(void){
 
 }
 
-void Pruebas::PruebaYAML(void){
+void Pruebas::PruebaYAML() {
 	ParserYaml::getInstance().cargarConfiguracionDeJuego();
 	ParserYaml::getInstance().cargarConfiguracionDeJuego();
 }
 
-void Pruebas::PruebaHilos(void){
-
+void Pruebas::PruebaHilos() {
 	HiloDePrueba hiloUno;
 	HiloDePrueba hiloDos;
 
@@ -164,7 +161,7 @@ void Pruebas::PruebaHilos(void){
 	return void();
 }
 
-void Pruebas::PruebaAnimacion(){
+void Pruebas::PruebaAnimacion() {
 	ImageLoader::getInstance().iniciarSDL();
 //	double PANTALLA_ANCHO = 800;
 //	double PANTALLA_ALTO = 600;
@@ -483,8 +480,138 @@ void Pruebas::dibujarTriangulos(SDL_Surface* pantalla, int alto,int ancho,
 
 }
 
-void Pruebas::PruebaSockets(void){
+void Pruebas::PruebaSockets() {
 	MenuSocket ms;
 	ms.prueba();
 	return void();
+}
+
+void Pruebas::PruebaServidorChat() {
+	SocketServidor socketServidor;
+	int puerto = 444;
+	string entrada;
+
+	cout << "Ingrese puerto (defecto 444): ";
+	getline(cin, entrada);
+	if (!entrada.empty()) {
+		stringstream flujo(entrada);
+		flujo >> puerto;
+	}
+
+	if (!socketServidor.inciarServidor(puerto)) {
+		cout << "No se pudo iniciar el servidor para el puerto " << puerto << endl;
+		return;
+	}
+
+	while (true) {
+		int cliente = socketServidor.aceptarCliente();
+		if (cliente == ACEPTAR_ERROR) {
+			cout << "Error al aceptar al cliente" << endl;
+			return;
+		}
+		else if (cliente != ACEPTAR_TIMEOUT)
+			socketServidor.setClienteMasivo(cliente);
+
+		Serializadora serializadora;
+
+		if (!socketServidor.recibirMasivo(serializadora)) {
+			cout << "Error al recibir mensaje" << endl;
+			return;
+		}
+
+		string mensajeRecibido = serializadora.getString();
+		if (!mensajeRecibido.empty()) {
+			serializadora.addString(mensajeRecibido);
+			if (!socketServidor.enviarMasivo(serializadora)) {
+				cout << "Error al enviar mensaje" << endl;
+				return;
+			}
+		}
+	}
+}
+
+void Pruebas::PruebaClienteChat() {
+	DetectorEventos detectorEventos;
+	SocketCliente socketCliente;
+	string servidor = "localhost";
+	int puerto = 444;
+	string entrada;
+
+	cout << "Ingrese servidor (defecto localhost): ";
+	getline(cin, servidor);
+	if (servidor.empty())
+		servidor = "localhost";
+	
+	cout << "Ingrese puerto (defecto 444): ";
+	getline(cin, entrada);
+	if (!entrada.empty()) {
+		stringstream flujo(entrada);
+		flujo >> puerto;
+	}
+
+	if (!socketCliente.iniciarCliente(servidor.c_str(), puerto)) {
+		cout << "No se pudo conectar al servidor " << servidor << ":" << puerto << endl;
+		return;
+	}
+
+	socketCliente.setEnvioIndirecto();
+
+	SDL_Init(SDL_INIT_VIDEO);
+	TTF_Init();
+
+	Posicion posicion;
+
+	posicion.x = 0;
+	posicion.y = 416;
+
+	VistaChat* vistaChat = new VistaChat(posicion, "cliente", &socketCliente);
+	SDL_Surface* pantalla = SDL_SetVideoMode(800, 600, 0, 0);
+	
+	vistaChat->asignarDestinatario("servidor");
+
+	SDL_EnableUNICODE(SDL_ENABLE);
+
+	while (!detectorEventos.getQuit()) {
+		Serializadora serializadora;
+		if (!socketCliente.recibir(serializadora)) {
+			cout << "Error al recibir mensaje" << endl;
+			return;
+		}
+
+		string mensajeRecibido = serializadora.getString();
+		if (!mensajeRecibido.empty())
+			vistaChat->agregarMensaje("servidor", mensajeRecibido);
+		
+		detectorEventos.detectar();
+		char caracter = detectorEventos.getCaracter();
+
+		if (detectorEventos.getEscape())
+			vistaChat->visible(false);
+		else if (detectorEventos.getEnter()) {
+			if (vistaChat->visible())
+				vistaChat->enviarMensaje();
+			else
+				vistaChat->visible(true);
+		}
+		else if (detectorEventos.getRetroceso())
+			vistaChat->borrarCaracter();
+		else if (caracter != 0)
+			vistaChat->agregarCaracter(caracter);
+		
+		if (!detectorEventos.getQuit()) {
+			SDL_FillRect(pantalla, NULL, SDL_MapRGB(pantalla->format, 0, 0, 0));
+			if (!vistaChat->graficar(pantalla)) {
+				cout << "Error al graficar" << endl;
+				return;
+			}
+			SDL_Flip(pantalla);
+		}
+	}
+
+	SDL_EnableUNICODE(SDL_DISABLE);
+
+	delete vistaChat;
+
+	TTF_Quit();
+	SDL_Quit();
 }
