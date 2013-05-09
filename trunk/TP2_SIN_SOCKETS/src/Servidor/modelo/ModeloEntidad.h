@@ -25,6 +25,7 @@ class ModeloEntidad : public Observable, public Identificable {
 				std::list<ModeloEntidad*>* _listaJugadores;
 				std::list<ModeloEntidad*>* _listaEntidades;
 				Posicion _posicionDestino;
+				Posicion _posicionDestinoDesvio;
 				int _deltaX;
 				int _deltaY;
 				int _desplazamientoX;
@@ -34,23 +35,21 @@ class ModeloEntidad : public Observable, public Identificable {
 				int _desplazamientoErrorY;
 				DWORD _instanteUltimoCambioEstado;
 
-				Posicion _posicionDestinoDesvio;
-				
-				Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino);
-
-				Posicion obtenerPosicionSiguiente();
+				bool calcularDesvio(ModeloEntidad* modeloEntidad);
 
 				ModeloEntidad* detectarColision(Posicion posicion);
-
-				int obtenerX(ModeloEntidad* modeloEntidad);
-
-				int obtenerY(ModeloEntidad* modeloEntidad);
 
 				int obtenerAlto(int y, ModeloEntidad* modeloEntidad);
 
 				int obtenerAncho(int x, ModeloEntidad* modeloEntidad);
 
-				bool calcularDesvio(ModeloEntidad* modeloEntidad);
+				Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino);
+
+				Posicion obtenerPosicionSiguiente();
+
+				int obtenerX(ModeloEntidad* modeloEntidad);
+
+				int obtenerY(ModeloEntidad* modeloEntidad);
 
 				bool resolviendoDesvio() const;
 
@@ -65,11 +64,13 @@ class ModeloEntidad : public Observable, public Identificable {
 
 				void actualizar(Posicion posicion);
 
-				void cambiarEstado();
+				void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
 
 				void asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores);
 
-				void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
+				void cambiarEstado();
+
+				void detener();
 		};
 
 		class VistaMovimiento : public Observador {
@@ -98,6 +99,8 @@ class ModeloEntidad : public Observable, public Identificable {
 				void actualizar(Observable* observable);
 
 				void cambiarEstado();
+
+				void detener();
 		};
 
 		int _id;
@@ -115,7 +118,6 @@ class ModeloEntidad : public Observable, public Identificable {
 		bool _esUltimoMovimiento;
 		int _altoMapa;
 		int _anchoMapa;
-		int _tickCounts;
 
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
 
@@ -178,12 +180,4 @@ class ModeloEntidad : public Observable, public Identificable {
 		void atacar();
 
 		void defender();
-
-		void setTickCounts(int ticks);
-
-		int getTickCounts();
-
-		int getAccion();
-
-		void setAccion(int estado);
 };

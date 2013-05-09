@@ -70,7 +70,7 @@ void ModeloEntidad::cambiarEstado() {
 		this->_modeloMovimiento->cambiarEstado();
 	else if ((this->_accion == ATACANDO) || (this->_accion == DEFENDIENDO)) {
 		this->notificarObservadores();
-		this->_accion = CAMINANDO;
+		this->_accion = QUIETO;
 	}
 	this->_vistaMovimiento->cambiarEstado();
 }
@@ -130,8 +130,8 @@ void ModeloEntidad::mover(Posicion posicionDestino) {
 	else if (posicionDestino.y >= this->_altoMapa)
 		posicionDestino.y = this->_altoMapa - 1;
 
-	this->_modeloMovimiento->actualizar(posicionDestino);
 	this->_accion = CAMINANDO;
+	this->_modeloMovimiento->actualizar(posicionDestino);
 }
 
 bool ModeloEntidad::ocupaPosicion(Posicion posicion) {
@@ -154,31 +154,13 @@ bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 }
 
 void ModeloEntidad::atacar() {
-	std::cout << "Tecla A" << std::endl;
+	this->_modeloMovimiento->detener();
+	this->_vistaMovimiento->detener();
 	this->_accion = ATACANDO;
-//	this->_tickCounts = GetTickCount();
-	this->_modeloMovimiento->actualizar(this->_posicionActual);
 }
 
 void ModeloEntidad::defender() {
-	std::cout << "Tecla S" << std::endl;
+	this->_modeloMovimiento->detener();
+	this->_vistaMovimiento->detener();
 	this->_accion = DEFENDIENDO;
-//	this->_tickCounts = GetTickCount();
-	this->_modeloMovimiento->actualizar(this->_posicionActual);
-}
-
-void ModeloEntidad::setTickCounts(int ticks) {
-	this->_tickCounts = ticks;
-}
-
-int ModeloEntidad::getTickCounts() {
-	return this->_tickCounts;
-}
-
-int ModeloEntidad::getAccion() {
-	return this->_accion;
-}
-
-void ModeloEntidad::setAccion(int estado) {
-	this->_accion = (Accion)estado;
 }

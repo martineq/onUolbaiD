@@ -2,122 +2,6 @@
 
 using namespace std;
 
-Direccion ModeloEntidad::ModeloMovimiento::obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino) {
-	if (posicionOrigen.x > posicionDestino.x) {
-		if (posicionOrigen.y > posicionDestino.y)
-			return NOROESTE;
-		else if (posicionOrigen.y < posicionDestino.y)
-			return SUDOESTE;
-		else
-			return OESTE;
-	}
-	else if (posicionOrigen.x < posicionDestino.x)
-		if (posicionOrigen.y > posicionDestino.y)
-			return NORESTE;
-		else if (posicionOrigen.y < posicionDestino.y)
-			return SUDESTE;
-		else
-			return ESTE;
-	else {
-		if (posicionOrigen.y > posicionDestino.y)
-			return NORTE;
-		else if (posicionOrigen.y < posicionDestino.y)
-			return SUR;
-		else
-			return SUR;
-	}
-}
-
-Posicion ModeloEntidad::ModeloMovimiento::obtenerPosicionSiguiente() {
-	Posicion posicionSiguiente = this->_modeloEntidad->posicionActual();
-
-	posicionSiguiente.x += (this->_deltaX >= this->_deltaY) ? this->_desplazamientoX : 0;
-	posicionSiguiente.y += (this->_deltaX >= this->_deltaY) ? 0 : this->_desplazamientoY;
-	this->_error += (this->_deltaX >= this->_deltaY) ? this->_desplazamientoErrorY : this->_desplazamientoErrorX; 
-	
-	if (this->_deltaX >= this->_deltaY) {
-		if (this->_error > this->_desplazamientoErrorX) {
-			posicionSiguiente.y += this->_desplazamientoY; 
-			this->_error -= this->_desplazamientoErrorX; 
-		}
-	}
-	else {
-		if (this->_error > this->_desplazamientoErrorY) {
-			posicionSiguiente.x += this->_desplazamientoX;
-			this->_error -= this->_desplazamientoErrorY;
-		}
-	}
-
-	return posicionSiguiente;
-}
-
-ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posicion) {
-	// Detecto colision con jugadores
-	if (this->_listaJugadores != NULL) {
-		list<ModeloEntidad*>::iterator iterador = this->_listaJugadores->begin();
-
-		while (iterador != this->_listaJugadores->end()) {
-			if (((*iterador) != this->_modeloEntidad) && (*iterador)->ocupaPosicion(posicion))
-				return *iterador;
-			iterador++;
-		}
-	}
-
-	// Detecto colision con entidades
-	if (this->_listaEntidades != NULL) {
-		list<ModeloEntidad*>::iterator iterador = this->_listaEntidades->begin();
-
-		while (iterador != this->_listaEntidades->end()) {
-			if (((*iterador) != this->_modeloEntidad) && (*iterador)->ocupaPosicion(posicion))
-				return *iterador;
-			iterador++;
-		}
-	}
-	return NULL;
-}
-
-int ModeloEntidad::ModeloMovimiento::obtenerX(ModeloEntidad* modeloEntidad) {
-	int x = 0;
-	while (modeloEntidad != NULL) {
-		Posicion posicion = modeloEntidad->posicionActual();
-		x = posicion.x--;
-		modeloEntidad = this->detectarColision(posicion);
-	}
-	return x;
-}
-
-int ModeloEntidad::ModeloMovimiento::obtenerY(ModeloEntidad* modeloEntidad) {
-	int y = 0;
-	while (modeloEntidad != NULL) {
-		Posicion posicion = modeloEntidad->posicionActual();
-		y = posicion.y--;
-		modeloEntidad = this->detectarColision(posicion);
-	}
-	return y;
-}
-
-int ModeloEntidad::ModeloMovimiento::obtenerAlto(int y, ModeloEntidad* modeloEntidad) {
-	int alto = modeloEntidad->posicionActual().y - y;
-	while (modeloEntidad != NULL) {
-		alto += modeloEntidad->alto();
-		Posicion posicion = modeloEntidad->posicionActual();
-		posicion.y += modeloEntidad->alto();
-		modeloEntidad = this->detectarColision(posicion);
-	}
-	return alto;
-}
-
-int ModeloEntidad::ModeloMovimiento::obtenerAncho(int x, ModeloEntidad* modeloEntidad) {
-	int ancho = modeloEntidad->posicionActual().x - x;
-	while (modeloEntidad != NULL) {
-		ancho += modeloEntidad->alto();
-		Posicion posicion = modeloEntidad->posicionActual();
-		posicion.x += modeloEntidad->ancho();
-		modeloEntidad = this->detectarColision(posicion);
-	}
-	return ancho;
-}
-
 bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntidad) {
 	// Si ya estoy en el medio de un desvio no lo puedo resolver
 	if (this->resolviendoDesvio())
@@ -275,6 +159,122 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 	return true;
 }
 
+ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posicion) {
+	// Detecto colision con jugadores
+	if (this->_listaJugadores != NULL) {
+		list<ModeloEntidad*>::iterator iterador = this->_listaJugadores->begin();
+
+		while (iterador != this->_listaJugadores->end()) {
+			if (((*iterador) != this->_modeloEntidad) && (*iterador)->ocupaPosicion(posicion))
+				return *iterador;
+			iterador++;
+		}
+	}
+
+	// Detecto colision con entidades
+	if (this->_listaEntidades != NULL) {
+		list<ModeloEntidad*>::iterator iterador = this->_listaEntidades->begin();
+
+		while (iterador != this->_listaEntidades->end()) {
+			if (((*iterador) != this->_modeloEntidad) && (*iterador)->ocupaPosicion(posicion))
+				return *iterador;
+			iterador++;
+		}
+	}
+	return NULL;
+}
+
+int ModeloEntidad::ModeloMovimiento::obtenerAlto(int y, ModeloEntidad* modeloEntidad) {
+	int alto = modeloEntidad->posicionActual().y - y;
+	while (modeloEntidad != NULL) {
+		alto += modeloEntidad->alto();
+		Posicion posicion = modeloEntidad->posicionActual();
+		posicion.y += modeloEntidad->alto();
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return alto;
+}
+
+int ModeloEntidad::ModeloMovimiento::obtenerAncho(int x, ModeloEntidad* modeloEntidad) {
+	int ancho = modeloEntidad->posicionActual().x - x;
+	while (modeloEntidad != NULL) {
+		ancho += modeloEntidad->alto();
+		Posicion posicion = modeloEntidad->posicionActual();
+		posicion.x += modeloEntidad->ancho();
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return ancho;
+}
+
+Direccion ModeloEntidad::ModeloMovimiento::obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino) {
+	if (posicionOrigen.x > posicionDestino.x) {
+		if (posicionOrigen.y > posicionDestino.y)
+			return NOROESTE;
+		else if (posicionOrigen.y < posicionDestino.y)
+			return SUDOESTE;
+		else
+			return OESTE;
+	}
+	else if (posicionOrigen.x < posicionDestino.x)
+		if (posicionOrigen.y > posicionDestino.y)
+			return NORESTE;
+		else if (posicionOrigen.y < posicionDestino.y)
+			return SUDESTE;
+		else
+			return ESTE;
+	else {
+		if (posicionOrigen.y > posicionDestino.y)
+			return NORTE;
+		else if (posicionOrigen.y < posicionDestino.y)
+			return SUR;
+		else
+			return SUR;
+	}
+}
+
+Posicion ModeloEntidad::ModeloMovimiento::obtenerPosicionSiguiente() {
+	Posicion posicionSiguiente = this->_modeloEntidad->posicionActual();
+
+	posicionSiguiente.x += (this->_deltaX >= this->_deltaY) ? this->_desplazamientoX : 0;
+	posicionSiguiente.y += (this->_deltaX >= this->_deltaY) ? 0 : this->_desplazamientoY;
+	this->_error += (this->_deltaX >= this->_deltaY) ? this->_desplazamientoErrorY : this->_desplazamientoErrorX; 
+	
+	if (this->_deltaX >= this->_deltaY) {
+		if (this->_error > this->_desplazamientoErrorX) {
+			posicionSiguiente.y += this->_desplazamientoY; 
+			this->_error -= this->_desplazamientoErrorX; 
+		}
+	}
+	else {
+		if (this->_error > this->_desplazamientoErrorY) {
+			posicionSiguiente.x += this->_desplazamientoX;
+			this->_error -= this->_desplazamientoErrorY;
+		}
+	}
+
+	return posicionSiguiente;
+}
+
+int ModeloEntidad::ModeloMovimiento::obtenerX(ModeloEntidad* modeloEntidad) {
+	int x = 0;
+	while (modeloEntidad != NULL) {
+		Posicion posicion = modeloEntidad->posicionActual();
+		x = posicion.x--;
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return x;
+}
+
+int ModeloEntidad::ModeloMovimiento::obtenerY(ModeloEntidad* modeloEntidad) {
+	int y = 0;
+	while (modeloEntidad != NULL) {
+		Posicion posicion = modeloEntidad->posicionActual();
+		y = posicion.y--;
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return y;
+}
+
 bool ModeloEntidad::ModeloMovimiento::resolviendoDesvio() const {
 	return (this->_posicionDestino != this->_posicionDestinoDesvio);
 }
@@ -318,6 +318,14 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 	this->_desplazamientoErrorX = 2 * this->_deltaX;
 	this->_desplazamientoErrorY = 2 * this->_deltaY;
 	this->_modeloEntidad->posicionSiguiente(this->_modeloEntidad->posicionActual());
+}
+
+void ModeloEntidad::ModeloMovimiento::asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades) {
+	this->_listaEntidades = listaEntidades;
+}
+
+void ModeloEntidad::ModeloMovimiento::asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores) {
+	this->_listaJugadores = listaJugadores;
 }
 
 void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
@@ -375,16 +383,14 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	this->_modeloEntidad->posicionActual(this->_modeloEntidad->posicionSiguiente());
 
 	// Si llegue a destino cambio el estado a quieto
-	/*if (this->_modeloEntidad->posicionActual() == this->_posicionDestino)
-		this->_modeloEntidad->accion(QUIETO);*/
+	if (this->_modeloEntidad->posicionActual() == this->_posicionDestino)
+		this->_modeloEntidad->accion(QUIETO);
 
 	this->_instanteUltimoCambioEstado = GetTickCount();
 }
 
-void ModeloEntidad::ModeloMovimiento::asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores) {
-	this->_listaJugadores = listaJugadores;
-}
-
-void ModeloEntidad::ModeloMovimiento::asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades) {
-	this->_listaEntidades = listaEntidades;
+void ModeloEntidad::ModeloMovimiento::detener() {
+	this->_posicionDestino = this->_modeloEntidad->posicionActual();
+	this->_posicionDestinoDesvio = this->_posicionDestino;
+	this->_modeloEntidad->accion(QUIETO);
 }
