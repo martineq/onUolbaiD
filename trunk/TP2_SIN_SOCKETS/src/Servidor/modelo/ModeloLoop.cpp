@@ -17,8 +17,8 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel) {
 		int mousePosX = this->_modeloEvento.getMousePosX();
 		int mousePosY = this->_modeloEvento.getMousePosY();
 
-		if (((modeloNivel.getAccionJugador() == 1) || (modeloNivel.getAccionJugador() == 2)) && (GetTickCount() - modeloNivel.getTicksJugador() > DELAY_ACCIONES_PERSONAJE))
-			modeloNivel.setAccionJugador(0);
+		/*if (((modeloNivel.getAccionJugador() == 1) || (modeloNivel.getAccionJugador() == 2)) && (GetTickCount() - modeloNivel.getTicksJugador() > DELAY_ACCIONES_PERSONAJE))
+			modeloNivel.setAccionJugador(0);*/
 
 		//TODO: Verificar la lista de ids (TP2)
 		if (this->_modeloEvento.getMouseDentroPantalla())

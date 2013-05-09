@@ -375,8 +375,8 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	this->_modeloEntidad->posicionActual(this->_modeloEntidad->posicionSiguiente());
 
 	// Si llegue a destino cambio el estado a quieto
-	if (this->_modeloEntidad->posicionActual() == this->_posicionDestino)
-		this->_modeloEntidad->accion(QUIETO);
+	/*if (this->_modeloEntidad->posicionActual() == this->_posicionDestino)
+		this->_modeloEntidad->accion(QUIETO);*/
 
 	this->_instanteUltimoCambioEstado = GetTickCount();
 }

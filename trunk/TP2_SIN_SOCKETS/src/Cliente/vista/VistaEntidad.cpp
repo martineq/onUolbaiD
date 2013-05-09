@@ -165,14 +165,19 @@ void VistaEntidad::actualizar(class Observable* s){
 	this->tileX = ((ModeloEntidad*)s)->posicionSiguiente().x;
 	this->tileY = ((ModeloEntidad*)s)->posicionSiguiente().y;	
 
-	int codigo = ((ModeloEntidad*)s)->direccion();
+	int accion = ((ModeloEntidad*)s)->getAccion();
+	if (accion == 3) accion = 0;
+	
+
+	int codigo = (accion*8) + ((ModeloEntidad*)s)->direccion();
+	//si es jugador y cambio la direccion
 	if ((this->esJugador) && (codigo != this->codigoAnimacion)){
 		this->codigoAnimacion = codigo;
 		this->animacionActual = this->animaciones->get(this->estados.at(codigo));		
 	}
 	
 	//this->esNecesarioRefrescar = true;
-	this->esNecesarioRefrescar = !((ModeloEntidad*)s)->esUltimoMovimiento();	
+	this->esNecesarioRefrescar = ((!((ModeloEntidad*)s)->esUltimoMovimiento()) || (codigo >= 8));	
 }
 
 bool VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
@@ -283,7 +288,8 @@ bool VistaEntidad::graficar(char visibilidad){
 	bool ok = true;	
 	if (this->entraEnPantalla)  {
 		if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
-			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY, visibilidad) == false ) ok = false;
+			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY, visibilidad) == false ) ok = false;			
+			if (this->animacionActual->animacionFinalizada()) this->esNecesarioRefrescar = false;
 			//this->esNecesarioRefrescar = false;
 		}else{			
 			this->animacionActual->setX(this->xEnPantalla - this->posicionReferenciaX);

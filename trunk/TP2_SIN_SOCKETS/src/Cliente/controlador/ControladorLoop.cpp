@@ -21,7 +21,7 @@ void ControladorLoop::loop(){
 
 	this->detector.detectar();
 
-	if ( this->detector.getDentroDePantalla() == false ) {
+	if ( this->detector.getDentroDePantalla() == false ) {		
 		this->evento.setMouseDentroDePantalla(false);
 		return void();
 	}
