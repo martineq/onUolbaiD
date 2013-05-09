@@ -15,7 +15,6 @@
 #include "../../Cliente/vista/VistaAnimaciones.h"
 #include "../../Cliente/vista/VistaEntidad.h"
 #include "../SDLgfx/SDL_gfxPrimitives.h"
-#include "../../Cliente/vista/VistaChat.h"
 
 class Pruebas{
 
@@ -35,7 +34,5 @@ class Pruebas{
 		void PruebaModeloEntidad(void);
 		void PruebaHilos(void);
 		void PruebaAnimacion(void);
-		void PruebaChat();
-    void PruebaNieblaDeGuerra();
-
+		void PruebaNieblaDeGuerra();
 };
