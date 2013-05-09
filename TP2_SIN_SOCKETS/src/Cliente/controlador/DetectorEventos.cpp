@@ -80,24 +80,23 @@ void DetectorEventos::detectar(){
 					this->clicMouseBotonDerecho = 0;
 					*/
 			break;
-			// presiono escape
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym) {
 					case SDLK_s:								
-						if (GetTickCount() - this->ticks > 2000) {
+						//if (GetTickCount() - this->ticks > 2000) {
 							this->teclaSApretada = true;
-							this->ticks = GetTickCount();
-						}
+							//this->ticks = GetTickCount();
+						//}
 						break;
 					case SDLK_a:								
-						if (GetTickCount() - this->ticks > 2000) {
+						//if (GetTickCount() - this->ticks > 2000) {
 							this->teclaAApretada = true;
-							this->ticks = GetTickCount();
-						}							
+							//this->ticks = GetTickCount();
+						//}							
 						break;
 					default:
 						break;
-				}
+				}							 
 			break;
 			case SDL_KEYUP:
 				switch (event.key.keysym.sym){
@@ -112,7 +111,7 @@ void DetectorEventos::detectar(){
 				}
 				if (event.key.keysym.sym == SDLK_ESCAPE)
 				quit = true;
-			break;
+			break;						   
 			case SDL_QUIT:
 				quit = true;
 			break;

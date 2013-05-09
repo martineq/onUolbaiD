@@ -16,7 +16,8 @@ ControladorEvento::~ControladorEvento(void){
 
 void ControladorEvento::setMouseDentroDePantalla(bool dentroDePantalla){
 	this->mouseDentroDePantalla = dentroDePantalla;
-	if ( this->mouseDentroDePantalla == false) this->cambiarEstado();
+	if ( this->mouseDentroDePantalla == false) 
+		this->cambiarEstado();
 }
 
 void ControladorEvento::setPosicionMouseX(int posicion){
