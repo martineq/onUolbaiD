@@ -25,6 +25,17 @@ bool DetectorEventos::getDentroDePantalla() {
 
 void DetectorEventos::detectar() {
 	SDL_Event event;
+
+	// Limpio todos los eventos
+	this->clicMouseBotonDerecho = 0;
+	this->clicMouseBotonIzquierdo = 0;
+	this->teclaAApretada = false;
+	this->teclaSApretada = false;
+	this->enter = false;
+	this->escape = false;
+	this->retroceso = false;
+	this->caracter = 0;
+
 	if (SDL_PollEvent(&event)) {
 		// Si el mouse esta dentro de la pantalla
 		if (event.type == SDL_APPMOUSEFOCUS) {		
@@ -90,31 +101,6 @@ void DetectorEventos::detectar() {
 						break;
 				}
 				break;
-			// solto una tecla
-			case SDL_KEYUP:
-				// Limpio el caracter
-				this->caracter = 0;
-
-				switch (event.key.keysym.sym) {
-					case SDLK_RETURN:
-						this->enter = false;
-						break;
-					case SDLK_ESCAPE:
-						this->escape = false;
-						break;
-					case SDLK_BACKSPACE:
-						this->retroceso = false;
-						break;
-					case SDLK_s:
-						this->teclaSApretada = false;
-						break;
-					case SDLK_a:
-						this->teclaAApretada = false;
-						break;
-					default:
-						break;
-				}
-				break;
 			case SDL_QUIT:
 				quit = true;
 				break;
@@ -131,59 +117,35 @@ int DetectorEventos::getPosicionMouseY() {
 }
 
 int DetectorEventos::getClicMouseBotonIzquierdo() {
-	bool valorAnterior = this->clicMouseBotonIzquierdo;
-	this->clicMouseBotonIzquierdo = false;
-	return valorAnterior;
-	//return this->clicMouseBotonIzquierdo;
+	return this->clicMouseBotonIzquierdo;
 }
 
 int DetectorEventos::getClicMouseBotonDerecho() {
-	bool valorAnterior = this->clicMouseBotonDerecho;
-	this->clicMouseBotonDerecho = false;
-	return valorAnterior;
-	//return this->clicMouseBotonDerecho;
+	return this->clicMouseBotonDerecho;
 }
 
 bool DetectorEventos::getTeclaAApretada() {
-	bool valorAnterior = this->teclaAApretada;
-	this->teclaAApretada = false;
-	return valorAnterior;
-	//return this->teclaAApretada;
+	return this->teclaAApretada;
 }
 
 bool DetectorEventos::getTeclaSApretada() {
-	bool valorAnterior = this->teclaSApretada;
-	this->teclaSApretada = false;
-	return valorAnterior;
-	//return this->teclaSApretada;
+	return this->teclaSApretada;
 }
 
 bool DetectorEventos::getEnter() {
-	bool valorAnterior = this->enter;
-	this->enter = false;
-	return valorAnterior;
-	//return this->enter;
+	return this->enter;
 }
 
 bool DetectorEventos::getEscape() {
-	bool valorAnterior = this->escape;
-	this->escape = false;
-	return valorAnterior;
-	//return this->escape;
+	return this->escape;
 }
 
 bool DetectorEventos::getRetroceso() {
-	bool valorAnterior = this->retroceso;
-	this->retroceso = false;
-	return valorAnterior;
-	//return this->retroceso;
+	return this->retroceso;
 }
 
 char DetectorEventos::getCaracter() {
-	char valorAnterior = this->caracter;
-	this->caracter = 0;
-	return valorAnterior;
-	//return this->caracter;
+	return this->caracter;
 }
 
 DetectorEventos::~DetectorEventos() {

@@ -583,8 +583,7 @@ void Pruebas::PruebaClienteChat() {
 			vistaChat->agregarMensaje("servidor", mensajeRecibido);
 		
 		detectorEventos.detectar();
-		char caracter = detectorEventos.getCaracter();
-
+		
 		if (detectorEventos.getEscape())
 			vistaChat->visible(false);
 		else if (detectorEventos.getEnter()) {
@@ -595,8 +594,8 @@ void Pruebas::PruebaClienteChat() {
 		}
 		else if (detectorEventos.getRetroceso())
 			vistaChat->borrarCaracter();
-		else if (caracter != 0)
-			vistaChat->agregarCaracter(caracter);
+		else if (detectorEventos.getCaracter() != 0)
+			vistaChat->agregarCaracter(detectorEventos.getCaracter());
 		
 		if (!detectorEventos.getQuit()) {
 			SDL_FillRect(pantalla, NULL, SDL_MapRGB(pantalla->format, 0, 0, 0));
