@@ -102,3 +102,7 @@ void ModeloEntidad::VistaMovimiento::cambiarEstado() {
 	this->_cuadroActual++;
 	this->_instanteUltimoCambioEstado = GetTickCount();
 }
+
+void ModeloEntidad::VistaMovimiento::detener() {
+	this->_cuadroActual = this->_cantidadCuadros + 1;
+}

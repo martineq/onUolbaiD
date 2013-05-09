@@ -151,79 +151,36 @@ bool ModeloNivel::actualizar(int id) {
 
 void ModeloNivel::destruirListaJugadores(){
 	// Destruyo los jugadores instanciados
-	for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++){
+	for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++)
 		delete (*jugador);
-	}
-	return void();
 }
 
 void ModeloNivel::destruirListaEntidades(){
 	// Destruyo las entidades instanciadas
-	for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
+	for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++)
 		delete (*entidad);
-	}
-	return void();
 }
 
 void ModeloNivel::destruirListaScroll(){
 	// Destruyo los scrolls instanciados
-	for (std::list<ModeloScroll*>::iterator scroll = this->listaScroll.begin(); scroll != this->listaScroll.end(); scroll++){
+	for (std::list<ModeloScroll*>::iterator scroll = this->listaScroll.begin(); scroll != this->listaScroll.end(); scroll++)
 		delete (*scroll);
-	}
-	return void();
 }
 
 void ModeloNivel::destruirListas(){	
 	this->destruirListaJugadores();
 	this->destruirListaEntidades();
 	this->destruirListaScroll();
-	return void();
 }
 
 void ModeloNivel::jugadorAtacar() {
 	ModeloEntidad* jugador = this->obtenerJugador(1);
-	if (jugador == NULL)
-		return;
-
-	jugador->atacar();
+	if (jugador != NULL)
+		jugador->atacar();
 }
 
 void ModeloNivel::jugadorDefender() {
 	ModeloEntidad* jugador = this->obtenerJugador(1);
-	if (jugador == NULL)
-		return;
-
-	jugador->defender();
-}
-
-void ModeloNivel::setTicksJugador(int ticks) {
-	ModeloEntidad* jugador = this->obtenerJugador(1);
-	if (jugador == NULL)
-		return;
-
-	jugador->setTickCounts(ticks);
-}
-		
-int ModeloNivel::getTicksJugador(){
-	ModeloEntidad* jugador = this->obtenerJugador(1);
-	if (jugador == NULL)
-		return -1;
-
-	return jugador->getTickCounts();
-}
-
-int ModeloNivel::getAccionJugador() {
-	ModeloEntidad* jugador = this->obtenerJugador(1);
-	if (jugador == NULL)
-		return -1;
-
-	return jugador->getAccion();
-}
-
-void ModeloNivel::setAccionJugador(int accion) {
-	ModeloEntidad* jugador = this->obtenerJugador(1);
-	if (jugador == NULL)
-		return;
-
-	jugador->setAccion(accion);
+	if (jugador != NULL)
+		jugador->defender();
 }

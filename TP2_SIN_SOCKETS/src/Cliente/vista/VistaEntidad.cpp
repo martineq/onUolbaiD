@@ -165,9 +165,9 @@ void VistaEntidad::actualizar(class Observable* s){
 	this->tileX = ((ModeloEntidad*)s)->posicionSiguiente().x;
 	this->tileY = ((ModeloEntidad*)s)->posicionSiguiente().y;	
 
-	int accion = ((ModeloEntidad*)s)->getAccion();
-	if (accion == 3) accion = 0;
-	
+	int accion = ((ModeloEntidad*)s)->accion();
+	if (accion == 3)
+		accion = 0;
 
 	int codigo = (accion*8) + ((ModeloEntidad*)s)->direccion();
 	//si es jugador y cambio la direccion
