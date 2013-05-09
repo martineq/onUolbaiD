@@ -47,7 +47,7 @@ int ModeloEntidad::id() const {
     return this->_id;
 }
 
-std::string ModeloEntidad::nombreEntidad() const {
+std::string ModeloEntidad::getNombreEntidad() const {
     return this->_nombreEntidad;
 }
 
@@ -110,17 +110,18 @@ bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 }
 
 void ModeloEntidad::notificarAlProxy(void){
-	ProxyModeloEntidad::stEntidad entidad;
-	entidad.id = this->id();
-	entidad.pixelSiguienteX = this->pixelSiguiente().x;
-	entidad.pixelSiguienteY = this->pixelSiguiente().y;
-	entidad.direccion = this->direccion();
-	entidad.esUltimoMovimiento = this->esUltimoMovimiento();
-	// TODO: agregar en el ProxyModeloEntidad::stEntidad y acá los nuevos atributos para el TP2
-	//  Ver si hace falta un: entidad.eliminarEntidad = this->eliminarEntidad(); o algo parecido para cuando el jugador se "congela"
+	ProxyModeloEntidad::stEntidad entidad = this->getStEntidad();
 	this->_pProxyEntidad->enviarEntidad(entidad);
-
 	return void();
+}
+
+ProxyModeloEntidad::stEntidad ModeloEntidad::getStEntidad(){
+	ProxyModeloEntidad::stEntidad entidad;
+	ProxyModeloEntidad::cargarStEntidad(entidad,this->id(),false,this->getEstaCongelado(),this->getNombreEntidad(),this->pixelSiguiente().x,this->pixelSiguiente().y,this->direccion(),this->esUltimoMovimiento());
+	
+	// TODO: agregar en el ProxyModeloEntidad::stEntidad y acá los nuevos atributos para el TP2
+	
+	return entidad;
 }
 
 void ModeloEntidad::setNombreJugador(std::string nombre){
@@ -133,6 +134,7 @@ std::string ModeloEntidad::getNombreJugador() const {
 
 void ModeloEntidad::setEstaCongelado(bool estado){
 	this->_estaCongelado = estado;
+	this->notificarAlProxy(); // Con esto notifico a todos los clientes que se cambió esta condición
 }
 
 bool ModeloEntidad::getEstaCongelado() const {

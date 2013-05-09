@@ -30,8 +30,9 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 	this->juegoElegido.configuracion = juegoYaml.configuracion;
 
 	// Recibo datos desde el Servidor
+	std::string nombreUsuario, nombrePersonaje;  // <<< Esto tiene que ser recibido por parámetro desde crearNivel(). Estos datos vienen por parámetro desde el main
 	if( this->recibirEscenario(juegoYaml.escenarios,pSocket) == false ) return false;
-	if( this->recibirProtagonista(pSocket) == false ) return false;
+	if( this->recibirProtagonista(pSocket,nombreUsuario,nombrePersonaje) == false ) return false;
 	if( this->recibirOtrosJugadores(vistaNivel,pSocket) == false ) return false;
 
 	// Creo los elementos de la Vista
@@ -138,37 +139,38 @@ void VistaFactory::asignarEscenarioElegido(std::string nombreEscenario,std::list
 }
 
 // Recibe los datos del protagonista elegido y los setea, pero no lo crea (se hace luego, en crearNivel() )
-bool VistaFactory::recibirProtagonista(SocketCliente* pSocket){
+bool VistaFactory::recibirProtagonista(SocketCliente* pSocket,std::string nombreUsuario,std::string nombrePersonaje){
 	// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del ModeloFactory::crearJugador() ***
 	// Implementar toda la comunicación con el Servidor para decirle el protagonista elegido, el nombre de usuario y
 	// luego de obtener una respuesta positiva del servidor devolver el protagonista elegido. (Por ahora devuelvo el primero)
 	// >>> No instancio al jugador acá, sólo cargo los datos para luego instanciarlo
 	// Supuestamente uso: juegoElegido.escenario.protagonistas,juegoElegido.idJugador,juegoElegido.protagonista ver si hace falta esto
 	// >> Preguntar por (entidad.errorEnSocket == false) al usar el proxy
-
-	// El cliente elije su nombre
-	std::string nombreUsuario;
-	std::cout << "Elija el nombre de usuario: " << std::endl;
-	getline (std::cin,nombreUsuario);
-
-	// El cliente elije el personaje
-	std::string nombrePersonaje;
-	this->menuSeleccionPersonaje(nombreUsuario,nombrePersonaje);
 	
+	// Serializo los nombres de usuario y protagonista, luego lo envio al servidor
+	Serializadora s;
+	s.addString(nombreUsuario);
+	s.addString(nombrePersonaje);
+	if( pSocket->enviar(s) == false ) return false;
 
-
+	// 
 
 
 	// Al final queda seteado que protagonista se eligió, con:
 	//this->juegoElegido.protagonista = ....;
-	
+
 	return true; // return false si hay error de sockets
 }
 
-void VistaFactory::menuSeleccionPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje){
+// Puedo usar esto si lo necesito. Creo no va a hacer falta
+void VistaFactory::menuSeleccionUsuarioPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje){
 
+	// El cliente elije su nombre
+	std::cout << "Elija el nombre de usuario: " << std::endl;
+	getline (std::cin,nombreUsuario);
+
+	// El cliente elije su personaje
 	std::list<ParserYaml::stProtagonista> listaProtagonistas = this->juegoElegido.escenario.protagonistas;
-
 	std::cout << "Seleccion de personaje: " << std::endl;
 	bool yaEligio = false;
 
@@ -266,7 +268,7 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 
 void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntidad::stEntidad& entidad,SocketCliente* pSocket){
 
-	std::string nombreJugador = entidad.nombreNuevaEntidad;
+	std::string nombreJugador = entidad.nombreEntidad;
 	ParserYaml::stEntidad entidadJugador = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreJugador);
 
 	// Valores tomados desde el proxy

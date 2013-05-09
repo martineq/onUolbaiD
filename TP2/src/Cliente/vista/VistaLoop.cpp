@@ -133,7 +133,7 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 
 	// Actuo si encontré la entidad que buscaba
 	if( entidadEncontrada != NULL ){
-		if( entidad.eliminarEntidad == true ){  // Si me pide eliminar
+		if( entidad.entidadCongelada == true ){  // Si me pide eliminar
 			if( entidadEncontrada == jugador ){
 				return false;		// Doy por terminado el juego porque me pide eliminar a mi jugador
 			}else{

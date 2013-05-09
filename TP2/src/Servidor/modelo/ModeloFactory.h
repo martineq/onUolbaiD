@@ -33,13 +33,15 @@ class ModeloFactory{
 
 		// Métodos usados por el HiloConfiguracion
 		bool enviarEscenario(SocketServidor* pSocket, int id);
-		bool elegirProtagonista(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
+		bool enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
 		bool enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador);
-		void crearJugador(ModeloNivel* modeloNivel,SocketServidor* pSocket,std::string nombreJugador, int id);
+		void crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::stEntidad& stEntidad,SocketServidor* pSocket,std::string nombreJugador, int id);
 		bool enviarArchivosDeConfiguracion(SocketServidor* pServidor,int idSocketCliente);
 		bool enviarListaDeArchivos(std::vector<std::string> lista,SocketServidor* pServidor,int idSocketCliente);
 		ModeloFactory::stModeloJuegoElegido getCopiaJuegoElegido(void);
-
+		ProxyModeloEntidad::stEntidad elegirProtagonista(ModeloNivel* modeloNivel,std::string& nombreUsuario,std::string& nombrePersonaje,SocketServidor* pSocket,int id);
+		std::string obtenerPersonajeLibre(std::list<std::string> listaEntidadesUsadas,std::string personajePedido);
+		
 	public:
 		ModeloFactory(void);
 		~ModeloFactory(void);

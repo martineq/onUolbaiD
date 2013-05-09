@@ -9,9 +9,9 @@ class ProxyModeloEntidad{
 		struct stEntidad{
 			// Info para el proxy
 			int id;				// Si el ID no se encuentra en el cliente quiere decir que es una nueva entidad, la debe agregar.
+			std::string nombreEntidad;
 			bool errorEnSocket; // No hace falta serializar este valor. Esta atributo lo setea el proxy cuando recibe datos (al hidratar). Si el socket me da errror seteo acá en true, sino lo dejo en false
-			bool eliminarEntidad;
-			std::string nombreNuevaEntidad;
+			bool entidadCongelada;
 
 			// Datos para actualizar en la entidad
 			double pixelSiguienteX;
@@ -41,6 +41,6 @@ class ProxyModeloEntidad{
 		bool recibirEntidad(ProxyModeloEntidad::stEntidad& entidad);				// Lo usa el lado Cliente
 
 		// Auxiliares
-		void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool eliminarEntidad,std::string nombreNuevaEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento);
+		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento);
 };
 
