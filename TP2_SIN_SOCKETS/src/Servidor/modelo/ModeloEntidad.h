@@ -100,7 +100,7 @@ class ModeloEntidad : public Observable, public Identificable {
 
 				void cambiarEstado();
 
-				void detener();
+				bool terminado() const;
 		};
 
 		int _id;
