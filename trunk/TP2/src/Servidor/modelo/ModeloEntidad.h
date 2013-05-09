@@ -103,9 +103,11 @@ class ModeloEntidad: public Identificable {
 
 		void notificarAlProxy(void);
 
+		ProxyModeloEntidad::stEntidad getStEntidad();
+
 		int id() const;
 
-		std::string nombreEntidad() const;
+		std::string getNombreEntidad() const;
 
 		bool esJugador() const;
 

@@ -12,7 +12,7 @@ class Servidor{
 
 		bool iniciar();
 		void loop();
-		
+
 	public:
 		Servidor();
 		virtual ~Servidor();

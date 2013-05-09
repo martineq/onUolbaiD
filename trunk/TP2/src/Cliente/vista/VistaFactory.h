@@ -31,10 +31,10 @@ class VistaFactory{
 		bool recibirArchivos(SocketCliente* pSocket);
 		bool recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket);
 		bool recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket);
-		bool recibirProtagonista(SocketCliente* pSocket);
+		bool recibirProtagonista(SocketCliente* pSocket,std::string nombreUsuario,std::string nombrePersonaje);
 		bool recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* pSocket);
 		void asignarEscenarioElegido(std::string nombreEscenario,std::list<ParserYaml::stEscenario>& listaEscenarios);
-		void menuSeleccionPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje);
+		void menuSeleccionUsuarioPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje);
 		
 		// Creación de la Vista
 		bool crearElementosVista(VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);

@@ -52,11 +52,11 @@ bool ProxyModeloEntidad::recibirEntidad(ProxyModeloEntidad::stEntidad& entidad){
 }
 
 // para los que usan el proxy y quieren cargar el struct
-void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool eliminarEntidad,std::string nombreNuevaEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento){
+void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento){
 	entidad.id = id;
 	entidad.errorEnSocket = errorEnSocket;
-	entidad.eliminarEntidad = eliminarEntidad;
-	entidad.nombreNuevaEntidad = nombreNuevaEntidad;
+	entidad.entidadCongelada = entidadCongelada;
+	entidad.nombreEntidad = nombreEntidad;
 	entidad.pixelSiguienteX = pixelSiguienteX;
 	entidad.pixelSiguienteY = pixelSiguienteY;
 	entidad.direccion = direccion;
