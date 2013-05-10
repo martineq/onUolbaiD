@@ -122,7 +122,7 @@ void HiloConexion::loopEntradaMasivo(stParametrosRun* parametrosEntrada){
 
 			// Acá entro si se produjo error.
 			// Si el hilo es de un cliente masivo, instanciado desde el servidor, reporto el ID del cliente que tuvo el error en la lista de clientes con error
-			if ( esColaMasiva = true ){
+			if ( esColaMasiva == true ){
 				pMutexMasivo->lockEscritura(__FILE__,__LINE__);
 				pIdMasivoConError->push_back(idCliente);
 				pMutexMasivo->unlock(__FILE__,__LINE__);

@@ -2,7 +2,7 @@
 
 #include "./ConexionServidor.h"
 #include "../Constantes/Constantes.h"
-#include "../../utils/Serializacion/Serializadora.h"
+#include "../Serializacion/Serializadora.h"
 
 class SocketServidor{
 

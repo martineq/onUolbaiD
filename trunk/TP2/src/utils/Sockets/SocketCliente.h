@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./ConexionCliente.h"
-#include "../../utils/Serializacion/Serializadora.h"
+#include "../Serializacion/Serializadora.h"
 
 class SocketCliente {
 
