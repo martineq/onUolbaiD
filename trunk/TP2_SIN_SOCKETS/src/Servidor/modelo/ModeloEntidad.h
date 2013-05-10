@@ -9,6 +9,7 @@
 #include "../../utils/Observador/Observable.h"
 #include "../../utils/Observador/Identificable.h"
 #include "../../utils/Posicion/Posicion.h"
+#include "EstadoNivel.h"
 
 typedef enum Direccion { NOROESTE, NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE };
 typedef enum Accion { CAMINANDO, ATACANDO, DEFENDIENDO, QUIETO };
@@ -113,12 +114,13 @@ class ModeloEntidad : public Observable, public Identificable {
 		Posicion _pixelSiguiente;
 		Direccion _direccion;
 		Accion _accion;
+		EstadoNivel* _estadoNivel;
 		ModeloMovimiento* _modeloMovimiento;
 		VistaMovimiento* _vistaMovimiento;
 		bool _esUltimoMovimiento;
 		int _altoMapa;
 		int _anchoMapa;
-
+		
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
 
 		ModeloEntidad& operator=(const ModeloEntidad &modeloEntidad);
@@ -139,7 +141,7 @@ class ModeloEntidad : public Observable, public Identificable {
 		void accion(Accion accion);
 
 	public:
-		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps);
+		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps);
 
 		virtual ~ModeloEntidad();
 

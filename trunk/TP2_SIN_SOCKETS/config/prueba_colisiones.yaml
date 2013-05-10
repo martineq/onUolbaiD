@@ -13,16 +13,32 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [agua.png]
-    - nombre: violeta
+    - nombre: vlad
       imagen:
-        - [6Actor_N1.png,6Actor_N2.png,6Actor_N3.png,6Actor_N4.png,6Actor_N5.png,6Actor_N6.png]
-        - [6Actor_NE1.png,6Actor_NE2.png,6Actor_NE3.png,6Actor_NE4.png,6Actor_NE5.png,6Actor_NE6.png]
-        - [6Actor_E1.png,6Actor_E2.png,6Actor_E3.png,6Actor_E4.png,6Actor_E5.png,6Actor_E6.png]
-        - [6Actor_SE1.png,6Actor_SE2.png,6Actor_SE3.png,6Actor_SE4.png,6Actor_SE5.png,6Actor_SE6.png]
-        - [6Actor_S1.png,6Actor_S2.png,6Actor_S3.png,6Actor_S4.png,6Actor_S5.png,6Actor_S6.png]
-        - [6Actor_SO1.png,6Actor_SO2.png,6Actor_SO3.png,6Actor_SO4.png,6Actor_SO5.png,6Actor_SO6.png]
-        - [6Actor_O1.png,6Actor_O2.png,6Actor_O3.png,6Actor_O4.png,6Actor_O5.png,6Actor_O6.png]
-        - [6Actor_NO1.png,6Actor_NO2.png,6Actor_NO3.png,6Actor_NO4.png,6Actor_NO5.png,6Actor_NO6.png]
+        - [Vlad_N01.png,Vlad_N02.png,Vlad_N03.png,Vlad_N04.png,Vlad_N05.png,Vlad_N06.png,Vlad_N07.png,Vlad_N08.png,Vlad_N09.png]
+        - [Vlad_NE01.png,Vlad_NE02.png,Vlad_NE03.png,Vlad_NE04.png,Vlad_NE05.png,Vlad_NE06.png,Vlad_NE07.png,Vlad_NE08.png,Vlad_NE09.png]
+        - [Vlad_E01.png,Vlad_E02.png,Vlad_E03.png,Vlad_E04.png,Vlad_E05.png,Vlad_E06.png,Vlad_E07.png,Vlad_E08.png,Vlad_E09.png]
+        - [Vlad_SE01.png,Vlad_SE02.png,Vlad_SE03.png,Vlad_SE04.png,Vlad_SE05.png,Vlad_SE06.png,Vlad_SE07.png,Vlad_SE08.png,Vlad_SE09.png]
+        - [Vlad_S01.png,Vlad_S02.png,Vlad_S03.png,Vlad_S04.png,Vlad_S05.png,Vlad_S06.png,Vlad_S07.png,Vlad_S08.png,Vlad_S09.png]
+        - [Vlad_SO01.png,Vlad_SO02.png,Vlad_SO03.png,Vlad_SO04.png,Vlad_SO05.png,Vlad_SO06.png,Vlad_SO07.png,Vlad_SO08.png,Vlad_SO09.png]
+        - [Vlad_O01.png,Vlad_O02.png,Vlad_O03.png,Vlad_O04.png,Vlad_O05.png,Vlad_O06.png,Vlad_O07.png,Vlad_O08.png,Vlad_O09.png]
+        - [Vlad_NO01.png,Vlad_NO02.png,Vlad_NO03.png,Vlad_NO04.png,Vlad_NO05.png,Vlad_NO06.png,Vlad_NO07.png,Vlad_NO08.png,Vlad_NO09.png]
+        - [Vlad_Attack1_N01.png,Vlad_Attack1_N02.png,Vlad_Attack1_N03.png,Vlad_Attack1_N04.png,Vlad_Attack1_N05.png,Vlad_Attack1_N06.png,Vlad_Attack1_N07.png,Vlad_Attack1_N08.png,Vlad_Attack1_N09.png,Vlad_Attack1_N10.png,Vlad_Attack1_N11.png,Vlad_Attack1_N12.png]
+        - [Vlad_Attack1_NE01.png,Vlad_Attack1_NE02.png,Vlad_Attack1_NE03.png,Vlad_Attack1_NE04.png,Vlad_Attack1_NE05.png,Vlad_Attack1_NE06.png,Vlad_Attack1_NE07.png,Vlad_Attack1_NE08.png,Vlad_Attack1_NE09.png,Vlad_Attack1_NE10.png,Vlad_Attack1_NE11.png,Vlad_Attack1_NE12.png]
+        - [Vlad_Attack1_E01.png,Vlad_Attack1_E02.png,Vlad_Attack1_E03.png,Vlad_Attack1_E04.png,Vlad_Attack1_E05.png,Vlad_Attack1_E06.png,Vlad_Attack1_E07.png,Vlad_Attack1_E08.png,Vlad_Attack1_E09.png,Vlad_Attack1_E10.png,Vlad_Attack1_E11.png,Vlad_Attack1_E12.png]
+        - [Vlad_Attack1_SE01.png,Vlad_Attack1_SE02.png,Vlad_Attack1_SE03.png,Vlad_Attack1_SE04.png,Vlad_Attack1_SE05.png,Vlad_Attack1_SE06.png,Vlad_Attack1_SE07.png,Vlad_Attack1_SE08.png,Vlad_Attack1_SE09.png,Vlad_Attack1_SE10.png,Vlad_Attack1_SE11.png,Vlad_Attack1_SE12.png]
+        - [Vlad_Attack1_S01.png,Vlad_Attack1_S02.png,Vlad_Attack1_S03.png,Vlad_Attack1_S04.png,Vlad_Attack1_S05.png,Vlad_Attack1_S06.png,Vlad_Attack1_S07.png,Vlad_Attack1_S08.png,Vlad_Attack1_S09.png,Vlad_Attack1_S10.png,Vlad_Attack1_S11.png,Vlad_Attack1_S12.png]
+        - [Vlad_Attack1_SO01.png,Vlad_Attack1_SO02.png,Vlad_Attack1_SO03.png,Vlad_Attack1_SO04.png,Vlad_Attack1_SO05.png,Vlad_Attack1_SO06.png,Vlad_Attack1_SO07.png,Vlad_Attack1_SO08.png,Vlad_Attack1_SO09.png,Vlad_Attack1_SO10.png,Vlad_Attack1_SO11.png,Vlad_Attack1_SO12.png]
+        - [Vlad_Attack1_O01.png,Vlad_Attack1_O02.png,Vlad_Attack1_O03.png,Vlad_Attack1_O04.png,Vlad_Attack1_O05.png,Vlad_Attack1_O06.png,Vlad_Attack1_O07.png,Vlad_Attack1_O08.png,Vlad_Attack1_O09.png,Vlad_Attack1_O10.png,Vlad_Attack1_O11.png,Vlad_Attack1_O12.png]
+        - [Vlad_Attack1_NO01.png,Vlad_Attack1_NO02.png,Vlad_Attack1_NO03.png,Vlad_Attack1_NO04.png,Vlad_Attack1_NO05.png,Vlad_Attack1_NO06.png,Vlad_Attack1_NO07.png,Vlad_Attack1_NO08.png,Vlad_Attack1_NO09.png,Vlad_Attack1_NO10.png,Vlad_Attack1_NO11.png,Vlad_Attack1_NO12.png]		
+        - [Vlad_Bitting1_N01.png,Vlad_Bitting1_N02.png,Vlad_Bitting1_N03.png,Vlad_Bitting1_N04.png,Vlad_Bitting1_N05.png,Vlad_Bitting1_N06.png,Vlad_Bitting1_N07.png,Vlad_Bitting1_N08.png]
+        - [Vlad_Bitting1_NE01.png,Vlad_Bitting1_NE02.png,Vlad_Bitting1_NE03.png,Vlad_Bitting1_NE04.png,Vlad_Bitting1_NE05.png,Vlad_Bitting1_NE06.png,Vlad_Bitting1_NE07.png,Vlad_Bitting1_NE08.png]
+        - [Vlad_Bitting1_E01.png,Vlad_Bitting1_E02.png,Vlad_Bitting1_E03.png,Vlad_Bitting1_E04.png,Vlad_Bitting1_E05.png,Vlad_Bitting1_E06.png,Vlad_Bitting1_E07.png,Vlad_Bitting1_E08.png]
+        - [Vlad_Bitting1_SE01.png,Vlad_Bitting1_SE02.png,Vlad_Bitting1_SE03.png,Vlad_Bitting1_SE04.png,Vlad_Bitting1_SE05.png,Vlad_Bitting1_SE06.png,Vlad_Bitting1_SE07.png,Vlad_Bitting1_SE08.png]
+        - [Vlad_Bitting1_S01.png,Vlad_Bitting1_S02.png,Vlad_Bitting1_S03.png,Vlad_Bitting1_S04.png,Vlad_Bitting1_S05.png,Vlad_Bitting1_S06.png,Vlad_Bitting1_S07.png,Vlad_Bitting1_S08.png]
+        - [Vlad_Bitting1_SO01.png,Vlad_Bitting1_SO02.png,Vlad_Bitting1_SO03.png,Vlad_Bitting1_SO04.png,Vlad_Bitting1_SO05.png,Vlad_Bitting1_SO06.png,Vlad_Bitting1_SO07.png,Vlad_Bitting1_SO08.png]
+        - [Vlad_Bitting1_O01.png,Vlad_Bitting1_O02.png,Vlad_Bitting1_O03.png,Vlad_Bitting1_O04.png,Vlad_Bitting1_O05.png,Vlad_Bitting1_O06.png,Vlad_Bitting1_O07.png,Vlad_Bitting1_O08.png]
+        - [Vlad_Bitting1_NO01.png,Vlad_Bitting1_NO02.png,Vlad_Bitting1_NO03.png,Vlad_Bitting1_NO04.png,Vlad_Bitting1_NO05.png,Vlad_Bitting1_NO06.png,Vlad_Bitting1_NO07.png,Vlad_Bitting1_NO08.png]			
       fps: 15
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 15 #pixels
@@ -121,6 +137,6 @@ escenarios:
         - {x: 12, y: 11, entidad: agua}
         - {x: 12, y: 12, entidad: agua}
       protagonista:
-        - entidad: violeta
+        - entidad: vlad
           x: 3
           y: 0
