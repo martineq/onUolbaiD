@@ -13,6 +13,7 @@ ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {
 
 void ModeloEntidad::posicionActual(Posicion posicionActual) {
 	this->_posicionActual = posicionActual;
+	this->_estadoNivel->visitar(this->_posicionActual.x, this->_posicionActual.y);
 }
 
 void ModeloEntidad::posicionSiguiente(Posicion posicionSiguiente) {
@@ -39,13 +40,14 @@ void ModeloEntidad::accion(Accion accion) {
 	this->_accion = accion;
 }
 
-ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps) {
+ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps) {
 	this->_id = (int)InterlockedIncrement(&this->_ultimoId);
 	this->_alto = alto;
 	this->_ancho = ancho;
 	this->_velocidad = velocidad;
 	this->_posicionActual = posicion;
 	this->_posicionSiguiente = posicion;
+	this->_estadoNivel = (esJugador) ? new EstadoNivel(altoNivel, anchoNivel, this->_posicionActual.x, this->_posicionActual.y) : NULL;
 	this->_modeloMovimiento = new ModeloMovimiento(altoNivel, anchoNivel, this);
 	this->_vistaMovimiento = new VistaMovimiento(this, altoNivel, anchoNivel, fps);
 	this->_altoMapa = altoNivel;
@@ -60,6 +62,8 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 }
 
 ModeloEntidad::~ModeloEntidad() {
+	if (this->_estadoNivel != NULL)
+		delete this->_estadoNivel;
 	delete this->_modeloMovimiento;
 	delete this->_vistaMovimiento;
 }
@@ -154,12 +158,10 @@ bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
 
 void ModeloEntidad::atacar() {
 	this->_modeloMovimiento->detener();
-	//this->_vistaMovimiento->detener();
 	this->_accion = ATACANDO;
 }
 
 void ModeloEntidad::defender() {
 	this->_modeloMovimiento->detener();
-	//this->_vistaMovimiento->detener();
 	this->_accion = DEFENDIENDO;
 }
