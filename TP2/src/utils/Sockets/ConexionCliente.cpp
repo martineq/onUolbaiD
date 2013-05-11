@@ -73,11 +73,11 @@ bool ConexionCliente::conectar(const char* nombreHost, int puerto){
 }
 
 bool ConexionCliente::enviarDirecto(const char *pBuffer,unsigned int tamanio){
-	return this->enviar(pBuffer,tamanio);
+	return this->socketApp.enviar(pBuffer,tamanio);
 }
 
 bool ConexionCliente::recibirDirecto(char **pBuffer,unsigned int& tamanioRecibido){
-	return this->recibir(pBuffer,tamanioRecibido);
+	return this->socketApp.recibir(pBuffer,tamanioRecibido);
 }
 
 bool ConexionCliente::enviar(const char *pBuffer,unsigned int tamanio){
@@ -125,7 +125,7 @@ bool ConexionCliente::enviarArchivo(const char *rutaOrigen){
 }
 
 bool ConexionCliente::recibirArchivo(const char *rutaDestino){
-	return this->socketApp.enviarArchivo(rutaDestino);
+	return this->socketApp.recibirArchivo(rutaDestino);
 }
 
 void ConexionCliente::setSocket(SOCKET socket){
