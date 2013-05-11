@@ -18,7 +18,7 @@ VistaScroll::~VistaScroll(void){
 	this->utilidadSDL = NULL;
 }
 
-int VistaScroll::id() const {
+int VistaScroll::id(){
     return this->_id;
 }
 

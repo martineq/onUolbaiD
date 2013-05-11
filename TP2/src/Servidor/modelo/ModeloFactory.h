@@ -41,7 +41,7 @@ class ModeloFactory{
 		ModeloFactory::stModeloJuegoElegido getCopiaJuegoElegido(void);
 		ProxyModeloEntidad::stEntidad elegirProtagonista(ModeloNivel* modeloNivel,std::string& nombreUsuario,std::string& nombrePersonaje,SocketServidor* pSocket,int id);
 		std::string obtenerPersonajeLibre(std::list<std::string> listaEntidadesUsadas,std::string personajePedido);
-		
+
 	public:
 		ModeloFactory(void);
 		~ModeloFactory(void);
@@ -49,4 +49,3 @@ class ModeloFactory{
 		bool crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,SocketServidor* pSocket);
 		bool rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* pSocket,int id);
 };
-// TODO: Ver que se use bien el enviar/recibir con lo nuevo de la Serializadora

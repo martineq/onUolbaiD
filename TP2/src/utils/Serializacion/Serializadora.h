@@ -6,15 +6,10 @@
 #include <fstream>
 #include "../Constantes/Constantes.h"
 
-using std::string;
-using std::stringstream;
-using std::cout;
-using std::endl;
-
 class Serializadora{
 
 	private:
-		stringstream* 	stream;
+		std::stringstream* 	stream;
 
 	public:
 		/*
@@ -25,7 +20,7 @@ class Serializadora{
 		/*
 		 * Instancia para deserializar.
 		 */
-		Serializadora(string stringSerializado);
+		Serializadora(std::string stringSerializado);
 
 		/*
 		 * Agrega un int al stream.
@@ -55,13 +50,13 @@ class Serializadora{
 		/*
 		 * Agrega un string al stream.
 		 */
-		void addString(string cadena);
+		void addString(std::string cadena);
 
-		void addStringPointer(string* cadena, int size);
+		void addStringPointer(std::string* cadena, int size);
 		/*
 		 * Devuelve el resultado de la serializacion.
 		 */
-		string* getSerializacion();
+		std::string* getSerializacion();
 
 		/*
 		 * Devuelve un int.
@@ -91,29 +86,29 @@ class Serializadora{
 		/*
 		 * Devuelve un string, debe ser liberado luego de ser usado.
 		 */
-		string*	getStringPointer();
+		std::string*	getStringPointer();
 
 		/*
 		 * Devuelve un string.
 		 */
-		string	getString();
+		std::string	getString();
 
 		/*
 		 * Devuelve el tamaño total de lo serializado.
 		 */
 		unsigned int size();
-		
+
 		/*
 		 * Idem al constructor Serializadora(). Sirve para reusar la instancia si quiero hacer una nueva serialización
-		 * Elimina todo contenido anterior.
+		 * Elimina el contenido anterior existente.
 		 */
 		void nuevaSerializacion();
 
 		/*
 		 * Idem al constructor Serializadora(string* stringSerializado). Sirve para reusar la instancia si quiero hacer una nueva hidratacion
-		 * Elimina todo contenido anterior.
+		 * Elimina el contenido anterior existente.
 		 */
-		void nuevaSerializacion(string stringSerializado);
+		void nuevaSerializacion(std::string stringSerializado);
 
 		virtual ~Serializadora();
 		

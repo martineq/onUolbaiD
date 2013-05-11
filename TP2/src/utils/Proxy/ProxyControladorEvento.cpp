@@ -34,4 +34,16 @@ bool ProxyControladorEvento::recibirEvento(ProxyControladorEvento::stEvento& eve
 	return true;
 }
 
-// TODO: Implementar los métodos de los proxys
+void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool mouseDentroPantalla,bool finalizoElJuego){
+	evento.errorEnSocket = errorEnSocket;
+	evento.finalizoElJuego = finalizoElJuego;
+	evento.id = id;
+	evento.mouseClickIzquierdo = mouseClickIzquierdo;
+	evento.mouseDentroPantalla = mouseDentroPantalla;
+	evento.mouseX = mouseX;
+	evento.mouseY = mouseY;
+	evento.teclaA = teclaA;
+	evento.teclaS = teclaS;
+}
+
+// TODO: Implementar los métodos del proxy. Ver si hace falta agregar al struct mas variables necesarias 

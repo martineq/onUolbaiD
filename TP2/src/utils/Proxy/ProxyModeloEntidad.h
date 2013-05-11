@@ -18,6 +18,7 @@ class ProxyModeloEntidad{
 			double pixelSiguienteY;
 			int direccion;
 			bool esUltimoMovimiento;
+			std::string actualizacionMapa;  // La idea es serializar toda la actulización de la matriz y mandarlo por acá. Lo pongo en un string porque el tamaño de la actualización es variable
 		};
 
 	private:

@@ -20,6 +20,8 @@ class ModeloNivel {
 		void destruirListaJugadores();
 		void destruirListaEntidades();
 
+		void decrementarJugadores(void);
+
 	public:
 		ModeloNivel();
 		virtual ~ModeloNivel();
@@ -43,13 +45,13 @@ class ModeloNivel {
 		
 		void moverJugador(int tileX, int tileY, int id);
 
+		void congelarJugador(int idJugador);
+
 		bool actualizar(int id);
 
 		int cantidadJugadores(void);
 		
 		void incrementarJugadores(void);
-
-		void decrementarJugadores(void);
 
 		void destruirListas();
 };

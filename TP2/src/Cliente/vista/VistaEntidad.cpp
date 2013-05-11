@@ -2,11 +2,12 @@
 
 VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id){
 	this->_id = id;
+	this->estaCongelado = false;
 
 	int xAux, yAux;
 
 	Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
-	
+
 	this->posicionReferenciaX = posicionReferenciaX;
 	this->posicionReferenciaY = posicionReferenciaY;
 	this->x = xAux;
@@ -71,6 +72,11 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 // Este método será usado ahora por el ProxyModeloEntidad
 void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 
+	// TODO: Agregar todas las actualizaciondes de los nuevos atributos (Hay que asignarlos):
+	//entidad.actualizacionMapa;
+	//entidad.entidadCongelada;
+	//entidad.errorEnSocket;
+
 	this->x = entidad.pixelSiguienteX;
 	this->y = entidad.pixelSiguienteY;
 
@@ -108,7 +114,7 @@ void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
 	}
 }
 
-int VistaEntidad::id() const {
+int VistaEntidad::id() {
     return this->_id;
 }
 
@@ -187,3 +193,10 @@ void VistaEntidad::setPantalla(SDL_Surface* fondo){
 	this->animaciones->setPantalla(fondo);
 }
 
+void VistaEntidad::setEstaCongelado(bool estado){
+	this->estaCongelado = estado;
+}
+
+bool VistaEntidad::getEstaCongelado(){
+	return this->estaCongelado;
+}

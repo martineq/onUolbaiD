@@ -23,6 +23,10 @@ class ModeloEvento{
 		int getMousePosY();
 		bool getMouseClickIzquierdo();
 		bool getMouseDentroPantalla();
+		bool getKeyA();
+		bool getKeyS();
+		bool errorEnSocket();
+		bool finalizoElJuego();
 		bool getActualizado();
 
 		void setProxyControladorEvento(ProxyControladorEvento* pProxyEvento);

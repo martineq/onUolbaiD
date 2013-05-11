@@ -13,9 +13,8 @@ class VistaFactory{
 
 	private:
 		struct stVistaJuegoElegido{
-			// Mi jugador
-			int idJugador;													// Lo recibo desde el Servidor
-			ParserYaml::stProtagonista protagonista;						// Lo recibo desde el Servidor
+			// Datos de mi jugador
+			ProxyModeloEntidad::stEntidad entidadJugador;					// Lo recibo desde el Servidor
 			// Entidades del escenario que no son jugadores
 			ParserYaml::stEscenario escenario;								// Lo recibo desde el Servidor
 			std::list<int> listaIdEntidades;								// Lo recibo desde el Servidor
@@ -35,7 +34,7 @@ class VistaFactory{
 		bool recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* pSocket);
 		void asignarEscenarioElegido(std::string nombreEscenario,std::list<ParserYaml::stEscenario>& listaEscenarios);
 		void menuSeleccionUsuarioPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje);
-		
+
 		// Creación de la Vista
 		bool crearElementosVista(VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);
 		void crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket);
@@ -54,5 +53,3 @@ class VistaFactory{
 
 		bool crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket);
 };
-
-// TODO: Ver que se use bien el enviar/recibir con lo nuevo de la Serializadora

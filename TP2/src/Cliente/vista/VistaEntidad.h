@@ -11,6 +11,7 @@ class VistaEntidad: public Identificable{
 	private:
 		int _id;
 		bool esJugador;
+		bool estaCongelado;
 		double x;
 		double y;
 		double alto;
@@ -36,7 +37,7 @@ class VistaEntidad: public Identificable{
 
 		void actualizar(ProxyModeloEntidad::stEntidad& entidad);
 		void verificarBordePantalla(VistaScroll* scroll);
-		int id() const;
+		int id();
 
 		// Getters
 		bool getEsJugador(void);
@@ -51,7 +52,7 @@ class VistaEntidad: public Identificable{
 		int getCodigoAnimacion(void);
 		std::list<std::list<std::string>> getListaAnimaciones(void);
 		bool getEsNecesarioRefrescar(void);
-
+		bool getEstaCongelado();
 		
 		// Setters
 		void setXEnPantalla(double scrollX);
@@ -60,6 +61,5 @@ class VistaEntidad: public Identificable{
 		void setAnimacion(std::string estado);
 		bool graficar();
 		void setPantalla(SDL_Surface* screen);
-
-
+		void setEstaCongelado(bool estado);
 };
