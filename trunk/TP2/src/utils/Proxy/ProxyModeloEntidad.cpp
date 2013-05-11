@@ -23,7 +23,10 @@ void ProxyModeloEntidad::setSocketServidor(SocketServidor* pServidor){
 bool ProxyModeloEntidad::enviarEntidadIndividual(ProxyModeloEntidad::stEntidad entidad,int id){
 	// >>> Implementar
 	// Acá uso this->pServidor->enviarIndividual;
-	return true;
+	Serializadora s;
+	this->serializar(s,entidad);
+	return this->pServidor->enviarIndividual(s,id);
+	//return true;
 }
 
 // Idem enviarEntidad() pero para recibir directo
@@ -51,7 +54,10 @@ bool ProxyModeloEntidad::recibirEntidadIndividual(ProxyModeloEntidad::stEntidad&
 bool ProxyModeloEntidad::enviarEntidad(ProxyModeloEntidad::stEntidad entidad){
 	// >>> Implementar
 	// Acá uso this->pServidor->enviarMasivo;
-	return true;
+	Serializadora s;
+	this->serializar(s,entidad);
+	return this->pServidor->enviarMasivo(s);
+	//return true;
 }
 
 // Devuelve true si sacó datos de la cola de sockets. Devuelve false la cola estaba vacía
@@ -60,20 +66,98 @@ bool ProxyModeloEntidad::recibirEntidad(ProxyModeloEntidad::stEntidad& entidad){
 	// >>> Implementar
 	// Este método tiene que hacerse cargo de poner en true o false el valor errorEnSocket
 	// Acá uso this->pCliente->recibir;
+	Serializadora s;
+	if (this->pCliente->recibir(s)){
+		if (s.size() > 0){
+			this->hidratar(s,entidad);
+		}else{
+			entidad.errorEnSocket = false;
+			return false;			
+		}
+	}
+	else{
+		entidad.errorEnSocket = true;
+	}
 	return true;
 }
 
+
+void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntidad& entidad){
+	//int tamanio = this->sizeEntidad(entidad);
+	//s.addInt(tamanio);
+	s.addInt(entidad.id);
+	s.addString(entidad.nombreEntidad);
+	//s.addBool(entidad.errorEnSocket);
+	s.addBool(entidad.entidadCongelada);
+	s.addBool(entidad.esJugador);
+	s.addDouble(entidad.pixelSiguienteX);
+	s.addDouble(entidad.pixelSiguienteY);
+	s.addInt(entidad.direccion);
+	s.addBool(entidad.esUltimoMovimiento);
+	s.addInt(entidad.tileX);
+	s.addInt(entidad.tileY);
+	s.addInt(entidad.accion);	
+}
+
+int ProxyModeloEntidad::sizeEntidad(ProxyModeloEntidad::stEntidad entidad){
+	int sizeID = TAM_INT;
+	int sizeNombre = TAM_INT + entidad.nombreEntidad.size();
+	//int sizeErrorSocket = TAM_BOOL;
+	int sizeEntidadCongelada = TAM_BOOL;
+	int sizeEsJugador = TAM_BOOL;
+	int sizePixelSiguienteX = TAM_DBL;
+	int sizePixelSiguienteY = TAM_DBL;
+	int sizeDireccion = TAM_INT;
+	int sizeUltimoMovimiento = TAM_DBL;
+	int sizeTileX = TAM_INT;
+	int sizeTileY = TAM_INT;
+	int sizeAccion = TAM_INT;
+	return (sizeID+sizeNombre+sizeEntidadCongelada+sizeEsJugador+sizePixelSiguienteX+sizePixelSiguienteY+sizeDireccion+sizeUltimoMovimiento+sizeTileX+sizeTileY+sizeAccion);
+}
+
+void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad& entidad){
+	int id = s.getInt();
+	std::string nombre = s.getString();
+	//bool errorSocket = s.getBool();
+	bool congelada = s.getBool();
+	bool jugador = s.getBool();
+	double x = s.getDouble();
+	double y = s.getDouble();
+	int dir = s.getInt();
+	bool ultimo = s.getBool();
+	int tileX = s.getInt();
+	int tileY = s.getInt();
+	int accion = s.getInt();	
+	
+	entidad.id = id;
+	entidad.nombreEntidad = nombre;
+	entidad.errorEnSocket = false;
+	entidad.entidadCongelada = congelada;
+	entidad.esJugador = jugador;
+	entidad.pixelSiguienteX = x;	
+	entidad.pixelSiguienteY = y;
+	entidad.direccion = dir;
+	entidad.esUltimoMovimiento = ultimo;
+	entidad.tileX = tileX;
+	entidad.tileY = tileY;
+	entidad.accion = accion;
+}
+
+
 // para los que usan el proxy y quieren cargar el struct
-void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento){
+void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento,int tileX,int tileY,int accion){
 	entidad.id = id;
 	entidad.errorEnSocket = errorEnSocket;
 	entidad.entidadCongelada = entidadCongelada;
+	entidad.esJugador = esJugador;
 	entidad.nombreEntidad = nombreEntidad;
 	entidad.pixelSiguienteX = pixelSiguienteX;
 	entidad.pixelSiguienteY = pixelSiguienteY;
 	entidad.direccion = direccion;
 	entidad.esUltimoMovimiento = esUltimoMovimiento;
-
+	entidad.tileX = tileX;
+	entidad.tileY = tileY;
+	entidad.accion = accion;
 }
 
 // TODO: Implementar los métodos del proxy. Ver si hace falta agregar al struct mas variables necesarias 

@@ -2,6 +2,7 @@
 
 #include "../Sockets/SocketCliente.h"
 #include "../Sockets/SocketServidor.h"
+#include "../Serializacion/Serializadora.h"
 
 class ProxyModeloEntidad{
 
@@ -12,12 +13,17 @@ class ProxyModeloEntidad{
 			std::string nombreEntidad;
 			bool errorEnSocket; // No hace falta serializar este valor. Esta atributo lo setea el proxy cuando recibe datos (al hidratar). Si el socket me da errror seteo acá en true, sino lo dejo en false
 			bool entidadCongelada;
+			bool esJugador;
 
 			// Datos para actualizar en la entidad
 			double pixelSiguienteX;
 			double pixelSiguienteY;
 			int direccion;
 			bool esUltimoMovimiento;
+
+			int tileX;
+			int tileY;
+			int accion;
 			std::string actualizacionMapa;  // La idea es serializar toda la actulización de la matriz y mandarlo por acá. Lo pongo en un string porque el tamaño de la actualización es variable
 		};
 
@@ -40,8 +46,10 @@ class ProxyModeloEntidad{
 		// Para usar en el momento de juego. Debe estar seteado el modo Masivo.
 		bool enviarEntidad(ProxyModeloEntidad::stEntidad entidad);					// Lo usa el lado Servidor
 		bool recibirEntidad(ProxyModeloEntidad::stEntidad& entidad);				// Lo usa el lado Cliente
-
+		void serializar(Serializadora& s,ProxyModeloEntidad::stEntidad& entidad);
+		void hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad& entidad);
+		int sizeEntidad(ProxyModeloEntidad::stEntidad);
 		// Auxiliares
-		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento);
+		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento,int tileX, int tileY, int accion);
 };
 

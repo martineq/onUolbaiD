@@ -142,6 +142,8 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 		}else{	// Si no me pide eliminar entonces actualizo los datos
 			entidadEncontrada->actualizar(entidad);			
 		}
+	}else{
+		//TODO: crear las entidades cuando no existen
 	}
 	return true;
 }
