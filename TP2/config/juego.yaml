@@ -20,13 +20,6 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [hielo.png]
-    - nombre: pasto
-      pixel_ref_x: 50 #pixels
-      pixel_ref_y: 0 #pixels
-      ancho_base: 1 #tiles
-      alto_base: 1 #tiles
-      imagen:
-        - [pasto.png]
     - nombre: agua
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 0 #pixels
@@ -105,62 +98,131 @@ entidades:
       pixel_ref_y: 40 #pixels
       fps: 10
       delay: 3
-    - nombre: violeta
+    - nombre: vlad
       imagen:
-        - [6Actor_N1.png,6Actor_N2.png,6Actor_N3.png,6Actor_N4.png,6Actor_N5.png,6Actor_N6.png]
-        - [6Actor_NE1.png,6Actor_NE2.png,6Actor_NE3.png,6Actor_NE4.png,6Actor_NE5.png,6Actor_NE6.png]
-        - [6Actor_E1.png,6Actor_E2.png,6Actor_E3.png,6Actor_E4.png,6Actor_E5.png,6Actor_E6.png]
-        - [6Actor_SE1.png,6Actor_SE2.png,6Actor_SE3.png,6Actor_SE4.png,6Actor_SE5.png,6Actor_SE6.png]
-        - [6Actor_S1.png,6Actor_S2.png,6Actor_S3.png,6Actor_S4.png,6Actor_S5.png,6Actor_S6.png]
-        - [6Actor_SO1.png,6Actor_SO2.png,6Actor_SO3.png,6Actor_SO4.png,6Actor_SO5.png,6Actor_SO6.png]
-        - [6Actor_O1.png,6Actor_O2.png,6Actor_O3.png,6Actor_O4.png,6Actor_O5.png,6Actor_O6.png]
-        - [6Actor_NO1.png,6Actor_NO2.png,6Actor_NO3.png,6Actor_NO4.png,6Actor_NO5.png,6Actor_NO6.png]
-      fps: 15
-      pixel_ref_x: 50 #pixels
-      pixel_ref_y: 15 #pixels
-    - nombre: guerrero
-      imagen:
-        - [actor1N1.png,actor1N2.png,actor1N3.png,actor1N4.png]
-        - [actor1NE1.png,actor1NE2.png,actor1NE3.png,actor1NE4.png]
-        - [actor1E1.png,actor1E2.png,actor1E3.png,actor1E4.png]
-        - [actor1SE1.png,actor1SE2.png,actor1SE3.png,actor1SE4.png]
-        - [actor1S1.png,actor1S2.png,actor1S3.png,actor1S4.png]
-        - [actor1SO1.png,actor1SO2.png,actor1SO3.png,actor1SO4.png]
-        - [actor1O1.png,actor1O2.png,actor1O3.png,actor1O4.png]
-        - [actor1NO1.png,actor1NO2.png,actor1NO3.png,actor1NO4.png]
+        - [Vlad_N01.png,Vlad_N02.png,Vlad_N03.png,Vlad_N04.png,Vlad_N05.png,Vlad_N06.png,Vlad_N07.png,Vlad_N08.png,Vlad_N09.png]
+        - [Vlad_NE01.png,Vlad_NE02.png,Vlad_NE03.png,Vlad_NE04.png,Vlad_NE05.png,Vlad_NE06.png,Vlad_NE07.png,Vlad_NE08.png,Vlad_NE09.png]
+        - [Vlad_E01.png,Vlad_E02.png,Vlad_E03.png,Vlad_E04.png,Vlad_E05.png,Vlad_E06.png,Vlad_E07.png,Vlad_E08.png,Vlad_E09.png]
+        - [Vlad_SE01.png,Vlad_SE02.png,Vlad_SE03.png,Vlad_SE04.png,Vlad_SE05.png,Vlad_SE06.png,Vlad_SE07.png,Vlad_SE08.png,Vlad_SE09.png]
+        - [Vlad_S01.png,Vlad_S02.png,Vlad_S03.png,Vlad_S04.png,Vlad_S05.png,Vlad_S06.png,Vlad_S07.png,Vlad_S08.png,Vlad_S09.png]
+        - [Vlad_SO01.png,Vlad_SO02.png,Vlad_SO03.png,Vlad_SO04.png,Vlad_SO05.png,Vlad_SO06.png,Vlad_SO07.png,Vlad_SO08.png,Vlad_SO09.png]
+        - [Vlad_O01.png,Vlad_O02.png,Vlad_O03.png,Vlad_O04.png,Vlad_O05.png,Vlad_O06.png,Vlad_O07.png,Vlad_O08.png,Vlad_O09.png]
+        - [Vlad_NO01.png,Vlad_NO02.png,Vlad_NO03.png,Vlad_NO04.png,Vlad_NO05.png,Vlad_NO06.png,Vlad_NO07.png,Vlad_NO08.png,Vlad_NO09.png]
+        - [Vlad_Attack1_N01.png,Vlad_Attack1_N02.png,Vlad_Attack1_N03.png,Vlad_Attack1_N04.png,Vlad_Attack1_N05.png,Vlad_Attack1_N06.png,Vlad_Attack1_N07.png,Vlad_Attack1_N08.png,Vlad_Attack1_N09.png,Vlad_Attack1_N10.png,Vlad_Attack1_N11.png,Vlad_Attack1_N12.png]
+        - [Vlad_Attack1_NE01.png,Vlad_Attack1_NE02.png,Vlad_Attack1_NE03.png,Vlad_Attack1_NE04.png,Vlad_Attack1_NE05.png,Vlad_Attack1_NE06.png,Vlad_Attack1_NE07.png,Vlad_Attack1_NE08.png,Vlad_Attack1_NE09.png,Vlad_Attack1_NE10.png,Vlad_Attack1_NE11.png,Vlad_Attack1_NE12.png]
+        - [Vlad_Attack1_E01.png,Vlad_Attack1_E02.png,Vlad_Attack1_E03.png,Vlad_Attack1_E04.png,Vlad_Attack1_E05.png,Vlad_Attack1_E06.png,Vlad_Attack1_E07.png,Vlad_Attack1_E08.png,Vlad_Attack1_E09.png,Vlad_Attack1_E10.png,Vlad_Attack1_E11.png,Vlad_Attack1_E12.png]
+        - [Vlad_Attack1_SE01.png,Vlad_Attack1_SE02.png,Vlad_Attack1_SE03.png,Vlad_Attack1_SE04.png,Vlad_Attack1_SE05.png,Vlad_Attack1_SE06.png,Vlad_Attack1_SE07.png,Vlad_Attack1_SE08.png,Vlad_Attack1_SE09.png,Vlad_Attack1_SE10.png,Vlad_Attack1_SE11.png,Vlad_Attack1_SE12.png]
+        - [Vlad_Attack1_S01.png,Vlad_Attack1_S02.png,Vlad_Attack1_S03.png,Vlad_Attack1_S04.png,Vlad_Attack1_S05.png,Vlad_Attack1_S06.png,Vlad_Attack1_S07.png,Vlad_Attack1_S08.png,Vlad_Attack1_S09.png,Vlad_Attack1_S10.png,Vlad_Attack1_S11.png,Vlad_Attack1_S12.png]
+        - [Vlad_Attack1_SO01.png,Vlad_Attack1_SO02.png,Vlad_Attack1_SO03.png,Vlad_Attack1_SO04.png,Vlad_Attack1_SO05.png,Vlad_Attack1_SO06.png,Vlad_Attack1_SO07.png,Vlad_Attack1_SO08.png,Vlad_Attack1_SO09.png,Vlad_Attack1_SO10.png,Vlad_Attack1_SO11.png,Vlad_Attack1_SO12.png]
+        - [Vlad_Attack1_O01.png,Vlad_Attack1_O02.png,Vlad_Attack1_O03.png,Vlad_Attack1_O04.png,Vlad_Attack1_O05.png,Vlad_Attack1_O06.png,Vlad_Attack1_O07.png,Vlad_Attack1_O08.png,Vlad_Attack1_O09.png,Vlad_Attack1_O10.png,Vlad_Attack1_O11.png,Vlad_Attack1_O12.png]
+        - [Vlad_Attack1_NO01.png,Vlad_Attack1_NO02.png,Vlad_Attack1_NO03.png,Vlad_Attack1_NO04.png,Vlad_Attack1_NO05.png,Vlad_Attack1_NO06.png,Vlad_Attack1_NO07.png,Vlad_Attack1_NO08.png,Vlad_Attack1_NO09.png,Vlad_Attack1_NO10.png,Vlad_Attack1_NO11.png,Vlad_Attack1_NO12.png]		
+        - [Vlad_Bitting1_N01.png,Vlad_Bitting1_N02.png,Vlad_Bitting1_N03.png,Vlad_Bitting1_N04.png,Vlad_Bitting1_N05.png,Vlad_Bitting1_N06.png,Vlad_Bitting1_N07.png,Vlad_Bitting1_N08.png]
+        - [Vlad_Bitting1_NE01.png,Vlad_Bitting1_NE02.png,Vlad_Bitting1_NE03.png,Vlad_Bitting1_NE04.png,Vlad_Bitting1_NE05.png,Vlad_Bitting1_NE06.png,Vlad_Bitting1_NE07.png,Vlad_Bitting1_NE08.png]
+        - [Vlad_Bitting1_E01.png,Vlad_Bitting1_E02.png,Vlad_Bitting1_E03.png,Vlad_Bitting1_E04.png,Vlad_Bitting1_E05.png,Vlad_Bitting1_E06.png,Vlad_Bitting1_E07.png,Vlad_Bitting1_E08.png]
+        - [Vlad_Bitting1_SE01.png,Vlad_Bitting1_SE02.png,Vlad_Bitting1_SE03.png,Vlad_Bitting1_SE04.png,Vlad_Bitting1_SE05.png,Vlad_Bitting1_SE06.png,Vlad_Bitting1_SE07.png,Vlad_Bitting1_SE08.png]
+        - [Vlad_Bitting1_S01.png,Vlad_Bitting1_S02.png,Vlad_Bitting1_S03.png,Vlad_Bitting1_S04.png,Vlad_Bitting1_S05.png,Vlad_Bitting1_S06.png,Vlad_Bitting1_S07.png,Vlad_Bitting1_S08.png]
+        - [Vlad_Bitting1_SO01.png,Vlad_Bitting1_SO02.png,Vlad_Bitting1_SO03.png,Vlad_Bitting1_SO04.png,Vlad_Bitting1_SO05.png,Vlad_Bitting1_SO06.png,Vlad_Bitting1_SO07.png,Vlad_Bitting1_SO08.png]
+        - [Vlad_Bitting1_O01.png,Vlad_Bitting1_O02.png,Vlad_Bitting1_O03.png,Vlad_Bitting1_O04.png,Vlad_Bitting1_O05.png,Vlad_Bitting1_O06.png,Vlad_Bitting1_O07.png,Vlad_Bitting1_O08.png]
+        - [Vlad_Bitting1_NO01.png,Vlad_Bitting1_NO02.png,Vlad_Bitting1_NO03.png,Vlad_Bitting1_NO04.png,Vlad_Bitting1_NO05.png,Vlad_Bitting1_NO06.png,Vlad_Bitting1_NO07.png,Vlad_Bitting1_NO08.png]			
       ancho_base: 1 #tiles
       alto_base: 1 #tiles
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 10 #pixels
       fps: 10
-    - nombre: mago
+    - nombre: bjorn
       imagen:
-        - [testxyh_N1.png,testxyh_N2.png,testxyh_N3.png,testxyh_N4.png]
-        - [testxyh_NE1.png,testxyh_NE2.png,testxyh_NE3.png,testxyh_NE4.png]
-        - [testxyh_E1.png,testxyh_E2.png,testxyh_E3.png,testxyh_E4.png]
-        - [testxyh_SE1.png,testxyh_SE2.png,testxyh_SE3.png,testxyh_SE4.png]
-        - [testxyh_S1.png,testxyh_S2.png,testxyh_S3.png,testxyh_S4.png]
-        - [testxyh_SO1.png,testxyh_SO2.png,testxyh_SO3.png,testxyh_SO4.png]
-        - [testxyh_O1.png,testxyh_O2.png,testxyh_O3.png,testxyh_O4.png]
-        - [testxyh_NO1.png,testxyh_NO2.png,testxyh_NO3.png,testxyh_NO4.png]
-      fps: 10
-      pixel_ref_x: 40 #pixels
-      pixel_ref_y: 15 #pixels
-    - nombre: guerrero2
-      imagen:
-        - [Pers1_N1.png,Pers1_N2.png,Pers1_N3.png,Pers1_N4.png,Pers1_N5.png,Pers1_N6.png,Pers1_N7.png,Pers1_N8.png,Pers1_N9.png]
-        - [Pers1_NE1.png,Pers1_NE2.png,Pers1_NE3.png,Pers1_NE4.png,Pers1_NE5.png,Pers1_NE6.png,Pers1_NE7.png,Pers1_NE8.png,Pers1_NE9.png]
-        - [Pers1_E1.png,Pers1_E2.png,Pers1_E3.png,Pers1_E4.png,Pers1_E5.png,Pers1_E6.png,Pers1_E7.png,Pers1_E8.png]
-        - [Pers1_SE1.png,Pers1_SE2.png,Pers1_SE3.png,Pers1_SE4.png,Pers1_SE5.png,Pers1_SE6.png,Pers1_SE7.png,Pers1_SE8.png]
-        - [Pers1_S1.png,Pers1_S2.png,Pers1_S3.png,Pers1_S4.png,Pers1_S5.png,Pers1_S6.png,Pers1_S7.png,Pers1_S8.png,Pers1_S9.png]
-        - [Pers1_SO1.png,Pers1_SO2.png,Pers1_SO3.png,Pers1_SO4.png,Pers1_SO5.png,Pers1_SO6.png,Pers1_SO7.png,Pers1_SO8.png,Pers1_SO9.png]
-        - [Pers1_O1.png,Pers1_O2.png,Pers1_O3.png,Pers1_O4.png,Pers1_O5.png,Pers1_O6.png,Pers1_O7.png,Pers1_O8.png]
-        - [Pers1_NO1.png,Pers1_NO2.png,Pers1_NO3.png,Pers1_NO4.png,Pers1_NO5.png,Pers1_NO6.png,Pers1_NO7.png,Pers1_NO8.png,Pers1_NO9.png]
+        - [Bjorn_N01.png,Bjorn_N02.png,Bjorn_N03.png,Bjorn_N04.png,Bjorn_N05.png,Bjorn_N06.png,Bjorn_N07.png,Bjorn_N08.png,Bjorn_N09.png]
+        - [Bjorn_NE01.png,Bjorn_NE02.png,Bjorn_NE03.png,Bjorn_NE04.png,Bjorn_NE05.png,Bjorn_NE06.png,Bjorn_NE07.png,Bjorn_NE08.png,Bjorn_NE09.png]
+        - [Bjorn_E01.png,Bjorn_E02.png,Bjorn_E03.png,Bjorn_E04.png,Bjorn_E05.png,Bjorn_E06.png,Bjorn_E07.png,Bjorn_E08.png,Bjorn_E09.png]
+        - [Bjorn_SE01.png,Bjorn_SE02.png,Bjorn_SE03.png,Bjorn_SE04.png,Bjorn_SE05.png,Bjorn_SE06.png,Bjorn_SE07.png,Bjorn_SE08.png,Bjorn_SE09.png]
+        - [Bjorn_S01.png,Bjorn_S02.png,Bjorn_S03.png,Bjorn_S04.png,Bjorn_S05.png,Bjorn_S06.png,Bjorn_S07.png,Bjorn_S08.png,Bjorn_S09.png]
+        - [Bjorn_SO01.png,Bjorn_SO02.png,Bjorn_SO03.png,Bjorn_SO04.png,Bjorn_SO05.png,Bjorn_SO06.png,Bjorn_SO07.png,Bjorn_SO08.png,Bjorn_SO09.png]
+        - [Bjorn_O01.png,Bjorn_O02.png,Bjorn_O03.png,Bjorn_O04.png,Bjorn_O05.png,Bjorn_O06.png,Bjorn_O07.png,Bjorn_O08.png,Bjorn_O09.png]
+        - [Bjorn_NO01.png,Bjorn_NO02.png,Bjorn_NO03.png,Bjorn_NO04.png,Bjorn_NO05.png,Bjorn_NO06.png,Bjorn_NO07.png,Bjorn_NO08.png,Bjorn_NO09.png]
+        - [Bjorn_Attack1_N01.png,Bjorn_Attack1_N02.png,Bjorn_Attack1_N03.png,Bjorn_Attack1_N04.png,Bjorn_Attack1_N05.png,Bjorn_Attack1_N06.png,Bjorn_Attack1_N07.png,Bjorn_Attack1_N08.png]
+        - [Bjorn_Attack1_NE01.png,Bjorn_Attack1_NE02.png,Bjorn_Attack1_NE03.png,Bjorn_Attack1_NE04.png,Bjorn_Attack1_NE05.png,Bjorn_Attack1_NE06.png,Bjorn_Attack1_NE07.png,Bjorn_Attack1_NE08.png]
+        - [Bjorn_Attack1_E01.png,Bjorn_Attack1_E02.png,Bjorn_Attack1_E03.png,Bjorn_Attack1_E04.png,Bjorn_Attack1_E05.png,Bjorn_Attack1_E06.png,Bjorn_Attack1_E07.png,Bjorn_Attack1_E08.png]
+        - [Bjorn_Attack1_SE01.png,Bjorn_Attack1_SE02.png,Bjorn_Attack1_SE03.png,Bjorn_Attack1_SE04.png,Bjorn_Attack1_SE05.png,Bjorn_Attack1_SE06.png,Bjorn_Attack1_SE07.png,Bjorn_Attack1_SE08.png]
+        - [Bjorn_Attack1_S01.png,Bjorn_Attack1_S02.png,Bjorn_Attack1_S03.png,Bjorn_Attack1_S04.png,Bjorn_Attack1_S05.png,Bjorn_Attack1_S06.png,Bjorn_Attack1_S07.png,Bjorn_Attack1_S08.png]
+        - [Bjorn_Attack1_SO01.png,Bjorn_Attack1_SO02.png,Bjorn_Attack1_SO03.png,Bjorn_Attack1_SO04.png,Bjorn_Attack1_SO05.png,Bjorn_Attack1_SO06.png,Bjorn_Attack1_SO07.png,Bjorn_Attack1_SO08.png]
+        - [Bjorn_Attack1_O01.png,Bjorn_Attack1_O02.png,Bjorn_Attack1_O03.png,Bjorn_Attack1_O04.png,Bjorn_Attack1_O05.png,Bjorn_Attack1_O06.png,Bjorn_Attack1_O07.png,Bjorn_Attack1_O08.png]
+        - [Bjorn_Attack1_NO01.png,Bjorn_Attack1_NO02.png,Bjorn_Attack1_NO03.png,Bjorn_Attack1_NO04.png,Bjorn_Attack1_NO05.png,Bjorn_Attack1_NO06.png,Bjorn_Attack1_NO07.png,Bjorn_Attack1_NO08.png]		
+        - [Bjorn_Greeting1_N01.png,Bjorn_Greeting1_N02.png,Bjorn_Greeting1_N03.png,Bjorn_Greeting1_N04.png,Bjorn_Greeting1_N05.png,Bjorn_Greeting1_N06.png,Bjorn_Greeting1_N07.png,Bjorn_Greeting1_N08.png]
+        - [Bjorn_Greeting1_NE01.png,Bjorn_Greeting1_NE02.png,Bjorn_Greeting1_NE03.png,Bjorn_Greeting1_NE04.png,Bjorn_Greeting1_NE05.png,Bjorn_Greeting1_NE06.png,Bjorn_Greeting1_NE07.png,Bjorn_Greeting1_NE08.png]
+        - [Bjorn_Greeting1_E01.png,Bjorn_Greeting1_E02.png,Bjorn_Greeting1_E03.png,Bjorn_Greeting1_E04.png,Bjorn_Greeting1_E05.png,Bjorn_Greeting1_E06.png,Bjorn_Greeting1_E07.png,Bjorn_Greeting1_E08.png]
+        - [Bjorn_Greeting1_SE01.png,Bjorn_Greeting1_SE02.png,Bjorn_Greeting1_SE03.png,Bjorn_Greeting1_SE04.png,Bjorn_Greeting1_SE05.png,Bjorn_Greeting1_SE06.png,Bjorn_Greeting1_SE07.png,Bjorn_Greeting1_SE08.png]
+        - [Bjorn_Greeting1_S01.png,Bjorn_Greeting1_S02.png,Bjorn_Greeting1_S03.png,Bjorn_Greeting1_S04.png,Bjorn_Greeting1_S05.png,Bjorn_Greeting1_S06.png,Bjorn_Greeting1_S07.png,Bjorn_Greeting1_S08.png]
+        - [Bjorn_Greeting1_SO01.png,Bjorn_Greeting1_SO02.png,Bjorn_Greeting1_SO03.png,Bjorn_Greeting1_SO04.png,Bjorn_Greeting1_SO05.png,Bjorn_Greeting1_SO06.png,Bjorn_Greeting1_SO07.png,Bjorn_Greeting1_SO08.png]
+        - [Bjorn_Greeting1_O01.png,Bjorn_Greeting1_O02.png,Bjorn_Greeting1_O03.png,Bjorn_Greeting1_O04.png,Bjorn_Greeting1_O05.png,Bjorn_Greeting1_O06.png,Bjorn_Greeting1_O07.png,Bjorn_Greeting1_O08.png]
+        - [Bjorn_Greeting1_NO01.png,Bjorn_Greeting1_NO02.png,Bjorn_Greeting1_NO03.png,Bjorn_Greeting1_NO04.png,Bjorn_Greeting1_NO05.png,Bjorn_Greeting1_NO06.png,Bjorn_Greeting1_NO07.png,Bjorn_Greeting1_NO08.png]			
       ancho_base: 1 #tiles
       alto_base: 1 #tiles
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 10 #pixels
       fps: 10
+    - nombre: knight
+      imagen:
+        - [Knight_N01.png,Knight_N02.png,Knight_N03.png,Knight_N04.png,Knight_N05.png,Knight_N06.png,Knight_N07.png,Knight_N08.png,Knight_N09.png,Knight_N10.png,Knight_N11.png,Knight_N12.png,Knight_N13.png]
+        - [Knight_NE01.png,Knight_NE02.png,Knight_NE03.png,Knight_NE04.png,Knight_NE05.png,Knight_NE06.png,Knight_NE07.png,Knight_NE08.png,Knight_NE09.png,Knight_NE10.png,Knight_NE11.png,Knight_NE12.png,Knight_NE13.png]
+        - [Knight_E01.png,Knight_E02.png,Knight_E03.png,Knight_E04.png,Knight_E05.png,Knight_E06.png,Knight_E07.png,Knight_E08.png,Knight_E09.png,Knight_E10.png,Knight_E11.png,Knight_E12.png,Knight_E13.png]
+        - [Knight_SE01.png,Knight_SE02.png,Knight_SE03.png,Knight_SE04.png,Knight_SE05.png,Knight_SE06.png,Knight_SE07.png,Knight_SE08.png,Knight_SE09.png,Knight_SE10.png,Knight_SE11.png,Knight_SE12.png,Knight_SE13.png]
+        - [Knight_S01.png,Knight_S02.png,Knight_S03.png,Knight_S04.png,Knight_S05.png,Knight_S06.png,Knight_S07.png,Knight_S08.png,Knight_S09.png,Knight_S10.png,Knight_S11.png,Knight_S12.png,Knight_S13.png]
+        - [Knight_SO01.png,Knight_SO02.png,Knight_SO03.png,Knight_SO04.png,Knight_SO05.png,Knight_SO06.png,Knight_SO07.png,Knight_SO08.png,Knight_SO09.png,Knight_SO10.png,Knight_SO11.png,Knight_SO12.png,Knight_SO13.png]
+        - [Knight_O01.png,Knight_O02.png,Knight_O03.png,Knight_O04.png,Knight_O05.png,Knight_O06.png,Knight_O07.png,Knight_O08.png,Knight_O09.png,Knight_O10.png,Knight_O11.png,Knight_O12.png,Knight_O13.png]
+        - [Knight_NO01.png,Knight_NO02.png,Knight_NO03.png,Knight_NO04.png,Knight_NO05.png,Knight_NO06.png,Knight_NO07.png,Knight_NO08.png,Knight_NO09.png,Knight_NO10.png,Knight_NO11.png,Knight_NO12.png,Knight_NO13.png]
+        - [Knight_Attack1_N01.png,Knight_Attack1_N02.png,Knight_Attack1_N03.png,Knight_Attack1_N04.png,Knight_Attack1_N05.png,Knight_Attack1_N06.png,Knight_Attack1_N07.png,Knight_Attack1_N08.png]
+        - [Knight_Attack1_NE01.png,Knight_Attack1_NE02.png,Knight_Attack1_NE03.png,Knight_Attack1_NE04.png,Knight_Attack1_NE05.png,Knight_Attack1_NE06.png,Knight_Attack1_NE07.png,Knight_Attack1_NE08.png]
+        - [Knight_Attack1_E01.png,Knight_Attack1_E02.png,Knight_Attack1_E03.png,Knight_Attack1_E04.png,Knight_Attack1_E05.png,Knight_Attack1_E06.png,Knight_Attack1_E07.png,Knight_Attack1_E08.png]
+        - [Knight_Attack1_SE01.png,Knight_Attack1_SE02.png,Knight_Attack1_SE03.png,Knight_Attack1_SE04.png,Knight_Attack1_SE05.png,Knight_Attack1_SE06.png,Knight_Attack1_SE07.png,Knight_Attack1_SE08.png]
+        - [Knight_Attack1_S01.png,Knight_Attack1_S02.png,Knight_Attack1_S03.png,Knight_Attack1_S04.png,Knight_Attack1_S05.png,Knight_Attack1_S06.png,Knight_Attack1_S07.png,Knight_Attack1_S08.png]
+        - [Knight_Attack1_SO01.png,Knight_Attack1_SO02.png,Knight_Attack1_SO03.png,Knight_Attack1_SO04.png,Knight_Attack1_SO05.png,Knight_Attack1_SO06.png,Knight_Attack1_SO07.png,Knight_Attack1_SO08.png]
+        - [Knight_Attack1_O01.png,Knight_Attack1_O02.png,Knight_Attack1_O03.png,Knight_Attack1_O04.png,Knight_Attack1_O05.png,Knight_Attack1_O06.png,Knight_Attack1_O07.png,Knight_Attack1_O08.png]
+        - [Knight_Attack1_NO01.png,Knight_Attack1_NO02.png,Knight_Attack1_NO03.png,Knight_Attack1_NO04.png,Knight_Attack1_NO05.png,Knight_Attack1_NO06.png,Knight_Attack1_NO07.png,Knight_Attack1_NO08.png]		
+        - [Knight_Greeting1_N01.png,Knight_Greeting1_N02.png,Knight_Greeting1_N03.png,Knight_Greeting1_N04.png,Knight_Greeting1_N05.png,Knight_Greeting1_N06.png,Knight_Greeting1_N07.png,Knight_Greeting1_N08.png]
+        - [Knight_Greeting1_NE01.png,Knight_Greeting1_NE02.png,Knight_Greeting1_NE03.png,Knight_Greeting1_NE04.png,Knight_Greeting1_NE05.png,Knight_Greeting1_NE06.png,Knight_Greeting1_NE07.png,Knight_Greeting1_NE08.png]
+        - [Knight_Greeting1_E01.png,Knight_Greeting1_E02.png,Knight_Greeting1_E03.png,Knight_Greeting1_E04.png,Knight_Greeting1_E05.png,Knight_Greeting1_E06.png,Knight_Greeting1_E07.png,Knight_Greeting1_E08.png]
+        - [Knight_Greeting1_SE01.png,Knight_Greeting1_SE02.png,Knight_Greeting1_SE03.png,Knight_Greeting1_SE04.png,Knight_Greeting1_SE05.png,Knight_Greeting1_SE06.png,Knight_Greeting1_SE07.png,Knight_Greeting1_SE08.png]
+        - [Knight_Greeting1_S01.png,Knight_Greeting1_S02.png,Knight_Greeting1_S03.png,Knight_Greeting1_S04.png,Knight_Greeting1_S05.png,Knight_Greeting1_S06.png,Knight_Greeting1_S07.png,Knight_Greeting1_S08.png]
+        - [Knight_Greeting1_SO01.png,Knight_Greeting1_SO02.png,Knight_Greeting1_SO03.png,Knight_Greeting1_SO04.png,Knight_Greeting1_SO05.png,Knight_Greeting1_SO06.png,Knight_Greeting1_SO07.png,Knight_Greeting1_SO08.png]
+        - [Knight_Greeting1_O01.png,Knight_Greeting1_O02.png,Knight_Greeting1_O03.png,Knight_Greeting1_O04.png,Knight_Greeting1_O05.png,Knight_Greeting1_O06.png,Knight_Greeting1_O07.png,Knight_Greeting1_O08.png]
+        - [Knight_Greeting1_NO01.png,Knight_Greeting1_NO02.png,Knight_Greeting1_NO03.png,Knight_Greeting1_NO04.png,Knight_Greeting1_NO05.png,Knight_Greeting1_NO06.png,Knight_Greeting1_NO07.png,Knight_Greeting1_NO08.png]			
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 10 #pixels
+      fps: 10
+    - nombre: queen
+      imagen:
+        - [Queen_N01.png,Queen_N02.png,Queen_N03.png,Queen_N04.png,Queen_N05.png,Queen_N06.png,Queen_N07.png,Queen_N08.png,Queen_N09.png,Queen_N10.png,Queen_N11.png,Queen_N12.png,Queen_N13.png]
+        - [Queen_NE01.png,Queen_NE02.png,Queen_NE03.png,Queen_NE04.png,Queen_NE05.png,Queen_NE06.png,Queen_NE07.png,Queen_NE08.png,Queen_NE09.png,Queen_NE10.png,Queen_NE11.png,Queen_NE12.png,Queen_NE13.png]
+        - [Queen_E01.png,Queen_E02.png,Queen_E03.png,Queen_E04.png,Queen_E05.png,Queen_E06.png,Queen_E07.png,Queen_E08.png,Queen_E09.png,Queen_E10.png,Queen_E11.png,Queen_E12.png,Queen_E13.png]
+        - [Queen_SE01.png,Queen_SE02.png,Queen_SE03.png,Queen_SE04.png,Queen_SE05.png,Queen_SE06.png,Queen_SE07.png,Queen_SE08.png,Queen_SE09.png,Queen_SE10.png,Queen_SE11.png,Queen_SE12.png,Queen_SE13.png]
+        - [Queen_S01.png,Queen_S02.png,Queen_S03.png,Queen_S04.png,Queen_S05.png,Queen_S06.png,Queen_S07.png,Queen_S08.png,Queen_S09.png,Queen_S10.png,Queen_S11.png,Queen_S12.png,Queen_S13.png]
+        - [Queen_SO01.png,Queen_SO02.png,Queen_SO03.png,Queen_SO04.png,Queen_SO05.png,Queen_SO06.png,Queen_SO07.png,Queen_SO08.png,Queen_SO09.png,Queen_SO10.png,Queen_SO11.png,Queen_SO12.png,Queen_SO13.png]
+        - [Queen_O01.png,Queen_O02.png,Queen_O03.png,Queen_O04.png,Queen_O05.png,Queen_O06.png,Queen_O07.png,Queen_O08.png,Queen_O09.png,Queen_O10.png,Queen_O11.png,Queen_O12.png,Queen_O13.png]
+        - [Queen_NO01.png,Queen_NO02.png,Queen_NO03.png,Queen_NO04.png,Queen_NO05.png,Queen_NO06.png,Queen_NO07.png,Queen_NO08.png,Queen_NO09.png,Queen_NO10.png,Queen_NO11.png,Queen_NO12.png,Queen_NO13.png]
+        - [Queen_Attack1_N01.png,Queen_Attack1_N02.png,Queen_Attack1_N03.png,Queen_Attack1_N04.png,Queen_Attack1_N05.png,Queen_Attack1_N06.png,Queen_Attack1_N07.png,Queen_Attack1_N08.png]
+        - [Queen_Attack1_NE01.png,Queen_Attack1_NE02.png,Queen_Attack1_NE03.png,Queen_Attack1_NE04.png,Queen_Attack1_NE05.png,Queen_Attack1_NE06.png,Queen_Attack1_NE07.png,Queen_Attack1_NE08.png]
+        - [Queen_Attack1_E01.png,Queen_Attack1_E02.png,Queen_Attack1_E03.png,Queen_Attack1_E04.png,Queen_Attack1_E05.png,Queen_Attack1_E06.png,Queen_Attack1_E07.png,Queen_Attack1_E08.png]
+        - [Queen_Attack1_SE01.png,Queen_Attack1_SE02.png,Queen_Attack1_SE03.png,Queen_Attack1_SE04.png,Queen_Attack1_SE05.png,Queen_Attack1_SE06.png,Queen_Attack1_SE07.png,Queen_Attack1_SE08.png]
+        - [Queen_Attack1_S01.png,Queen_Attack1_S02.png,Queen_Attack1_S03.png,Queen_Attack1_S04.png,Queen_Attack1_S05.png,Queen_Attack1_S06.png,Queen_Attack1_S07.png,Queen_Attack1_S08.png]
+        - [Queen_Attack1_SO01.png,Queen_Attack1_SO02.png,Queen_Attack1_SO03.png,Queen_Attack1_SO04.png,Queen_Attack1_SO05.png,Queen_Attack1_SO06.png,Queen_Attack1_SO07.png,Queen_Attack1_SO08.png]
+        - [Queen_Attack1_O01.png,Queen_Attack1_O02.png,Queen_Attack1_O03.png,Queen_Attack1_O04.png,Queen_Attack1_O05.png,Queen_Attack1_O06.png,Queen_Attack1_O07.png,Queen_Attack1_O08.png]
+        - [Queen_Attack1_NO01.png,Queen_Attack1_NO02.png,Queen_Attack1_NO03.png,Queen_Attack1_NO04.png,Queen_Attack1_NO05.png,Queen_Attack1_NO06.png,Queen_Attack1_NO07.png,Queen_Attack1_NO08.png]		
+        - [Queen_Greeting1_N01.png,Queen_Greeting1_N02.png,Queen_Greeting1_N03.png,Queen_Greeting1_N04.png,Queen_Greeting1_N05.png,Queen_Greeting1_N06.png,Queen_Greeting1_N07.png,Queen_Greeting1_N08.png]
+        - [Queen_Greeting1_NE01.png,Queen_Greeting1_NE02.png,Queen_Greeting1_NE03.png,Queen_Greeting1_NE04.png,Queen_Greeting1_NE05.png,Queen_Greeting1_NE06.png,Queen_Greeting1_NE07.png,Queen_Greeting1_NE08.png]
+        - [Queen_Greeting1_E01.png,Queen_Greeting1_E02.png,Queen_Greeting1_E03.png,Queen_Greeting1_E04.png,Queen_Greeting1_E05.png,Queen_Greeting1_E06.png,Queen_Greeting1_E07.png,Queen_Greeting1_E08.png]
+        - [Queen_Greeting1_SE01.png,Queen_Greeting1_SE02.png,Queen_Greeting1_SE03.png,Queen_Greeting1_SE04.png,Queen_Greeting1_SE05.png,Queen_Greeting1_SE06.png,Queen_Greeting1_SE07.png,Queen_Greeting1_SE08.png]
+        - [Queen_Greeting1_S01.png,Queen_Greeting1_S02.png,Queen_Greeting1_S03.png,Queen_Greeting1_S04.png,Queen_Greeting1_S05.png,Queen_Greeting1_S06.png,Queen_Greeting1_S07.png,Queen_Greeting1_S08.png]
+        - [Queen_Greeting1_SO01.png,Queen_Greeting1_SO02.png,Queen_Greeting1_SO03.png,Queen_Greeting1_SO04.png,Queen_Greeting1_SO05.png,Queen_Greeting1_SO06.png,Queen_Greeting1_SO07.png,Queen_Greeting1_SO08.png]
+        - [Queen_Greeting1_O01.png,Queen_Greeting1_O02.png,Queen_Greeting1_O03.png,Queen_Greeting1_O04.png,Queen_Greeting1_O05.png,Queen_Greeting1_O06.png,Queen_Greeting1_O07.png,Queen_Greeting1_O08.png]
+        - [Queen_Greeting1_NO01.png,Queen_Greeting1_NO02.png,Queen_Greeting1_NO03.png,Queen_Greeting1_NO04.png,Queen_Greeting1_NO05.png,Queen_Greeting1_NO06.png,Queen_Greeting1_NO07.png,Queen_Greeting1_NO08.png]			
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 10 #pixels
+      fps: 10
+      
 escenarios:
     - nombre: bosque_encantado
       size_x: 200 #tiles
@@ -225,6 +287,6 @@ escenarios:
         - {x: 21, y: 42, entidad: agua}
         - {x: 19, y: 40, entidad: casa_selva}
       protagonista:
-        - entidad: guerrero2
+        - entidad: vlad
           x: 0
           y: 40
