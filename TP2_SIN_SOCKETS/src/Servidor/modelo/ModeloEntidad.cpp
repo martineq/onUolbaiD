@@ -13,7 +13,8 @@ ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {
 
 void ModeloEntidad::posicionActual(Posicion posicionActual) {
 	this->_posicionActual = posicionActual;
-	this->_estadoNivel->visitar(this->_posicionActual.x, this->_posicionActual.y);
+	if (this->_estadoNivel != NULL)
+		this->_estadoNivel->visitar(this->_posicionActual.x, this->_posicionActual.y);
 }
 
 void ModeloEntidad::posicionSiguiente(Posicion posicionSiguiente) {
