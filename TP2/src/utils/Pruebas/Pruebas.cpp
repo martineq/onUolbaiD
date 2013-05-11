@@ -519,8 +519,9 @@ void Pruebas::PruebaServidorChat() {
 			return;
 		}
 
-		string mensajeRecibido = serializadora.getString();
-		if (!mensajeRecibido.empty()) {
+		if (serializadora.size() > 0) {
+			string mensajeRecibido = serializadora.getString();
+			serializadora.nuevaSerializacion();
 			serializadora.addString(mensajeRecibido);
 			if (!socketServidor.enviarMasivo(serializadora)) {
 				cout << "Error al enviar mensaje" << endl;
@@ -578,9 +579,11 @@ void Pruebas::PruebaClienteChat() {
 			return;
 		}
 
-		string mensajeRecibido = serializadora.getString();
-		if (!mensajeRecibido.empty())
+		if (serializadora.size() > 0) {
+			string mensajeRecibido = serializadora.getString();
+			serializadora.nuevaSerializacion();
 			vistaChat->agregarMensaje("servidor", mensajeRecibido);
+		}
 		
 		detectorEventos.detectar();
 		
