@@ -15,7 +15,7 @@ ProxyEntidad::ProxyEntidad(ModeloEntidad* entidad){
 	this->tileY = entidad->posicionActual().y;
 	this->esJugador = true; //Tendría que tener el modelo si corresponde o no a jugador
 	this->codigoDireccion = entidad->direccion();
-	this->codigoAccion = entidad->getAccion();
+	this->codigoAccion = entidad->accion();
 }
 
 string* ProxyEntidad::serialize(){
@@ -66,7 +66,7 @@ void ProxyEntidad::actualizar(Observable* s){
 	this->tileX = ((ModeloEntidad*)s)->posicionSiguiente().x;
 	this->tileY = ((ModeloEntidad*)s)->posicionSiguiente().y;	
 	this->codigoDireccion = ((ModeloEntidad*)s)->direccion();
-	this->codigoAccion = ((ModeloEntidad*)s)->getAccion();
+	this->codigoAccion = ((ModeloEntidad*)s)->accion();
 	this->actualizado = true;
 }
 
