@@ -91,13 +91,12 @@ bool VistaFactory::recibirArchivos(SocketCliente* pSocket){
 
 bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket){
 
-	Serializadora si;
-	if( pSocket->recibir(si) == false ) return false;
-	std::string cadenaRecibida(si.getString());
+	Serializadora s;
+	if( pSocket->recibir(s) == false ) return false;
+//	std::string cadenaRecibida(si.getString());
 	
 	// Hidrato el vector de strings y recibo cada archivo
 	int cantidadDeArchivos = 0;
-	Serializadora s(cadenaRecibida);
 	cantidadDeArchivos = s.getInt();
 	for ( int i=0 ; i < cantidadDeArchivos ; i++ ){
 		std::string rutaDestino(s.getString());
