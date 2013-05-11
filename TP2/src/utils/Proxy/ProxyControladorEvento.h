@@ -2,6 +2,7 @@
 
 #include "../Sockets/SocketCliente.h"
 #include "../Sockets/SocketServidor.h"
+#include "../Serializacion/Serializadora.h"
 
 class ProxyControladorEvento{
 
@@ -36,6 +37,10 @@ class ProxyControladorEvento{
 		// Para usar en el momento de juego. Debe estar seteado el modo Masivo
 		bool enviarEvento(ProxyControladorEvento::stEvento entidad);			// Lo usa el lado Cliente
 		bool recibirEvento(ProxyControladorEvento::stEvento& evento);			// Lo usa el lado Servidor
+
+		void serializar(Serializadora& s,ProxyControladorEvento::stEvento& evento);
+		void hidratar(Serializadora& s,ProxyControladorEvento::stEvento& evento);
+
 
 		// Auxiliares
 		static void cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool mouseDentroPantalla,bool finalizoElJuego);

@@ -220,7 +220,6 @@ std::string ModeloFactory::obtenerPersonajeLibre(std::list<std::string> listaEnt
 }
 
 bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador){
-
 	std::list<ModeloEntidad*> listaJugadores = modeloNivel->getListaJugadores();
 	int cantidadOtrosJugadores = listaJugadores.size() - 1;  // Descarto a mi jugador
 	ProxyModeloEntidad proxy;
@@ -238,7 +237,9 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 		ModeloEntidad* pEntidad = (*it);
 		if( pEntidad->id() != idMiJugador ){
 			// Cargo los datos
-			proxy.cargarStEntidad(entidad,pEntidad->id(),false,false,pEntidad->getNombreEntidad(),pEntidad->pixelSiguiente().x,pEntidad->pixelSiguiente().y,pEntidad->direccion(),pEntidad->esUltimoMovimiento());
+			//TODO: poner accion
+			int accion = 0;
+			proxy.cargarStEntidad(entidad,pEntidad->id(),false,false,pEntidad->esJugador(),pEntidad->getNombreEntidad(),pEntidad->pixelSiguiente().x,pEntidad->pixelSiguiente().y,pEntidad->direccion(),pEntidad->esUltimoMovimiento(),pEntidad->posicionActual().x,pEntidad->posicionActual().y,accion);			
 
 			// Los envio a través del proxy
 			if( proxy.enviarEntidadIndividual(entidad,idMiJugador) == false ) return false;
