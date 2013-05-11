@@ -1,12 +1,12 @@
 #include "Serializadora.h"
 
 Serializadora::Serializadora() {
-	stream = new stringstream();
+	stream = new std::stringstream();
 }
 
-Serializadora::Serializadora(string stringSerializado)
+Serializadora::Serializadora(std::string stringSerializado)
 {
-	stream = new stringstream(stringSerializado);
+	stream = new std::stringstream(stringSerializado);
 }
 
 void Serializadora::addInt(int valor)
@@ -24,23 +24,22 @@ void Serializadora::addBool(bool valor)
 	stream->write((char*)&valor,TAM_BOOL);
 }
 
-void Serializadora::addString(string cadena)
+void Serializadora::addString(std::string cadena)
 {
 	int size = cadena.size();
 	addInt(size);
 	stream->write((char*)cadena.c_str(),size);
 }
 
-
-void Serializadora::addStringPointer(string* cadena,int size)
+void Serializadora::addStringPointer(std::string* cadena,int size)
 {
 	addInt(size);
 	stream->write(cadena->c_str(),size);
 }
 
-string *Serializadora::getSerializacion()
+std::string *Serializadora::getSerializacion()
 {
-	return new string(stream->str());
+	return new std::string(stream->str());
 }
 
 int Serializadora::getInt()
@@ -57,25 +56,24 @@ bool Serializadora::getBool()
 	return valor;
 }
 
-
-string *Serializadora::getStringPointer()
+std::string *Serializadora::getStringPointer()
 {
 	int size = getInt();
 	char* aux = new char[size];
 	stream->read(aux,size);
-	stringstream abc;
+	std::stringstream abc;
 	abc.write(aux,size);
-	string* cadena = new string(abc.str());
+	std::string* cadena = new std::string(abc.str());
 	delete[] aux;
 	return cadena;
 }
 
-string Serializadora::getString()
+std::string Serializadora::getString()
 {
 	int size = getInt();
 	char* aux = new char[size];
 	stream->read(aux,size);
-	stringstream abc;
+	std::stringstream abc;
 	abc.write(aux,size);
 	delete[] aux;
 	return abc.str();
@@ -150,10 +148,9 @@ unsigned int Serializadora::size(){
 void Serializadora::nuevaSerializacion(){
 	this->stream->str(std::string());		// Le inicialo con un string vacio
 	this->stream->clear();					// Seteo la bandera de eof
-
 }
 
-void Serializadora::nuevaSerializacion(string stringSerializado){
+void Serializadora::nuevaSerializacion(std::string stringSerializado){
 	this->stream->str(stringSerializado);	// Piso lo que habia antes con el nuevo serializado
 }
 

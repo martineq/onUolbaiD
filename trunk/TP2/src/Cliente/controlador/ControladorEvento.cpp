@@ -9,6 +9,7 @@ ControladorEvento::ControladorEvento(void){
 	this->mouseDentroDePantalla = true;
 	this->controladorScroll = NULL;
 	this->pProxyEvento = NULL;
+	this->finalizoElJuego = false;
 	this->teclaAApretada = false;
 	this->teclaSApretada = false;
 }
@@ -95,13 +96,7 @@ bool ControladorEvento::getTeclaSApretada(){
 
 void ControladorEvento::notificarAlProxy(){
 	ProxyControladorEvento::stEvento evento;
-	evento.id = this->idJugador;
-	evento.mouseX = this->getPosicionMouseX();
-	evento.mouseY = this->getPosicionMouseY();
-	evento.mouseClickIzquierdo = (this->getClicMouseBotonIzquierdo() == 1 );
-	evento.mouseDentroPantalla = this->getMouseDentroDePantalla();
-	evento.teclaA = this->getTeclaAApretada();
-	evento.teclaS = this->getTeclaSApretada();
+	ProxyControladorEvento::cargarStEvento(evento,this->idJugador,false,this->getPosicionMouseX(),this->getPosicionMouseY(),this->getTeclaAApretada(),this->getTeclaSApretada(),(this->getClicMouseBotonIzquierdo() == 1 ),this->getMouseDentroDePantalla(),this->getFinalizoElJuego());
 	this->pProxyEvento->enviarEvento(evento);
 }
 
@@ -121,4 +116,13 @@ void ControladorEvento::setProxyEvento(ProxyControladorEvento* pProxyEvento){
 
 ProxyControladorEvento* ControladorEvento::getProxyEvento(void){
 	return this->pProxyEvento;
+}
+
+void ControladorEvento::setFinalizoElJuego(bool valor){
+	this->finalizoElJuego = valor;
+	return void();
+}
+
+bool ControladorEvento::getFinalizoElJuego(void){
+	return this->finalizoElJuego;
 }

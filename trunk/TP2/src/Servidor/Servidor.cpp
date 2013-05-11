@@ -39,6 +39,13 @@ void Servidor::loop(void){
 		if (intervaloTranscurrido < delay){
 			Temporizador::getInstance().crearDelay(delay - intervaloTranscurrido);
 		}
+
+		// Si no tengo jugadores conectados cierro el juego
+		if( this->modeloJuego.cantidadJugadores() < 1 ){
+			// Emitir mensaje  "FIN DEL JUEGO"
+			quit = true;
+		}
+
 	}
 
 	// Al finalizar el juego cierro la recepción de jugadores

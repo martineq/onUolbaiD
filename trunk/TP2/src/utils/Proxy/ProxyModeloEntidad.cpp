@@ -29,8 +29,20 @@ bool ProxyModeloEntidad::enviarEntidadIndividual(ProxyModeloEntidad::stEntidad e
 // Idem enviarEntidad() pero para recibir directo
 // Nota: Este método está creado para ser usado desde el VistaFactory.
 // El cliente debe estar seteado en Individual para que funcione. 
+// OJO: Acá se da por supuesto que el cliente se encuentra en modo directo ("EnvioDirecto")
 bool ProxyModeloEntidad::recibirEntidadIndividual(ProxyModeloEntidad::stEntidad& entidad){
-	return this->recibirEntidad(entidad);
+	
+	this->recibirEntidad(entidad);
+
+	// Acá uso:
+	// if( this->pCliente->recibir(...) == false ) entidad.errorEnSocket = true;
+
+	if( entidad.errorEnSocket == true){
+		return false;
+	}else{
+		return true;
+	}
+
 }	
 
 // Envío la entidad a través del socket
@@ -61,6 +73,7 @@ void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,
 	entidad.pixelSiguienteY = pixelSiguienteY;
 	entidad.direccion = direccion;
 	entidad.esUltimoMovimiento = esUltimoMovimiento;
+
 }
 
-// TODO: Implementar los métodos de los proxys
+// TODO: Implementar los métodos del proxy. Ver si hace falta agregar al struct mas variables necesarias 

@@ -72,6 +72,22 @@ bool ModeloEvento::getMouseDentroPantalla() {
 	return this->listaEventos.front().mouseDentroPantalla;
 }
 
+bool ModeloEvento::getKeyA(){
+	return this->listaEventos.front().teclaA;
+}
+
+bool ModeloEvento::getKeyS(){
+	return this->listaEventos.front().teclaS;
+}
+
+bool ModeloEvento::errorEnSocket(){
+	return this->listaEventos.front().errorEnSocket;
+}
+
+bool ModeloEvento::finalizoElJuego(){
+	return this->listaEventos.front().finalizoElJuego;
+}
+
 void ModeloEvento::setProxyControladorEvento(ProxyControladorEvento* pProxyEvento){
 	this->pProxyEvento = pProxyEvento;
 	return void();

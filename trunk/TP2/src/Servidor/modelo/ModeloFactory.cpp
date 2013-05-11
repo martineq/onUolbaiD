@@ -114,14 +114,8 @@ bool ModeloFactory::enviarEscenario(SocketServidor* pSocket, int id){
 
 // Selecciona y envia los datos del protagonista elegido. Además crea la EntidadModelo correspondiente y la setea en el ModeloNivel. Método usado por el hilo de configuración
 bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
-	// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del VistaFactory::recibirProtagonista() ***
-	//	     + Le paso el ID de la entidad y demas datos del jugador
-	// Acá llamo a this->crearJugador() una vez elegido por el cliente
-	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
-	ParserYaml::stProtagonista protagonista = juego.escenario.protagonistas.front();
-	/////////////////////////////////////////////////////////////////////////////////
 
-	// Recibo los nombres de usuario y protagonista serializados, luego los hidrato
+	// Recibo el nombres de usuario y nombre de protagonista serializados, luego los hidrato
 	Serializadora s;
 	if( pSocket->recibirIndividual(s,id) == false ) return false;
 	std::string nombreUsuario(s.getString());
@@ -139,7 +133,7 @@ bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* 
 // Devuelve el jugador que va a usar el cliente
 // Caso 1: Si el jugador NO está en uso se crea y se devuelve una copia del mismo
 // Caso 2: Si el jugador SI está en uso y SI se encuentra "congelado", se cambia su condición y se devuelve una copia del mismo
-// Caso 2: Si el jugador SI está en uso y NO se encuentra "congelado", se elige otro jugador que no se encuentre en uso, se crea y se devuelve una copia del mismo
+// Caso 3: Si el jugador SI está en uso y NO se encuentra "congelado", se elige otro jugador que no se encuentre en uso, se crea y se devuelve una copia del mismo
 ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,std::string& nombreUsuario,std::string& nombrePersonaje,SocketServidor* pSocket,int id){
 
 	std::list<ModeloEntidad*> listaEntidades = modeloNivel->getListaEntidades();
@@ -149,7 +143,6 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 	bool encontrado = false;
 
 	for( std::list<ModeloEntidad*>::iterator itEntidad = listaEntidades.begin() ; itEntidad != listaEntidades.end() ; itEntidad++ ){
-		
 		// Obtengo el nombre de jugador y entidad
 		std::string nombreJugador = (*itEntidad)->getNombreJugador();
 		std::string nombreEntidad = (*itEntidad)->getNombreEntidad();
@@ -162,40 +155,30 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 			pEntidad = (*itEntidad);
 			encontrado = true;
 		}
-
 	}
 
 	// NOTA: Observar que si encuentro al usuario, ya no me interesa el personaje que eligió el cliente, porque este ya se encuentra creado
 	if( encontrado == true ){		
-
 		// Me fijo si está congelado o no
 		if( pEntidad->getEstaCongelado() == true){
-
 			// Si está congelado y es el mismo nombre de usuario, lo descongelo y obtengo sus datos
 			pEntidad->setEstaCongelado(false);
 			stEntidad = pEntidad->getStEntidad();
 			return stEntidad;
-
 		}else{
-
 			// Si no está congelado y es el mismo nombre de usuario, no lo puedo usar, así que busco otro personaje libre y lo creo
 			std::string nombreJugador = this->obtenerPersonajeLibre(listaJugadoresUsados,nombrePersonaje);
 			nombrePersonaje = nombreJugador;	// Actualizo el nombre que va a tener el personaje
 			this->crearJugador(modeloNivel,stEntidad,pSocket,nombreJugador, id);
 			return stEntidad;
-
 		}
-
 	}else{
-
 		// Si no encontré ese nombre entre los jugadores creo uno nuevo
 		std::string nombreJugador = this->obtenerPersonajeLibre(listaJugadoresUsados,nombrePersonaje);
 		nombrePersonaje = nombreJugador;	// Actualizo el nombre que va a tener el personaje
 		this->crearJugador(modeloNivel,stEntidad,pSocket,nombreJugador, id);
 		return stEntidad;
-
 	}
-
 	return stEntidad;
 }
 
@@ -203,7 +186,7 @@ std::string ModeloFactory::obtenerPersonajeLibre(std::list<std::string> listaEnt
 	std::string personajeElegido;
 	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
 	std::list<ParserYaml::stProtagonista> listaEntidadesTotal = juego.escenario.protagonistas;
-	
+
 	// Obtengo los protagonistas libres
 	std::list<std::string> listaEntidadesLibres;
 	for( std::list<ParserYaml::stProtagonista>::iterator itTotal = listaEntidadesTotal.begin() ; itTotal != listaEntidadesTotal.end() ; itTotal++ ){
@@ -290,9 +273,13 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
 	pProxyEntidad->setSocketServidor(pSocket);
 
-	// Creo la entidad y la agrego al nivel
+	// Creo la entidad
 	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,nombreJugador); 
+
+	// Obtengo los datos de la stEntidad para luego pasarsela al cliente
 	stEntidad = pJugador->getStEntidad();
+
+	// Agrego la entidad al nivel
 	modeloNivel->agregarJugador(pJugador);
 
 	return void();

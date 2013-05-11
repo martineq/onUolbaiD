@@ -89,10 +89,13 @@ class ModeloEntidad: public Identificable {
 		int _altoMapa;
 		int _anchoMapa;
 		ProxyModeloEntidad* _pProxyEntidad;
+		Mutex mutexEntidad;		// Se agregará solo un mutex por cada ModeloEntidad
 
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
 
 		ModeloEntidad& operator=(const ModeloEntidad &modeloEntidad);
+
+		int getId();
 
 	public:
 		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad,int id,std::string nombreEntidad,std::string nombreJugador);
@@ -105,43 +108,54 @@ class ModeloEntidad: public Identificable {
 
 		ProxyModeloEntidad::stEntidad getStEntidad();
 
-		int id() const;
+		int id();
 
-		std::string getNombreEntidad() const;
+		std::string getNombreEntidad();
 
-		bool esJugador() const;
+		bool esJugador();
 
-		int alto() const;
+		int alto();
 
-		int ancho() const;
+		int ancho();
 		
-		int velocidad() const;
+		int velocidad();
 
-		Posicion posicionActual() const;
+		Posicion posicionActual();
 
-		Posicion posicionSiguiente() const;
+		Posicion posicionSiguiente();
 
-		Posicion pixelActual() const;
+		Posicion pixelActual();
 
-		Posicion pixelSiguiente() const;
+		Posicion pixelSiguiente();
 
-		Direccion direccion() const;
+		Direccion direccion();
 
-		bool esUltimoMovimiento() const;
+		bool esUltimoMovimiento();
 
 		void mover(Posicion posicion);
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 
-		void setNombreJugador(std::string nombre);
+		int altoMapa();
 
-		std::string getNombreJugador() const;
+		int anchoMapa();
+
+		std::string getNombreJugador();
 
 		void setEstaCongelado(bool estado);
 
-		bool getEstaCongelado() const;
+		bool getEstaCongelado();
+	
+		void setPixelActual(Posicion valor);
+
+		void setPixelSiguiente(Posicion valor);
+
+		void setPosicionActual(Posicion valor);
+
+		void setPosicionSiguiente(Posicion valor);
+
+		void setDireccion(Direccion valor);
+
+		void setEsUltimoMovimiento(bool valor);
 
 };
-
-// TODO: Hay que agregar mutex para todos los atributos de ModeloEntidad ya que puede ser leido por varios hilos a la vez
-// Se agregará solo un mutex por cada ModeloEntidad

@@ -75,6 +75,17 @@ void ModeloNivel::moverJugador(int mouseX, int mouseY, int id) {
 	jugador->mover(posicion);
 }
 
+void ModeloNivel::congelarJugador(int idJugador){
+	ModeloEntidad* jugador = this->obtenerJugador(idJugador);
+	if (jugador == NULL){
+		return void();
+	}else{
+		jugador->setEstaCongelado(true);
+		this->decrementarJugadores();		// TODO: ¿Se resta la cantidad de jugadores cuando tiene error alguno de ellos? Por ahora lo dejo puesto
+	}
+	return void();
+}
+
 bool ModeloNivel::actualizar(int id) {
 	ModeloEntidad* jugador = this->obtenerJugador(id);
 	if (jugador != NULL)

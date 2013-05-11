@@ -17,7 +17,7 @@ class ProxyControladorEvento{
 			bool teclaA;
 			bool teclaS;
 			bool mouseClickIzquierdo;
-			bool mouseDentroPantalla;
+			bool mouseDentroPantalla;	// TODO: Confirmar si se puede borrar, o si todavia hace falta
 			bool finalizoElJuego;
 	};
 
@@ -29,9 +29,15 @@ class ProxyControladorEvento{
 		ProxyControladorEvento(void);
 		~ProxyControladorEvento(void);
 
+		// Para setear al principio
 		void setSocketCliente(SocketCliente* pCliente);
 		void setSocketServidor(SocketServidor* pServidor);
-		bool enviarEvento(ProxyControladorEvento::stEvento entidad);
-		bool recibirEvento(ProxyControladorEvento::stEvento& evento);
+
+		// Para usar en el momento de juego. Debe estar seteado el modo Masivo
+		bool enviarEvento(ProxyControladorEvento::stEvento entidad);			// Lo usa el lado Cliente
+		bool recibirEvento(ProxyControladorEvento::stEvento& evento);			// Lo usa el lado Servidor
+
+		// Auxiliares
+		static void cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool mouseDentroPantalla,bool finalizoElJuego);
 		
 };

@@ -16,6 +16,7 @@ class ControladorEvento{
 		bool mouseDentroDePantalla;
 		ControladorScroll* controladorScroll;
 		ProxyControladorEvento* pProxyEvento;
+		bool finalizoElJuego;
 		bool teclaAApretada;
 		bool teclaSApretada;
 
@@ -29,6 +30,7 @@ class ControladorEvento{
 		void setClicMouseBotonDerecho(int);
 		void setClicMouseBotonIzquierdo(int);
 		void setMouseDentroDePantalla(bool);
+		void setFinalizoElJuego(bool valor);
 		void setTeclaAApretada(bool);
 		void setTeclaSApretada(bool);
 		void setProxyEvento(ProxyControladorEvento* pProxyEvento);
@@ -38,6 +40,7 @@ class ControladorEvento{
 		int getClicMouseBotonDerecho();
 		int getClicMouseBotonIzquierdo();
 		bool getMouseDentroDePantalla();
+		bool getFinalizoElJuego(void);
 		bool getTeclaAApretada();
 		bool getTeclaSApretada();
 		void notificarAlProxy();		

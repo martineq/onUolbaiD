@@ -140,26 +140,21 @@ void VistaFactory::asignarEscenarioElegido(std::string nombreEscenario,std::list
 
 // Recibe los datos del protagonista elegido y los setea, pero no lo crea (se hace luego, en crearNivel() )
 bool VistaFactory::recibirProtagonista(SocketCliente* pSocket,std::string nombreUsuario,std::string nombrePersonaje){
-	// TODO: *** Refactorizar de acuerdo al TP2. Esta es la contraparte del ModeloFactory::crearJugador() ***
-	// Implementar toda la comunicación con el Servidor para decirle el protagonista elegido, el nombre de usuario y
-	// luego de obtener una respuesta positiva del servidor devolver el protagonista elegido. (Por ahora devuelvo el primero)
-	// >>> No instancio al jugador acá, sólo cargo los datos para luego instanciarlo
-	// Supuestamente uso: juegoElegido.escenario.protagonistas,juegoElegido.idJugador,juegoElegido.protagonista ver si hace falta esto
-	// >> Preguntar por (entidad.errorEnSocket == false) al usar el proxy
-	
+
 	// Serializo los nombres de usuario y protagonista, luego lo envio al servidor
 	Serializadora s;
 	s.addString(nombreUsuario);
 	s.addString(nombrePersonaje);
 	if( pSocket->enviar(s) == false ) return false;
 
-	// 
+	// Recibo al protagonista, y dejo cargado los datos para su posterior creación
+	ProxyModeloEntidad::stEntidad entidad;
+	ProxyModeloEntidad proxy;
+	proxy.setSocketCliente(pSocket);
+	if( proxy.recibirEntidadIndividual(entidad) == false ) return false;	// Si hubo error de sockets me voy
+	this->juegoElegido.entidadJugador = entidad;
 
-
-	// Al final queda seteado que protagonista se eligió, con:
-	//this->juegoElegido.protagonista = ....;
-
-	return true; // return false si hay error de sockets
+	return true;
 }
 
 // Puedo usar esto si lo necesito. Creo no va a hacer falta
@@ -235,14 +230,20 @@ bool VistaFactory::crearElementosVista(VistaNivel& vistaNivel,VistaLoop& vistaLo
 }
 
 void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket){
-
-	std::string nombreProtagonista = this->juegoElegido.protagonista.entidad;
+ 
+	std::string nombreProtagonista = this->juegoElegido.entidadJugador.nombreEntidad;
 	ParserYaml::stEntidad entidadProtagonista = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreProtagonista);
 	
 	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
-	double x = (double)this->juegoElegido.protagonista.x;
-	double y = (double)this->juegoElegido.protagonista.y;
-	int id = this->juegoElegido.idJugador;
+	double x = (double)this->juegoElegido.entidadJugador.pixelSiguienteX;
+	double y = (double)this->juegoElegido.entidadJugador.pixelSiguienteY;
+	int id = this->juegoElegido.entidadJugador.id;
+	// TODO: Me parece que ahora, como le doy directamente el valor en pixel (pixelSiguienteX), el constructor de VistaEntidad no necesita mas hacer la conversión. Verificar eso
+	// Faltan actualizar estos valores:
+	//this->juegoElegido.entidadJugador.actualizacionMapa;
+	//this->juegoElegido.entidadJugador.direccion;
+	//this->juegoElegido.entidadJugador.esUltimoMovimiento; 
+	//this->juegoElegido.entidadJugador.entidadCongelada;  <<< Este no hace falta porque si lo estoy creando se da por hecho que NO está congelado
 
 	// Valores tomados desde la entidad
 	double alto = (double)entidadProtagonista.altoBase;
@@ -275,8 +276,8 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	int id = entidad.id;
 	double x = (double)entidad.pixelSiguienteX;
 	double y = (double)entidad.pixelSiguienteY;	
-	//entidad.direccion				// Para el primer seteo no hace falta ¿no?
-	//entidad.esUltimoMovimiento
+	//entidad.direccion				// <<< TODO: Para el primer seteo ¿hace falta? Si hace falta, implementarlo.
+	//entidad.esUltimoMovimiento	// <<< Para el primer seteo ¿hace falta? Si hace falta, implementarlo.
 	
 	// Valores tomados desde la entidad
 	double alto = (double)entidadJugador.altoBase;
@@ -331,7 +332,7 @@ void VistaFactory::crearEntidadesNoJugadores(VistaNivel& vistaNivel){
 		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id);
 		vistaNivel.agregarEntidad(pEntidad);
 
-		idEntidadesDef.pop_front();	// Una vez que usé el ID lo tiro para tener acceso al próximo
+		idEntidadesDef.pop_front();	// Una vez que usé el ID lo destruyo para tener acceso al próximo
 	}
 
 	return void();
@@ -340,7 +341,7 @@ void VistaFactory::crearEntidadesNoJugadores(VistaNivel& vistaNivel){
 bool VistaFactory::crearElementosControlador(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket){
 
 	// Seteo el ID del jugador en el Evento
-	evento->setIdJugador(this->juegoElegido.idJugador);
+	evento->setIdJugador(this->juegoElegido.entidadJugador.id);
 
 	// Creo el Scroll
 	this->crearControladorScroll(evento);
@@ -357,8 +358,8 @@ bool VistaFactory::crearElementosControlador(VistaNivel& vistaNivel,VistaLoop& v
 void VistaFactory::crearControladorScroll(ControladorEvento* evento){
 	
 	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
-	int x = this->juegoElegido.protagonista.x;
-	int y = this->juegoElegido.protagonista.y;
+	int x = this->juegoElegido.entidadJugador.pixelSiguienteX;
+	int y = this->juegoElegido.entidadJugador.pixelSiguienteY;
 
 	// Valores tomados desde el escenario elegido
 	int anchoEscenario = this->juegoElegido.escenario.tamanioX;
