@@ -53,3 +53,4 @@ class ProxyModeloEntidad{
 		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento,int tileX, int tileY, int accion);
 };
 
+//TODO: poner accion

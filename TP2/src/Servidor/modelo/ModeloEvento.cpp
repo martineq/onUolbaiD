@@ -68,10 +68,6 @@ bool ModeloEvento::getMouseClickIzquierdo() {
 	return this->listaEventos.front().mouseClickIzquierdo;
 }
 
-bool ModeloEvento::getMouseDentroPantalla() {
-	return this->listaEventos.front().mouseDentroPantalla;
-}
-
 bool ModeloEvento::getKeyA(){
 	return this->listaEventos.front().teclaA;
 }

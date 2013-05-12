@@ -18,7 +18,6 @@ class ProxyControladorEvento{
 			bool teclaA;
 			bool teclaS;
 			bool mouseClickIzquierdo;
-			bool mouseDentroPantalla;	// TODO: Confirmar si se puede borrar, o si todavia hace falta
 			bool finalizoElJuego;
 	};
 
@@ -44,6 +43,6 @@ class ProxyControladorEvento{
 		std::list<int> getClientesConError(void);
 
 		// Auxiliares
-		static void cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool mouseDentroPantalla,bool finalizoElJuego);
+		static void cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego);
 		
 };

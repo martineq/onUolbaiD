@@ -148,5 +148,3 @@ void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,
 	entidad.tileY = tileY;
 	entidad.accion = accion;
 }
-
-// TODO: Implementar los métodos del proxy. Ver si hace falta agregar al struct mas variables necesarias 

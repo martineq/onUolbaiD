@@ -255,7 +255,6 @@ void ModeloEntidad::notificarAlProxy(void){
 }
 
 ProxyModeloEntidad::stEntidad ModeloEntidad::getStEntidad(){
-	//TODO PONER LA ACCION
 	int accion = 0;
 	ProxyModeloEntidad::stEntidad entidad;
 	ProxyModeloEntidad::cargarStEntidad(entidad,this->id(),false,this->getEstaCongelado(),this->esJugador(),this->getNombreEntidad(),this->pixelSiguiente().x,this->pixelSiguiente().y,this->direccion(),this->esUltimoMovimiento(),this->posicionActual().x,this->posicionActual().y,accion);

@@ -81,7 +81,7 @@ void ModeloNivel::congelarJugador(int idJugador){
 		return void();
 	}else{
 		jugador->setEstaCongelado(true);
-		this->decrementarJugadores();		// TODO: ¿Se resta la cantidad de jugadores cuando tiene error alguno de ellos? Por ahora lo dejo puesto
+		this->decrementarJugadores();		// Se resta la cantidad de jugadores cuando alguno de ellos tiene error
 	}
 	return void();
 }
