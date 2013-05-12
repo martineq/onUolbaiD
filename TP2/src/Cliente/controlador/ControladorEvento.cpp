@@ -111,7 +111,7 @@ ControladorScroll* ControladorEvento::getControladorScroll(void){
 }
 
 void ControladorEvento::setProxyEvento(ProxyControladorEvento* pProxyEvento){
-	this->pProxyEvento;
+	this->pProxyEvento = pProxyEvento;
 }
 
 ProxyControladorEvento* ControladorEvento::getProxyEvento(void){
