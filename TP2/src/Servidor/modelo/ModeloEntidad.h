@@ -24,7 +24,9 @@ class ModeloEntidad {
 				int _anchoNivel;
 				ModeloEntidad* _modeloEntidad;
 				std::list<ModeloEntidad*>* _listaJugadores;
+				Mutex* _mutexListaJugadores;
 				std::list<ModeloEntidad*>* _listaEntidades;
+				Mutex* _mutexListaEntidades;
 				Posicion _posicionDestino;
 				Posicion _posicionDestinoDesvio;
 				int _deltaX;
@@ -65,9 +67,9 @@ class ModeloEntidad {
 
 				void actualizar(Posicion posicion);
 
-				void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
+				void asignarListaEntidades(Mutex* mutexListaEntidades, std::list<ModeloEntidad*>* listaEntidades);
 
-				void asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores);
+				void asignarListaJugadores(Mutex* mutexListaJugadores, std::list<ModeloEntidad*>* listaJugadores);
 
 				void cambiarEstado();
 
@@ -115,13 +117,13 @@ class ModeloEntidad {
 		EstadoNivel* _estadoNivel;
 		int _id;
 		ModeloMovimiento* _modeloMovimiento;
+		Mutex _mutex;
 		std::string _nombreEntidad;
 		std::string _nombreJugador;
 		Posicion _posicionActual;
 		Posicion _posicionSiguiente;
 		ProxyModeloEntidad* _proxyEntidad;
 		int _velocidad;
-		Mutex mutexEntidad;
 		
 		bool _esUltimoMovimiento;
 		Posicion _pixelActual;
@@ -139,8 +141,6 @@ class ModeloEntidad {
 
 		void esUltimoMovimiento(bool esUltimoMovimiento);
 
-		void notificar();
-
 		void posicionActual(Posicion posicionActual);
 
 		void posicionSiguiente(Posicion posicionSiguiente);
@@ -149,44 +149,46 @@ class ModeloEntidad {
 
 		void pixelSiguiente(Posicion pixelSiguiente);
 
+		void notificar();
+
 	public:
 		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador);
 
 		virtual ~ModeloEntidad();
 
-		Accion accion() const;
+		Accion accion();
 
-		int alto() const;
+		int alto();
 
-		int ancho() const;
+		int ancho();
 		
-		Direccion direccion() const;
+		Direccion direccion();
 
-		bool esJugador() const;
+		bool esJugador();
 
-		bool estaCongelado() const;
+		bool estaCongelado();
 
-		bool esUltimoMovimiento() const;
+		bool esUltimoMovimiento();
 
-		int id() const;
+		int id();
 
-		std::string nombreEntidad() const;
+		std::string nombreEntidad();
 
-		std::string nombreJugador() const;
+		std::string nombreJugador();
 
-		Posicion posicionActual() const;
+		Posicion posicionActual();
 
-		Posicion posicionSiguiente() const;
+		Posicion posicionSiguiente();
 
-		ProxyModeloEntidad::stEntidad stEntidad() const;
+		ProxyModeloEntidad::stEntidad stEntidad();
 		
-		int velocidad() const;
+		int velocidad();
 
 		void estaCongelado(bool estaCongelado);
 
-		void asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores);
+		void asignarListaJugadores(Mutex* mutexListaJugadores, std::list<ModeloEntidad*>* listaJugadores);
 
-		void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
+		void asignarListaEntidades(Mutex* mutexListaJugadores, std::list<ModeloEntidad*>* listaEntidades);
 
 		void atacar();
 
@@ -198,9 +200,9 @@ class ModeloEntidad {
 
 		bool ocupaPosicion(Posicion posicion);
 
+		Posicion pixelActual();
+
+		Posicion pixelSiguiente();
+
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
-
-		Posicion pixelActual() const;
-
-		Posicion pixelSiguiente() const;
 };

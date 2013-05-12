@@ -8,8 +8,12 @@ class ModeloNivel {
 	private:
 		int altoTiles;
 		int anchoTiles;
+
 		std::list<ModeloEntidad*> listaJugadores;
+		Mutex mutexListaJugadores;
+
 		std::list<ModeloEntidad*> listaEntidades;
+		Mutex mutexListaEntidades;
 
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
