@@ -20,8 +20,6 @@ class ControladorScroll : public Observable {
 		int getX();
 		int getY();
 		int getAlto();
-		void setAlto(int nuevoAlto);
-		void setAncho(int nuevoAncho);
 		int getAncho();
 		int getMargen();
 		

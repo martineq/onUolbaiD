@@ -27,11 +27,7 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 			// En el caso de no haber errores y no haber terminado el juego se obtienen los datos para acutalizar
 			int mousePosX = this->_modeloEvento.getMousePosX();
 			int mousePosY = this->_modeloEvento.getMousePosY();
-			// Tambien hay:
-			//this->_modeloEvento.getKeyA();
-			//this->_modeloEvento.getKeyS();
-			//this->_modeloEvento.getMouseDentroPantalla(); // <<< Confirmar si no hace falta, así lo borro
-
+			
 			if (this->_modeloEvento.getMouseClickIzquierdo()){
 				modeloNivel.moverJugador(mousePosX,mousePosY,idJugador); // Busca por ID el jugador a mover
 			}

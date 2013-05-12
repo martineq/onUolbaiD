@@ -27,25 +27,15 @@ void Servidor::loop(void){
 		// Se puede poner un delay de tiempo para que no de muchas vueltas mientras espera un jugador
 	}
 
-	int fps = 50;
-	int delay = 1000/fps;	
 	bool quit = false;		
 	while (quit == false){
-		int tickViejo = Temporizador::getInstance().obtenerTics();		
-
 		if( this->modeloJuego.loop() == false) quit = true;
 	
-		int intervaloTranscurrido = Temporizador::getInstance().obtenerTics() - tickViejo;
-		if (intervaloTranscurrido < delay){
-			Temporizador::getInstance().crearDelay(delay - intervaloTranscurrido);
-		}
-
 		// Si no tengo jugadores conectados cierro el juego
 		if( this->modeloJuego.cantidadJugadores() < 1 ){
 			// Emitir mensaje  "FIN DEL JUEGO"
 			quit = true;
 		}
-
 	}
 
 	// Al finalizar el juego cierro la recepción de jugadores

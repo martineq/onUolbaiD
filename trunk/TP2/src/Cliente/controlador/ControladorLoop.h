@@ -8,19 +8,11 @@ class ControladorLoop{
 	private:
 		DetectorEventos detector;
 		ControladorEvento evento;
-		int posicionMouseXAnterior;
-		int posicionMouseYAnterior;
-		int clicMouseBotonIzquierdoAnterior;
-		int clicMouseBotonDerechoAnterior;	
-		bool loopInicial;
-		bool dentroDePantalla;
-		bool teclaAApretada;
-		bool teclaSApretada;
 
 public:
-		ControladorLoop(void);
-		~ControladorLoop(void);
+		ControladorLoop();
+		virtual ~ControladorLoop();
 		void loop();		
 		bool getQuit();
-		ControladorEvento* getControladorEvento(void);
+		ControladorEvento* getControladorEvento();
 };

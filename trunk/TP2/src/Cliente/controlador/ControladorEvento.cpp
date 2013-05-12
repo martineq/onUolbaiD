@@ -23,27 +23,11 @@ void ControladorEvento::setIdJugador(int id){
 	this->idJugador = id;
 }
 
-void ControladorEvento::setMouseDentroDePantalla(bool dentroDePantalla){
-	this->mouseDentroDePantalla = dentroDePantalla;
-	if ( this->mouseDentroDePantalla == false) this->notificarAlProxy();
-}
-
-void ControladorEvento::setPosicionMouseX(int posicion){
-	this->posicionMouseX = posicion;
-	if ( ((this->posicionMouseX < controladorScroll->getMargen()) || (this->posicionMouseX > (this->anchoNivelEnPixel) - controladorScroll->getMargen())) ) this->notificarAlProxy();
-}
-
-void ControladorEvento::setPosicionMouseY(int posicion){
-	this->posicionMouseY = posicion;
-	if ( (this->posicionMouseY < controladorScroll->getMargen()) || (this->posicionMouseY > (this->altoNivelEnPixel - controladorScroll->getMargen())) ) this->notificarAlProxy();
-}
-
 void ControladorEvento::setPosicionMouseXY(int posicionX,int posicionY){
 	this->posicionMouseX = posicionX;
 	this->posicionMouseY = posicionY;
-	if ( (this->posicionMouseX < controladorScroll->getMargen()) || (this->posicionMouseX > (this->anchoNivelEnPixel - controladorScroll->getMargen()))
-		|| (this->posicionMouseY < controladorScroll->getMargen()) || (this->posicionMouseY > (this->altoNivelEnPixel - controladorScroll->getMargen())) ) this->notificarAlProxy();
-	this->notificarAlProxy();
+	/*if ((this->posicionMouseX < controladorScroll->getMargen()) || (this->posicionMouseX > (this->anchoNivelEnPixel - controladorScroll->getMargen())) || (this->posicionMouseY < controladorScroll->getMargen()) || (this->posicionMouseY > (this->altoNivelEnPixel - controladorScroll->getMargen())) ) this->notificarAlProxy();
+	this->notificarAlProxy();*/
 }
 
 void ControladorEvento::setClicMouseBotonIzquierdo(int clic){

@@ -24,12 +24,9 @@ class ControladorEvento{
 		ControladorEvento(void);
 		~ControladorEvento(void);		
 		void setIdJugador(int id);
-		void setPosicionMouseX(int);
-		void setPosicionMouseY(int);
 		void setPosicionMouseXY (int,int);
 		void setClicMouseBotonDerecho(int);
 		void setClicMouseBotonIzquierdo(int);
-		void setMouseDentroDePantalla(bool);
 		void setFinalizoElJuego(bool valor);
 		void setTeclaAApretada(bool);
 		void setTeclaSApretada(bool);
@@ -46,6 +43,5 @@ class ControladorEvento{
 		void notificarAlProxy();		
 		ControladorScroll* getControladorScroll(void);		
 		ProxyControladorEvento* getProxyEvento(void);
-
 };
 

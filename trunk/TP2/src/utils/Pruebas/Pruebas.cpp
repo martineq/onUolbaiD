@@ -488,6 +488,8 @@ void Pruebas::PruebaSockets() {
 
 void Pruebas::PruebaServidorChat() {
 	SocketServidor socketServidor;
+	Serializadora serializadora;
+	LectorDirectorios lectorDirectorios;
 	int puerto = 444;
 	string entrada;
 
@@ -509,10 +511,19 @@ void Pruebas::PruebaServidorChat() {
 			cout << "Error al aceptar al cliente" << endl;
 			return;
 		}
-		else if (cliente != ACEPTAR_TIMEOUT)
+		else if (cliente != ACEPTAR_TIMEOUT) {
+			list<string> archivos;
+			
+			archivos.push_back("img/chat.png");
+			archivos.push_back("verdana.ttf");
+			
+			socketServidor.setClienteIndividual(cliente);
+			if (!socketServidor.enviarArchivosIndividual(archivos, cliente)) {
+				cout << "No se pudieron enviar archivos" << endl;
+				return;
+			}
 			socketServidor.setClienteMasivo(cliente);
-
-		Serializadora serializadora;
+		}
 
 		if (!socketServidor.recibirMasivo(serializadora)) {
 			cout << "Error al recibir mensaje" << endl;
@@ -532,6 +543,7 @@ void Pruebas::PruebaServidorChat() {
 }
 
 void Pruebas::PruebaClienteChat() {
+	Serializadora serializadora;
 	DetectorEventos detectorEventos;
 	SocketCliente socketCliente;
 	string servidor = "localhost";
@@ -555,6 +567,15 @@ void Pruebas::PruebaClienteChat() {
 		return;
 	}
 
+	socketCliente.setEnvioDirecto();
+	if (!socketCliente.recibirArchivo("img/chat.png")) {
+		cout << "Error al recibir archivo imagen" << endl;
+		return;
+	}
+	if (!socketCliente.recibirArchivo("verdana.ttf")) {
+		cout << "Error al recibir archivo fuente" << endl;
+		return;
+	}
 	socketCliente.setEnvioIndirecto();
 
 	SDL_Init(SDL_INIT_VIDEO);
@@ -573,7 +594,6 @@ void Pruebas::PruebaClienteChat() {
 	SDL_EnableUNICODE(SDL_ENABLE);
 
 	while (!detectorEventos.getQuit()) {
-		Serializadora serializadora;
 		if (!socketCliente.recibir(serializadora)) {
 			cout << "Error al recibir mensaje" << endl;
 			return;
