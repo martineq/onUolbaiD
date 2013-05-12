@@ -9,12 +9,13 @@ VistaJuego::~VistaJuego(void){
 }
 
 bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento){
-	if( this->vistaFactory.crearNivel(this->vistaNivel,this->vistaLoop,evento,pSocket) == false ) return false;
+	ImageLoader::getInstance().iniciarSDL();
+	if( this->vistaFactory.crearNivel(this->vistaNivel,evento,pSocket,this->vistaLoop.getPunteroPantalla(),this->vistaLoop.getPunteroProxy()) == false ) return false;
 	return true;
 }
 
 bool VistaJuego::loop(){
-	return this->vistaLoop.loop(this->vistaNivel);
+	return this->vistaLoop.loop(this->vistaNivel,this->vistaFactory);
 }
 
 void VistaJuego::destruirEntidades(){

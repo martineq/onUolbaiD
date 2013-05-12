@@ -19,7 +19,7 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 		}
 
 		// Obtengo el id para ubicarlo en el nivel
-		int idJugador = this->_modeloEvento.getIdJugador();
+		int idJugador = this->_modeloEvento.getIdJugador(); 
 
 		// Si el cliente finalizo su juego tambien lo congelo
 		if( this->_modeloEvento.finalizoElJuego() == true ){
