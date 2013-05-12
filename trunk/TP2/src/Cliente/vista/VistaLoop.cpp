@@ -17,8 +17,8 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 	this->pantalla = pantalla;
 }
 
-bool VistaLoop::loop(VistaNivel& vistaNivel){
-	if( this->actualizarEntidadesPorProxy(vistaNivel) == false) return false;	// Nuevo: Actuliza lo que vino por el proxy
+bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory){
+	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory) == false) return false;	// Nuevo: Actuliza lo que vino por el proxy
 	if( this->dibujarEntidades(vistaNivel) == false) return false;
 	return true;
 }
@@ -66,11 +66,11 @@ void VistaLoop::SetProxyModeloEntidad(ProxyModeloEntidad* pProxyEntidad){
 }
 
 // Tomo todas las notificaciones de actualización de entidades y las proceso
-bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel){
+bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory& vistaFactory){
 
 	// Si antes corté por tener entidad con ID repetido, la misma quedó en espera y entonces ahora la actualizo primero
 	if( this->hayEntidadEnEspera == true ){
-		if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel) == false ) return false;
+		if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false ) return false;
 		this->entidadEnEspera.id = -1;
 		this->hayEntidadEnEspera = false;
 	}else{
@@ -78,7 +78,7 @@ bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel){
 				return true;
 		}else{
 				this->hayEntidadEnEspera = false;
-				if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel) == false ) return false;
+				if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false ) return false;
 		}
 	}
 
@@ -96,7 +96,7 @@ bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel){
 			}else{																// Caso: Recibo entidad de un ID que no tenía hasta ahora
 				this->entidadEnEspera = entidadObtenida;
 				this->hayEntidadEnEspera = false;
-				if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel) == false ) return false;
+				if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false ) return false;
 			}
 
 		}
@@ -106,7 +106,7 @@ bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel){
 }
 
 // Recorro todas las entidades tratando de actualizar o eliminar la entidad indicada por el stEntidad
-bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel){
+bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel,VistaFactory& vistaFactory){
 
 	// Primero me fijo si no hubo error de sockets
 	if( entidad.errorEnSocket == true ){
@@ -146,7 +146,18 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 		}
 	}else{
 		//TODO: crear las entidades cuando no existen
+		vistaFactory.crearJugadorSinScroll(vistaNivel,entidad);
 	}
 	return true;
 }
+
+ProxyModeloEntidad** VistaLoop::getPunteroProxy(){
+	return &(this->pProxyEntidad);
+}
+
+SDL_Surface** VistaLoop::getPunteroPantalla(){
+	return &(this->pantalla);
+
+}
+
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./VistaNivel.h"
-#include "./VistaLoop.h"
+//#include "./VistaLoop.h"
 #include "./ImageLoader.h"
 #include "../../utils/yaml/ParserYaml.h"
 #include "../Controlador/ControladorEvento.h"
@@ -36,13 +36,12 @@ class VistaFactory{
 		void menuSeleccionUsuarioPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje);
 
 		// Creación de la Vista
-		bool crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);
-		void crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket);
-		void crearEntidadesNoJugadores(VistaNivel& vistaNivel);
-		void crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntidad::stEntidad& entidad,SocketCliente* pSocket);
+		bool crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vistaNivel,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino);
+		void crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pantalla);
+		void crearEntidadesNoJugadores(VistaNivel& vistaNivel);		
 
 		// Creación del Controlador
-		bool crearElementosControlador(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket);
+		bool crearElementosControlador(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket);
 		void crearControladorScroll(ControladorEvento* evento);		
 		void crearProxyControladorEvento(ControladorEvento* evento,SocketCliente* pSocket);
 		void vincularScroll(VistaNivel& vistaNivel,ControladorEvento* evento);
@@ -51,5 +50,6 @@ class VistaFactory{
 		VistaFactory(void);
 		~VistaFactory(void);
 
-		bool crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket);
+		bool crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino);
+		void crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntidad::stEntidad& entidad);
 };

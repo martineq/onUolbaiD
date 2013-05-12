@@ -8,7 +8,7 @@ VistaFactory::~VistaFactory(void){
 
 }
 
-bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket){
+bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino){
 
 	// Me conecto al servidor
 	if( this->conectarSocket(pSocket) == false ) return false;
@@ -42,10 +42,10 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 	pSocket->setEnvioIndirecto();
 
 	// Creo los elementos de la Vista
-	if( this->crearElementosVista(pPantallaSDL,vistaNivel,vistaLoop,pSocket) == false ) return false;
+	if( this->crearElementosVista(pPantallaSDL,vistaNivel,pSocket,pPantallaDestino,pProxyDestino) == false ) return false;
 
 	// Creo los elementos del Controlador
-	if( this->crearElementosControlador(vistaNivel,vistaLoop,evento,pSocket) == false ) return false;
+	if( this->crearElementosControlador(vistaNivel,evento,pSocket) == false ) return false;
 
 	return true;
 }
@@ -203,16 +203,17 @@ bool VistaFactory::recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* p
 	ProxyModeloEntidad::stEntidad entidad;
 	for ( unsigned int i=0 ; i<cantidadOtrosJugadores ; i++ ){ 
 		if( proxy.recibirEntidadIndividual(entidad) == false ) return false;
-		this->crearJugadorSinScroll(vistaNivel,entidad,pSocket);
+		this->crearJugadorSinScroll(vistaNivel,entidad);
 	}
 
 	return true; 
 }
 
-bool VistaFactory::crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket){
+bool VistaFactory::crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vistaNivel,SocketCliente* pSocket, SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino){
 
 	// Inicio y seteo de SDL
-	vistaLoop.setPantalla(pPantallaSDL);
+	//vistaLoop.setPantalla(pPantallaSDL);
+	(*pPantallaDestino) = pPantallaSDL;
 
 	// Seteo medidas de pantalla
 	vistaNivel.setAltoPantalla(this->juegoElegido.pantalla.alto);
@@ -221,16 +222,17 @@ bool VistaFactory::crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vi
 	// Seteo el ProxyModeloEntidad
 	ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
 	pProxyEntidad->setSocketCliente(pSocket);
-	vistaLoop.SetProxyModeloEntidad(pProxyEntidad);
+	//vistaLoop.SetProxyModeloEntidad(pProxyEntidad);
+	(*pProxyDestino) = pProxyEntidad;
 
 	// Creo al protagonista y a las entidades (no creo a otros jugadores)
-	this->crearJugadorConScroll(vistaNivel,pPantallaSDL,pSocket);
+	this->crearJugadorConScroll(vistaNivel,pPantallaSDL);
 	this->crearEntidadesNoJugadores(vistaNivel);
 
 	return true;
 }
 
-void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket){
+void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pantalla){
  
 	std::string nombreProtagonista = this->juegoElegido.entidadJugador.nombreEntidad;
 	ParserYaml::stEntidad entidadProtagonista = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreProtagonista);
@@ -267,7 +269,7 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	return void();
 }
 
-void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntidad::stEntidad& entidad,SocketCliente* pSocket){
+void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntidad::stEntidad& entidad){
 
 	std::string nombreJugador = entidad.nombreEntidad;
 	ParserYaml::stEntidad entidadJugador = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreJugador);
@@ -339,7 +341,7 @@ void VistaFactory::crearEntidadesNoJugadores(VistaNivel& vistaNivel){
 	return void();
 }
 
-bool VistaFactory::crearElementosControlador(VistaNivel& vistaNivel,VistaLoop& vistaLoop,ControladorEvento* evento,SocketCliente* pSocket){
+bool VistaFactory::crearElementosControlador(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket){
 
 	// Seteo el ID del jugador en el Evento
 	evento->setIdJugador(this->juegoElegido.entidadJugador.id);

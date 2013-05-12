@@ -24,6 +24,7 @@ std::list<VistaEntidad*> VistaNivel::getListaEntidades(void){
 
 void VistaNivel::agregarJugador(VistaEntidad* pJugador){
 	this->jugador = pJugador;
+	//this->listaEntidades.push_back(pJugador);
 	return void();
 }
 
