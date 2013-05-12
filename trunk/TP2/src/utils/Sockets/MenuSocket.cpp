@@ -108,7 +108,6 @@ void MenuSocket::cicloJuegoServidor(){
 	Serializadora s;
 	std::string str;
 	bool seguir = true;
-	int tamanio;
 	std::cout << "Se recibirán mensajes hasta recibir \"EOF\" o hasta que se cierre el cliente. " << std::endl;
 
 	while ( seguir == true ){

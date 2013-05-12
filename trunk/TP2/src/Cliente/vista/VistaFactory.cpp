@@ -31,6 +31,8 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 
 	// Recibo datos desde el Servidor
 	std::string nombreUsuario, nombrePersonaje;  // <<< Esto tiene que ser recibido por parámetro desde crearNivel(). Estos datos vienen por parámetro desde el main
+	this->menuSeleccionUsuarioPersonaje(nombreUsuario,nombrePersonaje);
+
 	if( this->recibirEscenario(juegoYaml.escenarios,pSocket) == false ) return false;
 	if( this->recibirProtagonista(pSocket,nombreUsuario,nombrePersonaje) == false ) return false;
 	if( this->recibirOtrosJugadores(vistaNivel,pSocket) == false ) return false;

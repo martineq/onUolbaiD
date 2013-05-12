@@ -9,19 +9,20 @@ class ConexionCliente{
 
 	private:
 		SocketApp socketApp;						// Datos del socket
-		int id;									// ID de la conexión
+		int id;										// ID de la conexión
 		bool esIndividual;							// Indica si los mensajes se reciben/envian en una cola individual (==true) o si van a una cola común a todas las conexiones (==false)
 	
 		// Colas de datos
 		std::list<std::string> colaEntrada;			// Cola de entrada de datos
 		std::list<std::string> colaSalida;			// Cola de salida de datos
-		
+
 		// Hilos
 		HiloConexion hiloEntrada;					// Hilo de entrada
 		HiloConexion hiloSalida;					// Hilo de salida
 
 		// Mutex
-		Mutex mutexEsIndividual;				// Exclusión mutua para el booleano esIndividual
+		Mutex mutexId;								// Exclusión mutua para el el int id
+		Mutex mutexEsIndividual;					// Exclusión mutua para el booleano esIndividual
 		Mutex mutexColaEntrada;						// Exclusión mutua para la cola de entrada
 		Mutex mutexColaSalida;						// Exclusión mutua para la cola de salida
 
@@ -40,6 +41,7 @@ class ConexionCliente{
 	
 		// Configuración e identificación de la conexión (Usado por <Servidor>)
 		int getId(void);
+		void setId(int id);
 		void setMasiva(void);
 		void setEsIndividual(void);
 		bool getEsIndividual(void);

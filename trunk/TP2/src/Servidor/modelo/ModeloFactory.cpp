@@ -118,11 +118,11 @@ bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* 
 	// Recibo el nombres de usuario y nombre de protagonista serializados, luego los hidrato
 	Serializadora s;
 	if( pSocket->recibirIndividual(s,id) == false ) return false;
-	std::string nombreUsuario(s.getString());
-	std::string nombrePersonaje(s.getString());
+	std::string mote(s.getString());
+	std::string nombreEntidadPersonaje(s.getString());
 
 	// Elijo al protagonista, lo creo y envio los datos del mismo
-	ProxyModeloEntidad::stEntidad entidad = this->elegirProtagonista(modeloNivel,nombreUsuario,nombrePersonaje,pSocket,id);
+	ProxyModeloEntidad::stEntidad entidad = this->elegirProtagonista(modeloNivel,mote,nombreEntidadPersonaje,pSocket,id);
 	ProxyModeloEntidad proxy;
 	proxy.setSocketServidor(pSocket);
 	if( proxy.enviarEntidadIndividual(entidad,id) == false ) return false;
@@ -134,49 +134,62 @@ bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* 
 // Caso 1: Si el jugador NO está en uso se crea y se devuelve una copia del mismo
 // Caso 2: Si el jugador SI está en uso y SI se encuentra "congelado", se cambia su condición y se devuelve una copia del mismo
 // Caso 3: Si el jugador SI está en uso y NO se encuentra "congelado", se elige otro jugador que no se encuentre en uso, se crea y se devuelve una copia del mismo
-ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,std::string& nombreUsuario,std::string& nombrePersonaje,SocketServidor* pSocket,int id){
+ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,std::string& mote,std::string& nombreEntidadPersonaje,SocketServidor* pSocket,int id){
 
 	std::list<ModeloEntidad*> listaEntidades = modeloNivel->getListaEntidades();
 	std::list<std::string> listaJugadoresUsados;
 	ProxyModeloEntidad::stEntidad stEntidad;
 	ModeloEntidad* pEntidad = NULL;
-	bool encontrado = false;
+	bool moteEncontrado = false;
 
 	for( std::list<ModeloEntidad*>::iterator itEntidad = listaEntidades.begin() ; itEntidad != listaEntidades.end() ; itEntidad++ ){
 		// Obtengo el nombre de jugador y entidad
-		std::string nombreJugador = (*itEntidad)->getNombreJugador();
-		std::string nombreEntidad = (*itEntidad)->getNombreEntidad();
+		std::string moteJugador = (*itEntidad)->getNombreJugador();
+		std::string entidadPersonaje = (*itEntidad)->getNombreEntidad();
 		
 		// Guardo el nombre de la entidad usada
-		listaJugadoresUsados.push_back(nombreJugador);
+		listaJugadoresUsados.push_back(entidadPersonaje);
 		
 		// Comparo el nombre del jugador usado con el que me pide el usuario nuevo
-		if( nombreJugador.compare(nombreUsuario) == 0 ){
+		if( moteJugador.compare(mote) == 0 ){
 			pEntidad = (*itEntidad);
-			encontrado = true;
+			moteEncontrado = true;
 		}
 	}
 
 	// NOTA: Observar que si encuentro al usuario, ya no me interesa el personaje que eligió el cliente, porque este ya se encuentra creado
-	if( encontrado == true ){		
+	if( moteEncontrado == true ){		
 		// Me fijo si está congelado o no
 		if( pEntidad->getEstaCongelado() == true){
+			
+			// Cargo la entidad
+			stEntidad = pEntidad->getStEntidad();
+
+			// Como se está conectando de vuelta, le reasigno al socket de cliente el ID que tenia antes (stEntidad.id), para poder reconocerlo en el loop de juego
+			pSocket->renombrarIdCliente(id,stEntidad.id);
+
 			// Si está congelado y es el mismo nombre de usuario, lo descongelo y obtengo sus datos
 			pEntidad->setEstaCongelado(false);
-			stEntidad = pEntidad->getStEntidad();
 			return stEntidad;
+
 		}else{
 			// Si no está congelado y es el mismo nombre de usuario, no lo puedo usar, así que busco otro personaje libre y lo creo
-			std::string nombreJugador = this->obtenerPersonajeLibre(listaJugadoresUsados,nombrePersonaje);
-			nombrePersonaje = nombreJugador;	// Actualizo el nombre que va a tener el personaje
-			this->crearJugador(modeloNivel,stEntidad,pSocket,nombreJugador, id);
+			std::string nombrePersonajeObtenido = this->obtenerPersonajeLibre(listaJugadoresUsados,nombreEntidadPersonaje);
+			
+			// Anexo el ID al mote para diferenciarlo del que ya está jugando
+			std::stringstream ss;
+			ss << id;
+			mote.append(ss.str());
+			
+			nombreEntidadPersonaje = nombrePersonajeObtenido;	// Actualizo el nombre que va a tener el personaje
+			this->crearJugador(modeloNivel,stEntidad,pSocket,nombrePersonajeObtenido, id);
 			return stEntidad;
 		}
 	}else{
 		// Si no encontré ese nombre entre los jugadores creo uno nuevo
-		std::string nombreJugador = this->obtenerPersonajeLibre(listaJugadoresUsados,nombrePersonaje);
-		nombrePersonaje = nombreJugador;	// Actualizo el nombre que va a tener el personaje
-		this->crearJugador(modeloNivel,stEntidad,pSocket,nombreJugador, id);
+		std::string nombrePersonajeObtenido = this->obtenerPersonajeLibre(listaJugadoresUsados,nombreEntidadPersonaje);
+		nombreEntidadPersonaje = nombrePersonajeObtenido;	// Actualizo el nombre que va a tener el personaje
+		this->crearJugador(modeloNivel,stEntidad,pSocket,nombrePersonajeObtenido, id);
 		return stEntidad;
 	}
 	return stEntidad;

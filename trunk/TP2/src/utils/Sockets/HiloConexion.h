@@ -16,8 +16,8 @@ class HiloConexion: public Hilo{
 	public:
 		// Para usar hilos
 		struct stParametrosRun{
-			long idCliente;
 			char opcion;
+			int* pIdCliente;
 			SocketApp* pSocket;
 			bool* pEsIndividual;
 			std::list<std::string>* pCola;				// Este puntero puede ser de una cola de entrada o de salida
@@ -26,6 +26,7 @@ class HiloConexion: public Hilo{
 			Mutex* pMutexMasivo;
 			Mutex* pMutexCola;
 			Mutex* pMutexEsIndividual;
+			Mutex* pMutexId;
 		};
 
 	private:

@@ -79,10 +79,11 @@ void HiloConexion::loopEntradaMasivo(stParametrosRun* parametrosEntrada){
 	// Si estos punteros son todos != NULL, quiere decir que este hilo fue iniciado por una instancia de Servidor, eso quiere decir que tengo que usar el pColaMasiva
 	bool esColaMasiva = ( (parametrosEntrada->pColaEntradaMasiva != NULL) && (parametrosEntrada->pMutexMasivo != NULL) && (parametrosEntrada->pIdMasivoConError != NULL) );
 	
-	long idCliente = parametrosEntrada->idCliente;
+	int* pIdCliente = parametrosEntrada->pIdCliente;
 	SocketApp* pSocket = parametrosEntrada->pSocket;
 	std::list<std::string>* pColaEntrada = parametrosEntrada->pCola;
 	Mutex* pMutexColaEntrada = parametrosEntrada->pMutexCola;
+	Mutex* pMutexId = parametrosEntrada->pMutexId;
 	
 	// Para el caso de hilo desde un servidor
 	std::list<std::string>* pColaEntradaMasiva = parametrosEntrada->pColaEntradaMasiva;
@@ -109,10 +110,6 @@ void HiloConexion::loopEntradaMasivo(stParametrosRun* parametrosEntrada){
 		bool exito = pSocket->recibir(&cadena,cantidad); // El recibir() hace un new			
 		if (exito==true){
 
-			//std::stringstream sstr;
-			//sstr<<"Hilo ID: "<< this->getId()<<" Recibo "<<cantidad<<" bytes\n";
-			//std::cout<<sstr.str();
-
 			std::string str(cadena,cantidad);
 			pMutexColaEntrada->lockEscritura(__FILE__,__LINE__);
 			pColaEntrada->push_back(str);
@@ -123,8 +120,13 @@ void HiloConexion::loopEntradaMasivo(stParametrosRun* parametrosEntrada){
 			// Acá entro si se produjo error.
 			// Si el hilo es de un cliente masivo, instanciado desde el servidor, reporto el ID del cliente que tuvo el error en la lista de clientes con error
 			if ( esColaMasiva == true ){
+				int idCliente;
+				pMutexId->lockLectura(__FILE__,__LINE__);
+					idCliente = (*pIdCliente);
+				pMutexId->unlock(__FILE__,__LINE__);
+
 				pMutexMasivo->lockEscritura(__FILE__,__LINE__);
-				pIdMasivoConError->push_back(idCliente);
+					pIdMasivoConError->push_back(idCliente);
 				pMutexMasivo->unlock(__FILE__,__LINE__);
 			}
 			
@@ -141,7 +143,7 @@ void HiloConexion::loopSalidaIndividual(stParametrosRun* parametrosSalida){
 }
 
 void HiloConexion::loopSalidaMasivo(stParametrosRun* parametrosSalida){
-	long idCliente = parametrosSalida->idCliente;
+
 	SocketApp* pSocket = parametrosSalida->pSocket;
 	std::list<std::string>* pColaSalida = parametrosSalida->pCola;
 	Mutex* pMutexColaSalida = parametrosSalida->pMutexCola;
@@ -166,10 +168,6 @@ void HiloConexion::loopSalidaMasivo(stParametrosRun* parametrosSalida){
 		if ( (this->estaActivo() == true) && (selectOk == true) ){
 
 			if ( pSocket->enviar(str.c_str(),(unsigned int)str.size())==true){  // NO envio el caracter nulo, ya que al recibir será agregado de nuevo
-							
-				//std::stringstream sstr;
-				//sstr<<"Hilo ID: "<< this->getId()<<" Envio "<<str.size()<<" bytes\n";
-				//std::cout<<sstr.str();
 							
 				pMutexColaSalida->lockEscritura(__FILE__,__LINE__);
 				pColaSalida->pop_front();
