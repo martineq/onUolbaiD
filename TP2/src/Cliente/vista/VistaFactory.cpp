@@ -35,8 +35,12 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 	if( this->recibirProtagonista(pSocket,nombreUsuario,nombrePersonaje) == false ) return false;
 	if( this->recibirOtrosJugadores(vistaNivel,pSocket) == false ) return false;
 
+
+	pSocket->setEnvioIndirecto();
+
 	// Creo los elementos de la Vista
 	if( this->crearElementosVista(vistaNivel,vistaLoop,pSocket) == false ) return false;
+
 
 	// Creo los elementos del Controlador
 	if( this->crearElementosControlador(vistaNivel,vistaLoop,evento,pSocket) == false ) return false;
