@@ -49,35 +49,33 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	if (this->_modeloEntidad->velocidad() > (GetTickCount() - this->_instanteUltimoCambioEstado))
 		return;
 
+	std::cout << "posicion actual = (" << this->_modeloEntidad->posicionActual().x << "," << this->_modeloEntidad->posicionActual().x << ")" << std::endl;
+	std::cout << "posicion destino = (" << this->_posicionDestino.x << "," << this->_posicionDestino.x << ")" << std::endl;
+
 	// Calculo nueva posición
-	Posicion nuevaPos;
-	nuevaPos.x = this->_modeloEntidad->posicionSiguiente().x + (this->_deltaX >= this->_deltaY) ? this->_desplazamientoX : 0;
-	nuevaPos.y = this->_modeloEntidad->posicionSiguiente().y + (this->_deltaX >= this->_deltaY) ? 0 : this->_desplazamientoY;
-
-	// La asigno
-	this->_modeloEntidad->setPosicionSiguiente(nuevaPos);
-
+	Posicion posicionSiguiente = this->_modeloEntidad->posicionActual();
+	posicionSiguiente.x += (this->_deltaX >= this->_deltaY) ? this->_desplazamientoX : 0;
+	posicionSiguiente.y += (this->_deltaX >= this->_deltaY) ? 0 : this->_desplazamientoY;
 	this->_error += (this->_deltaX >= this->_deltaY) ? this->_desplazamientoErrorY : this->_desplazamientoErrorX; 
 	
 	if (this->_deltaX >= this->_deltaY) {
 		if (this->_error > this->_desplazamientoErrorX) {
-			Posicion pos = this->_modeloEntidad->posicionSiguiente();
-			pos.y = pos.y + this->_desplazamientoY;
-			this->_modeloEntidad->setPosicionSiguiente(pos); 
+			posicionSiguiente.y += this->_desplazamientoY; 
 			this->_error -= this->_desplazamientoErrorX; 
 		}
 	}
 	else {
 		if (this->_error > this->_desplazamientoErrorY) {
-			Posicion pos = this->_modeloEntidad->posicionSiguiente();
-			pos.x = pos.x + this->_desplazamientoX;
-			this->_modeloEntidad->setPosicionSiguiente(pos); 
+			posicionSiguiente.x += this->_desplazamientoX;
 			this->_error -= this->_desplazamientoErrorY;
 		}
 	}
 
+	// La asigno
+	this->_modeloEntidad->setPosicionSiguiente(posicionSiguiente);
+
 	this->notificarObservadores();
-	this->_modeloEntidad->setPosicionActual( this->_modeloEntidad->posicionSiguiente() );
+	this->_modeloEntidad->setPosicionActual(this->_modeloEntidad->posicionSiguiente());
 
 	this->_instanteUltimoCambioEstado = GetTickCount();
 }

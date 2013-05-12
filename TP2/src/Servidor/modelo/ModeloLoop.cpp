@@ -31,13 +31,12 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 			if (this->_modeloEvento.getMouseClickIzquierdo()){
 				modeloNivel.moverJugador(mousePosX,mousePosY,idJugador); // Busca por ID el jugador a mover
 			}
-			
 		}
 		
 		this->_modeloEvento.cargarProximoEvento();  // Con esto descarto el evento que acabo de leer y cargo el próximo
-
-		modeloNivel.actualizar(idJugador); // TODO: Ver si esta línea va acá, o si va afuera del while, y de esa forma se debe actualizar a todos los jugadores existentes Preguntar Mati
 	}
+
+	modeloNivel.actualizar();
 
 	return true;
 }

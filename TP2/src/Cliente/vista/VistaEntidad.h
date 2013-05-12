@@ -29,7 +29,7 @@ class VistaEntidad: public Identificable{
 		bool entraEnPantalla;
 		double xEnPantalla;
 		double yEnPantalla;
-		vector<string> estados;		
+		vector<string> estados;
 
 	public:
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id);

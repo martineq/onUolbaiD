@@ -47,7 +47,7 @@ class ModeloNivel {
 
 		void congelarJugador(int idJugador);
 
-		bool actualizar(int id);
+		bool actualizar();
 
 		int cantidadJugadores(void);
 		
