@@ -189,7 +189,6 @@ void HiloConexion::loopSalidaMasivo(stParametrosRun* parametrosSalida){
 }
 
 void HiloConexion::delay(void){
-	std::cout << "(esIndividual == true) > Aplico delay de: 1000 milisegundos\n";
 	Temporizador::getInstance().crearDelay(1000);
 	return void();
 }
