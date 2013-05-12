@@ -18,7 +18,12 @@ VistaAnimacion* VistaAnimaciones::get(std::string nombreAnimacion) {
 }
 
 void  VistaAnimaciones::agregar(std::string nombreAnimacion, list<std::string> sprites, int periodo, double ancho, double alto, int fps) {
+
 	VistaAnimacion* animacion = NULL;
+	animacion = VistaAnimacionRepository::getInstance().agregarAnimacion(nombreAnimacion,sprites,periodo,ancho,alto,fps,this->animacionesAutomaticas);
+	this->animaciones.insert(std::make_pair(nombreAnimacion, animacion));
+	this->vAnimaciones.push_back(animacion);
+/*	VistaAnimacion* animacion = NULL;
 	map<std::string, VistaAnimacion* >::iterator it = this->animaciones.find(nombreAnimacion);
 	if (it != this->animaciones.end()) {
 		// animacion repetida para este set de animaciones;
@@ -28,6 +33,7 @@ void  VistaAnimaciones::agregar(std::string nombreAnimacion, list<std::string> s
 		this->animaciones.insert(std::make_pair(nombreAnimacion, animacion));
 		this->vAnimaciones.push_back(animacion);
 	}
+*/
 }
 
 
@@ -58,8 +64,8 @@ void VistaAnimaciones::setPantalla(SDL_Surface* screen){
 VistaAnimaciones::~VistaAnimaciones() {
 	map<std::string, VistaAnimacion* >::iterator it;
 	for (it=this->animaciones.begin();it!=this->animaciones.end();it++) {
-		VistaAnimacion* animacion = (*it).second;
-		delete animacion;
+		//VistaAnimacion* animacion = (*it).second;
+		//delete animacion;
 		(*it).second = NULL;
 	}
 }

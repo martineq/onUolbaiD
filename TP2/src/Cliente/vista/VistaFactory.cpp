@@ -253,13 +253,14 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	double posicionReferenciaY = (double)entidadProtagonista.pixelReferenciaY;
 	double fps = (double)entidadProtagonista.fps;
 	double delay = (double)entidadProtagonista.delay;
+	std::string nombre = entidadProtagonista.nombre;
 	std::list<std::list<std::string>> listaAnimaciones = entidadProtagonista.imagenes;
 
 	// Valores tomados desde el escenario
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id);
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre);
 	VistaScroll* pScroll = new VistaScroll(x,y,this->juegoElegido.pantalla.alto,this->juegoElegido.pantalla.ancho,tamanioX,tamanioY,pantalla,id);	// Tomo el mismo x,y,velocidad que el personaje
 	vistaNivel.agregarJugador(pJugador);
 	vistaNivel.agregarScroll(pScroll);
@@ -288,12 +289,13 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	double fps = (double)entidadJugador.fps;
 	double delay = (double)entidadJugador.delay;
 	std::list<std::list<std::string>> listaAnimaciones = entidadJugador.imagenes;
+	std::string nombre = entidadJugador.nombre;
 
 	// Valores tomados desde el escenario elegido
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id);
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre);
 	//vistaNivel.agregarJugador(pJugador);
 	vistaNivel.agregarEntidad(pJugador);
 
@@ -323,6 +325,7 @@ void VistaFactory::crearEntidadesNoJugadores(VistaNivel& vistaNivel){
 		double fps = (double)entidad.fps;
 		double delay = (double)entidad.delay;
 		std::list<std::list<std::string>> listaAnimaciones = entidad.imagenes;
+		std::string nombre = entidad.nombre;
 
 		// Valores tomados desde el escenario elegido
 		double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
@@ -331,7 +334,7 @@ void VistaFactory::crearEntidadesNoJugadores(VistaNivel& vistaNivel){
 		// Valores tomados desde el servidor, cargados posteriormente en una variable
 		int id = idEntidadesDef.front();
 
-		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id);
+		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id,nombre);
 		vistaNivel.agregarEntidad(pEntidad);
 
 		idEntidadesDef.pop_front();	// Una vez que usé el ID lo destruyo para tener acceso al próximo

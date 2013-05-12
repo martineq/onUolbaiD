@@ -1,6 +1,6 @@
 #include "VistaEntidad.h"
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id){
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id, std::string nombreEntidad){
 	this->_id = id;
 	this->estaCongelado = false;
 
@@ -16,11 +16,25 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	//this->y = y;
 
 
+	this->animaciones = new VistaAnimaciones();
+
 	if (esJugador) {
 		if ((alto != 1) || (ancho != 1))
 			Log::getInstance().log(1,__FILE__,__LINE__,"El jugador no puede ocupar mas de un tile. Se setea tamanio apropiado por defecto.");
 		alto = 1;
 		ancho = 1;	
+
+		this->estados.push_back(ACCION_NORTE);
+		this->estados.push_back(ACCION_NORESTE);
+		this->estados.push_back(ACCION_ESTE);
+		this->estados.push_back(ACCION_SUDESTE);
+		this->estados.push_back(ACCION_SUR);
+		this->estados.push_back(ACCION_SUDOESTE);
+		this->estados.push_back(ACCION_OESTE);	
+		this->estados.push_back(ACCION_NOROESTE);
+	}else{
+		this->animaciones->setAnimacionesAutomaticas();	
+		this->estados.push_back(nombreEntidad);
 	}
 
 	this->alto = alto * ALTO_TILE; 
@@ -28,22 +42,14 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 
 	this->fps = fps;
 	this->delay = delay;
-	this->esJugador = esJugador;
-	this->animaciones = new VistaAnimaciones();
+	this->esJugador = esJugador;	
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
 	this->animacionActual = NULL;
-	this->estados.push_back(ACCION_NORTE);
-	this->estados.push_back(ACCION_NORESTE);
-	this->estados.push_back(ACCION_ESTE);
-	this->estados.push_back(ACCION_SUDESTE);
-	this->estados.push_back(ACCION_SUR);
-	this->estados.push_back(ACCION_SUDOESTE);
-	this->estados.push_back(ACCION_OESTE);	
-	this->estados.push_back(ACCION_NOROESTE);
+
 	int i = 0;
-	if (this->esJugador == false){
+/*	if (this->esJugador == false){
 		this->animaciones->setAnimacionesAutomaticas();	
-	}
+	}*/
 	for (it=listaAnimaciones.begin();it!=listaAnimaciones.end();it++){
 		this->animaciones->agregar(this->estados.at(i),*it,delay*1000,this->ancho,this->alto,fps);
 		if (this->animacionActual == NULL){
