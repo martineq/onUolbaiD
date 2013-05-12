@@ -115,3 +115,9 @@
 #define ALTO_TILE 50
 #define ANCHO_TILE 100
 #define VELOCIDAD_SCROLL 5
+
+/***************************** Fog *************************/
+#define ZONA_VISIBLE 5
+#define VISIBLE 2
+#define CONOCIDO_NO_VISIBLE 1
+#define NO_CONOCIDO 0

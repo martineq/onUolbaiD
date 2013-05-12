@@ -2,21 +2,31 @@
 
 #include <math.h>
 #include <iostream>
+#include <Windows.h>
+#include <WinSock.h>
+
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"
-#include "../../utils/Observador/Identificable.h"
-#include "../../utils/Posicion/Posicion.h"
-#include "../../utils/Hilos/Hilo.h"
+#include "../../utils/Observador/Observador.h"
+#include "../../utils/Hilos/Mutex.h"
 #include "../../utils/Proxy/ProxyModeloEntidad.h"
+#include "../../utils/Posicion/Posicion.h"
+#include "EstadoNivel.h"
 
-typedef enum Direccion { NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE, NOROESTE };
+typedef enum Direccion { NOROESTE, NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE };
+typedef enum Accion { CAMINANDO, ATACANDO, DEFENDIENDO, QUIETO };
 
-class ModeloEntidad: public Identificable {
+class ModeloEntidad {
 	private:
 		class ModeloMovimiento : public Observable {
 			private:
+				int _altoNivel;
+				int _anchoNivel;
 				ModeloEntidad* _modeloEntidad;
+				std::list<ModeloEntidad*>* _listaJugadores;
+				std::list<ModeloEntidad*>* _listaEntidades;
 				Posicion _posicionDestino;
+				Posicion _posicionDestinoDesvio;
 				int _deltaX;
 				int _deltaY;
 				int _desplazamientoX;
@@ -25,19 +35,43 @@ class ModeloEntidad: public Identificable {
 				int _desplazamientoErrorX;
 				int _desplazamientoErrorY;
 				DWORD _instanteUltimoCambioEstado;
-				
+
+				bool calcularDesvio(ModeloEntidad* modeloEntidad);
+
+				ModeloEntidad* detectarColision(Posicion posicion);
+
+				int obtenerAlto(int y, ModeloEntidad* modeloEntidad);
+
+				int obtenerAncho(int x, ModeloEntidad* modeloEntidad);
+
+				Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino);
+
+				Posicion obtenerPosicionSiguiente();
+
+				int obtenerX(ModeloEntidad* modeloEntidad);
+
+				int obtenerY(ModeloEntidad* modeloEntidad);
+
+				bool resolviendoDesvio() const;
+
 				ModeloMovimiento(const ModeloMovimiento &modeloMovimiento);
 
 				ModeloMovimiento& operator=(const ModeloMovimiento &modeloMovimiento);
 
 			public:
-				ModeloMovimiento(ModeloEntidad* modeloEntidad);
+				ModeloMovimiento(int altoNivel, int anchoNivel, ModeloEntidad* modeloEntidad);
 
 				virtual ~ModeloMovimiento();
 
 				void actualizar(Posicion posicion);
 
+				void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
+
+				void asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores);
+
 				void cambiarEstado();
+
+				void detener();
 		};
 
 		class VistaMovimiento : public Observador {
@@ -54,8 +88,6 @@ class ModeloEntidad: public Identificable {
 				std::list<Posicion> _posiciones;
 				DWORD _instanteUltimoCambioEstado;
 				
-				Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino);
-
 				VistaMovimiento(const VistaMovimiento &vistaMovimiento);
 
 				VistaMovimiento& operator=(const VistaMovimiento &vistaMovimiento);
@@ -68,94 +100,107 @@ class ModeloEntidad: public Identificable {
 				void actualizar(Observable* observable);
 
 				void cambiarEstado();
+
+				bool terminado() const;
 		};
 
+		Accion _accion;
+		int _alto;
+		int _altoNivel;
+		int _ancho;
+		int _anchoNivel;
+		Direccion _direccion;
+		bool _esJugador;
+		bool _estaCongelado;
+		EstadoNivel* _estadoNivel;
 		int _id;
+		ModeloMovimiento* _modeloMovimiento;
 		std::string _nombreEntidad;
 		std::string _nombreJugador;
-		bool _estaCongelado;
-		bool _esJugador;
-		int _alto;
-		int _ancho;
-		int _velocidad;
 		Posicion _posicionActual;
 		Posicion _posicionSiguiente;
+		ProxyModeloEntidad* _proxyEntidad;
+		int _velocidad;
+		Mutex mutexEntidad;
+		
+		bool _esUltimoMovimiento;
 		Posicion _pixelActual;
 		Posicion _pixelSiguiente;
-		Direccion _direccion;
-		ModeloMovimiento* _modeloMovimiento;
 		VistaMovimiento* _vistaMovimiento;
-		bool _esUltimoMovimiento;
-		int _altoMapa;
-		int _anchoMapa;
-		ProxyModeloEntidad* _pProxyEntidad;
-		Mutex mutexEntidad;		// Se agregará solo un mutex por cada ModeloEntidad
 
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
 
 		ModeloEntidad& operator=(const ModeloEntidad &modeloEntidad);
 
-		int getId();
+	protected:
+		void accion(Accion accion);
+		
+		void direccion(Direccion direccion);
+
+		void esUltimoMovimiento(bool esUltimoMovimiento);
+
+		void notificar();
+
+		void posicionActual(Posicion posicionActual);
+
+		void posicionSiguiente(Posicion posicionSiguiente);
+
+		void pixelActual(Posicion pixelActual);
+
+		void pixelSiguiente(Posicion pixelSiguiente);
 
 	public:
-		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoMapa, int anchoMapa, int fps, ProxyModeloEntidad* pProxyEntidad,int id,std::string nombreEntidad,std::string nombreJugador);
+		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador);
 
 		virtual ~ModeloEntidad();
 
-		void cambiarEstado();	// Este cambiarEstado() no corresponde mas al patrón Observer
+		Accion accion() const;
 
-		void notificarAlProxy(void);
+		int alto() const;
 
-		ProxyModeloEntidad::stEntidad getStEntidad();
-
-		int id();
-
-		std::string getNombreEntidad();
-
-		bool esJugador();
-
-		int alto();
-
-		int ancho();
+		int ancho() const;
 		
-		int velocidad();
+		Direccion direccion() const;
 
-		Posicion posicionActual();
+		bool esJugador() const;
 
-		Posicion posicionSiguiente();
+		bool estaCongelado() const;
 
-		Posicion pixelActual();
+		bool esUltimoMovimiento() const;
 
-		Posicion pixelSiguiente();
+		int id() const;
 
-		Direccion direccion();
+		std::string nombreEntidad() const;
 
-		bool esUltimoMovimiento();
+		std::string nombreJugador() const;
+
+		Posicion posicionActual() const;
+
+		Posicion posicionSiguiente() const;
+
+		ProxyModeloEntidad::stEntidad stEntidad() const;
+		
+		int velocidad() const;
+
+		void estaCongelado(bool estaCongelado);
+
+		void asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores);
+
+		void asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades);
+
+		void atacar();
+
+		void defender();
+
+		void cambiarEstado();
 
 		void mover(Posicion posicion);
 
+		bool ocupaPosicion(Posicion posicion);
+
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 
-		int altoMapa();
+		Posicion pixelActual() const;
 
-		int anchoMapa();
-
-		std::string getNombreJugador();
-
-		void setEstaCongelado(bool estado);
-
-		bool getEstaCongelado();
-	
-		void setPixelActual(Posicion valor);
-
-		void setPixelSiguiente(Posicion valor);
-
-		void setPosicionActual(Posicion valor);
-
-		void setPosicionSiguiente(Posicion valor);
-
-		void setDireccion(Direccion valor);
-
-		void setEsUltimoMovimiento(bool valor);
-
+		Posicion pixelSiguiente() const;
 };
