@@ -294,7 +294,8 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
 	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id);
-	vistaNivel.agregarJugador(pJugador);
+	//vistaNivel.agregarJugador(pJugador);
+	vistaNivel.agregarEntidad(pJugador);
 
 	return void();
 }
