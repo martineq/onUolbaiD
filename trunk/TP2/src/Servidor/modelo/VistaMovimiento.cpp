@@ -110,13 +110,11 @@ void ModeloEntidad::VistaMovimiento::cambiarEstado() {
 		return;
 
 	if (this->_cuadroActual == this->_cantidadCuadros) {
-
 		this->_modeloEntidad->setPixelSiguiente(this->_posicionDestino);
-		this->_modeloEntidad->setDireccion( this->obtenerDireccion(this->_modeloEntidad->pixelActual(), this->_modeloEntidad->pixelSiguiente() ) );
+		this->_modeloEntidad->setDireccion(this->obtenerDireccion(this->_modeloEntidad->pixelActual(), this->_modeloEntidad->pixelSiguiente()));
 		this->_modeloEntidad->setEsUltimoMovimiento(true);
 		this->_modeloEntidad->notificarAlProxy();
 		this->_modeloEntidad->setPixelActual(this->_modeloEntidad->pixelSiguiente());
-
 	}
 	else {
 		list<Posicion>::iterator iterador = this->_posiciones.begin();
@@ -124,10 +122,10 @@ void ModeloEntidad::VistaMovimiento::cambiarEstado() {
 		advance(iterador, this->_cuadroActual * this->_desplazamiento);
 
 		this->_modeloEntidad->setPixelSiguiente(*iterador);
-		this->_modeloEntidad->setDireccion( this->obtenerDireccion(this->_modeloEntidad->pixelActual(), this->_modeloEntidad->pixelSiguiente()) );
+		this->_modeloEntidad->setDireccion(this->obtenerDireccion(this->_modeloEntidad->pixelActual(), this->_modeloEntidad->pixelSiguiente()));
 		this->_modeloEntidad->setEsUltimoMovimiento(false);
 		this->_modeloEntidad->notificarAlProxy();
-		this->_modeloEntidad->setPixelActual( this->_modeloEntidad->pixelSiguiente() );
+		this->_modeloEntidad->setPixelActual(this->_modeloEntidad->pixelSiguiente());
 	}
 
 	this->_cuadroActual++;

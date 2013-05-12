@@ -41,6 +41,8 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel){
 		//}
 
 		unaEntidad->setPantalla(this->pantalla);
+		unaEntidad->setXEnPantalla(vistaNivel.getScroll()->getX());
+		unaEntidad->setYEnPantalla(vistaNivel.getScroll()->getY());
 		if( unaEntidad->graficar() == false ) return false;
 		it++;
 	}

@@ -86,10 +86,9 @@ void ModeloNivel::congelarJugador(int idJugador){
 	return void();
 }
 
-bool ModeloNivel::actualizar(int id) {
-	ModeloEntidad* jugador = this->obtenerJugador(id);
-	if (jugador != NULL)
-		jugador->cambiarEstado();
+bool ModeloNivel::actualizar() {
+	for (std::list<ModeloEntidad*>::iterator entidad = this->listaJugadores.begin(); entidad != this->listaJugadores.end(); entidad++)
+		(*entidad)->cambiarEstado();
 	return true;
 }
 
