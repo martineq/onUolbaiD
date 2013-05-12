@@ -234,8 +234,8 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	ParserYaml::stEntidad entidadProtagonista = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreProtagonista);
 	
 	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
-	double x = (double)this->juegoElegido.entidadJugador.pixelSiguienteX;
-	double y = (double)this->juegoElegido.entidadJugador.pixelSiguienteY;
+	double x = (double)this->juegoElegido.entidadJugador.tileX;
+	double y = (double)this->juegoElegido.entidadJugador.tileY;
 	int id = this->juegoElegido.entidadJugador.id;
 	// TODO: Me parece que ahora, como le doy directamente el valor en pixel (pixelSiguienteX), el constructor de VistaEntidad no necesita mas hacer la conversión. Verificar eso
 	// Faltan actualizar estos valores:

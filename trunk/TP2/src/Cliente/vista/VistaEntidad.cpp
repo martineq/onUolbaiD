@@ -4,16 +4,16 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->_id = id;
 	this->estaCongelado = false;
 
-	//int xAux, yAux;
+	int xAux, yAux;
 
-	//Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
+	Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
 
 	this->posicionReferenciaX = posicionReferenciaX;
 	this->posicionReferenciaY = posicionReferenciaY;
-//	this->x = xAux;
-//	this->y = yAux;
-	this->x = x;
-	this->y = y;
+	this->x = xAux;
+	this->y = yAux;
+	//this->x = x;
+	//this->y = y;
 
 
 	if (esJugador) {
@@ -183,7 +183,7 @@ bool VistaEntidad::graficar(){
 		if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
 			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY) == false ) ok = false;
 			//this->esNecesarioRefrescar = false;
-		}else{			
+		}else{
 			this->animacionActual->setX(this->xEnPantalla - this->posicionReferenciaX);
 			this->animacionActual->setY(this->yEnPantalla - this->posicionReferenciaY);
 			if( this->animacionActual->graficar() == false ) ok = false;
