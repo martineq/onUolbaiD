@@ -43,7 +43,18 @@ void ConexionCliente::iniciarEnvio(void){
 }
 
 int ConexionCliente::getId(void){
-	return this->id;
+	int id;
+	mutexId.lockLectura(__FILE__,__LINE__);
+		id = this->id;
+	mutexId.unlock(__FILE__,__LINE__);
+	return id;
+}
+
+void ConexionCliente::setId(int id){
+	mutexId.lockEscritura(__FILE__,__LINE__);
+		this->id = id;
+	mutexId.unlock(__FILE__,__LINE__);
+	return void();
 }
 
 void ConexionCliente::setEsIndividual(void){
@@ -139,7 +150,7 @@ HiloConexion::stParametrosRun ConexionCliente::iniciarParametrosRun(char opcion,
 
 	HiloConexion::stParametrosRun parametros;
 
-	parametros.idCliente = this->id;
+	parametros.pIdCliente = &(this->id);
 	parametros.opcion = opcion;
 	parametros.pSocket = &(this->socketApp);
 	parametros.pEsIndividual = &(this->esIndividual);
@@ -147,6 +158,7 @@ HiloConexion::stParametrosRun ConexionCliente::iniciarParametrosRun(char opcion,
 	parametros.pIdMasivoConError = clientesMasivosConError;
 	parametros.pMutexMasivo = mutexColaEntradaMasiva;
 	parametros.pMutexEsIndividual = &(this->mutexEsIndividual);
+	parametros.pMutexId = &(this->mutexId);
 	if( opcion == 'E' ){
 		parametros.pCola = &(this->colaEntrada);
 		parametros.pMutexCola = &(this->mutexColaEntrada);

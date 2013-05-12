@@ -19,18 +19,18 @@ std::string Mutex::reporte(std::string archivo, int linea){
 	return msg.str();
 }
 
-int Mutex::lockEscritura(std::string archivo, int linea){
-	std::string debug = this->reporte(archivo,linea); 
+int Mutex::lockEscritura(std::string __file__, int __line__){
+	std::string debug = this->reporte(__file__,__line__); 
 	return pthread_rwlock_wrlock(&mutex);
 }
 
-int Mutex::lockLectura(std::string archivo, int linea){
-	std::string debug = this->reporte(archivo,linea); 
+int Mutex::lockLectura(std::string __file__, int __line__){
+	std::string debug = this->reporte(__file__,__line__); 
 	return pthread_rwlock_rdlock(&mutex);
 }
 
-int Mutex::unlock(std::string archivo, int linea){
-	std::string debug = this->reporte(archivo,linea); 
+int Mutex::unlock(std::string __file__, int __line__){
+	std::string debug = this->reporte(__file__,__line__); 
 	return pthread_rwlock_unlock(&mutex);
 }
 

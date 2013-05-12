@@ -42,12 +42,12 @@ bool SocketServidor::desconectar(void){
 // Busca en el vector de conexiones un cliente por su ID y devuelve la posición en donde se encuentra en el vector
 // En caso de no encontrarlo, se devuelve un índice inválido (-1).
 // Usa una búsqueda secuencial. Acá supongo que siempre vamos a tener una baja cantidad de clientes, n << 1000, por ejemplo.
-long SocketServidor::buscarCliente(long idCliente){
-	long indice = -1;
-	for ( int i=0 ; i < this->tamanioConexionClientes() ; i++ ){
+long SocketServidor::buscarCliente(int idCliente){
+	long indice = CLIENTE_NO_ENCONTRADO;
+	for ( long i=0 ; i < this->tamanioConexionClientes() ; i++ ){
 		if( this->getConexionCliente(i)->getId() == idCliente) indice = i;
 	}
-	if (indice == -1) Log::getInstance().log(3,__FILE__,__LINE__,"No se encontró al cliente buscado: ",(int)idCliente );
+	if (indice == CLIENTE_NO_ENCONTRADO) Log::getInstance().log(3,__FILE__,__LINE__,"No se encontró al cliente buscado: ",idCliente);
 	return indice;
 }
 
@@ -142,7 +142,7 @@ void SocketServidor::insertarClienteConError(long idCliente){
 	return void();
 }
 
-ConexionCliente* SocketServidor::getConexionCliente(int indice){
+ConexionCliente* SocketServidor::getConexionCliente(long indice){
 	ConexionCliente* conexionTemp;
 	this->mutexConexionClientes.lockLectura(__FILE__,__LINE__);
 	conexionTemp = this->conexionClientes[indice];
@@ -208,7 +208,7 @@ int SocketServidor::aceptarCliente(){
 }
 
 // Elimina al cliente del listado que tiene el servidor, desconectándose del mismo
-bool SocketServidor::eliminarCliente(long idCliente){
+bool SocketServidor::eliminarCliente(int idCliente){
 	Log::getInstance().log(3,__FILE__,__LINE__,"Eliminando el cliente : ", idCliente );
 	long indice = this->buscarCliente(idCliente);
 
@@ -237,6 +237,25 @@ bool SocketServidor::eliminarCliente(long idCliente){
 	return true;
 }
 
+// True si cambio el id
+// False si por alguna razón no pudo cambiar, o si no encontró al cliente con el <idActual>
+bool SocketServidor::renombrarIdCliente(int idActual, int idNuevo){
+
+	// Primero chequeo que no quiera renombrar por un ID que ya está asignado a otro cliente
+	if( this->buscarCliente(idActual) != CLIENTE_NO_ENCONTRADO ) return false;
+
+	long indice = this->buscarCliente(idActual);
+
+	if ( indice >= 0 ){
+		// Cambio el ID del cliente
+		this->getConexionCliente(indice)->setId(idNuevo);
+	}else{
+		return false;
+	}
+
+	return true;
+}
+
 // Devuelve una lista con los ID's de los clientes que tuvieron errores de conexión (los cuales ya fueron eliminados)
 // El listado incluye tanto clientes "Individuales" como "Masivos"
 // En la lista se devuelven los ID's obtenidos desde la última vez que se llamó al método. 
@@ -253,7 +272,7 @@ std::list<long> SocketServidor::getNuevosClientesErroneos(void){
 // El cliente por defecto es individual
 // En este modo sólo se podrán usar los metodos de envio/recepción de datos "Individuales"
 // Devuelve true en caso de haber realizado exitosamente la tarea y false en caso de no encontrarse el id del cliente
-bool SocketServidor::setClienteIndividual(long idCliente){
+bool SocketServidor::setClienteIndividual(int idCliente){
 	long indice = this->buscarCliente(idCliente);
 	if ( indice < 0 ) return false;
 	this->getConexionCliente(indice)->setEsIndividual();
@@ -264,7 +283,7 @@ bool SocketServidor::setClienteIndividual(long idCliente){
 // Setea al cliente para que se use la cola de entrada común a todos los clientes "Masivos"
 // En este modo sólo se podrán usar los metodos de envio/recepción de datos "Masivos"
 // Devuelve true en caso de haber realizado exitosamente la tarea y false en caso de no encontrarse el id del cliente
-bool SocketServidor::setClienteMasivo(long idCliente){
+bool SocketServidor::setClienteMasivo(int idCliente){
 	long indice = this->buscarCliente(idCliente);
 	if ( indice < 0 ) return false;
 	this->getConexionCliente(indice)->setMasiva();

@@ -18,12 +18,12 @@ class SocketServidor{
 		Mutex mutexMasivo;								// Exclusión mutua para la variable <colaEntradaMasiva> y <clientesMasivosConError>, se usa debido que la pueden usar varias conexiones a la vez
 
 		bool desconectar(void);
-		long buscarCliente(long idCliente);
+		long buscarCliente(int idCliente);
 		bool procesarClientesMasivosConError(void);
 		bool archivoEnviarIndividual(const char *rutaOrigen,long idCliente);
 		bool archivoRecibirIndividual(const char *rutaDestino,long idCliente);
 		void insertarClienteConError(long idCliente);
-		ConexionCliente* getConexionCliente(int indice);
+		ConexionCliente* getConexionCliente(long indice);
 		long tamanioConexionClientes(void);
 
 		// Funciones de envio recepción con uso directo de char*
@@ -39,14 +39,15 @@ class SocketServidor{
 		// Para iniciar el servidor. Se hace una sola vez
 		bool inciarServidor(int puerto);
 
-		// Para aceptar/eliminar clientes, identificar los clientes erróneos
+		// Para aceptar/eliminar clientes, identificar los clientes erróneos, renombrar el ID
 		int aceptarCliente();
-		bool eliminarCliente(long idCliente);
+		bool eliminarCliente(int idCliente);
 		std::list<long> getNuevosClientesErroneos(void);
+		bool renombrarIdCliente(int idActual, int idNuevo);
 
 		// Para setear el modo en que se comporta la recpción/envío de mensajes de un cliente
-		bool setClienteIndividual(long idCliente);
-		bool setClienteMasivo(long idCliente);
+		bool setClienteIndividual(int idCliente);
+		bool setClienteMasivo(int idCliente);
 
 		// Para enviar/recibir. Integradas con la clase Serializadora
 		bool enviarIndividual(Serializadora& s,int idCliente);
@@ -54,6 +55,7 @@ class SocketServidor{
 		bool recibirIndividual(Serializadora& s,int idCliente);
 		bool recibirMasivo(Serializadora& s);
 
+		// Para enviar/recibir archivos
 		bool enviarArchivosIndividual(std::list<std::string> rutaDeArchivosParaEnviar,long idCliente);
 		bool recibirArchivosIndividual(std::list<std::string> rutaDeArchivosParaRecibir,long idCliente);
 

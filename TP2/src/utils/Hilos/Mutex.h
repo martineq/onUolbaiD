@@ -14,8 +14,8 @@ class Mutex{
 		Mutex();
 		virtual ~Mutex();
 
-		int lockEscritura(std::string archivo, int linea);
-		int lockLectura(std::string archivo, int linea);
-		int unlock(std::string archivo, int linea);
+		int lockEscritura(std::string __file__, int __line__);
+		int lockLectura(std::string __file__, int __line__);
+		int unlock(std::string __file__, int __line__);
 
 };
