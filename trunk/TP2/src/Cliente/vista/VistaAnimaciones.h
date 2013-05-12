@@ -1,6 +1,7 @@
 #ifndef VISTAANIMACIONES_H_
 #define VISTAANIMACIONES_H_
 #include "VistaAnimacion.h"
+#include "VistaAnimacionRepository.h"
 
 class VistaAnimaciones {
 
