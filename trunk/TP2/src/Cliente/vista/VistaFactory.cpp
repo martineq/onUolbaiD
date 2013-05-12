@@ -8,7 +8,7 @@ VistaFactory::~VistaFactory(void){
 
 }
 
-bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino){
+bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino,std::string mote,std::string personaje){
 
 	// Me conecto al servidor
 	if( this->conectarSocket(pSocket) == false ) return false;
@@ -33,10 +33,9 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 	SDL_Surface* pPantallaSDL = ImageLoader::getInstance().levantarPantalla(this->juegoElegido.pantalla.ancho,this->juegoElegido.pantalla.alto);
 
 	// Recibo datos desde el Servidor
-	std::string nombreUsuario, nombrePersonaje;  // <<< Esto tiene que ser recibido por parámetro desde crearNivel(). Estos datos vienen por parámetro desde el main
 	if( this->recibirEscenario(juegoYaml.escenarios,pSocket) == false ) return false;
-	this->menuSeleccionUsuarioPersonaje(nombreUsuario,nombrePersonaje);
-	if( this->recibirProtagonista(pSocket,nombreUsuario,nombrePersonaje) == false ) return false;
+	//	this->menuSeleccionUsuarioPersonaje(mote,personaje);
+	if( this->recibirProtagonista(pSocket,mote,personaje) == false ) return false;
 	if( this->recibirOtrosJugadores(vistaNivel,pSocket) == false ) return false;
 
 	pSocket->setEnvioIndirecto();

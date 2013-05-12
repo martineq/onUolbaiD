@@ -8,9 +8,9 @@ VistaJuego::~VistaJuego(void){
 
 }
 
-bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento){
+bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje){
 	ImageLoader::getInstance().iniciarSDL();
-	if( this->vistaFactory.crearNivel(this->vistaNivel,evento,pSocket,this->vistaLoop.getPunteroPantalla(),this->vistaLoop.getPunteroProxy()) == false ) return false;
+	if( this->vistaFactory.crearNivel(this->vistaNivel,evento,pSocket,this->vistaLoop.getPunteroPantalla(),this->vistaLoop.getPunteroProxy(),mote,personaje) == false ) return false;
 	return true;
 }
 

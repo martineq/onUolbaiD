@@ -19,7 +19,7 @@ class Administrador{
 	public:
 		Administrador(void);
 		~Administrador(void);
-		void correrJuego(void);						// Inicia el loop correspondiente
+		void correrJuego(std::string mote,std::string personaje);						// Inicia el loop correspondiente
 
 		// Solo para correr pruebas, no influye en el proyecto del juego
 		void correrPruebas(void);

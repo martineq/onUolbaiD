@@ -17,7 +17,7 @@ class VistaJuego{
 		VistaJuego(void);
 		~VistaJuego(void);
 
-		bool iniciar(SocketCliente* pSocket,ControladorEvento* evento);	// Inicia el VistaFactory y el ControladorEvento
+		bool iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje);	// Inicia el VistaFactory y el ControladorEvento
 		bool loop(void);												// Inicia el VistaLoop y le pasa el VistaNivel
 		
 		void destruirEntidades();
