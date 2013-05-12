@@ -239,8 +239,7 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	double x = (double)this->juegoElegido.entidadJugador.tileX;
 	double y = (double)this->juegoElegido.entidadJugador.tileY;
 	int id = this->juegoElegido.entidadJugador.id;
-	// TODO: Me parece que ahora, como le doy directamente el valor en pixel (pixelSiguienteX), el constructor de VistaEntidad no necesita mas hacer la conversión. Verificar eso
-	// Faltan actualizar estos valores:
+	// TODO: Faltan actualizar estos valores:
 	//this->juegoElegido.entidadJugador.actualizacionMapa;
 	//this->juegoElegido.entidadJugador.direccion;
 	//this->juegoElegido.entidadJugador.esUltimoMovimiento; 

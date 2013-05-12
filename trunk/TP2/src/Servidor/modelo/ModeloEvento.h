@@ -22,7 +22,6 @@ class ModeloEvento{
 		int getMousePosX();
 		int getMousePosY();
 		bool getMouseClickIzquierdo();
-		bool getMouseDentroPantalla();
 		bool getKeyA();
 		bool getKeyS();
 		bool errorEnSocket();

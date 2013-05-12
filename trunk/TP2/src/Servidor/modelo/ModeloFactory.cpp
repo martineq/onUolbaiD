@@ -250,7 +250,6 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 		ModeloEntidad* pEntidad = (*it);
 		if( pEntidad->id() != idMiJugador ){
 			// Cargo los datos
-			//TODO: poner accion
 			int accion = 0;
 			proxy.cargarStEntidad(entidad,pEntidad->id(),false,false,pEntidad->esJugador(),pEntidad->getNombreEntidad(),pEntidad->pixelSiguiente().x,pEntidad->pixelSiguiente().y,pEntidad->direccion(),pEntidad->esUltimoMovimiento(),pEntidad->posicionActual().x,pEntidad->posicionActual().y,accion);			
 

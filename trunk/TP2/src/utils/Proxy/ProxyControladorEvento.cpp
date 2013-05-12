@@ -56,7 +56,6 @@ void ProxyControladorEvento::serializar(Serializadora& s,ProxyControladorEvento:
 	s.addBool(evento.teclaA);
 	s.addBool(evento.teclaS);
 	s.addBool(evento.mouseClickIzquierdo);
-	s.addBool(evento.mouseDentroPantalla);
 	s.addBool(evento.finalizoElJuego);
 }
 
@@ -69,17 +68,15 @@ void ProxyControladorEvento::hidratar(Serializadora& s,ProxyControladorEvento::s
 	evento.teclaA = s.getBool();
 	evento.teclaS = s.getBool();
 	evento.mouseClickIzquierdo = s.getBool();
-	evento.mouseDentroPantalla = s.getBool();
 	evento.finalizoElJuego = s.getBool();
 }
 
 
-void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool mouseDentroPantalla,bool finalizoElJuego){
+void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego){
 	evento.errorEnSocket = errorEnSocket;
 	evento.finalizoElJuego = finalizoElJuego;
 	evento.id = id;
 	evento.mouseClickIzquierdo = mouseClickIzquierdo;
-	evento.mouseDentroPantalla = mouseDentroPantalla;
 	evento.mouseX = mouseX;
 	evento.mouseY = mouseY;
 	evento.teclaA = teclaA;
@@ -93,5 +90,3 @@ std::list<int> ProxyControladorEvento::getClientesConError(void){
 	}
 	return lista;
 }
-
-// TODO: Implementar los métodos del proxy. Ver si hace falta agregar al struct mas variables necesarias 
