@@ -335,7 +335,8 @@ void Pruebas::PruebaAnimacion() {
 	SDL_Event event;
 
 	Uint8 *estadoTecla;
-	int colorkey, finJuego;
+//	int colorkey
+	int finJuego;
 
 
 	temp  = SDL_LoadBMP(SDL_RUTA_PASTO);
@@ -415,7 +416,7 @@ void Pruebas::PruebaAnimacion() {
 
 	// Dibujo el sprite
 
-	vEntidad->graficar();
+	//vEntidad->graficar();
 	// Refresco la pantalla
 	SDL_UpdateRect(pantalla, 0, 0, 0, 0);
 	}

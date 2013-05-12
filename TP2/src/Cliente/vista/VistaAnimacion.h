@@ -31,8 +31,9 @@ public:
 	int getPeriodo();
 	void setPantalla(SDL_Surface* pantalla);
 	bool graficar(int index, double x, double y);
-	bool graficar(double x,double y);
+	bool graficar(double x,double y, char visibilidad);
 	bool graficar();
+	bool animacionFinalizada();
 	void incrementarIndice();
 	bool esperarTiempo();
 	void setX(double x);

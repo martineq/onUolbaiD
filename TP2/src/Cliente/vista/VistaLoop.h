@@ -14,15 +14,17 @@ class VistaLoop{
 
 		bool actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory& vistaFactory);
 		bool actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel,VistaFactory& vistaFactory);
-		bool dibujarEntidades(VistaNivel& vistaNivel);			
+		bool dibujarEntidades(VistaNivel& vistaNivel, char**);			
 
 	public:
 		VistaLoop(void);
 		~VistaLoop(void);
-		bool loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory);
+		bool loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory, char**);
 
 		void setPantalla(SDL_Surface *pantalla);
 		void SetProxyModeloEntidad(ProxyModeloEntidad* pProxyEntidad);
+		char visibilidadDeLaEntidad(VistaEntidad* unaEntidad, char** matriz);
+		void refrescarMatriz(VistaNivel& vistaNivel, char** matriz);
 		ProxyModeloEntidad** getPunteroProxy();
 		SDL_Surface** getPunteroPantalla();
 		

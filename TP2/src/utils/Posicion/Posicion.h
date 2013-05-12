@@ -8,12 +8,12 @@ typedef struct Posicion {
 	int x;
 	int y;
 
-	static void convertirTileAPixel(int altoEnTiles, int xTile, int yTile, int &xPixel, int &yPixel) {
+	static void convertirTileAPixel(int altoEnTiles, int xTile, int yTile, int& xPixel, int& yPixel) {
 		xPixel = (ANCHO_TILE / 2) * (xTile - yTile) + (ANCHO_TILE / 2) * altoEnTiles;
 		yPixel = (ALTO_TILE / 2) * (xTile + yTile);
 	}
 
-	static void convertirPixelATile(int altoEnTiles, int xPixel, int yPixel, int &xTile, int &yTile) {
+	static void convertirPixelATile(int altoEnTiles, int xPixel, int yPixel, int& xTile, int& yTile) {
 		double desplazamientoX = 0, desplazamientoY = 0;
 		
 		xPixel -= (ANCHO_TILE / 2) * altoEnTiles;
@@ -29,11 +29,31 @@ typedef struct Posicion {
 		this->y = 0;
 	}
 
-	bool operator==(const Posicion &posicion) const {
+	bool operator==(const Posicion& posicion) const {
 		return ((this->x == posicion.x) && (this->y == posicion.y));
 	}
 
-	bool operator!=(const Posicion &posicion) const {
+	bool operator!=(const Posicion& posicion) const {
 		return !(*this == posicion);
+	}
+
+	bool operator>(const Posicion& posicion) const
+	{
+		return ((this->x > posicion.x) && (this->y > posicion.y));
+	}
+
+	bool operator<(const Posicion& posicion) const
+	{
+		return ((this->x <= posicion.x) && (this->y <= posicion.y));
+	}
+
+	bool operator>=(const Posicion& posicion) const
+	{
+		return ((*this > posicion) || (*this == posicion));
+	}
+
+	bool operator<=(const Posicion& posicion) const
+	{
+		return ((*this < posicion) || (*this == posicion));;
 	}
 } Posicion;
