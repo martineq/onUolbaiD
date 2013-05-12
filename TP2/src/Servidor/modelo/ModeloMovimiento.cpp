@@ -49,9 +49,6 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	if (this->_modeloEntidad->velocidad() > (GetTickCount() - this->_instanteUltimoCambioEstado))
 		return;
 
-	std::cout << "posicion actual = (" << this->_modeloEntidad->posicionActual().x << "," << this->_modeloEntidad->posicionActual().x << ")" << std::endl;
-	std::cout << "posicion destino = (" << this->_posicionDestino.x << "," << this->_posicionDestino.x << ")" << std::endl;
-
 	// Calculo nueva posición
 	Posicion posicionSiguiente = this->_modeloEntidad->posicionActual();
 	posicionSiguiente.x += (this->_deltaX >= this->_deltaY) ? this->_desplazamientoX : 0;
