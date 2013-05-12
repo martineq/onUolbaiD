@@ -36,7 +36,7 @@ class VistaFactory{
 		void menuSeleccionUsuarioPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje);
 
 		// Creación de la Vista
-		bool crearElementosVista(VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);
+		bool crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket);
 		void crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pantalla,SocketCliente* pSocket);
 		void crearEntidadesNoJugadores(VistaNivel& vistaNivel);
 		void crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntidad::stEntidad& entidad,SocketCliente* pSocket);

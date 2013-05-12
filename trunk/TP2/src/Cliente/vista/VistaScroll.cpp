@@ -121,7 +121,7 @@ void VistaScroll::graficar(SDL_Surface* pantalla) {
 			for (yt = posicionInicial.y; yt < posicionFinal.y; yt++) {
 				Posicion::convertirTileAPixel(this->altoNivel, xt, yt, xp, yp);				
 				
-				this->utilidadSDL->graficar(xp - this->x - (ANCHO_TILE / 2), yp - this->y);
+				this->utilidadSDL->graficar(xp - this->x - (ANCHO_TILE / 2), yp - this->y, 2);
 			}
 		}
 		//this->esNecesarioRefrescar = false;

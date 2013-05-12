@@ -16,6 +16,10 @@ class SDLutil {
 		SDL_Surface* fondo;
 		SDL_Rect* area;
 
+
+		int visible;
+		int gris;
+		int negro;
 	public:
 		SDLutil();
 		SDLutil(double x, double y, int w, int h, std::string filename);
@@ -26,8 +30,8 @@ class SDLutil {
 		double getY();
 		SDL_Surface* getSurface();
 		SDL_Rect* getRect();	
-		bool graficar();
-		bool graficar(double x, double y);
+		bool graficar(char);
+		bool graficar(double x, double y, char visibilidad);
 		void limpiar();
 		virtual ~SDLutil();
 };

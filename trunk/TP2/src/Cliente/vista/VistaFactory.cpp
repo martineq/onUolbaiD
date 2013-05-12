@@ -29,6 +29,9 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 	this->juegoElegido.pantalla = juegoYaml.pantalla;
 	this->juegoElegido.configuracion = juegoYaml.configuracion;
 
+	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;
+	SDL_Surface* pPantallaSDL = ImageLoader::getInstance().levantarPantalla(this->juegoElegido.pantalla.ancho,this->juegoElegido.pantalla.alto);
+
 	// Recibo datos desde el Servidor
 	std::string nombreUsuario, nombrePersonaje;  // <<< Esto tiene que ser recibido por parámetro desde crearNivel(). Estos datos vienen por parámetro desde el main
 	if( this->recibirEscenario(juegoYaml.escenarios,pSocket) == false ) return false;
@@ -39,7 +42,7 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 	pSocket->setEnvioIndirecto();
 
 	// Creo los elementos de la Vista
-	if( this->crearElementosVista(vistaNivel,vistaLoop,pSocket) == false ) return false;
+	if( this->crearElementosVista(pPantallaSDL,vistaNivel,vistaLoop,pSocket) == false ) return false;
 
 	// Creo los elementos del Controlador
 	if( this->crearElementosControlador(vistaNivel,vistaLoop,evento,pSocket) == false ) return false;
@@ -206,11 +209,9 @@ bool VistaFactory::recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* p
 	return true; 
 }
 
-bool VistaFactory::crearElementosVista(VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket){
+bool VistaFactory::crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vistaNivel,VistaLoop& vistaLoop,SocketCliente* pSocket){
 
 	// Inicio y seteo de SDL
-	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;	
-	SDL_Surface* pPantallaSDL = ImageLoader::getInstance().levantarPantalla(this->juegoElegido.pantalla.ancho,this->juegoElegido.pantalla.alto);
 	vistaLoop.setPantalla(pPantallaSDL);
 
 	// Seteo medidas de pantalla
