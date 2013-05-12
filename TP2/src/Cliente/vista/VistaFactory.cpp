@@ -357,8 +357,8 @@ bool VistaFactory::crearElementosControlador(VistaNivel& vistaNivel,VistaLoop& v
 void VistaFactory::crearControladorScroll(ControladorEvento* evento){
 	
 	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
-	int x = this->juegoElegido.entidadJugador.pixelSiguienteX;
-	int y = this->juegoElegido.entidadJugador.pixelSiguienteY;
+	int x = this->juegoElegido.entidadJugador.tileX;
+	int y = this->juegoElegido.entidadJugador.tileY;
 
 	// Valores tomados desde el escenario elegido
 	int anchoEscenario = this->juegoElegido.escenario.tamanioX;

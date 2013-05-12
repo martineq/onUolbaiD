@@ -20,21 +20,11 @@ bool Cliente::iniciar(void){
 
 void Cliente::loop(void){
 
-	int fps = 50;
-	int delay = 1000/fps;	
 	bool quit = false;		
 	while (quit == false){
-		int tickViejo = Temporizador::getInstance().obtenerTics();				
-
 		if( this->controladorJuego.loop() == false) quit = true;
 		if( this->vistaJuego.loop() == false) quit = true;
-
-		int intervaloTranscurrido = Temporizador::getInstance().obtenerTics() - tickViejo;
-		if (intervaloTranscurrido < delay){
-			Temporizador::getInstance().crearDelay(delay - intervaloTranscurrido);
-		}
 	}
-	 return void();
 }
 
 bool Cliente::correrJuego(void){

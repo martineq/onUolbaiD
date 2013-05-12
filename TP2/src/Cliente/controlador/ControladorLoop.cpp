@@ -1,84 +1,37 @@
 #include "ControladorLoop.h"
 
-ControladorLoop::ControladorLoop(void){	
-	loopInicial = true;
-	this->posicionMouseXAnterior = 0;
-	this->posicionMouseYAnterior = 0;
-	this->clicMouseBotonDerechoAnterior = 0;
-	this->clicMouseBotonIzquierdoAnterior = 0;
-	this->dentroDePantalla = true;
-	this->teclaAApretada = false;
-	this->teclaSApretada = false;
+ControladorLoop::ControladorLoop() {
 }
 
-void ControladorLoop::loop(){	
-
-	if( this->loopInicial == true ){
-		this->evento.setPosicionMouseXY(this->detector.getPosicionMouseX(),this->detector.getPosicionMouseY());
-		this->loopInicial = false;
-		return void();
-	}
-
+void ControladorLoop::loop() {	
 	this->detector.detectar();
 
-	if ( this->detector.getDentroDePantalla() == false ) {
-		this->evento.setMouseDentroDePantalla(false);
-		return void();
-	}
-	else this->evento.setMouseDentroDePantalla(true);
+	// Capturo eventos para el scroll
+	if (!this->detector.getDentroDePantalla())
+		this->evento.getControladorScroll()->detener();
+	else
+		this->evento.getControladorScroll()->actualizar(detector.getPosicionMouseX(), detector.getPosicionMouseY());
+	this->evento.getControladorScroll()->cambiarEstado();
 
-	if ((this->detector.getPosicionMouseX()!=this->posicionMouseXAnterior) && 
-		(this->detector.getPosicionMouseY()!=this->posicionMouseYAnterior)){
-			this->evento.setPosicionMouseXY(this->detector.getPosicionMouseX(),this->detector.getPosicionMouseY());
-			this->evento.setClicMouseBotonIzquierdo(0); // Con esto aclaro que no estoy mandando un evento de click
-			this->evento.setClicMouseBotonDerecho(0);   // Con esto aclaro que no estoy mandando un evento de click
-			this->posicionMouseXAnterior = detector.getPosicionMouseX();
-			this->posicionMouseYAnterior = detector.getPosicionMouseY();
-	}
-
-	else if (this->detector.getPosicionMouseX()!=this->posicionMouseXAnterior) {
-		this->evento.setPosicionMouseX(this->detector.getPosicionMouseX());
-		this->evento.setClicMouseBotonIzquierdo(0);  // Con esto aclaro que no estoy mandando un evento de click
-		this->evento.setClicMouseBotonDerecho(0);    // Con esto aclaro que no estoy mandando un evento de click
-		this->posicionMouseXAnterior = detector.getPosicionMouseX();
-	}
-
-	else if (this->detector.getPosicionMouseY()!=this->posicionMouseYAnterior) {
-		this->evento.setPosicionMouseY(this->detector.getPosicionMouseY());
-		this->evento.setClicMouseBotonIzquierdo(0); // Con esto aclaro que no estoy mandando un evento de click
-		this->evento.setClicMouseBotonDerecho(0);   // Con esto aclaro que no estoy mandando un evento de click
-		this->posicionMouseYAnterior = detector.getPosicionMouseY();
-	}
-
-	if (this->detector.getClicMouseBotonIzquierdo()!=this->clicMouseBotonIzquierdoAnterior) {
+	// Caputro eventos para el servidor
+	this->evento.setPosicionMouseXY(this->detector.getPosicionMouseX(), this->detector.getPosicionMouseY());
+	if (this->detector.getClicMouseBotonIzquierdo())
 		this->evento.setClicMouseBotonIzquierdo(this->detector.getClicMouseBotonIzquierdo());
-		this->clicMouseBotonIzquierdoAnterior = detector.getClicMouseBotonIzquierdo();
-	}
-
-	if (this->detector.getClicMouseBotonDerecho()!=this->clicMouseBotonDerechoAnterior) {
+	else if (this->detector.getClicMouseBotonDerecho())
 		this->evento.setClicMouseBotonDerecho(this->detector.getClicMouseBotonDerecho());
-		this->clicMouseBotonDerechoAnterior = detector.getClicMouseBotonDerecho();
-	}
-
-	if (this->detector.getTeclaAApretada()!=this->teclaAApretada){
+	else if (this->detector.getTeclaAApretada())
 		this->evento.setTeclaAApretada(this->detector.getTeclaAApretada());
-		this->teclaAApretada = this->detector.getTeclaAApretada();
-	}
-
-	if (this->detector.getTeclaSApretada()!=this->teclaSApretada){
+	else if (this->detector.getTeclaSApretada())
 		this->evento.setTeclaSApretada(this->detector.getTeclaSApretada());
-		this->teclaSApretada = this->detector.getTeclaSApretada();
-	}
 }
 
-bool ControladorLoop::getQuit(){
+bool ControladorLoop::getQuit() {
 	return this->detector.getQuit();
 }
 
-ControladorEvento* ControladorLoop::getControladorEvento(void){
-	return (&(this->evento));
+ControladorEvento* ControladorLoop::getControladorEvento() {
+	return &this->evento;
 }
 
-ControladorLoop::~ControladorLoop(void){
-
+ControladorLoop::~ControladorLoop() {
 }

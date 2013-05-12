@@ -1,7 +1,6 @@
 #include "ControladorScroll.h"
 
 ControladorScroll::ControladorScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int personajeX, int personajeY) {
-	
 	this->pPantallaAncho = pPantallaAncho;
 	this->pPantallaAlto = pPantallaAlto;
 	this->tEscenarioAncho = tEscenarioAncho;
@@ -46,14 +45,6 @@ int ControladorScroll::getY() {
 
 int ControladorScroll::getAncho() {
 	return this->pPantallaAncho;
-}
-
-void ControladorScroll::setAncho(int nuevoAncho) {
-	this->pPantallaAncho = nuevoAncho;
-}
-
-void ControladorScroll::setAlto(int nuevoAlto) {
-	this->pPantallaAlto = nuevoAlto;
 }
 
 int ControladorScroll::getAlto() {

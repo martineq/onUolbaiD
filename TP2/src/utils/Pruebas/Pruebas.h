@@ -18,6 +18,8 @@
 #include "../Sockets/MenuSocket.h"
 #include "../../Cliente/vista/VistaChat.h"
 #include "../../Cliente/controlador/DetectorEventos.h"
+#include "../LectorDirectorios/LectorDirectorios.h"
+#include "../Proxy/ProxyControladorEvento.h"
 
 class Pruebas{
 
