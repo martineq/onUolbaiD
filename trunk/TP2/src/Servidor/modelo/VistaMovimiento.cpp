@@ -13,13 +13,13 @@ ModeloEntidad::VistaMovimiento::VistaMovimiento(ModeloEntidad* modeloEntidad, in
 	this->_modeloEntidad = modeloEntidad;
 	this->_altoMapa = altoMapa;
 	this->_anchoMapa = anchoMapa;	
-	this->_cantidadCuadros = (this->_modeloEntidad->velocidad() * fps) / 1000;
+	this->_cantidadCuadros = (this->_modeloEntidad->_velocidad * fps) / 1000;
 	
 	// Si la cantidad de cuadros a mostrar es 0 al menos muestro el cuadro final
 	if (this->_cantidadCuadros == 0)
 		this->_cantidadCuadros = 1;
 
-	this->_espera = this->_modeloEntidad->velocidad() / this->_cantidadCuadros;
+	this->_espera = this->_modeloEntidad->_velocidad / this->_cantidadCuadros;
 
 	this->_cuadroActual = this->_cantidadCuadros + 1;
 	this->_instanteUltimoCambioEstado = 0;

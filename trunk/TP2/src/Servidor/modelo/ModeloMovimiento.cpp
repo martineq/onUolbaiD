@@ -160,11 +160,18 @@ bool ModeloEntidad::ModeloMovimiento::calcularDesvio(ModeloEntidad* modeloEntida
 }
 
 ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posicion) {
-	// Detecto colision con jugadores
-	if (this->_listaJugadores != NULL) {
-		list<ModeloEntidad*>::iterator iterador = this->_listaJugadores->begin();
+	this->_mutexListaJugadores->lockLectura(__FILE__, __LINE__);
+	list<ModeloEntidad*>* listaJugadores = this->_listaJugadores;
+	this->_mutexListaJugadores->unlock(__FILE__, __LINE__);
+	this->_mutexListaEntidades->lockLectura(__FILE__, __LINE__);
+	list<ModeloEntidad*>* listaEntidades = this->_listaEntidades;
+	this->_mutexListaEntidades->unlock(__FILE__, __LINE__);
 
-		while (iterador != this->_listaJugadores->end()) {
+	// Detecto colision con jugadores
+	if (listaJugadores != NULL) {
+		list<ModeloEntidad*>::iterator iterador = listaJugadores->begin();
+
+		while (iterador != listaJugadores->end()) {
 			if (((*iterador) != this->_modeloEntidad) && (*iterador)->ocupaPosicion(posicion))
 				return *iterador;
 			iterador++;
@@ -172,10 +179,10 @@ ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posici
 	}
 
 	// Detecto colision con entidades
-	if (this->_listaEntidades != NULL) {
-		list<ModeloEntidad*>::iterator iterador = this->_listaEntidades->begin();
+	if (listaEntidades != NULL) {
+		list<ModeloEntidad*>::iterator iterador = listaEntidades->begin();
 
-		while (iterador != this->_listaEntidades->end()) {
+		while (iterador != listaEntidades->end()) {
 			if (((*iterador) != this->_modeloEntidad) && (*iterador)->ocupaPosicion(posicion))
 				return *iterador;
 			iterador++;
@@ -292,7 +299,7 @@ ModeloEntidad::ModeloMovimiento::ModeloMovimiento(int altoNivel, int anchoNivel,
 	this->_modeloEntidad = modeloEntidad;
 	this->_listaJugadores = NULL;
 	this->_listaEntidades = NULL;
-	this->_posicionDestino = this->_modeloEntidad->posicionActual();
+	this->_posicionDestino = this->_modeloEntidad->_posicionActual;
     this->_posicionDestinoDesvio = this->_posicionDestino;
 	this->_deltaX = 0;
     this->_deltaY = 0;
@@ -320,11 +327,13 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 	this->_modeloEntidad->posicionSiguiente(this->_modeloEntidad->posicionActual());
 }
 
-void ModeloEntidad::ModeloMovimiento::asignarListaEntidades(std::list<ModeloEntidad*>* listaEntidades) {
+void ModeloEntidad::ModeloMovimiento::asignarListaEntidades(Mutex* mutexListaEntidades, std::list<ModeloEntidad*>* listaEntidades) {
+	this->_mutexListaEntidades = mutexListaEntidades;
 	this->_listaEntidades = listaEntidades;
 }
 
-void ModeloEntidad::ModeloMovimiento::asignarListaJugadores(std::list<ModeloEntidad*>* listaJugadores) {
+void ModeloEntidad::ModeloMovimiento::asignarListaJugadores(Mutex* mutexListaJugadores, std::list<ModeloEntidad*>* listaJugadores) {
+	this->_mutexListaJugadores = mutexListaJugadores;
 	this->_listaJugadores = listaJugadores;
 }
 
