@@ -144,8 +144,8 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 
 	for( std::list<ModeloEntidad*>::iterator itEntidad = listaEntidades.begin() ; itEntidad != listaEntidades.end() ; itEntidad++ ){
 		// Obtengo el nombre de jugador y entidad
-		std::string moteJugador = (*itEntidad)->getNombreJugador();
-		std::string entidadPersonaje = (*itEntidad)->getNombreEntidad();
+		std::string moteJugador = (*itEntidad)->nombreJugador();
+		std::string entidadPersonaje = (*itEntidad)->nombreEntidad();
 		
 		// Guardo el nombre de la entidad usada
 		listaJugadoresUsados.push_back(entidadPersonaje);
@@ -160,16 +160,16 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 	// NOTA: Observar que si encuentro al usuario, ya no me interesa el personaje que eligió el cliente, porque este ya se encuentra creado
 	if( moteEncontrado == true ){		
 		// Me fijo si está congelado o no
-		if( pEntidad->getEstaCongelado() == true){
+		if( pEntidad->estaCongelado() == true){
 			
 			// Cargo la entidad
-			stEntidad = pEntidad->getStEntidad();
+			stEntidad = pEntidad->stEntidad();
 
 			// Como se está conectando de vuelta, le reasigno al socket de cliente el ID que tenia antes (stEntidad.id), para poder reconocerlo en el loop de juego
 			pSocket->renombrarIdCliente(id,stEntidad.id);
 
 			// Si está congelado y es el mismo nombre de usuario, lo descongelo y obtengo sus datos
-			pEntidad->setEstaCongelado(false);
+			pEntidad->estaCongelado(false);
 			return stEntidad;
 
 		}else{
@@ -251,7 +251,7 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 		if( pEntidad->id() != idMiJugador ){
 			// Cargo los datos
 			int accion = 0;
-			proxy.cargarStEntidad(entidad,pEntidad->id(),false,false,pEntidad->esJugador(),pEntidad->getNombreEntidad(),pEntidad->pixelSiguiente().x,pEntidad->pixelSiguiente().y,pEntidad->direccion(),pEntidad->esUltimoMovimiento(),pEntidad->posicionActual().x,pEntidad->posicionActual().y,accion);			
+			proxy.cargarStEntidad(entidad,pEntidad->id(),false,false,pEntidad->esJugador(),pEntidad->nombreEntidad(),pEntidad->pixelSiguiente().x,pEntidad->pixelSiguiente().y,pEntidad->direccion(),pEntidad->esUltimoMovimiento(),pEntidad->posicionActual().x,pEntidad->posicionActual().y,accion);			
 
 			// Los envio a través del proxy
 			if( proxy.enviarEntidadIndividual(entidad,idMiJugador) == false ) return false;
@@ -290,7 +290,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,nombreJugador); 
 
 	// Obtengo los datos de la stEntidad para luego pasarsela al cliente
-	stEntidad = pJugador->getStEntidad();
+	stEntidad = pJugador->stEntidad();
 
 	// Agrego la entidad al nivel
 	modeloNivel->agregarJugador(pJugador);

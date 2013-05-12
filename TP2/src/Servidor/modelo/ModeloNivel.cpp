@@ -80,7 +80,7 @@ void ModeloNivel::congelarJugador(int idJugador){
 	if (jugador == NULL){
 		return void();
 	}else{
-		jugador->setEstaCongelado(true);
+		jugador->estaCongelado(true);
 		this->decrementarJugadores();		// Se resta la cantidad de jugadores cuando alguno de ellos tiene error
 	}
 	return void();
