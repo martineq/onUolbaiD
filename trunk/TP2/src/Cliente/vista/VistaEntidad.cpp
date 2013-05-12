@@ -4,14 +4,17 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->_id = id;
 	this->estaCongelado = false;
 
-	int xAux, yAux;
+	//int xAux, yAux;
 
-	Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
+	//Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
 
 	this->posicionReferenciaX = posicionReferenciaX;
 	this->posicionReferenciaY = posicionReferenciaY;
-	this->x = xAux;
-	this->y = yAux;
+//	this->x = xAux;
+//	this->y = yAux;
+	this->x = x;
+	this->y = y;
+
 
 	if (esJugador) {
 		if ((alto != 1) || (ancho != 1))

@@ -35,12 +35,10 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,VistaLoop& vistaLoop,Contro
 	if( this->recibirProtagonista(pSocket,nombreUsuario,nombrePersonaje) == false ) return false;
 	if( this->recibirOtrosJugadores(vistaNivel,pSocket) == false ) return false;
 
-
 	pSocket->setEnvioIndirecto();
 
 	// Creo los elementos de la Vista
 	if( this->crearElementosVista(vistaNivel,vistaLoop,pSocket) == false ) return false;
-
 
 	// Creo los elementos del Controlador
 	if( this->crearElementosControlador(vistaNivel,vistaLoop,evento,pSocket) == false ) return false;
@@ -97,7 +95,6 @@ bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCl
 
 	Serializadora s;
 	if( pSocket->recibir(s) == false ) return false;
-//	std::string cadenaRecibida(si.getString());
 	
 	// Hidrato el vector de strings y recibo cada archivo
 	int cantidadDeArchivos = 0;
@@ -106,7 +103,6 @@ bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCl
 		std::string rutaDestino(s.getString());
 		if ( pSocket->recibirArchivo(rutaDestino.c_str()) == false) return false; // Recibo el archivo binario
 	}
-
 	return true;
 }
 

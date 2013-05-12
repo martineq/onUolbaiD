@@ -11,7 +11,6 @@ ModeloEntidad::ModeloMovimiento& ModeloEntidad::ModeloMovimiento::operator=(cons
 
 ModeloEntidad::ModeloMovimiento::ModeloMovimiento(ModeloEntidad* modeloEntidad) {
 	this->_modeloEntidad = modeloEntidad;
-	//this->_posicionDestino = this->_modeloEntidad->posicionActual();
 	this->_posicionDestino = this->_modeloEntidad->_posicionActual;
     this->_deltaX = 0;
     this->_deltaY = 0;

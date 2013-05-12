@@ -26,7 +26,6 @@ bool ProxyControladorEvento::enviarEvento(ProxyControladorEvento::stEvento entid
 	Serializadora s;
 	this->serializar(s,entidad);
 	return this->pCliente->enviar(s);
-	//return true;
 }
 
 // Devuelve true si sacó datos de la cola de sockets. Devuelve false si la cola estaba vacía
