@@ -237,8 +237,8 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	ParserYaml::stEntidad entidadProtagonista = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreProtagonista);
 	
 	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
-	double x = (double)this->juegoElegido.entidadJugador.tileX;
-	double y = (double)this->juegoElegido.entidadJugador.tileY;
+	double x = (double)this->juegoElegido.entidadJugador.posicionSiguienteX;
+	double y = (double)this->juegoElegido.entidadJugador.posicionSiguienteY;
 	int id = this->juegoElegido.entidadJugador.id;
 	// TODO: Faltan actualizar estos valores:
 	//this->juegoElegido.entidadJugador.actualizacionMapa;
@@ -363,8 +363,8 @@ bool VistaFactory::crearElementosControlador(VistaNivel& vistaNivel,ControladorE
 void VistaFactory::crearControladorScroll(ControladorEvento* evento){
 	
 	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
-	int x = this->juegoElegido.entidadJugador.tileX;
-	int y = this->juegoElegido.entidadJugador.tileY;
+	int x = this->juegoElegido.entidadJugador.posicionSiguienteX;
+	int y = this->juegoElegido.entidadJugador.posicionSiguienteY;
 
 	// Valores tomados desde el escenario elegido
 	int anchoEscenario = this->juegoElegido.escenario.tamanioX;

@@ -16,13 +16,16 @@ class ProxyModeloEntidad{
 			bool esJugador;
 
 			// Datos para actualizar en la entidad
+			double pixelAnteriorX;
+			double pixelAnteriorY;
+			int posicionAnteriorX;
+			int posicionAnteriorY;
 			double pixelSiguienteX;
 			double pixelSiguienteY;
+			int posicionSiguienteX;
+			int posicionSiguienteY;
 			int direccion;
 			bool esUltimoMovimiento;
-
-			int tileX;
-			int tileY;
 			int accion;
 			std::string actualizacionMapa;  // La idea es serializar toda la actulización de la matriz y mandarlo por acá. Lo pongo en un string porque el tamaño de la actualización es variable
 		};
@@ -48,9 +51,15 @@ class ProxyModeloEntidad{
 		bool recibirEntidad(ProxyModeloEntidad::stEntidad& entidad);				// Lo usa el lado Cliente
 		void serializar(Serializadora& s,ProxyModeloEntidad::stEntidad& entidad);
 		void hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad& entidad);
+
+		bool enviarMatriz(std::string matrix,int id);
+		bool recibirMatrix(std::string& matrix);
+
 		int sizeEntidad(ProxyModeloEntidad::stEntidad);
 		// Auxiliares
-		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento,int tileX, int tileY, int accion);
+		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad, double pixelAnteriorX,double pixelAnteriorY,int posicionAnteriorX,int posicionAnteriorY,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,int direccion,bool esUltimoMovimiento, int accion);
 };
 
 //TODO: poner accion
+
+
