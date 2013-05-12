@@ -12,14 +12,14 @@ class Cliente{
 		ControladorJuego controladorJuego;
 		SocketCliente socket;
 
-		bool iniciar(void);		// Inicia el VistaJuego y ControladorJuego
+		bool iniciar(std::string mote,std::string personaje);		// Inicia el VistaJuego y ControladorJuego
 		void loop(void);
 		
 	public:
 		Cliente(void);
 		virtual ~Cliente(void);
 
-		bool correrJuego(void);
+		bool correrJuego(std::string mote,std::string personaje);
 		void destruirEntidades();
 
 };

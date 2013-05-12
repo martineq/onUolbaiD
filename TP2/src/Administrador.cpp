@@ -20,7 +20,7 @@ Administrador::~Administrador(void){
 	}
 }
 
-void Administrador::correrJuego(){
+void Administrador::correrJuego(std::string mote,std::string personaje){
 
 	this->menuLineaComandos();
 
@@ -31,7 +31,7 @@ void Administrador::correrJuego(){
 		}
 	}else{
 		this->cliente = new Cliente();
-		if( this->cliente->correrJuego() == false ){
+		if( this->cliente->correrJuego(mote,personaje) == false ){
 		Log::getInstance().log(1,__FILE__,__LINE__,"Error al correr el juego en modo Cliente");
 		}	
 	}
