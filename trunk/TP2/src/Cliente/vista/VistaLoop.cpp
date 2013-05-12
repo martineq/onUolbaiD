@@ -18,6 +18,7 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 }
 
 bool VistaLoop::loop(VistaNivel& vistaNivel){
+	std::cout <<"estoy en el VistaLoop::loop"<<std::endl;
 	if( this->actualizarEntidadesPorProxy(vistaNivel) == false) return false;	// Nuevo: Actuliza lo que vino por el proxy
 	if( this->dibujarEntidades(vistaNivel) == false) return false;
 	return true;

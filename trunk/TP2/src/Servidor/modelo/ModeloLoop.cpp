@@ -9,7 +9,7 @@ ModeloLoop::~ModeloLoop(){
 }
 
 bool ModeloLoop::loop(ModeloNivel& modeloNivel){
-
+	//std::cout <<"estoy en el ModeloLoop::loop"<<std::endl;
 	// Recorro varios eventos en un solo loop. Está asegurado que no habrá 2 eventos del mismo ID.
 	while( this->_modeloEvento.getActualizado() ){
 
