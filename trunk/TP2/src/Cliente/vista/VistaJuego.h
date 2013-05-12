@@ -13,6 +13,7 @@ class VistaJuego{
 		VistaLoop vistaLoop;
 		SDL_Surface *pantalla,*fondo,*textSurface;	
 
+		char** matriz;
 	public:
 		VistaJuego(void);
 		~VistaJuego(void);

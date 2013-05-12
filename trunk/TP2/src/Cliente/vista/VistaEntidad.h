@@ -8,8 +8,7 @@
 
 class VistaEntidad: public Identificable{
 
-	private:
-		int _id;
+	private:		
 		bool esJugador;
 		bool estaCongelado;
 		double x;
@@ -20,23 +19,28 @@ class VistaEntidad: public Identificable{
 		double posicionReferenciaY;
 		double fps;
 		double delay;
+		double xEnPantalla;
+		double yEnPantalla;
+		SDL_Rect area;
+		vector<string> estados;
 		std::list<std::list<std::string>> listaAnimaciones;
 		VistaAnimacion* animacionActual;
 		VistaAnimaciones* animaciones;
 		int codigoAnimacion;
-		bool esNecesarioRefrescar;
-		SDL_Rect area;
+		int tileX;
+		int tileY;
+		int tileXAnterior;
+		int tileYAnterior;	
+		int _id;
+		bool esNecesarioRefrescar;	
 		bool entraEnPantalla;
-		double xEnPantalla;
-		double yEnPantalla;
-		vector<string> estados;
 
 	public:
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad);
 		~VistaEntidad(void);
 
 		void actualizar(ProxyModeloEntidad::stEntidad& entidad);
-		void verificarBordePantalla(VistaScroll* scroll);
+		bool verificarBordePantalla(VistaScroll* scroll);
 		int id();
 
 		// Getters
@@ -49,6 +53,10 @@ class VistaEntidad: public Identificable{
 		double getPosRefY(void);
 		double getFps(void);
 		double getDelay(void);
+		int getTileX();
+		int getTileY();
+		int getTileXAnterior();
+		int getTileYAnterior();
 		int getCodigoAnimacion(void);
 		std::list<std::list<std::string>> getListaAnimaciones(void);
 		bool getEsNecesarioRefrescar(void);
@@ -59,7 +67,8 @@ class VistaEntidad: public Identificable{
 		void setYEnPantalla(double scrollY);
 		void setEsNecesarioRefrescar(bool boolRefrescar);
 		void setAnimacion(std::string estado);
-		bool graficar();
+		void setPosicionAnteriorEnTiles();	
+		bool graficar(char visibilidad);
 		void setPantalla(SDL_Surface* screen);
 		void setEstaCongelado(bool estado);
 };

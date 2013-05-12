@@ -24,7 +24,7 @@ class VistaScroll: public Observador, public Identificable{
 		VistaScroll(double x,double y,double alto,double ancho, double anchoNivel, double altoNivel,SDL_Surface* pantalla,int id);
 		~VistaScroll(void);
 
-		void graficar(SDL_Surface*);
+		void graficar(SDL_Surface*,char**);
 		void obtenerTilesLimites(Posicion& posicionInicial, Posicion& posicionFinal);
 		void actualizar(class Observable* s);
 		int id();

@@ -215,8 +215,8 @@ bool VistaFactory::crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vi
 	(*pPantallaDestino) = pPantallaSDL;
 
 	// Seteo medidas de pantalla
-	vistaNivel.setAltoPantalla(this->juegoElegido.pantalla.alto);
-	vistaNivel.setAnchoPantalla(this->juegoElegido.pantalla.ancho);
+	vistaNivel.setAltoDePantallaEnPixel(this->juegoElegido.pantalla.alto);
+	vistaNivel.setAltoDePantallaEnPixel(this->juegoElegido.pantalla.ancho);
 
 	// Seteo el ProxyModeloEntidad
 	ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();

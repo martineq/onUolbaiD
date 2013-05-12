@@ -108,6 +108,7 @@
 #define PUERTO_SERVIDOR 444			// Puerto que usará el Servidor para hacer el bind
 #define CLIENTE_NO_ENCONTRADO -1	// Código de identificación que indica que no se encontró un cliente
 
+
 /*****************************  Delays *****************************************/
 #define DELAY_HILO_CONEXION 1000000 // En microsegundos. 1000000 uSeg = 1 seg
 

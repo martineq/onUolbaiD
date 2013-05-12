@@ -62,6 +62,10 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->esNecesarioRefrescar = false;
 	this->codigoAnimacion = 0;
 	this->entraEnPantalla = false;
+	this->tileX = x;
+	this->tileY = y;
+	this->tileXAnterior = x;
+	this->tileYAnterior = y;
 	//typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
 }
 
@@ -78,6 +82,11 @@ void VistaEntidad::setYEnPantalla(double scrollY){
 	this->yEnPantalla = this->y - scrollY;
 }
 
+void VistaEntidad::setPosicionAnteriorEnTiles(){
+	this->tileXAnterior = this->tileX;
+	this->tileYAnterior = this->tileY;
+}
+
 // Este método será usado ahora por el ProxyModeloEntidad
 void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 
@@ -85,20 +94,26 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	//entidad.actualizacionMapa;
 	//entidad.entidadCongelada;
 	//entidad.errorEnSocket;
-
+	this->setPosicionAnteriorEnTiles();
 	this->x = entidad.pixelSiguienteX;
 	this->y = entidad.pixelSiguienteY;
+	this->tileX = entidad.posicionSiguienteX;
+	this->tileY = entidad.posicionSiguienteY;
 
-	int codigo = entidad.direccion;
+	int accion = entidad.accion;
+	if (accion == 3)
+		accion = 0;
+
+	int codigo = (accion*8) + entidad.direccion;
 	if( (this->esJugador) && (codigo != this->codigoAnimacion)){
 		this->codigoAnimacion = codigo;
 		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
 	}
 	
-	this->esNecesarioRefrescar = !(entidad.esUltimoMovimiento);
+	this->esNecesarioRefrescar = ( !(entidad.esUltimoMovimiento) || (codigo >= 8) );
 }
 
-void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
+bool VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
 	int xReal = this->x - this->posicionReferenciaX;
 	int yReal = this->y  - this->posicionReferenciaY;
 	bool entraEnX = false;
@@ -121,6 +136,8 @@ void VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
 		this->setXEnPantalla(scroll->getX());
 		this->setYEnPantalla(scroll->getY());
 	}
+
+	return this->entraEnPantalla;
 }
 
 int VistaEntidad::id() {
@@ -163,6 +180,22 @@ double VistaEntidad::getDelay(void){
 	return (this->delay);
 }
 
+int VistaEntidad::getTileX(){
+	return (this->tileX);
+}
+
+int VistaEntidad::getTileY(){
+	return (this->tileY);
+}
+
+int VistaEntidad::getTileXAnterior(){
+	return (this->tileXAnterior);
+}
+
+int VistaEntidad::getTileYAnterior(){
+	return (this->tileYAnterior);
+}
+
 int VistaEntidad::getCodigoAnimacion(void){
 	return this->codigoAnimacion;
 }
@@ -183,11 +216,12 @@ void VistaEntidad::setAnimacion(std::string estado){
 	this->animacionActual = this->animaciones->get(estado);
 }
 
-bool VistaEntidad::graficar(){
+bool VistaEntidad::graficar(char visibilidad){
 	bool ok = true;	
 	if (this->entraEnPantalla)  {
 		if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
-			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY) == false ) ok = false;
+			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY, visibilidad) == false ) ok = false;
+			if (this->animacionActual->animacionFinalizada()) this->esNecesarioRefrescar = false;
 			//this->esNecesarioRefrescar = false;
 		}else{
 			this->animacionActual->setX(this->xEnPantalla - this->posicionReferenciaX);
