@@ -126,9 +126,13 @@ Posicion ModeloEntidad::posicionSiguiente() const {
 
 ProxyModeloEntidad::stEntidad ModeloEntidad::stEntidad() const {
 	ProxyModeloEntidad::stEntidad entidad;
-	ProxyModeloEntidad::cargarStEntidad(entidad, this->id(), false, this->estaCongelado(), this->esJugador(),
+/*	ProxyModeloEntidad::cargarStEntidad(entidad, this->id(), false, this->estaCongelado(), this->esJugador(),
 		this->nombreEntidad(), this->pixelSiguiente().x, this->pixelSiguiente().y, this->direccion(),
-		this->esUltimoMovimiento(), this->posicionActual().x, this->posicionActual().y, this->accion());
+		this->esUltimoMovimiento(), this->posicionActual().x, this->posicionActual().y, this->accion());*/
+	ProxyModeloEntidad::cargarStEntidad(entidad,this->id(),false,false,this->esJugador(),this->nombreEntidad(),
+		this->pixelActual().x,this->pixelActual().y,this->posicionActual().x,this->posicionActual().y,
+		this->pixelSiguiente().x,this->pixelSiguiente().y,this->posicionActual().x,this->posicionActual().y,
+		this->direccion(),this->esUltimoMovimiento(),this->accion());
 	return entidad;
 }
 
