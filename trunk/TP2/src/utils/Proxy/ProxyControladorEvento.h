@@ -41,6 +41,7 @@ class ProxyControladorEvento{
 		void serializar(Serializadora& s,ProxyControladorEvento::stEvento& evento);
 		void hidratar(Serializadora& s,ProxyControladorEvento::stEvento& evento);
 
+		std::list<int> getClientesConError(void);
 
 		// Auxiliares
 		static void cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool mouseDentroPantalla,bool finalizoElJuego);

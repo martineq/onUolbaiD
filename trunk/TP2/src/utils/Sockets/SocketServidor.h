@@ -9,7 +9,7 @@ class SocketServidor{
 	private:
 		int puerto;										// Puerto al que pertenece el servidor
 		ConexionServidor miConexion;					// La conexión del servidor
-		std::list<long> todosLosClientesConError;		// Listado de todos los clientes "masivos" que reportaron error de conexion. Acá aparecen los individuales y los masivos. Sin mutex, ya que no lo toca ningún hilo	
+		std::list<int> todosLosClientesConError;		// Listado de todos los clientes "masivos" que reportaron error de conexion. Acá aparecen los individuales y los masivos. Sin mutex, ya que no lo toca ningún hilo	
 		std::vector<ConexionCliente*> conexionClientes;	// Vector de Conexion para todos los clientes		
 		Mutex mutexConexionClientes;					// Exclusión mutua para la variable <conexionClientes>, ya que la misma podría a ser llamada por varios hilos a la vez (por ej aceptarCliente() eliminarCliente() )
 		
@@ -42,7 +42,7 @@ class SocketServidor{
 		// Para aceptar/eliminar clientes, identificar los clientes erróneos, renombrar el ID
 		int aceptarCliente();
 		bool eliminarCliente(int idCliente);
-		std::list<long> getNuevosClientesErroneos(void);
+		std::list<int> getNuevosClientesErroneos(void);
 		bool renombrarIdCliente(int idActual, int idNuevo);
 
 		// Para setear el modo en que se comporta la recpción/envío de mensajes de un cliente
