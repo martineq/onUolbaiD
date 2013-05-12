@@ -21,8 +21,6 @@ void ProxyControladorEvento::setSocketServidor(SocketServidor* pServidor){
 // Envío el evento a través del socket
 // Devuelve true lo pudo enviar exitosamente. Devuelve false si hubo error al enviar 
 bool ProxyControladorEvento::enviarEvento(ProxyControladorEvento::stEvento entidad){
-	// >>> Implementar
-	// Acá uso this->pCliente;
 	Serializadora s;
 	this->serializar(s,entidad);
 	return this->pCliente->enviar(s);
@@ -31,8 +29,10 @@ bool ProxyControladorEvento::enviarEvento(ProxyControladorEvento::stEvento entid
 // Devuelve true si sacó datos de la cola de sockets. Devuelve false si la cola estaba vacía
 // Para ver si hubo errores al recibir del socket debo ver ProxyModeloEntidad::stEntidad.errorEnSocket, y ver si es true
 bool ProxyControladorEvento::recibirEvento(ProxyControladorEvento::stEvento& evento){
-	// >>> Implementar
-	// Acá uso this->pServidor;
+
+	// Inicialo el atributo de finalización de juego por si no se actualiza al serializar
+	evento.finalizoElJuego = false;
+
 	Serializadora s;
 	if (this->pServidor->recibirMasivo(s)){
 		if (s.size() > 0){
@@ -84,6 +84,14 @@ void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& ev
 	evento.mouseY = mouseY;
 	evento.teclaA = teclaA;
 	evento.teclaS = teclaS;
+}
+
+std::list<int> ProxyControladorEvento::getClientesConError(void){
+	std::list<int> lista;
+	if ( this->pServidor != NULL ){
+		lista = this->pServidor->getNuevosClientesErroneos();
+	}
+	return lista;
 }
 
 // TODO: Implementar los métodos del proxy. Ver si hace falta agregar al struct mas variables necesarias 

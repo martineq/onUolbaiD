@@ -260,9 +260,9 @@ bool SocketServidor::renombrarIdCliente(int idActual, int idNuevo){
 // El listado incluye tanto clientes "Individuales" como "Masivos"
 // En la lista se devuelven los ID's obtenidos desde la última vez que se llamó al método. 
 // La primera vez que se llame al método devolverá los ID's obtenidos desde la creación del servidor
-std::list<long> SocketServidor::getNuevosClientesErroneos(void){
+std::list<int> SocketServidor::getNuevosClientesErroneos(void){
 
-	std::list<long> tempErroneos = this->todosLosClientesConError;
+	std::list<int> tempErroneos = this->todosLosClientesConError;
 	this->todosLosClientesConError.clear();
 
 	return tempErroneos;

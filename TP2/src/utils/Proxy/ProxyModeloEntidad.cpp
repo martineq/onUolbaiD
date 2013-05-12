@@ -21,8 +21,6 @@ void ProxyModeloEntidad::setSocketServidor(SocketServidor* pServidor){
 // Nota: Este método está creado para ser usado en el hilo de configuración, desde el ModeloFactory.
 // El cliente debe estar seteado en Individual para que funcione. 
 bool ProxyModeloEntidad::enviarEntidadIndividual(ProxyModeloEntidad::stEntidad entidad,int id){
-	// >>> Implementar
-	// Acá uso this->pServidor->enviarIndividual;
 	Serializadora s;
 	this->serializar(s,entidad);
 	return this->pServidor->enviarIndividual(s,id);
@@ -37,9 +35,6 @@ bool ProxyModeloEntidad::recibirEntidadIndividual(ProxyModeloEntidad::stEntidad&
 	
 	this->recibirEntidad(entidad);
 
-	// Acá uso:
-	// if( this->pCliente->recibir(...) == false ) entidad.errorEnSocket = true;
-
 	if( entidad.errorEnSocket == true){
 		return false;
 	}else{
@@ -52,20 +47,15 @@ bool ProxyModeloEntidad::recibirEntidadIndividual(ProxyModeloEntidad::stEntidad&
 // Devuelve true lo pudo enviar exitosamente. Devuelve false si hubo error al enviar.
 // Nota: Después se deberá verificar quien tuvo el error y eliminarlo, en cada loop
 bool ProxyModeloEntidad::enviarEntidad(ProxyModeloEntidad::stEntidad entidad){
-	// >>> Implementar
-	// Acá uso this->pServidor->enviarMasivo;
 	Serializadora s;
 	this->serializar(s,entidad);
 	return this->pServidor->enviarMasivo(s);
-	//return true;
 }
 
 // Devuelve true si sacó datos de la cola de sockets. Devuelve false la cola estaba vacía
 // Para ver si hubo errores al recibir del socket debo ver ProxyModeloEntidad::stEntidad.errorEnSocket, y ver si es true
 bool ProxyModeloEntidad::recibirEntidad(ProxyModeloEntidad::stEntidad& entidad){
-	// >>> Implementar
 	// Este método tiene que hacerse cargo de poner en true o false el valor errorEnSocket
-	// Acá uso this->pCliente->recibir;
 	Serializadora s;
 	if (this->pCliente->recibir(s)){
 		if (s.size() > 0){
@@ -143,8 +133,7 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.accion = accion;
 }
 
-
-// para los que usan el proxy y quieren cargar el struct
+// Para los que usan el proxy y quieren cargar el struct
 void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int direccion,bool esUltimoMovimiento,int tileX,int tileY,int accion){
 	entidad.id = id;
 	entidad.errorEnSocket = errorEnSocket;

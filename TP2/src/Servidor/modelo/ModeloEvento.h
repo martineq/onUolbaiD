@@ -31,4 +31,5 @@ class ModeloEvento{
 
 		void setProxyControladorEvento(ProxyControladorEvento* pProxyEvento);
 		void cargarProximoEvento(void); 
+		std::list<int> getClientesConError(void);
 };

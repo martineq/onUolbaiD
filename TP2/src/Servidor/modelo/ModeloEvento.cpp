@@ -97,3 +97,7 @@ void ModeloEvento::cargarProximoEvento(void){
 	this->listaEventos.pop_front();
 	return void();
 }
+
+std::list<int> ModeloEvento::getClientesConError(void){
+	return this->pProxyEvento->getClientesConError();
+}

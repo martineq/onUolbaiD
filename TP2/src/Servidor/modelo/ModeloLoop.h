@@ -8,6 +8,8 @@ class ModeloLoop {
 	private:
 		ModeloEvento _modeloEvento;
 
+		void congelarJugadoresConError(ModeloNivel& modeloNivel);
+
 	public:
 		ModeloLoop();
 		virtual ~ModeloLoop();
