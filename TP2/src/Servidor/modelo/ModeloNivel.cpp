@@ -52,7 +52,8 @@ int ModeloNivel::getAltoTiles() {
 
 void ModeloNivel::agregarJugador(ModeloEntidad *jugador) {
 	this->mutexListaJugadores.lockEscritura(__FILE__, __LINE__);
-	this->listaJugadores.push_back(jugador);
+	this->listaJugadores.push_back(jugador);	
+	jugador->notificar();
 	this->mutexListaJugadores.unlock(__FILE__, __LINE__);
 	jugador->asignarListaEntidades(&this->mutexListaEntidades, &this->listaEntidades);
 	jugador->asignarListaJugadores(&this->mutexListaJugadores, &this->listaJugadores);
@@ -60,7 +61,7 @@ void ModeloNivel::agregarJugador(ModeloEntidad *jugador) {
 
 void ModeloNivel::agregarEntidad(ModeloEntidad *entidad) {
 	this->mutexListaEntidades.lockEscritura(__FILE__, __LINE__);
-	this->listaEntidades.push_back(entidad);
+	this->listaEntidades.push_back(entidad);	
 	this->mutexListaEntidades.unlock(__FILE__, __LINE__);
 }
 
