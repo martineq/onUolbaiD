@@ -1,8 +1,8 @@
 #include "VistaEntidad.h"
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id, std::string nombreEntidad){
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id, std::string nombreEntidad,bool estaCongelado,int estado){
 	this->_id = id;
-	this->estaCongelado = false;
+	this->estaCongelado = estaCongelado;
 
 	int xAux, yAux;
 
@@ -74,7 +74,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 		i++;
 	}
 	if (this->esJugador)
-		this->animacionActual = this->animaciones->get(this->estados.at(4));
+		this->animacionActual = this->animaciones->get(this->estados.at(estado));
 	this->esNecesarioRefrescar = false;
 	this->codigoAnimacion = 0;
 	this->tileX = x;

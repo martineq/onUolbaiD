@@ -33,7 +33,7 @@ void HiloReceptor::correrRecepcion(HiloConfiguracion::stParametrosConfiguracion 
 void HiloReceptor::rutina(HiloConfiguracion::stParametrosConfiguracion* parametrosEntrada){
 
 	SocketServidor* pServidor = (SocketServidor*)parametrosEntrada->pServidor;
-	std::cout << "Aceptando clientes"  << std::endl;
+	std::cout << "Aceptando clientes..."  << std::endl;
 
 	// El hilo hará su tarea mientras se encuentre activo
 	while(this->estaActivo()==true){		
