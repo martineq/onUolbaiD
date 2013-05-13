@@ -9,8 +9,8 @@ class Temporizador{
 		Temporizador(const Temporizador&);
 		Temporizador& operator =(const Temporizador&);
 	
-		unsigned int ticInicial;		// Tiempo al comienzo
-		unsigned int ticPausado;		// Tiempo al pausar
+		unsigned long ticInicial;		// Tiempo al comienzo
+		unsigned long ticPausado;		// Tiempo al pausar
 		bool pausado;
 		bool comenzado;
 
@@ -23,10 +23,10 @@ class Temporizador{
 		void parar();
 		void pausar();
 		void sacarPausa();
-		void crearDelay(int milisegundos);
+		void crearDelay(long milisegundos);
 
 		// Obtner el tiempo del Temporizador
-		unsigned int obtenerTics();
+		unsigned long obtenerTics();
 
 		// Chequear status del Temporizador
 		bool estaComenzado();

@@ -85,11 +85,17 @@ bool VistaFactory::conectarSocket(SocketCliente* pSocket){
 // Recibe del servidor todos los archivos necesarios para el funcionamiento del juego
 bool VistaFactory::recibirArchivos(SocketCliente* pSocket){
 
+	double tiempoInicial = Temporizador::getInstance().obtenerTics();
+
 	// Recibo los archivos de configuracion
 	if( this->recibirListaDeArchivos(DIRECTORIO_IMG,pSocket) == false) return false;
 
 	// Recibo los archivos de imagenes
 	if( this->recibirListaDeArchivos(DIRECTORIO_CONFIG,pSocket) == false) return false;
+
+	double tiempoFinal = Temporizador::getInstance().obtenerTics();
+	double tiempoTranscurrido =  ( tiempoFinal - tiempoInicial ) / 1000;
+	std::cout << "Tiempo para recepcion de archivos: " << tiempoTranscurrido << " segundos. " << std::endl;
 
 	return true;
 }

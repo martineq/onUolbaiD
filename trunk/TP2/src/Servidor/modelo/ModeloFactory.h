@@ -10,6 +10,7 @@
 #include "../../utils/Serializacion/Serializadora.h"
 #include "../../utils/LectorDirectorios/LectorDirectorios.h"
 #include "../../utils/Serializacion/Serializadora.h"
+#include "../../utils/Temporizador/Temporizador.h"
 
 class ModeloFactory{
 

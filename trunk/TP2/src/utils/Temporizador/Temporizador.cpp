@@ -5,6 +5,10 @@ Temporizador::Temporizador(){
     ticPausado = 0;
     pausado = false;
     comenzado = false;
+
+	// Arranca comenzado
+	Temporizador::comenzar();
+
 }
 
 Temporizador::~Temporizador(){
@@ -38,11 +42,11 @@ void Temporizador::sacarPausa(){
     }
 }
 
-void Temporizador::crearDelay(int milisegundos){
+void Temporizador::crearDelay(long milisegundos){
 	SDL_Delay(milisegundos);
 }
 
-unsigned int Temporizador::obtenerTics(){
+unsigned long Temporizador::obtenerTics(){
     if( comenzado == true ){
         if( pausado == true ){
             return ticPausado;
