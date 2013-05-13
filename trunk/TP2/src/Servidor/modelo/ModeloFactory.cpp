@@ -286,10 +286,21 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	int altoEscenario = juego.escenario.tamanioY;
 	int velocidad = juego.configuracion.velocidadPersonaje;
 
-	// Valores tomados desde el protagonista elegido
+	// Para que empiece en una posicion aleatoria sin conflictos
+	int min = 0;
+	int maxY = juego.escenario.tamanioY - 1;
+	int maxX = juego.escenario.tamanioX - 1;
+	int outputX = min + (rand() % (int)(maxX - min + 1));		
+	int outputY = min + (rand() % (int)(maxY - min + 1));
 	Posicion pos;
-	pos.x = protagonista.x;
-	pos.y = protagonista.y;
+	pos.x = outputX;
+	pos.y = outputY;
+	while (modeloNivel->posicionOcupada(pos)) {		
+		outputX = min + (rand() % (int)(maxX - min + 1));	
+		outputY = min + (rand() % (int)(maxY - min + 1));		
+		pos.x = outputX;
+		pos.y = outputY;		
+	}	
 
 	// Creo el proxy para esta entidad jugador
 	ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();

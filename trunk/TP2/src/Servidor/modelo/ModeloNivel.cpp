@@ -126,6 +126,20 @@ bool ModeloNivel::actualizar() {
 	return true;
 }
 
+bool ModeloNivel::posicionOcupada(Posicion pos){
+	for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++){
+		Posicion posicionDelJugador = (*jugador)->posicionActual();
+		if ( (posicionDelJugador.x == pos.x) && (posicionDelJugador.y == pos.y) ) return true;
+	}
+
+	for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
+		Posicion posicionDelJugador = (*entidad)->posicionActual();
+		if ( (posicionDelJugador.x == pos.x) && (posicionDelJugador.y == pos.y) ) return true;
+	}
+
+	return false;
+}
+
 void ModeloNivel::destruirListaJugadores(){
 	// Destruyo los jugadores instanciados
 	for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++){
