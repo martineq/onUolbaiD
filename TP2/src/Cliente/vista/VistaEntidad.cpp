@@ -65,9 +65,6 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->animacionActual = NULL;
 
 	int i = 0;
-/*	if (this->esJugador == false){
-		this->animaciones->setAnimacionesAutomaticas();	
-	}*/
 	for (it=listaAnimaciones.begin();it!=listaAnimaciones.end();it++){
 		this->animaciones->agregar(this->estados.at(i),*it,delay*1000,this->ancho,this->alto,fps);
 		if (this->animacionActual == NULL){
@@ -79,12 +76,10 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 		this->animacionActual = this->animaciones->get(this->estados.at(4));
 	this->esNecesarioRefrescar = false;
 	this->codigoAnimacion = 0;
-	this->entraEnPantalla = false;
 	this->tileX = x;
 	this->tileY = y;
 	this->tileXAnterior = x;
 	this->tileYAnterior = y;
-	//typedef enum Direccion { NORTE, SUR, ESTE, OESTE, NORESTE, NOROESTE, SUDESTE, SUDOESTE, CENTRO };
 }
 
 VistaEntidad::~VistaEntidad(void){
@@ -142,20 +137,17 @@ bool VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
 		entraEnX = true;
 	}
 	
-	this->entraEnPantalla = false;
 	if (((yReal > scroll->getY()) && (yReal < (scroll->getY() + scroll->getAlto())) ||
 		(((yReal + this->alto) > scroll->getY()) && ((yReal + this->alto) < (scroll->getY() + scroll->getAlto()))))) {
 		entraEnY = true;
 	}
 
-	this->entraEnPantalla = false;
 	if (entraEnX && entraEnY) {
-		this->entraEnPantalla = true;
 		this->setXEnPantalla(scroll->getX());
 		this->setYEnPantalla(scroll->getY());
+		return true;
 	}
-
-	return this->entraEnPantalla;
+	return false;
 }
 
 int VistaEntidad::id() {
@@ -235,17 +227,17 @@ void VistaEntidad::setAnimacion(std::string estado){
 }
 
 bool VistaEntidad::graficar(char visibilidad){
+	if (this->estaCongelado)
+		visibilidad = CONGELADO;
 	bool ok = true;	
-	if (this->entraEnPantalla)  {
-		if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
-			if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY, visibilidad) == false ) ok = false;
-			if (this->animacionActual->animacionFinalizada()) this->esNecesarioRefrescar = false;
-			//this->esNecesarioRefrescar = false;
-		}else{
-			this->animacionActual->setX(this->xEnPantalla - this->posicionReferenciaX);
-			this->animacionActual->setY(this->yEnPantalla - this->posicionReferenciaY);
-			if( this->animacionActual->graficar(visibilidad) == false ) ok = false;
-		}
+	if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
+		if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY, visibilidad) == false ) ok = false;
+		if (this->animacionActual->animacionFinalizada()) this->esNecesarioRefrescar = false;
+	}
+	else {
+		this->animacionActual->setX(this->xEnPantalla - this->posicionReferenciaX);
+		this->animacionActual->setY(this->yEnPantalla - this->posicionReferenciaY);
+		if( this->animacionActual->graficar(visibilidad) == false ) ok = false;
 	}
 	return ok;
 }

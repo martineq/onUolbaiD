@@ -276,8 +276,8 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 
 	// Valores tomados desde el proxy
 	int id = entidad.id;
-	double x = (double)entidad.pixelSiguienteX;
-	double y = (double)entidad.pixelSiguienteY;	
+	double x = (double)entidad.posicionSiguienteX;
+	double y = (double)entidad.posicionSiguienteY;	
 	//entidad.direccion				// <<< TODO: Para el primer seteo ¿hace falta? Si hace falta, implementarlo.
 	//entidad.esUltimoMovimiento	// <<< Para el primer seteo ¿hace falta? Si hace falta, implementarlo.
 
