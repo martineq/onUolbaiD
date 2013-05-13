@@ -84,13 +84,27 @@ void ModeloNivel::removerEntidad(ModeloEntidad *entidad) {
 	this->mutexListaEntidades.unlock(__FILE__, __LINE__);
 }
 
-void ModeloNivel::moverJugador(int mouseX, int mouseY, int id) {
+void ModeloNivel::jugadorMover(int mouseX, int mouseY, int id) {
 	ModeloEntidad* jugador = this->obtenerJugador(id);
 	if (jugador == NULL)
 		return;
 	Posicion posicion;
 	Posicion::convertirPixelATile(this->getAltoTiles(), mouseX, mouseY, posicion.x, posicion.y);
 	jugador->mover(posicion);
+}
+
+void ModeloNivel::jugadorAtacar(int id) {
+	ModeloEntidad* jugador = this->obtenerJugador(id);
+	if (jugador == NULL)
+		return;
+	jugador->atacar();
+}
+
+void ModeloNivel::jugadorDefender(int id) {
+	ModeloEntidad* jugador = this->obtenerJugador(id);
+	if (jugador == NULL)
+		return;
+	jugador->defender();
 }
 
 void ModeloNivel::congelarJugador(int idJugador){

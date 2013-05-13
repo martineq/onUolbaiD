@@ -78,7 +78,8 @@ bool ControladorEvento::getTeclaSApretada(){
 
 void ControladorEvento::notificarAlProxy(){
 	ProxyControladorEvento::stEvento evento;
-	ProxyControladorEvento::cargarStEvento(evento,this->idJugador,false,this->getPosicionMouseX(),this->getPosicionMouseY(),this->getTeclaAApretada(),this->getTeclaSApretada(),(this->getClicMouseBotonIzquierdo() == 1 ),this->getFinalizoElJuego());
+	ProxyControladorEvento::cargarStEvento(evento, this->idJugador, false, this->getPosicionMouseX(), this->getPosicionMouseY(),
+		this->getTeclaAApretada(), this->getTeclaSApretada(), (this->getClicMouseBotonIzquierdo() == 1), this->getFinalizoElJuego());
 	this->pProxyEvento->enviarEvento(evento);
 }
 
@@ -107,4 +108,11 @@ void ControladorEvento::setFinalizoElJuego(bool valor){
 
 bool ControladorEvento::getFinalizoElJuego(void){
 	return this->finalizoElJuego;
+}
+
+void ControladorEvento::limpiar() {
+	this->clicMouseBotonDerecho = 0;
+	this->clicMouseBotonIzquierdo = 0;	
+	this->teclaAApretada = false;
+	this->teclaSApretada = false;
 }

@@ -9,14 +9,11 @@ ModeloLoop::~ModeloLoop(){
 }
 
 bool ModeloLoop::loop(ModeloNivel& modeloNivel){
-
 	// Recorro varios eventos en un solo loop. Está asegurado que no habrá 2 eventos del mismo ID.
-	while( this->_modeloEvento.getActualizado() ){
-
+	while (this->_modeloEvento.getActualizado()) {
 		// Acá lo primero que hago es congelar a los clientes, si hubo error de sockets
-		if( this->_modeloEvento.errorEnSocket() == true ){
+		if( this->_modeloEvento.errorEnSocket() == true )
 			this->congelarJugadoresConError(modeloNivel);	
-		}
 
 		// Obtengo el id para ubicarlo en el nivel
 		int idJugador = this->_modeloEvento.getIdJugador(); 
@@ -33,9 +30,12 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 			int mousePosX = this->_modeloEvento.getMousePosX();
 			int mousePosY = this->_modeloEvento.getMousePosY();
 			
-			if (this->_modeloEvento.getMouseClickIzquierdo()){
-				modeloNivel.moverJugador(mousePosX,mousePosY,idJugador); // Busca por ID el jugador a mover
-			}
+			if (this->_modeloEvento.getMouseClickIzquierdo())
+				modeloNivel.jugadorMover(mousePosX, mousePosY, idJugador);
+			else if (this->_modeloEvento.getKeyA())
+				modeloNivel.jugadorAtacar(idJugador);
+			else if (this->_modeloEvento.getKeyS())
+				modeloNivel.jugadorDefender(idJugador);
 		}
 		
 		this->_modeloEvento.cargarProximoEvento();  // Con esto descarto el evento que acabo de leer y cargo el próximo
