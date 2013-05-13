@@ -33,6 +33,8 @@ class HiloConexion: public Hilo{
 		stParametrosRun parametrosRun;
 		bool corriendo;
 		Mutex mutexCorriendo;
+		bool hiloIniciado;
+		Mutex mutexHiloIniciado;
 
 		void* run(void* parametro); // Se invoca a "this->start" (heredada de la clase Hilo) para que se use el run con hilo
 
@@ -44,6 +46,7 @@ class HiloConexion: public Hilo{
 		void loopSalidaIndividual(stParametrosRun* parametrosSalida);
 		void loopSalidaMasivo(stParametrosRun* parametrosSalida);
 		void delay(int milisegundos);
+		void setHiloIniciado(bool valor);
 
 	public:
 		HiloConexion(void);
@@ -55,5 +58,6 @@ class HiloConexion: public Hilo{
 		// Verificación y finalización de actividad
 		void detenerActividad(void);		
 		bool estaActivo(void);
+		bool seInicio(void);
 
 };
