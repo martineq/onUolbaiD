@@ -51,7 +51,8 @@ void ModeloLoop::congelarJugadoresConError(ModeloNivel& modeloNivel){
 	std::list<int> listaIdErroneos = this->_modeloEvento.getClientesConError();
 	
 	for( std::list<int>::iterator it = listaIdErroneos.begin() ; it != listaIdErroneos.end() ; it++){
-		modeloNivel.congelarJugador( (*it) );
+		int idErroneo = (*it);
+		modeloNivel.congelarJugador(idErroneo);
 	}
 
 	return void();

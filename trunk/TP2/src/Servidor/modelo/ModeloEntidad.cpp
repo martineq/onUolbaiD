@@ -57,7 +57,7 @@ ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {
 	return *this;
 }
 
-ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador) {
+ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string mote) {
 	this->_alto = alto;
 	this->_ancho = ancho;
 	this->_velocidad = velocidad;
@@ -69,7 +69,7 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_proxyEntidad = proxyEntidad;
 	this->_id = id;
 	this->_nombreEntidad = nombreEntidad;
-	this->_nombreJugador = nombreJugador;
+	this->_nombreJugador = mote;
 	this->_estaCongelado = false;
 	
 	this->_accion = CAMINANDO;

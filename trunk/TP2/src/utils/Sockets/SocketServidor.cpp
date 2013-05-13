@@ -241,8 +241,9 @@ bool SocketServidor::eliminarCliente(int idCliente){
 // False si por alguna razón no pudo cambiar, o si no encontró al cliente con el <idActual>
 bool SocketServidor::renombrarIdCliente(int idActual, int idNuevo){
 
+	// TODO: Borrar
 	// Primero chequeo que no quiera renombrar por un ID que ya está asignado a otro cliente
-	if( this->buscarCliente(idActual) != CLIENTE_NO_ENCONTRADO ) return false;
+	//if( this->buscarCliente(idActual) != CLIENTE_NO_ENCONTRADO ) return false;
 
 	long indice = this->buscarCliente(idActual);
 
