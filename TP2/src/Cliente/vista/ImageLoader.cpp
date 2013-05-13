@@ -106,11 +106,16 @@ bool ImageLoader::iniciarSDL(){
 		Log::getInstance().log(1,__FILE__,__LINE__,"SDL no se pudo iniciar");
 		ok = false;
 	}
+	TTF_Init();
+	SDL_EnableUNICODE(SDL_ENABLE);
+
 	return ok;
 }
 
 void ImageLoader::cerrarSDL(){
+	SDL_EnableUNICODE(SDL_DISABLE);
 	SDL_Quit();
+	TTF_Quit();
 }
 
 

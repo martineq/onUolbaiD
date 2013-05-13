@@ -1,11 +1,12 @@
 #include "./Cliente.h"
 
 Cliente::Cliente(void){
-
+	this->vistaChat = NULL;
 }
 
 Cliente::~Cliente(void){
-
+	if (this->vistaChat != NULL)
+		delete this->vistaChat;
 }
 
 bool Cliente::iniciar(std::string mote,std::string personaje){
@@ -15,6 +16,12 @@ bool Cliente::iniciar(std::string mote,std::string personaje){
 	// Instancia el nivel en vistaJuego y el scroll con su proxy en ControladorEvento
 	if( this->vistaJuego.iniciar(pSocket,this->controladorJuego.getControladorLoop()->getControladorEvento(),mote,personaje) == false ) return false;
 	
+	if (this->vistaChat == NULL) {
+		//TODO: Arreglar la posicion para que se vea abajo de la pantalla
+		Posicion posicion;
+		this->vistaChat = new VistaChat(posicion, mote, pSocket);
+	}
+
 	return true;
 }
 
@@ -22,8 +29,8 @@ void Cliente::loop(void){
 
 	bool quit = false;		
 	while (quit == false){
-		if( this->controladorJuego.loop() == false) quit = true;
-		if( this->vistaJuego.loop() == false) quit = true;
+		if( this->controladorJuego.loop(this->vistaChat, this->vistaJuego.getVistaNivel()) == false) quit = true;
+		if( this->vistaJuego.loop(this->vistaChat) == false) quit = true;
 	}
 }
 

@@ -1,8 +1,9 @@
 #pragma once
 
-#include "./VistaNivel.h"
-#include "./VistaFactory.h"
-#include "./ImageLoader.h"
+#include "VistaChat.h"
+#include "VistaNivel.h"
+#include "VistaFactory.h"
+#include "ImageLoader.h"
 #include "../../utils/Proxy/ProxyModeloEntidad.h"
 
 class VistaLoop{
@@ -19,7 +20,7 @@ class VistaLoop{
 	public:
 		VistaLoop(void);
 		~VistaLoop(void);
-		bool loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory, char**);
+		bool loop(VistaChat* vistaChat,VistaNivel& vistaNivel,VistaFactory& vistaFactory, char**);
 
 		void setPantalla(SDL_Surface *pantalla);
 		void SetProxyModeloEntidad(ProxyModeloEntidad* pProxyEntidad);

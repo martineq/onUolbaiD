@@ -290,7 +290,7 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 
 }
 
-bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,char** matriz){
+bool VistaLoop::loop(VistaChat* vistaChat,VistaNivel& vistaNivel,VistaFactory& vistaFactory,char** matriz){
 	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory) == false) return false;	// Nuevo: Actuliza lo que vino por el proxy
 
 	if ( (vistaNivel.getJugador()->getTileXAnterior() != vistaNivel.getJugador()->getTileX())
@@ -299,6 +299,8 @@ bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,char** ma
 	}
 
 	if( this->dibujarEntidades(vistaNivel, matriz) == false) return false;
+	if (!vistaChat->graficar(this->pantalla)) return false;
+	ImageLoader::getInstance().refrescarPantalla(this->pantalla);
 	return true;
 }
 
@@ -353,7 +355,6 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz){
 
 	if (vistaNivel.getScroll()->getEsNecesarioRefrescar())
 		vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
-	ImageLoader::getInstance().refrescarPantalla(this->pantalla);
 
 	return true;
 }

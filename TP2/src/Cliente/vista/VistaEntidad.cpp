@@ -114,6 +114,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->tileX = entidad.posicionSiguienteX;
 	this->tileY = entidad.posicionSiguienteY;
 	this->estaCongelado = entidad.entidadCongelada;
+	this->nombreEntidad = entidad.nombreEntidad;
 
 	int accion = entidad.accion;
 	if (accion == 3)
@@ -218,6 +219,10 @@ std::list<std::list<std::string>> VistaEntidad::getListaAnimaciones(void){
 
 bool VistaEntidad::getEsNecesarioRefrescar(void){
 	return this->esNecesarioRefrescar;
+}
+
+std::string VistaEntidad::getNombreEntidad() {
+	return this->nombreEntidad;
 }
 
 void VistaEntidad::setEsNecesarioRefrescar(bool boolRefrescar){

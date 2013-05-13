@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./vista/VistaJuego.h"
+#include "./vista/VistaChat.h"
 #include "./controlador/ControladorJuego.h"
 #include "../utils/Sockets/SocketCliente.h"
 #include "../utils/Temporizador/Temporizador.h"
@@ -9,6 +10,7 @@ class Cliente{
 
 	private:
 		VistaJuego vistaJuego;
+		VistaChat* vistaChat;
 		ControladorJuego controladorJuego;
 		SocketCliente socket;
 

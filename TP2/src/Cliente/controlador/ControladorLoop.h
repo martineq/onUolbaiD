@@ -1,6 +1,9 @@
 #pragma once
 
 #include <vector>
+#include "../vista/VistaNivel.h"
+#include "../vista/VistaEntidad.h"
+#include "../vista/VistaChat.h"
 #include "DetectorEventos.h"
 #include "ControladorEvento.h"
 
@@ -12,7 +15,7 @@ class ControladorLoop{
 public:
 		ControladorLoop();
 		virtual ~ControladorLoop();
-		void loop();		
+		void loop(VistaChat* vistaChat, VistaNivel* nivel);		
 		bool getQuit();
 		ControladorEvento* getControladorEvento();
 };
