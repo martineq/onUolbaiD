@@ -203,6 +203,8 @@ class ModeloEntidad {
 		Posicion pixelSiguiente();
 
 		void notificar();
+	
+		void setNombreJugador(std::string nombre);
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
