@@ -12,6 +12,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->posicionReferenciaY = posicionReferenciaY;
 	this->x = xAux;
 	this->y = yAux;
+	this->estaCongelado = false;
 	//this->x = x;
 	//this->y = y;
 
@@ -112,6 +113,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->y = entidad.pixelSiguienteY;
 	this->tileX = entidad.posicionSiguienteX;
 	this->tileY = entidad.posicionSiguienteY;
+	this->estaCongelado = entidad.entidadCongelada;
 
 	int accion = entidad.accion;
 	if (accion == 3)

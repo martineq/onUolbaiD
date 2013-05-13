@@ -70,6 +70,7 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_id = id;
 	this->_nombreEntidad = nombreEntidad;
 	this->_nombreJugador = nombreJugador;
+	this->_estaCongelado = false;
 	
 	this->_accion = CAMINANDO;
 	this->_direccion = SUR;
@@ -176,7 +177,7 @@ Posicion ModeloEntidad::posicionSiguiente() {
 
 ProxyModeloEntidad::stEntidad ModeloEntidad::stEntidad() {
 	ProxyModeloEntidad::stEntidad entidad;
-	ProxyModeloEntidad::cargarStEntidad(entidad,this->id(),false,false,this->esJugador(),this->nombreEntidad(),
+	ProxyModeloEntidad::cargarStEntidad(entidad,this->id(),false,this->estaCongelado(),this->esJugador(),this->nombreEntidad(),
 		this->pixelActual().x,this->pixelActual().y,this->posicionActual().x,this->posicionActual().y,
 		this->pixelSiguiente().x,this->pixelSiguiente().y,this->posicionActual().x,this->posicionActual().y,
 		this->direccion(),this->esUltimoMovimiento(),this->accion());
@@ -194,6 +195,7 @@ void ModeloEntidad::estaCongelado(bool estaCongelado) {
 	this->_mutex.lockEscritura(__FILE__, __LINE__);
 	this->_estaCongelado = estaCongelado;
 	this->_mutex.unlock(__FILE__, __LINE__);
+	this->notificar();
 }
 
 void ModeloEntidad::asignarListaJugadores(Mutex* mutexListaJugadores, list<ModeloEntidad*>* listaJugadores) {
