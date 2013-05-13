@@ -47,10 +47,10 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 bool ModeloFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios){
 	
 	// Ver si el escenario se elije desde consola, o si hay que levantarlo de archivo. Por ahora lo tomo de consola
-	std::cout << "Elija el escenario: " << std::endl;
+	std::cout << "Eleccion de escenario: " << std::endl;
 	for (std::list<ParserYaml::stEscenario>::iterator it=listaEscenarios.begin() ; it != listaEscenarios.end(); it++ ){
 		std::string opc;
-		std::cout << "Elije el escenario: "<< (*it).nombre << " ? (s) para confirmar, otra tecla para rechazar" << std::endl;
+		std::cout << "Elije el escenario "<< (*it).nombre << "? (s) para confirmar, otra para rechazar" << std::endl;
 		getline (std::cin,opc);
 		if( opc.compare("s") == 0 || opc.compare("S") == 0 ){
 			std::cout << "Se usara el escenario: "<< (*it).nombre << std::endl;

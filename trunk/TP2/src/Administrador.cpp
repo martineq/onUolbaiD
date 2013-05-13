@@ -43,7 +43,7 @@ void Administrador::menuLineaComandos(void){
 	std::string opc;
 
 	while( opc.compare("s") != 0 && opc.compare("S") != 0  && opc.compare("c") != 0 && opc.compare("C") != 0 ){
-		std::cout << "Ingrese \"s\" para iniciar el juego en modo Servidor o \"c\" para iniciar en modo Cliente: " << std::endl;
+		std::cout << "Ingrese \"s\" para modo Servidor o \"c\" para Cliente: " << std::endl;
 		getline (std::cin,opc);
 		if( opc.compare("s") != 0 && opc.compare("S") != 0  && opc.compare("c") != 0 && opc.compare("C") != 0 ){
 			std::cout << "Se ha ingresado: "<< opc << std::endl;

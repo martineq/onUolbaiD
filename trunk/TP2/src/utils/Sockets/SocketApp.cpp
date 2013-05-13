@@ -11,12 +11,12 @@ SocketApp::~SocketApp(void){
 // Inicia la estructura winsock
 bool SocketApp::iniciarAplicacion(void){
 
-	std::cout << "Iniciando winsock... ";
+	//std::cout << "Iniciando winsock... ";
 	Log::getInstance().log(3,__FILE__,__LINE__,"Iniciando winsock... " );
 	if (WSAStartup(MAKEWORD(VERSION_WINSOCK_REQUERIDA,0), &(this->infoDeSocket))==0){
 		// Chequea si la mayor versión es por lo menos VERSION_WINSOCK_REQUERIDA
 		if (LOBYTE(this->infoDeSocket.wVersion) >= VERSION_WINSOCK_REQUERIDA){
-			std::cout << "iniciado.\n";
+			//std::cout << "iniciado.\n";
 			Log::getInstance().log(3,__FILE__,__LINE__, "iniciado.");
 		}else{
 			std::cerr << "Version de winsock requerida no soportada!";
@@ -49,17 +49,17 @@ bool SocketApp::abrir(void){
 
 	//if(this->iniciarAplicacion() == false) return false;
 	
-	std::cout << "Creando el socket... ";
+	//std::cout << "Creando el socket... ";
 	Log::getInstance().log(3,__FILE__,__LINE__,"Creando el socket... " );
 	if ((this->miSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == INVALID_SOCKET){
 		std::cerr << "No se pudo crear el socket.\n";
 		Log::getInstance().log(1,__FILE__,__LINE__,"No se pudo crear el socket." );
 		return false;
 	}
-	std::cout << "creado.\n";
+	//std::cout << "creado.\n";
 	Log::getInstance().log(1,__FILE__,__LINE__,"Conexion creada" );
 
-	std::cout << "Conexion creada \n";
+	//std::cout << "Conexion creada \n";
 
 	return true;
 }
@@ -67,7 +67,7 @@ bool SocketApp::abrir(void){
 // Cierra el socket
 bool SocketApp::cerrar(void){
 
-	std::cout << "Cerrando Conexion. \n";
+	//std::cout << "Cerrando Conexion. \n";
 
 	if (this->miSocket!=INVALID_SOCKET){ 
 		closesocket(this->miSocket); // Cierro el socket
@@ -249,7 +249,7 @@ bool SocketApp::enlazarConexion(int puerto){
 	sockaddr_in	sockAddr = {0};
 
 	// Enlazando el socket
-	std::cout << "Enlazando el socket (bind)... ";
+	//std::cout << "Enlazando el socket (bind)... ";
 	Log::getInstance().log(3,__FILE__,__LINE__,"Enlazando el socket (bind)... " );
 	this->llenarDireccionDeSocket(&sockAddr, puerto);
 	if (bind(this->miSocket, reinterpret_cast<sockaddr*>(&sockAddr), sizeof(sockAddr))!=0){
@@ -258,7 +258,7 @@ bool SocketApp::enlazarConexion(int puerto){
 		return false;
 	}
 	std::string txt("enlazado. (" + this->obtenerDescripcionDeHost(sockAddr)+")");
-	std::cout << txt <<std::endl;
+	//std::cout << txt <<std::endl;
 	Log::getInstance().log(3,__FILE__,__LINE__, txt);
 	return true;
 }
@@ -266,14 +266,14 @@ bool SocketApp::enlazarConexion(int puerto){
 // Pone el socket del servidor en modo de escucha, para luego poder aceptar clientes
 bool SocketApp::escuchar(void){
 	
-	std::cout << "Poniendo el socket en modo de escucha... ";
+	//std::cout << "Poniendo el socket en modo de escucha... ";
 	Log::getInstance().log(3,__FILE__,__LINE__,"Poniendo el socket en modo de escucha... " );
 	if (listen(this->miSocket, SOMAXCONN)!=0){
 		std::cerr << "No se pudo poner el socket en modo de escucha.\n";
 		Log::getInstance().log(3,__FILE__,__LINE__,"No se pudo poner el socket en modo de escucha." );
 		return false;
 	}
-	std::cout << "listo.\n";
+	//std::cout << "listo.\n";
 	Log::getInstance().log(3,__FILE__,__LINE__,"listo." );
 	return true;
 }
@@ -286,7 +286,7 @@ bool SocketApp::aceptarCliente(SOCKET& socket){
 	int	tamanioDireccionSocketCliente = sizeof(direccionSocketCliente);
 
 	// Acepto la conexion
-	std::cout << "Esperando por conexion entrante... \n";
+	//std::cout << "Esperando por conexion entrante... \n";
 	Log::getInstance().log(3,__FILE__,__LINE__,"Esperando por conexion entrante... " );
 
 	socket = accept(this->miSocket, reinterpret_cast<sockaddr*>(&direccionSocketCliente), &tamanioDireccionSocketCliente);
@@ -360,25 +360,25 @@ bool SocketApp::conectar(const char* nombreHost, int puerto){
 
 	// Busca el hostname y llena la estructura sockaddr_in:
 	std::string txt("Buscando el nombre de host " + (std::string)nombreHost + "... ");
-	std::cout << txt;
+	//std::cout << txt;
 	Log::getInstance().log(3,__FILE__,__LINE__,txt );
 	if ( this->llenarDireccionDeSocket(&sockAddr, puerto, nombreHost) == false ){
 		Log::getInstance().log(3,__FILE__,__LINE__, "Error en la direccion de socket.");
 		return false;
 	}
-	std::cout << "encontrado.\n";
+	//std::cout << "encontrado.\n";
 	Log::getInstance().log(3,__FILE__,__LINE__, "encontrado.");
 
 	// Conecta al servidor
 	txt.assign("Intentando conectarse a " + (std::string)inet_ntoa(sockAddr.sin_addr) + ":" );
-	std::cout << txt;
+	//std::cout << txt;
 	Log::getInstance().log(3,__FILE__,__LINE__, txt,puerto);
 	if (connect( this->miSocket, reinterpret_cast<sockaddr*>(&sockAddr), sizeof(sockAddr))!=0){ // Conecta al servidor
 		std::cerr << "No se pudo conectar.\n";
 		Log::getInstance().log(3,__FILE__,__LINE__, "No se pudo conectar.");
 		return false;
 	}
-	std::cout << "conectado.\n";
+	//std::cout << "conectado.\n";
 	Log::getInstance().log(3,__FILE__,__LINE__,"conectado." );
 
 	return true;

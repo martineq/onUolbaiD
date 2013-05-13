@@ -79,8 +79,8 @@ bool ControladorEvento::getTeclaSApretada(){
 void ControladorEvento::notificarAlProxy(){
 
 	// TODO: Tomar estos datos desde el chat
-	int idReceptorChat;
-	std::string mensajeChat;
+	int idReceptorChat = 0;
+	std::string mensajeChat("nada");
 
 	ProxyControladorEvento::stEvento evento;
 	ProxyControladorEvento::cargarStEvento(evento, this->idJugador, false, this->getPosicionMouseX(), this->getPosicionMouseY(),

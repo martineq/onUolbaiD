@@ -14,7 +14,7 @@ int Hilo::start(void* arg) {
 	p->punteroThis = (void*)this;
 	p->parametro = arg;
 
-	std::cout << "Comienza el hilo de ID: " << this->id << std::endl;
+	//std::cout << "Comienza el hilo de ID: " << this->id << std::endl;
 
 	int error = pthread_create(&this->thread, NULL, rutina, (void*)p);
 	return error;
