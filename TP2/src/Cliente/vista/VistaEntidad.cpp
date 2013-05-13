@@ -229,9 +229,9 @@ void VistaEntidad::setAnimacion(std::string estado){
 }
 
 bool VistaEntidad::graficar(char visibilidad){
-	if (this->estaCongelado)
+	if (this->estaCongelado && (visibilidad != NO_CONOCIDO))
 		visibilidad = CONGELADO;
-	bool ok = true;	
+	bool ok = true;
 	if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
 		if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY, visibilidad) == false ) ok = false;
 		if (this->animacionActual->animacionFinalizada()) this->esNecesarioRefrescar = false;
