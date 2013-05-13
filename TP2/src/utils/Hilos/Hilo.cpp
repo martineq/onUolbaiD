@@ -33,9 +33,9 @@ void* Hilo::rutina(void* parametro) {
 void* Hilo::join() {
 	void *retorno;
 	if ( pthread_join(thread, &retorno) != 0 ){
-		std::cout << "Error al cerrar hilo.\n";
+		std::cerr << "Error al cerrar hilo.\n";
 	}
-	std::cout << "Cierra el hilo de ID: " << this->id << std::endl;
+	//std::cout << "Cierra el hilo de ID: " << this->id << std::endl;
 	return retorno;
 }
 
