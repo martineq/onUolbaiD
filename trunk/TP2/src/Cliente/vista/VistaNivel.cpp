@@ -41,17 +41,17 @@ std::list<VistaEntidad*> VistaNivel::getListaOtrosJugadores(void){
 
 void VistaNivel::agregarJugador(VistaEntidad* pJugador){
 	this->jugador = pJugador;
-	return void();
+	this->agregarOtroJugador(pJugador);
 }
 
 void VistaNivel::agregarOtroJugador(VistaEntidad* pJugador){
 	this->listaOtrosJugadores.push_back(pJugador);
-	return void();
+	this->ordenarJugadores();
 }
 
 void VistaNivel::agregarEntidad(VistaEntidad* pEntidad){
 	this->listaEntidades.push_back(pEntidad);
-	return void();
+	this->listaEntidades.sort(VistaNivel::ordenadorEntidades);
 }
 
 void VistaNivel::agregarScroll(VistaScroll* pScroll){
@@ -135,4 +135,8 @@ void VistaNivel::destruirEntidadesYScroll(){
 	this->destruirListaEntidades();
 	this->destruirScroll();
 	return void();
+}
+
+void VistaNivel::ordenarJugadores() {
+	this->listaOtrosJugadores.sort(VistaNivel::ordenadorEntidades);
 }
