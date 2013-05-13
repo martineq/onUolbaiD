@@ -1,6 +1,6 @@
 #include "Ticket.h"
 
-long Ticket::contador = 0;
+long Ticket::contador = 1;
 
 Ticket::Ticket(void){
 

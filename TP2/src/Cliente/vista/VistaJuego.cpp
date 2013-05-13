@@ -10,7 +10,7 @@ VistaJuego::~VistaJuego(void){
 		for (int i = 0; i < this->vistaNivel.getAnchoDeNivelEnTiles(); i++)	delete [] this->matriz[i];
 		delete [] this->matriz;
 	}
-	
+
 }
 
 bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje){

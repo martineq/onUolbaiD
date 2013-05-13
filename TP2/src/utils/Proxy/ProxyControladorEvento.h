@@ -11,7 +11,7 @@ class ProxyControladorEvento{
 			// Info para el proxy
 			int id;
 			bool errorEnSocket; // No hace falta serializar este valor. Esta atributo lo setea el proxy cuando recibe datos (al hidratar). Si el socket me da errror seteo acá en true, sino lo dejo en false
-			
+
 			// Datos para actualizar en el evento
 			int mouseX;
 			int mouseY;
@@ -19,6 +19,11 @@ class ProxyControladorEvento{
 			bool teclaS;
 			bool mouseClickIzquierdo;
 			bool finalizoElJuego;
+
+			// Datos para actualizar el chat
+			int idReceptorChat;
+			std::string mensajeChat;
+
 	};
 
 	private:
@@ -43,6 +48,7 @@ class ProxyControladorEvento{
 		std::list<int> getClientesConError(void);
 
 		// Auxiliares
-		static void cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego);
+		static void cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,
+			bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego,int idReceptorChat,std::string mensajeChat);
 		
 };
