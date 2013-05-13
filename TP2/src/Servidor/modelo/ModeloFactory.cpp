@@ -349,6 +349,7 @@ bool ModeloFactory::enviarArchivosDeConfiguracion(SocketServidor* pServidor,int 
 	bool exito = true;
 	LectorDirectorios lector;	// Para obtener todos los nombres de los archivos
 	std::vector<std::string> listaArchivos;
+	double tiempoInicial = Temporizador::getInstance().obtenerTics();
 
 	// Envio los archivos de configuracion
 	listaArchivos = lector.leerDirectorio(DIRECTORIO_IMG);
@@ -363,6 +364,10 @@ bool ModeloFactory::enviarArchivosDeConfiguracion(SocketServidor* pServidor,int 
 		Log::getInstance().log(1,__FILE__,__LINE__,"El Servidor no pudo enviar todos los archivos de imagenes al cliente con ID ",idSocketCliente);
 		exito = false;
 	}
+
+	double tiempoFinal = Temporizador::getInstance().obtenerTics();
+	double tiempoTranscurrido =  ( tiempoFinal - tiempoInicial ) / 1000;
+	std::cout << "Tiempo para envio de archivos: " << tiempoTranscurrido << " segundos. " << std::endl;
 
 	return exito;
 }

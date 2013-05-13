@@ -8,6 +8,7 @@
 #include "../../utils/Sockets/SocketCliente.h"
 #include "../../utils/Log/Log.h"
 #include "../../utils/Serializacion/Serializadora.h"
+#include "../../utils/Temporizador/Temporizador.h"
 
 class VistaFactory{
 
