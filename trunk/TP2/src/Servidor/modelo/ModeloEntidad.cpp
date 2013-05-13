@@ -50,6 +50,9 @@ void ModeloEntidad::notificar() {
 	this->_proxyEntidad->enviarEntidad(this->stEntidad());
 }
 
+void ModeloEntidad::setNombreJugador(std::string nombre){
+	this->_nombreJugador = nombre;	
+}
 ModeloEntidad::ModeloEntidad(const ModeloEntidad &modeloEntidad) {
 }
 
@@ -180,7 +183,7 @@ ProxyModeloEntidad::stEntidad ModeloEntidad::stEntidad() {
 	ProxyModeloEntidad::cargarStEntidad(entidad,this->id(),false,this->estaCongelado(),this->esJugador(),this->nombreEntidad(),
 		this->pixelActual().x,this->pixelActual().y,this->posicionActual().x,this->posicionActual().y,
 		this->pixelSiguiente().x,this->pixelSiguiente().y,this->posicionActual().x,this->posicionActual().y,
-		this->direccion(),this->esUltimoMovimiento(),this->accion());
+		this->direccion(),this->esUltimoMovimiento(),this->accion(),this->nombreJugador());
 	return entidad;
 }
 

@@ -87,7 +87,8 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addInt(entidad.posicionSiguienteY);
 	s.addInt(entidad.direccion);
 	s.addBool(entidad.esUltimoMovimiento);
-	s.addInt(entidad.accion);	
+	s.addInt(entidad.accion);
+	s.addString(entidad.nombreJugador);
 
 }
 
@@ -121,7 +122,8 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	int posicionSiguienteY = s.getInt();
 	int dir = s.getInt();
 	bool ultimo = s.getBool();
-	int accion = s.getInt();	
+	int accion = s.getInt();
+	std::string nombreJugador = s.getString();
 	
 	entidad.id = id;
 	entidad.nombreEntidad = nombre;
@@ -139,10 +141,11 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.direccion = dir;
 	entidad.esUltimoMovimiento = ultimo;
 	entidad.accion = accion;
+	entidad.nombreJugador = nombreJugador;
 }
 
 // Para los que usan el proxy y quieren cargar el struct
-void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad, double pixelAnteriorX,double pixelAnteriorY,int posicionAnteriorX,int posicionAnteriorY,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,int direccion,bool esUltimoMovimiento, int accion){
+void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad, double pixelAnteriorX,double pixelAnteriorY,int posicionAnteriorX,int posicionAnteriorY,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,int direccion,bool esUltimoMovimiento, int accion,std::string nombreJugador){
 	entidad.id = id;
 	entidad.errorEnSocket = errorEnSocket;
 	entidad.entidadCongelada = entidadCongelada;
@@ -159,6 +162,7 @@ void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,
 	entidad.direccion = direccion;
 	entidad.esUltimoMovimiento = esUltimoMovimiento;
 	entidad.accion = accion;
+	entidad.nombreJugador = nombreJugador;
 }
 
 
