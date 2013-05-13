@@ -128,3 +128,4 @@
 #define VISIBLE 2
 #define CONOCIDO_NO_VISIBLE 1
 #define NO_CONOCIDO 0
+#define CONGELADO 1
