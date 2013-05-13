@@ -32,7 +32,7 @@ public:
 	void setPantalla(SDL_Surface* pantalla);
 	bool graficar(int index, double x, double y);
 	bool graficar(double x,double y, char visibilidad);
-	bool graficar();
+	bool graficar(char visibilidad);
 	bool animacionFinalizada();
 	void incrementarIndice();
 	bool esperarTiempo();

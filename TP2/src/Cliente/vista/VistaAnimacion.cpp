@@ -60,9 +60,9 @@ bool VistaAnimacion::graficar(double x, double y, char visibilidad){
 	return ok;
 }
 
-bool VistaAnimacion::graficar(){
+bool VistaAnimacion::graficar(char visibilidad){
 	bool ok = false;
-	ok = this->superficies.front()->graficar(this->x, this->y,2);
+	ok = this->superficies.front()->graficar(this->x, this->y, visibilidad);
 	return ok;
 }
 

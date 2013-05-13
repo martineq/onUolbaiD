@@ -244,7 +244,7 @@ bool VistaEntidad::graficar(char visibilidad){
 		}else{
 			this->animacionActual->setX(this->xEnPantalla - this->posicionReferenciaX);
 			this->animacionActual->setY(this->yEnPantalla - this->posicionReferenciaY);
-			if( this->animacionActual->graficar() == false ) ok = false;
+			if( this->animacionActual->graficar(visibilidad) == false ) ok = false;
 		}
 	}
 	return ok;
