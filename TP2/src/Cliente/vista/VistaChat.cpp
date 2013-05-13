@@ -37,14 +37,15 @@ SDL_Surface* crearVentana() {
 	return ventana;
 }
 
-VistaChat::VistaChat(Posicion posicion, string remitente, SocketCliente* socketCliente) {
+VistaChat::VistaChat(Posicion posicion, VistaEntidad* remitente, ProxyControladorEvento* proxyControladorEvento) {
 	this->_posicion = posicion;
-	this->_remitente = remitente;
 	this->_visible = false;
 	this->_fuente = TTF_OpenFont("fonts/verdana.ttf", 10);
 	this->_ventana = IMG_Load("img/chat.png");
 	this->_altoOcupadoTextoMensajes = 0;
-	this->_socketCliente = socketCliente;
+	this->_remitente = remitente;
+	this->_destinatario = NULL;
+	this->_proxyControladorEvento = proxyControladorEvento;
 }
 
 VistaChat::~VistaChat() {
@@ -61,7 +62,7 @@ void VistaChat::agregarCaracter(char caracter) {
 
 	// Calculo el tamaño que tendria el texto mostrado en pantalla
 	int ancho = 0, alto = 0;
-	TTF_SizeText(this->_fuente, (this->_destinatario + ": " + this->_textoIngresado + caracter).c_str(), &ancho, &alto);
+	TTF_SizeText(this->_fuente, (this->_destinatario->getNombreEntidad() + ": " + this->_textoIngresado + caracter).c_str(), &ancho, &alto);
 
 	// Si alcanzo el ancho del texto salgo
 	if (ancho >= ANCHO_TEXTO_INGRESADO)
@@ -85,7 +86,7 @@ void VistaChat::agregarMensaje(string remitente, string mensaje) {
 	this->visible(true);
 }
 
-void VistaChat::asignarDestinatario(std::string destinatario) {
+void VistaChat::asignarDestinatario(VistaEntidad* destinatario) {
 	this->_destinatario = destinatario;
 }
 
@@ -99,11 +100,9 @@ bool VistaChat::enviarMensaje() {
 	// Si el texto ingresado esta vacio salgo
 	if (this->_textoIngresado.empty())
 		return true;
-	Serializadora serializadora;
-	serializadora.addString(this->_textoIngresado);
-	bool resultado = this->_socketCliente->enviar(serializadora);
-	this->_textoIngresado.clear();
-	return resultado;
+	ProxyControladorEvento::stEvento evento;
+	ProxyControladorEvento::cargarStEventoChat(evento, this->_remitente->id(), this->_destinatario->id(), this->_textoIngresado);
+	return this->_proxyControladorEvento->enviarEvento(evento);
 }
 
 bool VistaChat::graficar(SDL_Surface* pantalla) {
@@ -115,7 +114,7 @@ bool VistaChat::graficar(SDL_Surface* pantalla) {
 	
 	SDL_Rect rectanguloOrigen, rectanguloDestino;
 	SDL_Color colorTexto = { 0, 0, 0 };
-	SDL_Surface* textoIngresado = TTF_RenderText_Blended(this->_fuente, (this->_destinatario + ": " + this->_textoIngresado).c_str(), colorTexto);
+	SDL_Surface* textoIngresado = TTF_RenderText_Blended(this->_fuente, (this->_destinatario->getNombreEntidad() + ": " + this->_textoIngresado).c_str(), colorTexto);
 	int contadorMensajes = 0;
 	
 	// Muestra la ventana completa

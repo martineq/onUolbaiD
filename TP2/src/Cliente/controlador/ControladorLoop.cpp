@@ -31,15 +31,17 @@ void ControladorLoop::loop(VistaChat* vistaChat, VistaNivel* nivel) {
 		
 		if (jugador != NULL) {
 			vistaChat->visible(true);
-			vistaChat->asignarDestinatario(jugador->getNombreEntidad());
+			vistaChat->asignarDestinatario(jugador);
 		}
 	}
 	else if (this->detector.getEscape())
 		vistaChat->visible(false);
-	else if (this->detector.getRetroceso())
+	else if (vistaChat->visible()) {
+		if (this->detector.getRetroceso())
 			vistaChat->borrarCaracter();
-	else if (this->detector.getCaracter() != 0)
-		vistaChat->agregarCaracter(this->detector.getCaracter());
+		else if (this->detector.getCaracter() != 0)
+			vistaChat->agregarCaracter(this->detector.getCaracter());
+	}
 
 	// Caputro eventos para el servidor
 	this->evento.setPosicionMouseXY(this->detector.getPosicionMouseX(), this->detector.getPosicionMouseY());

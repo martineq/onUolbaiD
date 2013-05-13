@@ -19,7 +19,7 @@ bool Cliente::iniciar(std::string mote,std::string personaje){
 	if (this->vistaChat == NULL) {
 		//TODO: Arreglar la posicion para que se vea abajo de la pantalla
 		Posicion posicion;
-		this->vistaChat = new VistaChat(posicion, mote, pSocket);
+		this->vistaChat = new VistaChat(posicion, this->vistaJuego.getVistaNivel()->getJugador(), this->controladorJuego.getControladorLoop()->getControladorEvento()->getProxyEvento());
 	}
 
 	return true;
