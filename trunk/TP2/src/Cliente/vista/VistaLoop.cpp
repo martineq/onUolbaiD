@@ -428,17 +428,10 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 
 	// Actuo si encontré la entidad que buscaba
 	if( entidadEncontrada != NULL ){
-		if( entidad.entidadCongelada == true ){  // Si me pide eliminar
-			if( entidadEncontrada == jugador ){
-				return false;		// Doy por terminado el juego porque me pide eliminar a mi jugador
-			}else{
-				entidades.erase(iteradorEntidadEncontrada);		// Elimino a la entidad encontrada
-			}
-		}else{	// Si no me pide eliminar entonces actualizo los datos
-			entidadEncontrada->actualizar(entidad);
-		}
+		// Si no me pide eliminar entonces actualizo los datos
+		entidadEncontrada->actualizar(entidad);
 	}else{
-		//TODO: crear las entidades cuando no existen
+		// Cuando no existe, crea la entidad
 		vistaFactory.crearJugadorSinScroll(vistaNivel,entidad);
 	}
 	return true;

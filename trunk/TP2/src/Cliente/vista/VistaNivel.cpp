@@ -31,14 +31,21 @@ VistaEntidad* VistaNivel::getJugador(void){
 	return this->jugador;
 }
 
-
 std::list<VistaEntidad*> VistaNivel::getListaEntidades(void){
 	return this->listaEntidades;
 }
 
+std::list<VistaEntidad*> VistaNivel::getListaOtrosJugadores(void){
+	return this->listaOtrosJugadores;
+}
+
 void VistaNivel::agregarJugador(VistaEntidad* pJugador){
 	this->jugador = pJugador;
-	//this->listaEntidades.push_back(pJugador);
+	return void();
+}
+
+void VistaNivel::agregarOtroJugador(VistaEntidad* pJugador){
+	this->listaOtrosJugadores.push_back(pJugador);
 	return void();
 }
 
