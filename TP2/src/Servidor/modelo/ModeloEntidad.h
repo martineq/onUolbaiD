@@ -150,7 +150,7 @@ class ModeloEntidad {
 		void pixelSiguiente(Posicion pixelSiguiente);
 		
 	public:
-		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador);
+		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string mote);
 
 		virtual ~ModeloEntidad();
 
