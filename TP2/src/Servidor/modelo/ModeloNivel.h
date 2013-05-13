@@ -54,6 +54,8 @@ class ModeloNivel {
 
 		bool actualizar();
 
+		bool posicionOcupada(Posicion);
+
 		int cantidadJugadores(void);
 		
 		void incrementarJugadores(void);
