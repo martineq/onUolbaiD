@@ -2,6 +2,7 @@
 
 HiloConexion::HiloConexion(void){
 	this->detenerActividad();		// El hilo arranca sin actividad
+	this->setHiloIniciado(false);
 }
 
 HiloConexion::~HiloConexion(void){
@@ -19,6 +20,7 @@ void HiloConexion::correrConexion(stParametrosRun parametrosRun){
 	this->corriendo = true;
 	this->mutexCorriendo.unlock(__FILE__,__LINE__);
 	this->parametrosRun = parametrosRun;
+	this->setHiloIniciado(true);
 	this->start(&(this->parametrosRun)); 
 	return void();
 }
@@ -190,4 +192,19 @@ void HiloConexion::loopSalidaMasivo(stParametrosRun* parametrosSalida){
 void HiloConexion::delay(int milisegundos){
 	Temporizador::getInstance().crearDelay(milisegundos);
 	return void();
+}
+
+void HiloConexion::setHiloIniciado(bool valor){
+	this->mutexHiloIniciado.lockEscritura(__FILE__,__LINE__);
+		this->hiloIniciado = valor;
+	this->mutexHiloIniciado.unlock(__FILE__,__LINE__);
+	return void();
+}
+
+bool HiloConexion::seInicio(void){
+	bool valor;
+	this->mutexHiloIniciado.lockLectura(__FILE__,__LINE__);
+		valor = this->hiloIniciado;
+	this->mutexHiloIniciado.unlock(__FILE__,__LINE__);
+	return valor;
 }

@@ -1,14 +1,16 @@
 #include "./VistaJuego.h"
 
 VistaJuego::VistaJuego(void){
-
+	this->matriz = NULL;
 }
 
 VistaJuego::~VistaJuego(void){
 
-	for (int i = 0; i < this->vistaNivel.getAnchoDeNivelEnTiles(); i++)	delete [] this->matriz[i];
-	delete [] this->matriz;
-
+	if( this->matriz != NULL ){
+		for (int i = 0; i < this->vistaNivel.getAnchoDeNivelEnTiles(); i++)	delete [] this->matriz[i];
+		delete [] this->matriz;
+	}
+	
 }
 
 bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje){
