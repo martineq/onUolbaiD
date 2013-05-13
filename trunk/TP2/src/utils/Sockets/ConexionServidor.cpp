@@ -43,9 +43,9 @@ bool ConexionServidor::aceptarCliente(ConexionCliente* cliente){
 }
 
 bool ConexionServidor::selectLectura(void){
-	return this->socketApp.selectLectura(1000000); // 1000000 uSeg = 1000 mSeg = 1 seg					
+	return this->socketApp.selectLectura(3000000); // 1000000 uSeg = 1000 mSeg = 1 seg					
 }
 
 bool ConexionServidor::selectEscritura(void){
-	return this->socketApp.selectEscritura(1000000); // 1000000 uSeg = 1000 mSeg = 1 seg					
+	return this->socketApp.selectEscritura(3000000); // 1000000 uSeg = 1000 mSeg = 1 seg					
 }

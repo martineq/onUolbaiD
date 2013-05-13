@@ -43,7 +43,7 @@ class HiloConexion: public Hilo{
 		void rutinaSalida(stParametrosRun* parametrosSalida);
 		void loopSalidaIndividual(stParametrosRun* parametrosSalida);
 		void loopSalidaMasivo(stParametrosRun* parametrosSalida);
-		void delay(void);
+		void delay(int milisegundos);
 
 	public:
 		HiloConexion(void);
