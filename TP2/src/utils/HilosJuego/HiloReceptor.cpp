@@ -74,7 +74,7 @@ void HiloReceptor::rutina(HiloConfiguracion::stParametrosConfiguracion* parametr
 		}
 
 		// Delay de tiempo para que no quede dando vueltas tan rápido.
-		Temporizador::getInstance().crearDelay(3000);
+		Temporizador::getInstance().crearDelay(1000);
 	}
 
 	// Cerramos todos los hilos que terminaron de configurarse, justo después del último for, dentro del último ciclo while
