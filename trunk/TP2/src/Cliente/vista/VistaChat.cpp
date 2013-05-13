@@ -41,7 +41,7 @@ VistaChat::VistaChat(Posicion posicion, string remitente, SocketCliente* socketC
 	this->_posicion = posicion;
 	this->_remitente = remitente;
 	this->_visible = false;
-	this->_fuente = TTF_OpenFont("verdana.ttf", 10);
+	this->_fuente = TTF_OpenFont("fonts/verdana.ttf", 10);
 	this->_ventana = IMG_Load("img/chat.png");
 	this->_altoOcupadoTextoMensajes = 0;
 	this->_socketCliente = socketCliente;

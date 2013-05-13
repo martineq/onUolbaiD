@@ -1,8 +1,10 @@
 #pragma once
 
-#include "./VistaFactory.h"
-#include "./VistaNivel.h"
-#include "./VistaLoop.h"
+#include "VistaFactory.h"
+#include "VistaNivel.h"
+#include "VistaLoop.h"
+#include "VistaEntidad.h"
+#include "VistaChat.h"
 #include "../../utils/Sockets/SocketCliente.h"
 
 class VistaJuego{
@@ -19,7 +21,8 @@ class VistaJuego{
 		~VistaJuego(void);
 
 		bool iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje);	// Inicia el VistaFactory y el ControladorEvento
-		bool loop(void);												// Inicia el VistaLoop y le pasa el VistaNivel
+		bool loop(VistaChat* vistaChat);												// Inicia el VistaLoop y le pasa el VistaNivel
 		
+		VistaNivel* getVistaNivel();
 		void destruirEntidades();
 };

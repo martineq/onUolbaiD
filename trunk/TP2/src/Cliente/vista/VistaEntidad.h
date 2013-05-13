@@ -33,6 +33,7 @@ class VistaEntidad: public Identificable{
 		int tileYAnterior;	
 		int _id;
 		bool esNecesarioRefrescar;
+		std::string nombreEntidad;
 
 	public:
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado);
@@ -60,7 +61,8 @@ class VistaEntidad: public Identificable{
 		std::list<std::list<std::string>> getListaAnimaciones(void);
 		bool getEsNecesarioRefrescar(void);
 		bool getEstaCongelado();
-		
+		std::string getNombreEntidad();
+
 		// Setters
 		void setXEnPantalla(double scrollX);
 		void setYEnPantalla(double scrollY);
