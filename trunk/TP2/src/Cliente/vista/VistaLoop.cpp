@@ -330,8 +330,7 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz){
 			unaEntidad->setPantalla(this->pantalla);
 			unaEntidad->setXEnPantalla(vistaNivel.getScroll()->getX());
 			unaEntidad->setYEnPantalla(vistaNivel.getScroll()->getY());
-			bool funciona = unaEntidad->graficar(this->visibilidadDeLaEntidad(unaEntidad,matriz));
-			if( funciona == false)
+			if (!unaEntidad->graficar(this->visibilidadDeLaEntidad(unaEntidad,matriz)))
 				return false;
 		}
 
@@ -351,8 +350,6 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz){
 	}
 
 	ImageLoader::getInstance().refrescarPantalla(this->pantalla);
-
-	
 
 	return true;
 }
