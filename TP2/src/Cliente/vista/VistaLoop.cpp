@@ -303,27 +303,31 @@ bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,char** ma
 }
 
 bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz){
-
-	list<VistaEntidad*> listaDeEntidades = vistaNivel.getListaEntidades();	
-	list<VistaEntidad*>::iterator it = listaDeEntidades.begin();	
-	bool jugadorDibujado = false;
+	list<VistaEntidad*> listaJugadores = vistaNivel.getListaOtrosJugadores();
+	list<VistaEntidad*> listaEntidades = vistaNivel.getListaEntidades();
+	list<VistaEntidad*>::iterator jugador = listaJugadores.begin();
+	list<VistaEntidad*>::iterator entidad = listaEntidades.begin();
 
 	//grafica los tiles
 	vistaNivel.getScroll()->graficar(this->pantalla,matriz);
 
 	//Dibujo las entidades (y el jugador si corresponde)
-	
-	while (it != listaDeEntidades.end()) {
-		VistaEntidad* unaEntidad = *it;
-		it++;
+	while (entidad != listaEntidades.end()) {
+		VistaEntidad* unaEntidad = *entidad;
+		entidad++;
 
 		// Si el jugador esta antes que la entidad que voy a dibujar lo dibujo primero
-		if (!jugadorDibujado && VistaNivel::ordenadorEntidades(vistaNivel.getJugador(), unaEntidad)) {
-			vistaNivel.getJugador()->verificarBordePantalla(vistaNivel.getScroll());
-			vistaNivel.getJugador()->setPantalla(this->pantalla);
-			if (!vistaNivel.getJugador()->graficar(VISIBLE))
-				return false;
-			jugadorDibujado = true;
+		if (jugador != listaJugadores.end()) {
+			if (VistaNivel::ordenadorEntidades(*jugador, unaEntidad)) {
+				if ((*jugador)->verificarBordePantalla(vistaNivel.getScroll())) {
+					(*jugador)->setPantalla(this->pantalla);
+					(*jugador)->setXEnPantalla(vistaNivel.getScroll()->getX());
+					(*jugador)->setYEnPantalla(vistaNivel.getScroll()->getY());
+					if (!(*jugador)->graficar(this->visibilidadDeLaEntidad((*jugador),matriz)))
+						return false;
+				}
+				jugador++;
+			}
 		}
 
 		if (unaEntidad->verificarBordePantalla(vistaNivel.getScroll())) {
@@ -333,22 +337,22 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz){
 			if (!unaEntidad->graficar(this->visibilidadDeLaEntidad(unaEntidad,matriz)))
 				return false;
 		}
-
 	}
 	
-	// Si no dibuje el jugador lo dibujo ahora
-	if (!jugadorDibujado) {
-		vistaNivel.getJugador()->verificarBordePantalla(vistaNivel.getScroll());
-		vistaNivel.getJugador()->setPantalla(this->pantalla);
-		if (!vistaNivel.getJugador()->graficar(VISIBLE))
-			return false;
+	// Dibujo los jugadores que no dibuje
+	while (jugador != listaJugadores.end()) {
+		if ((*jugador)->verificarBordePantalla(vistaNivel.getScroll())) {
+			(*jugador)->setPantalla(this->pantalla);
+			(*jugador)->setXEnPantalla(vistaNivel.getScroll()->getX());
+			(*jugador)->setYEnPantalla(vistaNivel.getScroll()->getY());
+			if (!(*jugador)->graficar(this->visibilidadDeLaEntidad((*jugador),matriz)))
+				return false;
+		}
+		jugador++;
 	}
 
-	
-	if ( (vistaNivel.getScroll()->getEsNecesarioRefrescar() == true ) ){	
-		vistaNivel.getScroll()->setEsNecesarioRefrescar(false);		
-	}
-
+	if (vistaNivel.getScroll()->getEsNecesarioRefrescar())
+		vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
 	ImageLoader::getInstance().refrescarPantalla(this->pantalla);
 
 	return true;
@@ -410,6 +414,7 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 	// Preparo la búsqueda de la entidad
 	VistaEntidad* jugador = vistaNivel.getJugador();
 	std::list<VistaEntidad*> entidades = vistaNivel.getListaEntidades();
+	std::list<VistaEntidad*> jugadores = vistaNivel.getListaOtrosJugadores();
 	VistaEntidad* entidadEncontrada = NULL;
 	int idBuscado = entidad.id;
 	std::list<VistaEntidad*>::iterator iteradorEntidadEncontrada;
@@ -424,12 +429,21 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 				entidadEncontrada = (*it);
 			}
 		}
+		if (entidadEncontrada == NULL) {
+			for (std::list<VistaEntidad*>::iterator it=jugadores.begin() ; it != jugadores.end() ; it++ ){ // Busco en el vector por el ID
+				if( (*it)->id() == idBuscado ){
+					iteradorEntidadEncontrada = it;
+					entidadEncontrada = (*it);
+				}
+			}
+		}
 	}
 
 	// Actuo si encontré la entidad que buscaba
 	if( entidadEncontrada != NULL ){
 		// Si no me pide eliminar entonces actualizo los datos
 		entidadEncontrada->actualizar(entidad);
+		vistaNivel.ordenarJugadores();
 	}else{
 		// Cuando no existe, crea la entidad
 		vistaFactory.crearJugadorSinScroll(vistaNivel,entidad);

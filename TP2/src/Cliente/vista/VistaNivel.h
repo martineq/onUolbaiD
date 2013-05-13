@@ -54,5 +54,6 @@ class VistaNivel{
 		void setAltoDeNivelEnTiles(int);
 		void setAnchoDeNivelEnTiles(int);
 
+		void ordenarJugadores();
 		void destruirEntidadesYScroll();
 };
