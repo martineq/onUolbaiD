@@ -54,7 +54,7 @@ void HiloConexion::rutina(HiloConexion::stParametrosRun* parametros){
 					break;
 				case 'S': this->loopSalidaIndividual(parametros);
 					break;
-				default: this->delay();
+				default: this->delay(1000);
 					break;
 			}
 		}else{
@@ -63,16 +63,17 @@ void HiloConexion::rutina(HiloConexion::stParametrosRun* parametros){
 					break;
 				case 'S': this->loopSalidaMasivo(parametros);
 					break;
-				default: this->delay();
+				default: this->delay(1000);
 					break;
 			}
 		}
+		this->delay(15);
 	}
 	return void();
 }
 
 void HiloConexion::loopEntradaIndividual(stParametrosRun* parametrosEntrada){
-	return this->delay(); // Hago este delay para que el while no se quede dando vueltas con tanta velocidad
+	return this->delay(1000); // Hago este delay para que el while no se quede dando vueltas con tanta velocidad
 }
 
 void HiloConexion::loopEntradaMasivo(stParametrosRun* parametrosEntrada){
@@ -139,7 +140,7 @@ void HiloConexion::loopEntradaMasivo(stParametrosRun* parametrosEntrada){
 }
 
 void HiloConexion::loopSalidaIndividual(stParametrosRun* parametrosSalida){
-	return this->delay(); // Hago este delay para que el while no se quede dando vueltas con tanta velocidad
+	return this->delay(1000); // Hago este delay para que el while no se quede dando vueltas con tanta velocidad
 }
 
 void HiloConexion::loopSalidaMasivo(stParametrosRun* parametrosSalida){
@@ -186,7 +187,7 @@ void HiloConexion::loopSalidaMasivo(stParametrosRun* parametrosSalida){
 	return void();
 }
 
-void HiloConexion::delay(void){
-	Temporizador::getInstance().crearDelay(1000);
+void HiloConexion::delay(int milisegundos){
+	Temporizador::getInstance().crearDelay(milisegundos);
 	return void();
 }
