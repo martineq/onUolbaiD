@@ -243,8 +243,8 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	// TODO: Faltan actualizar estos valores:
 	//this->juegoElegido.entidadJugador.actualizacionMapa;
 	//this->juegoElegido.entidadJugador.direccion;
-	//this->juegoElegido.entidadJugador.esUltimoMovimiento; 
-	//this->juegoElegido.entidadJugador.entidadCongelada;  <<< Este no hace falta porque si lo estoy creando se da por hecho que NO está congelado
+	//this->juegoElegido.entidadJugador.esUltimoMovimiento;
+	//this->juegoElegido.entidadJugador.entidadCongelada;  <<< En este caso es == false
 
 	// Valores tomados desde la entidad
 	double alto = (double)entidadProtagonista.altoBase;
@@ -280,7 +280,7 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	double y = (double)entidad.pixelSiguienteY;	
 	//entidad.direccion				// <<< TODO: Para el primer seteo ¿hace falta? Si hace falta, implementarlo.
 	//entidad.esUltimoMovimiento	// <<< Para el primer seteo ¿hace falta? Si hace falta, implementarlo.
-	
+
 	// Valores tomados desde la entidad
 	double alto = (double)entidadJugador.altoBase;
 	double ancho = (double)entidadJugador.anchoBase;
@@ -296,9 +296,8 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
 	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre);
-	//vistaNivel.agregarJugador(pJugador);
 	vistaNivel.agregarEntidad(pJugador);
-
+	// TODO: agregar esta linea y borrar la de arriba >> vistaNivel.agregarOtroJugador(pJugador);
 	return void();
 }
 

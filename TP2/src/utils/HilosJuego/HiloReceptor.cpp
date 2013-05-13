@@ -73,8 +73,8 @@ void HiloReceptor::rutina(HiloConfiguracion::stParametrosConfiguracion* parametr
 			this->cerrarHiloConfiguracion(idDeHilosParaCerrar[i]);
 		}
 
-		// Delay de tiempo (~1000ms) para que no quede dando vueltas tan rápido.
-		Temporizador::getInstance().crearDelay(1000);
+		// Delay de tiempo para que no quede dando vueltas tan rápido.
+		Temporizador::getInstance().crearDelay(3000);
 	}
 
 	// Cerramos todos los hilos que terminaron de configurarse, justo después del último for, dentro del último ciclo while
