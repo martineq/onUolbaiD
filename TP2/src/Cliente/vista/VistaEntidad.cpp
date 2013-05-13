@@ -24,14 +24,32 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 		alto = 1;
 		ancho = 1;	
 
-		this->estados.push_back(ACCION_NORTE);
-		this->estados.push_back(ACCION_NORESTE);
-		this->estados.push_back(ACCION_ESTE);
-		this->estados.push_back(ACCION_SUDESTE);
-		this->estados.push_back(ACCION_SUR);
-		this->estados.push_back(ACCION_SUDOESTE);
-		this->estados.push_back(ACCION_OESTE);	
-		this->estados.push_back(ACCION_NOROESTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_NOROESTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_NORTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_NORESTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_ESTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_SUDESTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_SUR);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_SUDOESTE);
+		this->estados.push_back(nombreEntidad+ACCION_CAMINAR+ACCION_OESTE);			
+
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_NOROESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_NORTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_NORESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_ESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_SUDESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_SUR);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_SUDOESTE);
+		this->estados.push_back(nombreEntidad+ACCION_ATACAR+ACCION_OESTE);			
+
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_NOROESTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_NORTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_NORESTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_ESTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_SUDESTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_SUR);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_SUDOESTE);
+		this->estados.push_back(nombreEntidad+ACCION_DEFENDER+ACCION_OESTE);
 	}else{
 		this->animaciones->setAnimacionesAutomaticas();	
 		this->estados.push_back(nombreEntidad);
