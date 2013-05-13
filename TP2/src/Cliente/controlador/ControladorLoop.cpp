@@ -3,8 +3,9 @@
 ControladorLoop::ControladorLoop() {
 }
 
-void ControladorLoop::loop() {	
+void ControladorLoop::loop() {
 	this->detector.detectar();
+	this->evento.limpiar();
 
 	// Capturo eventos para el scroll
 	if (!this->detector.getDentroDePantalla())
@@ -15,10 +16,8 @@ void ControladorLoop::loop() {
 
 	// Caputro eventos para el servidor
 	this->evento.setPosicionMouseXY(this->detector.getPosicionMouseX(), this->detector.getPosicionMouseY());
-	if (this->detector.getClicMouseBotonIzquierdo())
+	if (this->detector.getClicMouseBotonIzquierdo() == 1)
 		this->evento.setClicMouseBotonIzquierdo(this->detector.getClicMouseBotonIzquierdo());
-	else if (this->detector.getClicMouseBotonDerecho())
-		this->evento.setClicMouseBotonDerecho(this->detector.getClicMouseBotonDerecho());
 	else if (this->detector.getTeclaAApretada())
 		this->evento.setTeclaAApretada(this->detector.getTeclaAApretada());
 	else if (this->detector.getTeclaSApretada())

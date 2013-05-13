@@ -40,7 +40,8 @@ class ControladorEvento{
 		bool getFinalizoElJuego(void);
 		bool getTeclaAApretada();
 		bool getTeclaSApretada();
-		void notificarAlProxy();		
+		void notificarAlProxy();
+		void limpiar();
 		ControladorScroll* getControladorScroll(void);		
 		ProxyControladorEvento* getProxyEvento(void);
 };
