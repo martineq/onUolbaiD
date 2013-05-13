@@ -136,7 +136,7 @@ bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* 
 // Caso 3: Si el jugador SI está en uso y NO se encuentra "congelado", se elige otro jugador que no se encuentre en uso, se crea y se devuelve una copia del mismo
 ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,std::string& mote,std::string& nombreEntidadPersonaje,SocketServidor* pSocket,int id){
 
-	std::list<ModeloEntidad*> listaEntidades = modeloNivel->getListaEntidades();
+	std::list<ModeloEntidad*> listaEntidades = modeloNivel->getListaJugadores();
 	std::list<std::string> listaJugadoresUsados;
 	ProxyModeloEntidad::stEntidad stEntidad;
 	ModeloEntidad* pEntidad = NULL;
@@ -216,6 +216,15 @@ std::string ModeloFactory::obtenerPersonajeLibre(std::list<std::string> listaEnt
 
 	// Asigno un personaje libre
 	if( listaEntidadesLibres.empty() == false){
+
+		for( std::list<std::string>::iterator itLibres = listaEntidadesLibres.begin() ; itLibres != listaEntidadesLibres.end() ; itLibres++ ){
+			std::string protagonistaLibre = (*itLibres);
+			if( protagonistaLibre.compare(personajePedido) == 0 ){ 
+				personajeElegido = protagonistaLibre;
+				return personajeElegido;
+			}
+		}
+		
 		personajeElegido = listaEntidadesLibres.front();
 		return personajeElegido;
 	}else{

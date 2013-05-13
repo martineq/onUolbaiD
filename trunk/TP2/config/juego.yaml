@@ -235,3 +235,6 @@ escenarios:
         - entidad: vlad
           x: 3
           y: 0
+        - entidad: queen
+          x: 4
+          y: 2

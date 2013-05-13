@@ -301,7 +301,7 @@ bool SocketApp::aceptarCliente(SOCKET& socket){
 
 	// Imprime la descripción (IP:port) del cliente conectado
 	std::string txt("Cliente conectado con " + this->obtenerDescripcionDeHost(direccionSocketCliente) + ".");
-	std::cout << txt;
+	//std::cout << txt;
 	Log::getInstance().log(3,__FILE__,__LINE__, txt);
 	return true;
 }
