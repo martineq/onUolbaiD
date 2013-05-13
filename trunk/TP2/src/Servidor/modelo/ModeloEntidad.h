@@ -148,9 +148,7 @@ class ModeloEntidad {
 		void pixelActual(Posicion pixelActual);
 
 		void pixelSiguiente(Posicion pixelSiguiente);
-
-		void notificar();
-
+		
 	public:
 		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador);
 
@@ -203,6 +201,8 @@ class ModeloEntidad {
 		Posicion pixelActual();
 
 		Posicion pixelSiguiente();
+
+		void notificar();
 
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
