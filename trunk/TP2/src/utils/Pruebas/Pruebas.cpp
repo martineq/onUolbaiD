@@ -587,11 +587,9 @@ void Pruebas::PruebaClienteChat() {
 	posicion.x = 0;
 	posicion.y = 416;
 
-	VistaChat* vistaChat = new VistaChat(posicion, "cliente", &socketCliente);
+	VistaChat* vistaChat = new VistaChat(posicion, NULL, NULL);
 	SDL_Surface* pantalla = SDL_SetVideoMode(800, 600, 0, 0);
 	
-	vistaChat->asignarDestinatario("servidor");
-
 	SDL_EnableUNICODE(SDL_ENABLE);
 
 	while (!detectorEventos.getQuit()) {

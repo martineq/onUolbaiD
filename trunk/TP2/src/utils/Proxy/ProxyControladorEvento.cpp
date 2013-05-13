@@ -78,7 +78,7 @@ void ProxyControladorEvento::hidratar(Serializadora& s,ProxyControladorEvento::s
 
 
 void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,
-	bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego,int idReceptorChat,std::string mensajeChat){
+	bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego){
 
 	evento.id = id;
 	evento.errorEnSocket = errorEnSocket;
@@ -88,6 +88,20 @@ void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& ev
 	evento.teclaS = teclaS;
 	evento.mouseClickIzquierdo = mouseClickIzquierdo;
 	evento.finalizoElJuego = finalizoElJuego;
+	evento.idReceptorChat = -1;
+	evento.mensajeChat = "";
+}
+
+void ProxyControladorEvento::cargarStEventoChat(ProxyControladorEvento::stEvento& evento,int id,int idReceptorChat,std::string mensajeChat){
+
+	evento.id = id;
+	evento.errorEnSocket = false;
+	evento.mouseX = 0;
+	evento.mouseY = 0;
+	evento.teclaA = false;
+	evento.teclaS = false;
+	evento.mouseClickIzquierdo = false;
+	evento.finalizoElJuego = false;
 	evento.idReceptorChat = idReceptorChat;
 	evento.mensajeChat = mensajeChat;
 }

@@ -49,6 +49,6 @@ class ProxyControladorEvento{
 
 		// Auxiliares
 		static void cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,
-			bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego,int idReceptorChat,std::string mensajeChat);
-		
+			bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego);
+		static void cargarStEventoChat(ProxyControladorEvento::stEvento& evento,int id,int idReceptorChat,std::string mensajeChat);
 };
