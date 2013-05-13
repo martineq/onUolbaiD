@@ -49,38 +49,47 @@ bool ProxyControladorEvento::recibirEvento(ProxyControladorEvento::stEvento& eve
 }
 
 void ProxyControladorEvento::serializar(Serializadora& s,ProxyControladorEvento::stEvento& evento){
-	s.addInt(evento.id);
 	//s.addBool(evento.errorEnSocket);
+	
+	s.addInt(evento.id);
 	s.addInt(evento.mouseX);
 	s.addInt(evento.mouseY);
 	s.addBool(evento.teclaA);
 	s.addBool(evento.teclaS);
 	s.addBool(evento.mouseClickIzquierdo);
 	s.addBool(evento.finalizoElJuego);
+	s.addInt(evento.idReceptorChat);
+	s.addString(evento.mensajeChat);
 }
 
 void ProxyControladorEvento::hidratar(Serializadora& s,ProxyControladorEvento::stEvento& evento){
+	evento.errorEnSocket = false; // Si se llamó a hidratar es porque no hubo error en el socket
+
 	evento.id = s.getInt();
-	//evento.errorEnSocket = s.getBool();
-	evento.errorEnSocket = false;
 	evento.mouseX = s.getInt();
 	evento.mouseY = s.getInt();
 	evento.teclaA = s.getBool();
 	evento.teclaS = s.getBool();
 	evento.mouseClickIzquierdo = s.getBool();
 	evento.finalizoElJuego = s.getBool();
+	evento.idReceptorChat = s.getInt();
+	evento.mensajeChat = s.getString();
 }
 
 
-void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego){
-	evento.errorEnSocket = errorEnSocket;
-	evento.finalizoElJuego = finalizoElJuego;
+void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,
+	bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego,int idReceptorChat,std::string mensajeChat){
+
 	evento.id = id;
-	evento.mouseClickIzquierdo = mouseClickIzquierdo;
+	evento.errorEnSocket = errorEnSocket;
 	evento.mouseX = mouseX;
 	evento.mouseY = mouseY;
 	evento.teclaA = teclaA;
 	evento.teclaS = teclaS;
+	evento.mouseClickIzquierdo = mouseClickIzquierdo;
+	evento.finalizoElJuego = finalizoElJuego;
+	evento.idReceptorChat = idReceptorChat;
+	evento.mensajeChat = mensajeChat;
 }
 
 std::list<int> ProxyControladorEvento::getClientesConError(void){
