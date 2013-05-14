@@ -17,7 +17,7 @@ void ControladorLoop::loop(VistaNivel* nivel) {
 
 	// Capturo eventos para el chat
 	if (this->vistaChat != NULL) {
-		if (this->detector.getClicMouseBotonIzquierdo() == 1) {
+		if (this->detector.getClicMouseBotonDerecho() == 1) {
 			int x = 0, y = 0;
 			VistaEntidad* jugador = NULL;
 			std::list<VistaEntidad*> jugadores = nivel->getListaOtrosJugadores();
