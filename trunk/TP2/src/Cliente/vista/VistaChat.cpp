@@ -100,6 +100,7 @@ bool VistaChat::enviarMensaje() {
 	// Si el texto ingresado esta vacio salgo
 	if (this->_textoIngresado.empty())
 		return true;
+	this->agregarMensaje(this->_remitente->getNombreJugador(), this->_textoIngresado);
 	ProxyControladorEvento::stEvento evento;
 	ProxyControladorEvento::cargarStEventoChat(evento, this->_remitente->id(), this->_destinatario->id(), this->_textoIngresado);
 	this->_textoIngresado.clear();
