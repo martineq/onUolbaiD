@@ -172,5 +172,5 @@ bool VistaChat::visible() const {
 
 void VistaChat::visible(bool visible) {
 	this->_visible = visible;
-	this->_textoIngresado.clear();
+	// TODO: confirmar si saco esta linea>>> // this->_textoIngresado.clear();
 }
