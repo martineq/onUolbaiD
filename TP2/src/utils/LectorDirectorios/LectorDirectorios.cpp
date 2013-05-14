@@ -68,6 +68,7 @@ bool LectorDirectorios::nombreValido(std::string nombre){
 	if( nombre.compare(".") == 0 ){ return false;
 	}else if( nombre.compare("..") == 0 ){ return false;
 	}else if( nombre.compare(".svn") == 0 ){ return false;
+	}else if( nombre.compare("conexion.yaml") == 0 ){ return false;
 	}else if( nombre.compare("thumbs.db") == 0 ){ return false; }
 
 	return true;
