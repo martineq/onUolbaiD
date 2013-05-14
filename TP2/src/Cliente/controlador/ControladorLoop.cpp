@@ -1,9 +1,10 @@
 #include "ControladorLoop.h"
 
 ControladorLoop::ControladorLoop() {
+	this->vistaChat = NULL;
 }
 
-void ControladorLoop::loop(VistaChat* vistaChat, VistaNivel* nivel) {
+void ControladorLoop::loop(VistaNivel* nivel) {
 	this->detector.detectar();
 	this->evento.limpiar();
 
@@ -15,32 +16,36 @@ void ControladorLoop::loop(VistaChat* vistaChat, VistaNivel* nivel) {
 	this->evento.getControladorScroll()->cambiarEstado();
 
 	// Capturo eventos para el chat
-	if (this->detector.getClicMouseBotonIzquierdo() == 1) {
-		int x = 0, y = 0;
-		VistaEntidad* jugador = NULL;
-		std::list<VistaEntidad*> jugadores = nivel->getListaOtrosJugadores();
-		std::list<VistaEntidad*>::iterator unJugador = jugadores.begin();
-		
-		Posicion::convertirPixelATile(nivel->getAltoDeNivelEnTiles(), this->evento.getPosicionMouseX(), this->evento.getPosicionMouseY(), x, y);
+	if (this->vistaChat != NULL) {
+		if (this->detector.getClicMouseBotonIzquierdo() == 1) {
+			int x = 0, y = 0;
+			VistaEntidad* jugador = NULL;
+			std::list<VistaEntidad*> jugadores = nivel->getListaOtrosJugadores();
+			std::list<VistaEntidad*>::iterator unJugador = jugadores.begin();
+			
+			Posicion::convertirPixelATile(nivel->getAltoDeNivelEnTiles(), this->evento.getPosicionMouseX(), this->evento.getPosicionMouseY(), x, y);
 
-		while ((unJugador != jugadores.end()) && (jugador == NULL)) {
-			if (((*unJugador) != nivel->getJugador()) && (x == (*unJugador)->getTileX()) && (y == (*unJugador)->getTileY()))
-				jugador = *unJugador;
-			unJugador++;
+			while ((unJugador != jugadores.end()) && (jugador == NULL)) {
+				if (((*unJugador) != nivel->getJugador()) && (x == (*unJugador)->getTileX()) && (y == (*unJugador)->getTileY()))
+					jugador = *unJugador;
+				unJugador++;
+			}
+			
+			if (jugador != NULL) {
+				this->vistaChat->visible(true);
+				this->vistaChat->asignarDestinatario(jugador);
+			}
 		}
-		
-		if (jugador != NULL) {
-			vistaChat->visible(true);
-			vistaChat->asignarDestinatario(jugador);
+		if (this->vistaChat->visible()) {
+			if (this->detector.getEscape())
+				this->vistaChat->visible(false);
+			else if (this->detector.getRetroceso())
+				this->vistaChat->borrarCaracter();
+			else if (this->detector.getEnter())
+				this->vistaChat->enviarMensaje();
+			else if (this->detector.getCaracter() != 0)
+				this->vistaChat->agregarCaracter(this->detector.getCaracter());
 		}
-	}
-	else if (this->detector.getEscape())
-		vistaChat->visible(false);
-	else if (vistaChat->visible()) {
-		if (this->detector.getRetroceso())
-			vistaChat->borrarCaracter();
-		else if (this->detector.getCaracter() != 0)
-			vistaChat->agregarCaracter(this->detector.getCaracter());
 	}
 
 	// Caputro eventos para el servidor
@@ -64,4 +69,8 @@ ControladorEvento* ControladorLoop::getControladorEvento() {
 }
 
 ControladorLoop::~ControladorLoop() {
+}
+
+void ControladorLoop::asignarChat(VistaChat* vistaChat) {
+	this->vistaChat = vistaChat;
 }

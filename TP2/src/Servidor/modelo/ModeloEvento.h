@@ -27,6 +27,8 @@ class ModeloEvento{
 		bool errorEnSocket();
 		bool finalizoElJuego();
 		bool getActualizado();
+		int getIdDestinatarioChat();
+		std::string getMensajeChat();
 
 		void setProxyControladorEvento(ProxyControladorEvento* pProxyEvento);
 		void cargarProximoEvento(void); 

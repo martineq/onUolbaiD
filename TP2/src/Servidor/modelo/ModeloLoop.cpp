@@ -24,8 +24,17 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 			// En caso de finalización del juego o error de sockets se congela al jugador
 			modeloNivel.congelarJugador(idJugador);
 
-		}else{
-
+		}
+		else if (this->_modeloEvento.getIdDestinatarioChat() != -1) {
+			ModeloEntidad* remitente = modeloNivel.obtenerJugador(this->_modeloEvento.getIdJugador());
+			if (remitente == NULL)
+				return true;
+			ModeloEntidad* destinatario = modeloNivel.obtenerJugador(this->_modeloEvento.getIdDestinatarioChat());
+			if (destinatario == NULL)
+				return true;
+			destinatario->enviarMensaje(remitente->nombreJugador(), this->_modeloEvento.getMensajeChat());
+		}
+		else {
 			// En el caso de no haber errores y no haber terminado el juego se obtienen los datos para acutalizar
 			int mousePosX = this->_modeloEvento.getMousePosX();
 			int mousePosY = this->_modeloEvento.getMousePosY();

@@ -12,6 +12,7 @@ class VistaLoop{
 		ProxyModeloEntidad* pProxyEntidad;
 		ProxyModeloEntidad::stEntidad entidadEnEspera;
 		bool hayEntidadEnEspera;
+		VistaChat* vistaChat;
 
 		bool actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory& vistaFactory);
 		bool actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel,VistaFactory& vistaFactory);
@@ -20,7 +21,7 @@ class VistaLoop{
 	public:
 		VistaLoop(void);
 		~VistaLoop(void);
-		bool loop(VistaChat* vistaChat,VistaNivel& vistaNivel,VistaFactory& vistaFactory, char**);
+		bool loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory, char**);
 
 		void setPantalla(SDL_Surface *pantalla);
 		void SetProxyModeloEntidad(ProxyModeloEntidad* pProxyEntidad);
@@ -29,4 +30,5 @@ class VistaLoop{
 		ProxyModeloEntidad** getPunteroProxy();
 		SDL_Surface** getPunteroPantalla();
 		
+		void asignarChat(VistaChat* vistaChat);
 };

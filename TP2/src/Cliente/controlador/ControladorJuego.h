@@ -12,6 +12,7 @@ class ControladorJuego{
 	public:
 		ControladorJuego(void);
 		~ControladorJuego(void);
-		bool loop(VistaChat* vistaChat, VistaNivel* nivel); // Inicia el ModeloLoop y le pasa el ModeloNivel
+		bool loop(VistaNivel* nivel); // Inicia el ModeloLoop y le pasa el ModeloNivel
 		ControladorLoop* getControladorLoop(void);
+		void asignarChat(VistaChat* vistaChat);
 };

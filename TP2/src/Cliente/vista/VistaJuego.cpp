@@ -64,8 +64,8 @@ bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::s
 	return true;
 }
 
-bool VistaJuego::loop(VistaChat* vistaChat){
-	return this->vistaLoop.loop(vistaChat,this->vistaNivel,this->vistaFactory, this->matriz);
+bool VistaJuego::loop(){
+	return this->vistaLoop.loop(this->vistaNivel,this->vistaFactory,this->matriz);
 }
 
 VistaNivel* VistaJuego::getVistaNivel() {
@@ -74,4 +74,8 @@ VistaNivel* VistaJuego::getVistaNivel() {
 
 void VistaJuego::destruirEntidades(){
 	this->vistaNivel.destruirEntidadesYScroll();
+}
+
+void VistaJuego::asignarChat(VistaChat* vistaChat) {
+	this->vistaLoop.asignarChat(vistaChat);
 }

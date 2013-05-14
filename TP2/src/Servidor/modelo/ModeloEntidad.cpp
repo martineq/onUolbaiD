@@ -219,6 +219,13 @@ void ModeloEntidad::defender() {
 	this->_accion = DEFENDIENDO;
 }
 
+void ModeloEntidad::enviarMensaje(string remitente, string mensaje) {
+	ProxyModeloEntidad::stEntidad entidad = this->stEntidad();
+	entidad.nombreRemitente = remitente;
+	entidad.mensaje = mensaje;
+	this->_proxyEntidad->enviarEntidad(entidad);
+}
+
 void ModeloEntidad::cambiarEstado() {
 	if (((this->_accion == ATACANDO) || (this->_accion == DEFENDIENDO)) && this->_vistaMovimiento->terminado()) {
 		this->notificar();

@@ -192,6 +192,8 @@ class ModeloEntidad {
 
 		void defender();
 
+		void enviarMensaje(std::string remitente, std::string mensaje);
+
 		void cambiarEstado();
 
 		void mover(Posicion posicion);

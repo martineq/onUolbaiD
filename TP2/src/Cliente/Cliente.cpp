@@ -22,6 +22,9 @@ bool Cliente::iniciar(std::string mote,std::string personaje){
 		this->vistaChat = new VistaChat(posicion, this->vistaJuego.getVistaNivel()->getJugador(), this->controladorJuego.getControladorLoop()->getControladorEvento()->getProxyEvento());
 	}
 
+	this->controladorJuego.asignarChat(this->vistaChat);
+	this->vistaJuego.asignarChat(this->vistaChat);
+
 	return true;
 }
 
@@ -29,8 +32,8 @@ void Cliente::loop(void){
 
 	bool quit = false;		
 	while (quit == false){
-		if( this->controladorJuego.loop(this->vistaChat, this->vistaJuego.getVistaNivel()) == false) quit = true;
-		if( this->vistaJuego.loop(this->vistaChat) == false) quit = true;
+		if( this->controladorJuego.loop(this->vistaJuego.getVistaNivel()) == false) quit = true;
+		if( this->vistaJuego.loop() == false) quit = true;
 	}
 }
 

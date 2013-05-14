@@ -97,3 +97,11 @@ void ModeloEvento::cargarProximoEvento(void){
 std::list<int> ModeloEvento::getClientesConError(void){
 	return this->pProxyEvento->getClientesConError();
 }
+
+int ModeloEvento::getIdDestinatarioChat() {
+	return this->listaEventos.front().idReceptorChat;
+}
+
+std::string ModeloEvento::getMensajeChat()  {
+	return this->listaEventos.front().mensajeChat;
+}

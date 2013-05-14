@@ -62,7 +62,7 @@ void VistaChat::agregarCaracter(char caracter) {
 
 	// Calculo el tamaño que tendria el texto mostrado en pantalla
 	int ancho = 0, alto = 0;
-	TTF_SizeText(this->_fuente, (this->_destinatario->getNombreEntidad() + ": " + this->_textoIngresado + caracter).c_str(), &ancho, &alto);
+	TTF_SizeText(this->_fuente, (this->_destinatario->getNombreJugador() + ": " + this->_textoIngresado + caracter).c_str(), &ancho, &alto);
 
 	// Si alcanzo el ancho del texto salgo
 	if (ancho >= ANCHO_TEXTO_INGRESADO)
@@ -114,7 +114,7 @@ bool VistaChat::graficar(SDL_Surface* pantalla) {
 	
 	SDL_Rect rectanguloOrigen, rectanguloDestino;
 	SDL_Color colorTexto = { 0, 0, 0 };
-	SDL_Surface* textoIngresado = TTF_RenderText_Blended(this->_fuente, (this->_destinatario->getNombreEntidad() + ": " + this->_textoIngresado).c_str(), colorTexto);
+	SDL_Surface* textoIngresado = TTF_RenderText_Blended(this->_fuente, (this->_destinatario->getNombreJugador() + ": " + this->_textoIngresado).c_str(), colorTexto);
 	int contadorMensajes = 0;
 	
 	// Muestra la ventana completa

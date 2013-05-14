@@ -1,6 +1,6 @@
 #include "VistaEntidad.h"
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id, std::string nombreEntidad,bool estaCongelado,int estado){
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id, std::string nombreEntidad,bool estaCongelado,int estado, std::string nombreJugador){
 	this->_id = id;
 	this->estaCongelado = estaCongelado;
 
@@ -12,9 +12,8 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->posicionReferenciaY = posicionReferenciaY;
 	this->x = xAux;
 	this->y = yAux;	
-	//this->x = x;
-	//this->y = y;
-
+	this->nombreEntidad = nombreEntidad;
+	this->nombreJugador = nombreJugador;
 
 	this->animaciones = new VistaAnimaciones();
 
@@ -114,6 +113,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->tileY = entidad.posicionSiguienteY;
 	this->estaCongelado = entidad.entidadCongelada;
 	this->nombreEntidad = entidad.nombreEntidad;
+	this->nombreJugador = entidad.nombreJugador;
 
 	int accion = entidad.accion;
 	if (accion == 3)
@@ -222,6 +222,10 @@ bool VistaEntidad::getEsNecesarioRefrescar(void){
 
 std::string VistaEntidad::getNombreEntidad() {
 	return this->nombreEntidad;
+}
+
+std::string VistaEntidad::getNombreJugador() {
+	return this->nombreJugador;
 }
 
 void VistaEntidad::setEsNecesarioRefrescar(bool boolRefrescar){
