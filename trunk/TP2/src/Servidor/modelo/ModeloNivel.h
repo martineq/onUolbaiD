@@ -18,7 +18,6 @@ class ModeloNivel {
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
 
-		ModeloEntidad* obtenerJugador(int id);
 		ModeloEntidad* obtenerEntidad(int id);
 		
 		void destruirListaJugadores();
@@ -51,6 +50,8 @@ class ModeloNivel {
 		void jugadorAtacar(int id);
 		void jugadorDefender(int id);
 		void congelarJugador(int idJugador);
+
+		ModeloEntidad* obtenerJugador(int id);
 
 		bool actualizar();
 

@@ -89,7 +89,8 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addBool(entidad.esUltimoMovimiento);
 	s.addInt(entidad.accion);
 	s.addString(entidad.nombreJugador);
-
+	s.addString(entidad.nombreRemitente);
+	s.addString(entidad.mensaje);
 }
 
 int ProxyModeloEntidad::sizeEntidad(ProxyModeloEntidad::stEntidad entidad){
@@ -124,6 +125,8 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	bool ultimo = s.getBool();
 	int accion = s.getInt();
 	std::string nombreJugador = s.getString();
+	std::string nombreRemitente = s.getString();
+	std::string mensaje = s.getString();
 	
 	entidad.id = id;
 	entidad.nombreEntidad = nombre;
@@ -142,6 +145,8 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.esUltimoMovimiento = ultimo;
 	entidad.accion = accion;
 	entidad.nombreJugador = nombreJugador;
+	entidad.nombreRemitente = nombreRemitente;
+	entidad.mensaje = mensaje;
 }
 
 // Para los que usan el proxy y quieren cargar el struct
@@ -163,8 +168,9 @@ void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,
 	entidad.esUltimoMovimiento = esUltimoMovimiento;
 	entidad.accion = accion;
 	entidad.nombreJugador = nombreJugador;
+	entidad.nombreRemitente = "";
+	entidad.mensaje = "";
 }
-
 
 bool ProxyModeloEntidad::enviarMatriz(std::string matrix,int id){
 	Serializadora s;

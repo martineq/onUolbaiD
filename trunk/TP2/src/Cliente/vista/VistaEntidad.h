@@ -34,9 +34,10 @@ class VistaEntidad: public Identificable{
 		int _id;
 		bool esNecesarioRefrescar;
 		std::string nombreEntidad;
+		std::string nombreJugador;
 
 	public:
-		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado);
+		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id, std::string nombreEntidad,bool estaCongelado,int estado, std::string nombreJugador);
 		~VistaEntidad(void);
 
 		void actualizar(ProxyModeloEntidad::stEntidad& entidad);
@@ -62,6 +63,7 @@ class VistaEntidad: public Identificable{
 		bool getEsNecesarioRefrescar(void);
 		bool getEstaCongelado();
 		std::string getNombreEntidad();
+		std::string getNombreJugador();
 
 		// Setters
 		void setXEnPantalla(double scrollX);

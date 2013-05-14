@@ -11,11 +11,13 @@ class ControladorLoop{
 	private:
 		DetectorEventos detector;
 		ControladorEvento evento;
+		VistaChat* vistaChat;
 
 public:
 		ControladorLoop();
 		virtual ~ControladorLoop();
-		void loop(VistaChat* vistaChat, VistaNivel* nivel);		
+		void loop(VistaNivel* nivel);		
 		bool getQuit();
 		ControladorEvento* getControladorEvento();
+		void asignarChat(VistaChat* vistaChat);
 };

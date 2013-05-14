@@ -28,6 +28,8 @@ class ProxyModeloEntidad{
 			int accion;
 			std::string nombreJugador;
 			std::string actualizacionMapa;  // La idea es serializar toda la actulización de la matriz y mandarlo por acá. Lo pongo en un string porque el tamaño de la actualización es variable
+			std::string nombreRemitente;
+			std::string mensaje;
 		};
 
 	private:
@@ -59,5 +61,3 @@ class ProxyModeloEntidad{
 		// Auxiliares
 		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad, double pixelAnteriorX,double pixelAnteriorY,int posicionAnteriorX,int posicionAnteriorY,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,int direccion,bool esUltimoMovimiento, int accion,std::string nombreJugador);
 };
-
-

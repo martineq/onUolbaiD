@@ -5,6 +5,7 @@ VistaLoop::VistaLoop(void){
 	this->pProxyEntidad = NULL;
 	this->hayEntidadEnEspera = false;
 	this->entidadEnEspera.id = -1;
+	this->vistaChat = NULL;
 }
 
 VistaLoop::~VistaLoop(void){
@@ -290,7 +291,7 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 
 }
 
-bool VistaLoop::loop(VistaChat* vistaChat,VistaNivel& vistaNivel,VistaFactory& vistaFactory,char** matriz){
+bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,char** matriz){
 	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory) == false) return false;	// Nuevo: Actuliza lo que vino por el proxy
 
 	if ( (vistaNivel.getJugador()->getTileXAnterior() != vistaNivel.getJugador()->getTileX())
@@ -299,7 +300,7 @@ bool VistaLoop::loop(VistaChat* vistaChat,VistaNivel& vistaNivel,VistaFactory& v
 	}
 
 	if( this->dibujarEntidades(vistaNivel, matriz) == false) return false;
-	if (!vistaChat->graficar(this->pantalla)) return false;
+	if (!this->vistaChat->graficar(this->pantalla)) return false;
 	ImageLoader::getInstance().refrescarPantalla(this->pantalla);
 	return true;
 }
@@ -373,38 +374,41 @@ void VistaLoop::SetProxyModeloEntidad(ProxyModeloEntidad* pProxyEntidad){
 bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory& vistaFactory){
 
 	// Si antes corté por tener entidad con ID repetido, la misma quedó en espera y entonces ahora la actualizo primero
-	if( this->hayEntidadEnEspera == true ){
-		if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false ) return false;
+	if (this->hayEntidadEnEspera == true) {
+		if (this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false ) return false;
 		this->entidadEnEspera.id = -1;
 		this->hayEntidadEnEspera = false;
-	}else{
-		if( this->pProxyEntidad->recibirEntidad(this->entidadEnEspera) == false ){
-				return true;
-		}else{
-				this->hayEntidadEnEspera = false;
-				if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false ) return false;
+	}
+	else {
+		if (this->pProxyEntidad->recibirEntidad(this->entidadEnEspera) == false) {
+			return true;
+		}
+		else {
+			this->hayEntidadEnEspera = false;
+			if (this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false) return false;
 		}
 	}
 
 	// Cargo la lista hasta que por alguna razon me detenga. Puede ser por que se vació el proxy o porque tengo dos entidad de un mismo ID
 	ProxyModeloEntidad::stEntidad entidadObtenida;
 	bool leerDeProxy = true;
-	while( leerDeProxy == true ){
-		if( this->pProxyEntidad->recibirEntidad(entidadObtenida) == false ){	// Caso: El proxy no tiene entidad para dar
+	while (leerDeProxy == true) {
+		if (this->pProxyEntidad->recibirEntidad(entidadObtenida) == false) { // Caso: El proxy no tiene entidad para dar
 			leerDeProxy = false;
-		}else{
-			if( entidadObtenida.id == this->entidadEnEspera.id ){				// Caso: Recibo entidad pero tengo uno de ese ID
+		}
+		else {
+			if (entidadObtenida.id == this->entidadEnEspera.id) { // Caso: Recibo entidad pero tengo uno de ese ID
 				this->entidadEnEspera = entidadObtenida;
-				this->hayEntidadEnEspera = true;// Como esta entidad se queda, lo notifico			
+				this->hayEntidadEnEspera = true; // Como esta entidad se queda, lo notifico			
 				leerDeProxy = false;
-			}else{																// Caso: Recibo entidad de un ID que no tenía hasta ahora
+			}
+			else { // Caso: Recibo entidad de un ID que no tenía hasta ahora
 				this->entidadEnEspera = entidadObtenida;
 				this->hayEntidadEnEspera = false;
 				if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false ) return false;
 			}
 
 		}
-		
 	}
 	return true;
 }
@@ -426,34 +430,41 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 	int idBuscado = entidad.id;
 	std::list<VistaEntidad*>::iterator iteradorEntidadEncontrada;
 	
-	// Primero miro si la entidad que busco es el jugador
-	if( jugador->id() == idBuscado){
-		entidadEncontrada = jugador;
-	}else{	// Si no es el jugador entonces busco en las otras entidades
-		for (std::list<VistaEntidad*>::iterator it=entidades.begin() ; it != entidades.end() ; it++ ){ // Busco en el vector por el ID
-			if( (*it)->id() == idBuscado ){
-				iteradorEntidadEncontrada = it;
-				entidadEncontrada = (*it);
-			}
+	if (entidad.nombreRemitente == "") {
+		// Primero miro si la entidad que busco es el jugador
+		if (jugador->id() == idBuscado) {
+			entidadEncontrada = jugador;
 		}
-		if (entidadEncontrada == NULL) {
-			for (std::list<VistaEntidad*>::iterator it=jugadores.begin() ; it != jugadores.end() ; it++ ){ // Busco en el vector por el ID
+		else { // Si no es el jugador entonces busco en las otras entidades
+			for (std::list<VistaEntidad*>::iterator it=entidades.begin() ; it != entidades.end() ; it++ ){ // Busco en el vector por el ID
 				if( (*it)->id() == idBuscado ){
 					iteradorEntidadEncontrada = it;
 					entidadEncontrada = (*it);
 				}
 			}
+			if (entidadEncontrada == NULL) {
+				for (std::list<VistaEntidad*>::iterator it=jugadores.begin() ; it != jugadores.end() ; it++ ){ // Busco en el vector por el ID
+					if( (*it)->id() == idBuscado ){
+						iteradorEntidadEncontrada = it;
+						entidadEncontrada = (*it);
+					}
+				}
+			}
+		}
+
+		// Actuo si encontré la entidad que buscaba
+		if( entidadEncontrada != NULL) {
+			// Si no me pide eliminar entonces actualizo los datos
+			entidadEncontrada->actualizar(entidad);
+			vistaNivel.ordenarJugadores();
+		}
+		else {
+			// Cuando no existe, crea la entidad
+			vistaFactory.crearJugadorSinScroll(vistaNivel,entidad);
 		}
 	}
-
-	// Actuo si encontré la entidad que buscaba
-	if( entidadEncontrada != NULL ){
-		// Si no me pide eliminar entonces actualizo los datos
-		entidadEncontrada->actualizar(entidad);
-		vistaNivel.ordenarJugadores();
-	}else{
-		// Cuando no existe, crea la entidad
-		vistaFactory.crearJugadorSinScroll(vistaNivel,entidad);
+	else {
+		this->vistaChat->agregarMensaje(entidad.nombreRemitente, entidad.mensaje);
 	}
 	return true;
 }
@@ -467,4 +478,6 @@ SDL_Surface** VistaLoop::getPunteroPantalla(){
 
 }
 
-
+void VistaLoop::asignarChat(VistaChat* vistaChat) {
+	this->vistaChat = vistaChat;
+}
