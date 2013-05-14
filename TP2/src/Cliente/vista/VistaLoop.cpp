@@ -325,8 +325,11 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz){
 					(*jugador)->setPantalla(this->pantalla);
 					(*jugador)->setXEnPantalla(vistaNivel.getScroll()->getX());
 					(*jugador)->setYEnPantalla(vistaNivel.getScroll()->getY());
-					if (!(*jugador)->graficar(this->visibilidadDeLaEntidad((*jugador),matriz)))
-						return false;
+					char visibilidad = this->visibilidadDeLaEntidad((*jugador),matriz);
+					if (visibilidad == VISIBLE ){
+						if (!(*jugador)->graficar(visibilidad))
+							return false;
+					}
 				}
 				jugador++;
 			}
@@ -347,8 +350,11 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz){
 			(*jugador)->setPantalla(this->pantalla);
 			(*jugador)->setXEnPantalla(vistaNivel.getScroll()->getX());
 			(*jugador)->setYEnPantalla(vistaNivel.getScroll()->getY());
-			if (!(*jugador)->graficar(this->visibilidadDeLaEntidad((*jugador),matriz)))
-				return false;
+			char visibilidad = this->visibilidadDeLaEntidad((*jugador),matriz);
+			if (visibilidad == VISIBLE ){
+  			   if (!(*jugador)->graficar(visibilidad))
+				  return false;
+			}
 		}
 		jugador++;
 	}

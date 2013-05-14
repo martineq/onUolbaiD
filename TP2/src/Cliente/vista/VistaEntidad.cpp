@@ -11,8 +11,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->posicionReferenciaX = posicionReferenciaX;
 	this->posicionReferenciaY = posicionReferenciaY;
 	this->x = xAux;
-	this->y = yAux;
-	this->estaCongelado = false;
+	this->y = yAux;	
 	//this->x = x;
 	//this->y = y;
 
@@ -76,7 +75,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	if (this->esJugador)
 		this->animacionActual = this->animaciones->get(this->estados.at(estado));
 	this->esNecesarioRefrescar = false;
-	this->codigoAnimacion = 0;
+	this->codigoAnimacion = estado;
 	this->tileX = x;
 	this->tileY = y;
 	this->tileXAnterior = x;
