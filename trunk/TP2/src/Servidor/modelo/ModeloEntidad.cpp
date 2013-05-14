@@ -47,7 +47,7 @@ void ModeloEntidad::pixelSiguiente(Posicion pixelSiguiente) {
 }
 
 void ModeloEntidad::notificar() {
-	this->_proxyEntidad->enviarEntidad(this->stEntidad());
+	this->_proxyEntidad->enviarEntidad(this->stEntidad());	
 }
 
 void ModeloEntidad::setNombreJugador(std::string nombre){
@@ -78,6 +78,8 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_accion = CAMINANDO;
 	this->_direccion = SUR;
 	this->_estadoNivel = (esJugador) ? new EstadoNivel(altoNivel, anchoNivel, this->_posicionActual.x, this->_posicionActual.y) : NULL;
+	if (this->_estadoNivel != NULL)
+		this->_estadoNivel->visitar(posicion.x,posicion.y);
 	this->_modeloMovimiento = new ModeloMovimiento(altoNivel, anchoNivel, this);
 	
 	Posicion::convertirTileAPixel(altoNivel, this->_posicionActual.x, this->_posicionActual.y, this->_pixelActual.x, this->_pixelActual.y);
@@ -183,8 +185,12 @@ ProxyModeloEntidad::stEntidad ModeloEntidad::stEntidad() {
 	ProxyModeloEntidad::cargarStEntidad(entidad,this->id(),false,this->estaCongelado(),this->esJugador(),this->nombreEntidad(),
 		this->pixelActual().x,this->pixelActual().y,this->posicionActual().x,this->posicionActual().y,
 		this->pixelSiguiente().x,this->pixelSiguiente().y,this->posicionActual().x,this->posicionActual().y,
-		this->direccion(),this->esUltimoMovimiento(),this->accion(),this->nombreJugador());
+		this->direccion(),this->esUltimoMovimiento(),this->accion(),this->nombreJugador());	
 	return entidad;
+}
+
+void ModeloEntidad::cargarMatriz(ProxyModeloEntidad::stEntidad& entidad){
+	ProxyModeloEntidad::cargarMatriz(entidad,this->_estadoNivel->getMatriz());
 }
 
 int ModeloEntidad::velocidad() {

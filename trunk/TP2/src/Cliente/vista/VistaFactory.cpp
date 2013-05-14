@@ -36,8 +36,36 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 	if( this->recibirEscenario(juegoYaml.escenarios,pSocket) == false ) return false;
 	//	this->menuSeleccionUsuarioPersonaje(mote,personaje);
 	if( this->recibirProtagonista(pSocket,mote,personaje) == false ) return false;
-	if( this->recibirOtrosJugadores(vistaNivel,pSocket) == false ) return false;
 
+	char** mapa = new char* [juegoElegido.escenario.tamanioY];
+	for (int i = 0; i < this->juegoElegido.escenario.tamanioY; i++) {
+		mapa[i] = new char [juegoElegido.escenario.tamanioX];
+	}
+
+
+/*	for (int i = 0; i < this->juegoElegido.escenario.tamanioY; i++){
+		for (int j = 0; j < this->juegoElegido.escenario.tamanioX; j++){
+			int fila = i * this->juegoElegido.escenario.tamanioX;
+			mapa[i][j] = matriz[fila+j];
+		}	
+	}*/
+
+
+
+
+
+/*	char* vectorAuxiliar;	
+	for (int i=0; i < matriz.length(); juegoElegido.escenario.tamanioX++)		
+		int j = 0;
+		while (j <= juegoElegido.escenario.tamanioY) {
+			vectorAuxiliar[j] = matriz[j]
+			j++;
+		}
+		for (int k = 0; k < juegoElegido.escenario.tamanioY; k++)
+			mapa[i] = vectorAuxiliar[k];
+*/
+
+	if( this->recibirOtrosJugadores(vistaNivel,pSocket) == false ) return false;	
 	pSocket->setEnvioIndirecto();
 
 	// Creo los elementos de la Vista
@@ -166,7 +194,13 @@ bool VistaFactory::recibirProtagonista(SocketCliente* pSocket,std::string nombre
 	ProxyModeloEntidad proxy;
 	proxy.setSocketCliente(pSocket);
 	if( proxy.recibirEntidadIndividual(entidad) == false ) return false;	// Si hubo error de sockets me voy
-	this->juegoElegido.entidadJugador = entidad;
+	std::string matriz;
+	if( proxy.recibirMatrix(matriz) == false ) return false;	// Si hubo error de sockets me voy
+	ProxyModeloEntidad::cargarMatriz(entidad,matriz);
+	this->juegoElegido.entidadJugador = entidad;	
+
+	this->matriz = matriz;
+
 
 	return true;
 }
@@ -404,4 +438,8 @@ void VistaFactory::vincularScroll(VistaNivel& vistaNivel,ControladorEvento* even
 	pCtrlScroll->agregarObservador(pVistaScroll);
 
 	return void();
+}
+
+std::string VistaFactory::getMatriz(){
+	return this->matriz;
 }

@@ -72,3 +72,8 @@ void EstadoNivel::visitar(int x, int y) {
 char EstadoNivel::visibilidad(int x, int y) {
 	return this->_nivel[(this->_ancho * y) + x];
 }
+
+string EstadoNivel::getMatriz(){
+	std::string matriz(this->_nivel,_alto*_ancho);
+	return matriz;
+}

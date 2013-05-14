@@ -60,4 +60,5 @@ class ProxyModeloEntidad{
 		int sizeEntidad(ProxyModeloEntidad::stEntidad);
 		// Auxiliares
 		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad, double pixelAnteriorX,double pixelAnteriorY,int posicionAnteriorX,int posicionAnteriorY,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,int direccion,bool esUltimoMovimiento, int accion,std::string nombreJugador);
+		static void cargarMatriz(ProxyModeloEntidad::stEntidad& entidad,std::string matriz);
 };

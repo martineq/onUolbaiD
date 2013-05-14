@@ -16,6 +16,7 @@ VistaJuego::~VistaJuego(void){
 bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje){
 	ImageLoader::getInstance().iniciarSDL();
 	if( this->vistaFactory.crearNivel(this->vistaNivel,evento,pSocket,this->vistaLoop.getPunteroPantalla(),this->vistaLoop.getPunteroProxy(),mote,personaje) == false ) return false;
+	
 	//creo la matriz para niebla de guerra
 	this->matriz = new char* [this->vistaNivel.getAltoDeNivelEnTiles()];
 	for (int i = 0; i < this->vistaNivel.getAltoDeNivelEnTiles(); i++) {
@@ -64,8 +65,18 @@ bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::s
 	return true;
 }
 
+void VistaJuego::cargarMatriz(){
+	std::string matriz = this->vistaFactory.getMatriz();
+	for (int i = 0; i < this->vistaNivel.getAltoDeNivelEnTiles(); i++){
+		for (int j = 0; j < this->vistaNivel.getAnchoDeNivelEnTiles(); j++){
+			int fila = i * this->vistaNivel.getAnchoDeNivelEnTiles();
+			this->matriz[i][j] = matriz[fila+j];
+		}	
+	}
+}
+
 bool VistaJuego::loop(){
-	return this->vistaLoop.loop(this->vistaNivel,this->vistaFactory,this->matriz);
+	return this->vistaLoop.loop(this->vistaNivel,this->vistaFactory, this->matriz);
 }
 
 VistaNivel* VistaJuego::getVistaNivel() {

@@ -24,6 +24,7 @@ class VistaJuego{
 		bool loop();												// Inicia el VistaLoop y le pasa el VistaNivel
 		
 		VistaNivel* getVistaNivel();
+		void cargarMatriz();
 		void destruirEntidades();
 
 		void asignarChat(VistaChat* vistaChat);
