@@ -51,7 +51,6 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 
 bool VistaFactory::conectarSocket(SocketCliente* pSocket){
 
-
 	//// Tomo el puerto
 	//std::string ip;
 	//int puerto;
@@ -72,8 +71,8 @@ bool VistaFactory::conectarSocket(SocketCliente* pSocket){
 	ParserYaml::stConexion conexion;
 	conexion = ParserYaml::getInstance().cargarConfiguracionDeConexion();
 	if( conexion.conexionValida == false ){
-		std::cerr << "Error leer datos de conexion." << std::endl;
-		Log::getInstance().log(1,__FILE__,__LINE__,"Error leer datos de conexion.");
+		std::cerr << "Error al leer datos de conexion." << std::endl;
+		Log::getInstance().log(1,__FILE__,__LINE__,"Error al leer datos de conexion.");
 		return false;
 	}
 
