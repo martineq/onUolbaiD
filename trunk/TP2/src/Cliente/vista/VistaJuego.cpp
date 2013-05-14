@@ -70,7 +70,7 @@ void VistaJuego::cargarMatriz(){
 	for (int i = 0; i < this->vistaNivel.getAltoDeNivelEnTiles(); i++){
 		for (int j = 0; j < this->vistaNivel.getAnchoDeNivelEnTiles(); j++){
 			int fila = i * this->vistaNivel.getAnchoDeNivelEnTiles();
-			this->matriz[i][j] = matriz[fila+j];
+			this->matriz[j][i] = matriz[fila+j];
 		}	
 	}
 }
