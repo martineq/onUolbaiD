@@ -292,7 +292,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 
 	// Para que empiece en una posicion aleatoria sin conflictos
 	srand(time(NULL));
-	int min = 2;
+	int min = ZONA_VISIBLE/2;
 	int maxY = juego.escenario.tamanioY - ZONA_VISIBLE/2;
 	int maxX = juego.escenario.tamanioX - ZONA_VISIBLE/2;
 	int outputX = min + (rand() % (int)(maxX - min + 1));		
