@@ -89,7 +89,7 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addBool(entidad.esUltimoMovimiento);
 	s.addInt(entidad.accion);
 	s.addString(entidad.nombreJugador);
-	s.addString(entidad.nombreRemitente);
+	s.addInt(entidad.idRemitente);
 	s.addString(entidad.mensaje);
 }
 
@@ -125,7 +125,7 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	bool ultimo = s.getBool();
 	int accion = s.getInt();
 	std::string nombreJugador = s.getString();
-	std::string nombreRemitente = s.getString();
+	int idRemitente = s.getInt();
 	std::string mensaje = s.getString();
 	
 	entidad.id = id;
@@ -145,7 +145,7 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.esUltimoMovimiento = ultimo;
 	entidad.accion = accion;
 	entidad.nombreJugador = nombreJugador;
-	entidad.nombreRemitente = nombreRemitente;
+	entidad.idRemitente = idRemitente;
 	entidad.mensaje = mensaje;
 }
 
@@ -167,8 +167,8 @@ void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,
 	entidad.direccion = direccion;
 	entidad.esUltimoMovimiento = esUltimoMovimiento;
 	entidad.accion = accion;
-	entidad.nombreJugador = nombreJugador;	
-	entidad.nombreRemitente = "";
+	entidad.nombreJugador = nombreJugador;
+	entidad.idRemitente = -1;
 	entidad.mensaje = "";
 }
 

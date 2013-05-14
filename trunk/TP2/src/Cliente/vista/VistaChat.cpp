@@ -10,31 +10,18 @@
 
 using namespace std;
 
-SDL_Surface* crearVentana() {
-	SDL_Surface* ventana = SDL_CreateRGBSurface(SDL_SWSURFACE, ANCHO_VENTANA, ALTO_VENTANA, 32, 0, 0, 0, 0);
-	SDL_Surface* cajaTextoMensajes = SDL_CreateRGBSurface(SDL_SWSURFACE, ANCHO_TEXTO_MENSAJES, ALTO_TEXTO_MENSAJES, 32, 0, 0, 0, 0);
-	SDL_Surface* cajaTextoIngresado = SDL_CreateRGBSurface(SDL_SWSURFACE, ANCHO_TEXTO_INGRESADO, ALTO_TEXTO_INGRESADO, 32, 0, 0, 0, 0);
-	SDL_Rect rectanguloDestino;
+void VistaChat::agregarMensaje(string remitente, string mensaje) {
+	// Calculo el tamaño que tendria el texto mostrado en pantalla
+	int ancho = 0, alto = 0;
+	TTF_SizeText(this->_fuente, (remitente + ": " + mensaje).c_str(), &ancho, &alto);
 
-	SDL_FillRect(ventana, NULL, SDL_MapRGB(ventana->format, 255, 0, 0));
-	
-	rectanguloDestino.h = cajaTextoMensajes->h;
-	rectanguloDestino.w = cajaTextoMensajes->w;
-	rectanguloDestino.x = MARGEN;
-	rectanguloDestino.y = MARGEN;
-
-	SDL_FillRect(cajaTextoMensajes, NULL, SDL_MapRGB(ventana->format, 255, 255, 255));
-	SDL_BlitSurface(cajaTextoMensajes, NULL, ventana, &rectanguloDestino);
-	
-	rectanguloDestino.h = cajaTextoIngresado->h;
-	rectanguloDestino.w = cajaTextoIngresado->w;
-	rectanguloDestino.x = MARGEN;
-	rectanguloDestino.y = cajaTextoMensajes->h + (2 * MARGEN);
-
-	SDL_FillRect(cajaTextoIngresado, NULL, SDL_MapRGB(ventana->format, 255, 255, 255));
-	SDL_BlitSurface(cajaTextoIngresado, NULL, ventana, &rectanguloDestino);
-
-	return ventana;
+	// Si alcanzo el alto del texto quito el primer mensaje
+	if (this->_altoOcupadoTextoMensajes + alto >= ALTO_TEXTO_MENSAJES)
+		this->_mensajes.pop_front();
+	else
+		this->_altoOcupadoTextoMensajes += alto;
+	this->_mensajes.push_back(remitente + ": " + mensaje);
+	this->visible(true);
 }
 
 VistaChat::VistaChat(Posicion posicion, VistaEntidad* remitente, ProxyControladorEvento* proxyControladorEvento) {
@@ -62,7 +49,8 @@ void VistaChat::agregarCaracter(char caracter) {
 
 	// Calculo el tamaño que tendria el texto mostrado en pantalla
 	int ancho = 0, alto = 0;
-	TTF_SizeText(this->_fuente, (this->_destinatario->getNombreJugador() + ": " + this->_textoIngresado + caracter).c_str(), &ancho, &alto);
+	string nombreJugador = (this->_destinatario == NULL) ? "" : this->_destinatario->getNombreJugador() + ": ";
+	TTF_SizeText(this->_fuente, (nombreJugador + this->_textoIngresado + caracter).c_str(), &ancho, &alto);
 
 	// Si alcanzo el ancho del texto salgo
 	if (ancho >= ANCHO_TEXTO_INGRESADO)
@@ -72,18 +60,10 @@ void VistaChat::agregarCaracter(char caracter) {
 	this->_textoIngresado += caracter;
 }
 
-void VistaChat::agregarMensaje(string remitente, string mensaje) {
-	// Calculo el tamaño que tendria el texto mostrado en pantalla
-	int ancho = 0, alto = 0;
-	TTF_SizeText(this->_fuente, (remitente + ": " + mensaje).c_str(), &ancho, &alto);
-
-	// Si alcanzo el alto del texto quito el primer mensaje
-	if (this->_altoOcupadoTextoMensajes + alto >= ALTO_TEXTO_MENSAJES)
-		this->_mensajes.pop_front();
-	else
-		this->_altoOcupadoTextoMensajes += alto;
-	this->_mensajes.push_back(remitente + ": " + mensaje);
-	this->visible(true);
+void VistaChat::agregarMensaje(VistaEntidad* remitente, string mensaje) {
+	// Asigno como destinatario al remitente para poder contestarle
+	this->asignarDestinatario(remitente);
+	this->agregarMensaje((remitente == NULL) ? "" : remitente->getNombreJugador(), mensaje);
 }
 
 void VistaChat::asignarDestinatario(VistaEntidad* destinatario) {
@@ -171,6 +151,7 @@ bool VistaChat::visible() const {
 }
 
 void VistaChat::visible(bool visible) {
+	if (this->_visible != visible)
+		this->_textoIngresado.clear();
 	this->_visible = visible;
-	// TODO: confirmar si saco esta linea>>> // this->_textoIngresado.clear();
 }

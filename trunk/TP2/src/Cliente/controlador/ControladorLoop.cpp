@@ -25,15 +25,22 @@ void ControladorLoop::loop(VistaNivel* nivel) {
 			
 			Posicion::convertirPixelATile(nivel->getAltoDeNivelEnTiles(), this->evento.getPosicionMouseX(), this->evento.getPosicionMouseY(), x, y);
 
-			while ((unJugador != jugadores.end()) && (jugador == NULL)) {
-				if (((*unJugador) != nivel->getJugador()) && (x == (*unJugador)->getTileX()) && (y == (*unJugador)->getTileY()))
-					jugador = *unJugador;
-				unJugador++;
-			}
-			
-			if (jugador != NULL) {
-				this->vistaChat->visible(true);
-				this->vistaChat->asignarDestinatario(jugador);
+			// Si el click esta dentro de la zona visible del jugador busco al jugador seleccionado
+			if ((x >= nivel->getJugador()->getTileX() - (ZONA_VISIBLE / 2)) &&
+				(x <= nivel->getJugador()->getTileX() + (ZONA_VISIBLE / 2)) &&
+				(y >= nivel->getJugador()->getTileY() - (ZONA_VISIBLE / 2)) &&
+				(y <= nivel->getJugador()->getTileY() + (ZONA_VISIBLE / 2))) {
+				
+				while ((unJugador != jugadores.end()) && (jugador == NULL)) {
+					if ((*unJugador != nivel->getJugador()) && (x == (*unJugador)->getTileX()) && (y == (*unJugador)->getTileY()))
+						jugador = *unJugador;
+					unJugador++;
+				}
+
+				if (jugador != NULL) {
+					this->vistaChat->visible(true);
+					this->vistaChat->asignarDestinatario(jugador);
+				}
 			}
 		}
 		if (this->vistaChat->visible()) {

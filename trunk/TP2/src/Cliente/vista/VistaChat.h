@@ -24,13 +24,15 @@ class VistaChat {
 		VistaEntidad* _remitente;
 		VistaEntidad* _destinatario;
 		ProxyControladorEvento* _proxyControladorEvento;
-	
+		
+		void agregarMensaje(std::string remitente, std::string mensaje);
+
 	public:
 		VistaChat(Posicion posicion, VistaEntidad* remitente, ProxyControladorEvento* proxyControladorEvento);
 
 		virtual ~VistaChat();
 
-		void agregarMensaje(std::string remitente, std::string mensaje);
+		void agregarMensaje(VistaEntidad* remitente, std::string mensaje);
 
 		void asignarDestinatario(VistaEntidad* destinatario);
 

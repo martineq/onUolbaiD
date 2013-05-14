@@ -601,7 +601,7 @@ void Pruebas::PruebaClienteChat() {
 		if (serializadora.size() > 0) {
 			string mensajeRecibido = serializadora.getString();
 			serializadora.nuevaSerializacion();
-			vistaChat->agregarMensaje("servidor", mensajeRecibido);
+			vistaChat->agregarMensaje(NULL, mensajeRecibido);
 		}
 		
 		detectorEventos.detectar();

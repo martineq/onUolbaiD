@@ -430,43 +430,54 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 	int idBuscado = entidad.id;
 	std::list<VistaEntidad*>::iterator iteradorEntidadEncontrada;
 	
-	if (entidad.nombreRemitente.compare("") == 0) {
-		// Primero miro si la entidad que busco es el jugador
-		if (jugador->id() == idBuscado) {
-			entidadEncontrada = jugador;
+	// Si se recibio un mensaje para el chat
+	if (entidad.idRemitente != -1) {
+		if (entidad.id != vistaNivel.getJugador()->id())
+			return true;
+		VistaEntidad* remitente = NULL;
+		// Busco al remitente en la lista de jugadores
+		for (std::list<VistaEntidad*>::iterator unaEntidad = jugadores.begin(); unaEntidad != jugadores.end(); unaEntidad++) {
+			if ((*unaEntidad)->id() == entidad.idRemitente) {
+				remitente = *unaEntidad;
+				break;
+			}
 		}
-		else { // Si no es el jugador entonces busco en las otras entidades
-			for (std::list<VistaEntidad*>::iterator it=entidades.begin() ; it != entidades.end() ; it++ ){ // Busco en el vector por el ID
+		this->vistaChat->agregarMensaje(remitente, entidad.mensaje);
+		return true;
+	}
+
+	// Primero miro si la entidad que busco es el jugador
+	if (jugador->id() == idBuscado) {
+		entidadEncontrada = jugador;
+	}
+	else { // Si no es el jugador entonces busco en las otras entidades
+		for (std::list<VistaEntidad*>::iterator it=entidades.begin() ; it != entidades.end() ; it++ ){ // Busco en el vector por el ID
+			if( (*it)->id() == idBuscado ){
+				iteradorEntidadEncontrada = it;
+				entidadEncontrada = (*it);
+			}
+		}
+		if (entidadEncontrada == NULL) {
+			for (std::list<VistaEntidad*>::iterator it=jugadores.begin() ; it != jugadores.end() ; it++ ){ // Busco en el vector por el ID
 				if( (*it)->id() == idBuscado ){
 					iteradorEntidadEncontrada = it;
 					entidadEncontrada = (*it);
 				}
 			}
-			if (entidadEncontrada == NULL) {
-				for (std::list<VistaEntidad*>::iterator it=jugadores.begin() ; it != jugadores.end() ; it++ ){ // Busco en el vector por el ID
-					if( (*it)->id() == idBuscado ){
-						iteradorEntidadEncontrada = it;
-						entidadEncontrada = (*it);
-					}
-				}
-			}
 		}
+	}
 
-		// Actuo si encontré la entidad que buscaba
-		if( entidadEncontrada != NULL) {
-			// Si no me pide eliminar entonces actualizo los datos
-			entidadEncontrada->actualizar(entidad);
-			vistaNivel.ordenarJugadores();
-		}
-		else {
-			// Cuando no existe, crea la entidad
-			vistaFactory.crearJugadorSinScroll(vistaNivel,entidad);
-		}
+	// Actuo si encontré la entidad que buscaba
+	if( entidadEncontrada != NULL) {
+		// Si no me pide eliminar entonces actualizo los datos
+		entidadEncontrada->actualizar(entidad);
+		vistaNivel.ordenarJugadores();
 	}
 	else {
-		if (entidad.id == vistaNivel.getJugador()->id())
-			this->vistaChat->agregarMensaje(entidad.nombreRemitente, entidad.mensaje);
+		// Cuando no existe, crea la entidad
+		vistaFactory.crearJugadorSinScroll(vistaNivel,entidad);
 	}
+
 	return true;
 }
 
