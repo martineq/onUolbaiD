@@ -51,27 +51,34 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 
 bool VistaFactory::conectarSocket(SocketCliente* pSocket){
 
-	// Ver si conectarSocket() va a recibir el puerto y el IP desde consola o de un archivo (¿De cuál sería?). Por ahora está desde consola
 
-	// Tomo el puerto
-	std::cout << "Ingrese el puerto donde se encuentra el servidor (Enter para 444)" << std::endl;
-	std::string entradaTexto;
-	getline(std::cin,entradaTexto);
-	if( entradaTexto.empty() == true ) entradaTexto.assign("444");
-	std::cout << "Puerto ingresado: "<<entradaTexto <<" "<< std::endl;
-	std::stringstream str(entradaTexto);
-	int puerto;
-	str >> puerto;	// Lo paso a int
+	//// Tomo el puerto
+	//std::string ip;
+	//int puerto;
+	//std::cout << "Ingrese el puerto donde se encuentra el servidor (Enter para 444)" << std::endl;
+	//getline(std::cin,ip);
+	//if( ip.empty() == true ) ip.assign("444");
+	//std::cout << "Puerto ingresado: "<< ip <<" "<< std::endl;
+	//std::stringstream str(ip);
+	//str >> puerto;	// Lo paso a int
 
-	// Tomo el ip
-	std::cout << "Ingrese el host al cual desea conectarse (Enter para \"localhost\")" << std::endl;
-	entradaTexto.clear();
-	getline(std::cin,entradaTexto);
-	if (entradaTexto.empty()==true) entradaTexto.assign("localhost");
-	std::cout << "Ingreso: |"<<entradaTexto.c_str() <<"| "<< std::endl;
+	//// Tomo el ip
+	//std::cout << "Ingrese el host al cual desea conectarse (Enter para \"localhost\")" << std::endl;
+	//entradaTexto.clear();
+	//getline(std::cin,entradaTexto);
+	//if (entradaTexto.empty()==true) entradaTexto.assign("localhost");
+	//std::cout << "Ingreso: |"<<entradaTexto.c_str() <<"| "<< std::endl;
+
+	ParserYaml::stConexion conexion;
+	conexion = ParserYaml::getInstance().cargarConfiguracionDeConexion();
+	if( conexion.conexionValida == false ){
+		std::cerr << "Error leer datos de conexion." << std::endl;
+		Log::getInstance().log(1,__FILE__,__LINE__,"Error leer datos de conexion.");
+		return false;
+	}
 
 	// Me conecto al servidor
-	if( pSocket->iniciarCliente(entradaTexto.c_str(),puerto) == false ){
+	if( pSocket->iniciarCliente(conexion.ip.c_str(),conexion.puerto) == false ){
 		std::cerr << "Error al iniciar la conexion cliente." << std::endl;
 		Log::getInstance().log(1,__FILE__,__LINE__,"Error al iniciar la conexion cliente.");
 		return false;

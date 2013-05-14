@@ -14,6 +14,12 @@ class ParserYaml{
 		// Structs del juego //
 		///////////////////////
 
+		struct stConexion{
+			std::string ip;
+			int puerto;
+			bool conexionValida;
+		};
+
 		struct stPantalla{
 			int ancho;
 			int alto;
@@ -67,9 +73,12 @@ class ParserYaml{
 
 		// Estructura para guardar todos los datos parseados
 		stJuego juego;
-		bool archivoYaLeido;
+		stConexion conexion;
+		bool archivoJuegoYaLeido;
+		bool archivoConexionYaLeido;
 
 		// Funciones privadas para la carga de datos parseados
+		void cargaStConexion(YAML::Node& nodoRaiz, ParserYaml::stConexion& conexion);
 		void cargaStJuego(YAML::Node& nodoRaiz, ParserYaml::stJuego& juego);
 		void cargaStPantalla(const YAML::Node& nodo, stPantalla& pantalla);
 		void cargaStConfiguracion(const YAML::Node& nodo, ParserYaml::stConfiguracion& configuracion);
@@ -125,6 +134,7 @@ class ParserYaml{
 
 		static ParserYaml& getInstance(); // Aplico Singleton
 		ParserYaml::stJuego cargarConfiguracionDeJuego(void);
+		ParserYaml::stConexion cargarConfiguracionDeConexion(void);
 		ParserYaml::stEntidad buscarStEntidad(std::list<ParserYaml::stEntidad>& listaEntidades, std::string nombreEntidad);
 		ParserYaml::stProtagonista buscarStProtagonista(ParserYaml::stEscenario escenario,std::string nombreProtagonista);
 		
