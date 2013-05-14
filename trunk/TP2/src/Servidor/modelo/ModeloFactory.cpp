@@ -291,9 +291,10 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	int velocidad = juego.configuracion.velocidadPersonaje;
 
 	// Para que empiece en una posicion aleatoria sin conflictos
-	int min = 0;
-	int maxY = juego.escenario.tamanioY - 1;
-	int maxX = juego.escenario.tamanioX - 1;
+	srand(time(NULL));
+	int min = 2;
+	int maxY = juego.escenario.tamanioY - ZONA_VISIBLE/2;
+	int maxX = juego.escenario.tamanioX - ZONA_VISIBLE/2;
 	int outputX = min + (rand() % (int)(maxX - min + 1));		
 	int outputY = min + (rand() % (int)(maxY - min + 1));
 	Posicion pos;
