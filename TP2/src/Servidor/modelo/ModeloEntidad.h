@@ -192,7 +192,7 @@ class ModeloEntidad {
 
 		void defender();
 
-		void enviarMensaje(std::string remitente, std::string mensaje);
+		void enviarMensaje(ModeloEntidad* remitente, std::string mensaje);
 
 		void cambiarEstado();
 

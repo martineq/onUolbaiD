@@ -28,7 +28,7 @@ class ProxyModeloEntidad{
 			int accion;
 			std::string nombreJugador;
 			std::string actualizacionMapa;  // La idea es serializar toda la actulización de la matriz y mandarlo por acá. Lo pongo en un string porque el tamaño de la actualización es variable
-			std::string nombreRemitente;
+			int idRemitente;
 			std::string mensaje;
 		};
 

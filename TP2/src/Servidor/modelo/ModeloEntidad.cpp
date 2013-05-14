@@ -225,9 +225,9 @@ void ModeloEntidad::defender() {
 	this->_accion = DEFENDIENDO;
 }
 
-void ModeloEntidad::enviarMensaje(string remitente, string mensaje) {
+void ModeloEntidad::enviarMensaje(ModeloEntidad* remitente, string mensaje) {
 	ProxyModeloEntidad::stEntidad entidad = this->stEntidad();
-	entidad.nombreRemitente = remitente;
+	entidad.idRemitente = remitente->id();
 	entidad.mensaje = mensaje;
 	this->_proxyEntidad->enviarEntidad(entidad);
 }
