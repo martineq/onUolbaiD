@@ -102,6 +102,7 @@ bool VistaChat::enviarMensaje() {
 		return true;
 	ProxyControladorEvento::stEvento evento;
 	ProxyControladorEvento::cargarStEventoChat(evento, this->_remitente->id(), this->_destinatario->id(), this->_textoIngresado);
+	this->_textoIngresado.clear();
 	return this->_proxyControladorEvento->enviarEvento(evento);
 }
 
@@ -112,9 +113,10 @@ bool VistaChat::graficar(SDL_Surface* pantalla) {
 	if ((this->_fuente == NULL) || (this->_ventana == NULL))
 		return false;
 	
+	string nombreJugador = (this->_destinatario == NULL) ? "" : this->_destinatario->getNombreJugador() + ": ";
 	SDL_Rect rectanguloOrigen, rectanguloDestino;
 	SDL_Color colorTexto = { 0, 0, 0 };
-	SDL_Surface* textoIngresado = TTF_RenderText_Blended(this->_fuente, (this->_destinatario->getNombreJugador() + ": " + this->_textoIngresado).c_str(), colorTexto);
+	SDL_Surface* textoIngresado = TTF_RenderText_Blended(this->_fuente, (nombreJugador + this->_textoIngresado).c_str(), colorTexto);
 	int contadorMensajes = 0;
 	
 	// Muestra la ventana completa

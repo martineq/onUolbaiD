@@ -430,7 +430,7 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 	int idBuscado = entidad.id;
 	std::list<VistaEntidad*>::iterator iteradorEntidadEncontrada;
 	
-	if (entidad.nombreRemitente == "") {
+	if (entidad.nombreRemitente.compare("") == 0) {
 		// Primero miro si la entidad que busco es el jugador
 		if (jugador->id() == idBuscado) {
 			entidadEncontrada = jugador;
@@ -464,7 +464,8 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 		}
 	}
 	else {
-		this->vistaChat->agregarMensaje(entidad.nombreRemitente, entidad.mensaje);
+		if (entidad.id == vistaNivel.getJugador()->id())
+			this->vistaChat->agregarMensaje(entidad.nombreRemitente, entidad.mensaje);
 	}
 	return true;
 }
