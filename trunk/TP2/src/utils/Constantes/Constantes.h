@@ -55,6 +55,7 @@
 /**************************** YAML ***************************/
 
 #define YAML_RUTA_ARCHIVO_JUEGO "./config/juego.yaml"
+#define YAML_RUTA_ARCHIVO_CONEXION "./config/conexion.yaml"
 #define YAML_RUTA_DIRECTORIO_IMG "./img/"
 #define YAML_RUTA_DIRECTORIO_JUEGOS "./config/"
 

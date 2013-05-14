@@ -2,6 +2,11 @@
 
 ParserYaml::ParserYaml(){
 
+	// Inicialo this->conexion
+	this->conexion.conexionValida = false;
+	this->conexion.ip = std::string(YAML_STRING_VACIO);
+	this->conexion.puerto = YAML_ERROR_INT;
+
 	// Inicialo this->juego
 	this->juego.juegoValido = true;
 	this->juego.pantalla.alto = YAML_ERROR_INT;
@@ -12,7 +17,8 @@ ParserYaml::ParserYaml(){
 	this->juego.escenarios.clear();
 
 	// Indico que no se leyó el archivo YAML
-	this->archivoYaLeido = false;
+	this->archivoJuegoYaLeido = false;
+	this->archivoConexionYaLeido = false;
 
 }
 
@@ -25,9 +31,44 @@ ParserYaml::~ParserYaml(void){
 /// Carga de datos  ///
 ///////////////////////
 
+ParserYaml::stConexion ParserYaml::cargarConfiguracionDeConexion(void){
+
+	if( this->archivoConexionYaLeido == true ){
+		return this->conexion; // Para poder leer los datos varias veces
+	}
+
+	std::ifstream archivo(YAML_RUTA_ARCHIVO_CONEXION);	// Abro el archivo
+	Log::getInstance().log(1,__FILE__,__LINE__,"Configuración de conexión para el cliente iniciada");
+
+	if(archivo.good()==true){						// Si pude abrir el archivo yaml, empiezo a parsear
+		try{
+			YAML::Parser parser(archivo);				// Parser YAML
+			YAML::Node nodoRaiz;						// Creo un nodo raiz del documento Yaml
+			parser.GetNextDocument(nodoRaiz);			// Obtengo el nodo raiz
+			this->cargaStConexion(nodoRaiz,this->conexion);	// Comienzo con la carga del juego
+		}catch(YAML::Exception& e){
+			this->notificarErrorLectura(YAML_TIPO_STRING,__FILE__,__LINE__,e.what(),this->conexion.conexionValida);
+		}
+
+	}else{
+		// Si no pude abrir el archivo lo reporto
+		this->conexion.conexionValida = false;
+		Log::getInstance().log(1,__FILE__,__LINE__,(std::string)"Error al abrir el archivo YAML: "+YAML_RUTA_ARCHIVO_CONEXION);
+	}
+
+	if( this->conexion.conexionValida == true){
+		Log::getInstance().log(1,__FILE__,__LINE__,"Datos de conexión leidos");
+	}else{
+		Log::getInstance().log(1,__FILE__,__LINE__,"Error al obtener datos de conexión.");
+	}
+
+	this->archivoConexionYaLeido = true;
+	return this->conexion;
+}
+
 ParserYaml::stJuego ParserYaml::cargarConfiguracionDeJuego(void){
 
-	if( this->archivoYaLeido == true ){
+	if( this->archivoJuegoYaLeido == true ){
 		return this->juego; // Para poder leer los datos varias veces
 	}
 
@@ -59,7 +100,7 @@ ParserYaml::stJuego ParserYaml::cargarConfiguracionDeJuego(void){
 		this->juego = this->crearJuegoDefault();
 	}
 
-	this->archivoYaLeido = true;
+	this->archivoJuegoYaLeido = true;
 	return this->juego;
 }
 
@@ -793,3 +834,25 @@ ParserYaml::stJuego ParserYaml::crearJuegoDefault(void){
 	return juegoDefault;
 }
 
+void ParserYaml::cargaStConexion(YAML::Node& nodoRaiz, ParserYaml::stConexion& conexion){
+
+	// Itero por todos los nodos que tenga el documento, acá hago proceso necesario para obtener los datos
+	for(YAML::Iterator it=nodoRaiz.begin();it!=nodoRaiz.end();++it){
+		std::string clave;
+		clave = this->leerNodoYamlString(it.first());
+		const YAML::Node& nodo = it.second();
+
+		if ( clave.compare("ip") == 0 ){ conexion.ip = this->leerNodoYamlString(it.second());
+		}else if ( clave.compare("puerto") == 0 ){ conexion.puerto = this->leerNodoYamlInt(it.second());
+		}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
+
+	}
+
+	if( ( conexion.ip.compare(YAML_STRING_VACIO) == 0 ) ||  ( conexion.puerto == YAML_ERROR_INT ) ){
+		conexion.conexionValida = false;
+	}else{
+		conexion.conexionValida = true;
+	}
+
+	return void();
+}
