@@ -30,7 +30,8 @@ bool Cliente::iniciar(std::string mote,std::string personaje){
 
 void Cliente::loop(void){
 
-	bool quit = false;		
+	bool quit = false;
+	this->vistaJuego.cargarMatriz();
 	while (quit == false){
 		if( this->controladorJuego.loop(this->vistaJuego.getVistaNivel()) == false) quit = true;
 		if( this->vistaJuego.loop() == false) quit = true;

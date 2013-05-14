@@ -167,9 +167,13 @@ void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,
 	entidad.direccion = direccion;
 	entidad.esUltimoMovimiento = esUltimoMovimiento;
 	entidad.accion = accion;
-	entidad.nombreJugador = nombreJugador;
+	entidad.nombreJugador = nombreJugador;	
 	entidad.nombreRemitente = "";
 	entidad.mensaje = "";
+}
+
+void ProxyModeloEntidad::cargarMatriz(ProxyModeloEntidad::stEntidad& entidad,std::string matriz){
+	entidad.actualizacionMapa = matriz;
 }
 
 bool ProxyModeloEntidad::enviarMatriz(std::string matrix,int id){

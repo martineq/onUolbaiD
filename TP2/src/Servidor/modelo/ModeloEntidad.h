@@ -208,5 +208,7 @@ class ModeloEntidad {
 	
 		void setNombreJugador(std::string nombre);
 
+		void cargarMatriz(ProxyModeloEntidad::stEntidad& entidad);
+
 		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };

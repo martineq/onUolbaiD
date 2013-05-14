@@ -126,6 +126,7 @@ bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* 
 	ProxyModeloEntidad proxy;
 	proxy.setSocketServidor(pSocket);
 	if( proxy.enviarEntidadIndividual(entidad,entidad.id) == false ) return false;
+	if( proxy.enviarMatriz(entidad.actualizacionMapa,entidad.id) == false ) return false;
 
 	return true; // return false si hay error de sockets
 }
@@ -167,6 +168,7 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 
 			// Cargo la entidad
 			stEntidad = pEntidad->stEntidad();
+			pEntidad->cargarMatriz(stEntidad);
 
 			// Como se está conectando de vuelta, le reasigno al socket de cliente el ID que tenia antes (stEntidad.id), para poder reconocerlo en el loop de juego
 			pSocket->renombrarIdCliente(id,stEntidad.id);
@@ -316,7 +318,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 
 	// Obtengo los datos de la stEntidad para luego pasarsela al cliente
 	stEntidad = pJugador->stEntidad();
-
+	pJugador->cargarMatriz(stEntidad);
 	// Agrego la entidad al nivel
 	modeloNivel->agregarJugador(pJugador);
 

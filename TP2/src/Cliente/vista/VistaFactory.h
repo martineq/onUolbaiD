@@ -45,12 +45,13 @@ class VistaFactory{
 		bool crearElementosControlador(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket);
 		void crearControladorScroll(ControladorEvento* evento);		
 		void crearProxyControladorEvento(ControladorEvento* evento,SocketCliente* pSocket);
-		void vincularScroll(VistaNivel& vistaNivel,ControladorEvento* evento);
-
+		void vincularScroll(VistaNivel& vistaNivel,ControladorEvento* evento);		
+		std::string matriz;
 	public:
 		VistaFactory(void);
 		~VistaFactory(void);
 
 		bool crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino,std::string mote,std::string personaje);
 		void crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntidad::stEntidad& entidad);
+		std::string getMatriz();
 };
