@@ -266,7 +266,7 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 		if( pEntidad->id() != idMiJugador ){
 			// Cargo los datos
 			int accion = 0;
-			proxy.cargarStEntidad(entidad,pEntidad->id(),false,false,pEntidad->esJugador(),pEntidad->nombreEntidad(),pEntidad->pixelActual().x,pEntidad->pixelActual().y,pEntidad->posicionActual().x,pEntidad->posicionActual().y,pEntidad->pixelSiguiente().x,pEntidad->pixelSiguiente().y,pEntidad->posicionActual().x,pEntidad->posicionActual().y,pEntidad->direccion(),pEntidad->esUltimoMovimiento(),accion,pEntidad->nombreJugador());
+			proxy.cargarStEntidad(entidad,pEntidad->id(),false,pEntidad->estaCongelado(),pEntidad->esJugador(),pEntidad->nombreEntidad(),pEntidad->pixelActual().x,pEntidad->pixelActual().y,pEntidad->posicionActual().x,pEntidad->posicionActual().y,pEntidad->pixelSiguiente().x,pEntidad->pixelSiguiente().y,pEntidad->posicionActual().x,pEntidad->posicionActual().y,pEntidad->direccion(),pEntidad->esUltimoMovimiento(),accion,pEntidad->nombreJugador());
 
 			// Los envio a través del proxy
 			if( proxy.enviarEntidadIndividual(entidad,idMiJugador) == false ) return false;
