@@ -42,10 +42,10 @@ bool ConexionServidor::aceptarCliente(ConexionCliente* cliente){
 	return true;
 }
 
-bool ConexionServidor::selectLectura(void){
+int ConexionServidor::selectLectura(void){
 	return this->socketApp.selectLectura(3000000); // 1000000 uSeg = 1000 mSeg = 1 seg					
 }
 
-bool ConexionServidor::selectEscritura(void){
+int ConexionServidor::selectEscritura(void){
 	return this->socketApp.selectEscritura(3000000); // 1000000 uSeg = 1000 mSeg = 1 seg					
 }

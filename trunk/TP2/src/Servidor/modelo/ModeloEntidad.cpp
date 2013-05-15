@@ -222,7 +222,7 @@ void ModeloEntidad::atacar() {
 
 bool ModeloEntidad::chequearConexion() {
 	ProxyModeloEntidad::stEntidad entidad = this->stEntidad();
-	entidad.id = -1;
+	entidad.id = ID_FALSO;
 	return this->_proxyEntidad->enviarEntidad(entidad);
 }
 

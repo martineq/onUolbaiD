@@ -128,8 +128,8 @@ bool VistaFactory::recibirArchivos(SocketCliente* pSocket){
 	if( this->recibirListaDeArchivos(DIRECTORIO_CONFIG,pSocket) == false) return false;
 
 	double tiempoFinal = Temporizador::getInstance().obtenerTics();
-	double tiempoTranscurrido =  ( tiempoFinal - tiempoInicial ) / 1000;
-	std::cout << "Tiempo para recepcion de archivos: " << tiempoTranscurrido << " segundos. " << std::endl;
+	double periodoTranscurrido =  ( tiempoFinal - tiempoInicial ) / 1000;
+	std::cout << "Tiempo de recepcion de archivos: " << periodoTranscurrido << " segundos. " << std::endl;
 
 	return true;
 }

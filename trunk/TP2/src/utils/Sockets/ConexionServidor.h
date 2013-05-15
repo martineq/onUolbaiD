@@ -22,7 +22,7 @@ class ConexionServidor{
 		bool enlazarConexion(int puerto);
 		bool escuchar(void);
 		bool aceptarCliente(ConexionCliente* cliente);
-		bool selectLectura(void);
-		bool selectEscritura(void);
+		int selectLectura(void);
+		int selectEscritura(void);
 
 };

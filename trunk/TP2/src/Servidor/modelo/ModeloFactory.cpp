@@ -393,8 +393,8 @@ bool ModeloFactory::enviarArchivosDeConfiguracion(SocketServidor* pServidor,int 
 	}
 
 	double tiempoFinal = Temporizador::getInstance().obtenerTics();
-	double tiempoTranscurrido =  ( tiempoFinal - tiempoInicial ) / 1000;
-	std::cout << "Tiempo para envio de archivos: " << tiempoTranscurrido << " segundos. " << std::endl;
+	double periodoTranscurrido =  ( tiempoFinal - tiempoInicial ) / 1000;
+	std::cout << "Tiempo de envio de archivos: " << periodoTranscurrido << " segundos. " << std::endl;
 
 	return exito;
 }

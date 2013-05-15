@@ -103,12 +103,12 @@ void HiloConexion::loopEntradaMasivo(stParametrosRun* parametrosEntrada){
 	unsigned int cantidad;		// Tamaño del mensaje
 
 	// Usa el selectLectura() para no quedar bloqueado por el recibir(). Con esto solo hago recibir() sii el cliente quiere enviarme algo
-	bool selectOk = pSocket->selectLectura(DELAY_HILO_CONEXION); 
-	while( (this->estaActivo() == true) && (selectOk == false) ){
-			selectOk = pSocket->selectLectura(DELAY_HILO_CONEXION);
-	} // Este while termina si (this->estaActivo() == false) o si (selectOk == true)
+	int resultadoSelect = pSocket->selectLectura(DELAY_HILO_CONEXION); 
+	while( (this->estaActivo() == true) && (resultadoSelect == SELECT_TIMEOUT) ){
+			resultadoSelect = pSocket->selectLectura(DELAY_HILO_CONEXION);
+	} // Este while termina si (this->estaActivo() == false) o si (resultadoSelect != SELECT_TIMEOUT)
 
-	if ( (this->estaActivo() == true) && (selectOk == true) ){
+	if ( (this->estaActivo() == true) ){
 
 		bool exito = pSocket->recibir(&cadena,cantidad); // El recibir() hace un new			
 		if (exito==true){
@@ -161,15 +161,16 @@ void HiloConexion::loopSalidaMasivo(stParametrosRun* parametrosSalida){
 		pMutexColaSalida->unlock(__FILE__,__LINE__);
 
 		// Usa el selectEscritura() para no quedar bloqueado por el enviar(). Con esto solo hago enviar() sii el cliente está dispuesto a recibir lo que le mando
-		bool selectOk = pSocket->selectEscritura(DELAY_HILO_CONEXION); // 500000 uSeg = 500 mSeg = 0,5 seg
-
+		int resultadoSelect = pSocket->selectEscritura(DELAY_HILO_CONEXION); // 500000 uSeg = 500 mSeg = 0,5 seg
+		
 		// Lo retengo hasta que haya alguna actividad
-		while( (this->estaActivo() == true) && (selectOk == false) ){
-				selectOk = pSocket->selectEscritura(DELAY_HILO_CONEXION);
-		} // Este while termina si (this->estaActivo() == false) o si (selectOk == true)
+		while( (this->estaActivo() == true) && (resultadoSelect == SELECT_TIMEOUT) ){
+				resultadoSelect = pSocket->selectEscritura(DELAY_HILO_CONEXION);
+		} // Este while termina si (this->estaActivo() == false) o si (resultadoSelect != SELECT_TIMEOUT)
 
-		if ( (this->estaActivo() == true) && (selectOk == true) ){
-
+		if ( (this->estaActivo() == true) ){
+			
+			// Si (resultadoSelect == SELECT_ERROR) el enviar() tambien va a mandar error
 			if ( pSocket->enviar(str.c_str(),(unsigned int)str.size())==true){  // NO envio el caracter nulo, ya que al recibir será agregado de nuevo
 							
 				pMutexColaSalida->lockEscritura(__FILE__,__LINE__);
@@ -184,6 +185,7 @@ void HiloConexion::loopSalidaMasivo(stParametrosRun* parametrosSalida){
 	}else{
 		// Caso: La cola está vacia. Se podría poner un delay pero se vería un
 		//       retraso en el caso donde en la proxima vuelta la cola tenga datos
+		this->delay(1); // Delay de un milisegundo
 	}
 
 	return void();

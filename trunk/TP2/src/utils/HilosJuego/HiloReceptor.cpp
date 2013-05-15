@@ -43,6 +43,7 @@ void HiloReceptor::rutina(HiloConfiguracion::stParametrosConfiguracion* parametr
 		// Agrego un Cliente nuevo, y por ende un nuevo HiloConfiguracion. Inmediatamente después, inicio ese hilo
 		idCliente = pServidor->aceptarCliente();
 		if ( idCliente != ACEPTAR_TIMEOUT && idCliente != ACEPTAR_ERROR ){
+			std::cout << "Cliente aceptado."  << std::endl;
 			pHiloConfig = new HiloConfiguracion();
 			parametrosEntrada->idCliente = idCliente;
 			pHiloConfig->correrConfiguracion(*parametrosEntrada);

@@ -60,7 +60,6 @@ bool SocketServidor::procesarClientesMasivosConError(void){
 	bool huboActualizacion = false;
 	std::list<long> masivosConError;
 	masivosConError.clear();
-	//unsigned int tamanio = 0; // Si uso swap esta variable no la necesito
 
 	// Cargo en una lista los clientes con error
 	this->mutexMasivo.lockEscritura(__FILE__,__LINE__);
@@ -187,7 +186,9 @@ int SocketServidor::aceptarCliente(){
 	ConexionCliente* cliente = new ConexionCliente;
 
 	// Usa el select() para no quedar bloqueado por el accept(). Con esto solo hago accept sii hay un cliente que quiere conectarse
-	if( this->miConexion.selectLectura() == false ) return ACEPTAR_TIMEOUT;
+	int resultadoSelect = this->miConexion.selectLectura();
+	if( resultadoSelect == SELECT_TIMEOUT ) return ACEPTAR_TIMEOUT;
+	if( resultadoSelect == SELECT_ERROR ) return ACEPTAR_ERROR;
 
 	bool aceptoOk = this->miConexion.aceptarCliente(cliente);
 
@@ -369,9 +370,9 @@ bool SocketServidor::enviarMasivoChar(const char *pBuffer,unsigned int tamanio){
 				if(this->eliminarCliente(id) == false){
 						std::cout<<"Error Fatal. No se puede eliminar Cliente. \n";
 						Log::getInstance().log(3,__FILE__,__LINE__,"Error Fatal. No se puede eliminar Cliente. " );
-				}else{
-					this->insertarClienteConError(id);
 				}
+				this->insertarClienteConError(id);
+
 				todosOk = false;
 			}
 		}

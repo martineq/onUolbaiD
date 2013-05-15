@@ -421,6 +421,8 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 		Log::getInstance().log(1,__FILE__,__LINE__,"Error al recibir datos desde el Servidor");	
 		return false;
 	}
+
+	if( entidad.id == ID_FALSO ) return true;	// Si id == ID_FALSO quiere decir que este es un paquete de testeo de conexión, no hay que hacer nada
 	
 	// Preparo la búsqueda de la entidad
 	VistaEntidad* jugador = vistaNivel.getJugador();
@@ -493,3 +495,4 @@ SDL_Surface** VistaLoop::getPunteroPantalla(){
 void VistaLoop::asignarChat(VistaChat* vistaChat) {
 	this->vistaChat = vistaChat;
 }
+
