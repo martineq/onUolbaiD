@@ -3,126 +3,101 @@ pantalla:
     ancho: 800 #pixels
     alto: 600 #pixels
 configuracion:
-    vel_personaje : 3
+    vel_personaje : 200
     margen_scroll : 100
 entidades:
     - nombre: tierra
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
       imagen:
         - [tierra.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
-      delay: 5
     - nombre: hielo
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
       imagen:
         - [hielo.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
-      delay: 5
-    - nombre: pasto
-      imagen:
-        - [pasto.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
-      delay: 5
     - nombre: agua
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
       imagen:
         - [agua.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
-      delay: 5
     - nombre: cemento
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
       imagen:
         - [cemento.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
-      delay: 5
     - nombre: arena
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
       imagen:
         - [arena.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
-      delay: 5
-    - nombre: casaMolino
+    - nombre: granja_llamas
       imagen:
         - [FireFarm01.png,FireFarm02.png,FireFarm03.png,FireFarm04.png,FireFarm05.png,FireFarm06.png,FireFarm07.png,FireFarm08.png,FireFarm09.png,FireFarm10.png,FireFarm11.png,FireFarm12.png,FireFarm13.png,FireFarm14.png,FireFarm15.png]
       ancho_base: 2 #tiles
       alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
+      pixel_ref_x: 110 #pixels
+      pixel_ref_y: 20 #pixels
       delay: 5
-    - nombre: casaMolino
+    - nombre: casa_molino
       imagen:
         - [CasaB01.png,CasaB02.png,CasaB03.png,CasaB04.png,CasaB05.png,CasaB06.png,CasaB07.png,CasaB08.png,CasaB09.png,CasaB10.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
-      delay: 5
+      ancho_base: 3 #tiles
+      alto_base: 3 #tiles
+      pixel_ref_x: 150 #pixels
+      pixel_ref_y: 20 #pixels
+      delay: 0
     - nombre: castillo
       imagen:
         - [castillo01.png,castillo02.png,castillo03.png,castillo04.png,castillo05.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
+      ancho_base: 4 #tiles
+      alto_base: 4 #tiles
+      pixel_ref_x: 210 #pixels
+      pixel_ref_y: 55 #pixels
       delay: 5
-    - nombre: casaSelva
+    - nombre: casa_selva
       imagen:
         - [CasaC01.png,CasaC02.png,CasaC03.png,CasaC04.png,CasaC04.png,CasaC06.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
+      ancho_base: 3 #tiles
+      alto_base: 3 #tiles
+      pixel_ref_x: 150 #pixels
+      pixel_ref_y: 20 #pixels
       delay: 5
     - nombre: rancho
       imagen:
         - [CasaA01.png,CasaA02.png,CasaA03.png,CasaA04.png]
       ancho_base: 2 #tiles
       alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
-      delay: 5
-    - nombre: miniMapa
-      imagen:
-        - [MiniMapa01.png,MiniMapa02.png,MiniMapa03.png,MiniMapa04.png,MiniMapa05.png]
-      ancho_base: 2 #tiles
-      alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
-      fps: 10
-      delay: 5
+      pixel_ref_x: 100 #pixels
+      pixel_ref_y: 10 #pixels
+      delay: 1
     - nombre: molino
       imagen:
         - [molino01.png,molino02.png,molino03.png,molino04.png]
       ancho_base: 2 #tiles
       alto_base: 2 #tiles
-      pixel_ref_x: 30 #pixels
-      pixel_ref_y: 40 #pixels
+      pixel_ref_x: 100 #pixels
+      pixel_ref_y: 20 #pixels
+      delay: 0
+    - nombre: mini_mapa
+      imagen:
+        - [MiniMapa01.png,MiniMapa02.png,MiniMapa03.png,MiniMapa04.png,MiniMapa05.png]
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
+      pixel_ref_x: 100 #pixels
+      pixel_ref_y: 10 #pixels
       fps: 10
-      delay: 5
+      delay: 3
     - nombre: vlad
       imagen:
         - [Vlad_N01.png,Vlad_N02.png,Vlad_N03.png,Vlad_N04.png,Vlad_N05.png,Vlad_N06.png,Vlad_N07.png,Vlad_N08.png,Vlad_N09.png]
@@ -252,12 +227,12 @@ escenarios:
       size_x: 200 #tiles
       size_y: 200 #tiles
       entidadesDef:
-        - {x: 10, y: 40, entidad: casaMolino}
+        - {x: 10, y: 40, entidad: casa_molino}
         - {x: 15, y: 40, entidad: castillo}
-        - {x: 20, y: 40, entidad: casaSelva}
+        - {x: 20, y: 40, entidad: casa_selva}
         - {x: 25, y: 40, entidad: molino}
         - {x: 30, y: 40, entidad: rancho}
-        - {x: 35, y: 40, entidad: miniMapa}
+        - {x: 35, y: 40, entidad: mini_mapa}
         - {x: 40, y: 40, entidad: guerrero}
         - {x: 45, y: 40, entidad: violeta}
       protagonista:
@@ -277,10 +252,10 @@ escenarios:
       size_x: 100 #tiles
       size_y: 100 #tiles
       entidadesDef:
-        - {x: 10, y: 10, entidad: casaMolino}
-        - {x: 15, y: 40, entidad: casaMolino}
-        - {x: 20, y: 32, entidad: casaMolino}
-        - {x: 30, y: 75, entidad: casaMolino}
+        - {x: 10, y: 10, entidad: casa_molino}
+        - {x: 15, y: 40, entidad: casa_molino}
+        - {x: 20, y: 32, entidad: casa_molino}
+        - {x: 30, y: 75, entidad: casa_molino}
         - {x: 35, y: 66, entidad: rancho}
         - {x: 70, y: 16, entidad: molino}
         - {x: 90, y: 49, entidad: molino}
@@ -308,14 +283,14 @@ escenarios:
       size_x: 50 #tiles
       size_y: 50 #tiles
       entidadesDef:
-        - {x: 0, y: 40, entidad: casaMolino}
-        - {x: 5, y: 10, entidad: casaMolino}
-        - {x: 10, y: 75, entidad: casaMolino}
-        - {x: 10, y: 95, entidad: casaMolino}
+        - {x: 0, y: 40, entidad: casa_molino}
+        - {x: 5, y: 10, entidad: casa_molino}
+        - {x: 10, y: 75, entidad: casa_molino}
+        - {x: 10, y: 95, entidad: casa_molino}
         - {x: 15, y: 81, entidad: castillo}
-        - {x: 20, y: 69, entidad: casaSelva}
-        - {x: 20, y: 61, entidad: casaSelva}
-        - {x: 20, y: 55, entidad: casaSelva}
+        - {x: 20, y: 69, entidad: casa_selva}
+        - {x: 20, y: 61, entidad: casa_selva}
+        - {x: 20, y: 55, entidad: casa_selva}
         - {x: 25, y: 49, entidad: molino}
         - {x: 30, y: 42, entidad: rancho}
         - {x: 25, y: 37, entidad: rancho}
@@ -354,21 +329,21 @@ escenarios:
       size_x: 25 #tiles
       size_y: 25 #tiles
       entidadesDef:
-        - {x: 0, y: 40, entidad: casaMolino}
-        - {x: 5, y: 10, entidad: casaMolino}
+        - {x: 0, y: 40, entidad: casa_molino}
+        - {x: 5, y: 10, entidad: casa_molino}
         - {x: 10, y: 75, entidad: castillo}
         - {x: 10, y: 95, entidad: castillo}
         - {x: 15, y: 81, entidad: castillo}
-        - {x: 20, y: 69, entidad: casaSelva}
-        - {x: 20, y: 61, entidad: casaSelva}
-        - {x: 20, y: 55, entidad: casaSelva}
+        - {x: 20, y: 69, entidad: casa_selva}
+        - {x: 20, y: 61, entidad: casa_selva}
+        - {x: 20, y: 55, entidad: casa_selva}
         - {x: 25, y: 49, entidad: molino}
         - {x: 30, y: 42, entidad: molino}
         - {x: 25, y: 37, entidad: molino}
-        - {x: 25, y: 32, entidad: miniMapa}
-        - {x: 30, y: 25, entidad: miniMapa}
-        - {x: 44, y: 20, entidad: miniMapa}
-        - {x: 44, y: 17, entidad: miniMapa}
+        - {x: 25, y: 32, entidad: mini_mapa}
+        - {x: 30, y: 25, entidad: mini_mapa}
+        - {x: 44, y: 20, entidad: mini_mapa}
+        - {x: 44, y: 17, entidad: mini_mapa}
         - {x: 52, y: 75, entidad: rancho}
         - {x: 59, y: 95, entidad: rancho}
         - {x: 59, y: 81, entidad: rancho}

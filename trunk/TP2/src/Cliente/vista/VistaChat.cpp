@@ -2,9 +2,9 @@
 
 #define MARGEN 20
 #define ALTO_TEXTO_MENSAJES 100
-#define ANCHO_TEXTO_MENSAJES 190
+#define ANCHO_TEXTO_MENSAJES 753
 #define ALTO_TEXTO_INGRESADO 14
-#define ANCHO_TEXTO_INGRESADO 190
+#define ANCHO_TEXTO_INGRESADO 753
 #define ALTO_VENTANA 184
 #define ANCHO_VENTANA 237
 
@@ -61,8 +61,9 @@ void VistaChat::agregarCaracter(char caracter) {
 }
 
 void VistaChat::agregarMensaje(VistaEntidad* remitente, string mensaje) {
-	// Asigno como destinatario al remitente para poder contestarle
-	this->asignarDestinatario(remitente);
+	// Si no estoy escribiendo nada asigno como destinatario al remitente para poder contestarle
+	if (this->_textoIngresado.empty())
+		this->asignarDestinatario(remitente);
 	this->agregarMensaje((remitente == NULL) ? "" : remitente->getNombreJugador(), mensaje);
 }
 
