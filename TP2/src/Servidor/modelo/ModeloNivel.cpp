@@ -148,6 +148,12 @@ void ModeloNivel::destruirListaJugadores(){
 	return void();
 }
 
+bool ModeloNivel::chequearConexion() {
+	if (this->listaJugadores.empty())
+		return false;
+	return this->listaJugadores.front()->chequearConexion();
+}
+
 void ModeloNivel::destruirListaEntidades(){
 	// Destruyo las entidades instanciadas
 	for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){

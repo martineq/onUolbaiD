@@ -220,6 +220,12 @@ void ModeloEntidad::atacar() {
 	this->_accion = ATACANDO;
 }
 
+bool ModeloEntidad::chequearConexion() {
+	ProxyModeloEntidad::stEntidad entidad = this->stEntidad();
+	entidad.id = -1;
+	return this->_proxyEntidad->enviarEntidad(entidad);
+}
+
 void ModeloEntidad::defender() {
 	this->_modeloMovimiento->detener();
 	this->_accion = DEFENDIENDO;

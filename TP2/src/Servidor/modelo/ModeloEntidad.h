@@ -190,6 +190,8 @@ class ModeloEntidad {
 
 		void atacar();
 
+		bool chequearConexion();
+
 		void defender();
 
 		void enviarMensaje(ModeloEntidad* remitente, std::string mensaje);
