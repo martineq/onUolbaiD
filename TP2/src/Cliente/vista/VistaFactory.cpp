@@ -201,6 +201,15 @@ bool VistaFactory::recibirProtagonista(SocketCliente* pSocket,std::string nombre
 
 	this->matriz = matriz;
 
+	if( nombreUsuario.compare(entidad.nombreJugador) != 0 ){
+		std::cout << "El nombre de usuario selecionado ya existe, su usuario ha sido cambiado a: " << entidad.nombreJugador << std::endl;
+		Log::getInstance().log(1,__FILE__,__LINE__,"El nombre de usuario selecionado ya existe, su usuario ha sido cambiado a: ",entidad.nombreJugador);
+	}
+	
+	if( nombrePersonaje.compare(entidad.nombreEntidad) != 0 ){
+		std::cout << "El personaje selecionado no se encuantra disponible, su personaje ha sido cambiado a: " << entidad.nombreEntidad << std::endl;
+		Log::getInstance().log(1,__FILE__,__LINE__,"El personaje selecionado no se encuantra disponible, su personaje ha sido cambiado a: ",entidad.nombreEntidad);
+	}
 
 	return true;
 }
