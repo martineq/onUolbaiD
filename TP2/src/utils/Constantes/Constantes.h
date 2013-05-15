@@ -114,6 +114,10 @@
 #define ACEPTAR_ERROR -1			// Código de error al hacer el accept del servidor
 #define PUERTO_SERVIDOR 444			// Puerto que usará el Servidor para hacer el bind
 #define CLIENTE_NO_ENCONTRADO -1	// Código de identificación que indica que no se encontró un cliente
+#define SELECT_OK 0					// Código de respuesta OK para el select
+#define SELECT_ERROR -1				// Código de error para el select
+#define SELECT_TIMEOUT -2			// Código de time out para el select
+#define PERIODO_VERIFICACION_ERROR_DESCONEXION 5000	//  Valor en milisegundos. En cada periodo de tiempo se envia un paquete de prueba para comprobar el estado de la red (por si deconecta el cable)
 
 
 /*****************************  Delays *****************************************/
@@ -123,6 +127,7 @@
 #define ALTO_TILE 50
 #define ANCHO_TILE 100
 #define VELOCIDAD_SCROLL 5
+#define ID_FALSO -1
 
 /***************************** Fog *************************/
 #define ZONA_VISIBLE 5

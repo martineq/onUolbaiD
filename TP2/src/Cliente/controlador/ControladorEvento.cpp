@@ -83,6 +83,13 @@ void ControladorEvento::notificarAlProxy(){
 	this->pProxyEvento->enviarEvento(evento);
 }
 
+bool ControladorEvento::chequearConexion(){
+	ProxyControladorEvento::stEvento evento;
+	evento.id = ID_FALSO;
+	evento.idReceptorChat = ID_FALSO;
+	return this->pProxyEvento->enviarEvento(evento);
+}
+
 void ControladorEvento::setControladorScroll(ControladorScroll* controladorScroll, double anchoNivelEnPixel, double altoNivelEnPixel) {
 	this->controladorScroll = controladorScroll;
 	this->altoNivelEnPixel = altoNivelEnPixel;

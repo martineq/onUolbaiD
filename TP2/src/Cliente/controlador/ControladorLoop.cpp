@@ -2,9 +2,14 @@
 
 ControladorLoop::ControladorLoop() {
 	this->vistaChat = NULL;
+	this->tiempoUltimoChequeo = 0;
 }
 
 void ControladorLoop::loop(VistaNivel* nivel) {
+	
+	// Envia datos al servidor cada cierto tiempo, para ver si no se desconectó
+	this->chequearConexion();
+	
 	this->detector.detectar();
 	this->evento.limpiar();
 
@@ -80,4 +85,17 @@ ControladorLoop::~ControladorLoop() {
 
 void ControladorLoop::asignarChat(VistaChat* vistaChat) {
 	this->vistaChat = vistaChat;
+}
+
+void ControladorLoop::chequearConexion(){
+	
+	unsigned long periodoTranscurrido = (Temporizador::getInstance().obtenerTics()) - (this->tiempoUltimoChequeo);
+
+	// Tiempo en milisegundos
+	if( periodoTranscurrido > PERIODO_VERIFICACION_ERROR_DESCONEXION ){ 
+		this->evento.chequearConexion();
+		this->tiempoUltimoChequeo = Temporizador::getInstance().obtenerTics();
+	}
+	
+	return void();
 }

@@ -132,11 +132,11 @@ void SocketApp::setSocket(SOCKET socket){
 int SocketApp::miRecv(char *buf,int longitud,int flags){
 
 	int valSel = this->selectLectura(0);
-	if ( valSel > 0 ){
+	if ( valSel == SELECT_OK ){
 		 return recv(this->miSocket,buf,longitud,flags);
-	}else{
-		std::cerr <<"Error de socket: Timeout mientras se recibia."<<std::endl;
-		Log::getInstance().log(3,__FILE__,__LINE__, "Error de socket: Timeout mientras se recibia.");
+	}else{ // No voy a recibir timeout porque es select(0)
+		std::cerr <<"Error de socket mientras se recibia."<<std::endl;
+		Log::getInstance().log(3,__FILE__,__LINE__, "Error de socket mientras se recibia.");
 		return valSel;
 	}
 	return valSel;
@@ -145,11 +145,11 @@ int SocketApp::miRecv(char *buf,int longitud,int flags){
 int SocketApp::miSend(const char *buf,int longitud,int flags){
 
 	int valSel = this->selectEscritura(0);
-	if ( valSel > 0 ){
+	if ( valSel == SELECT_OK ){ 
 		return send(this->miSocket,buf,longitud,flags);
-	}else{
-		std::cerr <<"Error de socket Timeout mientras se enviaba."<<std::endl;
-		Log::getInstance().log(3,__FILE__,__LINE__, "Error de socket Timeout mientras se enviaba.");
+	}else{ // No voy a recibir timeout porque es select(0)
+		std::cerr <<"Error de socket mientras se enviaba."<<std::endl;
+		Log::getInstance().log(3,__FILE__,__LINE__, "Error de socket mientras se enviaba.");
 		return false;
 	}
 }
@@ -306,7 +306,10 @@ bool SocketApp::aceptarCliente(SOCKET& socket){
 	return true;
 }
 
-bool SocketApp::selectEscritura(int microsegundos){
+// Devuelve SELECT_OK en caso de estar listo para la lectura
+// Devuelve SELECT_TIMEOUT en caso de superar el tiempo de espera y no haber notificado nada
+// Devuelve SELECT_ERROR en caso de error de sockets
+int SocketApp::selectEscritura(int microsegundos){
 
 	struct timeval tv; // Variable que puede usarse como último parámetro de la función select() para setear el tiempo de espera
 	int valorSelect = 0;
@@ -322,18 +325,21 @@ bool SocketApp::selectEscritura(int microsegundos){
 		valorSelect = select(NULL,NULL,&fds,NULL,NULL); // Con el último NULL espera infinito, bloqueandose hasta que venga algo. Sino defino el tiempo con &tv.
 	}
 
-	if ( valorSelect > 0 ){
-		return true;
-	}else{
-		return false;
-	}
+	if ( valorSelect > 0 ){	return SELECT_OK;
+	}else if ( valorSelect == 0 ){ return SELECT_TIMEOUT;
+	}else if ( valorSelect == SOCKET_ERROR ){ return SELECT_ERROR;
+	}else{ return SELECT_ERROR; }
 
 }
 
-bool SocketApp::selectLectura(int microsegundos){
+// Devuelve SELECT_OK en caso de estar listo para la lectura
+// Devuelve SELECT_TIMEOUT en caso de superar el tiempo de espera y no haber notificado nada
+// Devuelve SELECT_ERROR en caso de error de sockets
+int SocketApp::selectLectura(int microsegundos){
 
 	struct timeval tv; // Variable que puede usarse como último parámetro de la función select() para setear el tiempo de espera
 	int valorSelect = 0;
+//	int valorSelectError = 0;
 	fd_set fds;
 	FD_ZERO(&fds);
 	FD_SET(this->miSocket,&fds);
@@ -341,16 +347,20 @@ bool SocketApp::selectLectura(int microsegundos){
 	tv.tv_usec = microsegundos; // Seteo los microsegundos de espera
 
 	if ( microsegundos > 0 ){
+		//valorSelectError = select(NULL,NULL,NULL,&fds,&tv);
 		valorSelect = select(NULL,&fds,NULL,NULL,&tv);
 	}else{
 		valorSelect = select(NULL,&fds,NULL,NULL,NULL); // Con el último NULL espera infinito, bloqueandose hasta que venga algo. Sino defino el tiempo con &tv.
 	}
 
-	if ( valorSelect > 0 ){
-		return true;
-	}else{
-		return false;
-	}
+	//if( valorSelectError > 0 ){
+	//	return SELECT_ERROR;
+	//}
+
+	if ( valorSelect > 0 ){	return SELECT_OK;
+	}else if ( valorSelect == 0 ){ return SELECT_TIMEOUT;
+	}else if ( valorSelect == SOCKET_ERROR ){ return SELECT_ERROR;
+	}else{ return SELECT_ERROR; }
 
 }
 

@@ -36,8 +36,8 @@ class SocketApp{
 
 		// Funciones varias
 		void setSocket(SOCKET socket);
-		bool selectEscritura(int microsegundos);
-		bool selectLectura(int microsegundos);
+		int selectEscritura(int microsegundos);
+		int selectLectura(int microsegundos);
 
 		// Solo para Servidor
 		bool enlazarConexion(int puerto);

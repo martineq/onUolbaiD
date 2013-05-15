@@ -44,5 +44,6 @@ class ControladorEvento{
 		void limpiar();
 		ControladorScroll* getControladorScroll(void);		
 		ProxyControladorEvento* getProxyEvento(void);
+		bool chequearConexion();
 };
 
