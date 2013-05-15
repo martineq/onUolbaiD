@@ -223,16 +223,16 @@ entidades:
       pixel_ref_y: 10 #pixels
       fps: 10
 escenarios:
-    - nombre: parquesarmiento
+    - nombre: Parque Sarmiento
       size_x: 200 #tiles
       size_y: 200 #tiles
       entidadesDef:
-        - {x: 10, y: 40, entidad: casa_molino}
+        - {x: 10, y: 40, entidad: casaMolino}
         - {x: 15, y: 40, entidad: castillo}
-        - {x: 20, y: 40, entidad: casa_selva}
+        - {x: 20, y: 40, entidad: casaSelva}
         - {x: 25, y: 40, entidad: molino}
         - {x: 30, y: 40, entidad: rancho}
-        - {x: 35, y: 40, entidad: mini_mapa}
+        - {x: 35, y: 40, entidad: miniMapa}
         - {x: 40, y: 40, entidad: guerrero}
         - {x: 45, y: 40, entidad: violeta}
       protagonista:
@@ -248,24 +248,82 @@ escenarios:
         - entidad: bjorn
           x: 3
           y: 0
-    - nombre: rosedal
+    - nombre: El Rosedal
       size_x: 100 #tiles
       size_y: 100 #tiles
       entidadesDef:
-        - {x: 10, y: 10, entidad: casa_molino}
-        - {x: 15, y: 40, entidad: casa_molino}
-        - {x: 20, y: 32, entidad: casa_molino}
-        - {x: 30, y: 75, entidad: casa_molino}
+        - {x: 10, y: 10, entidad: casaMolino}
+        - {x: 10, y: 11, entidad: arena}
+        - {x: 11, y: 10, entidad: arena}
+        - {x: 11, y: 11, entidad: arena}
+        - {x: 10, y: 10, entidad: arena}
+        - {x: 15, y: 40, entidad: casaMolino}
+        - {x: 15, y: 40, entidad: cemento}
+        - {x: 16, y: 10, entidad: cemento}
+        - {x: 15, y: 41, entidad: cemento}
+        - {x: 16, y: 41, entidad: cemento}
+        - {x: 20, y: 32, entidad: casaMolino}
+        - {x: 20, y: 32, entidad: tierra}
+        - {x: 21, y: 32, entidad: tierra}
+        - {x: 20, y: 33, entidad: tierra}
+        - {x: 21, y: 33, entidad: tierra}
+        - {x: 30, y: 75, entidad: casaMolino}
+        - {x: 30, y: 75, entidad: pasto}
+        - {x: 31, y: 75, entidad: pasto}
+        - {x: 30, y: 76, entidad: pasto}
+        - {x: 31, y: 76, entidad: pasto}
         - {x: 35, y: 66, entidad: rancho}
         - {x: 70, y: 16, entidad: molino}
         - {x: 90, y: 49, entidad: molino}
         - {x: 59, y: 80, entidad: molino}
         - {x: 19, y: 17, entidad: hielo}
-        - {x: 22, y: 29, entidad: arena}
-        - {x: 44, y: 41, entidad: tierra}
+        - {x: 20, y: 17, entidad: hielo}
+        - {x: 21, y: 17, entidad: hielo}
+        - {x: 19, y: 18, entidad: hielo}
+        - {x: 20, y: 18, entidad: hielo}
+        - {x: 21, y: 18, entidad: hielo}
+        - {x: 19, y: 21, entidad: hielo}
+        - {x: 20, y: 21, entidad: hielo}
+        - {x: 21, y: 21, entidad: hielo}
+        - {x: 19, y: 22, entidad: hielo}
+        - {x: 20, y: 22, entidad: hielo}
+        - {x: 21, y: 22, entidad: hielo}
+        - {x: 19, y: 25, entidad: hielo}
+        - {x: 20, y: 25, entidad: hielo}
+        - {x: 21, y: 25, entidad: hielo}
+        - {x: 19, y: 26, entidad: hielo}
+        - {x: 20, y: 26, entidad: hielo}
+        - {x: 21, y: 26, entidad: hielo}
         - {x: 57, y: 60, entidad: agua}
+        - {x: 57, y: 61, entidad: agua}
+        - {x: 57, y: 62, entidad: agua}
+        - {x: 58, y: 60, entidad: agua}
+        - {x: 58, y: 61, entidad: agua}
+        - {x: 58, y: 62, entidad: agua}
+        - {x: 61, y: 60, entidad: agua}
+        - {x: 61, y: 61, entidad: agua}
+        - {x: 61, y: 62, entidad: agua}
+        - {x: 62, y: 60, entidad: agua}
+        - {x: 62, y: 61, entidad: agua}
+        - {x: 62, y: 62, entidad: agua}
+        - {x: 65, y: 60, entidad: agua}
+        - {x: 65, y: 61, entidad: agua}
+        - {x: 65, y: 62, entidad: agua}
+        - {x: 66, y: 60, entidad: agua}
+        - {x: 66, y: 61, entidad: agua}
+        - {x: 66, y: 62, entidad: agua}
         - {x: 92, y: 77, entidad: tierra}
-        - {x: 81, y: 88, entidad: arena}
+        - {x: 92, y: 78, entidad: tierra}
+        - {x: 92, y: 79, entidad: tierra}
+        - {x: 92, y: 80, entidad: tierra}
+        - {x: 92, y: 81, entidad: tierra}
+        - {x: 92, y: 82, entidad: tierra}
+        - {x: 92, y: 83, entidad: arena}
+        - {x: 92, y: 84, entidad: arena}
+        - {x: 92, y: 85, entidad: arena}
+        - {x: 92, y: 86, entidad: arena}
+        - {x: 92, y: 87, entidad: arena}
+        - {x: 92, y: 88, entidad: arena}
       protagonista:
         - entidad: vlad
           x: 3
@@ -283,35 +341,36 @@ escenarios:
       size_x: 50 #tiles
       size_y: 50 #tiles
       entidadesDef:
-        - {x: 0, y: 40, entidad: casa_molino}
-        - {x: 5, y: 10, entidad: casa_molino}
-        - {x: 10, y: 75, entidad: casa_molino}
-        - {x: 10, y: 95, entidad: casa_molino}
-        - {x: 15, y: 81, entidad: castillo}
-        - {x: 20, y: 69, entidad: casa_selva}
-        - {x: 20, y: 61, entidad: casa_selva}
-        - {x: 20, y: 55, entidad: casa_selva}
-        - {x: 25, y: 49, entidad: molino}
-        - {x: 30, y: 42, entidad: rancho}
-        - {x: 25, y: 37, entidad: rancho}
+        - {x: 0, y: 40, entidad: casaMolino}
+        - {x: 5, y: 40, entidad: casaMolino}
+        - {x: 10, y: 40, entidad: casaMolino}
+        - {x: 15, y: 40, entidad: casaMolino}
+        - {x: 40, y: 0, entidad: castillo}
+        - {x: 40, y: 4, entidad: casaSelva}
+        - {x: 40, y: 8, entidad: casaSelva}
+        - {x: 40, y: 12, entidad: casaSelva}
+        - {x: 40, y: 16, entidad: casaSelva}
+        - {x: 25, y: 25, entidad: molino}
+        - {x: 29, y: 25, entidad: rancho}
+        - {x: 33, y: 25, entidad: rancho}
         - {x: 25, y: 32, entidad: rancho}
-        - {x: 30, y: 25, entidad: rancho}
-        - {x: 44, y: 20, entidad: rancho}
+        - {x: 25, y: 36, entidad: rancho}
+        - {x: 25, y: 41, entidad: rancho}
         - {x: 44, y: 17, entidad: rancho}
-        - {x: 52, y: 75, entidad: rancho}
-        - {x: 59, y: 95, entidad: rancho}
-        - {x: 59, y: 81, entidad: rancho}
-        - {x: 60, y: 69, entidad: arena}        
-        - {x: 60, y: 61, entidad: arena}
-        - {x: 67, y: 55, entidad: arena}
-        - {x: 67, y: 49, entidad: arena}
-        - {x: 67, y: 42, entidad: arena}
-        - {x: 71, y: 37, entidad: tierra}
-        - {x: 71, y: 32, entidad: tierra}
-        - {x: 79, y: 25, entidad: tierra}
-        - {x: 79, y: 20, entidad: hielo}
-        - {x: 89, y: 17, entidad: hielo}
-        - {x: 95, y: 10, entidad: hielo}
+        - {x: 5, y: 22, entidad: rancho}
+        - {x: 5, y: 27, entidad: rancho}
+        - {x: 9, y: 27, entidad: rancho}
+        - {x: 8, y: 28, entidad: arena}        
+        - {x: 8, y: 29, entidad: arena}
+        - {x: 8, y: 30, entidad: arena}
+        - {x: 8, y: 31, entidad: arena}
+        - {x: 8, y: 32, entidad: arena}
+        - {x: 20, y: 40, entidad: tierra}
+        - {x: 21, y: 41, entidad: tierra}
+        - {x: 22, y: 42, entidad: tierra}
+        - {x: 23, y: 43, entidad: hielo}
+        - {x: 24, y: 44, entidad: hielo}
+        - {x: 25, y: 45, entidad: hielo}
       protagonista:
         - entidad: vlad
           x: 3
@@ -329,35 +388,21 @@ escenarios:
       size_x: 25 #tiles
       size_y: 25 #tiles
       entidadesDef:
-        - {x: 0, y: 40, entidad: casa_molino}
-        - {x: 5, y: 10, entidad: casa_molino}
-        - {x: 10, y: 75, entidad: castillo}
-        - {x: 10, y: 95, entidad: castillo}
-        - {x: 15, y: 81, entidad: castillo}
-        - {x: 20, y: 69, entidad: casa_selva}
-        - {x: 20, y: 61, entidad: casa_selva}
-        - {x: 20, y: 55, entidad: casa_selva}
-        - {x: 25, y: 49, entidad: molino}
-        - {x: 30, y: 42, entidad: molino}
-        - {x: 25, y: 37, entidad: molino}
-        - {x: 25, y: 32, entidad: mini_mapa}
-        - {x: 30, y: 25, entidad: mini_mapa}
-        - {x: 44, y: 20, entidad: mini_mapa}
-        - {x: 44, y: 17, entidad: mini_mapa}
-        - {x: 52, y: 75, entidad: rancho}
-        - {x: 59, y: 95, entidad: rancho}
-        - {x: 59, y: 81, entidad: rancho}
-        - {x: 60, y: 69, entidad: arena}        
-        - {x: 60, y: 61, entidad: arena}
-        - {x: 67, y: 55, entidad: arena}
-        - {x: 67, y: 49, entidad: hielo}
-        - {x: 67, y: 42, entidad: hielo}
-        - {x: 71, y: 37, entidad: tierra}
-        - {x: 71, y: 32, entidad: cemento}
-        - {x: 79, y: 25, entidad: cemento}
-        - {x: 79, y: 20, entidad: cemento}
-        - {x: 89, y: 17, entidad: cemento}
-        - {x: 95, y: 10, entidad: cemento}
+        - {x: 0, y: 0, entidad: casaMolino}
+        - {x: 5, y: 0, entidad: casaMolino}
+        - {x: 10, y: 0, entidad: castillo}
+        - {x: 10, y: 5, entidad: castillo}
+        - {x: 10, y: 15, entidad: castillo}
+        - {x: 15, y: 20, entidad: castillo}
+        - {x: 20, y: 12, entidad: casaSelva}
+        - {x: 20, y: 15, entidad: casaSelva}
+        - {x: 20, y: 20, entidad: casaSelva}
+        - {x: 5, y: 15, entidad: molino}
+        - {x: 5, y: 20, entidad: molino}
+        - {x: 15, y: 15, entidad: miniMapa}
+        - {x: 20, y: 0, entidad: rancho}
+        - {x: 15, y: 0, entidad: rancho}
+        - {x: 0, y: 20, entidad: rancho}        
       protagonista:
         - entidad: vlad
           x: 3
@@ -401,10 +446,7 @@ escenarios:
         - {x: 11, y: 0, entidad: agua}
         - {x: 11, y: 1, entidad: agua}
         - {x: 11, y: 2, entidad: agua}
-        - {x: 12, y: 0, entidad: agua}
-        - {x: 12, y: 1, entidad: agua}
-        - {x: 12, y: 2, entidad: agua}
-        
+                
         - {x: 0, y: 5, entidad: agua}
         - {x: 0, y: 6, entidad: agua}
         - {x: 0, y: 7, entidad: agua}
@@ -430,10 +472,7 @@ escenarios:
         - {x: 10, y: 7, entidad: agua}
         - {x: 11, y: 5, entidad: agua}
         - {x: 11, y: 6, entidad: agua}
-        - {x: 11, y: 7, entidad: agua}
-        - {x: 12, y: 5, entidad: agua}
-        - {x: 12, y: 6, entidad: agua}
-        - {x: 12, y: 7, entidad: agua}
+        - {x: 11, y: 7, entidad: agua}        
         
         - {x: 0, y: 10, entidad: agua}
         - {x: 0, y: 11, entidad: agua}
@@ -461,9 +500,6 @@ escenarios:
         - {x: 11, y: 10, entidad: agua}
         - {x: 11, y: 11, entidad: agua}
         - {x: 11, y: 12, entidad: agua}
-        - {x: 12, y: 10, entidad: agua}
-        - {x: 12, y: 11, entidad: agua}
-        - {x: 12, y: 12, entidad: agua}
       protagonista:
         - entidad: vlad
           x: 3
