@@ -128,13 +128,28 @@ bool ModeloNivel::actualizar() {
 
 bool ModeloNivel::posicionOcupada(Posicion pos){
 	for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++){
+		
 		Posicion posicionDelJugador = (*jugador)->posicionActual();
-		if ( (posicionDelJugador.x == pos.x) && (posicionDelJugador.y == pos.y) ) return true;
+		int x1 = posicionDelJugador.x;
+		int x2 = posicionDelJugador.x + (*jugador)->ancho() - 1;
+		int y1 = posicionDelJugador.y;
+		int y2 = posicionDelJugador.y + (*jugador)->alto() - 1;
+
+		if ( (pos.x >= x1) && (pos.x <= x2) && (pos.y >= y1) && (pos.y <= y2) ) 
+			return true;		
 	}
 
 	for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
+		
 		Posicion posicionDelJugador = (*entidad)->posicionActual();
-		if ( (posicionDelJugador.x == pos.x) && (posicionDelJugador.y == pos.y) ) return true;
+		
+		int x1 = posicionDelJugador.x;
+		int x2 = posicionDelJugador.x + (*entidad)->ancho() - 1;
+		int y1 = posicionDelJugador.y;
+		int y2 = posicionDelJugador.y + (*entidad)->alto() - 1;
+
+		if ( (pos.x >= x1) && (pos.x <= x2) && (pos.y >= y1) && (pos.y <= y2) ) 
+			return true;
 	}
 
 	return false;
