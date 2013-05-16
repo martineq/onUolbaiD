@@ -15,7 +15,6 @@
 #include "../../Cliente/vista/VistaAnimaciones.h"
 #include "../../Cliente/vista/VistaEntidad.h"
 #include "../SDLgfx/SDL_gfxPrimitives.h"
-#include "../Sockets/MenuSocket.h"
 #include "../../Cliente/vista/VistaChat.h"
 #include "../../Cliente/controlador/DetectorEventos.h"
 #include "../LectorDirectorios/LectorDirectorios.h"

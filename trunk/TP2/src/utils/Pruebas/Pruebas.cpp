@@ -163,109 +163,13 @@ void Pruebas::PruebaHilos() {
 
 void Pruebas::PruebaAnimacion() {
 	ImageLoader::getInstance().iniciarSDL();
-//	double PANTALLA_ANCHO = 800;
-//	double PANTALLA_ALTO = 600;
-//	double TAMANIO_SPRITE = 10;
 	double ALTO_SPRITE = 70;
 	double ANCHO_SPRITE = 50;
 	SDL_Surface* pantalla = ImageLoader::getInstance().levantarPantalla(PANTALLA_ANCHO,PANTALLA_ALTO);
 	SDL_Surface* temp, *pasto;
 	list<string> lista;
 	list<list<string>> listaAnimaciones;
-	/*lista.push_back("./img/SORA_S1.bmp");
-	lista.push_back("./img/SORA_S2.bmp");
-	lista.push_back("./img/SORA_S3.bmp");
-	lista.push_back("./img/SORA_S4.bmp");
-	lista.push_back("./img/SORA_S5.bmp");
-	lista.push_back("./img/SORA_S6.bmp");
-	lista.push_back("./img/SORA_S7.bmp");
-	lista.push_back("./img/SORA_S8.bmp");
-	lista.push_back("./img/SORA_S9.bmp");*/
-
-	//listaAnimaciones.push_back(lista);
-/*	lista.push_back("./img/SORA_N1.bmp");
-	lista.push_back("./img/SORA_N2.bmp");
-	lista.push_back("./img/SORA_N3.bmp");
-	lista.push_back("./img/SORA_N4.bmp");
-	lista.push_back("./img/SORA_N5.bmp");
-	lista.push_back("./img/SORA_N6.bmp");
-	lista.push_back("./img/SORA_N7.bmp");
-	lista.push_back("./img/SORA_N8.bmp");
-*/
 	list<string> listaN;
-	//list<string> listaNE;
-	//list<string> listaE;
-	//list<string> listaSE;
-	//list<string> listaS;
-	//list<string> listaSO;
-	//list<string> listaO;
-	//list<string> listaNO;
-	/*listaE.push_back("./img/SORA_E1.png");
-	listaE.push_back("./img/SORA_E2.png");
-	listaE.push_back("./img/SORA_E3.png");
-	listaE.push_back("./img/SORA_E4.png");
-	listaE.push_back("./img/SORA_E5.png");
-	listaE.push_back("./img/SORA_E6.png");
-	listaE.push_back("./img/SORA_E7.png");
-	listaE.push_back("./img/SORA_E8.png");
-	listaAnimaciones.push_back(listaE);*/
-
-	/*listaN.push_back("./img/IMG00000.png");
-	listaN.push_back("./img/IMG00001.png");
-	listaN.push_back("./img/IMG00002.png");
-	listaN.push_back("./img/IMG00003.png");
-	listaN.push_back("./img/IMG00004.png");
-	listaN.push_back("./img/IMG00005.png");
-	listaN.push_back("./img/IMG00006.png");
-	listaN.push_back("./img/IMG00007.png");
-	listaN.push_back("./img/IMG00008.png");
-	listaN.push_back("./img/IMG00009.png");
-	listaN.push_back("./img/IMG00010.png");
-	listaN.push_back("./img/IMG00011.png");
-	listaN.push_back("./img/IMG00012.png");
-	listaN.push_back("./img/IMG00013.png");
-	listaN.push_back("./img/IMG00014.png");
-	listaN.push_back("./img/IMG00015.png");
-	listaN.push_back("./img/IMG00016.png");
-	listaN.push_back("./img/IMG00017.png");
-	listaN.push_back("./img/IMG00018.png");
-	listaN.push_back("./img/IMG00019.png");
-	listaN.push_back("./img/IMG00020.png");
-	listaN.push_back("./img/IMG00021.png");
-	listaN.push_back("./img/IMG00022.png");
-	listaN.push_back("./img/IMG00023.png");
-	listaN.push_back("./img/IMG00024.png");
-	listaN.push_back("./img/IMG00025.png");
-	listaN.push_back("./img/IMG00026.png");
-	listaN.push_back("./img/IMG00027.png");
-	listaN.push_back("./img/IMG00028.png");
-	listaN.push_back("./img/IMG00029.png");
-	listaN.push_back("./img/IMG00030.png");
-	listaN.push_back("./img/IMG00031.png");
-	listaN.push_back("./img/IMG00032.png");
-	listaN.push_back("./img/IMG00033.png");
-	listaN.push_back("./img/IMG00034.png");
-	listaN.push_back("./img/IMG00035.png");
-	listaN.push_back("./img/IMG00036.png");
-	listaN.push_back("./img/IMG00037.png");
-	listaN.push_back("./img/IMG00038.png");
-	listaN.push_back("./img/IMG00039.png");*/
-
-	//listaN.push_back("./img/CasaA01.png");
-	//listaN.push_back("./img/CasaA02.png");
-	//listaN.push_back("./img/CasaA03.png");
-	//listaN.push_back("./img/CasaA04.png");
-
-	//listaN.push_back("./img/MiniMapa01.png");
-	//listaN.push_back("./img/MiniMapa02.png");
-	//listaN.push_back("./img/MiniMapa03.png");
-	//listaN.push_back("./img/MiniMapa04.png");
-	//listaN.push_back("./img/MiniMapa05.png");
-
-	//listaN.push_back("./img/molino01.png");
-	//listaN.push_back("./img/molino02.png");
-	//listaN.push_back("./img/molino03.png");
-	//listaN.push_back("./img/molino04.png");
 
 	listaN.push_back("./img/castillo01.png");
 	listaN.push_back("./img/castillo02.png");
@@ -273,69 +177,16 @@ void Pruebas::PruebaAnimacion() {
 	listaN.push_back("./img/castillo04.png");
 	listaN.push_back("./img/castillo05.png");
 
-	/*listaN.push_back("./img/castillo01.png");
-	listaN.push_back("./img/castillo02.png");
-	listaN.push_back("./img/castillo03.png");
-	listaN.push_back("./img/castillo04.png");
-	listaN.push_back("./img/castillo05.png");*/
-
-	//listaN.push_back("./img/testxyh_N1.png");
-	//listaN.push_back("./img/testxyh_N2.png");
-	//listaN.push_back("./img/testxyh_N3.png");
-	//listaN.push_back("./img/testxyh_N4.png");
-	//listaNE.push_back("./img/testxyh_NE1.png");
-	//listaNE.push_back("./img/testxyh_NE2.png");
-	//listaNE.push_back("./img/testxyh_NE3.png");
-	//listaNE.push_back("./img/testxyh_NE4.png");
-	//listaE.push_back("./img/testxyh_E1.png");
-	//listaE.push_back("./img/testxyh_E2.png");
-	//listaE.push_back("./img/testxyh_E3.png");
-	//listaE.push_back("./img/testxyh_E4.png");
-	//listaSE.push_back("./img/testxyh_SE1.png");
-	//listaSE.push_back("./img/testxyh_SE2.png");
-	//listaSE.push_back("./img/testxyh_SE3.png");
-	//listaSE.push_back("./img/testxyh_SE4.png");
-	//listaS.push_back("./img/testxyh_S1.png");
-	//listaS.push_back("./img/testxyh_S2.png");
-	//listaS.push_back("./img/testxyh_S3.png");
-	//listaS.push_back("./img/testxyh_S4.png");
-	//listaSO.push_back("./img/testxyh_SO1.png");
-	//listaSO.push_back("./img/testxyh_SO2.png");
-	//listaSO.push_back("./img/testxyh_SO3.png");
-	//listaSO.push_back("./img/testxyh_SO4.png");
-	//listaO.push_back("./img/testxyh_O1.png");
-	//listaO.push_back("./img/testxyh_O2.png");
-	//listaO.push_back("./img/testxyh_O3.png");
-	//listaO.push_back("./img/testxyh_O4.png");
-	//listaNO.push_back("./img/testxyh_NO1.png");
-	//listaNO.push_back("./img/testxyh_NO2.png");
-	//listaNO.push_back("./img/testxyh_NO3.png");
-	//listaNO.push_back("./img/testxyh_NO4.png");
 	listaAnimaciones.push_back(listaN);
-	//listaAnimaciones.push_back(listaNE);
-	//listaAnimaciones.push_back(listaE);
-	//listaAnimaciones.push_back(listaSE);
-	//listaAnimaciones.push_back(listaS);
-	//listaAnimaciones.push_back(listaSO);
-	//listaAnimaciones.push_back(listaO);
-	//listaAnimaciones.push_back(listaNO);
 
-	VistaEntidad* vEntidad = new VistaEntidad(0,0,263,260,0,0,15,1000,listaAnimaciones,false,0,0,0,"SORA"/*Este es el ID*/,false,0,"");
+	VistaEntidad* vEntidad = new VistaEntidad(0,0,263,260,0,0,15,1000,listaAnimaciones,false,0,0,0,"SORA",false,0,"");
 	vEntidad->setPantalla(pantalla);
-	//VistaAnimaciones* animaciones = new VistaAnimaciones();
-	//animaciones->agregar(lista.front(),lista,200,50,70,15);
-	//animaciones->agregar(listaE.front(),listaE,200,50,70,15);
-	//VistaAnimacion* animacion = new VistaAnimacion(lista,1000,ANCHO_SPRITE,ALTO_SPRITE,true,10);
-	//VistaAnimacion* animacion = animaciones->get(lista.front());
-	//animaciones->setPantalla(pantalla);
-	//animacion->graficar(0,0);
 	SDL_Rect rcPasto;
 
 	// Estructura para los eventos generales (teclado, mouse, etc.)
 	SDL_Event event;
 
 	Uint8 *estadoTecla;
-//	int colorkey
 	int finJuego;
 
 
@@ -416,12 +267,10 @@ void Pruebas::PruebaAnimacion() {
 
 	// Dibujo el sprite
 
-	//vEntidad->graficar();
 	// Refresco la pantalla
 	SDL_UpdateRect(pantalla, 0, 0, 0, 0);
 	}
 
-//	delete animacion;
 	// Limpio la superficie
 	SDL_FreeSurface(pasto);
 
@@ -435,34 +284,6 @@ void Pruebas::dibujarTriangulos(SDL_Surface* pantalla, int alto,int ancho,
 	int infAIni,int infAFin,int infBIni,int infBFin,int izqAIni,int izqAFin,int izqBIni,int izqBFin,
 	int rojo, int verde, int azul,int alfa){
 
-	// Dibujo un triangulo sólido en la pantalla
-	// Draw a filled triangle with vertices (x1, y1), (x2, y2), (x3, y3) and RGBA color (r, g, b, a)
-	//int filledTrigonRGBA(SDL_Surface* dst,Sint16 x1, Sint16 y1,Sint16 x2, Sint16 y2,Sint16 x3, Sint16 y3, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-
-	
-
-	//int alto = PANTALLA_ALTO;
-	//int ancho = PANTALLA_ANCHO;
-
-	//int supAIni = 0;
-	//int supAFin = ancho/2;
-	//int supBIni = 0;//ancho/2;
-	//int supBFin = 0;//ancho;
-	//int derAIni = 0;
-	//int derAFin = 0;//alto/2;
-	//int derBIni = 0;//alto/2;
-	//int derBFin = 0;//alto;
-	//int infAIni = 0;
-	//int infAFin = ancho/2;
-	//int infBIni = 0;//ancho/2;
-	//int infBFin = 0;//ancho;
-	//int izqAIni = 0;
-	//int izqAFin = alto/2;
-	//int izqBIni = alto/2;
-	//int izqBFin = alto;
-	//
-	//int rojo=0/*25*/, verde=0/*25*/, azul=0/*112*/, alfa=255;
-	//
 	if( (supBIni != supBFin) && (derAIni != derAFin) ){
 		filledTrigonRGBA(pantalla,supBIni,derAIni,supBFin,derAIni,supBFin,derAFin, rojo, verde, azul, alfa);
 	}
@@ -479,12 +300,6 @@ void Pruebas::dibujarTriangulos(SDL_Surface* pantalla, int alto,int ancho,
 		filledTrigonRGBA(pantalla,supAIni,izqAIni,supAFin,izqAIni,supAIni,izqAFin,rojo, verde, azul, alfa);
 	}
 
-}
-
-void Pruebas::PruebaSockets() {
-	MenuSocket ms;
-	ms.prueba();
-	return void();
 }
 
 void Pruebas::PruebaServidorChat() {

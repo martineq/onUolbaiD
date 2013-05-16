@@ -131,8 +131,6 @@ void ParserYaml::cargaStPantalla(const YAML::Node& nodo, stPantalla& pantalla){
 		if ( clave.compare("alto") == 0 ){ pantalla.alto = this->leerNodoYamlInt(it.second());
 		}else if ( clave.compare("ancho") == 0 ){ pantalla.ancho = this->leerNodoYamlInt(it.second());
 		}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
-
-		//Log::getInstance().log(3,__FILE__,__LINE__,"Clave <"+clave+"> Leída.");
 	}
 
 	return void();
@@ -146,8 +144,6 @@ void ParserYaml::cargaStConfiguracion(const YAML::Node& nodo, ParserYaml::stConf
 		if ( clave.compare("vel_personaje") == 0 ){ configuracion.velocidadPersonaje = this->leerNodoYamlInt(it.second());
 		}else if ( clave.compare("margen_scroll") == 0 ){ configuracion.margenScroll = this->leerNodoYamlInt(it.second());
 		}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
-
-		//Log::getInstance().log(3,__FILE__,__LINE__,"Clave <"+clave+"> Leída.");
 	}
 
 	return void();
@@ -179,8 +175,6 @@ void ParserYaml::cargaStEntidad(const YAML::Node& nodo, ParserYaml::stEntidad& e
 		}else if ( clave.compare("fps") == 0 ){ entidad.fps = this->leerNodoYamlInt(it.second());
 		}else if ( clave.compare("delay") == 0 ){ entidad.delay = this->leerNodoYamlInt(it.second());
 		}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}	
-
-		//Log::getInstance().log(3,__FILE__,__LINE__,"Clave <"+clave+"> Leída.");
 	}
 
 	return void();
@@ -250,8 +244,6 @@ void ParserYaml::cargaStEscenario(const YAML::Node& nodo, ParserYaml::stEscenari
 		}else if ( clave.compare("entidadesDef") == 0 ){ this->cargaListaEntidadesDefinidas(it.second(),escenario.entidadesDefinidas) ;
 		}else if ( clave.compare("protagonista") == 0 ){ this->cargaListaProtagonistas(it.second(),escenario.protagonistas);
 		}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
-
-		//Log::getInstance().log(3,__FILE__,__LINE__,"Clave <"+clave+"> Leída.");
 	}
 
 	return void();
@@ -276,8 +268,6 @@ void ParserYaml::cargaStEntidadDefinida(const YAML::Node& nodo, ParserYaml::stEn
 		}else if ( clave.compare("x") == 0 ){ entidadDefinida.x = this->leerNodoYamlInt(it.second());
 		}else if ( clave.compare("y") == 0 ){ entidadDefinida.y = this->leerNodoYamlInt(it.second());
 		}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}	
-
-		//Log::getInstance().log(3,__FILE__,__LINE__,"Clave <"+clave+"> Leída.");
 	}
 
 	return void();
@@ -296,8 +286,6 @@ void ParserYaml::cargaListaProtagonistas(const YAML::Node& nodo, std::list <Pars
 			}else if ( clave.compare("x") == 0 ){ protagonista.x = this->leerNodoYamlInt(it.second());
 			}else if ( clave.compare("y") == 0 ){ protagonista.y = this->leerNodoYamlInt(it.second());
 			}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
-
-			//Log::getInstance().log(3,__FILE__,__LINE__,"Clave <"+clave+"> Leída.");
 		}
 
 		// Agrego el protagonista a la lista
@@ -613,7 +601,6 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 
 		// Agrego la entidad definida con errores
 		if( protagonistaOk == false){
-			//Log::getInstance().log(1,__FILE__,__LINE__,"Entidad <"+(*it).entidad+"> inválida.");
 			tipoProtagonistaABorrar.push_back(it); 
 		}
 
@@ -632,17 +619,7 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de personajes del escenario "+ nombreEscenario +" se encuentra vacía. Se agregará uno por defecto.");
 		return true;
 	}else{	// Si no se encuentra vacío
-		
-		// Comentado para que en el TP2 reciba a todos los protagonistas, sin borrar a ninguno
-		//int tamanioListaProtagonistas = protagonistas.size();	
-		//if( tamanioListaProtagonistas > 1 ){ // Si tiene mas de un solo protagonista, saco a los que sobran
-		//	for(unsigned int i = 0; i < (tamanioListaProtagonistas-1); i++){
-		//		protagonistas.pop_back();
-		//	}
-		//	Log::getInstance().log(1,__FILE__,__LINE__,"En el escenario <"+ nombreEscenario +"> existe mas de un protagonista válido. Se elige como protagonista a la entidad: <"+ protagonistas.front().entidad +">.");
-		//
-		//}
-
+			// No hago nada, ya no hay restricciones
 		return true;
 	}
 

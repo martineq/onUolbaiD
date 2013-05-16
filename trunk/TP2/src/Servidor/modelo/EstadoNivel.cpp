@@ -59,14 +59,6 @@ void EstadoNivel::visitar(int x, int y) {
 	this->_posicion.x = x;
 	this->_posicion.y = y;
 
-	//TODO: BORRAR!
-	/*for (int j = 0; j < this->_ancho; j++) {
-		for (int i = 0; i < this->_ancho; i++) {
-			cout << (int)this->_nivel[(this->_ancho * j) + i];
-		}
-		cout << endl;
-	}
-	cout << "-----------------------------" << endl;*/
 }
 
 char EstadoNivel::visibilidad(int x, int y) {

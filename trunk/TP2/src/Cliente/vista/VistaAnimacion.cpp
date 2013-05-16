@@ -46,7 +46,7 @@ bool VistaAnimacion::graficar(int index,double x,double y){
 	this->x = x;
 	this->y = y;
 	if (this->superficies.size() > index){
-		//ok = this->superficies.at(index)->graficar(x,y,2);
+		// TODO: Borrar todo el código que no se usa mas de esta clase //ok = this->superficies.at(index)->graficar(x,y,2);
 	}
 	return ok;
 }

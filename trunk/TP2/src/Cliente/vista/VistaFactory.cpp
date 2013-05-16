@@ -34,7 +34,6 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 
 	// Recibo datos desde el Servidor
 	if( this->recibirEscenario(juegoYaml.escenarios,pSocket) == false ) return false;
-	//	this->menuSeleccionUsuarioPersonaje(mote,personaje);
 	if( this->recibirProtagonista(pSocket,mote,personaje) == false ) return false;
 
 	char** mapa = new char* [juegoElegido.escenario.tamanioY];
@@ -42,6 +41,7 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 		mapa[i] = new char [juegoElegido.escenario.tamanioX];
 	}
 
+// TODO: ¿El new mapa de aca arriba se usa para algo? ¿Lo comentado de acá abajo se puede borrar?
 
 /*	for (int i = 0; i < this->juegoElegido.escenario.tamanioY; i++){
 		for (int j = 0; j < this->juegoElegido.escenario.tamanioX; j++){
@@ -78,23 +78,6 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 }
 
 bool VistaFactory::conectarSocket(SocketCliente* pSocket){
-
-	//// Tomo el puerto
-	//std::string ip;
-	//int puerto;
-	//std::cout << "Ingrese el puerto donde se encuentra el servidor (Enter para 444)" << std::endl;
-	//getline(std::cin,ip);
-	//if( ip.empty() == true ) ip.assign("444");
-	//std::cout << "Puerto ingresado: "<< ip <<" "<< std::endl;
-	//std::stringstream str(ip);
-	//str >> puerto;	// Lo paso a int
-
-	//// Tomo el ip
-	//std::cout << "Ingrese el host al cual desea conectarse (Enter para \"localhost\")" << std::endl;
-	//entradaTexto.clear();
-	//getline(std::cin,entradaTexto);
-	//if (entradaTexto.empty()==true) entradaTexto.assign("localhost");
-	//std::cout << "Ingreso: |"<<entradaTexto.c_str() <<"| "<< std::endl;
 
 	ParserYaml::stConexion conexion;
 	conexion = ParserYaml::getInstance().cargarConfiguracionDeConexion();
@@ -214,34 +197,6 @@ bool VistaFactory::recibirProtagonista(SocketCliente* pSocket,std::string nombre
 	return true;
 }
 
-// Puedo usar esto si lo necesito. Creo no va a hacer falta
-void VistaFactory::menuSeleccionUsuarioPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje){
-
-	// El cliente elije su nombre
-	std::cout << "Elija el nombre de usuario: " << std::endl;
-	getline (std::cin,nombreUsuario);
-
-	// El cliente elije su personaje
-	std::list<ParserYaml::stProtagonista> listaProtagonistas = this->juegoElegido.escenario.protagonistas;
-	std::cout << "Seleccion de personaje: " << std::endl;
-	bool yaEligio = false;
-
-	while( yaEligio == false){
-		for (std::list<ParserYaml::stProtagonista>::iterator it=listaProtagonistas.begin() ; (it != listaProtagonistas.end()) && (yaEligio == false) ; it++ ){
-			std::string opc;
-			std::cout << "Elije el personaje: "<< (*it).entidad << " ? (s) para confirmar, otra tecla para rechazar" << std::endl;
-			getline (std::cin,opc);
-			if( opc.compare("s") == 0 || opc.compare("S") == 0 ){
-				std::cout << "Se eligio el personaje: "<< (*it).entidad << std::endl;
-				nombrePersonaje = (*it).entidad;
-				yaEligio = true;
-			}
-		}
-	}
-
-	return void();
-}
-
 // Instancia a todos los jugadores que no son controlados por este cliente
 bool VistaFactory::recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* pSocket){
 
@@ -266,7 +221,6 @@ bool VistaFactory::recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* p
 bool VistaFactory::crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vistaNivel,SocketCliente* pSocket, SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino){
 
 	// Inicio y seteo de SDL
-	//vistaLoop.setPantalla(pPantallaSDL);
 	(*pPantallaDestino) = pPantallaSDL;
 
 	// Seteo medidas de pantalla
@@ -276,7 +230,6 @@ bool VistaFactory::crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vi
 	// Seteo el ProxyModeloEntidad
 	ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
 	pProxyEntidad->setSocketCliente(pSocket);
-	//vistaLoop.SetProxyModeloEntidad(pProxyEntidad);
 	(*pProxyDestino) = pProxyEntidad;
 
 	// Creo al protagonista y a las entidades (no creo a otros jugadores)
@@ -295,11 +248,7 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	double x = (double)this->juegoElegido.entidadJugador.posicionSiguienteX;
 	double y = (double)this->juegoElegido.entidadJugador.posicionSiguienteY;
 	int id = this->juegoElegido.entidadJugador.id;
-	// TODO: Faltan actualizar estos valores:
-	//this->juegoElegido.entidadJugador.actualizacionMapa;
 	int direccion = this->juegoElegido.entidadJugador.direccion;
-	//this->juegoElegido.entidadJugador.esUltimoMovimiento;
-	//this->juegoElegido.entidadJugador.entidadCongelada;  <<< En este caso es == false
 
 	// Valores tomados desde la entidad
 	double alto = (double)entidadProtagonista.altoBase;
@@ -333,8 +282,6 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	int id = entidad.id;
 	double x = (double)entidad.posicionSiguienteX;
 	double y = (double)entidad.posicionSiguienteY;	
-	//entidad.direccion				// <<< TODO: Para el primer seteo ¿hace falta? Si hace falta, implementarlo.
-	//entidad.esUltimoMovimiento	// <<< Para el primer seteo ¿hace falta? Si hace falta, implementarlo.
 
 	// Valores tomados desde la entidad
 	double alto = (double)entidadJugador.altoBase;
@@ -351,7 +298,6 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
 	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,entidad.entidadCongelada,entidad.direccion,entidad.nombreJugador);
-	//vistaNivel.agregarEntidad(pJugador);	
 	vistaNivel.agregarOtroJugador(pJugador);
 	return void();
 }

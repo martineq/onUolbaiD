@@ -16,7 +16,7 @@ Log::Log(){
 	if( LOG_ESCRITURA == LOG_ON){
 		this->archLog = NULL;
 		this->archLog = new std::ofstream();
-		this->archLog->open(LOG_RUTA /*, ios::app*/); //abro el archivo en modo escritura, y si no exite lo crea y lo abre
+		this->archLog->open(LOG_RUTA);			// Abro el archivo en modo escritura, y si no exite lo crea y lo abre
 		
 		 if (!this->archLog){ //si no pudo abrirlo
 			std::cerr << "No se puede abrir archivo de Log("<<LOG_RUTA<<")." << std::endl;

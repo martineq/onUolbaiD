@@ -49,8 +49,6 @@ bool ProxyControladorEvento::recibirEvento(ProxyControladorEvento::stEvento& eve
 }
 
 void ProxyControladorEvento::serializar(Serializadora& s,ProxyControladorEvento::stEvento& evento){
-	//s.addBool(evento.errorEnSocket);
-	
 	s.addInt(evento.id);
 	s.addInt(evento.mouseX);
 	s.addInt(evento.mouseY);
@@ -64,7 +62,6 @@ void ProxyControladorEvento::serializar(Serializadora& s,ProxyControladorEvento:
 
 void ProxyControladorEvento::hidratar(Serializadora& s,ProxyControladorEvento::stEvento& evento){
 	evento.errorEnSocket = false; // Si se llamó a hidratar es porque no hubo error en el socket
-
 	evento.id = s.getInt();
 	evento.mouseX = s.getInt();
 	evento.mouseY = s.getInt();

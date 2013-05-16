@@ -87,8 +87,6 @@ bool SocketServidor::procesarClientesMasivosConError(void){
 // El cliente indicado tiene que estar en modo Individual para que pueda recibir el archivo
 // Devuelve true en caso de éxito al enviar y false en cualquier otro caso
 bool SocketServidor::archivoEnviarIndividual(const char *rutaOrigen,long idCliente){
-	//Log::getInstance().log(3,__FILE__,__LINE__,"Enviando archivo individual: ",std::string(rutaOrigen) );
-	//Log::getInstance().log(3,__FILE__,__LINE__,"A cliente nro : ", idCliente );
 
 	long indice = this->buscarCliente(idCliente);
 	if ( indice >= 0 ){
@@ -242,10 +240,6 @@ bool SocketServidor::eliminarCliente(int idCliente){
 // False si por alguna razón no pudo cambiar, o si no encontró al cliente con el <idActual>
 bool SocketServidor::renombrarIdCliente(int idActual, int idNuevo){
 
-	// TODO: Borrar
-	// Primero chequeo que no quiera renombrar por un ID que ya está asignado a otro cliente
-	//if( this->buscarCliente(idActual) != CLIENTE_NO_ENCONTRADO ) return false;
-
 	long indice = this->buscarCliente(idActual);
 
 	if ( indice >= 0 ){
@@ -360,9 +354,7 @@ bool SocketServidor::enviarMasivoChar(const char *pBuffer,unsigned int tamanio){
 	bool todosOk = true;
 	
 	for ( int i=0 ; i < this->tamanioConexionClientes() ; i++ ){
-		//std::cout<<"Miro al cliente ("<< this->getConexionCliente(i)->getId() <<") \n";
 		if (this->getConexionCliente(i)->getEsIndividual() == false){
-			//std::cout<<"El cliente ("<< this->getConexionCliente(i)->getId() <<") en masivo, se le enviaran datos\n";
 			if (this->getConexionCliente(i)->enviar(pBuffer,tamanio) == false){
 				std::cout<<"Error al enviar datos desde el servidor. \n";
 				Log::getInstance().log(3,__FILE__,__LINE__,"Error al enviar datos desde el servidor. " );

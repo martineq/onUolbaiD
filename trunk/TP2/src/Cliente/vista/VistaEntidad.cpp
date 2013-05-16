@@ -102,10 +102,6 @@ void VistaEntidad::setPosicionAnteriorEnTiles(){
 // Este método será usado ahora por el ProxyModeloEntidad
 void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 
-	// TODO: Agregar todas las actualizaciondes de los nuevos atributos (Hay que asignarlos):
-	//entidad.actualizacionMapa;
-	//entidad.entidadCongelada;
-	//entidad.errorEnSocket;
 	this->setPosicionAnteriorEnTiles();
 	this->x = entidad.pixelSiguienteX;
 	this->y = entidad.pixelSiguienteY;

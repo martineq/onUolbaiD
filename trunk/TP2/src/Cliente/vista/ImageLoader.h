@@ -1,5 +1,4 @@
-#ifndef IMAGELOADER_H_
-#define IMAGELOADER_H_
+#pragma once
 
 const int SCREEN_BPP = 32;
 
@@ -52,6 +51,3 @@ inline ImageLoader& ImageLoader::getInstance(){
    static ImageLoader object;
    return object;
 }
-
-#endif /* IMAGELOADER_H_ */
-

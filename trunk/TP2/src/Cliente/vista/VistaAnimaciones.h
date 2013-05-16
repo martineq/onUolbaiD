@@ -1,5 +1,5 @@
-#ifndef VISTAANIMACIONES_H_
-#define VISTAANIMACIONES_H_
+#pragma once
+
 #include "VistaAnimacion.h"
 #include "VistaAnimacionRepository.h"
 
@@ -22,5 +22,3 @@ public:
 
 	virtual ~VistaAnimaciones();
 };
-
-#endif /* ANIMACIONES_H_ */
