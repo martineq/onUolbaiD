@@ -57,7 +57,6 @@ SDL_Surface* ImageLoader::stretch(SDL_Surface *surface, double width, double hei
 {	
 	double escalaAncho = width / surface->w;
 	double escalaAlto = height / surface->h;
-//	SDL_Surface * zoomed = rotozoomSurface (surface,0,2,1);
 	SDL_Surface * zoomed = zoomSurface (surface,escalaAncho,escalaAlto,1);
 	SDL_Surface * retornar = NULL;
 
@@ -121,7 +120,7 @@ void ImageLoader::cerrarSDL(){
 
 SDL_Surface* ImageLoader::levantarPantalla(double w, double h){
 	SDL_Surface* screen = SDL_SetVideoMode( w, h, SCREEN_BPP, SDL_SWSURFACE );
-	SDL_WM_SetCaption( "..:: Diablo I ::..", NULL );	
+	SDL_WM_SetCaption( "..:: Diablo III ::..", NULL );	
 	return screen;
 }
 
@@ -129,5 +128,5 @@ void ImageLoader::refrescarPantalla(SDL_Surface* screen){
 	SDL_UpdateRect(screen, 0, 0, 0, 0);
 }
 ImageLoader::~ImageLoader() {
-	// TODO ¿Falta agregar algo acá?
+
 }
