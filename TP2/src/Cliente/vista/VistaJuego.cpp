@@ -30,6 +30,8 @@ bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::s
 		}
 	}
 	
+	// TODO: Borrar todo el código que no se usa mas de esta clase 
+
 	//int zonaVisible = 5; 
 	//int k = (int)zonaVisible/2;
 	int k = (int) ZONA_VISIBLE / 2;

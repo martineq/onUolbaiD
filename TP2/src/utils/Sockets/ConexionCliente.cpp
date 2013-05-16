@@ -2,9 +2,7 @@
 
 ConexionCliente::ConexionCliente(void){
 	this->id = Ticket::getInstance().pedirNumero();
-	//this->mutexEsIndividual.lockEscritura(__FILE__,__LINE__);
 	this->esIndividual = true;									// La conexión arranca siendo individual, luego se puede poner masiva en caso en caso de ser una conexion perteneciente a un servidor
-	//this->mutexEsIndividual.unlock(__FILE__,__LINE__);
 }
 
 ConexionCliente::~ConexionCliente(void){

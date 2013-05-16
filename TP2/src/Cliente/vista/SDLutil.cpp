@@ -162,3 +162,6 @@ SDLutil::~SDLutil() {
 	if (this->area != NULL)
 		delete this->area;
 }
+
+
+// TODO: Borrar todo el código que no se usa mas de esta clase

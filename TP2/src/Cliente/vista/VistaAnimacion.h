@@ -1,5 +1,5 @@
-#ifndef ANIMACION_H_
-#define ANIMACION_H_
+#pragma once
+
 #include <vector>
 #include <list>
 #include <map>
@@ -42,6 +42,3 @@ public:
 	virtual ~VistaAnimacion();
 };
 
-
-
-#endif /* ANIMAMACION_H_ */

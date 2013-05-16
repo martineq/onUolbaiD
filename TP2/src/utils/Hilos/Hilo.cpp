@@ -14,8 +14,6 @@ int Hilo::start(void* arg) {
 	p->punteroThis = (void*)this;
 	p->parametro = arg;
 
-	//std::cout << "Comienza el hilo de ID: " << this->id << std::endl;
-
 	int error = pthread_create(&this->thread, NULL, rutina, (void*)p);
 	return error;
 }
@@ -35,7 +33,6 @@ void* Hilo::join() {
 	if ( pthread_join(thread, &retorno) != 0 ){
 		std::cerr << "Error al cerrar hilo.\n";
 	}
-	//std::cout << "Cierra el hilo de ID: " << this->id << std::endl;
 	return retorno;
 }
 

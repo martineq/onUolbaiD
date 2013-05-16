@@ -33,7 +33,7 @@ VistaAnimacionRepository::~VistaAnimacionRepository(void)
 		if (animacion != NULL){
 			delete animacion;
 			(*it).second = NULL;
-			 //delete animacion;
+			 //delete animacion;  // TODO: ¿No se hace delete?
 		}
 	}
 

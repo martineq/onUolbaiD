@@ -69,3 +69,6 @@ VistaAnimaciones::~VistaAnimaciones() {
 		(*it).second = NULL;
 	}
 }
+
+// TODO: Borrar todo el código que no se usa mas de esta clase 
+// TODO: ¿No se hacen los delete?

@@ -4,7 +4,7 @@
 #include "VistaAnimaciones.h"
 #include "VistaScroll.h"
 #include "../../utils/Observador/Identificable.h"
-#include "../../utils/Proxy/ProxyModeloEntidad.h"	// Para usar el ProxyModeloEntidad::stEntidad
+#include "../../utils/Proxy/ProxyModeloEntidad.h"
 
 class VistaEntidad: public Identificable{
 

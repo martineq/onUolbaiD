@@ -1,7 +1,6 @@
 #pragma once
 
 #include "./VistaNivel.h"
-//#include "./VistaLoop.h"
 #include "./ImageLoader.h"
 #include "../../utils/yaml/ParserYaml.h"
 #include "../Controlador/ControladorEvento.h"
@@ -34,7 +33,6 @@ class VistaFactory{
 		bool recibirProtagonista(SocketCliente* pSocket,std::string nombreUsuario,std::string nombrePersonaje);
 		bool recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* pSocket);
 		void asignarEscenarioElegido(std::string nombreEscenario,std::list<ParserYaml::stEscenario>& listaEscenarios);
-		void menuSeleccionUsuarioPersonaje(std::string& nombreUsuario,std::string& nombrePersonaje);
 
 		// Creación de la Vista
 		bool crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vistaNivel,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino);
