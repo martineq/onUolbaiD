@@ -35,36 +35,6 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 	// Recibo datos desde el Servidor
 	if( this->recibirEscenario(juegoYaml.escenarios,pSocket) == false ) return false;
 	if( this->recibirProtagonista(pSocket,mote,personaje) == false ) return false;
-
-	char** mapa = new char* [juegoElegido.escenario.tamanioY];
-	for (int i = 0; i < this->juegoElegido.escenario.tamanioY; i++) {
-		mapa[i] = new char [juegoElegido.escenario.tamanioX];
-	}
-
-// TODO: ¿El new mapa de aca arriba se usa para algo? ¿Lo comentado de acá abajo se puede borrar?
-
-/*	for (int i = 0; i < this->juegoElegido.escenario.tamanioY; i++){
-		for (int j = 0; j < this->juegoElegido.escenario.tamanioX; j++){
-			int fila = i * this->juegoElegido.escenario.tamanioX;
-			mapa[i][j] = matriz[fila+j];
-		}	
-	}*/
-
-
-
-
-
-/*	char* vectorAuxiliar;	
-	for (int i=0; i < matriz.length(); juegoElegido.escenario.tamanioX++)		
-		int j = 0;
-		while (j <= juegoElegido.escenario.tamanioY) {
-			vectorAuxiliar[j] = matriz[j]
-			j++;
-		}
-		for (int k = 0; k < juegoElegido.escenario.tamanioY; k++)
-			mapa[i] = vectorAuxiliar[k];
-*/
-
 	if( this->recibirOtrosJugadores(vistaNivel,pSocket) == false ) return false;	
 	pSocket->setEnvioIndirecto();
 

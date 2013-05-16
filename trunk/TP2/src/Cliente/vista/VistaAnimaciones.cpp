@@ -2,7 +2,6 @@
 
 VistaAnimaciones::VistaAnimaciones() {
 	this->animacionesAutomaticas = false;
-	// ¿Falta agregar algo mas acá?
 }
 
 /**
@@ -70,5 +69,4 @@ VistaAnimaciones::~VistaAnimaciones() {
 	}
 }
 
-// TODO: Borrar todo el código que no se usa mas de esta clase 
-// TODO: ¿No se hacen los delete?
+// TODO: ¿No se hacen los delete? // Borrar todo el código que no se usa mas de esta clase 
