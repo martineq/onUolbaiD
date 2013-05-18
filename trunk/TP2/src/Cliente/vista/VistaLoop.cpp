@@ -19,8 +19,6 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 }
 
 char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, char** matriz){
-	return VISIBLE;
-
 	int x1 = unaEntidad->getTileX();
 	int x2 = unaEntidad->getTileX() + (unaEntidad->getAncho() / ANCHO_TILE) - 1;
 	int y1 = unaEntidad->getTileY();
