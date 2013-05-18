@@ -10,7 +10,8 @@
 #include "../../utils/Observador/Observador.h"
 #include "../../utils/Hilos/Mutex.h"
 #include "../../utils/Proxy/ProxyModeloEntidad.h"
-#include "../../utils/Posicion/Posicion.h"
+#include "Posicion.h"
+#include "Tile.h"
 #include "EstadoNivel.h"
 
 typedef enum Direccion { NOROESTE, NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE };
@@ -27,34 +28,16 @@ class ModeloEntidad {
 				Mutex* _mutexListaJugadores;
 				std::list<ModeloEntidad*>* _listaEntidades;
 				Mutex* _mutexListaEntidades;
-				Posicion _posicionDestino;
-				Posicion _posicionDestinoDesvio;
-				int _deltaX;
-				int _deltaY;
-				int _desplazamientoX;
-				int _desplazamientoY;
-				int _error;
-				int _desplazamientoErrorX;
-				int _desplazamientoErrorY;
+				std::list<Posicion> _posiciones;
 				DWORD _instanteUltimoCambioEstado;
 
-				bool calcularDesvio(ModeloEntidad* modeloEntidad);
+				bool agregarTile(std::list<Tile>* tilesAbiertos, std::list<Tile>* tilesCerrados, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia);
 
 				ModeloEntidad* detectarColision(Posicion posicion);
-
-				int obtenerAlto(int y, ModeloEntidad* modeloEntidad);
-
-				int obtenerAncho(int x, ModeloEntidad* modeloEntidad);
 
 				Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino);
 
 				Posicion obtenerPosicionSiguiente();
-
-				int obtenerX(ModeloEntidad* modeloEntidad);
-
-				int obtenerY(ModeloEntidad* modeloEntidad);
-
-				bool resolviendoDesvio() const;
 
 				ModeloMovimiento(const ModeloMovimiento &modeloMovimiento);
 

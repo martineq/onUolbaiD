@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "../../utils/Constantes/Constantes.h"
-#include "../../utils/Posicion/Posicion.h"
+#include "Posicion.h"
 
 class EstadoNivel {
 	private:

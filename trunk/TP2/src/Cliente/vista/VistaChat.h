@@ -8,9 +8,9 @@
 #include <SDL_ttf.h>
 
 #include "VistaEntidad.h"
-#include "../../utils/Posicion/Posicion.h"
 #include "../../utils/Proxy/ProxyControladorEvento.h"
 #include "../../utils/Serializacion/Serializadora.h"
+#include "../../Servidor/modelo/Posicion.h"
 
 class VistaChat {
 	private:

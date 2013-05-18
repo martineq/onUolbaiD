@@ -2,7 +2,7 @@
 
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"
-#include "../../utils/Posicion/Posicion.h"
+#include "../../Servidor/modelo/Posicion.h"
 
 class ControladorScroll : public Observable {
 	private:
