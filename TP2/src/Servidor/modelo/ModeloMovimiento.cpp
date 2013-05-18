@@ -221,9 +221,18 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
 	this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
 	
-	// Si me choque con algo en el camino me dentego
-	if (this->detectarColision(posicionSiguiente) != NULL)
-		this->detener();
+	// Si choque con algo en el camino y no estoy en la ultima posicion recalculo
+	if (this->detectarColision(posicionSiguiente) != NULL) {
+		// Si la ultima posicion es la que esta ocupada me dentego
+		if (this->_posiciones.empty()) {
+			this->detener();
+			return;
+		}
+
+		this->actualizar(this->_posiciones.back());
+		Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
+		this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
+	}
 
 	// Notifico a VistaMovimiento
 	this->_modeloEntidad->posicionSiguiente(posicionSiguiente);
