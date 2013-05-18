@@ -44,7 +44,7 @@ typedef struct Posicion {
 
 	bool operator<(const Posicion& posicion) const
 	{
-		return ((this->x <= posicion.x) && (this->y <= posicion.y));
+		return ((this->x < posicion.x) && (this->y < posicion.y));
 	}
 
 	bool operator>=(const Posicion& posicion) const

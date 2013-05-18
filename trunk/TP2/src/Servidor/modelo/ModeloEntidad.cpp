@@ -207,12 +207,12 @@ void ModeloEntidad::estaCongelado(bool estaCongelado) {
 	this->notificar();
 }
 
-void ModeloEntidad::asignarListaJugadores(Mutex* mutexListaJugadores, list<ModeloEntidad*>* listaJugadores) {
-	this->_modeloMovimiento->asignarListaJugadores(mutexListaJugadores, listaJugadores);
+void ModeloEntidad::asignarJugadores(Mutex* mutexJugadores, list<ModeloEntidad*>* jugadores) {
+	this->_modeloMovimiento->asignarJugadores(mutexJugadores, jugadores);
 }
 
-void ModeloEntidad::asignarListaEntidades(Mutex* mutexListaEntidades, list<ModeloEntidad*>* listaEntidades) {
-	this->_modeloMovimiento->asignarListaEntidades(mutexListaEntidades, listaEntidades);
+void ModeloEntidad::asignarEntidades(Mutex* mutexEntidades, multimap<std::pair<int, int>, ModeloEntidad*>* entidades) {
+	this->_modeloMovimiento->asignarEntidades(mutexEntidades, entidades);
 }
 
 void ModeloEntidad::atacar() {

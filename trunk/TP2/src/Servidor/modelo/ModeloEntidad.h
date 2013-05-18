@@ -1,9 +1,10 @@
 #pragma once
 
 #include <math.h>
-#include <iostream>
 #include <Windows.h>
 #include <WinSock.h>
+#include <iostream>
+#include <map>
 
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Observador/Observable.h"
@@ -24,10 +25,10 @@ class ModeloEntidad {
 				int _altoNivel;
 				int _anchoNivel;
 				ModeloEntidad* _modeloEntidad;
-				std::list<ModeloEntidad*>* _listaJugadores;
-				Mutex* _mutexListaJugadores;
-				std::list<ModeloEntidad*>* _listaEntidades;
-				Mutex* _mutexListaEntidades;
+				std::list<ModeloEntidad*>* _jugadores;
+				Mutex* _mutexJugadores;
+				std::multimap<std::pair<int, int>, ModeloEntidad*>* _entidades;
+				Mutex* _mutexEntidades;
 				std::list<Posicion> _posiciones;
 				DWORD _instanteUltimoCambioEstado;
 
@@ -50,9 +51,9 @@ class ModeloEntidad {
 
 				void actualizar(Posicion posicion);
 
-				void asignarListaEntidades(Mutex* mutexListaEntidades, std::list<ModeloEntidad*>* listaEntidades);
+				void asignarJugadores(Mutex* mutexJugadores, std::list<ModeloEntidad*>* jugadores);
 
-				void asignarListaJugadores(Mutex* mutexListaJugadores, std::list<ModeloEntidad*>* listaJugadores);
+				void asignarEntidades(Mutex* mutexEntidades, std::multimap<std::pair<int, int>, ModeloEntidad*>* entidades);
 
 				void cambiarEstado();
 
@@ -167,9 +168,9 @@ class ModeloEntidad {
 
 		void estaCongelado(bool estaCongelado);
 
-		void asignarListaJugadores(Mutex* mutexListaJugadores, std::list<ModeloEntidad*>* listaJugadores);
+		void asignarJugadores(Mutex* mutexJugadores, std::list<ModeloEntidad*>* jugadores);
 
-		void asignarListaEntidades(Mutex* mutexListaJugadores, std::list<ModeloEntidad*>* listaEntidades);
+		void asignarEntidades(Mutex* mutexEntidades, std::multimap<std::pair<int, int>, ModeloEntidad*>* entidades);
 
 		void atacar();
 

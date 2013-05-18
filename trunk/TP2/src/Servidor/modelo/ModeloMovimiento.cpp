@@ -3,12 +3,9 @@
 using namespace std;
 
 ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posicion) {
-	this->_mutexListaJugadores->lockLectura(__FILE__, __LINE__);
-	list<ModeloEntidad*>* listaJugadores = this->_listaJugadores;
-	this->_mutexListaJugadores->unlock(__FILE__, __LINE__);
-	this->_mutexListaEntidades->lockLectura(__FILE__, __LINE__);
-	list<ModeloEntidad*>* listaEntidades = this->_listaEntidades;
-	this->_mutexListaEntidades->unlock(__FILE__, __LINE__);
+	this->_mutexJugadores->lockLectura(__FILE__, __LINE__);
+	list<ModeloEntidad*>* listaJugadores = this->_jugadores;
+	this->_mutexJugadores->unlock(__FILE__, __LINE__);
 
 	// Detecto colision con jugadores
 	if (listaJugadores != NULL) {
@@ -21,18 +18,12 @@ ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posici
 		}
 	}
 
-	// Detecto colision con entidades
-	if (listaEntidades != NULL) {
-		list<ModeloEntidad*>::iterator iterador = listaEntidades->begin();
-
-		while (iterador != listaEntidades->end()) {
-			if (((*iterador) != this->_modeloEntidad) && (*iterador)->ocupaPosicion(posicion))
-				return *iterador;
-			iterador++;
-		}
-	}
-
-	return NULL;
+	this->_mutexEntidades->lockLectura(__FILE__, __LINE__);
+	multimap<std::pair<int, int>, ModeloEntidad*>::iterator entidad = this->_entidades->find(make_pair(posicion.x, posicion.y));
+	multimap<std::pair<int, int>, ModeloEntidad*>::iterator fin = this->_entidades->end();
+	this->_mutexEntidades->unlock(__FILE__, __LINE__);
+	
+	return (entidad == fin) ? NULL : (*entidad).second;
 }
 
 Direccion ModeloEntidad::ModeloMovimiento::obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino) {
@@ -78,8 +69,8 @@ ModeloEntidad::ModeloMovimiento::ModeloMovimiento(int altoNivel, int anchoNivel,
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_modeloEntidad = modeloEntidad;
-	this->_listaJugadores = NULL;
-	this->_listaEntidades = NULL;
+	this->_jugadores = NULL;
+	this->_entidades = NULL;
 	this->_instanteUltimoCambioEstado = 0;
 }
 
@@ -204,14 +195,14 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 	}
 }
 
-void ModeloEntidad::ModeloMovimiento::asignarListaEntidades(Mutex* mutexListaEntidades, std::list<ModeloEntidad*>* listaEntidades) {
-	this->_mutexListaEntidades = mutexListaEntidades;
-	this->_listaEntidades = listaEntidades;
+void ModeloEntidad::ModeloMovimiento::asignarJugadores(Mutex* mutexJugadores, std::list<ModeloEntidad*>* jugadores) {
+	this->_mutexJugadores = mutexJugadores;
+	this->_jugadores = jugadores;
 }
 
-void ModeloEntidad::ModeloMovimiento::asignarListaJugadores(Mutex* mutexListaJugadores, std::list<ModeloEntidad*>* listaJugadores) {
-	this->_mutexListaJugadores = mutexListaJugadores;
-	this->_listaJugadores = listaJugadores;
+void ModeloEntidad::ModeloMovimiento::asignarEntidades(Mutex* mutexEntidades, multimap<std::pair<int, int>, ModeloEntidad*>* entidades) {
+	this->_mutexEntidades = mutexEntidades;
+	this->_entidades = entidades;
 }
 
 void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
