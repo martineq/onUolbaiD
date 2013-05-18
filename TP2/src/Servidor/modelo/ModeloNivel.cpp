@@ -1,5 +1,7 @@
 #include "ModeloNivel.h"
 
+using namespace std;
+
 ModeloEntidad* ModeloNivel::obtenerJugador(int id) {
 	std::list<ModeloEntidad*> listaJugadores = this->getListaJugadores();
 	for (std::list<ModeloEntidad*>::iterator itModeloEntidad = listaJugadores.begin(); itModeloEntidad != listaJugadores.end(); itModeloEntidad++){
@@ -9,19 +11,8 @@ ModeloEntidad* ModeloNivel::obtenerJugador(int id) {
 	return NULL;
 }
 
-ModeloEntidad* ModeloNivel::obtenerEntidad(int id) {
-	std::list<ModeloEntidad*> listaEntidades = this->getListaEntidades();
-	for (std::list<ModeloEntidad*>::iterator itModeloEntidad = listaEntidades.begin(); itModeloEntidad != listaEntidades.end(); itModeloEntidad++){
-		if ((*itModeloEntidad)->id() == id)
-			return (*itModeloEntidad);
-	}
-	return NULL;
-}
-
 ModeloNivel::ModeloNivel() {
 	this->jugadoresConectados = 0;
-	this->listaJugadores.clear();
-	this->listaEntidades.clear();
 }
 
 ModeloNivel::~ModeloNivel() {
@@ -29,17 +20,10 @@ ModeloNivel::~ModeloNivel() {
 }
 
 std::list<ModeloEntidad*> ModeloNivel::getListaJugadores() {
-	this->mutexListaJugadores.lockLectura(__FILE__, __LINE__);
-	std::list<ModeloEntidad*> listaJugadores = this->listaJugadores;
-	this->mutexListaJugadores.unlock(__FILE__, __LINE__);
+	this->mutexJugadores.lockLectura(__FILE__, __LINE__);
+	std::list<ModeloEntidad*> listaJugadores = this->jugadores;
+	this->mutexJugadores.unlock(__FILE__, __LINE__);
 	return listaJugadores;
-}
-
-std::list<ModeloEntidad*> ModeloNivel::getListaEntidades() {
-	this->mutexListaEntidades.lockLectura(__FILE__, __LINE__);
-	std::list<ModeloEntidad*> listaEntidades = this->listaEntidades;
-	this->mutexListaEntidades.unlock(__FILE__, __LINE__);
-	return listaEntidades;
 }
 
 int ModeloNivel::getAnchoTiles() {
@@ -51,18 +35,21 @@ int ModeloNivel::getAltoTiles() {
 }
 
 void ModeloNivel::agregarJugador(ModeloEntidad *jugador) {
-	this->mutexListaJugadores.lockEscritura(__FILE__, __LINE__);
-	this->listaJugadores.push_back(jugador);	
+	this->mutexJugadores.lockEscritura(__FILE__, __LINE__);
+	this->jugadores.push_back(jugador);	
 	jugador->notificar();
-	this->mutexListaJugadores.unlock(__FILE__, __LINE__);
-	jugador->asignarListaEntidades(&this->mutexListaEntidades, &this->listaEntidades);
-	jugador->asignarListaJugadores(&this->mutexListaJugadores, &this->listaJugadores);
+	this->mutexJugadores.unlock(__FILE__, __LINE__);
+	jugador->asignarEntidades(&this->mutexEntidades, &this->entidades);
+	jugador->asignarJugadores(&this->mutexJugadores, &this->jugadores);
 }
 
-void ModeloNivel::agregarEntidad(ModeloEntidad *entidad) {
-	this->mutexListaEntidades.lockEscritura(__FILE__, __LINE__);
-	this->listaEntidades.push_back(entidad);	
-	this->mutexListaEntidades.unlock(__FILE__, __LINE__);
+void ModeloNivel::agregarEntidad(ModeloEntidad* entidad) {
+	this->mutexEntidades.lockEscritura(__FILE__, __LINE__);
+	// Agrego las posiciones ocupadas por la entidad
+	for (int x = entidad->posicionActual().x; x < entidad->posicionActual().x + entidad->ancho(); x++)
+		for (int y = entidad->posicionActual().y; y < entidad->posicionActual().y + entidad->alto(); y++)
+			this->entidades.insert(make_pair(make_pair(x, y), entidad));
+	this->mutexEntidades.unlock(__FILE__, __LINE__);
 }
 
 void ModeloNivel::setAltoTiles(int alto){
@@ -74,15 +61,15 @@ void ModeloNivel::setAnchoTiles(int ancho){
 }
 
 void ModeloNivel::removerJugador(ModeloEntidad *jugador) {
-	this->mutexListaJugadores.lockEscritura(__FILE__, __LINE__);
-	this->listaJugadores.remove(jugador);
-	this->mutexListaJugadores.unlock(__FILE__, __LINE__);
+	this->mutexJugadores.lockEscritura(__FILE__, __LINE__);
+	this->jugadores.remove(jugador);
+	this->mutexJugadores.unlock(__FILE__, __LINE__);
 }
 
-void ModeloNivel::removerEntidad(ModeloEntidad *entidad) {
-	this->mutexListaEntidades.lockEscritura(__FILE__, __LINE__);
-	this->listaEntidades.remove(entidad);
-	this->mutexListaEntidades.unlock(__FILE__, __LINE__);
+void ModeloNivel::removerEntidad(ModeloEntidad* entidad) {
+	this->mutexEntidades.lockEscritura(__FILE__, __LINE__);
+	this->entidades.erase(make_pair(entidad->posicionActual().x, entidad->posicionActual().y));
+	this->mutexEntidades.unlock(__FILE__, __LINE__);
 }
 
 void ModeloNivel::jugadorMover(int mouseX, int mouseY, int id) {
@@ -108,8 +95,8 @@ void ModeloNivel::jugadorDefender(int id) {
 	jugador->defender();
 }
 
-void ModeloNivel::congelarJugador(int idJugador){
-	ModeloEntidad* jugador = this->obtenerJugador(idJugador);
+void ModeloNivel::congelarJugador(int id){
+	ModeloEntidad* jugador = this->obtenerJugador(id);
 	if (jugador == NULL){
 		return void();
 	}else{
@@ -127,7 +114,7 @@ bool ModeloNivel::actualizar() {
 }
 
 bool ModeloNivel::posicionOcupada(Posicion pos){
-	for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++){
+	for (std::list<ModeloEntidad*>::iterator jugador = this->jugadores.begin(); jugador != this->jugadores.end(); jugador++){
 		
 		Posicion posicionDelJugador = (*jugador)->posicionActual();
 		int x1 = posicionDelJugador.x;
@@ -139,42 +126,34 @@ bool ModeloNivel::posicionOcupada(Posicion pos){
 			return true;		
 	}
 
-	for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
-		
-		Posicion posicionDelJugador = (*entidad)->posicionActual();
-		
-		int x1 = posicionDelJugador.x;
-		int x2 = posicionDelJugador.x + (*entidad)->ancho() - 1;
-		int y1 = posicionDelJugador.y;
-		int y2 = posicionDelJugador.y + (*entidad)->alto() - 1;
-
-		if ( (pos.x >= x1) && (pos.x <= x2) && (pos.y >= y1) && (pos.y <= y2) ) 
-			return true;
-	}
-
-	return false;
+	multimap<std::pair<int, int>, ModeloEntidad*>::iterator entidad = this->entidades.find(make_pair(pos.x, pos.y));
+	return entidad != this->entidades.end();
 }
 
 void ModeloNivel::destruirListaJugadores(){
 	// Destruyo los jugadores instanciados
-	for (std::list<ModeloEntidad*>::iterator jugador = this->listaJugadores.begin(); jugador != this->listaJugadores.end(); jugador++){
+	for (std::list<ModeloEntidad*>::iterator jugador = this->jugadores.begin(); jugador != this->jugadores.end(); jugador++){
 		delete (*jugador);
 	}
-	return void();
 }
 
 bool ModeloNivel::chequearConexion() {
-	if (this->listaJugadores.empty())
+	if (this->jugadores.empty())
 		return false;
-	return this->listaJugadores.front()->chequearConexion();
+	return this->jugadores.front()->chequearConexion();
 }
 
-void ModeloNivel::destruirListaEntidades(){
-	// Destruyo las entidades instanciadas
-	for (std::list<ModeloEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
-		delete (*entidad);
+void ModeloNivel::destruirListaEntidades() {
+	vector<ModeloEntidad*> entidadesEliminadas;
+	
+	// Elimino todas las entidades distintas
+	for (multimap<std::pair<int, int>, ModeloEntidad*>::iterator entidad = this->entidades.begin(); entidad != this->entidades.end(); entidad++) {
+		std::vector<ModeloEntidad*>::iterator entidadEliminada = find(entidadesEliminadas.begin(), entidadesEliminadas.end(), (*entidad).second);
+		if (entidadEliminada == entidadesEliminadas.end()) {
+			entidadesEliminadas.push_back((*entidad).second);
+			delete (*entidad).second;
+		}
 	}
-	return void();
 }
 
 
@@ -190,18 +169,15 @@ void ModeloNivel::incrementarJugadores(void){
 	this->mutexJugadoresConectados.lockEscritura(__FILE__,__LINE__);
 	this->jugadoresConectados = this->jugadoresConectados + 1;
 	this->mutexJugadoresConectados.unlock(__FILE__,__LINE__);
-	return void();
 }
 
 void ModeloNivel::decrementarJugadores(void){
 	this->mutexJugadoresConectados.lockEscritura(__FILE__,__LINE__);
 	this->jugadoresConectados = this->jugadoresConectados - 1;
 	this->mutexJugadoresConectados.unlock(__FILE__,__LINE__);
-	return void();
 }
 
 void ModeloNivel::destruirListas(){	
 	this->destruirListaJugadores();
 	this->destruirListaEntidades();
-	return void();
 }

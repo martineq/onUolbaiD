@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <map>
+#include <algorithm>
 #include "./ModeloEntidad.h"
 #include "../../utils/Observador/Identificable.h"
 #include "../../utils/Hilos/Mutex.h"
@@ -9,17 +12,17 @@ class ModeloNivel {
 		int altoTiles;
 		int anchoTiles;
 
-		std::list<ModeloEntidad*> listaJugadores;
-		Mutex mutexListaJugadores;
+		std::list<ModeloEntidad*> jugadores;
+		Mutex mutexJugadores;
 
-		std::list<ModeloEntidad*> listaEntidades;
-		Mutex mutexListaEntidades;
+		std::multimap<std::pair<int, int>, ModeloEntidad*> entidades;
+		Mutex mutexEntidades;
 
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
 
 		ModeloEntidad* obtenerEntidad(int id);
-		
+
 		void destruirListaJugadores();
 		void destruirListaEntidades();
 
@@ -31,7 +34,6 @@ class ModeloNivel {
 
 		// Getters
 		std::list<ModeloEntidad*> getListaJugadores();
-		std::list<ModeloEntidad*> getListaEntidades();
 
 		int getAltoTiles();
 		int getAnchoTiles();
@@ -49,7 +51,7 @@ class ModeloNivel {
 		void jugadorMover(int tileX, int tileY, int id);
 		void jugadorAtacar(int id);
 		void jugadorDefender(int id);
-		void congelarJugador(int idJugador);
+		void congelarJugador(int id);
 
 		ModeloEntidad* obtenerJugador(int id);
 
