@@ -22,17 +22,6 @@ void  VistaAnimaciones::agregar(std::string nombreAnimacion, list<std::string> s
 	animacion = VistaAnimacionRepository::getInstance().agregarAnimacion(nombreAnimacion,sprites,periodo,ancho,alto,fps,this->animacionesAutomaticas);
 	this->animaciones.insert(std::make_pair(nombreAnimacion, animacion));
 	this->vAnimaciones.push_back(animacion);
-/*	VistaAnimacion* animacion = NULL;
-	map<std::string, VistaAnimacion* >::iterator it = this->animaciones.find(nombreAnimacion);
-	if (it != this->animaciones.end()) {
-		// animacion repetida para este set de animaciones;
-		Log::getInstance().log(1,__FILE__,__LINE__,"La animacion no puede ser insertada, porque esta duplicada");
-	} else {
-		animacion = new VistaAnimacion(sprites, periodo, ancho, alto,this->animacionesAutomaticas, fps);
-		this->animaciones.insert(std::make_pair(nombreAnimacion, animacion));
-		this->vAnimaciones.push_back(animacion);
-	}
-*/
 }
 
 
@@ -63,10 +52,8 @@ void VistaAnimaciones::setPantalla(SDL_Surface* screen){
 VistaAnimaciones::~VistaAnimaciones() {
 	map<std::string, VistaAnimacion* >::iterator it;
 	for (it=this->animaciones.begin();it!=this->animaciones.end();it++) {
-		//VistaAnimacion* animacion = (*it).second;
+		//VistaAnimacion* animacion = (*it).second;  // ¿ Porqué ìncha cuando se hacen el delete? (Parece que alguien ya lo está borrando porque no salta como un memory leak)
 		//delete animacion;
 		(*it).second = NULL;
 	}
 }
-
-// TODO: ¿No se hacen los delete? // Borrar todo el código que no se usa mas de esta clase 

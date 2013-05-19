@@ -30,7 +30,6 @@ public:
 	int getTamanio();
 	int getPeriodo();
 	void setPantalla(SDL_Surface* pantalla);
-	bool graficar(int index, double x, double y);
 	bool graficar(double x,double y, char visibilidad);
 	bool graficar(char visibilidad);
 	bool animacionFinalizada();

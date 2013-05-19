@@ -41,16 +41,6 @@ void VistaAnimacion::setPantalla(SDL_Surface* pantalla){
 	}	
 }
 
-bool VistaAnimacion::graficar(int index,double x,double y){
-	bool ok = false;
-	this->x = x;
-	this->y = y;
-	if (this->superficies.size() > index){
-		//ok = this->superficies.at(index)->graficar(x,y,2); // TODO: Borrar todo el código que no se usa mas de esta clase 
-	}
-	return ok;
-}
-
 bool VistaAnimacion::graficar(double x, double y, char visibilidad){
 	bool ok = false;
 	this->x = x;
