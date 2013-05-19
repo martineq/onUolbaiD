@@ -2,6 +2,70 @@
 
 using namespace std;
 
+bool ModeloEntidad::ModeloMovimiento::agregarTile(list<Tile>* tilesAbiertos, list<Tile>* tilesCerrados, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia) {
+	// Si la posicion esta fuera del nivel no la proceso
+	if ((posicion.x < 0) || (posicion.x >= this->_anchoNivel) || (posicion.y < 0) || (posicion.y >= this->_anchoNivel))
+		return false;
+	
+	// Si encuentro el tile en los tiles cerrados lo lo agrego
+	for (list<Tile>::iterator tile = tilesCerrados->begin(); tile != tilesCerrados->end(); tile++) {
+		if ((*tile).posicion() == posicion)
+			return false;
+	}
+
+	// Si encuentro el tile en los abiertos le cambio el padre
+	for (list<Tile>::iterator tile = tilesAbiertos->begin(); tile != tilesAbiertos->end(); tile++) {
+		if ((*tile).posicion() == posicion) {
+			(*tile).padre(padre, distancia);
+			return true;
+		}
+	}
+
+	// Si la posicion esta ocupada no la agrego
+	if (this->detectarColision(posicion) != NULL)
+		return false;
+
+	// Si el tile no esta en ninguna de las dos listas lo agrego
+	Tile tile;
+	tile.padre(padre, distancia);
+	tile.posicion(posicion);
+	tile.posicionDestino(posicionDestino);
+	tilesAbiertos->push_back(tile);
+
+	return true;
+}
+
+Posicion ModeloEntidad::ModeloMovimiento::calcularPosicionDestino(Posicion posicionDestino) {
+	// Obtengo la entidad en la posicion destino
+	ModeloEntidad* modeloEntidad = this->detectarColision(posicionDestino);
+
+	// Si no choca con nada devuelvo la misma posicion
+	if (modeloEntidad == NULL)
+		return posicionDestino;
+
+	// Obtengo la posicion y dimension de todas las entidades adyacentes
+	int x = this->obtenerX(modeloEntidad);
+	int y = this->obtenerY(modeloEntidad);
+	int alto = this->obtenerAlto(y, modeloEntidad);
+	int ancho = this->obtenerAncho(x, modeloEntidad);
+	
+	// Choco con cara norte
+	if (this->_modeloEntidad->posicionActual().y < y)
+		posicionDestino.y = y - 1;
+	// Choco con cara sur
+	else if (this->_modeloEntidad->posicionActual().y >= y + alto)
+		posicionDestino.y = y + alto;
+	
+	// Choco con cara este
+	if (this->_modeloEntidad->posicionActual().x >= x + ancho)
+		posicionDestino.x = x + ancho;
+	// Choco con cara oeste
+	else if (this->_modeloEntidad->posicionActual().x < x)
+		posicionDestino.x = x - 1;
+
+	return posicionDestino;
+}
+
 ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posicion) {
 	this->_mutexJugadores->lockLectura(__FILE__, __LINE__);
 	list<ModeloEntidad*>* listaJugadores = this->_jugadores;
@@ -24,6 +88,28 @@ ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posici
 	this->_mutexEntidades->unlock(__FILE__, __LINE__);
 	
 	return (entidad == fin) ? NULL : (*entidad).second;
+}
+
+int ModeloEntidad::ModeloMovimiento::obtenerAlto(int y, ModeloEntidad* modeloEntidad) {
+	int alto = modeloEntidad->posicionActual().y - y;
+	while (modeloEntidad != NULL) {
+		alto += modeloEntidad->alto();
+		Posicion posicion = modeloEntidad->posicionActual();
+		posicion.y += modeloEntidad->alto();
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return alto;
+}
+
+int ModeloEntidad::ModeloMovimiento::obtenerAncho(int x, ModeloEntidad* modeloEntidad) {
+	int ancho = modeloEntidad->posicionActual().x - x;
+	while (modeloEntidad != NULL) {
+		ancho += modeloEntidad->alto();
+		Posicion posicion = modeloEntidad->posicionActual();
+		posicion.x += modeloEntidad->ancho();
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return ancho;
 }
 
 Direccion ModeloEntidad::ModeloMovimiento::obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino) {
@@ -58,6 +144,26 @@ Posicion ModeloEntidad::ModeloMovimiento::obtenerPosicionSiguiente() {
 	return posicionSiguiente;
 }
 
+int ModeloEntidad::ModeloMovimiento::obtenerX(ModeloEntidad* modeloEntidad) {
+	int x = 0;
+	while (modeloEntidad != NULL) {
+		Posicion posicion = modeloEntidad->posicionActual();
+		x = posicion.x--;
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return x;
+}
+
+int ModeloEntidad::ModeloMovimiento::obtenerY(ModeloEntidad* modeloEntidad) {
+	int y = 0;
+	while (modeloEntidad != NULL) {
+		Posicion posicion = modeloEntidad->posicionActual();
+		y = posicion.y--;
+		modeloEntidad = this->detectarColision(posicion);
+	}
+	return y;
+}
+
 ModeloEntidad::ModeloMovimiento::ModeloMovimiento(const ModeloMovimiento &modeloMovimiento) {
 }
 
@@ -77,46 +183,16 @@ ModeloEntidad::ModeloMovimiento::ModeloMovimiento(int altoNivel, int anchoNivel,
 ModeloEntidad::ModeloMovimiento::~ModeloMovimiento() {
 }
 
-bool ModeloEntidad::ModeloMovimiento::agregarTile(list<Tile>* tilesAbiertos, list<Tile>* tilesCerrados, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia) {
-	// Si la posicion esta fuera del nivel no la proceso
-	if ((posicion.x < 0) || (posicion.x >= this->_anchoNivel) || (posicion.y < 0) || (posicion.y >= this->_anchoNivel))
-		return false;
-	
-	// Si encuentro el tile en los tiles cerrados lo lo agrego
-	for (list<Tile>::iterator tile = tilesCerrados->begin(); tile != tilesCerrados->end(); tile++) {
-		if ((*tile).posicion() == posicion)
-			return false;
-	}
-
-	// Si encuentro el tile en los abiertos le cambio el padre
-	for (list<Tile>::iterator tile = tilesAbiertos->begin(); tile != tilesAbiertos->end(); tile++) {
-		if ((*tile).posicion() == posicion) {
-			(*tile).padre(padre, distancia);
-			return true;
-		}
-	}
-
-	// Si la posicion esta ocupada no la agrego
-	if (this->detectarColision(posicion) != NULL)
-		return false;
-
-	// Si el tile no esta en ninguna de las dos listas lo agrego
-	Tile tile;
-	tile.padre(padre, distancia);
-	tile.posicion(posicion);
-	tile.posicionDestino(posicionDestino);
-	tilesAbiertos->push_back(tile);
-
-	return true;
-}
-
 void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 	// Dentego el movimiento anterior
 	this->detener();
 
-	// Si la posicion actual es igual a la destino, o si en la destino hay un obstaculo no ejectu el movimiento
+	// Si la posicion actual es igual a la destino no ejectuo el movimiento
 	if (this->_modeloEntidad->posicionActual() == posicionDestino)
 		return;
+
+	// Calculo la posicion destino por si seleccione una posicion ocupada
+	posicionDestino = this->calcularPosicionDestino(posicionDestino);
 
 	list<Tile> tilesAbiertos;
 	list<Tile> tilesCerrados;

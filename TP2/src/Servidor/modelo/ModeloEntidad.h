@@ -34,11 +34,21 @@ class ModeloEntidad {
 
 				bool agregarTile(std::list<Tile>* tilesAbiertos, std::list<Tile>* tilesCerrados, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia);
 
+				Posicion calcularPosicionDestino(Posicion posicionDestino);
+
 				ModeloEntidad* detectarColision(Posicion posicion);
+
+				int obtenerAlto(int y, ModeloEntidad* modeloEntidad);
+
+				int obtenerAncho(int x, ModeloEntidad* modeloEntidad);
 
 				Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino);
 
 				Posicion obtenerPosicionSiguiente();
+
+				int obtenerX(ModeloEntidad* modeloEntidad);
+
+				int obtenerY(ModeloEntidad* modeloEntidad);
 
 				ModeloMovimiento(const ModeloMovimiento &modeloMovimiento);
 
