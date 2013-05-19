@@ -94,6 +94,7 @@ ModeloEntidad::~ModeloEntidad() {
 		delete this->_estadoNivel;
 	delete this->_modeloMovimiento;
 	delete this->_vistaMovimiento;
+	if (this->_proxyEntidad != NULL) delete this->_proxyEntidad;
 }
 
 Accion ModeloEntidad::accion() {
