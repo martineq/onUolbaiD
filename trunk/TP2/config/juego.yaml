@@ -13,6 +13,13 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [agua.png]
+    - nombre: cemento
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [cemento.png]
     - nombre: vlad
       imagen:
         - [Vlad_N01.png,Vlad_N02.png,Vlad_N03.png,Vlad_N04.png,Vlad_N05.png,Vlad_N06.png,Vlad_N07.png,Vlad_N08.png,Vlad_N09.png]
@@ -138,7 +145,7 @@ entidades:
       pixel_ref_y: 10 #pixels
       fps: 10
 escenarios:
-    - nombre: bosque_encantado
+    - nombre: Bosque Encantado
       size_x: 13 #tiles
       size_y: 13 #tiles
       entidadesDef:
@@ -219,6 +226,201 @@ escenarios:
         - entidad: queen
           x: 3
           y: 0
+        - entidad: knight
+          x: 3
+          y: 0
+        - entidad: bjorn
+          x: 3
+          y: 0
+    - nombre: Taller I
+      size_x: 46 #tiles
+      size_y: 46 #tiles
+      entidadesDef:
+        # Letra "T"
+        - {x: 1, y: 1, entidad: agua}
+        - {x: 2, y: 1, entidad: agua}
+        - {x: 3, y: 1, entidad: agua}
+        - {x: 4, y: 1, entidad: agua}
+        - {x: 5, y: 1, entidad: agua}
+        - {x: 3, y: 2, entidad: agua}
+        - {x: 3, y: 3, entidad: agua}
+        - {x: 3, y: 4, entidad: agua}
+        - {x: 3, y: 5, entidad: agua}
+
+        # Letra "A"
+        - {x: 12, y: 1, entidad: agua}
+        - {x: 11, y: 2, entidad: agua}
+        - {x: 13, y: 2, entidad: agua}
+        - {x: 10, y: 3, entidad: agua}
+        - {x: 14, y: 3, entidad: agua}
+        - {x: 9, y: 4, entidad: agua}
+        - {x: 10, y: 4, entidad: agua}
+        - {x: 11, y: 4, entidad: agua}
+        - {x: 12, y: 4, entidad: agua}
+        - {x: 13, y: 4, entidad: agua}
+        - {x: 14, y: 4, entidad: agua}
+        - {x: 15, y: 4, entidad: agua}
+        - {x: 8, y: 5, entidad: agua}
+        - {x: 16, y: 5, entidad: agua}
+
+        # Letra "L"
+        - {x: 19, y: 1, entidad: agua}
+        - {x: 19, y: 2, entidad: agua}
+        - {x: 19, y: 3, entidad: agua}
+        - {x: 19, y: 4, entidad: agua}
+        - {x: 19, y: 5, entidad: agua}
+        - {x: 20, y: 5, entidad: agua}
+        - {x: 21, y: 5, entidad: agua}
+        - {x: 22, y: 5, entidad: agua}
+
+        # Letra "L"
+        - {x: 25, y: 1, entidad: agua}
+        - {x: 25, y: 2, entidad: agua}
+        - {x: 25, y: 3, entidad: agua}
+        - {x: 25, y: 4, entidad: agua}
+        - {x: 25, y: 5, entidad: agua}
+        - {x: 26, y: 5, entidad: agua}
+        - {x: 27, y: 5, entidad: agua}
+        - {x: 28, y: 5, entidad: agua}
+
+        # Letra "E"
+        - {x: 31, y: 1, entidad: agua}
+        - {x: 31, y: 2, entidad: agua}
+        - {x: 31, y: 3, entidad: agua}
+        - {x: 31, y: 4, entidad: agua}
+        - {x: 31, y: 5, entidad: agua}
+        - {x: 32, y: 1, entidad: agua}
+        - {x: 33, y: 1, entidad: agua}
+        - {x: 34, y: 1, entidad: agua}
+        - {x: 32, y: 3, entidad: agua}
+        - {x: 33, y: 3, entidad: agua}
+        - {x: 32, y: 5, entidad: agua}
+        - {x: 33, y: 5, entidad: agua}
+        - {x: 34, y: 5, entidad: agua}
+
+        # Letra "R"
+        - {x: 37, y: 1, entidad: agua}
+        - {x: 37, y: 2, entidad: agua}
+        - {x: 37, y: 3, entidad: agua}
+        - {x: 37, y: 4, entidad: agua}
+        - {x: 37, y: 5, entidad: agua}
+        - {x: 38, y: 1, entidad: agua}
+        - {x: 39, y: 1, entidad: agua}
+        - {x: 40, y: 1, entidad: agua}
+        - {x: 40, y: 2, entidad: agua}
+        - {x: 38, y: 3, entidad: agua}
+        - {x: 39, y: 3, entidad: agua}
+        - {x: 40, y: 3, entidad: agua}
+        - {x: 39, y: 4, entidad: agua}
+        - {x: 40, y: 5, entidad: agua}
+
+        # Letra "I"
+        - {x: 43, y: 1, entidad: agua}
+        - {x: 43, y: 5, entidad: agua}
+        - {x: 45, y: 1, entidad: agua}
+        - {x: 45, y: 5, entidad: agua}
+        - {x: 44, y: 1, entidad: agua}
+        - {x: 44, y: 2, entidad: agua}
+        - {x: 44, y: 3, entidad: agua}
+        - {x: 44, y: 4, entidad: agua}
+        - {x: 44, y: 5, entidad: agua}
+      protagonista:
+        - entidad: vlad
+          x: 3
+          y: 0
+        - entidad: queen
+          x: 3
+          y: 0
+        - entidad: knight
+          x: 3
+          y: 0
+        - entidad: bjorn
+          x: 3
+          y: 0
+    - nombre: Laberinto De Creta
+      size_x: 13 #tiles
+      size_y: 13 #tiles
+      entidadesDef:
+        - {x: 0, y: 1, entidad: cemento}
+        - {x: 1, y: 1, entidad: cemento}
+        - {x: 2, y: 1, entidad: cemento}
+        - {x: 3, y: 1, entidad: cemento}
+        - {x: 4, y: 1, entidad: cemento}
+        - {x: 5, y: 1, entidad: cemento}
+        - {x: 6, y: 1, entidad: cemento}
+        - {x: 7, y: 1, entidad: cemento}
+        - {x: 8, y: 1, entidad: cemento}
+        - {x: 9, y: 1, entidad: cemento}
+        - {x: 10, y: 1, entidad: cemento}
+        - {x: 10, y: 2, entidad: cemento}
+        - {x: 10, y: 3, entidad: cemento}
+        - {x: 10, y: 4, entidad: cemento}
+        - {x: 10, y: 5, entidad: cemento}
+        - {x: 10, y: 6, entidad: cemento}
+        - {x: 10, y: 7, entidad: cemento}
+        - {x: 10, y: 8, entidad: cemento}
+        - {x: 10, y: 9, entidad: cemento}
+        - {x: 10, y: 10, entidad: cemento}
+        - {x: 10, y: 11, entidad: cemento}
+        - {x: 9, y: 11, entidad: cemento}
+        - {x: 8, y: 11, entidad: cemento}
+        - {x: 7, y: 11, entidad: cemento}
+        - {x: 6, y: 11, entidad: cemento}
+        - {x: 5, y: 11, entidad: cemento}
+        - {x: 4, y: 11, entidad: cemento}
+        - {x: 3, y: 11, entidad: cemento}
+        - {x: 2, y: 11, entidad: cemento}
+        - {x: 1, y: 11, entidad: cemento}
+        - {x: 1, y: 10, entidad: cemento}
+        - {x: 1, y: 9, entidad: cemento}
+        - {x: 1, y: 8, entidad: cemento}
+        - {x: 1, y: 7, entidad: cemento}
+        - {x: 1, y: 6, entidad: cemento}
+        - {x: 1, y: 5, entidad: cemento}
+        - {x: 1, y: 4, entidad: cemento}
+        - {x: 1, y: 3, entidad: cemento}
+        - {x: 2, y: 3, entidad: cemento}
+        - {x: 3, y: 3, entidad: cemento}
+        - {x: 4, y: 3, entidad: cemento}
+        - {x: 5, y: 3, entidad: cemento}
+        - {x: 6, y: 3, entidad: cemento}
+        - {x: 7, y: 3, entidad: cemento}
+        - {x: 8, y: 3, entidad: cemento}
+        - {x: 8, y: 4, entidad: cemento}
+        - {x: 8, y: 5, entidad: cemento}
+        - {x: 8, y: 6, entidad: cemento}
+        - {x: 8, y: 7, entidad: cemento}
+        - {x: 8, y: 8, entidad: cemento}
+        - {x: 8, y: 9, entidad: cemento}
+        - {x: 7, y: 9, entidad: cemento}
+        - {x: 6, y: 9, entidad: cemento}
+        - {x: 5, y: 9, entidad: cemento}
+        - {x: 4, y: 9, entidad: cemento}
+        - {x: 3, y: 9, entidad: cemento}
+        - {x: 3, y: 8, entidad: cemento}
+        - {x: 3, y: 7, entidad: cemento}
+        - {x: 3, y: 6, entidad: cemento}
+        - {x: 3, y: 5, entidad: cemento}
+        - {x: 4, y: 5, entidad: cemento}
+        - {x: 5, y: 5, entidad: cemento}
+        - {x: 6, y: 5, entidad: cemento}
+        - {x: 6, y: 6, entidad: cemento}
+        - {x: 6, y: 7, entidad: cemento}
+        - {x: 5, y: 7, entidad: cemento}
+        - {x: 12, y: 0, entidad: agua}
+        - {x: 12, y: 1, entidad: agua}
+        - {x: 12, y: 2, entidad: agua}
+        - {x: 12, y: 3, entidad: agua}
+        - {x: 12, y: 4, entidad: agua}
+        - {x: 12, y: 5, entidad: agua}
+        - {x: 12, y: 6, entidad: agua}
+        - {x: 12, y: 7, entidad: agua}
+        - {x: 12, y: 8, entidad: agua}
+        - {x: 12, y: 9, entidad: agua}
+        - {x: 12, y: 10, entidad: agua}
+        - {x: 12, y: 11, entidad: agua}
+        - {x: 12, y: 12, entidad: agua}
+      protagonista:
         - entidad: knight
           x: 3
           y: 0

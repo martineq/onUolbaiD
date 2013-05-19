@@ -50,7 +50,7 @@ bool ModeloFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEsc
 	std::cout << "Eleccion de escenario: " << std::endl;
 	for (std::list<ParserYaml::stEscenario>::iterator it=listaEscenarios.begin() ; it != listaEscenarios.end(); it++ ){
 		std::string opc;
-		std::cout << "Elije el escenario "<< (*it).nombre << "? (s) para confirmar, otra para rechazar" << std::endl;
+		std::cout << "Elije el escenario <"<< (*it).nombre << ">? (s) para confirmar, otra para rechazar" << std::endl;
 		getline (std::cin,opc);
 		if( opc.compare("s") == 0 || opc.compare("S") == 0 ){
 			std::cout << "Se usara el escenario: "<< (*it).nombre << std::endl;
