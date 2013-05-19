@@ -20,12 +20,10 @@ bool SocketServidor::desconectar(void){
 		if (cliente->cerrar() == false){
 			std::cout<<"Error al cerrar clientes desde el servidor. \n";
 			Log::getInstance().log(3,__FILE__,__LINE__,"Error al cerrar clientes desde el servidor.");
-			delete cliente;
 			return false;
-		}else{
-			delete cliente;
 		}
-		
+
+		delete cliente;
 	}
 
 	this->mutexConexionClientes.lockEscritura(__FILE__,__LINE__);
@@ -181,12 +179,13 @@ bool SocketServidor::inciarServidor(int puerto){
 // En caso erróneo devuelve el valor ACEPTAR_ERROR
 int SocketServidor::aceptarCliente(){
 
-	ConexionCliente* cliente = new ConexionCliente;
-
 	// Usa el select() para no quedar bloqueado por el accept(). Con esto solo hago accept sii hay un cliente que quiere conectarse
 	int resultadoSelect = this->miConexion.selectLectura();
 	if( resultadoSelect == SELECT_TIMEOUT ) return ACEPTAR_TIMEOUT;
 	if( resultadoSelect == SELECT_ERROR ) return ACEPTAR_ERROR;
+
+	// Inicio un nuevo cliente
+	ConexionCliente* cliente = new ConexionCliente;
 
 	bool aceptoOk = this->miConexion.aceptarCliente(cliente);
 

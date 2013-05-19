@@ -3,10 +3,11 @@
 ModeloEvento::ModeloEvento() {
 	this->hayEventoEnEspera = false;
 	this->eventoEnEspera.id = -1;
+	this->pProxyEvento = NULL;
 }
 
 ModeloEvento::~ModeloEvento(){
-
+	if( this->pProxyEvento != NULL) delete this->pProxyEvento;
 }
 
 bool ModeloEvento::getActualizado(){
