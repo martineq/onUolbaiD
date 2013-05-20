@@ -32,7 +32,7 @@ class ModeloEntidad {
 				std::list<Posicion> _posiciones;
 				DWORD _instanteUltimoCambioEstado;
 
-				bool agregarTile(std::list<Tile>* tilesAbiertos, std::list<Tile>* tilesCerrados, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia);
+				bool agregarTile(char* mapaTilesVisitados, std::list<Tile>* tilesAbiertos, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia);
 
 				Posicion calcularPosicionDestino(Posicion posicionDestino);
 
