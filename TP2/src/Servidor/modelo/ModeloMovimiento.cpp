@@ -1,8 +1,10 @@
 #include "ModeloEntidad.h"
 
+#define DURACION_CALCULO_CAMINO_MINIMO 1000
+
 using namespace std;
 
-bool ModeloEntidad::ModeloMovimiento::agregarTile(char* mapaTilesVisitados, list<Tile>* tilesAbiertos, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia) {
+bool ModeloEntidad::ModeloMovimiento::agregarTile(char* mapaTilesCerrados, list<Tile>* tilesAbiertos, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia) {
 	Tile tile;
 	tile.padre(padre, distancia);
 	tile.posicion(posicion);
@@ -12,8 +14,8 @@ bool ModeloEntidad::ModeloMovimiento::agregarTile(char* mapaTilesVisitados, list
 	if ((posicion.x < 0) || (posicion.x >= this->_anchoNivel) || (posicion.y < 0) || (posicion.y >= this->_anchoNivel))
 		return false;
 	
-	// Si ya visite el tile salgo
-	if (mapaTilesVisitados[(this->_anchoNivel * posicion.y) + posicion.x] == 1)
+	// Si ya cerre el tile salgo
+	if (mapaTilesCerrados[(this->_anchoNivel * posicion.y) + posicion.x] == 1)
 		return false;
 
 	// Si la posicion esta ocupada no la agrego
@@ -30,7 +32,6 @@ bool ModeloEntidad::ModeloMovimiento::agregarTile(char* mapaTilesVisitados, list
 
 	// Si el tile no esta en ninguna de las dos listas lo agrego y lo marco como visitado
 	tilesAbiertos->push_back(tile);
-	mapaTilesVisitados[(this->_anchoNivel * posicion.y) + posicion.x] = 1;
 
 	return true;
 }
@@ -194,20 +195,23 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 	// Calculo la posicion destino por si seleccione una posicion ocupada
 	posicionDestino = this->calcularPosicionDestino(posicionDestino);
 
-	char* mapaTilesVisitados = new char[this->_altoNivel * this->_anchoNivel * sizeof(char)];
+	char* mapaTilesCerrados = new char[this->_altoNivel * this->_anchoNivel * sizeof(char)];
 	list<Tile> tilesAbiertos;
 	list<Tile> tilesCerrados;
 	Tile* tileActual = NULL;
 
-	memset(mapaTilesVisitados, 0, this->_altoNivel * this->_anchoNivel * sizeof(char));
+	memset(mapaTilesCerrados, 0, this->_altoNivel * this->_anchoNivel * sizeof(char));
 
-	this->agregarTile(mapaTilesVisitados, &tilesAbiertos, this->_modeloEntidad->posicionActual(), posicionDestino, NULL, 0);
+	this->agregarTile(mapaTilesCerrados, &tilesAbiertos, this->_modeloEntidad->posicionActual(), posicionDestino, NULL, 0);
 	
+	DWORD inicio = GetTickCount();
+
 	while (!tilesAbiertos.empty()) {
 		// Paso el primer tile abierto a la lista de cerrados
 		tilesCerrados.push_back(tilesAbiertos.front());
 		tilesAbiertos.pop_front();
 		tileActual = &tilesCerrados.back();
+		mapaTilesCerrados[(this->_anchoNivel * tileActual->posicion().y) + tileActual->posicion().x] = 1;
 
 		// Si llegue a la posicion destino reconstruyo el camino
 		if (tileActual->posicion() == posicionDestino) {
@@ -219,7 +223,13 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 			// Elimino la primera posicion porque ya estoy en ella
 			this->_posiciones.pop_front();
 
-			delete[] mapaTilesVisitados;
+			delete[] mapaTilesCerrados;
+			return;
+		}
+
+		// Si ya paso el tiempo para calcular el camino minimo salgo
+		if ((GetTickCount() - inicio) >= DURACION_CALCULO_CAMINO_MINIMO) {
+			delete[] mapaTilesCerrados;
 			return;
 		}
 
@@ -230,52 +240,52 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 		posicionAdyacente = tileActual->posicion();
 		posicionAdyacente.x -= 1;
 		posicionAdyacente.y -= 1;
-		posicionProcesada |= this->agregarTile(mapaTilesVisitados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 14);
+		posicionProcesada |= this->agregarTile(mapaTilesCerrados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 14);
 
 		// Posicion superior
 		posicionAdyacente = tileActual->posicion();
 		posicionAdyacente.y -= 1;
-		posicionProcesada |= posicionProcesada |= this->agregarTile(mapaTilesVisitados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 10);
+		posicionProcesada |= posicionProcesada |= this->agregarTile(mapaTilesCerrados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 10);
 
 		// Posicion superior derecha
 		posicionAdyacente = tileActual->posicion();
 		posicionAdyacente.x += 1;
 		posicionAdyacente.y -= 1;
-		posicionProcesada |= this->agregarTile(mapaTilesVisitados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 14);
+		posicionProcesada |= this->agregarTile(mapaTilesCerrados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 14);
 
 		// Posicion izquierda
 		posicionAdyacente = tileActual->posicion();
 		posicionAdyacente.x -= 1;
-		posicionProcesada |= posicionProcesada |= this->agregarTile(mapaTilesVisitados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 10);
+		posicionProcesada |= posicionProcesada |= this->agregarTile(mapaTilesCerrados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 10);
 
 		// Posicion derecha
 		posicionAdyacente = tileActual->posicion();
 		posicionAdyacente.x += 1;
-		posicionProcesada |= posicionProcesada |= this->agregarTile(mapaTilesVisitados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 10);
+		posicionProcesada |= posicionProcesada |= this->agregarTile(mapaTilesCerrados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 10);
 
 		// Posicion inferior izquierda
 		posicionAdyacente = tileActual->posicion();
 		posicionAdyacente.x -= 1;
 		posicionAdyacente.y += 1;
-		posicionProcesada |= this->agregarTile(mapaTilesVisitados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 14);
+		posicionProcesada |= this->agregarTile(mapaTilesCerrados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 14);
 
 		// Posicion inferior
 		posicionAdyacente = tileActual->posicion();
 		posicionAdyacente.y += 1;
-		posicionProcesada |= posicionProcesada |= this->agregarTile(mapaTilesVisitados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 10);
+		posicionProcesada |= posicionProcesada |= this->agregarTile(mapaTilesCerrados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 10);
 
 		// Posicion inferior derecha
 		posicionAdyacente = tileActual->posicion();
 		posicionAdyacente.x += 1;
 		posicionAdyacente.y += 1;
-		posicionProcesada |= this->agregarTile(mapaTilesVisitados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 14);
+		posicionProcesada |= this->agregarTile(mapaTilesCerrados, &tilesAbiertos, posicionAdyacente, posicionDestino, tileActual, 14);
 
 		// Ordeno la lista si se prceso alguna posicion
 		if (posicionProcesada)
 			tilesAbiertos.sort();
 	}
 
-	delete[] mapaTilesVisitados;
+	delete[] mapaTilesCerrados;
 }
 
 void ModeloEntidad::ModeloMovimiento::asignarJugadores(Mutex* mutexJugadores, std::list<ModeloEntidad*>* jugadores) {
