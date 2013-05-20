@@ -8,8 +8,9 @@ SDLutil::SDLutil() {
 }
 
 SDLutil::SDLutil(double x, double y, int w, int h, std::string filename) {
-	this->mySurface = ImageLoader::getInstance().load_image(filename);
-	this->mySurface = ImageLoader::getInstance().stretch(this->mySurface, w, h);
+	SDL_Surface* unaSuperficie = ImageLoader::getInstance().load_image(filename);
+	this->mySurface = ImageLoader::getInstance().stretch(unaSuperficie, w, h);
+	SDL_FreeSurface(unaSuperficie);
 
 	this->screen = NULL;
 	this->fondo = NULL;
