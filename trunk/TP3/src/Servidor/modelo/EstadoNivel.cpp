@@ -69,3 +69,12 @@ string EstadoNivel::getMatriz(){
 	std::string matriz(this->_nivel,_alto*_ancho);
 	return matriz;
 }
+
+void EstadoNivel::setMatriz(std::string mapa){
+	for (int i = 0; i < this->_alto; i++){
+		for (int j = 0; j < this->_ancho; j++){
+			int fila = i * this->_ancho;
+			this->_nivel[j+ fila] = mapa[fila+j];
+		}	
+	}
+}

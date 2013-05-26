@@ -110,7 +110,7 @@ void VistaScroll::obtenerTilesLimites(Posicion& posicionInicial, Posicion& posic
 		posicionFinal.y = this->altoNivel;	
 }
 
-void VistaScroll::graficar(SDL_Surface* pantalla, char** matriz) {
+void VistaScroll::graficar(SDL_Surface* pantalla, EstadoNivel* estadoNivel) {
 	int xt = 0, yt = 0, xp = 0, yp = 0;	
 	//if (this->esNecesarioRefrescar == true) {
 		this->obtenerTilesLimites(this->posicionInicial, this->posicionFinal);
@@ -121,7 +121,7 @@ void VistaScroll::graficar(SDL_Surface* pantalla, char** matriz) {
 			for (yt = posicionInicial.y; yt < posicionFinal.y; yt++) {
 				
 				Posicion::convertirTileAPixel(this->altoNivel, xt, yt, xp, yp);								
-				this->utilidadSDL->graficar(xp - this->x - (ANCHO_TILE / 2), yp - this->y, matriz[xt][yt]);
+				this->utilidadSDL->graficar(xp - this->x - (ANCHO_TILE / 2), yp - this->y, estadoNivel->visibilidad(xt,yt));
 			}
 		}
 		//this->esNecesarioRefrescar = false;

@@ -24,6 +24,8 @@ class EstadoNivel {
 
 		void visitar(int x, int y);
 
+		void setMatriz(std::string);
+
 		char visibilidad(int x, int y);
 
 		std::string getMatriz();
