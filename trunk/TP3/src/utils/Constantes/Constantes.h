@@ -128,6 +128,7 @@
 #define ANCHO_TILE 100
 #define VELOCIDAD_SCROLL 5
 #define ID_FALSO -1
+#define PERIODO_CICLO_CLIENTE 50
 
 /***************************** Fog *************************/
 #define ZONA_VISIBLE 5

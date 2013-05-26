@@ -32,10 +32,24 @@ void Cliente::loop(void){
 
 	bool quit = false;
 	this->vistaJuego.cargarMatriz();
+	int tiempoUltimoChequeo = 0;
+
 	while (quit == false){
-		if( this->controladorJuego.loop(this->vistaJuego.getVistaNivel()) == false) quit = true;
-		if( this->vistaJuego.loop() == false) quit = true;
+		unsigned long periodoTranscurrido = (Temporizador::getInstance().obtenerTics()) - (tiempoUltimoChequeo);
+
+		// Tiempo en milisegundos
+		if( periodoTranscurrido >= PERIODO_CICLO_CLIENTE ){
+
+			// Loopeo
+			if( this->controladorJuego.loop(this->vistaJuego.getVistaNivel()) == false) quit = true;
+			if( this->vistaJuego.loop() == false) quit = true;
+
+			// Actualizo el tiempo
+			tiempoUltimoChequeo = Temporizador::getInstance().obtenerTics();
+		}
+
 	}
+
 }
 
 bool Cliente::correrJuego(std::string mote,std::string personaje){
