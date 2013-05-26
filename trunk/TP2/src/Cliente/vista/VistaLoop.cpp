@@ -18,7 +18,23 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 	this->pantalla = pantalla;
 }
 
-char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, char** matriz){
+//, EstadoNivel* estadoNivel
+
+char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, EstadoNivel* estadoNivel){
+	int x1 = unaEntidad->getTileX();
+	int x2 = unaEntidad->getTileX() + (unaEntidad->getAncho() / ANCHO_TILE) - 1;
+	int y1 = unaEntidad->getTileY();
+	int y2 = unaEntidad->getTileY() + (unaEntidad->getAlto() / ALTO_TILE) - 1;
+
+	if ((estadoNivel->visibilidad(x1,y1) == VISIBLE) || (estadoNivel->visibilidad(x1,y2) == VISIBLE) || (estadoNivel->visibilidad(x2,y1) == VISIBLE) || (estadoNivel->visibilidad(x2,y2) == VISIBLE))
+		return VISIBLE;
+	else if ((estadoNivel->visibilidad(x1,y1) == CONOCIDO_NO_VISIBLE) || (estadoNivel->visibilidad(x1,y2) == CONOCIDO_NO_VISIBLE) || (estadoNivel->visibilidad(x2,y1) == CONOCIDO_NO_VISIBLE) || (estadoNivel->visibilidad(x2,y2) == CONOCIDO_NO_VISIBLE))
+		return CONOCIDO_NO_VISIBLE;
+	else
+		return NO_CONOCIDO;
+}
+
+/*char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, char** matriz){
 	int x1 = unaEntidad->getTileX();
 	int x2 = unaEntidad->getTileX() + (unaEntidad->getAncho() / ANCHO_TILE) - 1;
 	int y1 = unaEntidad->getTileY();
@@ -30,14 +46,17 @@ char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, char** matriz){
 		return CONOCIDO_NO_VISIBLE;
 	else
 		return NO_CONOCIDO;
+}*/
+void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, EstadoNivel* estadoNivel){
+	estadoNivel->visitar(vistaNivel.getJugador()->getTileX(), vistaNivel.getJugador()->getTileY());
 }
-
+/*
 void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 	//pinto de gris segun el movimiento que hizo
 	VistaEntidad* jugador = vistaNivel.getJugador();
 
-	//******************************Validacion de posicion para arriba o abajo*****************************//
-
+	//******************************Validacion de posicion para arriba o abajo*****************************///
+/*
 	int mitadDeZonaVisible = ZONA_VISIBLE/2;
 	int inicioX = vistaNivel.getJugador()->getTileX() - mitadDeZonaVisible;
 	int finX = vistaNivel.getJugador()->getTileX() + mitadDeZonaVisible;		
@@ -289,23 +308,23 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, char** matriz){
 		}
 	}
 
-}
+}*/
 
-bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,char** matriz){
+bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNivel* estadoNivel){
 	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory) == false) return false;	// Nuevo: Actuliza lo que vino por el proxy
 
 	if ( (vistaNivel.getJugador()->getTileXAnterior() != vistaNivel.getJugador()->getTileX())
 		|| (vistaNivel.getJugador()->getTileYAnterior() != vistaNivel.getJugador()->getTileY()) ) {
-			this->refrescarMatriz(vistaNivel,matriz);
+			this->refrescarMatriz(vistaNivel,estadoNivel);
 	}
 
-	if( this->dibujarEntidades(vistaNivel, matriz) == false) return false;
+	if( this->dibujarEntidades(vistaNivel, estadoNivel) == false) return false;
 	if (!this->vistaChat->graficar(this->pantalla)) return false;
 	ImageLoader::getInstance().refrescarPantalla(this->pantalla);
 	return true;
 }
 
-bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz){
+/*bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz){
 	list<VistaEntidad*> listaJugadores = vistaNivel.getListaOtrosJugadores();
 	list<VistaEntidad*> listaEntidades = vistaNivel.getListaEntidades();
 	list<VistaEntidad*>::iterator jugador = listaJugadores.begin();
@@ -352,6 +371,67 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, char** matriz){
 			(*jugador)->setXEnPantalla(vistaNivel.getScroll()->getX());
 			(*jugador)->setYEnPantalla(vistaNivel.getScroll()->getY());
 			char visibilidad = this->visibilidadDeLaEntidad((*jugador),matriz);
+			if (visibilidad == VISIBLE ){
+  			   if (!(*jugador)->graficar(visibilidad))
+				  return false;
+			}
+		}
+		jugador++;
+	}
+
+	if (vistaNivel.getScroll()->getEsNecesarioRefrescar())
+		vistaNivel.getScroll()->setEsNecesarioRefrescar(false);
+
+	return true;
+}*/
+
+bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, EstadoNivel* estadoNivel){
+	list<VistaEntidad*> listaJugadores = vistaNivel.getListaOtrosJugadores();
+	list<VistaEntidad*> listaEntidades = vistaNivel.getListaEntidades();
+	list<VistaEntidad*>::iterator jugador = listaJugadores.begin();
+	list<VistaEntidad*>::iterator entidad = listaEntidades.begin();
+
+	//grafica los tiles
+	vistaNivel.getScroll()->graficar(this->pantalla,estadoNivel);
+
+	//Dibujo las entidades (y el jugador si corresponde)
+	while (entidad != listaEntidades.end()) {
+		VistaEntidad* unaEntidad = *entidad;
+		entidad++;
+
+		// Si el jugador esta antes que la entidad que voy a dibujar lo dibujo primero
+		if (jugador != listaJugadores.end()) {
+			if (VistaNivel::ordenadorEntidades(*jugador, unaEntidad)) {
+				if ((*jugador)->verificarBordePantalla(vistaNivel.getScroll())) {
+					(*jugador)->setPantalla(this->pantalla);
+					(*jugador)->setXEnPantalla(vistaNivel.getScroll()->getX());
+					(*jugador)->setYEnPantalla(vistaNivel.getScroll()->getY());
+					char visibilidad = this->visibilidadDeLaEntidad((*jugador),estadoNivel);
+					if (visibilidad == VISIBLE ){
+						if (!(*jugador)->graficar(visibilidad))
+							return false;
+					}
+				}
+				jugador++;
+			}
+		}
+
+		if (unaEntidad->verificarBordePantalla(vistaNivel.getScroll())) {
+			unaEntidad->setPantalla(this->pantalla);
+			unaEntidad->setXEnPantalla(vistaNivel.getScroll()->getX());
+			unaEntidad->setYEnPantalla(vistaNivel.getScroll()->getY());
+			if (!unaEntidad->graficar(this->visibilidadDeLaEntidad(unaEntidad,estadoNivel)))
+				return false;
+		}
+	}
+	
+	// Dibujo los jugadores que no dibuje
+	while (jugador != listaJugadores.end()) {
+		if ((*jugador)->verificarBordePantalla(vistaNivel.getScroll())) {
+			(*jugador)->setPantalla(this->pantalla);
+			(*jugador)->setXEnPantalla(vistaNivel.getScroll()->getX());
+			(*jugador)->setYEnPantalla(vistaNivel.getScroll()->getY());
+			char visibilidad = this->visibilidadDeLaEntidad((*jugador),estadoNivel);
 			if (visibilidad == VISIBLE ){
   			   if (!(*jugador)->graficar(visibilidad))
 				  return false;
