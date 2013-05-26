@@ -63,6 +63,7 @@ bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::s
 }
 
 void VistaJuego::cargarMatriz(){
+	this->estadoNivel->setMatriz(this->vistaFactory.getMatriz());
 	/*std::string matriz = this->vistaFactory.getMatriz();
 	for (int i = 0; i < this->vistaNivel.getAltoDeNivelEnTiles(); i++){
 		for (int j = 0; j < this->vistaNivel.getAnchoDeNivelEnTiles(); j++){
