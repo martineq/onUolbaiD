@@ -1,24 +1,23 @@
 #include "./VistaJuego.h"
 
 VistaJuego::VistaJuego(void){
-	this->matriz = NULL;
+	this->estadoNivel = NULL;
 }
 
 VistaJuego::~VistaJuego(void){
 
-	if( this->matriz != NULL ){
-		for (int i = 0; i < this->vistaNivel.getAnchoDeNivelEnTiles(); i++)	delete [] this->matriz[i];
-		delete [] this->matriz;
-	}
-
+	if (this->estadoNivel != NULL)
+		delete this->estadoNivel;
 }
 
 bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje){
 	ImageLoader::getInstance().iniciarSDL();
 	if( this->vistaFactory.crearNivel(this->vistaNivel,evento,pSocket,this->vistaLoop.getPunteroPantalla(),this->vistaLoop.getPunteroProxy(),mote,personaje) == false ) return false;
 	
+	this->estadoNivel = new EstadoNivel(this->vistaNivel.getAltoDeNivelEnTiles(), this->vistaNivel.getAnchoDeNivelEnTiles(), this->vistaNivel.getJugador()->getTileX(), this->vistaNivel.getJugador()->getTileY());
+
 	//creo la matriz para niebla de guerra
-	this->matriz = new char* [this->vistaNivel.getAltoDeNivelEnTiles()];
+	/*this->matriz = new char* [this->vistaNivel.getAltoDeNivelEnTiles()];
 	for (int i = 0; i < this->vistaNivel.getAltoDeNivelEnTiles(); i++) {
 		this->matriz[i] = new char [this->vistaNivel.getAnchoDeNivelEnTiles()];
 	}
@@ -58,23 +57,24 @@ bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::s
 		for (int j = inicioY; j <= finY; j++){
 			this->matriz[i][j] = VISIBLE;
 		}
-	}
+	}*/
 	
 	return true;
 }
 
 void VistaJuego::cargarMatriz(){
-	std::string matriz = this->vistaFactory.getMatriz();
+	/*std::string matriz = this->vistaFactory.getMatriz();
 	for (int i = 0; i < this->vistaNivel.getAltoDeNivelEnTiles(); i++){
 		for (int j = 0; j < this->vistaNivel.getAnchoDeNivelEnTiles(); j++){
 			int fila = i * this->vistaNivel.getAnchoDeNivelEnTiles();
 			this->matriz[j][i] = matriz[fila+j];
 		}	
-	}
+	}*/
 }
 
 bool VistaJuego::loop(){
-	return this->vistaLoop.loop(this->vistaNivel,this->vistaFactory, this->matriz);
+	//return this->vistaLoop.loop(this->vistaNivel,this->vistaFactory, this->matriz);
+	return this->vistaLoop.loop(this->vistaNivel,this->vistaFactory, this->estadoNivel);
 }
 
 VistaNivel* VistaJuego::getVistaNivel() {
