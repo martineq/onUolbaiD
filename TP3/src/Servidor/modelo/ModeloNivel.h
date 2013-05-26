@@ -3,7 +3,8 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include "./ModeloEntidad.h"
+#include "ModeloEntidad.h"
+#include "ModeloJugador.h"
 #include "../../utils/Observador/Identificable.h"
 #include "../../utils/Hilos/Mutex.h"
 
@@ -12,16 +13,17 @@ class ModeloNivel {
 		int altoTiles;
 		int anchoTiles;
 
-		std::list<ModeloEntidad*> jugadores;
+		std::list<ModeloJugador*> jugadores;
 		Mutex mutexJugadores;
+
+		std::list<ModeloEntidad*> entidadesMoviles;
+		Mutex mutexEntidadesMoviles;
 
 		std::multimap<std::pair<int, int>, ModeloEntidad*> entidades;
 		Mutex mutexEntidades;
 
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
-
-		ModeloEntidad* obtenerEntidad(int id);
 
 		void destruirListaJugadores();
 		void destruirListaEntidades();
@@ -33,7 +35,8 @@ class ModeloNivel {
 		virtual ~ModeloNivel();
 
 		// Getters
-		std::list<ModeloEntidad*> getListaJugadores();
+		std::list<ModeloJugador*> getListaJugadores();
+		std::list<ModeloEntidad*> getListaEntidadesMoviles();
 
 		int getAltoTiles();
 		int getAnchoTiles();
@@ -42,18 +45,19 @@ class ModeloNivel {
 		void setAltoTiles(int alto);
 		void setAnchoTiles(int ancho);
 
-		void agregarJugador(ModeloEntidad *jugador);
-		void agregarEntidad(ModeloEntidad *entidad);
+		void agregarJugador(ModeloJugador* jugador);
+		void agregarEntidad(ModeloEntidad* entidad);
 		
-		void removerJugador(ModeloEntidad *jugador);
-		void removerEntidad(ModeloEntidad *entidad);
+		void removerJugador(ModeloJugador* jugador);
+		void removerEntidad(ModeloEntidad* entidad);
 		
 		void jugadorMover(int tileX, int tileY, int id);
 		void jugadorAtacar(int id);
 		void jugadorDefender(int id);
 		void congelarJugador(int id);
 
-		ModeloEntidad* obtenerJugador(int id);
+		ModeloJugador* obtenerJugador(int id);
+		ModeloEntidad* obtenerEntidadMovil(int id);
 
 		bool actualizar();
 

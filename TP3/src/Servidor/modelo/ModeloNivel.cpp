@@ -2,10 +2,19 @@
 
 using namespace std;
 
-ModeloEntidad* ModeloNivel::obtenerJugador(int id) {
-	std::list<ModeloEntidad*> listaJugadores = this->getListaJugadores();
-	for (std::list<ModeloEntidad*>::iterator itModeloEntidad = listaJugadores.begin(); itModeloEntidad != listaJugadores.end(); itModeloEntidad++){
+ModeloEntidad* ModeloNivel::obtenerEntidadMovil(int id) {
+	std::list<ModeloEntidad*> listaEntidadesMovil = this->getListaEntidadesMoviles();
+	for (std::list<ModeloEntidad*>::iterator itModeloEntidad = listaEntidadesMovil.begin(); itModeloEntidad != listaEntidadesMovil.end(); itModeloEntidad++){
 		if ((*itModeloEntidad)->id() == id)
+			return (*itModeloEntidad);
+	}
+	return NULL;
+}
+
+ModeloJugador* ModeloNivel::obtenerJugador(int id) {
+	std::list<ModeloJugador*> listaJugadores = this->getListaJugadores();
+	for (std::list<ModeloJugador*>::iterator itModeloEntidad = listaJugadores.begin(); itModeloEntidad != listaJugadores.end(); itModeloEntidad++){
+		if ((*itModeloEntidad)->modeloEntidad()->id() == id)
 			return (*itModeloEntidad);
 	}
 	return NULL;
@@ -19,11 +28,18 @@ ModeloNivel::~ModeloNivel() {
 	// Las listas de punteros ya son destruidos desde el Administrador
 }
 
-std::list<ModeloEntidad*> ModeloNivel::getListaJugadores() {
+std::list<ModeloJugador*> ModeloNivel::getListaJugadores() {
 	this->mutexJugadores.lockLectura(__FILE__, __LINE__);
-	std::list<ModeloEntidad*> listaJugadores = this->jugadores;
+	std::list<ModeloJugador*> listaJugadores = this->jugadores;
 	this->mutexJugadores.unlock(__FILE__, __LINE__);
 	return listaJugadores;
+}
+
+std::list<ModeloEntidad*> ModeloNivel::getListaEntidadesMoviles() {
+	this->mutexEntidadesMoviles.lockLectura(__FILE__, __LINE__);
+	std::list<ModeloEntidad*> listaEntidadesMoviles = this->entidadesMoviles;
+	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
+	return listaEntidadesMoviles;
 }
 
 int ModeloNivel::getAnchoTiles() {
@@ -34,13 +50,16 @@ int ModeloNivel::getAltoTiles() {
 	return this->anchoTiles;
 }
 
-void ModeloNivel::agregarJugador(ModeloEntidad *jugador) {
+void ModeloNivel::agregarJugador(ModeloJugador* jugador) {
 	this->mutexJugadores.lockEscritura(__FILE__, __LINE__);
 	this->jugadores.push_back(jugador);	
-	jugador->notificar();
 	this->mutexJugadores.unlock(__FILE__, __LINE__);
-	jugador->asignarEntidades(&this->mutexEntidades, &this->entidades);
-	jugador->asignarJugadores(&this->mutexJugadores, &this->jugadores);
+	this->mutexEntidadesMoviles.lockEscritura(__FILE__, __LINE__);
+	this->entidadesMoviles.push_back(jugador->modeloEntidad());	
+	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
+	jugador->modeloEntidad()->notificar();
+	jugador->modeloEntidad()->asignarEntidades(&this->mutexEntidades, &this->entidades);
+	jugador->modeloEntidad()->asignarJugadores(&this->mutexEntidadesMoviles, &this->entidadesMoviles);
 }
 
 void ModeloNivel::agregarEntidad(ModeloEntidad* entidad) {
@@ -60,10 +79,13 @@ void ModeloNivel::setAnchoTiles(int ancho){
 	this->anchoTiles = ancho;
 }
 
-void ModeloNivel::removerJugador(ModeloEntidad *jugador) {
+void ModeloNivel::removerJugador(ModeloJugador* jugador) {
 	this->mutexJugadores.lockEscritura(__FILE__, __LINE__);
 	this->jugadores.remove(jugador);
 	this->mutexJugadores.unlock(__FILE__, __LINE__);
+	this->mutexEntidadesMoviles.lockEscritura(__FILE__, __LINE__);
+	this->entidadesMoviles.remove(jugador->modeloEntidad());	
+	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
 }
 
 void ModeloNivel::removerEntidad(ModeloEntidad* entidad) {
@@ -73,49 +95,50 @@ void ModeloNivel::removerEntidad(ModeloEntidad* entidad) {
 }
 
 void ModeloNivel::jugadorMover(int mouseX, int mouseY, int id) {
-	ModeloEntidad* jugador = this->obtenerJugador(id);
+	ModeloJugador* jugador = this->obtenerJugador(id);
 	if (jugador == NULL)
 		return;
 	Posicion posicion;
 	Posicion::convertirPixelATile(this->getAltoTiles(), mouseX, mouseY, posicion.x, posicion.y);
-	jugador->mover(posicion);
+	jugador->modeloEntidad()->mover(posicion);
 }
 
 void ModeloNivel::jugadorAtacar(int id) {
-	ModeloEntidad* jugador = this->obtenerJugador(id);
+	ModeloJugador* jugador = this->obtenerJugador(id);
 	if (jugador == NULL)
 		return;
 	jugador->atacar();
 }
 
 void ModeloNivel::jugadorDefender(int id) {
-	ModeloEntidad* jugador = this->obtenerJugador(id);
+	ModeloJugador* jugador = this->obtenerJugador(id);
 	if (jugador == NULL)
 		return;
 	jugador->defender();
 }
 
 void ModeloNivel::congelarJugador(int id){
-	ModeloEntidad* jugador = this->obtenerJugador(id);
+	ModeloJugador* jugador = this->obtenerJugador(id);
 	if (jugador == NULL){
 		return void();
 	}else{
-		jugador->estaCongelado(true);
+		jugador->modeloEntidad()->estaCongelado(true);
 		this->decrementarJugadores();		// Se resta la cantidad de jugadores cuando alguno de ellos tiene error
 	}
 	return void();
 }
 
 bool ModeloNivel::actualizar() {
-	std::list<ModeloEntidad*> listaJugadores = this->getListaJugadores();
+	std::list<ModeloEntidad*> listaJugadores = this->getListaEntidadesMoviles();
 	for (std::list<ModeloEntidad*>::iterator entidad = listaJugadores.begin(); entidad != listaJugadores.end(); entidad++)
 		(*entidad)->cambiarEstado();
 	return true;
 }
 
 bool ModeloNivel::posicionOcupada(Posicion pos){
-	for (std::list<ModeloEntidad*>::iterator jugador = this->jugadores.begin(); jugador != this->jugadores.end(); jugador++){
-		
+	std::list<ModeloEntidad*> listaJugadores = this->getListaEntidadesMoviles();
+
+	for (std::list<ModeloEntidad*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++){
 		Posicion posicionDelJugador = (*jugador)->posicionActual();
 		int x1 = posicionDelJugador.x;
 		int x2 = posicionDelJugador.x + (*jugador)->ancho() - 1;
@@ -132,7 +155,7 @@ bool ModeloNivel::posicionOcupada(Posicion pos){
 
 void ModeloNivel::destruirListaJugadores(){
 	// Destruyo los jugadores instanciados
-	for (std::list<ModeloEntidad*>::iterator jugador = this->jugadores.begin(); jugador != this->jugadores.end(); jugador++){
+	for (std::list<ModeloJugador*>::iterator jugador = this->jugadores.begin(); jugador != this->jugadores.end(); jugador++){
 		delete (*jugador);
 	}
 }
@@ -140,7 +163,7 @@ void ModeloNivel::destruirListaJugadores(){
 bool ModeloNivel::chequearConexion() {
 	if (this->jugadores.empty())
 		return false;
-	return this->jugadores.front()->chequearConexion();
+	return this->jugadores.front()->modeloEntidad()->chequearConexion();
 }
 
 void ModeloNivel::destruirListaEntidades() {

@@ -127,84 +127,93 @@ class ModeloEntidad {
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
 
 		ModeloEntidad& operator=(const ModeloEntidad &modeloEntidad);
-
-	protected:
-		void accion(Accion accion);
-		
-		void direccion(Direccion direccion);
-
-		void esUltimoMovimiento(bool esUltimoMovimiento);
-
-		void posicionActual(Posicion posicionActual);
-
-		void posicionSiguiente(Posicion posicionSiguiente);
-
-		void pixelActual(Posicion pixelActual);
-
-		void pixelSiguiente(Posicion pixelSiguiente);
 		
 	public:
-		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string mote);
+		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador);
 
 		virtual ~ModeloEntidad();
 
 		Accion accion();
 
+		void accion(Accion accion);
+
 		int alto();
+
+		void alto(int alto);
 
 		int ancho();
 		
+		void ancho(int ancho);
+
 		Direccion direccion();
+
+		void direccion(Direccion direccion);
 
 		bool esJugador();
 
+		void esJugador(bool esJugador);
+
 		bool estaCongelado();
+
+		void estaCongelado(bool estaCongelado);
 
 		bool esUltimoMovimiento();
 
+		void esUltimoMovimiento(bool esUltimoMovimiento);
+
 		int id();
+
+		void id(int id);
 
 		std::string nombreEntidad();
 
+		void nombreEntidad(std::string nombreEntidad);
+
 		std::string nombreJugador();
+
+		void nombreJugador(std::string nombreJugador);
 
 		Posicion posicionActual();
 
+		void posicionActual(Posicion posicionActual);
+
 		Posicion posicionSiguiente();
 
-		ProxyModeloEntidad::stEntidad stEntidad();
-		
-		int velocidad();
+		void posicionSiguiente(Posicion posicionSiguiente);
 
-		void estaCongelado(bool estaCongelado);
+		int velocidad();
+		
+		void velocidad(int velocidad);
 
 		void asignarJugadores(Mutex* mutexJugadores, std::list<ModeloEntidad*>* jugadores);
 
 		void asignarEntidades(Mutex* mutexEntidades, std::multimap<std::pair<int, int>, ModeloEntidad*>* entidades);
 
-		void atacar();
+		void cambiarEstado();
 
 		bool chequearConexion();
 
-		void defender();
+		void detener();
 
 		void enviarMensaje(ModeloEntidad* remitente, std::string mensaje);
 
-		void cambiarEstado();
-
 		void mover(Posicion posicion);
+
+		void notificar();
 
 		bool ocupaPosicion(Posicion posicion);
 
+		bool operator==(const ModeloEntidad &modeloEntidad) const;
+
+		ProxyModeloEntidad::stEntidad stEntidad();
+
 		Posicion pixelActual();
+
+		void pixelActual(Posicion pixelActual);
 
 		Posicion pixelSiguiente();
 
-		void notificar();
-	
-		void setNombreJugador(std::string nombre);
+		void pixelSiguiente(Posicion pixelSiguiente);
 
 		void cargarMatriz(ProxyModeloEntidad::stEntidad& entidad);
-
-		bool operator==(const ModeloEntidad &modeloEntidad) const;
 };
