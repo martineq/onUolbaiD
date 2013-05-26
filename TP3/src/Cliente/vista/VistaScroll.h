@@ -5,6 +5,7 @@
 #include "../../utils/Observador/Observador.h"
 #include "../../utils/Observador/Identificable.h"
 #include "../Controlador/ControladorScroll.h"
+#include "../../Servidor/modelo/EstadoNivel.h"
 
 class VistaScroll: public Observador, public Identificable{
 
@@ -24,7 +25,7 @@ class VistaScroll: public Observador, public Identificable{
 		VistaScroll(double x,double y,double alto,double ancho, double anchoNivel, double altoNivel,SDL_Surface* pantalla,int id);
 		~VistaScroll(void);
 
-		void graficar(SDL_Surface*,char**);
+		void graficar(SDL_Surface*,EstadoNivel*);
 		void obtenerTilesLimites(Posicion& posicionInicial, Posicion& posicionFinal);
 		void actualizar(class Observable* s);
 		int id();

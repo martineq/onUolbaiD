@@ -6,6 +6,7 @@
 #include "VistaEntidad.h"
 #include "VistaChat.h"
 #include "../../utils/Sockets/SocketCliente.h"
+#include "../../Servidor/modelo/EstadoNivel.h"
 
 class VistaJuego{
 
@@ -15,7 +16,8 @@ class VistaJuego{
 		VistaLoop vistaLoop;
 		SDL_Surface *pantalla,*fondo,*textSurface;	
 
-		char** matriz;
+		EstadoNivel* estadoNivel;
+		
 	public:
 		VistaJuego(void);
 		~VistaJuego(void);
