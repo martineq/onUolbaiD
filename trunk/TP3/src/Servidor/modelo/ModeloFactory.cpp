@@ -137,23 +137,23 @@ bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* 
 // Caso 3: Si el jugador SI está en uso y NO se encuentra "congelado", se elige otro jugador que no se encuentre en uso, se crea y se devuelve una copia del mismo
 ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,std::string& mote,std::string& nombreEntidadPersonaje,SocketServidor* pSocket,int& id){
 
-	std::list<ModeloEntidad*> listaEntidades = modeloNivel->getListaJugadores();
+	std::list<ModeloJugador*> listaEntidades = modeloNivel->getListaJugadores();
 	std::list<std::string> listaJugadoresUsados;
 	ProxyModeloEntidad::stEntidad stEntidad;
 	ModeloEntidad* pEntidad = NULL;
 	bool moteEncontrado = false;
 
-	for( std::list<ModeloEntidad*>::iterator itEntidad = listaEntidades.begin() ; itEntidad != listaEntidades.end() ; itEntidad++ ){
+	for( std::list<ModeloJugador*>::iterator itEntidad = listaEntidades.begin() ; itEntidad != listaEntidades.end() ; itEntidad++ ){
 		// Obtengo el nombre de jugador y entidad
-		std::string moteJugador = (*itEntidad)->nombreJugador();
-		std::string entidadPersonaje = (*itEntidad)->nombreEntidad();
+		std::string moteJugador = (*itEntidad)->modeloEntidad()->nombreJugador();
+		std::string entidadPersonaje = (*itEntidad)->modeloEntidad()->nombreEntidad();
 		
 		// Guardo el nombre de la entidad usada
 		listaJugadoresUsados.push_back(entidadPersonaje);
 		
 		// Comparo el nombre del jugador usado con el que me pide el usuario nuevo
 		if( moteJugador.compare(mote) == 0 ){
-			pEntidad = (*itEntidad);
+			pEntidad = (*itEntidad)->modeloEntidad();
 			moteEncontrado = true;
 		}
 	}
@@ -248,7 +248,7 @@ std::string ModeloFactory::obtenerPersonajeLibre(std::list<std::string> listaEnt
 }
 
 bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador){
-	std::list<ModeloEntidad*> listaJugadores = modeloNivel->getListaJugadores();
+	std::list<ModeloJugador*> listaJugadores = modeloNivel->getListaJugadores();
 	int cantidadOtrosJugadores = listaJugadores.size() - 1;  // Descarto a mi jugador
 	ProxyModeloEntidad proxy;
 	proxy.setSocketServidor(pSocket);
@@ -261,8 +261,8 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 	if( pSocket->enviarIndividual(s,idMiJugador) == false ) return false;
 
 	// Envío los datos de los jugadores, a través de un proxy
-	for (std::list<ModeloEntidad*>::iterator it=listaJugadores.begin() ; it != listaJugadores.end(); it++ ){ 
-		ModeloEntidad* pEntidad = (*it);
+	for (std::list<ModeloJugador*>::iterator it=listaJugadores.begin() ; it != listaJugadores.end(); it++ ){ 
+		ModeloEntidad* pEntidad = (*it)->modeloEntidad();
 		if( pEntidad->id() != idMiJugador ){
 			// Cargo los datos
 			int accion = 0;
@@ -314,11 +314,11 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	pProxyEntidad->setSocketServidor(pSocket);
 
 	// Creo la entidad
-	ModeloEntidad* pJugador = new ModeloEntidad(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote); 
+	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote); 
 
 	// Obtengo los datos de la stEntidad para luego pasarsela al cliente
-	stEntidad = pJugador->stEntidad();
-	pJugador->cargarMatriz(stEntidad);
+	stEntidad = pJugador->modeloEntidad()->stEntidad();
+	pJugador->modeloEntidad()->cargarMatriz(stEntidad);
 	// Agrego la entidad al nivel
 	modeloNivel->agregarJugador(pJugador);
 

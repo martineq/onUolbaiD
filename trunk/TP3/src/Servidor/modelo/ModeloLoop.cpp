@@ -28,13 +28,13 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 			modeloNivel.congelarJugador(idJugador);
 		}
 		else if (this->_modeloEvento.getIdDestinatarioChat() != -1) {
-			ModeloEntidad* remitente = modeloNivel.obtenerJugador(this->_modeloEvento.getIdJugador());
+			ModeloJugador* remitente = modeloNivel.obtenerJugador(this->_modeloEvento.getIdJugador());
 			if (remitente == NULL)
 				return true;
-			ModeloEntidad* destinatario = modeloNivel.obtenerJugador(this->_modeloEvento.getIdDestinatarioChat());
+			ModeloJugador* destinatario = modeloNivel.obtenerJugador(this->_modeloEvento.getIdDestinatarioChat());
 			if (destinatario == NULL)
 				return true;
-			destinatario->enviarMensaje(remitente, this->_modeloEvento.getMensajeChat());
+			destinatario->modeloEntidad()->enviarMensaje(remitente->modeloEntidad(), this->_modeloEvento.getMensajeChat());
 		}
 		else {
 			// En el caso de no haber errores y no haber terminado el juego se obtienen los datos para acutalizar

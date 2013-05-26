@@ -4,7 +4,7 @@ pantalla:
     alto: 600 #pixels
 configuracion:
     vel_personaje : 200
-    margen_scroll : 20
+    margen_scroll : 50
 entidades:
     - nombre: agua
       pixel_ref_x: 50 #pixels

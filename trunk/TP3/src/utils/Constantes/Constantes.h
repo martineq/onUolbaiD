@@ -126,7 +126,7 @@
 /**************************** Juego ****************************/
 #define ALTO_TILE 50
 #define ANCHO_TILE 100
-#define VELOCIDAD_SCROLL 5
+#define VELOCIDAD_SCROLL 10
 #define ID_FALSO -1
 #define PERIODO_CICLO_CLIENTE 50
 

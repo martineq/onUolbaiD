@@ -188,6 +188,16 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 	// Dentego el movimiento anterior
 	this->detener();
 
+	// Ajusta los movimientos para esten dentro del mapa
+	if (posicionDestino.x < 0)
+		posicionDestino.x = 0;
+	else if (posicionDestino.x >= this->_anchoNivel)
+		posicionDestino.x = this->_anchoNivel - 1;
+	if (posicionDestino.y < 0)
+		posicionDestino.y = 0;
+	else if (posicionDestino.y >= this->_altoNivel)
+		posicionDestino.y = this->_altoNivel - 1;
+
 	// Si la posicion actual es igual a la destino no ejectuo el movimiento
 	if (this->_modeloEntidad->posicionActual() == posicionDestino)
 		return;

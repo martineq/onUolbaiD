@@ -2,57 +2,6 @@
 
 using namespace std;
 
-void ModeloEntidad::accion(Accion accion) {
-	this->_mutex.lockEscritura(__FILE__, __LINE__);
-	this->_accion = accion;
-	this->_mutex.unlock(__FILE__, __LINE__);
-}
-
-void ModeloEntidad::direccion(Direccion direccion) {
-	this->_mutex.lockEscritura(__FILE__, __LINE__);
-	this->_direccion = direccion;
-	this->_mutex.unlock(__FILE__, __LINE__);
-}
-
-void ModeloEntidad::esUltimoMovimiento(bool esUltimoMovimiento) {
-	this->_mutex.lockEscritura(__FILE__, __LINE__);
-	this->_esUltimoMovimiento = esUltimoMovimiento;
-	this->_mutex.unlock(__FILE__, __LINE__);
-}
-
-void ModeloEntidad::posicionActual(Posicion posicionActual) {
-	this->_mutex.lockEscritura(__FILE__, __LINE__);
-	this->_posicionActual = posicionActual;
-	if (this->_estadoNivel != NULL)
-		this->_estadoNivel->visitar(this->_posicionActual.x, this->_posicionActual.y);
-	this->_mutex.unlock(__FILE__, __LINE__);
-}
-
-void ModeloEntidad::posicionSiguiente(Posicion posicionSiguiente) {
-	this->_mutex.lockEscritura(__FILE__, __LINE__);
-	this->_posicionSiguiente = posicionSiguiente;
-	this->_mutex.unlock(__FILE__, __LINE__);
-}
-
-void ModeloEntidad::pixelActual(Posicion pixelActual) {
-	this->_mutex.lockEscritura(__FILE__, __LINE__);
-	this->_pixelActual = pixelActual;
-	this->_mutex.unlock(__FILE__, __LINE__);
-}
-
-void ModeloEntidad::pixelSiguiente(Posicion pixelSiguiente) {
-	this->_mutex.lockEscritura(__FILE__, __LINE__);
-	this->_pixelSiguiente = pixelSiguiente;
-	this->_mutex.unlock(__FILE__, __LINE__);
-}
-
-void ModeloEntidad::notificar() {
-	this->_proxyEntidad->enviarEntidad(this->stEntidad());	
-}
-
-void ModeloEntidad::setNombreJugador(std::string nombre){
-	this->_nombreJugador = nombre;	
-}
 ModeloEntidad::ModeloEntidad(const ModeloEntidad &modeloEntidad) {
 }
 
@@ -104,11 +53,23 @@ Accion ModeloEntidad::accion() {
 	return accion;
 }
 
+void ModeloEntidad::accion(Accion accion) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_accion = accion;
+	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
 int ModeloEntidad::alto() {
 	this->_mutex.lockLectura(__FILE__, __LINE__);
 	int alto = this->_alto;
 	this->_mutex.unlock(__FILE__, __LINE__);
 	return alto;
+}
+
+void ModeloEntidad::alto(int alto) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_alto = alto;
+	this->_mutex.unlock(__FILE__, __LINE__);
 }
 
 int ModeloEntidad::ancho() {
@@ -118,11 +79,23 @@ int ModeloEntidad::ancho() {
 	return ancho;
 }
 
+void ModeloEntidad::ancho(int ancho) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_ancho = ancho;
+	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
 Direccion ModeloEntidad::direccion() {
 	this->_mutex.lockLectura(__FILE__, __LINE__);
 	Direccion direccion = this->_direccion;
 	this->_mutex.unlock(__FILE__, __LINE__);
 	return direccion;
+}
+
+void ModeloEntidad::direccion(Direccion direccion) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_direccion = direccion;
+	this->_mutex.unlock(__FILE__, __LINE__);
 }
 
 bool ModeloEntidad::esJugador() {
@@ -132,6 +105,12 @@ bool ModeloEntidad::esJugador() {
 	return esJugador;
 }
 
+void ModeloEntidad::esJugador(bool esJugador) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_esJugador = esJugador;
+	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
 bool ModeloEntidad::estaCongelado() {
 	this->_mutex.lockLectura(__FILE__, __LINE__);
 	bool estaCongelado = this->_estaCongelado;
@@ -139,11 +118,23 @@ bool ModeloEntidad::estaCongelado() {
 	return estaCongelado;
 }
 
+void ModeloEntidad::estaCongelado(bool estaCongelado) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_estaCongelado = estaCongelado;
+	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
 bool ModeloEntidad::esUltimoMovimiento() {
 	this->_mutex.lockLectura(__FILE__, __LINE__);
 	bool esUltimoMovimiento = this->_esUltimoMovimiento;
 	this->_mutex.unlock(__FILE__, __LINE__);
 	return esUltimoMovimiento;
+}
+
+void ModeloEntidad::esUltimoMovimiento(bool esUltimoMovimiento) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_esUltimoMovimiento = esUltimoMovimiento;
+	this->_mutex.unlock(__FILE__, __LINE__);
 }
 
 int ModeloEntidad::id() {
@@ -160,11 +151,23 @@ string ModeloEntidad::nombreEntidad() {
 	return nombreEntidad;
 }
 
+void ModeloEntidad::nombreEntidad(std::string nombreEntidad){
+	this->_nombreEntidad = nombreEntidad;
+}
+
 string ModeloEntidad::nombreJugador() {
 	this->_mutex.lockLectura(__FILE__, __LINE__);
 	string nombreJugador = this->_nombreJugador;
 	this->_mutex.unlock(__FILE__, __LINE__);
 	return nombreJugador;
+}
+
+void ModeloEntidad::nombreJugador(std::string nombreJugador){
+	this->_nombreJugador = nombreJugador;
+}
+
+void ModeloEntidad::notificar() {
+	this->_proxyEntidad->enviarEntidad(this->stEntidad());	
 }
 
 Posicion ModeloEntidad::posicionActual() {
@@ -174,11 +177,25 @@ Posicion ModeloEntidad::posicionActual() {
 	return posicionActual;
 }
 
+void ModeloEntidad::posicionActual(Posicion posicionActual) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_posicionActual = posicionActual;
+	if (this->_estadoNivel != NULL)
+		this->_estadoNivel->visitar(this->_posicionActual.x, this->_posicionActual.y);
+	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
 Posicion ModeloEntidad::posicionSiguiente() {
 	this->_mutex.lockLectura(__FILE__, __LINE__);
 	Posicion posicionSiguiente = this->_posicionSiguiente;
 	this->_mutex.unlock(__FILE__, __LINE__);
 	return posicionSiguiente;
+}
+
+void ModeloEntidad::posicionSiguiente(Posicion posicionSiguiente) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_posicionSiguiente = posicionSiguiente;
+	this->_mutex.unlock(__FILE__, __LINE__);
 }
 
 ProxyModeloEntidad::stEntidad ModeloEntidad::stEntidad() {
@@ -201,13 +218,6 @@ int ModeloEntidad::velocidad() {
 	return velocidad;
 }
 
-void ModeloEntidad::estaCongelado(bool estaCongelado) {
-	this->_mutex.lockEscritura(__FILE__, __LINE__);
-	this->_estaCongelado = estaCongelado;
-	this->_mutex.unlock(__FILE__, __LINE__);
-	this->notificar();
-}
-
 void ModeloEntidad::asignarJugadores(Mutex* mutexJugadores, list<ModeloEntidad*>* jugadores) {
 	this->_modeloMovimiento->asignarJugadores(mutexJugadores, jugadores);
 }
@@ -216,20 +226,14 @@ void ModeloEntidad::asignarEntidades(Mutex* mutexEntidades, multimap<std::pair<i
 	this->_modeloMovimiento->asignarEntidades(mutexEntidades, entidades);
 }
 
-void ModeloEntidad::atacar() {
-	this->_modeloMovimiento->detener();
-	this->_accion = ATACANDO;
-}
-
 bool ModeloEntidad::chequearConexion() {
 	ProxyModeloEntidad::stEntidad entidad = this->stEntidad();
 	entidad.id = ID_FALSO;
 	return this->_proxyEntidad->enviarEntidad(entidad);
 }
 
-void ModeloEntidad::defender() {
+void ModeloEntidad::detener() {
 	this->_modeloMovimiento->detener();
-	this->_accion = DEFENDIENDO;
 }
 
 void ModeloEntidad::enviarMensaje(ModeloEntidad* remitente, string mensaje) {
@@ -250,16 +254,6 @@ void ModeloEntidad::cambiarEstado() {
 }
 
 void ModeloEntidad::mover(Posicion posicionDestino) {
-	// Ajusta los movimientos para esten dentro del mapa
-	if (posicionDestino.x < 0)
-		posicionDestino.x = 0;
-	else if (posicionDestino.x >= this->_anchoNivel)
-		posicionDestino.x = this->_anchoNivel - 1;
-	if (posicionDestino.y < 0)
-		posicionDestino.y = 0;
-	else if (posicionDestino.y >= this->_altoNivel)
-		posicionDestino.y = this->_altoNivel - 1;
-
 	this->_modeloMovimiento->actualizar(posicionDestino);
 	this->_accion = CAMINANDO;
 }
@@ -278,6 +272,16 @@ Posicion ModeloEntidad::pixelActual() {
 	return pixelActual;
 }
 
+bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
+	return this == &modeloEntidad;
+}
+
+void ModeloEntidad::pixelActual(Posicion pixelActual) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_pixelActual = pixelActual;
+	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
 Posicion ModeloEntidad::pixelSiguiente() {
 	this->_mutex.lockLectura(__FILE__, __LINE__);
 	Posicion pixelSiguiente = this->_pixelSiguiente;
@@ -285,6 +289,8 @@ Posicion ModeloEntidad::pixelSiguiente() {
 	return pixelSiguiente;
 }
 
-bool ModeloEntidad::operator==(const ModeloEntidad &modeloEntidad) const {
-	return this == &modeloEntidad;
+void ModeloEntidad::pixelSiguiente(Posicion pixelSiguiente) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_pixelSiguiente = pixelSiguiente;
+	this->_mutex.unlock(__FILE__, __LINE__);
 }
