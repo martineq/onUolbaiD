@@ -5,6 +5,7 @@
 #include "./controlador/ControladorJuego.h"
 #include "../utils/Sockets/SocketCliente.h"
 #include "../utils/Temporizador/Temporizador.h"
+#include "../utils/Constantes/Constantes.h"
 
 class Cliente{
 
