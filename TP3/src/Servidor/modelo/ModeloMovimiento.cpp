@@ -68,9 +68,9 @@ Posicion ModeloEntidad::ModeloMovimiento::calcularPosicionDestino(Posicion posic
 }
 
 ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posicion) {
-	this->_mutexJugadores->lockLectura(__FILE__, __LINE__);
-	list<ModeloEntidad*>* listaJugadores = this->_jugadores;
-	this->_mutexJugadores->unlock(__FILE__, __LINE__);
+	this->_mutexEntidadesMoviles->lockLectura(__FILE__, __LINE__);
+	list<ModeloEntidad*>* listaJugadores = this->_entidadesMoviles;
+	this->_mutexEntidadesMoviles->unlock(__FILE__, __LINE__);
 
 	// Detecto colision con jugadores
 	if (listaJugadores != NULL) {
@@ -176,7 +176,7 @@ ModeloEntidad::ModeloMovimiento::ModeloMovimiento(int altoNivel, int anchoNivel,
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_modeloEntidad = modeloEntidad;
-	this->_jugadores = NULL;
+	this->_entidadesMoviles = NULL;
 	this->_entidades = NULL;
 	this->_instanteUltimoCambioEstado = 0;
 }
@@ -298,14 +298,14 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 	delete[] mapaTilesCerrados;
 }
 
-void ModeloEntidad::ModeloMovimiento::asignarJugadores(Mutex* mutexJugadores, std::list<ModeloEntidad*>* jugadores) {
-	this->_mutexJugadores = mutexJugadores;
-	this->_jugadores = jugadores;
-}
-
-void ModeloEntidad::ModeloMovimiento::asignarEntidades(Mutex* mutexEntidades, multimap<std::pair<int, int>, ModeloEntidad*>* entidades) {
+void ModeloEntidad::ModeloMovimiento::asignarEntidades(Mutex* mutexEntidades, multimap<pair<int, int>, ModeloEntidad*>* entidades) {
 	this->_mutexEntidades = mutexEntidades;
 	this->_entidades = entidades;
+}
+
+void ModeloEntidad::ModeloMovimiento::asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, list<ModeloEntidad*>* entidadesMoviles) {
+	this->_mutexEntidadesMoviles = mutexEntidadesMoviles;
+	this->_entidadesMoviles = entidadesMoviles;
 }
 
 void ModeloEntidad::ModeloMovimiento::cambiarEstado() {

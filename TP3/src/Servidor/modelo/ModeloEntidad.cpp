@@ -218,8 +218,8 @@ int ModeloEntidad::velocidad() {
 	return velocidad;
 }
 
-void ModeloEntidad::asignarJugadores(Mutex* mutexJugadores, list<ModeloEntidad*>* jugadores) {
-	this->_modeloMovimiento->asignarJugadores(mutexJugadores, jugadores);
+void ModeloEntidad::asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, list<ModeloEntidad*>* entidadesMoviles) {
+	this->_modeloMovimiento->asignarEntidadesMoviles(mutexEntidadesMoviles, entidadesMoviles);
 }
 
 void ModeloEntidad::asignarEntidades(Mutex* mutexEntidades, multimap<std::pair<int, int>, ModeloEntidad*>* entidades) {
