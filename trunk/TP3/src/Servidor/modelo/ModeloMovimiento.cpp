@@ -113,32 +113,6 @@ int ModeloEntidad::ModeloMovimiento::obtenerAncho(int x, ModeloEntidad* modeloEn
 	return ancho;
 }
 
-Direccion ModeloEntidad::ModeloMovimiento::obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino) {
-	if (posicionOrigen.x > posicionDestino.x) {
-		if (posicionOrigen.y > posicionDestino.y)
-			return NOROESTE;
-		else if (posicionOrigen.y < posicionDestino.y)
-			return SUDOESTE;
-		else
-			return OESTE;
-	}
-	else if (posicionOrigen.x < posicionDestino.x)
-		if (posicionOrigen.y > posicionDestino.y)
-			return NORESTE;
-		else if (posicionOrigen.y < posicionDestino.y)
-			return SUDESTE;
-		else
-			return ESTE;
-	else {
-		if (posicionOrigen.y > posicionDestino.y)
-			return NORTE;
-		else if (posicionOrigen.y < posicionDestino.y)
-			return SUR;
-		else
-			return SUR;
-	}
-}
-
 Posicion ModeloEntidad::ModeloMovimiento::obtenerPosicionSiguiente() {
 	Posicion posicionSiguiente = this->_posiciones.front();
 	this->_posiciones.pop_front();
@@ -322,7 +296,7 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 
 	// Obtengo la siguente posicion del movimiento actual
 	Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
-	this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
+	this->_modeloEntidad->direccion(Posicion::obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
 	
 	// Si choque con algo en el camino y no estoy en la ultima posicion recalculo
 	if (this->detectarColision(posicionSiguiente) != NULL) {
@@ -334,7 +308,7 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 
 		this->actualizar(this->_posiciones.back());
 		Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
-		this->_modeloEntidad->direccion(this->obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
+		this->_modeloEntidad->direccion(Posicion::obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
 	}
 
 	// Notifico a VistaMovimiento
@@ -343,12 +317,12 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	this->_modeloEntidad->posicionActual(this->_modeloEntidad->posicionSiguiente());
 
 	if (this->_posiciones.empty())
-		this->_modeloEntidad->accion(QUIETO);
+		this->_modeloEntidad->accion(CAMINANDO);
 
 	this->_instanteUltimoCambioEstado = GetTickCount();
 }
 
 void ModeloEntidad::ModeloMovimiento::detener() {
 	this->_posiciones.clear();
-	this->_modeloEntidad->accion(QUIETO);
+	this->_modeloEntidad->accion(CAMINANDO);
 }

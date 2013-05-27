@@ -246,7 +246,7 @@ void ModeloEntidad::enviarMensaje(ModeloEntidad* remitente, string mensaje) {
 void ModeloEntidad::cambiarEstado() {
 	if (((this->_accion == ATACANDO) || (this->_accion == DEFENDIENDO)) && this->_vistaMovimiento->terminado()) {
 		this->notificar();
-		this->_accion = QUIETO;
+		this->_accion = CAMINANDO;
 		return;
 	}
 	this->_modeloMovimiento->cambiarEstado();

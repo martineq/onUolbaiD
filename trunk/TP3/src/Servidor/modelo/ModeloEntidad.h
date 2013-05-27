@@ -15,8 +15,7 @@
 #include "Tile.h"
 #include "EstadoNivel.h"
 
-typedef enum Direccion { NOROESTE, NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE };
-typedef enum Accion { CAMINANDO, ATACANDO, DEFENDIENDO, QUIETO };
+typedef enum Accion { CAMINANDO, ATACANDO, DEFENDIENDO };
 
 class ModeloEntidad {
 	private:
@@ -41,8 +40,6 @@ class ModeloEntidad {
 				int obtenerAlto(int y, ModeloEntidad* modeloEntidad);
 
 				int obtenerAncho(int x, ModeloEntidad* modeloEntidad);
-
-				Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino);
 
 				Posicion obtenerPosicionSiguiente();
 

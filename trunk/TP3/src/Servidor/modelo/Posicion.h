@@ -4,6 +4,8 @@
 
 #include "../../utils/Constantes/Constantes.h"
 
+typedef enum Direccion { NOROESTE, NORTE, NORESTE, ESTE, SUDESTE, SUR, SUDOESTE, OESTE };
+
 typedef struct Posicion {
 	int x;
 	int y;
@@ -23,6 +25,32 @@ typedef struct Posicion {
 		xTile = floor(desplazamientoY + desplazamientoX);
 		yTile = floor(desplazamientoY - desplazamientoX);
 	} 
+
+	static Direccion obtenerDireccion(Posicion posicionOrigen, Posicion posicionDestino) {
+		if (posicionOrigen.x > posicionDestino.x) {
+			if (posicionOrigen.y > posicionDestino.y)
+				return NOROESTE;
+			else if (posicionOrigen.y < posicionDestino.y)
+				return SUDOESTE;
+			else
+				return OESTE;
+		}
+		else if (posicionOrigen.x < posicionDestino.x)
+			if (posicionOrigen.y > posicionDestino.y)
+				return NORESTE;
+			else if (posicionOrigen.y < posicionDestino.y)
+				return SUDESTE;
+			else
+				return ESTE;
+		else {
+			if (posicionOrigen.y > posicionDestino.y)
+				return NORTE;
+			else if (posicionOrigen.y < posicionDestino.y)
+				return SUR;
+			else
+				return SUR;
+		}
+	}
 
 	Posicion() {
 		this->x = 0;

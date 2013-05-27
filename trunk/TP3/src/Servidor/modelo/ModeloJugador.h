@@ -9,6 +9,7 @@ class ModeloJugador {
 		ModeloEntidad* _modeloEntidad;
 		std::list<ModeloJugador*>* _jugadores;
 		Mutex* _mutexJugadores;
+		ModeloJugador* _enemigo;
 
 		ModeloJugador(const ModeloJugador &modeloJugador);
 
@@ -23,9 +24,9 @@ class ModeloJugador {
 
 		void asignarJugadores(Mutex* mutexJugadores, std::list<ModeloJugador*>* jugadores);
 
-		void atacar();
+		void atacar(ModeloJugador* enemigo);
 
-		void defender();
+		void cambiarEstado();
 
 		void mover(Posicion posicion);
 };
