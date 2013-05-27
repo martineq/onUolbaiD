@@ -38,15 +38,7 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 		}
 		else {
 			// En el caso de no haber errores y no haber terminado el juego se obtienen los datos para acutalizar
-			int mousePosX = this->_modeloEvento.getMousePosX();
-			int mousePosY = this->_modeloEvento.getMousePosY();
-			
-			if (this->_modeloEvento.getMouseClickIzquierdo())
-				modeloNivel.jugadorMover(mousePosX, mousePosY, idJugador);
-			else if (this->_modeloEvento.getKeyA())
-				modeloNivel.jugadorAtacar(idJugador);
-			else if (this->_modeloEvento.getKeyS())
-				modeloNivel.jugadorDefender(idJugador);
+			modeloNivel.ejecutarAccionJugador(this->_modeloEvento.getMousePosX(), this->_modeloEvento.getMousePosY(), idJugador);
 		}
 		
 		this->_modeloEvento.cargarProximoEvento();  // Con esto descarto el evento que acabo de leer y cargo el próximo

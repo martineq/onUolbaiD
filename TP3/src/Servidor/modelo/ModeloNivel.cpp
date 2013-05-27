@@ -20,6 +20,15 @@ ModeloJugador* ModeloNivel::obtenerJugador(int id) {
 	return NULL;
 }
 
+ModeloJugador* ModeloNivel::obtenerJugador(Posicion posicion) {
+	std::list<ModeloJugador*> listaJugadores = this->getListaJugadores();
+	for (std::list<ModeloJugador*>::iterator itModeloEntidad = listaJugadores.begin(); itModeloEntidad != listaJugadores.end(); itModeloEntidad++){
+		if ((*itModeloEntidad)->modeloEntidad()->posicionActual() == posicion)
+			return (*itModeloEntidad);
+	}
+	return NULL;
+}
+
 ModeloNivel::ModeloNivel() {
 	this->jugadoresConectados = 0;
 }
@@ -94,27 +103,19 @@ void ModeloNivel::removerEntidad(ModeloEntidad* entidad) {
 	this->mutexEntidades.unlock(__FILE__, __LINE__);
 }
 
-void ModeloNivel::jugadorMover(int mouseX, int mouseY, int id) {
+void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 	ModeloJugador* jugador = this->obtenerJugador(id);
 	if (jugador == NULL)
 		return;
+	
 	Posicion posicion;
 	Posicion::convertirPixelATile(this->getAltoTiles(), mouseX, mouseY, posicion.x, posicion.y);
-	jugador->mover(posicion);
-}
-
-void ModeloNivel::jugadorAtacar(int id) {
-	ModeloJugador* jugador = this->obtenerJugador(id);
-	if (jugador == NULL)
-		return;
-	jugador->atacar();
-}
-
-void ModeloNivel::jugadorDefender(int id) {
-	ModeloJugador* jugador = this->obtenerJugador(id);
-	if (jugador == NULL)
-		return;
-	jugador->defender();
+	
+	ModeloJugador* enemigo = this->obtenerJugador(posicion);
+	if (enemigo == NULL)
+		jugador->mover(posicion);
+	else
+		jugador->atacar(enemigo);
 }
 
 void ModeloNivel::congelarJugador(int id){
@@ -129,8 +130,8 @@ void ModeloNivel::congelarJugador(int id){
 }
 
 bool ModeloNivel::actualizar() {
-	std::list<ModeloEntidad*> listaJugadores = this->getListaEntidadesMoviles();
-	for (std::list<ModeloEntidad*>::iterator entidad = listaJugadores.begin(); entidad != listaJugadores.end(); entidad++)
+	std::list<ModeloJugador*> listaJugadores = this->getListaJugadores();
+	for (std::list<ModeloJugador*>::iterator entidad = listaJugadores.begin(); entidad != listaJugadores.end(); entidad++)
 		(*entidad)->cambiarEstado();
 	return true;
 }
@@ -178,7 +179,6 @@ void ModeloNivel::destruirListaEntidades() {
 		}
 	}
 }
-
 
 int ModeloNivel::cantidadJugadores(void){
 	int cantidad;

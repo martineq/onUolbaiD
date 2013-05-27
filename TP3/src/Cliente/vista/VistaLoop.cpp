@@ -18,8 +18,6 @@ void VistaLoop::setPantalla(SDL_Surface *pantalla){
 	this->pantalla = pantalla;
 }
 
-//, EstadoNivel* estadoNivel
-
 char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, EstadoNivel* estadoNivel){
 	int x1 = unaEntidad->getTileX();
 	int x2 = unaEntidad->getTileX() + (unaEntidad->getAncho() / ANCHO_TILE) - 1;
@@ -28,7 +26,7 @@ char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, EstadoNivel* es
 
 	if ((estadoNivel->visibilidad(x1,y1) == VISIBLE) || (estadoNivel->visibilidad(x1,y2) == VISIBLE) || (estadoNivel->visibilidad(x2,y1) == VISIBLE) || (estadoNivel->visibilidad(x2,y2) == VISIBLE))
 		return VISIBLE;
-	else if ((estadoNivel->visibilidad(x1,y1) == CONOCIDO_NO_VISIBLE) || (estadoNivel->visibilidad(x1,y2) == CONOCIDO_NO_VISIBLE) || (estadoNivel->visibilidad(x2,y1) == CONOCIDO_NO_VISIBLE) || (estadoNivel->visibilidad(x2,y2) == CONOCIDO_NO_VISIBLE))
+	else if (unaEntidad->getEstaCongelado() || (estadoNivel->visibilidad(x1,y1) == CONOCIDO_NO_VISIBLE) || (estadoNivel->visibilidad(x1,y2) == CONOCIDO_NO_VISIBLE) || (estadoNivel->visibilidad(x2,y1) == CONOCIDO_NO_VISIBLE) || (estadoNivel->visibilidad(x2,y2) == CONOCIDO_NO_VISIBLE))
 		return CONOCIDO_NO_VISIBLE;
 	else
 		return NO_CONOCIDO;

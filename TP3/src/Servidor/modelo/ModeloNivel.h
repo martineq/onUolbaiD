@@ -51,12 +51,11 @@ class ModeloNivel {
 		void removerJugador(ModeloJugador* jugador);
 		void removerEntidad(ModeloEntidad* entidad);
 		
-		void jugadorMover(int tileX, int tileY, int id);
-		void jugadorAtacar(int id);
-		void jugadorDefender(int id);
+		void ejecutarAccionJugador(int tileX, int tileY, int id);
 		void congelarJugador(int id);
 
 		ModeloJugador* obtenerJugador(int id);
+		ModeloJugador* obtenerJugador(Posicion posicion);
 		ModeloEntidad* obtenerEntidadMovil(int id);
 
 		bool actualizar();
