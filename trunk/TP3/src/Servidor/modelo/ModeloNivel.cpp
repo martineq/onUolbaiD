@@ -59,7 +59,7 @@ void ModeloNivel::agregarJugador(ModeloJugador* jugador) {
 	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
 	jugador->modeloEntidad()->notificar();
 	jugador->modeloEntidad()->asignarEntidades(&this->mutexEntidades, &this->entidades);
-	jugador->modeloEntidad()->asignarJugadores(&this->mutexEntidadesMoviles, &this->entidadesMoviles);
+	jugador->modeloEntidad()->asignarEntidadesMoviles(&this->mutexEntidadesMoviles, &this->entidadesMoviles);
 }
 
 void ModeloNivel::agregarEntidad(ModeloEntidad* entidad) {
@@ -100,7 +100,7 @@ void ModeloNivel::jugadorMover(int mouseX, int mouseY, int id) {
 		return;
 	Posicion posicion;
 	Posicion::convertirPixelATile(this->getAltoTiles(), mouseX, mouseY, posicion.x, posicion.y);
-	jugador->modeloEntidad()->mover(posicion);
+	jugador->mover(posicion);
 }
 
 void ModeloNivel::jugadorAtacar(int id) {

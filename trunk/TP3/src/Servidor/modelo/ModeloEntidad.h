@@ -25,8 +25,8 @@ class ModeloEntidad {
 				int _altoNivel;
 				int _anchoNivel;
 				ModeloEntidad* _modeloEntidad;
-				std::list<ModeloEntidad*>* _jugadores;
-				Mutex* _mutexJugadores;
+				std::list<ModeloEntidad*>* _entidadesMoviles;
+				Mutex* _mutexEntidadesMoviles;
 				std::multimap<std::pair<int, int>, ModeloEntidad*>* _entidades;
 				Mutex* _mutexEntidades;
 				std::list<Posicion> _posiciones;
@@ -61,9 +61,9 @@ class ModeloEntidad {
 
 				void actualizar(Posicion posicion);
 
-				void asignarJugadores(Mutex* mutexJugadores, std::list<ModeloEntidad*>* jugadores);
-
 				void asignarEntidades(Mutex* mutexEntidades, std::multimap<std::pair<int, int>, ModeloEntidad*>* entidades);
+
+				void asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, std::list<ModeloEntidad*>* entidadesMoviles);
 
 				void cambiarEstado();
 
@@ -185,7 +185,7 @@ class ModeloEntidad {
 		
 		void velocidad(int velocidad);
 
-		void asignarJugadores(Mutex* mutexJugadores, std::list<ModeloEntidad*>* jugadores);
+		void asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, std::list<ModeloEntidad*>* entidadesMoviles);
 
 		void asignarEntidades(Mutex* mutexEntidades, std::multimap<std::pair<int, int>, ModeloEntidad*>* entidades);
 
