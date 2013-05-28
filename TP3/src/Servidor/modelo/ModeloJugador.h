@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdlib.h>
 #include <list>
 #include "Posicion.h"
 #include "ModeloEntidad.h"
@@ -7,8 +8,6 @@
 class ModeloJugador {
 	private:
 		ModeloEntidad* _modeloEntidad;
-		std::list<ModeloJugador*>* _jugadores;
-		Mutex* _mutexJugadores;
 		ModeloJugador* _enemigo;
 
 		ModeloJugador(const ModeloJugador &modeloJugador);
@@ -20,9 +19,11 @@ class ModeloJugador {
 
 		virtual ~ModeloJugador();
 
-		ModeloEntidad* modeloEntidad();
+		bool estaCongelado();
 
-		void asignarJugadores(Mutex* mutexJugadores, std::list<ModeloJugador*>* jugadores);
+		void estaCongelado(bool estaCongelado);
+
+		ModeloEntidad* modeloEntidad();
 
 		void atacar(ModeloJugador* enemigo);
 

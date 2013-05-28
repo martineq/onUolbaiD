@@ -18,13 +18,17 @@ ModeloJugador::~ModeloJugador() {
 	delete this->_modeloEntidad;
 }
 
-ModeloEntidad* ModeloJugador::modeloEntidad() {
-	return this->_modeloEntidad;
+bool ModeloJugador::estaCongelado() {
+	return this->_modeloEntidad->estaCongelado();
 }
 
-void ModeloJugador::asignarJugadores(Mutex* mutexJugadores, std::list<ModeloJugador*>* jugadores) {
-	this->_mutexJugadores = mutexJugadores;
-	this->_jugadores = jugadores;
+void ModeloJugador::estaCongelado(bool estaCongelado) {
+	this->_modeloEntidad->estaCongelado(estaCongelado);
+	this->_enemigo = NULL;
+}
+
+ModeloEntidad* ModeloJugador::modeloEntidad() {
+	return this->_modeloEntidad;
 }
 
 void ModeloJugador::atacar(ModeloJugador* enemigo) {
@@ -45,18 +49,18 @@ void ModeloJugador::cambiarEstado() {
 	
 	// Si el enemigo salio de la zona visible dejo de seguirlo y me detengo
 	if ((posicionEnemigo.x < posicionJugador.x - (ZONA_VISIBLE / 2)) || (posicionEnemigo.x > posicionJugador.x + (ZONA_VISIBLE / 2)) || (posicionEnemigo.y < posicionJugador.y - (ZONA_VISIBLE / 2)) || (posicionEnemigo.y > posicionJugador.y + (ZONA_VISIBLE / 2))) {
-		this->_enemigo = NULL;
 		this->_modeloEntidad->detener();
-		this->_modeloEntidad->cambiarEstado();
+		this->_enemigo = NULL;
 		return;
 	}
 
-	// Si el enemigo esta en una posicion adyacente lo ataco
-	if ((fabs((float)posicionJugador.x - posicionEnemigo.x) <= 1) && (fabs((float)posicionJugador.y - posicionEnemigo.y) <= 1)) {
-		this->_enemigo = NULL;
+	// Si el enemigo esta en una posicion adyacente y no me estoy moviendo lo ataco
+	if (!this->_modeloEntidad->enMovimiento() && (fabs((float)posicionJugador.x - posicionEnemigo.x) <= 1) && (fabs((float)posicionJugador.y - posicionEnemigo.y) <= 1)) {
 		this->_modeloEntidad->direccion(Posicion::obtenerDireccion(posicionJugador, posicionEnemigo));
 		this->_modeloEntidad->accion(ATACANDO);
-		this->_modeloEntidad->cambiarEstado();
+		this->_modeloEntidad->notificar();
+		this->_modeloEntidad->accion(CAMINANDO);
+		this->_enemigo = NULL;
 		return;
 	}
 
