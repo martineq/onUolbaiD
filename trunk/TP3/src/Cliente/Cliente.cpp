@@ -9,12 +9,12 @@ Cliente::~Cliente(void){
 		delete this->vistaChat;
 }
 
-bool Cliente::iniciar(std::string mote,std::string personaje){
+bool Cliente::iniciar(std::string mote,std::string personaje,bool singlePlayer){
 
 	SocketCliente* pSocket = &(this->socket);
 	
 	// Instancia el nivel en vistaJuego y el scroll con su proxy en ControladorEvento
-	if( this->vistaJuego.iniciar(pSocket,this->controladorJuego.getControladorLoop()->getControladorEvento(),mote,personaje) == false ) return false;
+	if( this->vistaJuego.iniciar(pSocket,this->controladorJuego.getControladorLoop()->getControladorEvento(),mote,personaje,singlePlayer) == false ) return false;
 	
 	if (this->vistaChat == NULL) {
 		//TODO: Arreglar la posicion para que se vea abajo de la pantalla
@@ -53,7 +53,17 @@ void Cliente::loop(void){
 }
 
 bool Cliente::correrJuego(std::string mote,std::string personaje){
-	if( this->iniciar(mote,personaje) == true ){
+	if( this->iniciar(mote,personaje,false) == true ){
+		this->loop();
+	}else{
+		Log::getInstance().log(1,__FILE__,__LINE__,"Error al iniciar el juego el cliente.");
+		return false;
+	}
+	return true;
+}
+
+bool Cliente::correrJuegoSinglePlayer(std::string mote,std::string personaje){
+	if( this->iniciar(mote,personaje,true) == true ){
 		this->loop();
 	}else{
 		Log::getInstance().log(1,__FILE__,__LINE__,"Error al iniciar el juego el cliente.");

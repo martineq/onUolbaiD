@@ -60,7 +60,13 @@ void ControladorLoop::loop(VistaNivel* nivel) {
 		}
 	}
 
-	// Caputro eventos para el servidor
+	// Primero verifico que no se haya quitado el juego
+	if( this->getQuit() == true ){
+		this->evento.setQuit();
+		return void();
+	}
+
+	// Luego capturo los demás eventos para el servidor
 	this->evento.setPosicionMouseXY(this->detector.getPosicionMouseX(), this->detector.getPosicionMouseY());
 	if (this->detector.getClicMouseBotonIzquierdo() == 1)
 		this->evento.setClicMouseBotonIzquierdo(this->detector.getClicMouseBotonIzquierdo());

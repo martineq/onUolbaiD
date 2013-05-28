@@ -9,14 +9,18 @@ class Servidor{
 	private:
 		ModeloJuego modeloJuego;
 		SocketServidor socket;
-
-		bool iniciar();
+		
+		bool iniciar(bool singlePlayer);
 		void loop();
+		void loopSinglePlayer();
 
 	public:
+
 		Servidor();
 		virtual ~Servidor();
 
 		bool correrJuego(void);
+		void correrJuegoSinglePlayer(void);
+		bool iniciarSinglePlayer(void);
 		void destruirEntidades();
 };

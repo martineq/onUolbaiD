@@ -8,13 +8,15 @@ VistaFactory::~VistaFactory(void){
 
 }
 
-bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino,std::string mote,std::string personaje){
+bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino,std::string mote,std::string personaje,bool singlePlayer){
 
 	// Me conecto al servidor
-	if( this->conectarSocket(pSocket) == false ) return false;
+	if( this->conectarSocket(pSocket,singlePlayer) == false ) return false;
 
-	// Recibo los archivos desde el servidor
-	if( this->recibirArchivos(pSocket) == false ) return false;
+	// Recibo los archivos desde el servidor, en caso de no ser single player
+	if( singlePlayer == false ) {
+		if( this->recibirArchivos(pSocket) == false ) return false;
+	}
 
 	// Cargo el archivo de configuración
 	ParserYaml::stJuego juegoYaml;
@@ -47,14 +49,21 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 	return true;
 }
 
-bool VistaFactory::conectarSocket(SocketCliente* pSocket){
+bool VistaFactory::conectarSocket(SocketCliente* pSocket,bool singlePlayer){
 
 	ParserYaml::stConexion conexion;
-	conexion = ParserYaml::getInstance().cargarConfiguracionDeConexion();
-	if( conexion.conexionValida == false ){
-		std::cerr << "Error al leer datos de conexion." << std::endl;
-		Log::getInstance().log(1,__FILE__,__LINE__,"Error al leer datos de conexion.");
-		return false;
+
+	// Obtengo datos de conexion
+	if( singlePlayer == true ){
+		conexion.ip.assign(SOCKETS_LOCALHOST_IP);
+		conexion.puerto = SOCKETS_LOCALHOST_PUERTO;
+	}else{
+		conexion = ParserYaml::getInstance().cargarConfiguracionDeConexion();
+		if( conexion.conexionValida == false ){
+			std::cerr << "Error al leer datos de conexion." << std::endl;
+			Log::getInstance().log(1,__FILE__,__LINE__,"Error al leer datos de conexion.");
+			return false;
+		}
 	}
 
 	// Me conecto al servidor

@@ -10,9 +10,9 @@ VistaJuego::~VistaJuego(void){
 		delete this->estadoNivel;
 }
 
-bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje){
+bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje,bool singlePlayer){
 	ImageLoader::getInstance().iniciarSDL();
-	if( this->vistaFactory.crearNivel(this->vistaNivel,evento,pSocket,this->vistaLoop.getPunteroPantalla(),this->vistaLoop.getPunteroProxy(),mote,personaje) == false ) return false;
+	if( this->vistaFactory.crearNivel(this->vistaNivel,evento,pSocket,this->vistaLoop.getPunteroPantalla(),this->vistaLoop.getPunteroProxy(),mote,personaje,singlePlayer) == false ) return false;
 	
 	this->estadoNivel = new EstadoNivel(this->vistaNivel.getAltoDeNivelEnTiles(), this->vistaNivel.getAnchoDeNivelEnTiles(), this->vistaNivel.getJugador()->getTileX(), this->vistaNivel.getJugador()->getTileY());
 	return true;

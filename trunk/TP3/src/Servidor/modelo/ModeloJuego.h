@@ -21,7 +21,7 @@ class ModeloJuego {
 		virtual ~ModeloJuego();
 
 		bool iniciarEscenario(SocketServidor* pSocket);
-		bool iniciarRecepcion(SocketServidor* pSocket);
+		bool iniciarRecepcion(SocketServidor* pSocket,bool singlePlayer);
 
 		bool loop();
 

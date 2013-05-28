@@ -118,7 +118,8 @@
 #define SELECT_ERROR -1				// Código de error para el select
 #define SELECT_TIMEOUT -2			// Código de time out para el select
 #define PERIODO_VERIFICACION_ERROR_DESCONEXION 5000	//  Valor en milisegundos. En cada periodo de tiempo se envia un paquete de prueba para comprobar el estado de la red (por si deconecta el cable)
-
+#define SOCKETS_LOCALHOST_IP "localhost"			// IP localhost para juego single player
+#define SOCKETS_LOCALHOST_PUERTO 444				// Puerto para juego single player
 
 /*****************************  Delays *****************************************/
 #define DELAY_HILO_CONEXION 1000000 // En microsegundos. 1000000 uSeg = 1 seg

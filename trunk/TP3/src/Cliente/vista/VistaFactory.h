@@ -26,7 +26,7 @@ class VistaFactory{
 		VistaFactory::stVistaJuegoElegido juegoElegido;
 
 		// Recepción de todos los datos necesarios para crear la Vista y el Controlador
-		bool conectarSocket(SocketCliente* pSocket);
+		bool conectarSocket(SocketCliente* pSocket,bool singlePlayer);
 		bool recibirArchivos(SocketCliente* pSocket);
 		bool recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket);
 		bool recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket);
@@ -49,7 +49,7 @@ class VistaFactory{
 		VistaFactory(void);
 		~VistaFactory(void);
 
-		bool crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino,std::string mote,std::string personaje);
+		bool crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket,SDL_Surface** pPantallaDestino, ProxyModeloEntidad** pProxyDestino,std::string mote,std::string personaje,bool singlePlayer);
 		void crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntidad::stEntidad& entidad);
 		std::string getMatriz();
 };

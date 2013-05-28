@@ -102,7 +102,7 @@ void DetectorEventos::detectar() {
 				}
 				break;
 			case SDL_QUIT:
-				quit = true;
+				this->quit = true;
 				break;
 		}
 	}	

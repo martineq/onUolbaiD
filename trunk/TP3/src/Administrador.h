@@ -3,6 +3,8 @@
 #include "./Servidor/Servidor.h"
 #include "./Cliente/Cliente.h"
 #include "./utils/Log/Log.h"
+#include "./utils/HilosJuego/HiloSinglePlayer.h"
+
 
 // Include para las pruebas. Para agregar pruebas nuevas, agregarlas en esa clase.
 #include "./utils/Pruebas/Pruebas.h"
@@ -11,10 +13,12 @@ class Administrador{
 
 	private:
 		bool modoServidor;
+		bool modoUnJugador;
 		Servidor* servidor;
 		Cliente* cliente;
 
 		void menuLineaComandos(void);
+		void correrSinglePlayer(std::string mote,std::string personaje);
 
 	public:
 		Administrador(void);

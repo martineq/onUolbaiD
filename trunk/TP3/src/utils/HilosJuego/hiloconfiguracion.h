@@ -16,6 +16,7 @@ class HiloConfiguracion: public Hilo{
 			ModeloFactory* pModeloFactory;	// Se encarga de crear al jugador
 			void* pServidor;				// Para el envío/recepción de datos
 			void* pModeloNivel;				// Para notificar nuevo jugador, se usa dentro del ModeloFactory
+			bool singlePlayer;				// Para saber si estoy en modo Single Player
 		};
 
 	private:

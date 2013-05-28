@@ -13,13 +13,14 @@ bool ModeloJuego::iniciarEscenario(SocketServidor* pSocket){
 }
 
 // Inicio el hilo de recepción acá
-bool ModeloJuego::iniciarRecepcion(SocketServidor* pSocket){
+bool ModeloJuego::iniciarRecepcion(SocketServidor* pSocket,bool singlePlayer){
 
 	//Cargo los prámetros necesarios para la configuración del jugador
 	HiloConfiguracion::stParametrosConfiguracion parametros;
 	parametros.pModeloNivel = &(this->_modeloNivel);
 	parametros.pModeloFactory = &(this->_modeloFactory);
 	parametros.pServidor = pSocket;
+	parametros.singlePlayer = singlePlayer;
 
 	this->pHiloReceptor = new HiloReceptor();
 	this->pHiloReceptor->correrRecepcion(parametros);
