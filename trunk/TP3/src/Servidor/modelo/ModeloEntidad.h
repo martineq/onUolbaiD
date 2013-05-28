@@ -215,4 +215,8 @@ class ModeloEntidad {
 		void pixelSiguiente(Posicion pixelSiguiente);
 
 		void cargarMatriz(ProxyModeloEntidad::stEntidad& entidad);
+
+		void pixelActualEnTile(Posicion pixelEnTileActual);
+		
+		void pixelSiguienteEnTile(Posicion pixelEnTileSiguiente);
 };

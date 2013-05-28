@@ -76,6 +76,8 @@ void ModeloJugador::cambiarEstado() {
 void ModeloJugador::lastimar(int danio) {
 	this->_modeloEntidad->posicionActual(this->_posicionInicial);
 	this->_modeloEntidad->posicionSiguiente(this->_posicionInicial);
+	this->_modeloEntidad->pixelActualEnTile(this->_posicionInicial);
+	this->_modeloEntidad->pixelSiguienteEnTile(this->_posicionInicial);
 	this->_modeloEntidad->notificar();
 }
 
