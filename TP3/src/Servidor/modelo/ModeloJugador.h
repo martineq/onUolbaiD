@@ -7,6 +7,7 @@
 
 class ModeloJugador {
 	private:
+		Posicion _posicionInicial;
 		ModeloEntidad* _modeloEntidad;
 		ModeloJugador* _enemigo;
 
@@ -28,6 +29,8 @@ class ModeloJugador {
 		void atacar(ModeloJugador* enemigo);
 
 		void cambiarEstado();
+
+		void lastimar(int danio);
 
 		void mover(Posicion posicion);
 };

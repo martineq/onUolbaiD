@@ -2,6 +2,8 @@
 
 using namespace std;
 
+#define DANIO_MAXIMO 20
+
 ModeloJugador::ModeloJugador(const ModeloJugador &modeloJugador) {
 }
 
@@ -10,6 +12,7 @@ ModeloJugador& ModeloJugador::operator=(const ModeloJugador &modeloJugador) {
 }
 
 ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, bool esJugador, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador) {
+	this->_posicionInicial = posicion;
 	this->_modeloEntidad = new ModeloEntidad(alto, ancho, velocidad, posicion, esJugador, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, nombreJugador);
 	this->_enemigo = NULL;
 }
@@ -60,6 +63,7 @@ void ModeloJugador::cambiarEstado() {
 		this->_modeloEntidad->accion(ATACANDO);
 		this->_modeloEntidad->notificar();
 		this->_modeloEntidad->accion(CAMINANDO);
+		this->_enemigo->lastimar(rand() % DANIO_MAXIMO);
 		this->_enemigo = NULL;
 		return;
 	}
@@ -67,6 +71,12 @@ void ModeloJugador::cambiarEstado() {
 	// Si el enemigo sigue en la zona visible lo sigo persiguiendo
 	this->_modeloEntidad->mover(posicionEnemigo);
 	this->_modeloEntidad->cambiarEstado();
+}
+
+void ModeloJugador::lastimar(int danio) {
+	this->_modeloEntidad->posicionActual(this->_posicionInicial);
+	this->_modeloEntidad->posicionSiguiente(this->_posicionInicial);
+	this->_modeloEntidad->notificar();
 }
 
 void ModeloJugador::mover(Posicion posicion) {
