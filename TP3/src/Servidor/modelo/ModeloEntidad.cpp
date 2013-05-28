@@ -294,3 +294,21 @@ void ModeloEntidad::pixelSiguiente(Posicion pixelSiguiente) {
 	this->_pixelSiguiente = pixelSiguiente;
 	this->_mutex.unlock(__FILE__, __LINE__);
 }
+
+void ModeloEntidad::pixelActualEnTile(Posicion pixelEnTileActual){
+	Posicion posicionConvertida;
+	Posicion::convertirTileAPixel(this->_altoNivel, pixelEnTileActual.x, pixelEnTileActual.y, posicionConvertida.x, posicionConvertida.y);
+
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_pixelActual = posicionConvertida;
+	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
+void ModeloEntidad::pixelSiguienteEnTile(Posicion pixelEnTileSiguiente){
+	Posicion posicionConvertida;
+	Posicion::convertirTileAPixel(this->_altoNivel, pixelEnTileSiguiente.x, pixelEnTileSiguiente.y, posicionConvertida.x, posicionConvertida.y);
+	
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_pixelSiguiente = posicionConvertida;
+	this->_mutex.unlock(__FILE__, __LINE__);
+}
