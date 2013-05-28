@@ -112,10 +112,10 @@ void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 	Posicion::convertirPixelATile(this->getAltoTiles(), mouseX, mouseY, posicion.x, posicion.y);
 	
 	ModeloJugador* enemigo = this->obtenerJugador(posicion);
-	if (enemigo == NULL)
-		jugador->mover(posicion);
-	else
+	if ((enemigo != NULL) && (enemigo != jugador) && !enemigo->estaCongelado())
 		jugador->atacar(enemigo);
+	else 
+		jugador->mover(posicion);
 }
 
 void ModeloNivel::congelarJugador(int id){

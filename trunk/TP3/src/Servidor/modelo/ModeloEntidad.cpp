@@ -122,6 +122,7 @@ void ModeloEntidad::estaCongelado(bool estaCongelado) {
 	this->_mutex.lockEscritura(__FILE__, __LINE__);
 	this->_estaCongelado = estaCongelado;
 	this->_mutex.unlock(__FILE__, __LINE__);
+	this->notificar();
 }
 
 bool ModeloEntidad::esUltimoMovimiento() {
@@ -201,9 +202,9 @@ void ModeloEntidad::posicionSiguiente(Posicion posicionSiguiente) {
 ProxyModeloEntidad::stEntidad ModeloEntidad::stEntidad() {
 	ProxyModeloEntidad::stEntidad entidad;
 	ProxyModeloEntidad::cargarStEntidad(entidad,this->id(),false,this->estaCongelado(),this->esJugador(),this->nombreEntidad(),
-		this->pixelActual().x,this->pixelActual().y,this->posicionActual().x,this->posicionActual().y,
-		this->pixelSiguiente().x,this->pixelSiguiente().y,this->posicionActual().x,this->posicionActual().y,
-		this->direccion(),this->esUltimoMovimiento(),this->accion(),this->nombreJugador());	
+		this->pixelActual().x,this->pixelActual().y,this->posicionActual().x,this->posicionActual().y,this->pixelSiguiente().x,
+		this->pixelSiguiente().y,this->posicionActual().x,this->posicionActual().y,this->direccion(),this->esUltimoMovimiento(),
+		this->accion(),this->nombreJugador());	
 	return entidad;
 }
 
@@ -236,6 +237,10 @@ void ModeloEntidad::detener() {
 	this->_modeloMovimiento->detener();
 }
 
+bool ModeloEntidad::enMovimiento() {
+	return !this->_vistaMovimiento->terminado();
+}
+
 void ModeloEntidad::enviarMensaje(ModeloEntidad* remitente, string mensaje) {
 	ProxyModeloEntidad::stEntidad entidad = this->stEntidad();
 	entidad.idRemitente = remitente->id();
@@ -244,11 +249,6 @@ void ModeloEntidad::enviarMensaje(ModeloEntidad* remitente, string mensaje) {
 }
 
 void ModeloEntidad::cambiarEstado() {
-	if (((this->_accion == ATACANDO) || (this->_accion == DEFENDIENDO)) && this->_vistaMovimiento->terminado()) {
-		this->notificar();
-		this->_accion = CAMINANDO;
-		return;
-	}
 	this->_modeloMovimiento->cambiarEstado();
 	this->_vistaMovimiento->cambiarEstado();
 }

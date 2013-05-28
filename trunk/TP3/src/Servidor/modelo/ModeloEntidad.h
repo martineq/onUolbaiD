@@ -15,7 +15,7 @@
 #include "Tile.h"
 #include "EstadoNivel.h"
 
-typedef enum Accion { CAMINANDO, ATACANDO, DEFENDIENDO };
+typedef enum Accion { CAMINANDO, ATACANDO };
 
 class ModeloEntidad {
 	private:
@@ -191,6 +191,8 @@ class ModeloEntidad {
 		bool chequearConexion();
 
 		void detener();
+
+		bool enMovimiento();
 
 		void enviarMensaje(ModeloEntidad* remitente, std::string mensaje);
 

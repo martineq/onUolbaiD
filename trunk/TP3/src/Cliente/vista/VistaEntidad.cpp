@@ -111,11 +111,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->nombreEntidad = entidad.nombreEntidad;
 	this->nombreJugador = entidad.nombreJugador;
 
-	int accion = entidad.accion;
-	if (accion == 3)
-		accion = 0;
-
-	int codigo = (accion*8) + entidad.direccion;
+	int codigo = (entidad.accion * 8) + entidad.direccion;
 	if( (this->esJugador) && (codigo != this->codigoAnimacion)){
 		this->codigoAnimacion = codigo;
 		this->animacionActual = this->animaciones->get(this->estados.at(codigo));

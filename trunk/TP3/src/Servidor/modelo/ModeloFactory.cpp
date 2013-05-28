@@ -140,7 +140,7 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 	std::list<ModeloJugador*> listaEntidades = modeloNivel->getListaJugadores();
 	std::list<std::string> listaJugadoresUsados;
 	ProxyModeloEntidad::stEntidad stEntidad;
-	ModeloEntidad* pEntidad = NULL;
+	ModeloJugador* pEntidad = NULL;
 	bool moteEncontrado = false;
 
 	for( std::list<ModeloJugador*>::iterator itEntidad = listaEntidades.begin() ; itEntidad != listaEntidades.end() ; itEntidad++ ){
@@ -153,7 +153,7 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 		
 		// Comparo el nombre del jugador usado con el que me pide el usuario nuevo
 		if( moteJugador.compare(mote) == 0 ){
-			pEntidad = (*itEntidad)->modeloEntidad();
+			pEntidad = (*itEntidad);
 			moteEncontrado = true;
 		}
 	}
@@ -167,8 +167,8 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 			pEntidad->estaCongelado(false);
 
 			// Cargo la entidad
-			stEntidad = pEntidad->stEntidad();
-			pEntidad->cargarMatriz(stEntidad);
+			stEntidad = pEntidad->modeloEntidad()->stEntidad();
+			pEntidad->modeloEntidad()->cargarMatriz(stEntidad);
 
 			// Como se está conectando de vuelta, le reasigno al socket de cliente el ID que tenia antes (stEntidad.id), para poder reconocerlo en el loop de juego
 			pSocket->renombrarIdCliente(id,stEntidad.id);
@@ -262,12 +262,12 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 
 	// Envío los datos de los jugadores, a través de un proxy
 	for (std::list<ModeloJugador*>::iterator it=listaJugadores.begin() ; it != listaJugadores.end(); it++ ){ 
-		ModeloEntidad* pEntidad = (*it)->modeloEntidad();
-		if( pEntidad->id() != idMiJugador ){
+		ModeloJugador* pEntidad = (*it);
+		if( pEntidad->modeloEntidad()->id() != idMiJugador ){
 			// Cargo los datos
 			int accion = 0;
-			proxy.cargarStEntidad(entidad,pEntidad->id(),false,pEntidad->estaCongelado(),pEntidad->esJugador(),pEntidad->nombreEntidad(),pEntidad->pixelActual().x,pEntidad->pixelActual().y,pEntidad->posicionActual().x,pEntidad->posicionActual().y,pEntidad->pixelSiguiente().x,pEntidad->pixelSiguiente().y,pEntidad->posicionActual().x,pEntidad->posicionActual().y,pEntidad->direccion(),pEntidad->esUltimoMovimiento(),accion,pEntidad->nombreJugador());
-
+			entidad = pEntidad->modeloEntidad()->stEntidad();
+			
 			// Los envio a través del proxy
 			if( proxy.enviarEntidadIndividual(entidad,idMiJugador) == false ) return false;
 		}

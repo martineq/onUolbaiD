@@ -316,9 +316,6 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 	this->notificarObservadores();
 	this->_modeloEntidad->posicionActual(this->_modeloEntidad->posicionSiguiente());
 
-	if (this->_posiciones.empty())
-		this->_modeloEntidad->accion(CAMINANDO);
-
 	this->_instanteUltimoCambioEstado = GetTickCount();
 }
 
