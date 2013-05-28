@@ -22,7 +22,7 @@ class VistaJuego{
 		VistaJuego(void);
 		~VistaJuego(void);
 
-		bool iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje);	// Inicia el VistaFactory y el ControladorEvento
+		bool iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::string mote,std::string personaje,bool singlePlayer);	// Inicia el VistaFactory y el ControladorEvento
 		bool loop();												// Inicia el VistaLoop y le pasa el VistaNivel
 		
 		VistaNivel* getVistaNivel();

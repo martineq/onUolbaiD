@@ -67,12 +67,14 @@ bool ModeloFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEsc
 	return true;
 }
 
-bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* pSocket,int id){
+bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* pSocket,int id,bool singlePlayer){
 
 	ModeloNivel* pModeloNivel = (ModeloNivel*)modeloNivel;
 
-	// Envío los archivos de configuración
-	if( this->enviarArchivosDeConfiguracion(pSocket,id) == false ) return false;
+	// Envío los archivos de configuración, en caso de no ser single player
+	if( singlePlayer == false ) {
+		if( this->enviarArchivosDeConfiguracion(pSocket,id) == false ) return false;
+	}
 
 	// Envío el escenario creado, junto con los ID's de cada entidad del escenario para que se puedan setear en el cliente
 	if( this->enviarEscenario(pSocket,id) == false ) return false;

@@ -48,6 +48,11 @@ void ControladorEvento::setTeclaSApretada(bool apretada){
 	this->notificarAlProxy();
 }
 
+void ControladorEvento::setQuit(){
+	this->finalizoElJuego = true;
+	this->notificarAlProxy();
+}
+
 int ControladorEvento::getPosicionMouseX(){
 	return this->posicionMouseX + this->controladorScroll->getX();
 }

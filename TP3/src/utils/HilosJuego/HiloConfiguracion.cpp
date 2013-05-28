@@ -32,6 +32,7 @@ void HiloConfiguracion::rutina(stParametrosConfiguracion* parametrosConfiguracio
 	SocketServidor* pServidor;
 	ModeloFactory* pModeloFactory; 
 	void* pModeloNivel;
+	bool singlePlayer;
 
 	// Preparo los parámetros a usar
 	if( this->estaActivo() == true ){
@@ -39,13 +40,14 @@ void HiloConfiguracion::rutina(stParametrosConfiguracion* parametrosConfiguracio
 		pServidor = (SocketServidor*)parametrosConfiguracion->pServidor;
 		pModeloFactory = parametrosConfiguracion->pModeloFactory; 
 		pModeloNivel = parametrosConfiguracion->pModeloNivel;
+		singlePlayer = parametrosConfiguracion->singlePlayer;
 	}else{
 		return void();
 	}
 
 	// Corro la configuración del cliente desde el ModeloFactory
 	if( this->estaActivo() == true ){
-		if( pModeloFactory->rutinaAgregarNuevoCliente(pModeloNivel,pServidor,id) == false ){
+		if( pModeloFactory->rutinaAgregarNuevoCliente(pModeloNivel,pServidor,id,singlePlayer) == false ){
 				this->finalizarConfiguracion();	
 				Log::getInstance().log(1,__FILE__,__LINE__,"Error: No se pudo configurar el cliente. ");
 				return void();

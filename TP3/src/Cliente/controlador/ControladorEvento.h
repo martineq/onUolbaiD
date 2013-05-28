@@ -30,6 +30,7 @@ class ControladorEvento{
 		void setFinalizoElJuego(bool valor);
 		void setTeclaAApretada(bool);
 		void setTeclaSApretada(bool);
+		void setQuit();
 		void setProxyEvento(ProxyControladorEvento* pProxyEvento);
 		void setControladorScroll(ControladorScroll*, double, double);
 		int getPosicionMouseX();
