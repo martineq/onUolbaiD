@@ -17,10 +17,11 @@ class ModeloFactory{
 	private:
 		struct stModeloJuegoElegido{
 			// Atributos que se leen del yaml
-			ParserYaml::stEscenario escenario;				// Se elige a partir de consola o de un archivo de configuracion
+			ParserYaml::stEscenario escenario;				// Se elige a partir de consola
 			ParserYaml::stConfiguracion configuracion;
 			ParserYaml::stPantalla pantalla;
 			std::list<ParserYaml::stEntidad> listaEntidades;
+			
 			// Atributos que se llenan mientras de crean entidades
 			std::string nombreEscenario;
 			std::list<int> listaIdEntidades;

@@ -242,7 +242,8 @@ void ParserYaml::cargaStEscenario(const YAML::Node& nodo, ParserYaml::stEscenari
 		}else if ( clave.compare("size_x") == 0 ){ escenario.tamanioX = this->leerNodoYamlInt(it.second());
 		}else if ( clave.compare("size_y") == 0 ){ escenario.tamanioY = this->leerNodoYamlInt(it.second());
 		}else if ( clave.compare("entidadesDef") == 0 ){ this->cargaListaEntidadesDefinidas(it.second(),escenario.entidadesDefinidas) ;
-		}else if ( clave.compare("protagonista") == 0 ){ this->cargaListaProtagonistas(it.second(),escenario.protagonistas);
+		}else if ( clave.compare("protagonistas") == 0 ){ this->cargaListaProtagonistas(it.second(),escenario.protagonistas);
+		}else if ( clave.compare("enemigos") == 0 ){ this->cargaListaEnemigos(it.second(),escenario.enemigos);
 		}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
 	}
 
@@ -295,6 +296,27 @@ void ParserYaml::cargaListaProtagonistas(const YAML::Node& nodo, std::list <Pars
 	return void();
 }
 
+void ParserYaml::cargaListaEnemigos(const YAML::Node& nodo, std::list <ParserYaml::stEnemigo>& enemigos){
+
+	for(unsigned i=0;i<nodo.size();i++) { //El nodo es una lista, itero en esa lista
+		
+		stEnemigo enemigo;
+
+		for(YAML::Iterator it=nodo[i].begin();it!=nodo[i].end();++it){
+			
+			std::string clave = this->leerNodoYamlString(it.first());
+			if ( clave.compare("entidad") == 0 ){ enemigo.entidad = this->leerNodoYamlString(it.second());
+			}else if ( clave.compare("x") == 0 ){ enemigo.x = this->leerNodoYamlInt(it.second());
+			}else if ( clave.compare("y") == 0 ){ enemigo.y = this->leerNodoYamlInt(it.second());
+			}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
+		}
+
+		// Agrego el protagonista a la lista
+		enemigos.push_back(enemigo);
+	}
+
+	return void();
+}
 
 ///////////////////////////
 /// Validación de datos ///
@@ -513,6 +535,10 @@ void ParserYaml::validaRecorrerListaEscenarios(std::list<std::list<ParserYaml::s
 			escenarioOk = false;
 		}
 
+		if( this->validaListaEnemigos((*it).enemigos,(*it).nombre,(*it).tamanioX,(*it).tamanioY) == false){
+			escenarioOk = false;
+		}
+
 		// Si anteriormente se encontró un problema, se descarta ese tipo personaje
 		if( escenarioOk == false) tipoEscenarioABorrar.push_back(it); 
 	}
@@ -567,14 +593,13 @@ bool ParserYaml::validaExisteEntidad(std::string entidad){
 }
 
 bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>& protagonistas,std::string nombreEscenario, int tamanioX, int tamanioY){
-	
+
 	// Lista de los protagonistas que se van a borrar, en caso de presentar errores
 	std::list<std::list<ParserYaml::stProtagonista>::iterator> tipoProtagonistaABorrar; 
-	
 
 	// Recorro todas los protagonistas 
 	for (std::list<stProtagonista>::iterator it=protagonistas.begin() ; it != protagonistas.end(); it++ ){
-		
+	
 		bool protagonistaOk = true;
 
 		// Chequeo la validez del nombre del protagonista
@@ -589,7 +614,7 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 			protagonistaOk = false;
 		}
 
-		// Valido la existencia de la entidad
+		// Valido la existencia de la entidad y cantidad de animaciones
 		if( this->validaExisteEntidad((*it).entidad) == false ){
 			protagonistaOk = false;
 		}else{
@@ -614,15 +639,68 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 		}
 	}
 
-	if ( protagonistas.empty() == true ){ // Si está vacío
+	// Si me quedé sin protagonistas, agrego uno por default
+	if ( protagonistas.empty() == true ){ 
 		protagonistas.push_back(this->crearJugadorDefault());
 		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de personajes del escenario "+ nombreEscenario +" se encuentra vacía. Se agregará uno por defecto.");
-		return true;
-	}else{	// Si no se encuentra vacío
-			// No hago nada, ya no hay restricciones
-		return true;
 	}
 
+	return true;
+}
+
+bool ParserYaml::validaListaEnemigos(std::list <ParserYaml::stEnemigo>& enemigos,std::string nombreEscenario, int tamanioX, int tamanioY){
+
+	// Lista de los protagonistas que se van a borrar, en caso de presentar errores
+	std::list<std::list<ParserYaml::stEnemigo>::iterator> tipoEnemigoABorrar; 
+
+	// Recorro todas los protagonistas 
+	for (std::list<stEnemigo>::iterator it=enemigos.begin() ; it != enemigos.end(); it++ ){
+	
+		bool enemigoOk = true;
+
+		// Chequeo la validez del nombre del protagonista
+		if ( (*it).entidad.compare(YAML_STRING_VACIO) == 0 ) {
+			Log::getInstance().log(1,__FILE__,__LINE__,"Un enemigo del escenario "+ nombreEscenario +" no tiene un valor válido en su campo <entidad>.");
+			enemigoOk = false;
+		}
+
+		// Valido <x> e <y>
+		if ( (*it).x < 0 || (*it).y < 0 || (*it).x > tamanioX || (*it).y > tamanioY ) {
+			Log::getInstance().log(1,__FILE__,__LINE__,"Los valores de x e y del enemigo con escenario "+ nombreEscenario +", entidad "+ (*it).entidad +" no tienen valores válidos.");
+			enemigoOk = false;
+		}
+
+		// Valido la existencia de la entidad y cantidad de animaciones
+		if( this->validaExisteEntidad((*it).entidad) == false ){
+			enemigoOk = false;
+		}else{
+			if( this->cantidadDeAnimacionesDeEntidad((*it).entidad) != YAML_CANTIDAD_OBLIGATORIA_DE_ANIMACIONES_PROTAGONISTA ){
+				Log::getInstance().log(1,__FILE__,__LINE__,"La cantidad de animaciones del enemigo "+ (*it).entidad +" no es la requerida.");
+				enemigoOk = false;
+			}
+		}
+
+		// Agrego la entidad definida con errores
+		if( enemigoOk == false){
+			tipoEnemigoABorrar.push_back(it); 
+		}
+	} 
+
+	// Borro los protagonistas con errores
+	if ( tipoEnemigoABorrar.empty() == false ){
+		Log::getInstance().log(1,__FILE__,__LINE__,"escenarios->enemigos: existen enemigos inválidos para el escenario "+ nombreEscenario +". Los mismos se descartarán.");
+		for (std::list<std::list<stEnemigo>::iterator>::iterator it=tipoEnemigoABorrar.begin() ; it != tipoEnemigoABorrar.end(); it++ ){
+			enemigos.erase(*it);
+		}
+	}
+
+	// Si me quedé sin protagonistas, agrego uno por default
+	if ( enemigos.empty() == true ){ 
+		enemigos.push_back(this->crearEnemigoDefault());
+		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de enemigos del escenario "+ nombreEscenario +" se encuentra vacía. Se agregará uno por defecto.");
+	}
+	
+	return true;
 }
 
 void ParserYaml::validaDescartarEscenarios(std::list<std::list<ParserYaml::stEscenario>::iterator>& tipoEscenarioABorrar){
@@ -752,13 +830,26 @@ int ParserYaml::cantidadDeAnimacionesDeEntidad(std::string entidad){
 	return 0;
 }
 
+// Me fijo si está cargada la entidad default entre las entidades
+bool ParserYaml::entidadDefaultCargada(void){
+	bool encontrada = false;
+	for (std::list<ParserYaml::stEntidad>::iterator it=this->juego.entidades.begin() ; it != this->juego.entidades.end(); it++ ){	
+		if( (*it).nombre.compare(YAML_DEAFAULT_NOMBRE) == 0 ){
+			encontrada = true;
+		}
+	}
+	return encontrada;
+}
+
 ParserYaml::stProtagonista ParserYaml::crearJugadorDefault(void){
-	
-	// Cargo la entidad default
+
+	// Preparo la entidad default
 	stEntidad entidad;
 	this->cargaDefaultStEntidad(entidad);
 	this->cargaListasAnimacionesDefault(entidad.imagenes);
-	this->juego.entidades.push_back(entidad);
+
+	// Si hasta ahora no estaba, cargo la entidad default
+	if( this->entidadDefaultCargada() == false ) this->juego.entidades.push_back(entidad);
 
 	//Cargo el jugador default
 	stProtagonista protagonista;
@@ -769,6 +860,24 @@ ParserYaml::stProtagonista ParserYaml::crearJugadorDefault(void){
 	return protagonista;
 }
 
+ParserYaml::stEnemigo ParserYaml::crearEnemigoDefault(void){
+
+	// Preparo la entidad default
+	stEntidad entidad;
+	this->cargaDefaultStEntidad(entidad);
+	this->cargaListasAnimacionesDefault(entidad.imagenes);
+
+	// Si hasta ahora no estaba, cargo la entidad default
+	if( this->entidadDefaultCargada() == false ) this->juego.entidades.push_back(entidad);
+	
+	//Cargo el enemigo default
+	stEnemigo enemigo;
+	enemigo.entidad = entidad.nombre;
+	enemigo.x = 0;
+	enemigo.y = 0;
+
+	return enemigo;
+}
 
 void ParserYaml::cargaListasAnimacionesDefault(std::list<std::list<std::string>>& listaAnimaciones){
 	std::list<std::string> listaImagenDefault;
