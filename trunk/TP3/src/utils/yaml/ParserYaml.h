@@ -53,12 +53,19 @@ class ParserYaml{
 			std::string entidad;
 		};
 
+		struct stEnemigo{
+			int x;
+			int y;
+			std::string entidad;
+		};
+
 		struct stEscenario{
 			std::string nombre;
 			int tamanioX;
 			int tamanioY;
 			std::list <stEntidadDefinida> entidadesDefinidas;
 			std::list <stProtagonista> protagonistas;
+			std::list <stEnemigo> enemigos;
 		};
 
 		struct stJuego{
@@ -85,6 +92,7 @@ class ParserYaml{
 		void cargaListaEntidades(const YAML::Node& nodo, std::list <ParserYaml::stEntidad>& entidades);
 		void cargaListaEscenarios(const YAML::Node& nodo, std::list <ParserYaml::stEscenario>& escenarios);
 		void cargaListaProtagonistas(const YAML::Node& nodo, std::list <ParserYaml::stProtagonista>& protagonistas);
+		void cargaListaEnemigos(const YAML::Node& nodo, std::list <ParserYaml::stEnemigo>& enemigos);
 		void cargaListaEntidadesDefinidas(const YAML::Node& nodo, std::list <ParserYaml::stEntidadDefinida>& entidadesDefinidas);
 		void cargaStEntidad(const YAML::Node& nodo, ParserYaml::stEntidad& entidad);
 		void cargaListaImagenes(const YAML::Node& nodo, std::list<std::list<std::string>>& imagenes);
@@ -111,6 +119,7 @@ class ParserYaml{
 		void validaListaEntidadesDefinidas(std::list <ParserYaml::stEntidadDefinida>& entidadesDefinidas,std::string nombreEscenario, int tamanioX, int tamanioY);
 		bool validaExisteEntidad(std::string entidad);
 		bool validaListaProtagonistas(std::list <ParserYaml::stProtagonista>& protagonistas,std::string nombreEscenario, int tamanioX, int tamanioY);
+		bool validaListaEnemigos(std::list <ParserYaml::stEnemigo>& enemigos,std::string nombreEscenario, int tamanioX, int tamanioY);
 
 		// Funciones privadas auxiliares
 		int leerNodoYamlInt(const YAML::Node& nodo);
@@ -118,7 +127,9 @@ class ParserYaml{
 		bool chequeoArchivo(std::string rutaArchivo);
 		void notificarErrorLectura(std::string tipoDato,std::string archivo, int linea, std::string msgError, bool& lecturaOk);
 		int cantidadDeAnimacionesDeEntidad(std::string entidad);
+		bool entidadDefaultCargada(void);
 		stProtagonista crearJugadorDefault(void);
+		stEnemigo crearEnemigoDefault(void);
 		void cargaListasAnimacionesDefault(std::list<std::list<std::string>>& listaAnimaciones);
 		void cargaListaImagenesDefault(std::list<std::string>& listaImagenes);
 		stJuego crearJuegoDefault(void);
