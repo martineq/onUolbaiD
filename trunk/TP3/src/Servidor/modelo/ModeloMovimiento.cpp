@@ -1,10 +1,10 @@
-#include "ModeloEntidad.h"
+#include "ModeloMovimiento.h"
 
 #define DURACION_CALCULO_CAMINO_MINIMO 1000
 
 using namespace std;
 
-bool ModeloEntidad::ModeloMovimiento::agregarTile(char* mapaTilesCerrados, list<Tile>* tilesAbiertos, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia) {
+bool ModeloMovimiento::agregarTile(char* mapaTilesCerrados, list<Tile>* tilesAbiertos, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia) {
 	Tile tile;
 	tile.padre(padre, distancia);
 	tile.posicion(posicion);
@@ -36,7 +36,7 @@ bool ModeloEntidad::ModeloMovimiento::agregarTile(char* mapaTilesCerrados, list<
 	return true;
 }
 
-Posicion ModeloEntidad::ModeloMovimiento::calcularPosicionDestino(Posicion posicionDestino) {
+Posicion ModeloMovimiento::calcularPosicionDestino(Posicion posicionDestino) {
 	// Obtengo la entidad en la posicion destino
 	ModeloEntidad* modeloEntidad = this->detectarColision(posicionDestino);
 
@@ -51,23 +51,23 @@ Posicion ModeloEntidad::ModeloMovimiento::calcularPosicionDestino(Posicion posic
 	int ancho = this->obtenerAncho(x, modeloEntidad);
 	
 	// Choco con cara norte
-	if (this->_modeloEntidad->posicionActual().y < y)
+	if (this->_modeloEntidad->posicion().y < y)
 		posicionDestino.y = y - 1;
 	// Choco con cara sur
-	else if (this->_modeloEntidad->posicionActual().y >= y + alto)
+	else if (this->_modeloEntidad->posicion().y >= y + alto)
 		posicionDestino.y = y + alto;
 	
 	// Choco con cara este
-	if (this->_modeloEntidad->posicionActual().x >= x + ancho)
+	if (this->_modeloEntidad->posicion().x >= x + ancho)
 		posicionDestino.x = x + ancho;
 	// Choco con cara oeste
-	else if (this->_modeloEntidad->posicionActual().x < x)
+	else if (this->_modeloEntidad->posicion().x < x)
 		posicionDestino.x = x - 1;
 
 	return posicionDestino;
 }
 
-ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posicion) {
+ModeloEntidad* ModeloMovimiento::detectarColision(Posicion posicion) {
 	this->_mutexEntidadesMoviles->lockLectura(__FILE__, __LINE__);
 	list<ModeloEntidad*>* listaJugadores = this->_entidadesMoviles;
 	this->_mutexEntidadesMoviles->unlock(__FILE__, __LINE__);
@@ -91,62 +91,62 @@ ModeloEntidad* ModeloEntidad::ModeloMovimiento::detectarColision(Posicion posici
 	return (entidad == fin) ? NULL : (*entidad).second;
 }
 
-int ModeloEntidad::ModeloMovimiento::obtenerAlto(int y, ModeloEntidad* modeloEntidad) {
-	int alto = modeloEntidad->posicionActual().y - y;
+int ModeloMovimiento::obtenerAlto(int y, ModeloEntidad* modeloEntidad) {
+	int alto = modeloEntidad->posicion().y - y;
 	while (modeloEntidad != NULL) {
 		alto += modeloEntidad->alto();
-		Posicion posicion = modeloEntidad->posicionActual();
+		Posicion posicion = modeloEntidad->posicion();
 		posicion.y += modeloEntidad->alto();
 		modeloEntidad = this->detectarColision(posicion);
 	}
 	return alto;
 }
 
-int ModeloEntidad::ModeloMovimiento::obtenerAncho(int x, ModeloEntidad* modeloEntidad) {
-	int ancho = modeloEntidad->posicionActual().x - x;
+int ModeloMovimiento::obtenerAncho(int x, ModeloEntidad* modeloEntidad) {
+	int ancho = modeloEntidad->posicion().x - x;
 	while (modeloEntidad != NULL) {
 		ancho += modeloEntidad->alto();
-		Posicion posicion = modeloEntidad->posicionActual();
+		Posicion posicion = modeloEntidad->posicion();
 		posicion.x += modeloEntidad->ancho();
 		modeloEntidad = this->detectarColision(posicion);
 	}
 	return ancho;
 }
 
-Posicion ModeloEntidad::ModeloMovimiento::obtenerPosicionSiguiente() {
+Posicion ModeloMovimiento::obtenerPosicionSiguiente() {
 	Posicion posicionSiguiente = this->_posiciones.front();
 	this->_posiciones.pop_front();
 	return posicionSiguiente;
 }
 
-int ModeloEntidad::ModeloMovimiento::obtenerX(ModeloEntidad* modeloEntidad) {
+int ModeloMovimiento::obtenerX(ModeloEntidad* modeloEntidad) {
 	int x = 0;
 	while (modeloEntidad != NULL) {
-		Posicion posicion = modeloEntidad->posicionActual();
+		Posicion posicion = modeloEntidad->posicion();
 		x = posicion.x--;
 		modeloEntidad = this->detectarColision(posicion);
 	}
 	return x;
 }
 
-int ModeloEntidad::ModeloMovimiento::obtenerY(ModeloEntidad* modeloEntidad) {
+int ModeloMovimiento::obtenerY(ModeloEntidad* modeloEntidad) {
 	int y = 0;
 	while (modeloEntidad != NULL) {
-		Posicion posicion = modeloEntidad->posicionActual();
+		Posicion posicion = modeloEntidad->posicion();
 		y = posicion.y--;
 		modeloEntidad = this->detectarColision(posicion);
 	}
 	return y;
 }
 
-ModeloEntidad::ModeloMovimiento::ModeloMovimiento(const ModeloMovimiento &modeloMovimiento) {
+ModeloMovimiento::ModeloMovimiento(const ModeloMovimiento &modeloMovimiento) {
 }
 
-ModeloEntidad::ModeloMovimiento& ModeloEntidad::ModeloMovimiento::operator=(const ModeloMovimiento &modeloMovimiento) {
+ModeloMovimiento& ModeloMovimiento::operator=(const ModeloMovimiento &modeloMovimiento) {
 	return *this;
 }
 
-ModeloEntidad::ModeloMovimiento::ModeloMovimiento(int altoNivel, int anchoNivel, ModeloEntidad* modeloEntidad) {
+ModeloMovimiento::ModeloMovimiento(int altoNivel, int anchoNivel, ModeloEntidad* modeloEntidad) {
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_modeloEntidad = modeloEntidad;
@@ -155,10 +155,14 @@ ModeloEntidad::ModeloMovimiento::ModeloMovimiento(int altoNivel, int anchoNivel,
 	this->_instanteUltimoCambioEstado = 0;
 }
 
-ModeloEntidad::ModeloMovimiento::~ModeloMovimiento() {
+ModeloMovimiento::~ModeloMovimiento() {
 }
 
-void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
+Posicion ModeloMovimiento::posicionSiguiente() {
+	return this->_posicionSiguiente;
+}
+
+void ModeloMovimiento::actualizar(Posicion posicionDestino) {
 	// Dentego el movimiento anterior
 	this->detener();
 
@@ -173,7 +177,7 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 		posicionDestino.y = this->_altoNivel - 1;
 
 	// Si la posicion actual es igual a la destino no ejectuo el movimiento
-	if (this->_modeloEntidad->posicionActual() == posicionDestino)
+	if (this->_modeloEntidad->posicion() == posicionDestino)
 		return;
 
 	// Calculo la posicion destino por si seleccione una posicion ocupada
@@ -186,7 +190,7 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 
 	memset(mapaTilesCerrados, 0, this->_altoNivel * this->_anchoNivel * sizeof(char));
 
-	this->agregarTile(mapaTilesCerrados, &tilesAbiertos, this->_modeloEntidad->posicionActual(), posicionDestino, NULL, 0);
+	this->agregarTile(mapaTilesCerrados, &tilesAbiertos, this->_modeloEntidad->posicion(), posicionDestino, NULL, 0);
 	
 	DWORD inicio = GetTickCount();
 
@@ -272,17 +276,17 @@ void ModeloEntidad::ModeloMovimiento::actualizar(Posicion posicionDestino) {
 	delete[] mapaTilesCerrados;
 }
 
-void ModeloEntidad::ModeloMovimiento::asignarEntidades(Mutex* mutexEntidades, multimap<pair<int, int>, ModeloEntidad*>* entidades) {
+void ModeloMovimiento::asignarEntidades(Mutex* mutexEntidades, multimap<pair<int, int>, ModeloEntidad*>* entidades) {
 	this->_mutexEntidades = mutexEntidades;
 	this->_entidades = entidades;
 }
 
-void ModeloEntidad::ModeloMovimiento::asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, list<ModeloEntidad*>* entidadesMoviles) {
+void ModeloMovimiento::asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, list<ModeloEntidad*>* entidadesMoviles) {
 	this->_mutexEntidadesMoviles = mutexEntidadesMoviles;
 	this->_entidadesMoviles = entidadesMoviles;
 }
 
-void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
+void ModeloMovimiento::cambiarEstado() {
 	if (this->_posiciones.empty())
 		return;
 	
@@ -296,7 +300,7 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 
 	// Obtengo la siguente posicion del movimiento actual
 	Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
-	this->_modeloEntidad->direccion(Posicion::obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
+	this->_modeloEntidad->direccion(Posicion::obtenerDireccion(this->_modeloEntidad->posicion(), posicionSiguiente));
 	
 	// Si choque con algo en el camino y no estoy en la ultima posicion recalculo
 	if (this->detectarColision(posicionSiguiente) != NULL) {
@@ -308,18 +312,17 @@ void ModeloEntidad::ModeloMovimiento::cambiarEstado() {
 
 		this->actualizar(this->_posiciones.back());
 		Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
-		this->_modeloEntidad->direccion(Posicion::obtenerDireccion(this->_modeloEntidad->posicionActual(), posicionSiguiente));
+		this->_modeloEntidad->direccion(Posicion::obtenerDireccion(this->_modeloEntidad->posicion(), posicionSiguiente));
 	}
 
 	// Notifico a VistaMovimiento
-	this->_modeloEntidad->posicionSiguiente(posicionSiguiente);
+	this->_posicionSiguiente = posicionSiguiente;
 	this->notificarObservadores();
-	this->_modeloEntidad->posicionActual(this->_modeloEntidad->posicionSiguiente());
-
+	this->_modeloEntidad->posicion(this->_posicionSiguiente);
+	
 	this->_instanteUltimoCambioEstado = GetTickCount();
 }
 
-void ModeloEntidad::ModeloMovimiento::detener() {
+void ModeloMovimiento::detener() {
 	this->_posiciones.clear();
-	this->_modeloEntidad->accion(CAMINANDO);
 }

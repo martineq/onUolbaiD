@@ -147,7 +147,7 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 
 	for( std::list<ModeloJugador*>::iterator itEntidad = listaEntidades.begin() ; itEntidad != listaEntidades.end() ; itEntidad++ ){
 		// Obtengo el nombre de jugador y entidad
-		std::string moteJugador = (*itEntidad)->modeloEntidad()->nombreJugador();
+		std::string moteJugador = (*itEntidad)->nombreJugador();
 		std::string entidadPersonaje = (*itEntidad)->modeloEntidad()->nombreEntidad();
 		
 		// Guardo el nombre de la entidad usada
@@ -169,8 +169,8 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 			pEntidad->estaCongelado(false);
 
 			// Cargo la entidad
-			stEntidad = pEntidad->modeloEntidad()->stEntidad();
-			pEntidad->modeloEntidad()->cargarMatriz(stEntidad);
+			stEntidad = pEntidad->stEntidad();
+			pEntidad->cargarMatriz(stEntidad);
 
 			// Como se está conectando de vuelta, le reasigno al socket de cliente el ID que tenia antes (stEntidad.id), para poder reconocerlo en el loop de juego
 			pSocket->renombrarIdCliente(id,stEntidad.id);
@@ -268,7 +268,7 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 		if( pEntidad->modeloEntidad()->id() != idMiJugador ){
 			// Cargo los datos
 			int accion = 0;
-			entidad = pEntidad->modeloEntidad()->stEntidad();
+			entidad = pEntidad->stEntidad();
 			
 			// Los envio a través del proxy
 			if( proxy.enviarEntidadIndividual(entidad,idMiJugador) == false ) return false;
@@ -316,11 +316,11 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	pProxyEntidad->setSocketServidor(pSocket);
 
 	// Creo la entidad
-	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,true,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote); 
+	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote); 
 
 	// Obtengo los datos de la stEntidad para luego pasarsela al cliente
-	stEntidad = pJugador->modeloEntidad()->stEntidad();
-	pJugador->modeloEntidad()->cargarMatriz(stEntidad);
+	stEntidad = pJugador->stEntidad();
+	pJugador->cargarMatriz(stEntidad);
 	// Agrego la entidad al nivel
 	modeloNivel->agregarJugador(pJugador);
 
@@ -364,8 +364,7 @@ void ModeloFactory::crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSoc
 		this->juegoElegido.listaIdEntidades.push_back(nuevoID);	// Puedo escribirlo directamente porque a esta altura no hay hilos (no hace falta usar el mutex)
 
 		// Creo la entidad y la agrego al nivel
-		std::string nombreJugador("Entidad_Sin_Duenio");
-		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,false,altoEscenario,anchoEscenario,entidad.fps,pProxyEntidad,nuevoID,nombreEntidad,nombreJugador);
+		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidad.fps,pProxyEntidad,nuevoID,nombreEntidad);
 		modeloNivel.agregarEntidad(pEntidad);
 
 	}

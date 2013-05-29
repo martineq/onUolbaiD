@@ -1,5 +1,7 @@
 #include "ProxyModeloEntidad.h"
 
+using namespace std;
+
 ProxyModeloEntidad::ProxyModeloEntidad(void){
 	this->pCliente = NULL;
 	this->pServidor = NULL;
@@ -77,15 +79,10 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addString(entidad.nombreEntidad);
 	s.addBool(entidad.entidadCongelada);
 	s.addBool(entidad.esJugador);
-	s.addDouble(entidad.pixelAnteriorX);
-	s.addDouble(entidad.pixelAnteriorY);
-	s.addInt(entidad.posicionAnteriorX);
-	s.addInt(entidad.posicionAnteriorY);
 	s.addDouble(entidad.pixelSiguienteX);
 	s.addDouble(entidad.pixelSiguienteY);
 	s.addInt(entidad.posicionSiguienteX);
 	s.addInt(entidad.posicionSiguienteY);
-	s.addInt(entidad.direccion);
 	s.addBool(entidad.esUltimoMovimiento);
 	s.addInt(entidad.accion);
 	s.addString(entidad.nombreJugador);
@@ -113,15 +110,10 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	std::string nombre = s.getString();
 	bool congelada = s.getBool();
 	bool jugador = s.getBool();
-	double pixelAnteriorX = s.getDouble();
-	double pixelAnteriorY = s.getDouble();
-	int posicionAnteriorX = s.getInt();
-	int posicionAnteriorY = s.getInt();
 	double pixelSiguienteX = s.getDouble();
 	double pixelSiguienteY = s.getDouble();
 	int posicionSiguienteX = s.getInt();
 	int posicionSiguienteY = s.getInt();
-	int dir = s.getInt();
 	bool ultimo = s.getBool();
 	int accion = s.getInt();
 	std::string nombreJugador = s.getString();
@@ -133,15 +125,10 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.errorEnSocket = false;
 	entidad.entidadCongelada = congelada;
 	entidad.esJugador = jugador;
-	entidad.pixelAnteriorX = pixelAnteriorX;
-	entidad.pixelAnteriorY = pixelAnteriorY;
-	entidad.posicionAnteriorX = posicionAnteriorX;
-	entidad.posicionAnteriorY = posicionAnteriorY;
 	entidad.pixelSiguienteX = pixelSiguienteX;	
 	entidad.pixelSiguienteY = pixelSiguienteY;
 	entidad.posicionSiguienteX = posicionSiguienteX;
 	entidad.posicionSiguienteY = posicionSiguienteY;
-	entidad.direccion = dir;
 	entidad.esUltimoMovimiento = ultimo;
 	entidad.accion = accion;
 	entidad.nombreJugador = nombreJugador;
@@ -150,26 +137,21 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 }
 
 // Para los que usan el proxy y quieren cargar el struct
-void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad, double pixelAnteriorX,double pixelAnteriorY,int posicionAnteriorX,int posicionAnteriorY,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,int direccion,bool esUltimoMovimiento, int accion,std::string nombreJugador){
+void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,bool esUltimoMovimiento,int accion,string nombreJugador,int idRemitente,string mensaje){
 	entidad.id = id;
 	entidad.errorEnSocket = errorEnSocket;
 	entidad.entidadCongelada = entidadCongelada;
 	entidad.esJugador = esJugador;
 	entidad.nombreEntidad = nombreEntidad;
-	entidad.pixelAnteriorX = pixelAnteriorX;
-	entidad.pixelAnteriorY = pixelAnteriorY;
-	entidad.posicionAnteriorX = posicionAnteriorX;
-	entidad.posicionAnteriorY = posicionAnteriorY;
 	entidad.pixelSiguienteX = pixelSiguienteX;
 	entidad.pixelSiguienteY = pixelSiguienteY;
 	entidad.posicionSiguienteX = posicionSiguienteX;
 	entidad.posicionSiguienteY = posicionSiguienteY;
-	entidad.direccion = direccion;
 	entidad.esUltimoMovimiento = esUltimoMovimiento;
 	entidad.accion = accion;
 	entidad.nombreJugador = nombreJugador;
-	entidad.idRemitente = -1;
-	entidad.mensaje = "";
+	entidad.idRemitente = idRemitente;
+	entidad.mensaje = mensaje;
 }
 
 void ProxyModeloEntidad::cargarMatriz(ProxyModeloEntidad::stEntidad& entidad,std::string matriz){

@@ -227,7 +227,7 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	double x = (double)this->juegoElegido.entidadJugador.posicionSiguienteX;
 	double y = (double)this->juegoElegido.entidadJugador.posicionSiguienteY;
 	int id = this->juegoElegido.entidadJugador.id;
-	int direccion = this->juegoElegido.entidadJugador.direccion;
+	int direccion = this->juegoElegido.entidadJugador.accion;
 
 	// Valores tomados desde la entidad
 	double alto = (double)entidadProtagonista.altoBase;
@@ -276,7 +276,7 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,entidad.entidadCongelada,entidad.direccion,entidad.nombreJugador);
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,entidad.entidadCongelada,entidad.accion,entidad.nombreJugador);
 	vistaNivel.agregarOtroJugador(pJugador);
 	return void();
 }
