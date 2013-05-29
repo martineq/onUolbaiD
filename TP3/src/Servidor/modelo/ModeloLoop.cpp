@@ -34,7 +34,7 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 			ModeloJugador* destinatario = modeloNivel.obtenerJugador(this->_modeloEvento.getIdDestinatarioChat());
 			if (destinatario == NULL)
 				return true;
-			destinatario->modeloEntidad()->enviarMensaje(remitente->modeloEntidad(), this->_modeloEvento.getMensajeChat());
+			destinatario->enviarMensaje(remitente, this->_modeloEvento.getMensajeChat());
 		}
 		else if (this->_modeloEvento.getMouseClickIzquierdo()) {
 			// En el caso de no haber errores y no haber terminado el juego se obtienen los datos para acutalizar

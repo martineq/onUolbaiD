@@ -15,21 +15,30 @@ class ProxyModeloEntidad{
 			bool entidadCongelada;
 			bool esJugador;			
 			// Datos para actualizar en la entidad
-			double pixelAnteriorX;
-			double pixelAnteriorY;
-			int posicionAnteriorX;
-			int posicionAnteriorY;
 			double pixelSiguienteX;
 			double pixelSiguienteY;
 			int posicionSiguienteX;
 			int posicionSiguienteY;
-			int direccion;
 			bool esUltimoMovimiento;
 			int accion;
 			std::string nombreJugador;
 			std::string actualizacionMapa;  // La idea es serializar toda la actulización de la matriz y mandarlo por acá. Lo pongo en un string porque el tamaño de la actualización es variable
 			int idRemitente;
 			std::string mensaje;
+
+			stEntidad() {
+				this->id = ID_FALSO;
+				this->errorEnSocket = false;
+				this->entidadCongelada = false;
+				this->esJugador = false;
+				this->pixelSiguienteX = 0;
+				this->pixelSiguienteY = 0;
+				this->posicionSiguienteX = 0;
+				this->posicionSiguienteY = 0;
+				this->esUltimoMovimiento = true;
+				this->accion = 0;
+				this->idRemitente = ID_FALSO;
+			}
 		};
 
 	private:
@@ -59,6 +68,6 @@ class ProxyModeloEntidad{
 
 		int sizeEntidad(ProxyModeloEntidad::stEntidad);
 		// Auxiliares
-		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad, double pixelAnteriorX,double pixelAnteriorY,int posicionAnteriorX,int posicionAnteriorY,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,int direccion,bool esUltimoMovimiento, int accion,std::string nombreJugador);
+		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,bool esUltimoMovimiento, int accion,std::string nombreJugador,int idRemitente,std::string mensaje);
 		static void cargarMatriz(ProxyModeloEntidad::stEntidad& entidad,std::string matriz);
 };

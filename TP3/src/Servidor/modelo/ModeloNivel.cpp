@@ -23,7 +23,7 @@ ModeloJugador* ModeloNivel::obtenerJugador(int id) {
 ModeloJugador* ModeloNivel::obtenerJugador(Posicion posicion) {
 	std::list<ModeloJugador*> listaJugadores = this->getListaJugadores();
 	for (std::list<ModeloJugador*>::iterator itModeloEntidad = listaJugadores.begin(); itModeloEntidad != listaJugadores.end(); itModeloEntidad++){
-		if ((*itModeloEntidad)->modeloEntidad()->posicionActual() == posicion)
+		if ((*itModeloEntidad)->modeloEntidad()->posicion() == posicion)
 			return (*itModeloEntidad);
 	}
 	return NULL;
@@ -66,16 +66,16 @@ void ModeloNivel::agregarJugador(ModeloJugador* jugador) {
 	this->mutexEntidadesMoviles.lockEscritura(__FILE__, __LINE__);
 	this->entidadesMoviles.push_back(jugador->modeloEntidad());	
 	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
-	jugador->modeloEntidad()->notificar();
-	jugador->modeloEntidad()->asignarEntidades(&this->mutexEntidades, &this->entidades);
-	jugador->modeloEntidad()->asignarEntidadesMoviles(&this->mutexEntidadesMoviles, &this->entidadesMoviles);
+	jugador->enviarEstado();
+	jugador->asignarEntidades(&this->mutexEntidades, &this->entidades);
+	jugador->asignarEntidadesMoviles(&this->mutexEntidadesMoviles, &this->entidadesMoviles);
 }
 
 void ModeloNivel::agregarEntidad(ModeloEntidad* entidad) {
 	this->mutexEntidades.lockEscritura(__FILE__, __LINE__);
 	// Agrego las posiciones ocupadas por la entidad
-	for (int x = entidad->posicionActual().x; x < entidad->posicionActual().x + entidad->ancho(); x++)
-		for (int y = entidad->posicionActual().y; y < entidad->posicionActual().y + entidad->alto(); y++)
+	for (int x = entidad->posicion().x; x < entidad->posicion().x + entidad->ancho(); x++)
+		for (int y = entidad->posicion().y; y < entidad->posicion().y + entidad->alto(); y++)
 			this->entidades.insert(make_pair(make_pair(x, y), entidad));
 	this->mutexEntidades.unlock(__FILE__, __LINE__);
 }
@@ -99,7 +99,7 @@ void ModeloNivel::removerJugador(ModeloJugador* jugador) {
 
 void ModeloNivel::removerEntidad(ModeloEntidad* entidad) {
 	this->mutexEntidades.lockEscritura(__FILE__, __LINE__);
-	this->entidades.erase(make_pair(entidad->posicionActual().x, entidad->posicionActual().y));
+	this->entidades.erase(make_pair(entidad->posicion().x, entidad->posicion().y));
 	this->mutexEntidades.unlock(__FILE__, __LINE__);
 }
 
@@ -123,8 +123,8 @@ void ModeloNivel::congelarJugador(int id){
 	if (jugador == NULL){
 		return void();
 	}else{
-		if( jugador->modeloEntidad()->estaCongelado() == false ){
-			jugador->modeloEntidad()->estaCongelado(true);
+		if( jugador->estaCongelado() == false ){
+			jugador->estaCongelado(true);
 			this->decrementarJugadores();		// Se resta la cantidad de jugadores cuando alguno de ellos tiene error
 		}
 	}
@@ -142,7 +142,7 @@ bool ModeloNivel::posicionOcupada(Posicion pos){
 	std::list<ModeloEntidad*> listaJugadores = this->getListaEntidadesMoviles();
 
 	for (std::list<ModeloEntidad*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++){
-		Posicion posicionDelJugador = (*jugador)->posicionActual();
+		Posicion posicionDelJugador = (*jugador)->posicion();
 		int x1 = posicionDelJugador.x;
 		int x2 = posicionDelJugador.x + (*jugador)->ancho() - 1;
 		int y1 = posicionDelJugador.y;
@@ -166,7 +166,7 @@ void ModeloNivel::destruirListaJugadores(){
 bool ModeloNivel::chequearConexion() {
 	if (this->jugadores.empty())
 		return false;
-	return this->jugadores.front()->modeloEntidad()->chequearConexion();
+	return this->jugadores.front()->chequearConexion();
 }
 
 void ModeloNivel::destruirListaEntidades() {
