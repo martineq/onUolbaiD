@@ -1,7 +1,5 @@
 #include "ModeloMovimiento.h"
 
-#define DURACION_CALCULO_CAMINO_MINIMO 1000
-
 using namespace std;
 
 bool ModeloMovimiento::agregarTile(char* mapaTilesCerrados, list<Tile>* tilesAbiertos, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia) {

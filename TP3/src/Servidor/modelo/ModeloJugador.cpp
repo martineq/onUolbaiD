@@ -1,11 +1,5 @@
 #include "ModeloJugador.h"
 
-#define RANGO_VISION 2
-#define MAXIMO_DANIO 20
-#define MAXIMO_ESCUDO 10
-#define MAXIMO_MAGIA 100
-#define MAXIMO_VIDA 100
-
 using namespace std;
 
 void ModeloJugador::atacarEnemigo() {

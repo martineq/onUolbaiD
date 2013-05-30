@@ -133,6 +133,34 @@
 #define CANTIDAD_MINIMA_JUGADORES_SINGLE_PLAYER 1
 #define CANTIDAD_MINIMA_JUGADORES_MULTI_PLAYER 2
 
+// En ModeloMovimiento
+#define DURACION_CALCULO_CAMINO_MINIMO 1000
+
+// En ModeloJugador
+#define RANGO_VISION 2
+#define MAXIMO_DANIO 20
+#define MAXIMO_ESCUDO 10
+#define MAXIMO_MAGIA 100
+#define MAXIMO_VIDA 100
+
+// En VistaChat
+#define MARGEN 20
+#define ALTO_TEXTO_MENSAJES 100
+#define ANCHO_TEXTO_MENSAJES 753
+#define ALTO_TEXTO_INGRESADO 14
+#define ANCHO_TEXTO_INGRESADO 753
+#define ALTO_VENTANA 184
+#define ANCHO_VENTANA 237
+
+// En ModeloCorazon
+#define VIDA_RECUPERADA 10
+
+// En ModeloBotella
+#define MAGIA_RECUPERADA 10
+
+// En ModeloEscudo
+#define ESCUDO_RECUPERADO MAXIMO_ESCUDO/2
+
 
 /***************************** Fog *************************/
 #define VISIBLE 2
