@@ -70,6 +70,7 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_nombreJugador = nombreJugador;
 	this->_posicionInicial = posicion;
 	this->_vida = MAXIMO_VIDA;
+	this->_ingresoAlJuego = false;
 
 	this->_enemigo = NULL;
 	this->_item = NULL;
@@ -276,4 +277,15 @@ void ModeloJugador::recuperarVida(int vida) {
 	this->_vida += vida;
 	if (this->_vida > MAXIMO_VIDA)
 		this->_vida = MAXIMO_VIDA;
+}
+
+bool ModeloJugador::ingresoAlJuego(void) {
+	return this->_ingresoAlJuego;
+}
+
+void ModeloJugador::ingresarAlJuego(void) {
+	this->_modeloEntidad->notificarSoloAlJugador();
+	this->_modeloEntidad->setMasivo();
+	this->_ingresoAlJuego = true;
+	return void();
 }

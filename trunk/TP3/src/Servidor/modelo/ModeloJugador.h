@@ -24,6 +24,7 @@ class ModeloJugador {
 		Posicion _posicionInicial;
 		Posicion _pixelInicial;
 		int _vida;
+		bool _ingresoAlJuego;
 		
 		ModeloEntidad* _modeloEntidad;
 		EstadoNivel* _estadoNivel;
@@ -95,4 +96,8 @@ class ModeloJugador {
 		void recuperarMagia(int magia);
 
 		void recuperarVida(int vida);
+		
+		bool ingresoAlJuego(void);
+
+		void ingresarAlJuego(void);
 };

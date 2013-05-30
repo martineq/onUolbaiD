@@ -31,13 +31,16 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 	this->juegoElegido.pantalla = juegoYaml.pantalla;
 	this->juegoElegido.configuracion = juegoYaml.configuracion;
 
-	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;
-	SDL_Surface* pPantallaSDL = ImageLoader::getInstance().levantarPantalla(this->juegoElegido.pantalla.ancho,this->juegoElegido.pantalla.alto);
-
 	// Recibo datos desde el Servidor
 	if( this->recibirEscenario(juegoYaml.escenarios,pSocket) == false ) return false;
 	if( this->recibirProtagonista(pSocket,mote,personaje) == false ) return false;
-	if( this->recibirOtrosJugadores(vistaNivel,pSocket) == false ) return false;	
+	if( this->recibirOtrosJugadores(pSocket) == false ) return false;	
+	if( this->esperarComienzoDeJuego(pSocket,singlePlayer) == false ) return false;	
+	
+	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;
+	SDL_Surface* pPantallaSDL = ImageLoader::getInstance().levantarPantalla(this->juegoElegido.pantalla.ancho,this->juegoElegido.pantalla.alto);
+
+	// Acá termino los envíos uno a uno con el servidor de tipo bloqueante y empiezo a tomar desde una cola no bloqueante
 	pSocket->setEnvioIndirecto();
 
 	// Creo los elementos de la Vista
@@ -176,8 +179,8 @@ bool VistaFactory::recibirProtagonista(SocketCliente* pSocket,std::string nombre
 	return true;
 }
 
-// Instancia a todos los jugadores que no son controlados por este cliente
-bool VistaFactory::recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* pSocket){
+// Obtiene los datos de todos los jugadores que no son controlados por este cliente, para luego poder crearlos
+bool VistaFactory::recibirOtrosJugadores(SocketCliente* pSocket){
 
 	Serializadora s;
 	if( pSocket->recibir(s) == false ) return false;
@@ -191,7 +194,7 @@ bool VistaFactory::recibirOtrosJugadores(VistaNivel& vistaNivel,SocketCliente* p
 	ProxyModeloEntidad::stEntidad entidad;
 	for ( unsigned int i=0 ; i<cantidadOtrosJugadores ; i++ ){ 
 		if( proxy.recibirEntidadIndividual(entidad) == false ) return false;
-		this->crearJugadorSinScroll(vistaNivel,entidad);
+		this->juegoElegido.listaOtrosJugadores.push_back(entidad);
 	}
 
 	return true; 
@@ -213,6 +216,7 @@ bool VistaFactory::crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vi
 
 	// Creo al protagonista y a las entidades (no creo a otros jugadores)
 	this->crearJugadorConScroll(vistaNivel,pPantallaSDL);
+	this->crearOtrosJugadores(vistaNivel);
 	this->crearEntidadesNoJugadores(vistaNivel);
 
 	return true;
@@ -248,6 +252,18 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	vistaNivel.agregarJugador(pJugador);
 	vistaNivel.agregarScroll(pScroll);
 	vistaNivel.agregarTamanioNivel(tamanioX,tamanioY);
+
+	return void();
+}
+
+void VistaFactory::crearOtrosJugadores(VistaNivel& vistaNivel){
+
+	std::list<ProxyModeloEntidad::stEntidad> listaOtrosJugadores = this->juegoElegido.listaOtrosJugadores;
+
+	for (std::list<ProxyModeloEntidad::stEntidad>::iterator it=listaOtrosJugadores.begin() ; it != listaOtrosJugadores.end(); it++ ){
+		ProxyModeloEntidad::stEntidad entidad = (*it);
+		this->crearJugadorSinScroll(vistaNivel,entidad);
+	}
 
 	return void();
 }
@@ -376,4 +392,10 @@ void VistaFactory::vincularScroll(VistaNivel& vistaNivel,ControladorEvento* even
 
 std::string VistaFactory::getMatriz(){
 	return this->matriz;
+}
+
+bool VistaFactory::esperarComienzoDeJuego(SocketCliente* pSocket,bool singlePlayer){
+	if( singlePlayer == false) std::cout << "Esperando conexion de jugadores rivales..." << std::endl;
+	Serializadora s;
+	return pSocket->recibir(s);
 }

@@ -23,16 +23,20 @@ bool Servidor::iniciar(bool singlePlayer){
 
 void Servidor::loop(void){
 
-	while( this->modeloJuego.cantidadJugadores() < 1 ){  // Espero mientras no haya jugadores
+	while( this->modeloJuego.cantidadJugadores() < CANTIDAD_MINIMA_JUGADORES_MULTI_PLAYER ){  // Espero mientras no haya jugadores
 		// Se puede poner un delay de tiempo para que no de muchas vueltas mientras espera un jugador
 	}
 
 	bool quit = false;		
 	while (quit == false){
+
+		// Habilito nuevos jugadores que entraron
+		this->modeloJuego.iniciarNuevosJugadores();
+
 		if( this->modeloJuego.loop() == false) quit = true;
 	
 		// Si no tengo jugadores conectados cierro el juego
-		if( this->modeloJuego.cantidadJugadores() < 1 ){
+		if( this->modeloJuego.cantidadJugadores() < CANTIDAD_MINIMA_JUGADORES_MULTI_PLAYER ){
 			// Emitir mensaje  "FIN DEL JUEGO"
 			quit = true;
 		}
@@ -46,19 +50,22 @@ void Servidor::loop(void){
 
 void Servidor::loopSinglePlayer(){
 
-	while( this->modeloJuego.cantidadJugadores() != 1 ){  // Espero mientras no haya jugadores
+	while( this->modeloJuego.cantidadJugadores() != CANTIDAD_MINIMA_JUGADORES_SINGLE_PLAYER ){  // Espero mientras no haya jugadores
 		// Se puede poner un delay de tiempo para que no de muchas vueltas mientras espera un jugador
 	}
 
 	// Al iniciar el juego con un cliente cierro la recepción de jugadores
 	this->modeloJuego.finalizarRecepcion();
 
+	// Solo inicio a un jugador 
+	this->modeloJuego.iniciarNuevosJugadores();
+
 	bool quit = false;		
 	while (quit == false){
 		if( this->modeloJuego.loop() == false) quit = true;
 
 		// Si el jugador se desconecto
-		if( this->modeloJuego.cantidadJugadores() != 1 ){
+		if( this->modeloJuego.cantidadJugadores() != CANTIDAD_MINIMA_JUGADORES_SINGLE_PLAYER ){
 			// Emitir mensaje  "FIN DEL JUEGO"
 			quit = true;
 		}

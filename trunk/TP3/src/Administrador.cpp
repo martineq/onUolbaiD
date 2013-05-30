@@ -51,16 +51,17 @@ void Administrador::menuLineaComandos(void){
 
 	std::string opc;
 
-
 	// Pregunto por el modo de un jugador
-	std::cout << "Ingrese \"s\" para modo de Un Jugador, otra tecla para rechazar " << std::endl;
+	std::cout << "Ingrese \"s\" para modo Un Jugador, otra para Multijugador " << std::endl;
 	getline (std::cin,opc);
 	if( opc.compare("s") == 0 || opc.compare("S") == 0 ){
 		this->modoUnJugador = true;
-		std::cout << "Modo de Un Jugador seleccionado" << std::endl;
-		Log::getInstance().log(1,__FILE__,__LINE__,"Modo de Un Jugador seleccionado");
+		std::cout << "Modo Un Jugador seleccionado." << std::endl;
+		Log::getInstance().log(1,__FILE__,__LINE__,"Modo Un Jugador seleccionado.");
 		return void();
 	}else{
+		std::cout << "Modo Multijugador seleccionado." << std::endl;
+		Log::getInstance().log(1,__FILE__,__LINE__,"Modo Multijugador seleccionado.");
 		this->modoUnJugador = false;
 	}
 	

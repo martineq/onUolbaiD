@@ -162,3 +162,23 @@ bool ProxyModeloEntidad::recibirMatrix(std::string& matrix){
 	return true;
 
 }
+
+void ProxyModeloEntidad::setIndividualCliente(void){
+	this->pCliente->setEnvioDirecto();
+	return void();
+}
+
+void ProxyModeloEntidad::setMasivoCliente(void){
+	this->pCliente->setEnvioIndirecto();
+	return void();
+}
+
+void ProxyModeloEntidad::setIndividualServidor(int id){
+	this->pServidor->setClienteIndividual(id);
+	return void();
+}
+
+void ProxyModeloEntidad::setMasivoServidor(int id){
+	this->pServidor->setClienteMasivo(id);
+	return void();
+}

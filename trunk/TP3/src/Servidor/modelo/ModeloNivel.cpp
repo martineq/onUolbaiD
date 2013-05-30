@@ -228,6 +228,18 @@ void ModeloNivel::decrementarJugadores(void){
 	this->mutexJugadoresConectados.unlock(__FILE__,__LINE__);
 }
 
+void ModeloNivel::iniciarNuevosJugadores(void){
+	
+	std::list<ModeloJugador*> listaJugadores = this->getJugadores();
+	for (std::list<ModeloJugador*>::iterator itModeloEntidad = listaJugadores.begin(); itModeloEntidad != listaJugadores.end(); itModeloEntidad++){
+		if( (*itModeloEntidad)->ingresoAlJuego() == false ) (*itModeloEntidad)->ingresarAlJuego();
+	}
+
+	return void();
+}
+
+
+
 void ModeloNivel::destruirListas(){	
 	this->destruirListaJugadores();
 	this->destruirListaEntidades();

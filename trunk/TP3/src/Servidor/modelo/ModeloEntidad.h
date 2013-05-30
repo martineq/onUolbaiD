@@ -85,4 +85,8 @@ class ModeloEntidad {
 		Posicion pixel();
 
 		void pixel(Posicion pixelSiguiente);
+
+		void setMasivo(void);
+
+		void notificarSoloAlJugador(void);
 };

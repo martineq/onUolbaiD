@@ -85,9 +85,6 @@ bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* 
 	// Envío los datos para la creación de los demas jugadores
 	if( this->enviarOtrosJugadores(pModeloNivel,pSocket,id) == false ) return false;
 
-	// Una vez que está completamente configurado, seteo al cliente en modo "masivo" para que reciba/envie desde colas y no directamente
-	pSocket->setClienteMasivo(id);
-
 	// A lo último, aumento el número de jugadores en uno para que se notifique el ModeloNivel
 	pModeloNivel->incrementarJugadores();
 

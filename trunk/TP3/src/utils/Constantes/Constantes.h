@@ -130,6 +130,9 @@
 #define VELOCIDAD_SCROLL 10
 #define ID_FALSO -1
 #define PERIODO_CICLO_CLIENTE 50
+#define CANTIDAD_MINIMA_JUGADORES_SINGLE_PLAYER 1
+#define CANTIDAD_MINIMA_JUGADORES_MULTI_PLAYER 2
+
 
 /***************************** Fog *************************/
 #define VISIBLE 2

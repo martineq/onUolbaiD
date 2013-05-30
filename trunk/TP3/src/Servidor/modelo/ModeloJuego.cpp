@@ -46,6 +46,10 @@ int ModeloJuego::cantidadJugadores(void){
 	return this->_modeloNivel.cantidadJugadores();
 }
 
+void ModeloJuego::iniciarNuevosJugadores(void){
+	this->_modeloNivel.iniciarNuevosJugadores();
+	return void();
+}
 
 void ModeloJuego::destruirEntidades(){
 	this->_modeloNivel.destruirListas();
