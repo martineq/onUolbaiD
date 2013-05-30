@@ -8,36 +8,52 @@ class ProxyModeloEntidad{
 
 	public:
 		struct stEntidad{
-			// Info para el proxy
-			int id;				// Si el ID no se encuentra en el cliente quiere decir que es una nueva entidad, la debe agregar.
+			bool errorEnSocket;
+
+			// ModeloEntidad
+			int id;
 			std::string nombreEntidad;
-			bool errorEnSocket; // No hace falta serializar este valor. Esta atributo lo setea el proxy cuando recibe datos (al hidratar). Si el socket me da errror seteo acá en true, sino lo dejo en false
-			bool entidadCongelada;
-			bool esJugador;			
-			// Datos para actualizar en la entidad
-			double pixelSiguienteX;
-			double pixelSiguienteY;
-			int posicionSiguienteX;
-			int posicionSiguienteY;
+			bool esJugador;
+			int posicionX;
+			int posicionY;
+			double pixelX;
+			double pixelY;
 			bool esUltimoMovimiento;
-			int accion;
+
+			// ModeloJugador
 			std::string nombreJugador;
-			std::string actualizacionMapa;  // La idea es serializar toda la actulización de la matriz y mandarlo por acá. Lo pongo en un string porque el tamaño de la actualización es variable
+			int escudo;
+			bool estaCongelado;
+			int magia;
+			int vida;
+			int rangoVision;
+			std::string actualizacionMapa;
 			int idRemitente;
 			std::string mensaje;
-
+			
+			int accion;
+			
 			stEntidad() {
-				this->id = ID_FALSO;
 				this->errorEnSocket = false;
-				this->entidadCongelada = false;
+				
+				// ModeloEntidad
+				this->id = ID_FALSO;
 				this->esJugador = false;
-				this->pixelSiguienteX = 0;
-				this->pixelSiguienteY = 0;
-				this->posicionSiguienteX = 0;
-				this->posicionSiguienteY = 0;
+				this->posicionX = 0;
+				this->posicionY = 0;
+				this->pixelX = 0;
+				this->pixelY = 0;
 				this->esUltimoMovimiento = true;
-				this->accion = 0;
+
+				// ModeloJugador
+				this->escudo = 0;
+				this->estaCongelado = false;
+				this->magia = 0;
+				this->vida = 0;
+				this->rangoVision = 0;
 				this->idRemitente = ID_FALSO;
+
+				this->accion = 0;
 			}
 		};
 

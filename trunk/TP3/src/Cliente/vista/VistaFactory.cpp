@@ -224,8 +224,8 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	ParserYaml::stEntidad entidadProtagonista = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreProtagonista);
 	
 	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
-	double x = (double)this->juegoElegido.entidadJugador.posicionSiguienteX;
-	double y = (double)this->juegoElegido.entidadJugador.posicionSiguienteY;
+	double x = (double)this->juegoElegido.entidadJugador.posicionX;
+	double y = (double)this->juegoElegido.entidadJugador.posicionY;
 	int id = this->juegoElegido.entidadJugador.id;
 	int direccion = this->juegoElegido.entidadJugador.accion;
 
@@ -243,7 +243,7 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,false,direccion,this->juegoElegido.entidadJugador.nombreJugador);
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,false,direccion,this->juegoElegido.entidadJugador.nombreJugador);
 	VistaScroll* pScroll = new VistaScroll(x,y,this->juegoElegido.pantalla.alto,this->juegoElegido.pantalla.ancho,tamanioX,tamanioY,pantalla,id);	// Tomo el mismo x,y,velocidad que el personaje
 	vistaNivel.agregarJugador(pJugador);
 	vistaNivel.agregarScroll(pScroll);
@@ -259,8 +259,8 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 
 	// Valores tomados desde el proxy
 	int id = entidad.id;
-	double x = (double)entidad.posicionSiguienteX;
-	double y = (double)entidad.posicionSiguienteY;	
+	double x = (double)entidad.posicionX;
+	double y = (double)entidad.posicionY;	
 
 	// Valores tomados desde la entidad
 	double alto = (double)entidadJugador.altoBase;
@@ -276,7 +276,7 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,entidad.entidadCongelada,entidad.accion,entidad.nombreJugador);
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,entidad.rangoVision,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,entidad.estaCongelado,entidad.accion,entidad.nombreJugador);
 	vistaNivel.agregarOtroJugador(pJugador);
 	return void();
 }
@@ -313,7 +313,7 @@ void VistaFactory::crearEntidadesNoJugadores(VistaNivel& vistaNivel){
 		// Valores tomados desde el servidor, cargados posteriormente en una variable
 		int id = idEntidadesDef.front();
 
-		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id,nombre,false,0,this->juegoElegido.entidadJugador.nombreJugador);
+		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id,nombre,false,0,this->juegoElegido.entidadJugador.nombreJugador);
 		vistaNivel.agregarEntidad(pEntidad);
 
 		idEntidadesDef.pop_front();	// Una vez que usé el ID lo destruyo para tener acceso al próximo
@@ -342,8 +342,8 @@ bool VistaFactory::crearElementosControlador(VistaNivel& vistaNivel,ControladorE
 void VistaFactory::crearControladorScroll(ControladorEvento* evento){
 	
 	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
-	int x = this->juegoElegido.entidadJugador.posicionSiguienteX;
-	int y = this->juegoElegido.entidadJugador.posicionSiguienteY;
+	int x = this->juegoElegido.entidadJugador.posicionX;
+	int y = this->juegoElegido.entidadJugador.posicionY;
 
 	// Valores tomados desde el escenario elegido
 	int anchoEscenario = this->juegoElegido.escenario.tamanioX;

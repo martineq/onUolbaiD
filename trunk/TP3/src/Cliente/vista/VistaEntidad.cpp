@@ -1,6 +1,6 @@
 #include "VistaEntidad.h"
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id, std::string nombreEntidad,bool estaCongelado,int estado, std::string nombreJugador){
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador){
 	this->_id = id;
 	this->estaCongelado = estaCongelado;
 
@@ -10,6 +10,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 
 	this->posicionReferenciaX = posicionReferenciaX;
 	this->posicionReferenciaY = posicionReferenciaY;
+	this->rangoVision = rangoVisible;
 	this->x = xAux;
 	this->y = yAux;	
 	this->nombreEntidad = nombreEntidad;
@@ -103,11 +104,12 @@ void VistaEntidad::setPosicionAnteriorEnTiles(){
 void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 
 	this->setPosicionAnteriorEnTiles();
-	this->x = entidad.pixelSiguienteX;
-	this->y = entidad.pixelSiguienteY;
-	this->tileX = entidad.posicionSiguienteX;
-	this->tileY = entidad.posicionSiguienteY;
-	this->estaCongelado = entidad.entidadCongelada;
+	this->x = entidad.pixelX;
+	this->y = entidad.pixelY;
+	this->rangoVision = entidad.rangoVision;
+	this->tileX = entidad.posicionX;
+	this->tileY = entidad.posicionY;
+	this->estaCongelado = entidad.estaCongelado;
 	this->nombreEntidad = entidad.nombreEntidad;
 	this->nombreJugador = entidad.nombreJugador;
 
@@ -117,6 +119,13 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
 	}
 	
+	//TODO: Reemplazar esto por la vista real
+	if (this->esJugador) {
+		std::cout << "Vida = " << entidad.vida << std::endl;
+		std::cout << "Magia = " << entidad.magia << std::endl;
+		std::cout << "Escudo = " << entidad.escudo << std::endl;
+	}
+
 	this->esNecesarioRefrescar = ( !(entidad.esUltimoMovimiento) || (codigo >= 8) );
 }
 
@@ -174,6 +183,10 @@ double VistaEntidad::getPosRefX(void){
 
 double VistaEntidad::getPosRefY(void){
 	return (this->posicionReferenciaY);
+}
+
+int VistaEntidad::getRangoVision() {
+	return this->rangoVision;
 }
 
 double VistaEntidad::getFps(void){

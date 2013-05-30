@@ -75,19 +75,51 @@ bool ProxyModeloEntidad::recibirEntidad(ProxyModeloEntidad::stEntidad& entidad){
 
 
 void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntidad& entidad){
+	// ModeloEntidad
 	s.addInt(entidad.id);
 	s.addString(entidad.nombreEntidad);
-	s.addBool(entidad.entidadCongelada);
 	s.addBool(entidad.esJugador);
-	s.addDouble(entidad.pixelSiguienteX);
-	s.addDouble(entidad.pixelSiguienteY);
-	s.addInt(entidad.posicionSiguienteX);
-	s.addInt(entidad.posicionSiguienteY);
+	s.addInt(entidad.posicionX);
+	s.addInt(entidad.posicionY);
+	s.addDouble(entidad.pixelX);
+	s.addDouble(entidad.pixelY);
 	s.addBool(entidad.esUltimoMovimiento);
-	s.addInt(entidad.accion);
+
+	// ModeloJugador
 	s.addString(entidad.nombreJugador);
+	s.addInt(entidad.escudo);
+	s.addBool(entidad.estaCongelado);
+	s.addInt(entidad.magia);
+	s.addInt(entidad.vida);
+	s.addInt(entidad.rangoVision);
 	s.addInt(entidad.idRemitente);
 	s.addString(entidad.mensaje);
+
+	s.addInt(entidad.accion);
+}
+
+void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad& entidad){			
+	// ModeloEntidad
+	entidad.id = s.getInt();
+	entidad.nombreEntidad = s.getString();
+	entidad.esJugador = s.getBool();
+	entidad.posicionX = s.getInt();
+	entidad.posicionY = s.getInt();
+	entidad.pixelX = s.getDouble();
+	entidad.pixelY = s.getDouble();
+	entidad.esUltimoMovimiento = s.getBool();
+
+	// ModeloJugador
+	entidad.nombreJugador = s.getString();
+	entidad.escudo = s.getInt();
+	entidad.estaCongelado = s.getBool();
+	entidad.magia = s.getInt();
+	entidad.vida = s.getInt();
+	entidad.rangoVision = s.getInt();
+	entidad.idRemitente = s.getInt();
+	entidad.mensaje = s.getString();
+
+	entidad.accion = s.getInt();
 }
 
 int ProxyModeloEntidad::sizeEntidad(ProxyModeloEntidad::stEntidad entidad){
@@ -103,55 +135,6 @@ int ProxyModeloEntidad::sizeEntidad(ProxyModeloEntidad::stEntidad entidad){
 	int sizeTileY = TAM_INT;
 	int sizeAccion = TAM_INT;
 	return (sizeID+sizeNombre+sizeEntidadCongelada+sizeEsJugador+sizePixelSiguienteX+sizePixelSiguienteY+sizeDireccion+sizeUltimoMovimiento+sizeTileX+sizeTileY+sizeAccion);
-}
-
-void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad& entidad){			
-	int id = s.getInt();
-	std::string nombre = s.getString();
-	bool congelada = s.getBool();
-	bool jugador = s.getBool();
-	double pixelSiguienteX = s.getDouble();
-	double pixelSiguienteY = s.getDouble();
-	int posicionSiguienteX = s.getInt();
-	int posicionSiguienteY = s.getInt();
-	bool ultimo = s.getBool();
-	int accion = s.getInt();
-	std::string nombreJugador = s.getString();
-	int idRemitente = s.getInt();
-	std::string mensaje = s.getString();
-	
-	entidad.id = id;
-	entidad.nombreEntidad = nombre;
-	entidad.errorEnSocket = false;
-	entidad.entidadCongelada = congelada;
-	entidad.esJugador = jugador;
-	entidad.pixelSiguienteX = pixelSiguienteX;	
-	entidad.pixelSiguienteY = pixelSiguienteY;
-	entidad.posicionSiguienteX = posicionSiguienteX;
-	entidad.posicionSiguienteY = posicionSiguienteY;
-	entidad.esUltimoMovimiento = ultimo;
-	entidad.accion = accion;
-	entidad.nombreJugador = nombreJugador;
-	entidad.idRemitente = idRemitente;
-	entidad.mensaje = mensaje;
-}
-
-// Para los que usan el proxy y quieren cargar el struct
-void ProxyModeloEntidad::cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,bool esUltimoMovimiento,int accion,string nombreJugador,int idRemitente,string mensaje){
-	entidad.id = id;
-	entidad.errorEnSocket = errorEnSocket;
-	entidad.entidadCongelada = entidadCongelada;
-	entidad.esJugador = esJugador;
-	entidad.nombreEntidad = nombreEntidad;
-	entidad.pixelSiguienteX = pixelSiguienteX;
-	entidad.pixelSiguienteY = pixelSiguienteY;
-	entidad.posicionSiguienteX = posicionSiguienteX;
-	entidad.posicionSiguienteY = posicionSiguienteY;
-	entidad.esUltimoMovimiento = esUltimoMovimiento;
-	entidad.accion = accion;
-	entidad.nombreJugador = nombreJugador;
-	entidad.idRemitente = idRemitente;
-	entidad.mensaje = mensaje;
 }
 
 void ProxyModeloEntidad::cargarMatriz(ProxyModeloEntidad::stEntidad& entidad,std::string matriz){

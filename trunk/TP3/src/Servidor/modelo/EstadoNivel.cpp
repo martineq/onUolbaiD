@@ -9,11 +9,12 @@ EstadoNivel& EstadoNivel::operator=(const EstadoNivel &estadoNivel) {
 	return *this;
 }
 
-EstadoNivel::EstadoNivel(int alto, int ancho, int x, int y) {
+EstadoNivel::EstadoNivel(int alto, int ancho, int x, int y, int rangoVision) {
 	this->_alto = alto;
 	this->_ancho = ancho;
 	this->_posicion.x = x;
 	this->_posicion.y = y;
+	this->_rangoVision = rangoVision;
 	this->_nivel = new char[this->_alto * this->_ancho * sizeof(char)];
 	memset(this->_nivel, NO_CONOCIDO, this->_alto * this->_ancho * sizeof(char));
 }
@@ -22,19 +23,25 @@ EstadoNivel::~EstadoNivel() {
 	delete[] this->_nivel;
 }
 
-void EstadoNivel::visitar(int x, int y) {
-	int rangoVisible = ZONA_VISIBLE / 2;
+int EstadoNivel::rangoVision() {
+	return this->_rangoVision;
+}
 
-	// Obtengo los limites de la submatriz que tengo que modificar
+void EstadoNivel::rangoVision(int rangoVision) {
+	this->_rangoVision = rangoVision;
+	this->visitar(this->_posicion.x, this->_posicion.y);
+}
+
+void EstadoNivel::visitar(int x, int y) {
 	int xDesde = (x < this->_posicion.x) ? x : this->_posicion.x;
 	int yDesde = (y < this->_posicion.y) ? y : this->_posicion.y;
 	int xHasta = (x > this->_posicion.x) ? x : this->_posicion.x;
 	int yHasta = (y > this->_posicion.y) ? y : this->_posicion.y;
 	
-	xDesde -= rangoVisible;
-	yDesde -= rangoVisible;
-	xHasta += rangoVisible;
-	yHasta += rangoVisible;
+	xDesde -= this->_rangoVision;
+	yDesde -= this->_rangoVision;
+	xHasta += this->_rangoVision;
+	yHasta += this->_rangoVision;
 
 	// Ajusto los rangos dentro del nivel
 	if (xDesde < 0)
@@ -48,8 +55,8 @@ void EstadoNivel::visitar(int x, int y) {
 
 	for (int i = xDesde; i <= xHasta; i++) {
 		for (int j = yDesde; j <= yHasta; j++) {
-			// Si el tile esta dentro de la zona visible lo marco
-			if ((i >= x - rangoVisible) && (i <= x + rangoVisible) && (j >= y - rangoVisible) && (j <= y + rangoVisible))
+			// Si el tile esta dentro del rango visible lo marco
+			if ((i >= x - this->_rangoVision) && (i <= x + this->_rangoVision) && (j >= y - this->_rangoVision) && (j <= y + this->_rangoVision))
 				this->_nivel[(this->_ancho * j) + i] = VISIBLE;
 			else if (this->_nivel[(this->_ancho * j) + i] != NO_CONOCIDO)
 				this->_nivel[(this->_ancho * j) + i] = CONOCIDO_NO_VISIBLE;
@@ -58,23 +65,22 @@ void EstadoNivel::visitar(int x, int y) {
 
 	this->_posicion.x = x;
 	this->_posicion.y = y;
-
 }
 
 char EstadoNivel::visibilidad(int x, int y) {
 	return this->_nivel[(this->_ancho * y) + x];
 }
 
-string EstadoNivel::getMatriz(){
-	std::string matriz(this->_nivel,_alto*_ancho);
+string EstadoNivel::getMatriz() {
+	std::string matriz(this->_nivel, this->_alto * this->_ancho);
 	return matriz;
 }
 
 void EstadoNivel::setMatriz(std::string mapa){
-	for (int i = 0; i < this->_alto; i++){
-		for (int j = 0; j < this->_ancho; j++){
+	for (int i = 0; i < this->_alto; i++) {
+		for (int j = 0; j < this->_ancho; j++) {
 			int fila = i * this->_ancho;
-			this->_nivel[j+ fila] = mapa[fila+j];
+			this->_nivel[j + fila] = mapa[fila + j];
 		}	
 	}
 }

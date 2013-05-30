@@ -144,10 +144,10 @@ ProxyModeloEntidad::stEntidad ModeloEntidad::stEntidad() {
 	ProxyModeloEntidad::stEntidad entidad;
 	entidad.id = this->id();
 	entidad.nombreEntidad = this->nombreEntidad();
-	entidad.pixelSiguienteX = this->pixel().x;
-	entidad.pixelSiguienteY = this->pixel().y;
-	entidad.posicionSiguienteX = this->posicion().x;
-	entidad.posicionSiguienteY = this->posicion().y;
+	entidad.pixelX = this->pixel().x;
+	entidad.pixelY = this->pixel().y;
+	entidad.posicionX = this->posicion().x;
+	entidad.posicionY = this->posicion().y;
 	entidad.esUltimoMovimiento = this->esUltimoMovimiento();
 	return entidad;
 }
