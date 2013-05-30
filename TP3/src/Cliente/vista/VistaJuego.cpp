@@ -14,7 +14,7 @@ bool VistaJuego::iniciar(SocketCliente* pSocket,ControladorEvento* evento,std::s
 	ImageLoader::getInstance().iniciarSDL();
 	if( this->vistaFactory.crearNivel(this->vistaNivel,evento,pSocket,this->vistaLoop.getPunteroPantalla(),this->vistaLoop.getPunteroProxy(),mote,personaje,singlePlayer) == false ) return false;
 	
-	this->estadoNivel = new EstadoNivel(this->vistaNivel.getAltoDeNivelEnTiles(), this->vistaNivel.getAnchoDeNivelEnTiles(), this->vistaNivel.getJugador()->getTileX(), this->vistaNivel.getJugador()->getTileY());
+	this->estadoNivel = new EstadoNivel(this->vistaNivel.getAltoDeNivelEnTiles(), this->vistaNivel.getAnchoDeNivelEnTiles(), this->vistaNivel.getJugador()->getTileX(), this->vistaNivel.getJugador()->getTileY(), this->vistaNivel.getJugador()->getRangoVision());
 	return true;
 }
 

@@ -11,6 +11,7 @@ class EstadoNivel {
 		int _alto;
 		int _ancho;
 		Posicion _posicion;
+		int _rangoVision;
 		char* _nivel;
 
 		EstadoNivel(const EstadoNivel &estadoNivel);
@@ -18,15 +19,19 @@ class EstadoNivel {
 		EstadoNivel& operator=(const EstadoNivel &estadoNivel);
 
 	public:
-		EstadoNivel(int alto, int ancho, int x, int y);
+		EstadoNivel(int alto, int ancho, int x, int y, int rangoVision);
 
 		virtual ~EstadoNivel();
 
+		int rangoVision();
+
+		void rangoVision(int rangoVision);
+
 		void visitar(int x, int y);
 
-		void setMatriz(std::string);
-
 		char visibilidad(int x, int y);
+
+		void setMatriz(std::string);
 
 		std::string getMatriz();
 };

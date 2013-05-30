@@ -132,7 +132,6 @@
 #define PERIODO_CICLO_CLIENTE 50
 
 /***************************** Fog *************************/
-#define ZONA_VISIBLE 5
 #define VISIBLE 2
 #define CONOCIDO_NO_VISIBLE 1
 #define NO_CONOCIDO 0

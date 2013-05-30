@@ -2,27 +2,40 @@
 
 #include <stdlib.h>
 #include <list>
+#include "../../utils/Constantes/Constantes.h"
 #include "Posicion.h"
 #include "ModeloEntidad.h"
+#include "ModeloItem.h"
 #include "EstadoNivel.h"
 #include "ModeloMovimiento.h"
 #include "VistaMovimiento.h"
+
+class ModeloItem;
 
 typedef enum Accion { CAMINANDO, ATACANDO };
 
 class ModeloJugador {
 	private:
+		Accion _accion;
+		int _escudo;
+		bool _estaCongelado;
+		int _magia;
+		std::string _nombreJugador;
 		Posicion _posicionInicial;
 		Posicion _pixelInicial;
-		std::string _nombreJugador;
+		int _vida;
+		
 		ModeloEntidad* _modeloEntidad;
-		Accion _accion;
-		bool _estaCongelado;
 		EstadoNivel* _estadoNivel;
 		ModeloJugador* _enemigo;
+		ModeloItem* _item;
 		ModeloMovimiento* _modeloMovimiento;
 		VistaMovimiento* _vistaMovimiento;
 		Mutex _mutex;
+
+		void atacarEnemigo();
+
+		void recogerItem();
 
 		ModeloJugador(const ModeloJugador &modeloJugador);
 
@@ -41,6 +54,8 @@ class ModeloJugador {
 
 		void estaCongelado(bool estaCongelado);
 
+		int magia();
+
 		std::string nombreJugador();
 
 		void nombreJugador(std::string nombreJugador);
@@ -48,6 +63,8 @@ class ModeloJugador {
 		ModeloEntidad* modeloEntidad();
 
 		ProxyModeloEntidad::stEntidad stEntidad();
+
+		int vida();
 
 		void asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, std::list<ModeloEntidad*>* entidadesMoviles);
 
@@ -61,11 +78,21 @@ class ModeloJugador {
 
 		bool chequearConexion();
 
+		void consumirMagia(int magia);
+
+		void consumirVida(int vida);
+
 		void enviarEstado();
 
 		void enviarMensaje(ModeloJugador* remitente, std::string mensaje);
 
-		void lastimar(int danio);
-
 		void mover(Posicion posicion);
+
+		void recogerItem(ModeloItem* item);
+
+		void recuperarEscudo(int escudo);
+
+		void recuperarMagia(int magia);
+
+		void recuperarVida(int vida);
 };

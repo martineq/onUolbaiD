@@ -139,7 +139,7 @@ bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* 
 // Caso 3: Si el jugador SI está en uso y NO se encuentra "congelado", se elige otro jugador que no se encuentre en uso, se crea y se devuelve una copia del mismo
 ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,std::string& mote,std::string& nombreEntidadPersonaje,SocketServidor* pSocket,int& id){
 
-	std::list<ModeloJugador*> listaEntidades = modeloNivel->getListaJugadores();
+	std::list<ModeloJugador*> listaEntidades = modeloNivel->getJugadores();
 	std::list<std::string> listaJugadoresUsados;
 	ProxyModeloEntidad::stEntidad stEntidad;
 	ModeloJugador* pEntidad = NULL;
@@ -250,7 +250,7 @@ std::string ModeloFactory::obtenerPersonajeLibre(std::list<std::string> listaEnt
 }
 
 bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador){
-	std::list<ModeloJugador*> listaJugadores = modeloNivel->getListaJugadores();
+	std::list<ModeloJugador*> listaJugadores = modeloNivel->getJugadores();
 	int cantidadOtrosJugadores = listaJugadores.size() - 1;  // Descarto a mi jugador
 	ProxyModeloEntidad proxy;
 	proxy.setSocketServidor(pSocket);
@@ -296,9 +296,9 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 
 	// Para que empiece en una posicion aleatoria sin conflictos
 	srand(time(NULL));
-	int min = ZONA_VISIBLE/2;
-	int maxY = juego.escenario.tamanioY - ZONA_VISIBLE/2 - 1;
-	int maxX = juego.escenario.tamanioX - ZONA_VISIBLE/2 - 1;
+	int min = 2;
+	int maxY = juego.escenario.tamanioY - 2 - 1;
+	int maxX = juego.escenario.tamanioX - 2 - 1;
 	int outputX = min + (rand() % (int)(maxX - min + 1));		
 	int outputY = min + (rand() % (int)(maxY - min + 1));
 	Posicion pos;
