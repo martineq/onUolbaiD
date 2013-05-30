@@ -29,5 +29,7 @@ class ModeloJuego {
 
 		int cantidadJugadores(void);
 
+		void iniciarNuevosJugadores();
+
 		void destruirEntidades();
 };

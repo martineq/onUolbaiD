@@ -74,5 +74,7 @@ class ModeloNivel {
 		
 		void incrementarJugadores(void);
 
+		void iniciarNuevosJugadores(void);
+
 		void destruirListas();
 };

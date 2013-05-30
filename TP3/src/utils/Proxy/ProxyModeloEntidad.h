@@ -83,7 +83,13 @@ class ProxyModeloEntidad{
 		bool recibirMatrix(std::string& matrix);
 
 		int sizeEntidad(ProxyModeloEntidad::stEntidad);
+
 		// Auxiliares
 		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,bool esUltimoMovimiento, int accion,std::string nombreJugador,int idRemitente,std::string mensaje);
 		static void cargarMatriz(ProxyModeloEntidad::stEntidad& entidad,std::string matriz);
+
+		void setIndividualCliente(void);
+		void setMasivoCliente(void);
+		void setIndividualServidor(int id);
+		void setMasivoServidor(int id);
 };

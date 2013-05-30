@@ -33,8 +33,9 @@ void HiloReceptor::correrRecepcion(HiloConfiguracion::stParametrosConfiguracion 
 void HiloReceptor::rutina(HiloConfiguracion::stParametrosConfiguracion* parametrosEntrada){
 
 	SocketServidor* pServidor = (SocketServidor*)parametrosEntrada->pServidor;
-	std::cout << "Aceptando clientes..."  << std::endl;
 
+	if( parametrosEntrada->singlePlayer == false ) std::cout << "Aceptando clientes..."  << std::endl;
+	
 	// El hilo hará su tarea mientras se encuentre activo
 	while(this->estaActivo()==true){		
 		long idCliente;
@@ -43,7 +44,7 @@ void HiloReceptor::rutina(HiloConfiguracion::stParametrosConfiguracion* parametr
 		// Agrego un Cliente nuevo, y por ende un nuevo HiloConfiguracion. Inmediatamente después, inicio ese hilo
 		idCliente = pServidor->aceptarCliente();
 		if ( idCliente != ACEPTAR_TIMEOUT && idCliente != ACEPTAR_ERROR ){
-			std::cout << "Cliente aceptado."  << std::endl;
+			if( parametrosEntrada->singlePlayer == false ) std::cout << "Cliente aceptado."  << std::endl;
 			pHiloConfig = new HiloConfiguracion();
 			parametrosEntrada->idCliente = idCliente;
 			pHiloConfig->correrConfiguracion(*parametrosEntrada);

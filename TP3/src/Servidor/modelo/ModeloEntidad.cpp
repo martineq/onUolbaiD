@@ -157,6 +157,17 @@ bool ModeloEntidad::enviarEstado(ProxyModeloEntidad::stEntidad estado) {
 	return this->_proxyEntidad->enviarEntidad(estado);
 }
 
+// NOTA: Sólo puede usarse si el cliente está setado en individual
+void ModeloEntidad::notificarSoloAlJugador() {
+	this->_proxyEntidad->enviarEntidadIndividual(this->stEntidad(),this->id());
+	return void();
+}
+
+void ModeloEntidad::setMasivo(void){
+	this->_proxyEntidad->setMasivoServidor(this->id());
+	return void();
+}
+
 bool ModeloEntidad::ocupaPosicion(Posicion posicion) {
 	return (posicion.x >= this->posicion().x) &&
 		(posicion.x <= this->posicion().x + this->ancho() - 1) &&
