@@ -284,8 +284,9 @@ bool ModeloJugador::ingresoAlJuego(void) {
 }
 
 void ModeloJugador::ingresarAlJuego(void) {
-	this->_modeloEntidad->notificarSoloAlJugador();
-	this->_modeloEntidad->setMasivo();
-	this->_ingresoAlJuego = true;
+	this->_modeloEntidad->notificarSoloAlJugador();	// Mensaje para avisarle al cliente que deje de esperar y comienze con el juego
+	this->_modeloEntidad->setMasivo();				// Al comenzar el juego seteo el jugador en masivo
+	this->_ingresoAlJuego = true;					// Indico que este jugador ya entró al juego
+	this->enviarEstado();							// Para actualizar a los jugadores que estaban desde antes en el juego
 	return void();
 }
