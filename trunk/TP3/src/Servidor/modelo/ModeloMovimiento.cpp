@@ -300,7 +300,7 @@ void ModeloMovimiento::cambiarEstado() {
 	Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
 	this->_modeloEntidad->direccion(Posicion::obtenerDireccion(this->_modeloEntidad->posicion(), posicionSiguiente));
 	
-	// Si choque con algo en el camino y no estoy en la ultima posicion recalculo
+	// Si choque con algo en el camino recalculo
 	if (this->detectarColision(posicionSiguiente) != NULL) {
 		// Si la ultima posicion es la que esta ocupada me dentego
 		if (this->_posiciones.empty()) {
@@ -308,7 +308,12 @@ void ModeloMovimiento::cambiarEstado() {
 			return;
 		}
 
+		// Recalculo el camino y si no pudo resolverlo se detiene
 		this->actualizar(this->_posiciones.back());
+		if (this->_posiciones.empty()) {
+			this->detener();
+			return;
+		}
 		Posicion posicionSiguiente = this->obtenerPosicionSiguiente();
 		this->_modeloEntidad->direccion(Posicion::obtenerDireccion(this->_modeloEntidad->posicion(), posicionSiguiente));
 	}
