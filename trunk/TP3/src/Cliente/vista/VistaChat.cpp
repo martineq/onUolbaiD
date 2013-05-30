@@ -1,13 +1,5 @@
 #include "VistaChat.h"
 
-#define MARGEN 20
-#define ALTO_TEXTO_MENSAJES 100
-#define ANCHO_TEXTO_MENSAJES 753
-#define ALTO_TEXTO_INGRESADO 14
-#define ANCHO_TEXTO_INGRESADO 753
-#define ALTO_VENTANA 184
-#define ANCHO_VENTANA 237
-
 using namespace std;
 
 void VistaChat::agregarMensaje(string remitente, string mensaje) {

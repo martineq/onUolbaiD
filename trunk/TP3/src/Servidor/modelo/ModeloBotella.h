@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ModeloItem.h"
+#include "../../utils/Constantes/Constantes.h"
 
 class ModeloBotella : public ModeloItem {
 	public:

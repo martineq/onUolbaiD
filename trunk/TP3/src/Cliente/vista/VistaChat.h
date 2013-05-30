@@ -10,6 +10,7 @@
 #include "VistaEntidad.h"
 #include "../../utils/Proxy/ProxyControladorEvento.h"
 #include "../../utils/Serializacion/Serializadora.h"
+#include "../../utils/Constantes/Constantes.h"
 #include "../../Servidor/modelo/Posicion.h"
 
 class VistaChat {

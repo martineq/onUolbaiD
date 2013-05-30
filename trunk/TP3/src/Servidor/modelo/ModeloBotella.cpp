@@ -1,7 +1,5 @@
 #include "ModeloBotella.h"
 
-#define MAGIA_RECUPERADA 10
-
 using namespace std;
 
 ModeloBotella::ModeloBotella(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad)
