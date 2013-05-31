@@ -281,11 +281,15 @@ void ParserYaml::cargaListaProtagonistas(const YAML::Node& nodo, std::list <Pars
 		stProtagonista protagonista;
 
 		for(YAML::Iterator it=nodo[i].begin();it!=nodo[i].end();++it){
-			
+
 			std::string clave = this->leerNodoYamlString(it.first());
 			if ( clave.compare("entidad") == 0 ){ protagonista.entidad = this->leerNodoYamlString(it.second());
 			}else if ( clave.compare("x") == 0 ){ protagonista.x = this->leerNodoYamlInt(it.second());
 			}else if ( clave.compare("y") == 0 ){ protagonista.y = this->leerNodoYamlInt(it.second());
+			}else if ( clave.compare("vida") == 0 ){ protagonista.vida = this->leerNodoYamlInt(it.second());
+			}else if ( clave.compare("mana") == 0 ){ protagonista.mana = this->leerNodoYamlInt(it.second());
+			}else if ( clave.compare("daño") == 0 ){ protagonista.danio = this->leerNodoYamlInt(it.second());
+			}else if ( clave.compare("velocidad") == 0 ){ protagonista.velocidad = this->leerNodoYamlInt(it.second());
 			}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
 		}
 
@@ -308,6 +312,9 @@ void ParserYaml::cargaListaEnemigos(const YAML::Node& nodo, std::list <ParserYam
 			if ( clave.compare("entidad") == 0 ){ enemigo.entidad = this->leerNodoYamlString(it.second());
 			}else if ( clave.compare("x") == 0 ){ enemigo.x = this->leerNodoYamlInt(it.second());
 			}else if ( clave.compare("y") == 0 ){ enemigo.y = this->leerNodoYamlInt(it.second());
+			}else if ( clave.compare("vida") == 0 ){ enemigo.vida = this->leerNodoYamlInt(it.second());
+			}else if ( clave.compare("daño") == 0 ){ enemigo.danio = this->leerNodoYamlInt(it.second());
+			}else if ( clave.compare("velocidad") == 0 ){ enemigo.velocidad = this->leerNodoYamlInt(it.second());
 			}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
 		}
 
@@ -614,6 +621,12 @@ bool ParserYaml::validaListaProtagonistas(std::list <ParserYaml::stProtagonista>
 			protagonistaOk = false;
 		}
 
+		// Valido <vida>, <mana>, <daño> y <velocidad>
+		if ( (*it).vida < 1 || (*it).mana < 1 || (*it).danio < 1 || (*it).velocidad < 0 ) {
+			Log::getInstance().log(1,__FILE__,__LINE__,"Alguno de los valores de <vida>, <mana>, <daño> o <velocidad> del protagonista con escenario "+ nombreEscenario +", entidad "+ (*it).entidad +" no tienen valores válidos.");
+			protagonistaOk = false;
+		}
+
 		// Valido la existencia de la entidad y cantidad de animaciones
 		if( this->validaExisteEntidad((*it).entidad) == false ){
 			protagonistaOk = false;
@@ -667,6 +680,12 @@ bool ParserYaml::validaListaEnemigos(std::list <ParserYaml::stEnemigo>& enemigos
 		// Valido <x> e <y>
 		if ( (*it).x < 0 || (*it).y < 0 || (*it).x > tamanioX || (*it).y > tamanioY ) {
 			Log::getInstance().log(1,__FILE__,__LINE__,"Los valores de x e y del enemigo con escenario "+ nombreEscenario +", entidad "+ (*it).entidad +" no tienen valores válidos.");
+			enemigoOk = false;
+		}
+
+		// Valido <vida>, <daño> y <velocidad>
+		if ( (*it).vida < 1 || (*it).danio < 1 || (*it).velocidad < 0 ) {
+			Log::getInstance().log(1,__FILE__,__LINE__,"Alguno de los valores de <vida>, <daño> o <velocidad> del enemigo con escenario "+ nombreEscenario +", entidad "+ (*it).entidad +" no tienen valores válidos.");
 			enemigoOk = false;
 		}
 

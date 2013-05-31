@@ -51,12 +51,19 @@ class ParserYaml{
 			int x;
 			int y;
 			std::string entidad;
+			int vida;
+			int mana;
+			int danio;
+			int velocidad;
 		};
 
 		struct stEnemigo{
 			int x;
 			int y;
 			std::string entidad;
+			int vida;
+			int danio;
+			int velocidad;
 		};
 
 		struct stEscenario{
