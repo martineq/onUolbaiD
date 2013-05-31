@@ -8,6 +8,202 @@ Pruebas::Pruebas() {
 Pruebas::~Pruebas() {
 }
 
+void Pruebas::PruebaMusica(){
+	// Estructura para la superficie gráfica, donde se va a dibujar
+	SDL_Surface *pantalla, *temp, *sprite, *pasto;
+
+	// Define un área rectangular
+	SDL_Rect rcSprite, rcPasto;
+
+	// Estructura para los eventos generales (teclado, mouse, etc.)
+	SDL_Event event;
+
+	Uint8 *estadoTecla;
+	int colorkey, finJuego;
+
+	// Inicio SDL
+	SDL_Init(SDL_INIT_VIDEO);
+
+	// Seteo el nombre en la barra
+	SDL_WM_SetCaption("..::Prueba SDL::..", "<Prueba SDL>");
+
+	// Creo la ventana
+	pantalla = SDL_SetVideoMode(PANTALLA_ANCHO, PANTALLA_ALTO, 0, 0);
+
+	// Carga el sprite
+	temp   = SDL_LoadBMP("./img/sprite.bmp");
+	sprite = SDL_DisplayFormat(temp);
+	SDL_FreeSurface(temp);
+
+	// Seteo el color del sprite  y lo transforma en RLE (Run-length encoding)
+	colorkey = SDL_MapRGB(pantalla->format, 255, 0, 255);
+	SDL_SetColorKey(sprite, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorkey);
+
+	// Cargo el pasto
+	temp  = SDL_LoadBMP("./img/pasto.bmp");
+	pasto = SDL_DisplayFormat(temp);
+	SDL_FreeSurface(temp);
+
+	// Seteo la posición del sprite
+	rcSprite.x = 0;
+	rcSprite.y = 0;
+
+	// -------------------- MUSICA ------------------------ //
+	
+	//Initialize SDL_mixer
+	//For MP3 support
+	Mix_Init( MIX_INIT_MP3 );
+    Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 );
+
+	//The music that will be played
+	Mix_Music *music = NULL;
+	music = Mix_LoadMUS( "./sounds/musica.wav" );
+
+	//The sound effects that will be used
+	Mix_Chunk *scratch = NULL;
+	Mix_Chunk *high = NULL;
+	Mix_Chunk *med = NULL;
+	Mix_Chunk *low = NULL;
+	scratch = Mix_LoadWAV( "./sounds/deleted.wav" );
+    high = Mix_LoadWAV( "./sounds/pigman.wav" );
+    med = Mix_LoadWAV( "./sounds/uh.wav" );
+    low = Mix_LoadWAV( "./sounds/uh2.wav" );
+
+	//Arranca la musica 
+	Mix_PlayMusic( music, -1 );
+
+	// Pongo fin del juego en falso
+	finJuego = 0;
+	bool tecla9 = false;
+
+	// Tomo las acciones
+	while (!finJuego)
+	{
+	// Miro si hay un evento <event>
+	if (SDL_PollEvent(&event)) {
+	  // Encontró un evento
+	  switch (event.type) {
+		// Se presionó el botón de salir
+		case SDL_QUIT:
+		  finJuego = 1;
+		  break;
+
+		// Manejo eventos del teclado
+		case SDL_KEYDOWN:
+		  switch (event.key.keysym.sym) {
+			case SDLK_ESCAPE:
+			case SDLK_q:
+			  finJuego = 1;
+			  break;
+			case SDLK_9:
+				tecla9 = true;
+				break;
+		  }	
+		  break;
+		  case SDL_KEYUP:
+			  switch (event.key.keysym.sym) {
+			  case SDLK_9:
+				  tecla9 = false;
+				  break;
+			  }
+	      break;
+	  }
+	}
+
+	// Manejo el movimiento del Sprite
+	estadoTecla = SDL_GetKeyState(NULL);
+	if( tecla9 ) {		
+		std::cout << "tecla9" << std::endl;
+		 //If there is no music playing
+         if( !Mix_PlayingMusic() )			 
+			//Play the music
+			Mix_PlayMusic( music, -1 );		 
+		 else         
+			//If the music is paused
+			if( Mix_PausedMusic() == 1 )            
+				//Resume the music
+				Mix_ResumeMusic();            
+			else	
+				//Pause the music
+				Mix_PauseMusic();                 
+		 SDL_Delay(200);
+	}
+	if( event.key.keysym.sym == SDLK_0 )
+    {
+        //Stop the music
+        Mix_HaltMusic();
+    }
+	if (estadoTecla[SDLK_LEFT] ) {
+	  Mix_PlayChannel( -1, scratch, 0 );
+	  rcSprite.x -= 1;
+	}
+	if (estadoTecla[SDLK_RIGHT] ) {
+	  Mix_PlayChannel( -1, high, 0 );
+	  rcSprite.x += 1;
+	}
+	if (estadoTecla[SDLK_UP] ) {
+	  Mix_PlayChannel( -1, med, 0 );
+	  rcSprite.y -= 1;
+	}
+	if (estadoTecla[SDLK_DOWN] ) {
+	  Mix_PlayChannel( -1, low, 0 );
+	  rcSprite.y += 1;
+	}
+
+	// Hago conincidir con los bordes de la pantalla
+	if ( rcSprite.x < 0 ) {
+	  rcSprite.x = 0;
+	}
+	else if ( rcSprite.x > PANTALLA_ANCHO-TAMANIO_SPRITE ) {
+	  rcSprite.x = PANTALLA_ANCHO-TAMANIO_SPRITE;
+	}
+	if ( rcSprite.y < 0 ) {
+	  rcSprite.y = 0;
+	}
+	else if ( rcSprite.y > PANTALLA_ALTO-TAMANIO_SPRITE ) {
+	  rcSprite.y = PANTALLA_ALTO-TAMANIO_SPRITE;
+	}
+
+	// Dibujo el pasto
+	for (int x = 0; x < PANTALLA_ANCHO / TAMANIO_SPRITE; x++) {
+	  for (int y = 0; y < PANTALLA_ALTO / TAMANIO_SPRITE; y++) {
+		rcPasto.x = x * TAMANIO_SPRITE;
+		rcPasto.y = y * TAMANIO_SPRITE;
+		SDL_BlitSurface(pasto, NULL, pantalla, &rcPasto);
+	  }
+	}
+
+	// Dibujo el sprite
+	SDL_BlitSurface(sprite, NULL, pantalla, &rcSprite);
+
+	// Refresco la pantalla
+	SDL_UpdateRect(pantalla, 0, 0, 0, 0);
+	}
+
+	// Limpio la superficie
+	SDL_FreeSurface(sprite);
+	SDL_FreeSurface(pasto);
+
+	// Salgo del SDL
+	//Free the sound effects
+    Mix_FreeChunk( scratch );
+    Mix_FreeChunk( high );
+    Mix_FreeChunk( med );
+    Mix_FreeChunk( low );
+    
+    //Free the music
+    Mix_FreeMusic( music );
+    
+    //Quit SDL_mixer
+    Mix_CloseAudio();
+
+	Mix_Quit();
+	SDL_Quit();
+
+	Log::getInstance().log(1,__FILE__,__LINE__,"Fin de prueba SDL");
+
+}
+
 void Pruebas::PruebaSdl() {
 	// Estructura para la superficie gráfica, donde se va a dibujar
 	SDL_Surface *pantalla, *temp, *sprite, *pasto;

@@ -6,6 +6,7 @@
 // ************************************************************************************* //
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include "../Constantes/Constantes.h"
 #include "../Log/log.h"
 #include "../yaml/ParserYaml.h"
@@ -33,6 +34,7 @@ class Pruebas{
 
 		Pruebas(void);
 		~Pruebas(void);
+		void PruebaMusica();
 		void PruebaSdl(void);
 		void PruebaYAML(void);
 		void PruebaModeloEntidad(void);

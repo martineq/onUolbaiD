@@ -27,6 +27,7 @@ class ProxyModeloEntidad{
 			int magia;
 			int vida;
 			int rangoVision;
+			bool tieneMapa;
 			std::string actualizacionMapa;
 			int idRemitente;
 			std::string mensaje;
@@ -51,6 +52,7 @@ class ProxyModeloEntidad{
 				this->magia = 0;
 				this->vida = 0;
 				this->rangoVision = 0;
+				this->tieneMapa = false;
 				this->idRemitente = ID_FALSO;
 
 				this->accion = 0;
