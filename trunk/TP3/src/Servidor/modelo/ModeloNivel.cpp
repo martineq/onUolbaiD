@@ -20,6 +20,15 @@ ModeloJugador* ModeloNivel::obtenerJugador(Posicion posicion) {
 	return NULL;
 }
 
+ModeloJugador* ModeloNivel::obtenerEnemigo(Posicion posicion) {
+	std::list<ModeloJugador*> listaEnemigos = this->getEnemigos();
+	for (std::list<ModeloJugador*>::iterator itModeloEntidad = listaEnemigos.begin(); itModeloEntidad != listaEnemigos.end(); itModeloEntidad++){
+		if ((*itModeloEntidad)->modeloEntidad()->posicion() == posicion)
+			return (*itModeloEntidad);
+	}
+	return NULL;
+}
+
 ModeloItem* ModeloNivel::obtenerItem(Posicion posicion) {
 	this->mutexItems.lockLectura(__FILE__, __LINE__);
 	multimap<std::pair<int, int>, ModeloItem*>::iterator item = this->items.find(make_pair(posicion.x, posicion.y));
@@ -41,6 +50,13 @@ std::list<ModeloJugador*> ModeloNivel::getJugadores() {
 	std::list<ModeloJugador*> listaJugadores = this->jugadores;
 	this->mutexJugadores.unlock(__FILE__, __LINE__);
 	return listaJugadores;
+}
+
+std::list<ModeloJugador*> ModeloNivel::getEnemigos() {
+	this->mutexEnemigos.lockLectura(__FILE__, __LINE__);
+	std::list<ModeloJugador*> listaEnemigos = this->enemigos;
+	this->mutexEnemigos.unlock(__FILE__, __LINE__);
+	return listaEnemigos;
 }
 
 std::list<ModeloEntidad*> ModeloNivel::getEntidadesMoviles() {
@@ -68,6 +84,17 @@ void ModeloNivel::agregarJugador(ModeloJugador* jugador) {
 	jugador->enviarEstado();
 	jugador->asignarEntidades(&this->mutexEntidades, &this->entidades);
 	jugador->asignarEntidadesMoviles(&this->mutexEntidadesMoviles, &this->entidadesMoviles);
+}
+
+void ModeloNivel::agregarEnemigo(ModeloJugador* enemigo) {
+	this->mutexEnemigos.lockEscritura(__FILE__, __LINE__);
+	this->enemigos.push_back(enemigo);	
+	this->mutexEnemigos.unlock(__FILE__, __LINE__);
+	this->mutexEntidadesMoviles.lockEscritura(__FILE__, __LINE__);
+	this->entidadesMoviles.push_back(enemigo->modeloEntidad());	
+	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
+	enemigo->asignarEntidades(&this->mutexEntidades, &this->entidades);
+	enemigo->asignarEntidadesMoviles(&this->mutexEntidadesMoviles, &this->entidadesMoviles);
 }
 
 void ModeloNivel::agregarItem(ModeloItem* item) {
@@ -100,6 +127,15 @@ void ModeloNivel::removerJugador(ModeloJugador* jugador) {
 	this->mutexJugadores.unlock(__FILE__, __LINE__);
 	this->mutexEntidadesMoviles.lockEscritura(__FILE__, __LINE__);
 	this->entidadesMoviles.remove(jugador->modeloEntidad());	
+	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
+}
+
+void ModeloNivel::removerEnemigo(ModeloJugador* enemigo) {
+	this->mutexEnemigos.lockEscritura(__FILE__, __LINE__);
+	this->jugadores.remove(enemigo);
+	this->mutexEnemigos.unlock(__FILE__, __LINE__);
+	this->mutexEntidadesMoviles.lockEscritura(__FILE__, __LINE__);
+	this->entidadesMoviles.remove(enemigo->modeloEntidad());	
 	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
 }
 
@@ -159,8 +195,16 @@ void ModeloNivel::congelarJugador(int id){
 
 bool ModeloNivel::actualizar() {
 	std::list<ModeloJugador*> listaJugadores = this->getJugadores();
-	for (std::list<ModeloJugador*>::iterator entidad = listaJugadores.begin(); entidad != listaJugadores.end(); entidad++)
-		(*entidad)->cambiarEstado();
+	std::list<ModeloJugador*> listaEnemigos = this->getEnemigos();
+	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
+		(*jugador)->cambiarEstado();
+
+		// Busco algun enemigo que este en el rango de vision
+		for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
+			if ((*enemigo)->estaEnRangoVision(*jugador))
+				(*enemigo)->atacar(*jugador);
+		}
+	}
 	return true;
 }
 
@@ -237,8 +281,6 @@ void ModeloNivel::iniciarNuevosJugadores(void){
 
 	return void();
 }
-
-
 
 void ModeloNivel::destruirListas(){	
 	this->destruirListaJugadores();
