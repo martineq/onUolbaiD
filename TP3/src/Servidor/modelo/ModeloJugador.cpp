@@ -7,10 +7,7 @@ void ModeloJugador::atacarEnemigo() {
 	Posicion posicionJugador = this->_modeloEntidad->posicion();
 	
 	// Si el enemigo salio de la zona visible dejo de seguirlo y me detengo
-	if ((posicionEnemigo.x < posicionJugador.x - this->_estadoNivel->rangoVision()) ||
-			(posicionEnemigo.x > posicionJugador.x + this->_estadoNivel->rangoVision()) ||
-			(posicionEnemigo.y < posicionJugador.y - this->_estadoNivel->rangoVision()) ||
-			(posicionEnemigo.y > posicionJugador.y + this->_estadoNivel->rangoVision())) {
+	if (!this->estaEnRangoVision(this->_enemigo)) {
 		this->_modeloMovimiento->detener();
 		this->_enemigo = NULL;
 		return;
@@ -64,9 +61,10 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_magia = MAXIMO_MAGIA;
 	this->_nombreJugador = nombreJugador;
 	this->_posicionInicial = posicion;
+	this->_puedeRevivir = true;
 	this->_vida = MAXIMO_VIDA;
 	this->_ingresoAlJuego = false;
-
+	
 	this->_enemigo = NULL;
 	this->_item = NULL;
 	this->_modeloEntidad = new ModeloEntidad(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad);
@@ -148,6 +146,19 @@ void ModeloJugador::nombreJugador(std::string nombreJugador) {
 
 ModeloEntidad* ModeloJugador::modeloEntidad() {
 	return this->_modeloEntidad;
+}
+
+bool ModeloJugador::puedeRevivir() {
+	this->_mutex.lockLectura(__FILE__, __LINE__);
+	bool puedeRevivir = this->_puedeRevivir;
+	this->_mutex.unlock(__FILE__, __LINE__);
+	return puedeRevivir;
+}
+
+void ModeloJugador::puedeRevivir(bool puedeRevivir) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_puedeRevivir = puedeRevivir;
+	this->_mutex.unlock(__FILE__, __LINE__);
 }
 
 ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
@@ -232,7 +243,7 @@ void ModeloJugador::consumirVida(int vida) {
 	//TODO: Falta chequear si la posicion esta ocupada
 	//TODO: Falta hacer que dropee items
 	// Si el personaje esta muerto lo devuelvo a su posicion original
-	if (this->_vida == 0) {
+	if ((this->_vida == 0) && this->_puedeRevivir) {
 		this->_escudo = 0;
 		this->_magia = MAXIMO_MAGIA;
 		this->_vida = MAXIMO_VIDA;
@@ -256,6 +267,16 @@ void ModeloJugador::enviarMensaje(ModeloJugador* remitente, string mensaje) {
 	entidad.idRemitente = remitente->_modeloEntidad->id();
 	entidad.mensaje = mensaje;
 	this->_modeloEntidad->enviarEstado(entidad);
+}
+
+bool ModeloJugador::estaEnRangoVision(ModeloJugador* enemigo) {
+	Posicion posicionEnemigo = this->_enemigo->modeloEntidad()->posicion();
+	Posicion posicionJugador = this->_modeloEntidad->posicion();
+
+	return ((posicionEnemigo.x >= posicionJugador.x - this->_estadoNivel->rangoVision()) &&
+		(posicionEnemigo.x <= posicionJugador.x + this->_estadoNivel->rangoVision()) &&
+		(posicionEnemigo.y >= posicionJugador.y - this->_estadoNivel->rangoVision()) &&
+		(posicionEnemigo.y <= posicionJugador.y + this->_estadoNivel->rangoVision()));
 }
 
 void ModeloJugador::mover(Posicion posicion) {

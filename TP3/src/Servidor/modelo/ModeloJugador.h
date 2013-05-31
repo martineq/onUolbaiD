@@ -22,8 +22,9 @@ class ModeloJugador {
 		bool _tieneMapa;
 		int _magia;
 		std::string _nombreJugador;
-		Posicion _posicionInicial;
 		Posicion _pixelInicial;
+		Posicion _posicionInicial;
+		bool _puedeRevivir;
 		int _vida;
 		bool _ingresoAlJuego;
 		
@@ -64,6 +65,10 @@ class ModeloJugador {
 
 		ModeloEntidad* modeloEntidad();
 
+		bool puedeRevivir();
+
+		void puedeRevivir(bool puedeRevivir);
+
 		ProxyModeloEntidad::stEntidad stEntidad();
 
 		int vida();
@@ -87,6 +92,8 @@ class ModeloJugador {
 		void enviarEstado();
 
 		void enviarMensaje(ModeloJugador* remitente, std::string mensaje);
+
+		bool estaEnRangoVision(ModeloJugador* enemigo);
 
 		void mover(Posicion posicion);
 
