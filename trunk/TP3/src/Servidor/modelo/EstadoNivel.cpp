@@ -15,6 +15,7 @@ EstadoNivel::EstadoNivel(int alto, int ancho, int x, int y, int rangoVision) {
 	this->_posicion.x = x;
 	this->_posicion.y = y;
 	this->_rangoVision = rangoVision;
+	this->tieneMapa = false;
 	this->_nivel = new char[this->_alto * this->_ancho * sizeof(char)];
 	memset(this->_nivel, NO_CONOCIDO, this->_alto * this->_ancho * sizeof(char));
 }
@@ -67,8 +68,23 @@ void EstadoNivel::visitar(int x, int y) {
 	this->_posicion.y = y;
 }
 
+void EstadoNivel::setTieneMapa(bool loTiene){
+	this->tieneMapa = loTiene;
+}
+
+bool EstadoNivel::getTieneMapa(){
+	return this->tieneMapa;
+}
+
 char EstadoNivel::visibilidad(int x, int y) {
-	return this->_nivel[(this->_ancho * y) + x];
+	if (this->tieneMapa) {
+	 if ( (this->_nivel[(this->_ancho * y) + x]) == NO_CONOCIDO )
+		 return CONOCIDO_NO_VISIBLE;
+	 else
+		 return this->_nivel[(this->_ancho * y) + x];
+	}
+	else
+		return this->_nivel[(this->_ancho * y) + x];
 }
 
 string EstadoNivel::getMatriz() {
@@ -83,4 +99,12 @@ void EstadoNivel::setMatriz(std::string mapa){
 			this->_nivel[j + fila] = mapa[fila + j];
 		}	
 	}
+}
+
+int EstadoNivel::getAlto(){
+	return this->_alto;
+}
+
+int EstadoNivel::getAncho(){
+	return this->_ancho;
 }

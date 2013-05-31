@@ -19,6 +19,7 @@ class ModeloJugador {
 		Accion _accion;
 		int _escudo;
 		bool _estaCongelado;
+		bool _tieneMapa;
 		int _magia;
 		std::string _nombreJugador;
 		Posicion _posicionInicial;
@@ -100,4 +101,10 @@ class ModeloJugador {
 		bool ingresoAlJuego(void);
 
 		void ingresarAlJuego(void);
+
+		bool tieneMapa();
+
+		void setTieneMapa(bool);
+
+		EstadoNivel* getEstadoNivel();
 };

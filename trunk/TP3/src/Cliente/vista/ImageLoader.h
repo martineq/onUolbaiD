@@ -3,6 +3,7 @@
 const int SCREEN_BPP = 32;
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <string>
@@ -38,6 +39,11 @@ public:
 
 	void cerrarSDL();
 
+	void playTheMusic();
+	void pauseTheMusic();
+	void resumeTheMusic();
+	void stopTheMusic();
+
 	virtual ~ImageLoader();
 
 private:
@@ -45,6 +51,7 @@ private:
 	ImageLoader(const ImageLoader&);
 	ImageLoader& operator =(const ImageLoader&);
 	map<std::string, SDL_Surface* > surfaces;
+	Mix_Music *music;
 };
 
 inline ImageLoader& ImageLoader::getInstance(){

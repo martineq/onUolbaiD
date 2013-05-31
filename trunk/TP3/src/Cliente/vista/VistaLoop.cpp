@@ -33,12 +33,16 @@ char VistaLoop::visibilidadDeLaEntidad(VistaEntidad* unaEntidad, EstadoNivel* es
 }
 
 void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, EstadoNivel* estadoNivel){
+	//Item Lampara
 	estadoNivel->rangoVision(vistaNivel.getJugador()->getRangoVision());
 	estadoNivel->visitar(vistaNivel.getJugador()->getTileX(), vistaNivel.getJugador()->getTileY());
 }
 
 bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNivel* estadoNivel){
 	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory) == false) return false;	// Nuevo: Actuliza lo que vino por el proxy
+
+	//Item Mapa
+	estadoNivel->setTieneMapa(vistaNivel.getJugador()->getTieneMapa());
 
 	if ( (vistaNivel.getJugador()->getTileXAnterior() != vistaNivel.getJugador()->getTileX())
 		|| (vistaNivel.getJugador()->getTileYAnterior() != vistaNivel.getJugador()->getTileY()) ) {

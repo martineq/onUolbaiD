@@ -34,6 +34,7 @@ class VistaEntidad: public Identificable{
 		int tileYAnterior;	
 		int _id;
 		bool esNecesarioRefrescar;
+		bool tieneMapa;
 		std::string nombreEntidad;
 		std::string nombreJugador;
 
@@ -64,6 +65,7 @@ class VistaEntidad: public Identificable{
 		std::list<std::list<std::string>> getListaAnimaciones(void);
 		bool getEsNecesarioRefrescar(void);
 		bool getEstaCongelado();
+		bool getTieneMapa();
 		std::string getNombreEntidad();
 		std::string getNombreJugador();
 

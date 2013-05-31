@@ -73,7 +73,6 @@ bool ProxyModeloEntidad::recibirEntidad(ProxyModeloEntidad::stEntidad& entidad){
 	return true;
 }
 
-
 void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntidad& entidad){
 	// ModeloEntidad
 	s.addInt(entidad.id);
@@ -85,14 +84,15 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addDouble(entidad.pixelY);
 	s.addBool(entidad.esUltimoMovimiento);
 
-	// ModeloJugador
+	// ModeloJugador	
 	s.addString(entidad.nombreJugador);
 	s.addInt(entidad.escudo);
 	s.addBool(entidad.estaCongelado);
 	s.addInt(entidad.magia);
 	s.addInt(entidad.vida);
 	s.addInt(entidad.rangoVision);
-	s.addInt(entidad.idRemitente);
+	s.addInt(entidad.idRemitente);	
+	s.addBool(entidad.tieneMapa);
 	s.addString(entidad.mensaje);
 
 	s.addInt(entidad.accion);
@@ -109,14 +109,15 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.pixelY = s.getDouble();
 	entidad.esUltimoMovimiento = s.getBool();
 
-	// ModeloJugador
+	// ModeloJugador	
 	entidad.nombreJugador = s.getString();
 	entidad.escudo = s.getInt();
 	entidad.estaCongelado = s.getBool();
 	entidad.magia = s.getInt();
 	entidad.vida = s.getInt();
 	entidad.rangoVision = s.getInt();
-	entidad.idRemitente = s.getInt();
+	entidad.idRemitente = s.getInt();	
+	entidad.tieneMapa = s.getBool();
 	entidad.mensaje = s.getString();
 
 	entidad.accion = s.getInt();

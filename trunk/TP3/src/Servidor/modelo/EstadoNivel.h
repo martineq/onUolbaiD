@@ -13,6 +13,7 @@ class EstadoNivel {
 		Posicion _posicion;
 		int _rangoVision;
 		char* _nivel;
+		bool tieneMapa;
 
 		EstadoNivel(const EstadoNivel &estadoNivel);
 
@@ -34,4 +35,12 @@ class EstadoNivel {
 		void setMatriz(std::string);
 
 		std::string getMatriz();
+
+		int getAlto();
+
+		int getAncho();
+
+		void setTieneMapa(bool);
+
+		bool getTieneMapa();
 };

@@ -59,6 +59,7 @@ ModeloJugador& ModeloJugador::operator=(const ModeloJugador &modeloJugador) {
 ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador) {
 	this->_accion = CAMINANDO;
 	this->_escudo = 0;
+	this->_tieneMapa = false;
 	this->_estaCongelado = false;
 	this->_magia = MAXIMO_MAGIA;
 	this->_nombreJugador = nombreJugador;
@@ -112,6 +113,19 @@ void ModeloJugador::estaCongelado(bool estaCongelado) {
 	this->enviarEstado();
 }
 
+bool ModeloJugador::tieneMapa() {
+	this->_mutex.lockLectura(__FILE__, __LINE__);
+	bool tieneMapa = this->_tieneMapa;
+	this->_mutex.unlock(__FILE__, __LINE__);
+	return tieneMapa;
+}
+
+void ModeloJugador::setTieneMapa(bool loTiene) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_tieneMapa = loTiene;
+	this->_mutex.unlock(__FILE__, __LINE__);	
+}
+
 int ModeloJugador::magia() {
 	this->_mutex.lockLectura(__FILE__, __LINE__);
 	int magia = this->_magia;
@@ -145,7 +159,8 @@ ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
 	estado.magia = this->_magia;
 	estado.vida = this->_vida;
 	estado.rangoVision = this->_estadoNivel->rangoVision();
-	estado.accion = (this->_accion * 8) + this->_modeloEntidad->direccion();
+	estado.tieneMapa = this->_tieneMapa;
+	estado.accion = (this->_accion * 8) + this->_modeloEntidad->direccion();	
 	return estado;
 }
 
@@ -223,6 +238,8 @@ void ModeloJugador::consumirVida(int vida) {
 		this->_vida = MAXIMO_VIDA;
 		this->_enemigo = NULL;
 		this->_item = NULL;
+		//this->_tieneMapa = false; no pierde el mapa una vez aplicado
+		this->_estadoNivel->rangoVision(RANGO_VISION);
 		this->_modeloEntidad->posicion(this->_posicionInicial);
 		this->_modeloEntidad->pixel(this->_pixelInicial);
 		this->_estadoNivel->rangoVision(RANGO_VISION);
@@ -283,4 +300,8 @@ void ModeloJugador::ingresarAlJuego(void) {
 	this->_ingresoAlJuego = true;					// Indico que este jugador ya entró al juego
 	this->enviarEstado();							// Para actualizar a los jugadores que estaban desde antes en el juego
 	return void();
+}
+
+EstadoNivel* ModeloJugador::getEstadoNivel(){
+	return this->_estadoNivel;
 }

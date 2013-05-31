@@ -107,6 +107,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->x = entidad.pixelX;
 	this->y = entidad.pixelY;
 	this->rangoVision = entidad.rangoVision;
+	this->tieneMapa = entidad.tieneMapa;
 	this->tileX = entidad.posicionX;
 	this->tileY = entidad.posicionY;
 	this->estaCongelado = entidad.estaCongelado;
@@ -267,4 +268,8 @@ void VistaEntidad::setEstaCongelado(bool estado){
 
 bool VistaEntidad::getEstaCongelado(){
 	return this->estaCongelado;
+}
+
+bool VistaEntidad::getTieneMapa(){
+	return this->tieneMapa;
 }
