@@ -282,6 +282,12 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	ParserYaml::stEntidad entidadJugador = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,nombreJugador);
 	ParserYaml::stProtagonista protagonista = ParserYaml::getInstance().buscarStProtagonista(juego.escenario,nombreJugador);
 
+	// Nuevos atributos
+	//protagonista.danio;
+	//protagonista.mana;
+	//protagonista.velocidad;
+	//protagonista.vida;
+
 	// Valores tomados desde la entidad
 	int alto = entidadJugador.altoBase;
 	int ancho = entidadJugador.anchoBase;
@@ -318,6 +324,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	// Obtengo los datos de la stEntidad para luego pasarsela al cliente
 	stEntidad = pJugador->stEntidad();
 	pJugador->cargarMatriz(stEntidad);
+
 	// Agrego la entidad al nivel
 	modeloNivel->agregarJugador(pJugador);
 
