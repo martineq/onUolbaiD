@@ -264,10 +264,11 @@ void ModeloJugador::consumirVida(int vida) {
 	//TODO: Falta chequear si la posicion esta ocupada
 	//TODO: Falta hacer que dropee items
 	// Si el personaje esta muerto y no es autonomo lo devuelvo a su posicion original
-	if ((this->_vida == 0) && !this->_autonomo) {
+	if (this->_vida == 0) {
 		this->_escudo = 0;
 		this->_magia = MAXIMO_MAGIA;
-		this->_vida = MAXIMO_VIDA;
+		if (!this->_autonomo)
+			this->_vida = MAXIMO_VIDA;
 		this->_estaCongelado = false;
 		this->_enemigo = NULL;
 		this->_item = NULL;
@@ -276,6 +277,7 @@ void ModeloJugador::consumirVida(int vida) {
 		this->_modeloEntidad->posicion(this->_posicionInicial);
 		this->_modeloEntidad->pixel(this->_pixelInicial);
 		this->_estadoNivel->rangoVision(RANGO_VISION);
+		this->_modeloMovimiento->detener();
 		this->enviarEstado();
 	}
 }
