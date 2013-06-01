@@ -119,13 +119,6 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 		this->codigoAnimacion = codigo;
 		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
 	}
-	
-	//TODO: Reemplazar esto por la vista real
-	if (this->esJugador) {
-		std::cout << "Vida = " << entidad.vida << std::endl;
-		std::cout << "Magia = " << entidad.magia << std::endl;
-		std::cout << "Escudo = " << entidad.escudo << std::endl;
-	}
 
 	this->esNecesarioRefrescar = ( !(entidad.esUltimoMovimiento) || (codigo >= 8) );
 }

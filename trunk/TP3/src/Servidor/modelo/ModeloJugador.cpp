@@ -1,32 +1,48 @@
 #include "ModeloJugador.h"
 
+#define DELAY_ATAQUE 1500
+
 using namespace std;
 
 void ModeloJugador::atacarEnemigo() {
 	Posicion posicionEnemigo = this->_enemigo->modeloEntidad()->posicion();
 	Posicion posicionJugador = this->_modeloEntidad->posicion();
 	
-	// Si el enemigo salio de la zona visible dejo de seguirlo y me detengo
-	if (!this->estaEnRangoVision(this->_enemigo)) {
+	// Si el enemigo salio de la zona visible o esta muerto dejo de seguirlo y me detengo
+	if (!this->estaEnRangoVision(this->_enemigo) || (this->_enemigo->vida() == 0)) {
 		this->_modeloMovimiento->detener();
 		this->_enemigo = NULL;
+		this->_instanteUltimoCambioEstado = GetTickCount();
 		return;
 	}
 
 	// Si el enemigo esta en una posicion adyacente y no me estoy moviendo lo ataco
 	if (this->_vistaMovimiento->terminado() && (fabs((float)posicionJugador.x - posicionEnemigo.x) <= 1) && (fabs((float)posicionJugador.y - posicionEnemigo.y) <= 1)) {
+		// Si el enemigo es autonomo chequeo el tiempo del ultimo cambio de estado para que no pegue muy seguido
+		if (this->_autonomo) {
+			if (this->_instanteUltimoCambioEstado == 0) {
+				this->_instanteUltimoCambioEstado = GetTickCount();
+				return;
+			}
+
+			if (DELAY_ATAQUE > (GetTickCount() - this->_instanteUltimoCambioEstado))
+				return;
+		}
+		
 		this->_modeloEntidad->direccion(Posicion::obtenerDireccion(posicionJugador, posicionEnemigo));
 		this->_accion = ATACANDO;
 		this->enviarEstado();
 		this->_accion = CAMINANDO;
 		this->_enemigo->consumirVida(rand() % (MAXIMO_DANIO + 1));
 		this->_enemigo = NULL;
+		this->_instanteUltimoCambioEstado = GetTickCount();
 		return;
 	}
 
 	// Si el enemigo sigue en la zona visible lo sigo persiguiendo
 	this->_modeloMovimiento->actualizar(this->_enemigo->modeloEntidad()->posicion());
 	this->_accion = CAMINANDO;
+	this->_instanteUltimoCambioEstado = GetTickCount();
 }
 
 void ModeloJugador::recogerItem() {
@@ -55,15 +71,16 @@ ModeloJugador& ModeloJugador::operator=(const ModeloJugador &modeloJugador) {
 
 ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador) {
 	this->_accion = CAMINANDO;
+	this->_autonomo = false;
 	this->_escudo = 0;
 	this->_tieneMapa = false;
 	this->_estaCongelado = false;
 	this->_magia = MAXIMO_MAGIA;
 	this->_nombreJugador = nombreJugador;
 	this->_posicionInicial = posicion;
-	this->_puedeRevivir = true;
 	this->_vida = MAXIMO_VIDA;
 	this->_ingresoAlJuego = false;
+	this->_instanteUltimoCambioEstado = 0;
 	
 	this->_enemigo = NULL;
 	this->_item = NULL;
@@ -97,6 +114,19 @@ void ModeloJugador::accion(Accion accion) {
 	this->_mutex.unlock(__FILE__, __LINE__);
 }
 
+bool ModeloJugador::autonomo() {
+	this->_mutex.lockLectura(__FILE__, __LINE__);
+	bool autonomo = this->_autonomo;
+	this->_mutex.unlock(__FILE__, __LINE__);
+	return autonomo;
+}
+
+void ModeloJugador::autonomo(bool autonomo) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_autonomo = autonomo;
+	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
 bool ModeloJugador::estaCongelado() {
 	this->_mutex.lockLectura(__FILE__, __LINE__);
 	bool estaCongelado = this->_estaCongelado;
@@ -107,6 +137,8 @@ bool ModeloJugador::estaCongelado() {
 void ModeloJugador::estaCongelado(bool estaCongelado) {
 	this->_mutex.lockEscritura(__FILE__, __LINE__);
 	this->_estaCongelado = estaCongelado;
+	this->_enemigo = NULL;
+	this->_modeloMovimiento->detener();
 	this->_mutex.unlock(__FILE__, __LINE__);
 	this->enviarEstado();
 }
@@ -148,19 +180,6 @@ ModeloEntidad* ModeloJugador::modeloEntidad() {
 	return this->_modeloEntidad;
 }
 
-bool ModeloJugador::puedeRevivir() {
-	this->_mutex.lockLectura(__FILE__, __LINE__);
-	bool puedeRevivir = this->_puedeRevivir;
-	this->_mutex.unlock(__FILE__, __LINE__);
-	return puedeRevivir;
-}
-
-void ModeloJugador::puedeRevivir(bool puedeRevivir) {
-	this->_mutex.lockEscritura(__FILE__, __LINE__);
-	this->_puedeRevivir = puedeRevivir;
-	this->_mutex.unlock(__FILE__, __LINE__);
-}
-
 ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
 	ProxyModeloEntidad::stEntidad estado = this->_modeloEntidad->stEntidad();
 	estado.esJugador = true;
@@ -191,6 +210,8 @@ void ModeloJugador::asignarEntidades(Mutex* mutexEntidades, multimap<std::pair<i
 }
 
 void ModeloJugador::atacar(ModeloJugador* enemigo) {
+	if (this->_enemigo == enemigo)
+		return;
 	this->_item = NULL;
 	this->_enemigo = enemigo;
 	this->_modeloMovimiento->actualizar(this->_enemigo->modeloEntidad()->posicion());
@@ -242,11 +263,12 @@ void ModeloJugador::consumirVida(int vida) {
 
 	//TODO: Falta chequear si la posicion esta ocupada
 	//TODO: Falta hacer que dropee items
-	// Si el personaje esta muerto lo devuelvo a su posicion original
-	if ((this->_vida == 0) && this->_puedeRevivir) {
+	// Si el personaje esta muerto y no es autonomo lo devuelvo a su posicion original
+	if ((this->_vida == 0) && !this->_autonomo) {
 		this->_escudo = 0;
 		this->_magia = MAXIMO_MAGIA;
 		this->_vida = MAXIMO_VIDA;
+		this->_estaCongelado = false;
 		this->_enemigo = NULL;
 		this->_item = NULL;
 		//this->_tieneMapa = false; no pierde el mapa una vez aplicado
@@ -270,8 +292,7 @@ void ModeloJugador::enviarMensaje(ModeloJugador* remitente, string mensaje) {
 }
 
 bool ModeloJugador::estaEnRangoVision(ModeloJugador* enemigo) {
-	this->_enemigo = enemigo;
-	Posicion posicionEnemigo = this->_enemigo->modeloEntidad()->posicion();
+	Posicion posicionEnemigo = enemigo->modeloEntidad()->posicion();
 	Posicion posicionJugador = this->_modeloEntidad->posicion();
 
 	return ((posicionEnemigo.x >= posicionJugador.x - this->_estadoNivel->rangoVision()) &&

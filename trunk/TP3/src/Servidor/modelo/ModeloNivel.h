@@ -32,7 +32,12 @@ class ModeloNivel {
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
 
+		void removerEntidad(ModeloEntidad* entidad);
+		void removerEntidadMovil(ModeloEntidad* entidad);
+
 		void destruirListaJugadores();
+		void destruirListaEnemigos();
+		void destruirListaItems();
 		void destruirListaEntidades();
 
 		void decrementarJugadores(void);
@@ -57,11 +62,6 @@ class ModeloNivel {
 		void agregarEnemigo(ModeloJugador* enemigo);
 		void agregarItem(ModeloItem* item);
 		void agregarEntidad(ModeloEntidad* entidad);
-		
-		void removerJugador(ModeloJugador* jugador);
-		void removerEnemigo(ModeloJugador* enemigo);
-		void removerItem(ModeloItem* item);
-		void removerEntidad(ModeloEntidad* entidad);
 		
 		void ejecutarAccionJugador(int tileX, int tileY, int id);
 		void congelarJugador(int id);

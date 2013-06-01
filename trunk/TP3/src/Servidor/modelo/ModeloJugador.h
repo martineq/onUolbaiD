@@ -17,6 +17,7 @@ typedef enum Accion { CAMINANDO, ATACANDO };
 class ModeloJugador {
 	private:
 		Accion _accion;
+		bool _autonomo;
 		int _escudo;
 		bool _estaCongelado;
 		bool _tieneMapa;
@@ -24,9 +25,9 @@ class ModeloJugador {
 		std::string _nombreJugador;
 		Posicion _pixelInicial;
 		Posicion _posicionInicial;
-		bool _puedeRevivir;
 		int _vida;
 		bool _ingresoAlJuego;
+		DWORD _instanteUltimoCambioEstado;
 		
 		ModeloEntidad* _modeloEntidad;
 		EstadoNivel* _estadoNivel;
@@ -53,6 +54,10 @@ class ModeloJugador {
 
 		void accion(Accion accion);
 
+		bool autonomo();
+
+		void autonomo(bool autonomo);
+
 		bool estaCongelado();
 
 		void estaCongelado(bool estaCongelado);
@@ -64,10 +69,6 @@ class ModeloJugador {
 		void nombreJugador(std::string nombreJugador);
 
 		ModeloEntidad* modeloEntidad();
-
-		bool puedeRevivir();
-
-		void puedeRevivir(bool puedeRevivir);
 
 		ProxyModeloEntidad::stEntidad stEntidad();
 
