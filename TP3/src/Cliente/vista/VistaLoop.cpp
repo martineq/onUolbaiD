@@ -39,7 +39,7 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, EstadoNivel* estadoNivel
 }
 
 bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNivel* estadoNivel){
-	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory) == false) return false;	// Nuevo: Actuliza lo que vino por el proxy
+	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory) == false) return false;	// Actuliza lo que vino por el proxy
 
 	//Item Mapa
 	estadoNivel->setTieneMapa(vistaNivel.getJugador()->getTieneMapa());
@@ -61,10 +61,10 @@ bool VistaLoop::dibujarEntidades(VistaNivel& vistaNivel, EstadoNivel* estadoNive
 	list<VistaEntidad*>::iterator jugador = listaJugadores.begin();
 	list<VistaEntidad*>::iterator entidad = listaEntidades.begin();
 
-	//grafica los tiles
+	// Grafica los tiles
 	vistaNivel.getScroll()->graficar(this->pantalla,estadoNivel);
 
-	//Dibujo las entidades (y el jugador si corresponde)
+	// Dibujo las entidades (y el jugador si corresponde)
 	while (entidad != listaEntidades.end()) {
 		VistaEntidad* unaEntidad = *entidad;
 		entidad++;
@@ -198,11 +198,11 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 		return true;
 	}
 
-	// Primero miro si la entidad que busco es el jugador
+	// Primero miro si la entidad que busco es el jugador de este cliente
 	if (jugador->id() == idBuscado) {
 		entidadEncontrada = jugador;
 	}
-	else { // Si no es el jugador entonces busco en las otras entidades
+	else { // Si no es el jugador de este cliente entonces busco en las otras entidades
 		for (std::list<VistaEntidad*>::iterator it=entidades.begin() ; it != entidades.end() ; it++ ){ // Busco en el vector por el ID
 			if( (*it)->id() == idBuscado ){
 				iteradorEntidadEncontrada = it;

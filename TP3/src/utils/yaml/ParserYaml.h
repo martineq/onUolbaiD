@@ -138,7 +138,7 @@ class ParserYaml{
 		stProtagonista crearJugadorDefault(void);
 		stEnemigo crearEnemigoDefault(void);
 		void cargaListasAnimacionesDefault(std::list<std::list<std::string>>& listaAnimaciones);
-		void cargaListaImagenesDefault(std::list<std::string>& listaImagenes);
+		void cargaListaImagenesDefault(std::list<std::string>& listaImagenes, int sufijo);
 		stJuego crearJuegoDefault(void);
 
 	private:
