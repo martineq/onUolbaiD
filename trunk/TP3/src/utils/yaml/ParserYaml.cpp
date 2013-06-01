@@ -359,7 +359,7 @@ void ParserYaml::validaConfiguracion(void){
 	// Chequeo la velocidad del personaje
 	if (this->juego.configuracion.velocidadPersonaje < YAML_VELOCIDAD_PERSONAJE_TOPE_MINIMO || this->juego.configuracion.velocidadPersonaje > YAML_VELOCIDAD_PERSONAJE_TOPE_MAXIMO ){
 		Log::getInstance().log(1,__FILE__,__LINE__,"configuracion->vel_personaje fuera de rango. Se asignará el valor por defecto.");
-		this->juego.configuracion.velocidadPersonaje = YAML_DEAFAULT_VEL_PERSONAJE;
+		this->juego.configuracion.velocidadPersonaje = YAML_DEAFAULT_VELOCIDAD_JUGADOR;
 	}
 
 	// Chequeo el margen de scroll
@@ -480,7 +480,7 @@ bool ParserYaml::validaListaImagenes(std::list<std::list<std::string>>& listaIma
 			}
 			if( imagenesOk == false ){
 				std::list<std::string> animacionesDefault;
-				this->cargaListaImagenesDefault(animacionesDefault);
+				this->cargaListaImagenesDefault(animacionesDefault,0); // Ver i funciona con eso
 				(*it).swap(animacionesDefault);
 				Log::getInstance().log(1,__FILE__,__LINE__,"La entidad "+ nombreEntidad +" tiene animaciones inválidas, se asignará una lista por defecto.");
 				imagenesOk = true;
@@ -713,12 +713,13 @@ bool ParserYaml::validaListaEnemigos(std::list <ParserYaml::stEnemigo>& enemigos
 		}
 	}
 
-	// Si me quedé sin protagonistas, agrego uno por default
-	if ( enemigos.empty() == true ){ 
-		enemigos.push_back(this->crearEnemigoDefault());
-		Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de enemigos del escenario "+ nombreEscenario +" se encuentra vacía. Se agregará uno por defecto.");
-	}
-	
+	// Por ahora elijo que si no hay Enemigos Automáticos, no agrego ninguno por default. Si ahe falta agregar alguno, se pueden descomentar estas lineas
+	//// Si me quedé sin protagonistas, agrego uno por default
+	//if ( enemigos.empty() == true ){ 
+	//	enemigos.push_back(this->crearEnemigoDefault());
+	//	Log::getInstance().log(1,__FILE__,__LINE__,"Luego de la validación, la lista de enemigos del escenario "+ nombreEscenario +" se encuentra vacía. Se agregará uno por defecto.");
+	//}
+	//
 	return true;
 }
 
@@ -875,7 +876,11 @@ ParserYaml::stProtagonista ParserYaml::crearJugadorDefault(void){
 	protagonista.entidad = entidad.nombre;
 	protagonista.x = 0;
 	protagonista.y = 0;
-
+	protagonista.velocidad = YAML_DEAFAULT_VELOCIDAD_JUGADOR;
+	protagonista.vida = YAML_DEAFAULT_VIDA_JUGADOR;
+	protagonista.mana = YAML_DEAFAULT_MANA_JUGADOR;
+	protagonista.danio = YAML_DEAFAULT_DANIO_JUGADOR;
+	
 	return protagonista;
 }
 
@@ -894,21 +899,28 @@ ParserYaml::stEnemigo ParserYaml::crearEnemigoDefault(void){
 	enemigo.entidad = entidad.nombre;
 	enemigo.x = 0;
 	enemigo.y = 0;
+	enemigo.velocidad = YAML_DEAFAULT_VELOCIDAD_ENEMIGO;
+	enemigo.vida = YAML_DEAFAULT_VIDA_ENEMIGO;
+	enemigo.danio = YAML_DEAFAULT_DANIO_ENEMIGO;
 
 	return enemigo;
 }
 
 void ParserYaml::cargaListasAnimacionesDefault(std::list<std::list<std::string>>& listaAnimaciones){
 	std::list<std::string> listaImagenDefault;
-	this->cargaListaImagenesDefault(listaImagenDefault);
 	for (unsigned int i=0; i<YAML_CANTIDAD_OBLIGATORIA_DE_ANIMACIONES_PROTAGONISTA; i++ ){	
+		this->cargaListaImagenesDefault(listaImagenDefault,i);
 		listaAnimaciones.push_back(listaImagenDefault);
 	}
 }
 
-void ParserYaml::cargaListaImagenesDefault(std::list<std::string>& listaImagenes){
-	std::string rutaImagen(YAML_RUTA_DIRECTORIO_IMG);
-	rutaImagen.append(YAML_DEAFAULT_RUTA_IMAGEN);
+void ParserYaml::cargaListaImagenesDefault(std::list<std::string>& listaImagenes, int sufijo){
+	std::string rutaImagen(YAML_RUTA_DIRECTORIO_IMG);		// Agrego el directorio
+	rutaImagen.append(YAML_DEAFAULT_NOMBRE);				// Agrego el nombre
+	std::stringstream ss;
+	ss << sufijo;
+	rutaImagen.append(ss.str());							// Agrego el sufijo
+	rutaImagen.append(YAML_DEAFAULT_IMAGEN_EXTENSION);		// Agrego la extensión del archivo
 	listaImagenes.clear();
 	listaImagenes.push_back(rutaImagen);
 }
@@ -920,7 +932,7 @@ ParserYaml::stJuego ParserYaml::crearJuegoDefault(void){
 	juegoDefault.pantalla.alto = YAML_DEAFAULT_PANTALLA_ALTO;
 	juegoDefault.pantalla.ancho = YAML_DEAFAULT_PANTALLA_ANCHO;
 	juegoDefault.configuracion.margenScroll = YAML_DEAFAULT_MARGEN_SCROLL;
-	juegoDefault.configuracion.velocidadPersonaje = YAML_DEAFAULT_VEL_PERSONAJE;
+	juegoDefault.configuracion.velocidadPersonaje = YAML_DEAFAULT_VELOCIDAD_JUGADOR;
 
 	// Cargo la entidad default
 	stEntidad entidad;
