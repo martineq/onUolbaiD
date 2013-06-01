@@ -3,6 +3,7 @@
 VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador){
 	this->_id = id;
 	this->estaCongelado = estaCongelado;
+	this->estaVivo = true;
 
 	int xAux, yAux;
 
@@ -113,6 +114,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->estaCongelado = entidad.estaCongelado;
 	this->nombreEntidad = entidad.nombreEntidad;
 	this->nombreJugador = entidad.nombreJugador;
+	this->estaVivo = (entidad.vida > 0);
 
 	int codigo = entidad.accion;
 	if( (this->esJugador) && (codigo != this->codigoAnimacion)){
@@ -236,6 +238,9 @@ void VistaEntidad::setAnimacion(std::string estado){
 }
 
 bool VistaEntidad::graficar(char visibilidad){
+	if( this->getEstaVivo() == false ){
+		return true;	// Si está muerto no dibujo nada
+	}
 	if (this->estaCongelado && (visibilidad != NO_CONOCIDO))
 		visibilidad = CONGELADO;
 	bool ok = true;
@@ -257,6 +262,14 @@ void VistaEntidad::setPantalla(SDL_Surface* fondo){
 
 void VistaEntidad::setEstaCongelado(bool estado){
 	this->estaCongelado = estado;
+}
+
+void VistaEntidad::setEstaVivo(bool estado){
+	this->estaVivo = estado;
+}
+
+bool VistaEntidad::getEstaVivo(){
+	return this->estaVivo;
 }
 
 bool VistaEntidad::getEstaCongelado(){

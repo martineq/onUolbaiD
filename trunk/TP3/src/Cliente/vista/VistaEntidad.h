@@ -11,6 +11,7 @@ class VistaEntidad: public Identificable{
 	private:		
 		bool esJugador;
 		bool estaCongelado;
+		bool estaVivo;
 		double x;
 		double y;
 		double alto;
@@ -68,6 +69,7 @@ class VistaEntidad: public Identificable{
 		bool getTieneMapa();
 		std::string getNombreEntidad();
 		std::string getNombreJugador();
+		bool getEstaVivo();
 
 		// Setters
 		void setXEnPantalla(double scrollX);
@@ -78,4 +80,5 @@ class VistaEntidad: public Identificable{
 		bool graficar(char visibilidad);
 		void setPantalla(SDL_Surface* screen);
 		void setEstaCongelado(bool estado);
+		void setEstaVivo(bool estado);
 };
