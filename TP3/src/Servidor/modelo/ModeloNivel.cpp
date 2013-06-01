@@ -121,58 +121,50 @@ void ModeloNivel::setAnchoTiles(int ancho){
 	this->anchoTiles = ancho;
 }
 
-void ModeloNivel::removerJugador(ModeloJugador* jugador) {
-	this->mutexJugadores.lockEscritura(__FILE__, __LINE__);
-	this->jugadores.remove(jugador);
-	this->mutexJugadores.unlock(__FILE__, __LINE__);
-	this->mutexEntidadesMoviles.lockEscritura(__FILE__, __LINE__);
-	this->entidadesMoviles.remove(jugador->modeloEntidad());	
-	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
-}
-
-void ModeloNivel::removerEnemigo(ModeloJugador* enemigo) {
-	this->mutexEnemigos.lockEscritura(__FILE__, __LINE__);
-	this->jugadores.remove(enemigo);
-	this->mutexEnemigos.unlock(__FILE__, __LINE__);
-	this->mutexEntidadesMoviles.lockEscritura(__FILE__, __LINE__);
-	this->entidadesMoviles.remove(enemigo->modeloEntidad());	
-	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
-}
-
-void ModeloNivel::removerItem(ModeloItem* item) {
-	this->mutexItems.lockEscritura(__FILE__, __LINE__);
-	this->items.erase(make_pair(item->modeloEntidad()->posicion().x, item->modeloEntidad()->posicion().y));
-	this->mutexItems.unlock(__FILE__, __LINE__);
-	this->removerEntidad(item->modeloEntidad());
-}
-
 void ModeloNivel::removerEntidad(ModeloEntidad* entidad) {
 	this->mutexEntidades.lockEscritura(__FILE__, __LINE__);
 	this->entidades.erase(make_pair(entidad->posicion().x, entidad->posicion().y));
 	this->mutexEntidades.unlock(__FILE__, __LINE__);
 }
 
+void ModeloNivel::removerEntidadMovil(ModeloEntidad* entidad) {
+	this->mutexEntidadesMoviles.lockEscritura(__FILE__, __LINE__);
+	this->entidadesMoviles.remove(entidad);	
+	this->mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
+}
+
 void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 	ModeloJugador* jugador = this->obtenerJugador(id);
-	if (jugador == NULL)
+	
+	// Si no encontre jugador o esta congelado salgo
+	if ((jugador == NULL) || (jugador->estaCongelado()))
 		return;
 	
 	Posicion posicion;
 	Posicion::convertirPixelATile(this->getAltoTiles(), mouseX, mouseY, posicion.x, posicion.y);
 	
 	ModeloJugador* enemigo = this->obtenerJugador(posicion);
+	if (enemigo == NULL)
+		enemigo = this->obtenerEnemigo(posicion);
 	ModeloItem* item = this->obtenerItem(posicion);
 	
 	// Si hice clic en un enemigo valido
-	if ((enemigo != NULL) && (enemigo != jugador) && !enemigo->estaCongelado())
-		jugador->atacar(enemigo);
+	if ((enemigo != NULL) && (enemigo != jugador)) {
+		// Si el enemigo esta vivo lo ataco; sino, si es autonomo, lo quito de la lista de entidades moviles para que no se colisione mas con el
+		if (enemigo->vida() > 0)
+			jugador->atacar(enemigo);
+		else if (enemigo->autonomo()) {
+			this->removerEntidadMovil(enemigo->modeloEntidad());
+			jugador->mover(posicion);
+		}
+	}
 	// Si hice click en un item
 	else if (item != NULL) {
-		// Si el item esta disponible lo recogo, sino lo quito de la lista
+		// Si el item esta disponible lo recogo, sino lo quito de la lista de entidades para que no se colisione mas con el
 		if (item->disponible())
 			jugador->recogerItem(item);
 		else {
-			this->removerItem(item);
+			this->removerEntidad(item->modeloEntidad());
 			jugador->mover(posicion);
 		}
 	}
@@ -196,14 +188,23 @@ void ModeloNivel::congelarJugador(int id){
 bool ModeloNivel::actualizar() {
 	std::list<ModeloJugador*> listaJugadores = this->getJugadores();
 	std::list<ModeloJugador*> listaEnemigos = this->getEnemigos();
-	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
+	
+	// Ejecuto el cambio de estado de todos los jugadores
+	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++)
 		(*jugador)->cambiarEstado();
 
-		// Busco algun enemigo que este en el rango de vision
-		for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
+	// Ejecuto el cambio de estado de todos los enenmigos vivos y que no esten congelados
+	for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
+		if ((*enemigo)->estaCongelado() || ((*enemigo)->vida() == 0))
+			continue;
+		
+		// Busco algun jugador que este en el rango de vision para atacarlo
+		for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
 			if ((*enemigo)->estaEnRangoVision(*jugador))
 				(*enemigo)->atacar(*jugador);
 		}
+		
+		(*enemigo)->cambiarEstado();
 	}
 	return true;
 }
@@ -226,17 +227,34 @@ bool ModeloNivel::posicionOcupada(Posicion pos){
 	return entidad != this->entidades.end();
 }
 
-void ModeloNivel::destruirListaJugadores(){
-	// Destruyo los jugadores instanciados
-	for (std::list<ModeloJugador*>::iterator jugador = this->jugadores.begin(); jugador != this->jugadores.end(); jugador++){
-		delete (*jugador);
-	}
-}
-
 bool ModeloNivel::chequearConexion() {
 	if (this->jugadores.empty())
 		return false;
 	return this->jugadores.front()->chequearConexion();
+}
+
+void ModeloNivel::destruirListaJugadores(){
+	// Destruyo los jugadores instanciados
+	for (std::list<ModeloJugador*>::iterator jugador = this->jugadores.begin(); jugador != this->jugadores.end(); jugador++) {
+		this->removerEntidadMovil((*jugador)->modeloEntidad());
+		delete (*jugador);
+	}
+}
+
+void ModeloNivel::destruirListaEnemigos(){
+	// Destruyo los enemigos instanciados
+	for (std::list<ModeloJugador*>::iterator enemigo = this->enemigos.begin(); enemigo != this->enemigos.end(); enemigo++) {
+		this->removerEntidadMovil((*enemigo)->modeloEntidad());
+		delete (*enemigo);
+	}
+}
+
+void ModeloNivel::destruirListaItems() {	
+	// Destruyo todos los items instaciados
+	for (multimap<std::pair<int, int>, ModeloItem*>::iterator item = this->items.begin(); item != this->items.end(); item++) {
+		this->removerEntidad((*item).second->modeloEntidad());
+		delete (*item).second;
+	}
 }
 
 void ModeloNivel::destruirListaEntidades() {
@@ -284,5 +302,7 @@ void ModeloNivel::iniciarNuevosJugadores(void){
 
 void ModeloNivel::destruirListas(){	
 	this->destruirListaJugadores();
+	this->destruirListaEnemigos();
+	this->destruirListaItems();
 	this->destruirListaEntidades();
 }
