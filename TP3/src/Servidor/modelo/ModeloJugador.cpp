@@ -270,6 +270,7 @@ void ModeloJugador::enviarMensaje(ModeloJugador* remitente, string mensaje) {
 }
 
 bool ModeloJugador::estaEnRangoVision(ModeloJugador* enemigo) {
+	this->_enemigo = enemigo;
 	Posicion posicionEnemigo = this->_enemigo->modeloEntidad()->posicion();
 	Posicion posicionJugador = this->_modeloEntidad->posicion();
 
