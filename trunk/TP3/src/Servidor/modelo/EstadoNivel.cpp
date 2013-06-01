@@ -77,11 +77,14 @@ bool EstadoNivel::getTieneMapa(){
 }
 
 char EstadoNivel::visibilidad(int x, int y) {
+	if ((x < 0) || (y < 0) || (x > this->_ancho - 1) || (y > this->_alto - 1))
+		return NO_CONOCIDO;
+
 	if (this->tieneMapa) {
-	 if ( (this->_nivel[(this->_ancho * y) + x]) == NO_CONOCIDO )
-		 return CONOCIDO_NO_VISIBLE;
-	 else
-		 return this->_nivel[(this->_ancho * y) + x];
+		if ( (this->_nivel[(this->_ancho * y) + x]) == NO_CONOCIDO )
+			return CONOCIDO_NO_VISIBLE;
+		else
+			return this->_nivel[(this->_ancho * y) + x];
 	}
 	else
 		return this->_nivel[(this->_ancho * y) + x];
