@@ -34,6 +34,9 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 
 	// Creo las entidades del nivel, las que no son los jugadores
 	this->crearEntidades(modeloNivel,pSocket);
+	
+	// Creo los enemigos automáticos
+	this->crearEnemigosAutomaticos(modeloNivel,pSocket);
 
 	// Agrego el ProxyControladorEvento
 	ProxyControladorEvento* pProxyEvento = new ProxyControladorEvento();
@@ -79,6 +82,9 @@ bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* 
 	// Envío el escenario creado, junto con los ID's de cada entidad del escenario para que se puedan setear en el cliente
 	if( this->enviarEscenario(pSocket,id) == false ) return false;
 
+	// Envío los enemigos automático para que se puedan setear en el cliente
+	if( this->enviarEnemigosAutomaticos(pModeloNivel,pSocket,id) == false ) return false;
+
 	// Elijo junto al cliente el protagonista que va a usar, envio los datos para la creación en el Cliente y lo creo en el Modelo
 	if( this->enviarProtagonista(pModeloNivel,pSocket,id) == false ) return false;
 	
@@ -109,6 +115,34 @@ bool ModeloFactory::enviarEscenario(SocketServidor* pSocket, int id){
 
 	// Envio el nombre y la lista de ID's serializados en una cadena de chars
 	return pSocket->enviarIndividual(s,id); 
+}
+
+bool ModeloFactory::enviarEnemigosAutomaticos(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
+
+	std::list<ModeloJugador*> listaEnemigos = modeloNivel->getEnemigos();
+	int cantidadEnemigos = listaEnemigos.size();
+	ProxyModeloEntidad proxy;
+	proxy.setSocketServidor(pSocket);
+	ProxyModeloEntidad::stEntidad entidad;
+
+	// Envío la cantidad de enemigos que voy a transferir
+	Serializadora s;
+	s.addInt(cantidadEnemigos);
+ 
+	if( pSocket->enviarIndividual(s,id) == false ) return false;
+
+	// Envío los datos de los enemigos, a través de un proxy
+	for (std::list<ModeloJugador*>::iterator it=listaEnemigos.begin() ; it != listaEnemigos.end(); it++ ){ 
+		ModeloJugador* pEntidad = (*it);
+		// Cargo los datos y los envio a través del proxy
+		entidad = pEntidad->stEntidad();
+		if( proxy.enviarEntidadIndividual(entidad,id) == false ) return false;
+	}
+
+	return true; 
+
+
+
 }
 
 // Selecciona y envia los datos del protagonista elegido. Además crea la EntidadModelo correspondiente y la setea en el ModeloNivel. Método usado por el hilo de configuración
@@ -264,7 +298,6 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 		ModeloJugador* pEntidad = (*it);
 		if( pEntidad->modeloEntidad()->id() != idMiJugador ){
 			// Cargo los datos
-			int accion = 0;
 			entidad = pEntidad->stEntidad();
 			
 			// Los envio a través del proxy
@@ -280,9 +313,8 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 
 	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
 	ParserYaml::stEntidad entidadJugador = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,nombreJugador);
-	ParserYaml::stProtagonista protagonista = ParserYaml::getInstance().buscarStProtagonista(juego.escenario,nombreJugador);
 
-	// Nuevos atributos
+	// >>> Nuevos atributos <<<
 	//protagonista.danio;
 	//protagonista.mana;
 	//protagonista.velocidad;
@@ -297,22 +329,8 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	int altoEscenario = juego.escenario.tamanioY;
 	int velocidad = juego.configuracion.velocidadPersonaje;
 
-	// Para que empiece en una posicion aleatoria sin conflictos
-	srand(time(NULL));
-	int min = 2;
-	int maxY = juego.escenario.tamanioY - 2 - 1;
-	int maxX = juego.escenario.tamanioX - 2 - 1;
-	int outputX = min + (rand() % (int)(maxX - min + 1));		
-	int outputY = min + (rand() % (int)(maxY - min + 1));
-	Posicion pos;
-	pos.x = outputX;
-	pos.y = outputY;
-	while (modeloNivel->posicionOcupada(pos)) {		
-		outputX = min + (rand() % (int)(maxX - min + 1));	
-		outputY = min + (rand() % (int)(maxY - min + 1));		
-		pos.x = outputX;
-		pos.y = outputY;		
-	}	
+	// Genero una posición libre, generada al azar
+	Posicion pos = this->generarPosicionAlAzar(modeloNivel,juego);
 
 	// Creo el proxy para esta entidad jugador
 	ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
@@ -375,6 +393,54 @@ void ModeloFactory::crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSoc
 	return void();
 }
 
+// Recorro todos los enemigos existentes en este escenario, los creo y los agrego al nivel
+void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel,SocketServidor* pSocket){
+
+	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
+	std::list<ParserYaml::stEnemigo> enemigos = juego.escenario.enemigos;
+
+	for (std::list<ParserYaml::stEnemigo>::iterator it=enemigos.begin() ; it != enemigos.end(); it++ ){	
+	
+		// Busco la entidad correspondiente al enemigo
+		ParserYaml::stEnemigo enemigoDefinido = (*it);
+		ParserYaml::stEntidad entidadEnemigo = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,enemigoDefinido.entidad);
+
+		// Valores tomados desde la entidadEnemigo
+		int alto = entidadEnemigo.altoBase;
+		int ancho = entidadEnemigo.anchoBase;
+		int fps = entidadEnemigo.fps;
+		std::string nombreEntidad = entidadEnemigo.nombre;
+
+		// Valores tomados desde el enemigoDefinido
+		int velocidad = enemigoDefinido.velocidad;
+
+		// Genero una posición libre, generada al azar
+		Posicion pos = this->generarPosicionAlAzar(&modeloNivel,juego);
+
+		// Valores tomados desde el escenario elegido
+		int anchoEscenario = juego.escenario.tamanioX;
+		int altoEscenario = juego.escenario.tamanioY;
+
+		// Genero un Id para este enemigo
+		int nuevoID = Ticket::getInstance().pedirNumero();
+
+		// Genero un mote a partir de su ID
+		std::string moteEnemigo(STRING_ENEMIGO_AUTOMATICO);
+		std::stringstream ss;
+		ss << nuevoID;
+		moteEnemigo.append(ss.str());
+
+		// Creo el proxy para este enemigo
+		ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
+		pProxyEntidad->setSocketServidor(pSocket);
+
+		// Creo el enemigo (es un ModeloJugador) y lo agrego al nivel
+		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,moteEnemigo); 
+		modeloNivel.agregarEnemigo(pEnemigo);
+	}
+
+	return void();
+}
 
 // Envia al cliente todos los archivos necesarios para el funcionamiento del juego
 bool ModeloFactory::enviarArchivosDeConfiguracion(SocketServidor* pServidor,int idSocketCliente){
@@ -434,4 +500,24 @@ ModeloFactory::stModeloJuegoElegido ModeloFactory::getCopiaJuegoElegido(void){
 	juego = this->juegoElegido;
 	this->mutexJuegoElegido.unlock(__FILE__,__LINE__);
 	return juego;
+}
+
+// Para que empiece en una posicion aleatoria sin conflictos
+Posicion ModeloFactory::generarPosicionAlAzar(ModeloNivel* modeloNivel,ModeloFactory::stModeloJuegoElegido& juegoElegido){
+	srand(time(NULL));
+	int min = 2;
+	int maxY = juegoElegido.escenario.tamanioY - 2 - 1;
+	int maxX = juegoElegido.escenario.tamanioX - 2 - 1;
+	int outputX = min + (rand() % (int)(maxX - min + 1));		
+	int outputY = min + (rand() % (int)(maxY - min + 1));
+	Posicion pos;
+	pos.x = outputX;
+	pos.y = outputY;
+	while (modeloNivel->posicionOcupada(pos)) {		
+		outputX = min + (rand() % (int)(maxX - min + 1));	
+		outputY = min + (rand() % (int)(maxY - min + 1));		
+		pos.x = outputX;
+		pos.y = outputY;		
+	}	
+	return pos;
 }

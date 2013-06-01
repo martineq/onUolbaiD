@@ -30,7 +30,6 @@
 #define SDL_RUTA_FONDO "./img/nivel.bmp"
 #define SDL_IMAGEN_DEFAULT "./img/default.png"
 #define SDL_RUTA_UTIL "img/tile.png"
-#define BIKINI "./img/bikini.bmp"
 
 /************************* DIRECCIONES ***********************/
 #define ACCION_NORTE "NORTE"
@@ -41,7 +40,6 @@
 #define ACCION_NORESTE "NORESTE"
 #define ACCION_SUDESTE "SUDESTE"
 #define ACCION_SUDOESTE "SUDOESTE"
-//#define vector<string> vector
 
 /************************* ACCIONES ***********************/
 #define ACCION_CAMINAR "THEWALKINGDEAD"
@@ -132,6 +130,7 @@
 #define PERIODO_CICLO_CLIENTE 50
 #define CANTIDAD_MINIMA_JUGADORES_SINGLE_PLAYER 1
 #define CANTIDAD_MINIMA_JUGADORES_MULTI_PLAYER 2
+#define STRING_ENEMIGO_AUTOMATICO "Enemigo_Automatico_"
 
 // En ModeloMovimiento
 #define DURACION_CALCULO_CAMINO_MINIMO 1000

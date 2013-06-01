@@ -373,13 +373,6 @@ escenarios:
           mana: 90
           daño: 5
           velocidad: 200
-        - entidad: knight
-          x: 3
-          y: 0
-          vida: 70
-          mana: 20
-          daño: 15
-          velocidad: 260
         - entidad: bjorn
           x: 3
           y: 0
@@ -389,8 +382,38 @@ escenarios:
           velocidad: 250
       enemigos:
         - entidad: knight
+          x: 8
+          y: 8
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: knight
           x: 9
           y: 9
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: knight
+          x: 10
+          y: 10
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: knight
+          x: 11
+          y: 11
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: knight
+          x: 12
+          y: 12
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: knight
+          x: 13
+          y: 13
           vida: 25
           daño: 3
           velocidad: 280

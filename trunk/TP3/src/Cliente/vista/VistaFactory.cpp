@@ -33,6 +33,7 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 
 	// Recibo datos desde el Servidor
 	if( this->recibirEscenario(juegoYaml.escenarios,pSocket) == false ) return false;
+	if( this->recibirEnemigosAutomaticos(pSocket) == false ) return false;
 	if( this->recibirProtagonista(pSocket,mote,personaje) == false ) return false;
 	if( this->recibirOtrosJugadores(pSocket) == false ) return false;	
 	if( this->esperarComienzoDeJuego(pSocket,singlePlayer) == false ) return false;	
@@ -147,6 +148,26 @@ void VistaFactory::asignarEscenarioElegido(std::string nombreEscenario,std::list
 	return void();
 }
 
+bool VistaFactory::recibirEnemigosAutomaticos(SocketCliente* pSocket){
+
+	Serializadora s;
+	if( pSocket->recibir(s) == false ) return false;
+
+	// Hidrato la cantidad de enemigos que me van a mandar
+	int cantidadOtrosJugadores = s.getInt();
+
+	// Recibo los datos de los enemigos, a través de un proxy
+	ProxyModeloEntidad proxy;
+	proxy.setSocketCliente(pSocket);
+	ProxyModeloEntidad::stEntidad entidad;
+	for ( unsigned int i=0 ; i<cantidadOtrosJugadores ; i++ ){ 
+		if( proxy.recibirEntidadIndividual(entidad) == false ) return false;
+		this->juegoElegido.listaEnemigosAutomaticos.push_back(entidad);
+	}
+
+	return true; 
+}
+
 // Recibe los datos del protagonista elegido y los setea, pero no lo crea (se hace luego, en crearNivel() )
 bool VistaFactory::recibirProtagonista(SocketCliente* pSocket,std::string nombreUsuario,std::string nombrePersonaje){
 
@@ -219,6 +240,7 @@ bool VistaFactory::crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vi
 	// Creo al protagonista y a las entidades (no creo a otros jugadores)
 	this->crearJugadorConScroll(vistaNivel,pPantallaSDL);
 	this->crearOtrosJugadores(vistaNivel);
+	this->crearEnemigosAutomaticos(vistaNivel);
 	this->crearEntidadesNoJugadores(vistaNivel);
 
 	return true;
@@ -294,8 +316,22 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,entidad.rangoVision,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,entidad.estaCongelado,entidad.accion,entidad.nombreJugador);
+	bool esJugador = true;
+
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,entidad.rangoVision,fps,delay,listaAnimaciones,esJugador,tamanioX,tamanioY,id,nombre,entidad.estaCongelado,entidad.accion,entidad.nombreJugador);
 	vistaNivel.agregarOtroJugador(pJugador);
+	return void();
+}
+
+void VistaFactory::crearEnemigosAutomaticos(VistaNivel& vistaNivel){
+	
+	std::list<ProxyModeloEntidad::stEntidad> listaEnemigos = this->juegoElegido.listaEnemigosAutomaticos;
+
+	for (std::list<ProxyModeloEntidad::stEntidad>::iterator it=listaEnemigos.begin() ; it != listaEnemigos.end(); it++ ){
+		ProxyModeloEntidad::stEntidad entidad = (*it);
+		this->crearJugadorSinScroll(vistaNivel,entidad);
+	}
+
 	return void();
 }
 
@@ -328,7 +364,7 @@ void VistaFactory::crearEntidadesNoJugadores(VistaNivel& vistaNivel){
 		double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 		double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
-		// Valores tomados desde el servidor, cargados posteriormente en una variable
+		// Valores tomados desde el servidor, cargados anteriormente en una variable
 		int id = idEntidadesDef.front();
 
 		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id,nombre,false,0,this->juegoElegido.entidadJugador.nombreJugador);
