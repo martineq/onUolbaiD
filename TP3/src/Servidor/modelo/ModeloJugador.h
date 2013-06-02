@@ -17,6 +17,8 @@ typedef enum Accion { CAMINANDO, ATACANDO };
 
 class ModeloJugador {
 	private:
+		int _altoNivel;
+		int _anchoNivel;
 		Accion _accion;
 		bool _autonomo;
 		int _escudo;
@@ -30,6 +32,7 @@ class ModeloJugador {
 		bool _ingresoAlJuego;
 		DWORD _instanteUltimoCambioEstado;
 		
+		ListaEntidades* _listaEntidades;
 		ModeloEntidad* _modeloEntidad;
 		EstadoNivel* _estadoNivel;
 		ModeloJugador* _enemigo;
@@ -40,7 +43,11 @@ class ModeloJugador {
 
 		void atacarEnemigo();
 
+		void matar();
+
 		void recogerItem();
+
+		void revivir();
 
 		ModeloJugador(const ModeloJugador &modeloJugador);
 

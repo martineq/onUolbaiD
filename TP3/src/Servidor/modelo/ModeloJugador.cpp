@@ -45,6 +45,15 @@ void ModeloJugador::atacarEnemigo() {
 	this->_instanteUltimoCambioEstado = GetTickCount();
 }
 
+void ModeloJugador::matar() {
+	this->_vida = 0;
+	this->_estaCongelado = false;
+	this->_enemigo = NULL;
+	this->_item = NULL;
+	this->_estadoNivel->rangoVision(RANGO_VISION);
+	this->_modeloMovimiento->detener();
+}
+
 void ModeloJugador::recogerItem() {
 	Posicion posicionItem = this->_item->modeloEntidad()->posicion();
 	Posicion posicionJugador = this->_modeloEntidad->posicion();
@@ -62,6 +71,23 @@ void ModeloJugador::recogerItem() {
 	this->_item = NULL;
 }
 
+void ModeloJugador::revivir() {
+	if (this->_vida > 0)
+		return;
+	this->_escudo = 0;
+	this->_magia = MAXIMO_MAGIA;
+	this->_vida = MAXIMO_VIDA;
+
+	// Calculo la posicion donde puede revivir el personaje
+	Posicion posicion = this->_posicionInicial;
+	while (this->_listaEntidades->posicionOcupada(posicion)) {
+		posicion.x = rand() % this->_anchoNivel;
+		posicion.y = rand() % this->_altoNivel;
+	}
+	this->_modeloEntidad->posicion(posicion);
+	this->_modeloEntidad->pixel(posicion);
+}
+
 ModeloJugador::ModeloJugador(const ModeloJugador &modeloJugador) {
 }
 
@@ -70,6 +96,8 @@ ModeloJugador& ModeloJugador::operator=(const ModeloJugador &modeloJugador) {
 }
 
 ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador) {
+	this->_altoNivel = altoNivel;
+	this->_anchoNivel = anchoNivel;
 	this->_accion = CAMINANDO;
 	this->_autonomo = false;
 	this->_escudo = 0;
@@ -202,6 +230,7 @@ int ModeloJugador::vida() {
 }
 
 void ModeloJugador::asignarListaEntidades(ListaEntidades* listaEntidades) {
+	this->_listaEntidades = listaEntidades;
 	this->_modeloMovimiento->asignarListaEntidades(listaEntidades);
 }
 
@@ -256,24 +285,16 @@ void ModeloJugador::consumirVida(int vida) {
 			this->_vida = 0;
 		this->_escudo = 0;
 	}
+	this->enviarEstado();
 
-	//TODO: Falta chequear si la posicion esta ocupada
 	//TODO: Falta hacer que dropee items
-	// Si el personaje esta muerto y no es autonomo lo devuelvo a su posicion original
-	if (this->_vida == 0) {
-		this->_escudo = 0;
-		this->_magia = MAXIMO_MAGIA;
-		if (!this->_autonomo)
-			this->_vida = MAXIMO_VIDA;
-		this->_estaCongelado = false;
-		this->_enemigo = NULL;
-		this->_item = NULL;
-		//this->_tieneMapa = false; no pierde el mapa una vez aplicado
-		this->_estadoNivel->rangoVision(RANGO_VISION);
-		this->_modeloEntidad->posicion(this->_posicionInicial);
-		this->_modeloEntidad->pixel(this->_pixelInicial);
-		this->_estadoNivel->rangoVision(RANGO_VISION);
-		this->_modeloMovimiento->detener();
+	// Si el personaje no tiene mas vida lo mato
+	if (this->_vida == 0)
+		this->matar();
+
+	// Si la entidad no es autonoma la revivo
+	if (!this->_autonomo) {
+		this->revivir();
 		this->enviarEstado();
 	}
 }
