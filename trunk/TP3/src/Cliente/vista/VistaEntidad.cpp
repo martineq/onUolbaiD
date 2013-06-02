@@ -105,7 +105,7 @@ void VistaEntidad::setPosicionAnteriorEnTiles(){
 void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 
 	// @Dani: Con esta nueva variable chequeas si disminuyó la energia. 
-	bool sufrioDaño = ( this->vida > entidad.vida );
+	bool sufrioDanio = ( this->vida > entidad.vida );
 
 	// Actualizo los datos
 	this->setPosicionAnteriorEnTiles();
