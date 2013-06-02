@@ -17,7 +17,7 @@ bool ModeloMovimiento::agregarTile(char* mapaTilesCerrados, list<Tile>* tilesAbi
 		return false;
 
 	// Si la posicion esta ocupada no la agrego
-	if (this->detectarColision(posicion) != NULL)
+	if (this->_listaEntidades->detectarColision(this->_modeloEntidad, posicion) != NULL)
 		return false;
 
 	// Si encuentro el tile en los abiertos le cambio el padre
@@ -36,7 +36,7 @@ bool ModeloMovimiento::agregarTile(char* mapaTilesCerrados, list<Tile>* tilesAbi
 
 Posicion ModeloMovimiento::calcularPosicionDestino(Posicion posicionDestino) {
 	// Obtengo la entidad en la posicion destino
-	ModeloEntidad* modeloEntidad = this->detectarColision(posicionDestino);
+	ModeloEntidad* modeloEntidad = this->_listaEntidades->detectarColision(this->_modeloEntidad, posicionDestino);
 
 	// Si no choca con nada devuelvo la misma posicion
 	if (modeloEntidad == NULL)
@@ -65,37 +65,13 @@ Posicion ModeloMovimiento::calcularPosicionDestino(Posicion posicionDestino) {
 	return posicionDestino;
 }
 
-ModeloEntidad* ModeloMovimiento::detectarColision(Posicion posicion) {
-	this->_mutexEntidadesMoviles->lockLectura(__FILE__, __LINE__);
-	list<ModeloEntidad*>* listaJugadores = this->_entidadesMoviles;
-	this->_mutexEntidadesMoviles->unlock(__FILE__, __LINE__);
-
-	// Detecto colision con jugadores
-	if (listaJugadores != NULL) {
-		list<ModeloEntidad*>::iterator iterador = listaJugadores->begin();
-
-		while (iterador != listaJugadores->end()) {
-			if (((*iterador) != this->_modeloEntidad) && (*iterador)->ocupaPosicion(posicion))
-				return *iterador;
-			iterador++;
-		}
-	}
-
-	this->_mutexEntidades->lockLectura(__FILE__, __LINE__);
-	multimap<std::pair<int, int>, ModeloEntidad*>::iterator entidad = this->_entidades->find(make_pair(posicion.x, posicion.y));
-	multimap<std::pair<int, int>, ModeloEntidad*>::iterator fin = this->_entidades->end();
-	this->_mutexEntidades->unlock(__FILE__, __LINE__);
-	
-	return (entidad == fin) ? NULL : (*entidad).second;
-}
-
 int ModeloMovimiento::obtenerAlto(int y, ModeloEntidad* modeloEntidad) {
 	int alto = modeloEntidad->posicion().y - y;
 	while (modeloEntidad != NULL) {
 		alto += modeloEntidad->alto();
 		Posicion posicion = modeloEntidad->posicion();
 		posicion.y += modeloEntidad->alto();
-		modeloEntidad = this->detectarColision(posicion);
+		modeloEntidad = this->_listaEntidades->detectarColision(this->_modeloEntidad, posicion);
 	}
 	return alto;
 }
@@ -106,7 +82,7 @@ int ModeloMovimiento::obtenerAncho(int x, ModeloEntidad* modeloEntidad) {
 		ancho += modeloEntidad->alto();
 		Posicion posicion = modeloEntidad->posicion();
 		posicion.x += modeloEntidad->ancho();
-		modeloEntidad = this->detectarColision(posicion);
+		modeloEntidad = this->_listaEntidades->detectarColision(this->_modeloEntidad, posicion);
 	}
 	return ancho;
 }
@@ -122,7 +98,7 @@ int ModeloMovimiento::obtenerX(ModeloEntidad* modeloEntidad) {
 	while (modeloEntidad != NULL) {
 		Posicion posicion = modeloEntidad->posicion();
 		x = posicion.x--;
-		modeloEntidad = this->detectarColision(posicion);
+		modeloEntidad = this->_listaEntidades->detectarColision(this->_modeloEntidad, posicion);
 	}
 	return x;
 }
@@ -132,7 +108,7 @@ int ModeloMovimiento::obtenerY(ModeloEntidad* modeloEntidad) {
 	while (modeloEntidad != NULL) {
 		Posicion posicion = modeloEntidad->posicion();
 		y = posicion.y--;
-		modeloEntidad = this->detectarColision(posicion);
+		modeloEntidad = this->_listaEntidades->detectarColision(this->_modeloEntidad, posicion);
 	}
 	return y;
 }
@@ -148,8 +124,7 @@ ModeloMovimiento::ModeloMovimiento(int altoNivel, int anchoNivel, ModeloEntidad*
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_modeloEntidad = modeloEntidad;
-	this->_entidadesMoviles = NULL;
-	this->_entidades = NULL;
+	this->_listaEntidades = NULL;
 	this->_instanteUltimoCambioEstado = 0;
 }
 
@@ -274,14 +249,8 @@ void ModeloMovimiento::actualizar(Posicion posicionDestino) {
 	delete[] mapaTilesCerrados;
 }
 
-void ModeloMovimiento::asignarEntidades(Mutex* mutexEntidades, multimap<pair<int, int>, ModeloEntidad*>* entidades) {
-	this->_mutexEntidades = mutexEntidades;
-	this->_entidades = entidades;
-}
-
-void ModeloMovimiento::asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, list<ModeloEntidad*>* entidadesMoviles) {
-	this->_mutexEntidadesMoviles = mutexEntidadesMoviles;
-	this->_entidadesMoviles = entidadesMoviles;
+void ModeloMovimiento::asignarListaEntidades(ListaEntidades* listaEntidades) {
+	this->_listaEntidades = listaEntidades;
 }
 
 void ModeloMovimiento::cambiarEstado() {
@@ -301,7 +270,7 @@ void ModeloMovimiento::cambiarEstado() {
 	this->_modeloEntidad->direccion(Posicion::obtenerDireccion(this->_modeloEntidad->posicion(), posicionSiguiente));
 	
 	// Si choque con algo en el camino recalculo
-	if (this->detectarColision(posicionSiguiente) != NULL) {
+	if (this->_listaEntidades->detectarColision(this->_modeloEntidad, posicionSiguiente) != NULL) {
 		// Si la ultima posicion es la que esta ocupada me dentego
 		if (this->_posiciones.empty()) {
 			this->detener();

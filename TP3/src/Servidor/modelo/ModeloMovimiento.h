@@ -11,16 +11,14 @@
 #include "Posicion.h"
 #include "Tile.h"
 #include "ModeloEntidad.h"
+#include "ListaEntidades.h"
 
 class ModeloMovimiento : public Observable {
 	private:
 		int _altoNivel;
 		int _anchoNivel;
 		ModeloEntidad* _modeloEntidad;
-		std::list<ModeloEntidad*>* _entidadesMoviles;
-		Mutex* _mutexEntidadesMoviles;
-		std::multimap<std::pair<int, int>, ModeloEntidad*>* _entidades;
-		Mutex* _mutexEntidades;
+		ListaEntidades* _listaEntidades;
 		std::list<Posicion> _posiciones;
 		Posicion _posicionSiguiente;
 		DWORD _instanteUltimoCambioEstado;
@@ -28,8 +26,6 @@ class ModeloMovimiento : public Observable {
 		bool agregarTile(char* mapaTilesCerrados, std::list<Tile>* tilesAbiertos, Posicion posicion, Posicion posicionDestino, Tile* padre, int distancia);
 
 		Posicion calcularPosicionDestino(Posicion posicionDestino);
-
-		ModeloEntidad* detectarColision(Posicion posicion);
 
 		int obtenerAlto(int y, ModeloEntidad* modeloEntidad);
 
@@ -54,9 +50,7 @@ class ModeloMovimiento : public Observable {
 
 		void actualizar(Posicion posicion);
 
-		void asignarEntidades(Mutex* mutexEntidades, std::multimap<std::pair<int, int>, ModeloEntidad*>* entidades);
-
-		void asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, std::list<ModeloEntidad*>* entidadesMoviles);
+		void asignarListaEntidades(ListaEntidades* listaEntidades);
 
 		void cambiarEstado();
 

@@ -4,6 +4,7 @@
 #include <list>
 #include "../../utils/Constantes/Constantes.h"
 #include "Posicion.h"
+#include "ListaEntidades.h"
 #include "ModeloEntidad.h"
 #include "ModeloItem.h"
 #include "EstadoNivel.h"
@@ -74,9 +75,7 @@ class ModeloJugador {
 
 		int vida();
 
-		void asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, std::list<ModeloEntidad*>* entidadesMoviles);
-
-		void asignarEntidades(Mutex* mutexEntidades, std::multimap<std::pair<int, int>, ModeloEntidad*>* entidades);
+		void asignarListaEntidades(ListaEntidades* listaEntidades);
 
 		void atacar(ModeloJugador* enemigo);
 
