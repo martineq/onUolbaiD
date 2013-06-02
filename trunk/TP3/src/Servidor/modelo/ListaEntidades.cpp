@@ -1,4 +1,4 @@
-#include "ListaEntidades.h"
+#include "ModeloEntidad.h"
 
 using namespace std;
 

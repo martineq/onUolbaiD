@@ -30,15 +30,12 @@ ModeloJugador* ModeloNivel::obtenerEnemigo(Posicion posicion) {
 }
 
 ModeloItem* ModeloNivel::obtenerItem(Posicion posicion) {
-	this->mutexItems.lockLectura(__FILE__, __LINE__);
-	multimap<std::pair<int, int>, ModeloItem*>::iterator item = this->items.find(make_pair(posicion.x, posicion.y));
-	multimap<std::pair<int, int>, ModeloItem*>::iterator fin = this->items.end();
-	this->mutexItems.unlock(__FILE__, __LINE__);
-	return (item == fin) ? NULL : (*item).second;
+	return this->listaItems.obtenerItem(posicion);
 }
 
 ModeloNivel::ModeloNivel() {
 	this->jugadoresConectados = 0;
+	this->listaItems.asignarListaEntidades(&this->listaEntidades);
 }
 
 ModeloNivel::~ModeloNivel() {
@@ -85,10 +82,7 @@ void ModeloNivel::agregarEnemigo(ModeloJugador* enemigo) {
 }
 
 void ModeloNivel::agregarItem(ModeloItem* item) {
-	this->mutexItems.lockEscritura(__FILE__, __LINE__);
-	this->items.insert(make_pair(make_pair(item->modeloEntidad()->posicion().x, item->modeloEntidad()->posicion().y), item));
-	this->mutexItems.unlock(__FILE__, __LINE__);
-	this->agregarEntidad(item->modeloEntidad());
+	this->listaItems.agregarItem(item);
 }
 
 void ModeloNivel::agregarEntidad(ModeloEntidad* entidad) {
@@ -201,14 +195,6 @@ void ModeloNivel::destruirListaEnemigos(){
 		delete (*enemigo);
 }
 
-void ModeloNivel::destruirListaItems() {	
-	// Destruyo todos los items instaciados
-	for (multimap<std::pair<int, int>, ModeloItem*>::iterator item = this->items.begin(); item != this->items.end(); item++) {
-		this->listaEntidades.removerEntidad((*item).second->modeloEntidad());
-		delete (*item).second;
-	}
-}
-
 int ModeloNivel::cantidadJugadores(void){
 	int cantidad;
 	this->mutexJugadoresConectados.lockLectura(__FILE__,__LINE__);
@@ -242,5 +228,4 @@ void ModeloNivel::iniciarNuevosJugadores(void){
 void ModeloNivel::destruirListas(){	
 	this->destruirListaJugadores();
 	this->destruirListaEnemigos();
-	this->destruirListaItems();
 }

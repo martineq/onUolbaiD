@@ -4,7 +4,10 @@
 #include <Windows.h>
 #include <WinSock.h>
 #include <iostream>
+#include <list>
+#include <vector>
 #include <map>
+#include <algorithm>
 
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/Hilos/Mutex.h"
@@ -89,4 +92,29 @@ class ModeloEntidad {
 		void setMasivo(void);
 
 		void notificarSoloAlJugador(void);
+};
+
+class ListaEntidades {
+	private:
+		std::multimap<std::pair<int, int>, ModeloEntidad*> _entidades;
+		Mutex _mutexEntidades;
+		std::list<ModeloEntidad*> _entidadesMoviles;
+		Mutex _mutexEntidadesMoviles;
+
+	public:
+		ListaEntidades();
+
+		virtual ~ListaEntidades();
+
+		void agregarEntidad(ModeloEntidad* entidad);
+
+		void agregarEntidadMovil(ModeloEntidad* entidadMovil);
+
+		ModeloEntidad* detectarColision(ModeloEntidad* entidad, Posicion posicion);
+
+		bool posicionOcupada(Posicion posicion);
+
+		void removerEntidad(ModeloEntidad* entidad);
+
+		void removerEntidadMovil(ModeloEntidad* entidadMovil);
 };

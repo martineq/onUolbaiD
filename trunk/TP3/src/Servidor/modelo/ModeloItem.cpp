@@ -34,3 +34,7 @@ ProxyModeloEntidad::stEntidad ModeloItem::stEntidad() {
 	ProxyModeloEntidad::stEntidad estado = this->_modeloEntidad->stEntidad();
 	return estado;
 }
+
+void ModeloItem::enviarEstado() {
+	this->_modeloEntidad->enviarEstado(this->stEntidad());
+}

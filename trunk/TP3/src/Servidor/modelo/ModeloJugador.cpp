@@ -236,6 +236,10 @@ void ModeloJugador::asignarListaEntidades(ListaEntidades* listaEntidades) {
 	this->_modeloMovimiento->asignarListaEntidades(listaEntidades);
 }
 
+void ModeloJugador::asignarListaItems(ListaItems* listaItems) {
+	this->_listaItems = listaItems;
+}
+
 void ModeloJugador::atacar(ModeloJugador* enemigo) {
 	if (this->_enemigo == enemigo)
 		return;

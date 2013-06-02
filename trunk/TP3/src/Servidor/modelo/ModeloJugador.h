@@ -2,9 +2,9 @@
 
 #include <stdlib.h>
 #include <list>
+
 #include "../../utils/Constantes/Constantes.h"
 #include "Posicion.h"
-#include "ListaEntidades.h"
 #include "ModeloEntidad.h"
 #include "ModeloItem.h"
 #include "EstadoNivel.h"
@@ -12,6 +12,7 @@
 #include "VistaMovimiento.h"
 
 class ModeloItem;
+class ListaItems;
 
 typedef enum Accion { CAMINANDO, ATACANDO };
 
@@ -33,6 +34,7 @@ class ModeloJugador {
 		DWORD _instanteUltimoCambioEstado;
 		
 		ListaEntidades* _listaEntidades;
+		ListaItems* _listaItems;
 		ModeloEntidad* _modeloEntidad;
 		EstadoNivel* _estadoNivel;
 		ModeloJugador* _enemigo;
@@ -83,6 +85,8 @@ class ModeloJugador {
 		int vida();
 
 		void asignarListaEntidades(ListaEntidades* listaEntidades);
+
+		void asignarListaItems(ListaItems* listaItems);
 
 		void atacar(ModeloJugador* enemigo);
 
