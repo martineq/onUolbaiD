@@ -80,12 +80,14 @@ void ModeloJugador::revivir() {
 
 	// Calculo la posicion donde puede revivir el personaje
 	Posicion posicion = this->_posicionInicial;
+	Posicion pixel;
 	while (this->_listaEntidades->posicionOcupada(posicion)) {
 		posicion.x = rand() % this->_anchoNivel;
 		posicion.y = rand() % this->_altoNivel;
 	}
 	this->_modeloEntidad->posicion(posicion);
-	this->_modeloEntidad->pixel(posicion);
+	Posicion::convertirTileAPixel(this->_altoNivel, posicion.x, posicion.y, pixel.x, pixel.y);
+	this->_modeloEntidad->pixel(pixel);
 }
 
 ModeloJugador::ModeloJugador(const ModeloJugador &modeloJugador) {
