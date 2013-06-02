@@ -52,7 +52,7 @@ class VistaFactory{
 
 		// Creación del Controlador
 		bool crearElementosControlador(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket);
-		void crearControladorScroll(ControladorEvento* evento);		
+		void crearControladorScroll(ControladorEvento* evento,VistaNivel& vistaNivel);		
 		void crearProxyControladorEvento(ControladorEvento* evento,SocketCliente* pSocket);
 		void vincularScroll(VistaNivel& vistaNivel,ControladorEvento* evento);		
 		std::string matriz;

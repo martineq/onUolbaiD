@@ -382,7 +382,7 @@ bool VistaFactory::crearElementosControlador(VistaNivel& vistaNivel,ControladorE
 	evento->setIdJugador(this->juegoElegido.entidadJugador.id);
 
 	// Creo el Scroll
-	this->crearControladorScroll(evento);
+	this->crearControladorScroll(evento,vistaNivel);
 	
 	// Creo el Proxy
 	this->crearProxyControladorEvento(evento,pSocket);
@@ -393,7 +393,7 @@ bool VistaFactory::crearElementosControlador(VistaNivel& vistaNivel,ControladorE
 	return true;
 }
 
-void VistaFactory::crearControladorScroll(ControladorEvento* evento){
+void VistaFactory::crearControladorScroll(ControladorEvento* evento,VistaNivel& vistaNivel){
 	
 	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
 	int x = this->juegoElegido.entidadJugador.posicionX;
@@ -405,6 +405,9 @@ void VistaFactory::crearControladorScroll(ControladorEvento* evento){
 
 	ControladorScroll* pScroll = new ControladorScroll(this->juegoElegido.pantalla.ancho,this->juegoElegido.pantalla.alto,anchoEscenario,altoEscenario,this->juegoElegido.configuracion.margenScroll,x,y);
 	evento->setControladorScroll(pScroll, this->juegoElegido.escenario.tamanioX, this->juegoElegido.escenario.tamanioY);
+
+	// Agrego una referencia al ControladorScroll, sólo para poder reiniciarlo
+	vistaNivel.setControladorScroll(pScroll);
 
 	return void();
 }

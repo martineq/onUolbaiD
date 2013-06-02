@@ -5,6 +5,7 @@
 #include <list>
 #include "./VistaScroll.h"
 #include "./VistaEntidad.h"
+#include "../Controlador/ControladorScroll.h"
 #include "../../utils/Constantes/Constantes.h"
 
 class VistaNivel{
@@ -12,6 +13,7 @@ class VistaNivel{
 	private:
 		VistaScroll* scroll;
 		VistaEntidad* jugador;
+		ControladorScroll* pControladorScroll;
 		std::list<VistaEntidad*> listaOtrosJugadores;
 		std::list<VistaEntidad*> listaEntidades;
 
@@ -48,6 +50,7 @@ class VistaNivel{
 		void agregarOtroJugador(VistaEntidad* pJugador);
 		void agregarEntidad(VistaEntidad* pEntidad);
 		void agregarScroll(VistaScroll* pScroll);
+		void setControladorScroll(ControladorScroll* pControladorScroll);
 		void agregarTamanioNivel(double,double);
 		void setAltoDePantallaEnPixel(int alto);
 		void setAnchoDePantallaEnPixel(int ancho);
@@ -56,4 +59,5 @@ class VistaNivel{
 
 		void ordenarJugadores();
 		void destruirEntidadesYScroll();
+		void reiniciarPosicionScroll();
 };
