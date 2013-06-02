@@ -2,6 +2,7 @@
 
 #include "./VistaNivel.h"
 #include "./ImageLoader.h"
+#include "./VistaMusica.h"
 #include "../../utils/yaml/ParserYaml.h"
 #include "../Controlador/ControladorEvento.h"
 #include "../../utils/Sockets/SocketCliente.h"

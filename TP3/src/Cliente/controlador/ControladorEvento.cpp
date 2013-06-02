@@ -40,13 +40,13 @@ void ControladorEvento::setClicMouseBotonDerecho(int clic){
 
 void ControladorEvento::setTeclaAApretada(bool apretada){
 	this->teclaAApretada = apretada;	
-	ImageLoader::getInstance().playTheMusic();
+	VistaMusica::getInstance().playTheMusic();
 	this->notificarAlProxy();
 }
 
 void ControladorEvento::setTeclaSApretada(bool apretada){
 	this->teclaSApretada = apretada;	
-	ImageLoader::getInstance().stopTheMusic();
+	VistaMusica::getInstance().stopTheMusic();
 	this->notificarAlProxy();
 }
 

@@ -4,6 +4,7 @@
 #include "VistaNivel.h"
 #include "VistaFactory.h"
 #include "ImageLoader.h"
+#include "VistaMusica.h"
 #include "../../utils/Proxy/ProxyModeloEntidad.h"
 #include "../../Servidor/modelo/EstadoNivel.h"
 
