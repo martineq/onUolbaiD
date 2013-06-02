@@ -201,12 +201,8 @@ int ModeloJugador::vida() {
 	return vida;
 }
 
-void ModeloJugador::asignarEntidadesMoviles(Mutex* mutexEntidadesMoviles, list<ModeloEntidad*>* entidadesMoviles) {
-	this->_modeloMovimiento->asignarEntidadesMoviles(mutexEntidadesMoviles, entidadesMoviles);
-}
-
-void ModeloJugador::asignarEntidades(Mutex* mutexEntidades, multimap<std::pair<int, int>, ModeloEntidad*>* entidades) {
-	this->_modeloMovimiento->asignarEntidades(mutexEntidades, entidades);
+void ModeloJugador::asignarListaEntidades(ListaEntidades* listaEntidades) {
+	this->_modeloMovimiento->asignarListaEntidades(listaEntidades);
 }
 
 void ModeloJugador::atacar(ModeloJugador* enemigo) {
