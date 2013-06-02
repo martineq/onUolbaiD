@@ -59,6 +59,10 @@ void VistaNivel::agregarScroll(VistaScroll* pScroll){
 	return void();
 }
 
+void VistaNivel::setControladorScroll(ControladorScroll* pControladorScroll){
+	this->pControladorScroll = pControladorScroll;
+}
+
 int VistaNivel::getAltoDePantallaEnPixel(void){
 	return this->altoDePantallaEnPixel;
 }
@@ -139,4 +143,9 @@ void VistaNivel::destruirEntidadesYScroll(){
 
 void VistaNivel::ordenarJugadores() {
 	this->listaOtrosJugadores.sort(VistaNivel::ordenadorEntidades);
+}
+
+void VistaNivel::reiniciarPosicionScroll() {
+	this->pControladorScroll->setPosicionInicial();
+	return void();
 }

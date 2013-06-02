@@ -10,6 +10,8 @@ class ControladorScroll : public Observable {
 		int pEscenarioAlto, pEscenarioAncho;
 		int margen;
 		int desplazamientoX, desplazamientoY;
+		double xInicial;
+		double yInicial;
 
 	public:
 		ControladorScroll(int pPantallaAncho, int pPantallaAlto, int tEscenarioAncho, int tEscenarioAlto, int tMargen, int personajeX, int personajeY);
@@ -24,4 +26,5 @@ class ControladorScroll : public Observable {
 		int getMargen();
 		
 		void cambiarEstado();
+		void setPosicionInicial();
 };

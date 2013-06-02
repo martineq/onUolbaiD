@@ -201,6 +201,10 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 	// Primero miro si la entidad que busco es el jugador de este cliente
 	if (jugador->id() == idBuscado) {
 		entidadEncontrada = jugador;
+
+		// Si además de ser mi jugador, se encuentra con vida == 0 muevo el scroll a su posición inicial.
+		if( entidad.vida == 0 ) vistaNivel.reiniciarPosicionScroll();
+
 	}
 	else { // Si no es el jugador de este cliente entonces busco en las otras entidades
 		for (std::list<VistaEntidad*>::iterator it=entidades.begin() ; it != entidades.end() ; it++ ){ // Busco en el vector por el ID

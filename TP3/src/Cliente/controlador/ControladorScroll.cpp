@@ -30,6 +30,9 @@ ControladorScroll::ControladorScroll(int pPantallaAncho, int pPantallaAlto, int 
 	if (this->y < 0) {
 		this->y =0;
 	}
+
+	this->xInicial = x;
+	this->yInicial = y;
 }
 
 ControladorScroll::~ControladorScroll(){
@@ -90,6 +93,36 @@ void ControladorScroll::cambiarEstado() {
 
 	this->x += this->desplazamientoX;
 	this->y += this->desplazamientoY;
+
+	if (this->x + this->pPantallaAncho > this->pEscenarioAncho)
+		this->x = this->pEscenarioAncho - this->pPantallaAncho;
+	if (this->x < 0)
+		this->x = 0;
+
+	if (this->y + this->pPantallaAlto > this->pEscenarioAlto)
+		this->y = this->pEscenarioAlto - this->pPantallaAlto;
+	if (this->y < 0)
+		this->y = 0;
+
+	Posicion tileFoco;
+	Posicion::convertirPixelATile(this->tEscenarioAlto, this->x + (this->pPantallaAncho / 2), this->y + (this->pPantallaAlto / 2), tileFoco.x, tileFoco.y);
+	
+	if ((tileFoco.x < 0) || (tileFoco.x >= this->tEscenarioAncho) || (tileFoco.y < 0) || (tileFoco.y >= this->tEscenarioAlto)) {
+		this->x = xAnterior;
+		this->y = yAnterior;
+	}
+
+	if ((this->x != xAnterior) || (this->y != yAnterior))
+		this->notificarObservadores();
+}
+
+void ControladorScroll::setPosicionInicial() {
+
+	int xAnterior = this->x, yAnterior = this->y;
+
+	// Cambio las posiciones actuales por las iniciales
+	this->x = this->xInicial;
+	this->y = this->yInicial;
 
 	if (this->x + this->pPantallaAncho > this->pEscenarioAncho)
 		this->x = this->pEscenarioAncho - this->pPantallaAncho;

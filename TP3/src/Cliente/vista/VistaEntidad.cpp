@@ -3,7 +3,7 @@
 VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador){
 	this->_id = id;
 	this->estaCongelado = estaCongelado;
-	this->estaVivo = true;
+	this->vida = 1;
 
 	int xAux, yAux;
 
@@ -104,6 +104,10 @@ void VistaEntidad::setPosicionAnteriorEnTiles(){
 // Este método será usado ahora por el ProxyModeloEntidad
 void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 
+	// @Dani: Con esta nueva variable chequeas si disminuyó la energia. 
+	bool sufrioDaño = ( this->vida > entidad.vida );
+
+	// Actualizo los datos
 	this->setPosicionAnteriorEnTiles();
 	this->x = entidad.pixelX;
 	this->y = entidad.pixelY;
@@ -114,7 +118,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->estaCongelado = entidad.estaCongelado;
 	this->nombreEntidad = entidad.nombreEntidad;
 	this->nombreJugador = entidad.nombreJugador;
-	this->estaVivo = (entidad.vida > 0);
+	this->vida = entidad.vida;
 
 	int codigo = entidad.accion;
 	if( (this->esJugador) && (codigo != this->codigoAnimacion)){
@@ -264,12 +268,8 @@ void VistaEntidad::setEstaCongelado(bool estado){
 	this->estaCongelado = estado;
 }
 
-void VistaEntidad::setEstaVivo(bool estado){
-	this->estaVivo = estado;
-}
-
 bool VistaEntidad::getEstaVivo(){
-	return this->estaVivo;
+	return (this->vida > 0);
 }
 
 bool VistaEntidad::getEstaCongelado(){
