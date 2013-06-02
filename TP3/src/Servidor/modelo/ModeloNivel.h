@@ -3,7 +3,6 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include "ListaEntidades.h"
 #include "ModeloEntidad.h"
 #include "ModeloJugador.h"
 #include "ModeloItem.h"
@@ -16,6 +15,7 @@ class ModeloNivel {
 		int anchoTiles;
 
 		ListaEntidades listaEntidades;
+		ListaItems listaItems;
 
 		std::list<ModeloJugador*> jugadores;
 		Mutex mutexJugadores;
@@ -23,15 +23,11 @@ class ModeloNivel {
 		std::list<ModeloJugador*> enemigos;
 		Mutex mutexEnemigos;
 
-		std::multimap<std::pair<int, int>, ModeloItem*> items;
-		Mutex mutexItems;
-
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
 
 		void destruirListaJugadores();
 		void destruirListaEnemigos();
-		void destruirListaItems();
 
 		void decrementarJugadores(void);
 

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+
+#include "../../utils/Hilos/Mutex.h"
 #include "ModeloEntidad.h"
 #include "ModeloJugador.h"
 
@@ -28,5 +31,63 @@ class ModeloItem {
 
 		ProxyModeloEntidad::stEntidad stEntidad();
 
+		void enviarEstado();
+
 		virtual void aplicar(ModeloJugador* jugador) = 0;
+};
+
+class ListaItems {
+private:
+	ListaEntidades* _listaEntidades;
+	std::multimap<std::pair<int, int>, ModeloItem*> _items;
+	Mutex _mutex;
+
+public:
+	ListaItems();
+
+	virtual ~ListaItems();
+
+	void agregarItem(ModeloItem* item);
+
+	void asignarListaEntidades(ListaEntidades* listaEntidades);
+
+	ModeloItem* obtenerItem(Posicion posicion);
+
+	void removerItem(ModeloItem* item);
+};
+
+class ModeloBotella : public ModeloItem {
+	public:
+		ModeloBotella(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloBotella();
+		
+		void aplicar(ModeloJugador* jugador);
+};
+
+class ModeloCorazon : public ModeloItem {
+	public:
+		ModeloCorazon(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloCorazon();
+		
+		void aplicar(ModeloJugador* jugador);
+};
+
+class ModeloEscudo : public ModeloItem {
+	public:
+		ModeloEscudo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloEscudo();
+		
+		void aplicar(ModeloJugador* jugador);
+};
+
+class ModeloZapato : public ModeloItem {
+	public:
+		ModeloZapato(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloZapato();
+		
+		void aplicar(ModeloJugador* jugador);
 };

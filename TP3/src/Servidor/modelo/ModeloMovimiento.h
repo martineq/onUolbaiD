@@ -11,7 +11,6 @@
 #include "Posicion.h"
 #include "Tile.h"
 #include "ModeloEntidad.h"
-#include "ListaEntidades.h"
 
 class ModeloMovimiento : public Observable {
 	private:
