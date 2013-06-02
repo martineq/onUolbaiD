@@ -2,7 +2,7 @@
 
 #include "../../utils/Proxy/ProxyControladorEvento.h"
 #include "./ControladorScroll.h"
-#include "../vista/ImageLoader.h"
+#include "../vista/VistaMusica.h"
 
 class ControladorEvento{
 

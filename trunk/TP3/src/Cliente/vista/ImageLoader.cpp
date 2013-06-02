@@ -1,13 +1,11 @@
 #include "ImageLoader.h"
 
 ImageLoader::ImageLoader() {
-	this->music = NULL;	
+
 }
 
 ImageLoader::ImageLoader(const ImageLoader&){
-	Mix_FreeMusic( music );
 }
-
 
 SDL_Surface *ImageLoader::load_image( std::string filename )
 {
@@ -111,11 +109,6 @@ bool ImageLoader::iniciarSDL(){
 	TTF_Init();
 	SDL_EnableUNICODE(SDL_ENABLE);
 
-	//inicia Mixer
-	Mix_Init( MIX_INIT_MP3 );
-    Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 );
-	music = Mix_LoadMUS( "./sounds/musica.wav" );
-
 	return ok;
 }
 
@@ -134,26 +127,6 @@ SDL_Surface* ImageLoader::levantarPantalla(double w, double h){
 
 void ImageLoader::refrescarPantalla(SDL_Surface* screen){
 	SDL_UpdateRect(screen, 0, 0, 0, 0);
-}
-
-void ImageLoader::playTheMusic(){
-	 if( !Mix_PlayingMusic() ) 
-		  Mix_PlayMusic( music, -1 );
-}
-
-void ImageLoader::stopTheMusic(){
-	if( Mix_PlayingMusic() ) 
-		Mix_HaltMusic();
-}
-
-void ImageLoader::pauseTheMusic(){
-	if( Mix_PlayingMusic() ) 
-		Mix_PauseMusic();                 
-}
-
-void ImageLoader::resumeTheMusic(){
-	if( Mix_PausedMusic() == 1 )            				
-		Mix_ResumeMusic();    
 }
 
 ImageLoader::~ImageLoader() {

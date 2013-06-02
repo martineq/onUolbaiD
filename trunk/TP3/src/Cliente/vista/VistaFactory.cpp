@@ -39,7 +39,8 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 	if( this->esperarComienzoDeJuego(pSocket,singlePlayer) == false ) return false;	
 	
 	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;
-	ImageLoader::getInstance().playTheMusic();
+	if( VistaMusica::getInstance().iniciar() == false ) return false;
+	VistaMusica::getInstance().playTheMusic();
 
 	SDL_Surface* pPantallaSDL = ImageLoader::getInstance().levantarPantalla(this->juegoElegido.pantalla.ancho,this->juegoElegido.pantalla.alto);
 

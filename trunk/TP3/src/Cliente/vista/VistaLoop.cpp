@@ -44,6 +44,10 @@ bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNiv
 	//Item Mapa
 	estadoNivel->setTieneMapa(vistaNivel.getJugador()->getTieneMapa());
 
+	//Sonido de atacando.
+	if ( vistaNivel.getJugador()->getCodigoAnimacion() >8 || vistaNivel.getJugador()->getCodigoAnimacion() < 17)
+		VistaMusica::getInstance().atacar();
+
 	if ( (vistaNivel.getJugador()->getTileXAnterior() != vistaNivel.getJugador()->getTileX())
 		|| (vistaNivel.getJugador()->getTileYAnterior() != vistaNivel.getJugador()->getTileY()) ) {
 			this->refrescarMatriz(vistaNivel,estadoNivel);
