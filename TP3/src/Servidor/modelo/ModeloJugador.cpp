@@ -28,12 +28,12 @@ void ModeloJugador::atacarEnemigo() {
 			if (DELAY_ATAQUE > (GetTickCount() - this->_instanteUltimoCambioEstado))
 				return;
 		}
-		
+
 		this->_modeloEntidad->direccion(Posicion::obtenerDireccion(posicionJugador, posicionEnemigo));
 		this->_accion = ATACANDO;
 		this->enviarEstado();
 		this->_accion = CAMINANDO;
-		this->_enemigo->consumirVida(rand() % (MAXIMO_DANIO + 1));
+		this->_enemigo->consumirVida(rand() % (this->danioAtaque() + 1));
 		this->_enemigo = NULL;
 		this->_instanteUltimoCambioEstado = GetTickCount();
 		return;
@@ -97,7 +97,7 @@ ModeloJugador& ModeloJugador::operator=(const ModeloJugador &modeloJugador) {
 	return *this;
 }
 
-ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador) {
+ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador, int vida, int magia, int ataque) {
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_accion = CAMINANDO;
@@ -105,13 +105,14 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_escudo = 0;
 	this->_tieneMapa = false;
 	this->_estaCongelado = false;
-	this->_magia = MAXIMO_MAGIA;
+	this->_magia = magia;
 	this->_nombreJugador = nombreJugador;
 	this->_posicionInicial = posicion;
-	this->_vida = MAXIMO_VIDA;
+	this->_vida = vida;
 	this->_ingresoAlJuego = false;
 	this->_instanteUltimoCambioEstado = 0;
-	
+	this->_danioAtaque = ataque;
+
 	this->_enemigo = NULL;
 	this->_item = NULL;
 	this->_modeloEntidad = new ModeloEntidad(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad);
@@ -372,4 +373,13 @@ void ModeloJugador::ingresarAlJuego(void) {
 
 EstadoNivel* ModeloJugador::getEstadoNivel(){
 	return this->_estadoNivel;
+}
+
+void ModeloJugador::danioAtaque(int danio){
+	this->_danioAtaque = danio;
+	return void();
+}
+
+int ModeloJugador::danioAtaque(void){
+	return this->_danioAtaque;
 }

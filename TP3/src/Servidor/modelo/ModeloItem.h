@@ -113,3 +113,12 @@ class ModeloZapato : public ModeloItem {
 		
 		void aplicar(ModeloJugador* jugador);
 };
+
+class ModeloEspada : public ModeloItem {
+	public:
+		ModeloEspada(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloEspada();
+		
+		void aplicar(ModeloJugador* jugador);
+};

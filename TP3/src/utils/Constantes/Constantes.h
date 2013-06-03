@@ -145,12 +145,14 @@
 #define STRING_BOTELLA "botella"
 #define STRING_LAMPARA "lampara"
 #define STRING_MAPA "mapa"
+#define STRING_ESPADA "espada"
 
 // En ModeloMovimiento
 #define DURACION_CALCULO_CAMINO_MINIMO 1000
 
 // En ModeloJugador
 #define RANGO_VISION 2
+#define MINIMO_DANIO 1
 #define MAXIMO_DANIO 20
 #define MAXIMO_ESCUDO 10
 #define MAXIMO_MAGIA 100
@@ -173,6 +175,9 @@
 
 // En ModeloEscudo
 #define ESCUDO_RECUPERADO MAXIMO_ESCUDO/2
+
+// En ModeloEspada
+#define DANIO_ESPADA 10
 
 
 /***************************** Fog *************************/
