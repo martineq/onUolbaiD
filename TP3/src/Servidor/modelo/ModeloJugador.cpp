@@ -215,12 +215,13 @@ ModeloEntidad* ModeloJugador::modeloEntidad() {
 
 ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
 	ProxyModeloEntidad::stEntidad estado = this->_modeloEntidad->stEntidad();
-	estado.esJugador = true;
 	estado.nombreJugador = this->_nombreJugador;
 	estado.escudo = this->_escudo;
 	estado.estaCongelado = this->_estaCongelado;
 	estado.magia = this->_magia;
+	estado.maximoVida = this->_maximoVida;
 	estado.vida = this->_vida;
+	estado.maximoVida = this->_maximoVida;
 	estado.rangoVision = this->_estadoNivel->rangoVision();
 	estado.tieneMapa = this->_tieneMapa;
 	estado.accion = (this->_accion * 8) + this->_modeloEntidad->direccion();	

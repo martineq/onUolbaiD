@@ -13,7 +13,6 @@ class ProxyModeloEntidad{
 			// ModeloEntidad
 			int id;
 			std::string nombreEntidad;
-			bool esJugador;
 			int posicionX;
 			int posicionY;
 			double pixelX;
@@ -41,7 +40,6 @@ class ProxyModeloEntidad{
 				
 				// ModeloEntidad
 				this->id = ID_FALSO;
-				this->esJugador = false;
 				this->posicionX = 0;
 				this->posicionY = 0;
 				this->pixelX = 0;
