@@ -339,12 +339,13 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 
 	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
 	ParserYaml::stEntidad entidadJugador = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,nombreJugador);
+	ParserYaml::stProtagonista protagonistaDefinido = ParserYaml::getInstance().buscarStProtagonista(juego.escenario,nombreJugador);
 
-	// >>> Nuevos atributos <<<
-	//protagonista.danio;
-	//protagonista.mana;
-	//protagonista.velocidad;
-	//protagonista.vida;
+	// Valores tomados desde el protagonistaDefinido
+	int velocidad = protagonistaDefinido.velocidad;
+	int danio = protagonistaDefinido.danio;
+	int mana = protagonistaDefinido.mana;
+	int vida = protagonistaDefinido.vida;
 
 	// Valores tomados desde la entidad
 	int alto = entidadJugador.altoBase;
@@ -353,7 +354,6 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	// Valores tomados desde el escenario
 	int anchoEscenario = juego.escenario.tamanioX;
 	int altoEscenario = juego.escenario.tamanioY;
-	int velocidad = juego.configuracion.velocidadPersonaje;
 
 	// Genero una posición libre, generada al azar
 	Posicion pos = this->generarPosicionAlAzar(modeloNivel,juego);
@@ -363,7 +363,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	pProxyEntidad->setSocketServidor(pSocket);
 
 	// Creo la entidad
-	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote); 
+	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote,vida,mana,danio); 
 	pJugador->autonomo(false);
 
 	// Obtengo los datos de la stEntidad para luego pasarsela al cliente
@@ -440,6 +440,9 @@ void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel,SocketServ
 
 		// Valores tomados desde el enemigoDefinido
 		int velocidad = enemigoDefinido.velocidad;
+		int danio = enemigoDefinido.danio;
+		int vida = enemigoDefinido.vida;
+		int mana = 0; // Por ahora los enemigos automáticos no tienen mana
 
 		// Genero una posición libre, generada al azar
 		Posicion pos = this->generarPosicionAlAzar(&modeloNivel,juego);
@@ -462,7 +465,7 @@ void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel,SocketServ
 		pProxyEntidad->setSocketServidor(pSocket);
 
 		// Creo el enemigo (es un ModeloJugador) y lo agrego al nivel
-		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,moteEnemigo);
+		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,moteEnemigo,vida,mana,danio);
 		pEnemigo->autonomo(true);
 		modeloNivel.agregarEnemigo(pEnemigo);
 	}
@@ -526,6 +529,7 @@ ModeloItem* ModeloFactory::instanciarItem(int alto, int ancho, int velocidad, Po
 	}else if ( nombreEntidad.compare(STRING_BOTELLA) == 0 ){ pItem = new ModeloBotella(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else if ( nombreEntidad.compare(STRING_LAMPARA) == 0 ){ pItem = new ModeloLampara(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else if ( nombreEntidad.compare(STRING_MAPA) == 0 ){ pItem = new ModeloMapa(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_ESPADA) == 0 ){ pItem = new ModeloEspada(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else{  pItem = NULL;}	
 
 	return pItem;

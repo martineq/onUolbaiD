@@ -32,6 +32,7 @@ class ModeloJugador {
 		int _vida;
 		bool _ingresoAlJuego;
 		DWORD _instanteUltimoCambioEstado;
+		int _danioAtaque;
 		
 		ListaEntidades* _listaEntidades;
 		ListaItems* _listaItems;
@@ -56,7 +57,7 @@ class ModeloJugador {
 		ModeloJugador& operator=(const ModeloJugador &modeloJugador);
 		
 	public:
-		ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador);
+		ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador, int vida, int magia, int ataque);
 
 		virtual ~ModeloJugador();
 
@@ -125,4 +126,8 @@ class ModeloJugador {
 		void setTieneMapa(bool);
 
 		EstadoNivel* getEstadoNivel();
+
+		void danioAtaque(int danio);
+
+		int danioAtaque(void);
 };
