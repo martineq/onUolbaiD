@@ -142,6 +142,9 @@
 #define STRING_CORAZON "corazon"
 #define STRING_ESCUDO "escudo"
 #define STRING_ZAPATO "zapato"
+#define STRING_BOTELLA "botella"
+#define STRING_LAMPARA "lampara"
+#define STRING_MAPA "mapa"
 
 // En ModeloMovimiento
 #define DURACION_CALCULO_CAMINO_MINIMO 1000
