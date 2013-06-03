@@ -6,15 +6,6 @@ ListaEntidades::ListaEntidades() {
 }
 
 ListaEntidades::~ListaEntidades() {
-	// Elimino todas las entidades distintas
-	vector<ModeloEntidad*> entidadesEliminadas;
-	for (multimap<std::pair<int, int>, ModeloEntidad*>::iterator entidad = this->_entidades.begin(); entidad != this->_entidades.end(); entidad++) {
-		std::vector<ModeloEntidad*>::iterator entidadEliminada = find(entidadesEliminadas.begin(), entidadesEliminadas.end(), (*entidad).second);
-		if (entidadEliminada == entidadesEliminadas.end()) {
-			entidadesEliminadas.push_back((*entidad).second);
-			delete (*entidad).second;
-		}
-	}
 }
 
 void ListaEntidades::agregarEntidad(ModeloEntidad* entidad) {
@@ -32,6 +23,18 @@ void ListaEntidades::agregarEntidadMovil(ModeloEntidad* entidadMovil) {
 	this->_mutexEntidadesMoviles.lockEscritura(__FILE__, __LINE__);
 	this->_entidadesMoviles.push_back(entidadMovil);	
 	this->_mutexEntidadesMoviles.unlock(__FILE__, __LINE__);
+}
+
+void ListaEntidades::destruirEntidades() {
+	// Elimino todas las entidades distintas
+	vector<ModeloEntidad*> entidadesEliminadas;
+	for (multimap<std::pair<int, int>, ModeloEntidad*>::iterator entidad = this->_entidades.begin(); entidad != this->_entidades.end(); entidad++) {
+		std::vector<ModeloEntidad*>::iterator entidadEliminada = find(entidadesEliminadas.begin(), entidadesEliminadas.end(), (*entidad).second);
+		if (entidadEliminada == entidadesEliminadas.end()) {
+			entidadesEliminadas.push_back((*entidad).second);
+			delete (*entidad).second;
+		}
+	}
 }
 
 ModeloEntidad* ListaEntidades::detectarColision(ModeloEntidad* entidad, Posicion posicion) {

@@ -39,7 +39,6 @@ ModeloNivel::ModeloNivel() {
 }
 
 ModeloNivel::~ModeloNivel() {
-	// Las listas de punteros ya son destruidos desde el Administrador
 }
 
 std::list<ModeloJugador*> ModeloNivel::getJugadores() {
@@ -56,6 +55,10 @@ std::list<ModeloJugador*> ModeloNivel::getEnemigos() {
 	return listaEnemigos;
 }
 
+multimap<pair<int, int>, ModeloItem*> ModeloNivel::getItems() {
+	return this->listaItems.obtenerItems();
+}
+
 int ModeloNivel::getAnchoTiles() {
 	return this->altoTiles;
 }
@@ -70,6 +73,7 @@ void ModeloNivel::agregarJugador(ModeloJugador* jugador) {
 	this->mutexJugadores.unlock(__FILE__, __LINE__);
 	this->listaEntidades.agregarEntidadMovil(jugador->modeloEntidad());
 	jugador->asignarListaEntidades(&this->listaEntidades);
+	jugador->asignarListaItems(&this->listaItems);
 	jugador->enviarEstado();
 }
 
@@ -79,6 +83,7 @@ void ModeloNivel::agregarEnemigo(ModeloJugador* enemigo) {
 	this->mutexEnemigos.unlock(__FILE__, __LINE__);
 	this->listaEntidades.agregarEntidadMovil(enemigo->modeloEntidad());
 	enemigo->asignarListaEntidades(&this->listaEntidades);
+	enemigo->asignarListaItems(&this->listaItems);
 }
 
 void ModeloNivel::agregarItem(ModeloItem* item) {
@@ -107,33 +112,35 @@ void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 	Posicion posicion;
 	Posicion::convertirPixelATile(this->getAltoTiles(), mouseX, mouseY, posicion.x, posicion.y);
 	
+	// Si hice clic en un enemigo valido
 	ModeloJugador* enemigo = this->obtenerJugador(posicion);
 	if (enemigo == NULL)
 		enemigo = this->obtenerEnemigo(posicion);
-	ModeloItem* item = this->obtenerItem(posicion);
-	
-	// Si hice clic en un enemigo valido
 	if ((enemigo != NULL) && (enemigo != jugador)) {
-		// Si el enemigo esta vivo lo ataco; sino, si es autonomo, lo quito de la lista de entidades moviles para que no se colisione mas con el
-		if (enemigo->vida() > 0)
+		// Si el enemigo esta vivo lo ataco y salgo
+		if (enemigo->vida() > 0) {
 			jugador->atacar(enemigo);
-		else if (enemigo->autonomo()) {
+			return;
+		}
+		
+		//Si no esta vivo y es autonomo lo quito de la lista de entidades moviles para que no se colisione mas con el
+		if (enemigo->autonomo())
 			this->listaEntidades.removerEntidadMovil(enemigo->modeloEntidad());
-			jugador->mover(posicion);
-		}
 	}
-	// Si hice click en un item
-	else if (item != NULL) {
-		// Si el item esta disponible lo recogo, sino lo quito de la lista de entidades para que no se colisione mas con el
-		if (item->disponible())
+	
+	// Si hice clic en un item valido
+	ModeloItem* item = this->obtenerItem(posicion);
+	if (item != NULL) {
+		// Si el item esta disponible lo recogo
+		if (item->disponible()) {
 			jugador->recogerItem(item);
-		else {
-			this->listaEntidades.removerEntidad(item->modeloEntidad());
-			jugador->mover(posicion);
+			return;
 		}
+		
+		// Si el item no esta disponible lo quito de la lista de entidades para que no se colisione mas con el
+		this->listaEntidades.removerEntidad(item->modeloEntidad());
 	}
-	else 
-		jugador->mover(posicion);
+	jugador->mover(posicion);
 }
 
 void ModeloNivel::congelarJugador(int id){
@@ -225,7 +232,9 @@ void ModeloNivel::iniciarNuevosJugadores(void){
 	return void();
 }
 
-void ModeloNivel::destruirListas(){	
+void ModeloNivel::destruirListas(){
 	this->destruirListaJugadores();
 	this->destruirListaEnemigos();
+	this->listaItems.destruirItems();
+	this->listaEntidades.destruirEntidades();
 }

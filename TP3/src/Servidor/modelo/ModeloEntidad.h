@@ -92,6 +92,9 @@ class ModeloEntidad {
 		void setMasivo(void);
 
 		void notificarSoloAlJugador(void);
+
+		//TODO: BORRAR!
+		ProxyModeloEntidad* proxyEntidad();
 };
 
 class ListaEntidades {
@@ -109,6 +112,8 @@ class ListaEntidades {
 		void agregarEntidad(ModeloEntidad* entidad);
 
 		void agregarEntidadMovil(ModeloEntidad* entidadMovil);
+
+		void destruirEntidades();
 
 		ModeloEntidad* detectarColision(ModeloEntidad* entidad, Posicion posicion);
 

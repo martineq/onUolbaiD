@@ -15,7 +15,8 @@ ModeloItem::ModeloItem(int alto, int ancho, int velocidad, Posicion posicion, in
 }
 
 ModeloItem::~ModeloItem() {
-	delete this->_modeloEntidad;
+	//TODO: Chequear perdida de memoria con esto comentado!
+	//delete this->_modeloEntidad;
 }
 
 bool ModeloItem::disponible() {

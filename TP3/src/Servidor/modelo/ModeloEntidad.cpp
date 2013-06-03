@@ -191,3 +191,7 @@ void ModeloEntidad::pixel(Posicion pixelSiguiente) {
 	this->_pixelSiguiente = pixelSiguiente;
 	this->_mutex.unlock(__FILE__, __LINE__);
 }
+
+ProxyModeloEntidad* ModeloEntidad::proxyEntidad() {
+	return this->_proxyEntidad;
+}

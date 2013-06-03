@@ -54,4 +54,3 @@ void ModeloJuego::iniciarNuevosJugadores(void){
 void ModeloJuego::destruirEntidades(){
 	this->_modeloNivel.destruirListas();
 }
-

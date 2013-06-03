@@ -52,6 +52,9 @@ void ModeloJugador::matar() {
 	this->_item = NULL;
 	this->_estadoNivel->rangoVision(RANGO_VISION);
 	this->_modeloMovimiento->detener();
+
+	//TODO: Ver como crear un proxy!
+	//this->_listaItems->agregarItem(new ModeloCorazon(1, 1, 0, this->modeloEntidad()->posicion(), this->_altoNivel, this->_anchoNivel, 0, this->modeloEntidad()->proxyEntidad(), Ticket::getInstance().pedirNumero(), "corazon"));
 }
 
 void ModeloJugador::recogerItem() {
