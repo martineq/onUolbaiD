@@ -25,6 +25,7 @@ bool ModeloItem::disponible() {
 
 void ModeloItem::disponible(bool disponible) {
 	this->_disponible = disponible;
+	this->enviarEstado();
 }
 
 ModeloEntidad* ModeloItem::modeloEntidad() {
