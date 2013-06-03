@@ -3,6 +3,7 @@
 #include "./ModeloNivel.h"
 #include "./ModeloEntidad.h"
 #include "./ModeloLoop.h"
+#include "./ModeloItem.h"
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/yaml/ParserYaml.h"
 #include "../../utils/Sockets/SocketServidor.h"
@@ -33,10 +34,12 @@ class ModeloFactory{
 		bool elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios);
 		void crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSocket);
 		void crearEnemigosAutomaticos(ModeloNivel& modeloNivel,SocketServidor* pSocket);
+		void crearItems(ModeloNivel& modeloNivel,SocketServidor* pSocket);
 
 		// Métodos usados por el HiloConfiguracion
 		bool enviarEscenario(SocketServidor* pSocket, int id);
 		bool enviarEnemigosAutomaticos(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
+		bool enviarItems(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
 		bool enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* pSocket, int& id);
 		bool enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador);
 		void crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::stEntidad& stEntidad,SocketServidor* pSocket,std::string nombreJugador,std::string mote, int id);
@@ -48,6 +51,7 @@ class ModeloFactory{
 
 		// Otros
 		Posicion generarPosicionAlAzar(ModeloNivel* modeloNivel,ModeloFactory::stModeloJuegoElegido& juegoElegido);
+		ModeloItem* instanciarItem(int alto, int ancho, int velocidad, Posicion pos, int altoEscenario, int anchoEscenario, int fps, ProxyModeloEntidad* pProxyEntidad, int nuevoID, std::string nombreEntidad);
 
 	public:
 		ModeloFactory(void);

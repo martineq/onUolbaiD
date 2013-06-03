@@ -21,6 +21,7 @@ class VistaFactory{
 			// Datos de otros jugadores que no son el mio
 			std::list<ProxyModeloEntidad::stEntidad> listaOtrosJugadores;		// Lo recibo desde el Servidor
 			std::list<ProxyModeloEntidad::stEntidad> listaEnemigosAutomaticos;	// Lo recibo desde el Servidor
+			std::list<ProxyModeloEntidad::stEntidad> listaItems;				// Lo recibo desde el Servidor
 			
 			// Entidades del escenario que no son jugadores
 			ParserYaml::stEscenario escenario;									// Lo recibo desde el Servidor
@@ -39,6 +40,7 @@ class VistaFactory{
 		bool recibirListaDeArchivos(const char* directorioElegido,SocketCliente* pSocket);
 		bool recibirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios,SocketCliente* pSocket);
 		bool recibirEnemigosAutomaticos(SocketCliente* pSocket);
+		bool recibirItems(SocketCliente* pSocket);
 		bool recibirProtagonista(SocketCliente* pSocket,std::string nombreUsuario,std::string nombrePersonaje);
 		bool recibirOtrosJugadores(SocketCliente* pSocket);
 		void asignarEscenarioElegido(std::string nombreEscenario,std::list<ParserYaml::stEscenario>& listaEscenarios);
@@ -49,6 +51,7 @@ class VistaFactory{
 		void crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pantalla);
 		void crearOtrosJugadores(VistaNivel& vistaNivel);
 		void crearEnemigosAutomaticos(VistaNivel& vistaNivel);
+		void crearItems(VistaNivel& vistaNivel);
 		void crearEntidadesNoJugadores(VistaNivel& vistaNivel);		
 
 		// Creación del Controlador
