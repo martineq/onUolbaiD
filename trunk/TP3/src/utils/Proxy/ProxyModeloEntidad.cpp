@@ -77,14 +77,13 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	// ModeloEntidad
 	s.addInt(entidad.id);
 	s.addString(entidad.nombreEntidad);
-	s.addBool(entidad.esJugador);
 	s.addInt(entidad.posicionX);
 	s.addInt(entidad.posicionY);
 	s.addDouble(entidad.pixelX);
 	s.addDouble(entidad.pixelY);
 	s.addBool(entidad.esUltimoMovimiento);
 
-	// ModeloJugador	
+	// ModeloJugador
 	s.addString(entidad.nombreJugador);
 	s.addInt(entidad.escudo);
 	s.addBool(entidad.estaCongelado);
@@ -104,14 +103,13 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	// ModeloEntidad
 	entidad.id = s.getInt();
 	entidad.nombreEntidad = s.getString();
-	entidad.esJugador = s.getBool();
 	entidad.posicionX = s.getInt();
 	entidad.posicionY = s.getInt();
 	entidad.pixelX = s.getDouble();
 	entidad.pixelY = s.getDouble();
 	entidad.esUltimoMovimiento = s.getBool();
 
-	// ModeloJugador	
+	// ModeloJugador
 	entidad.nombreJugador = s.getString();
 	entidad.escudo = s.getInt();
 	entidad.estaCongelado = s.getBool();

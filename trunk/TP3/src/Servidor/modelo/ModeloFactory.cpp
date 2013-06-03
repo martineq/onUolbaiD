@@ -455,17 +455,17 @@ void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel,SocketServ
 		int nuevoID = Ticket::getInstance().pedirNumero();
 
 		// Genero un mote a partir de su ID
-		std::string moteEnemigo(STRING_ENEMIGO_AUTOMATICO);
+		/*std::string moteEnemigo(STRING_ENEMIGO_AUTOMATICO);
 		std::stringstream ss;
 		ss << nuevoID;
-		moteEnemigo.append(ss.str());
+		moteEnemigo.append(ss.str());*/
 
 		// Creo el proxy para este enemigo
 		ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
 		pProxyEntidad->setSocketServidor(pSocket);
 
 		// Creo el enemigo (es un ModeloJugador) y lo agrego al nivel
-		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,moteEnemigo,vida,mana,danio);
+		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,"",vida,mana,danio);
 		pEnemigo->autonomo(true);
 		modeloNivel.agregarEnemigo(pEnemigo);
 	}
