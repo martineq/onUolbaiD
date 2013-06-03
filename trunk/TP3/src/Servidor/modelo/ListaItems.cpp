@@ -27,13 +27,15 @@ void ListaItems::destruirItems() {
 	}
 }
 
-//TODO: Arreglar esto para que si hay varios items en la posicion agarre el primero que encuentre diponible
 ModeloItem* ListaItems::obtenerItem(Posicion posicion) {
 	this->_mutex.lockLectura(__FILE__, __LINE__);
-	multimap<pair<int, int>, ModeloItem*>::iterator item = this->_items.find(make_pair(posicion.x, posicion.y));
-	multimap<pair<int, int>, ModeloItem*>::iterator fin = this->_items.end();
+	pair<multimap<pair<int, int>, ModeloItem*>::iterator, multimap<pair<int, int>, ModeloItem*>::iterator> resultado = this->_items.equal_range(make_pair(posicion.x, posicion.y));
 	this->_mutex.unlock(__FILE__, __LINE__);
-	return (item == fin) ? NULL : (*item).second;
+	for (multimap<pair<int, int>, ModeloItem*>::iterator item = resultado.first; item != resultado.second; item++) {
+		if ((*item).second->disponible())
+			return (*item).second;
+	}
+	return (resultado.first == resultado.second) ? NULL : (*resultado.first).second;
 }
 
 std::multimap<std::pair<int, int>, ModeloItem*> ListaItems::obtenerItems() {
