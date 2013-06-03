@@ -152,11 +152,7 @@
 
 // En ModeloJugador
 #define RANGO_VISION 2
-#define MINIMO_DANIO 1
-#define MAXIMO_DANIO 20
-#define MAXIMO_ESCUDO 10
-#define MAXIMO_MAGIA 100
-#define MAXIMO_VIDA 100
+#define MAXIMO_ESCUDO 100
 
 // En VistaChat
 #define MARGEN 20
@@ -174,7 +170,7 @@
 #define MAGIA_RECUPERADA 10
 
 // En ModeloEscudo
-#define ESCUDO_RECUPERADO MAXIMO_ESCUDO/2
+#define ESCUDO_RECUPERADO 10
 
 // En ModeloEspada
 #define DANIO_ESPADA 10

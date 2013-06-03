@@ -75,8 +75,8 @@ void ModeloJugador::revivir() {
 	if (this->_vida > 0)
 		return;
 	this->_escudo = 0;
-	this->_magia = MAXIMO_MAGIA;
-	this->_vida = MAXIMO_VIDA;
+	this->_magia = this->_maximoMagia;
+	this->_vida = this->_maximoVida;
 
 	// Calculo la posicion donde puede revivir el personaje
 	Posicion posicion = this->_posicionInicial;
@@ -97,7 +97,7 @@ ModeloJugador& ModeloJugador::operator=(const ModeloJugador &modeloJugador) {
 	return *this;
 }
 
-ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador, int vida, int magia, int ataque) {
+ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador, int maximoVida, int maximoMagia, int ataque) {
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_accion = CAMINANDO;
@@ -105,10 +105,12 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_escudo = 0;
 	this->_tieneMapa = false;
 	this->_estaCongelado = false;
-	this->_magia = magia;
+	this->_magia = maximoMagia;
+	this->_maximoMagia = maximoMagia;
 	this->_nombreJugador = nombreJugador;
 	this->_posicionInicial = posicion;
-	this->_vida = vida;
+	this->_vida = maximoVida;
+	this->_maximoVida = maximoVida;
 	this->_ingresoAlJuego = false;
 	this->_instanteUltimoCambioEstado = 0;
 	this->_danioAtaque = ataque;
@@ -349,14 +351,14 @@ void ModeloJugador::recuperarEscudo(int escudo) {
 
 void ModeloJugador::recuperarMagia(int magia) {
 	this->_magia += magia;
-	if (this->_magia > MAXIMO_MAGIA)
-		this->_magia = MAXIMO_MAGIA;
+	if (this->_magia > this->_maximoMagia)
+		this->_magia = this->_maximoMagia;
 }
 
 void ModeloJugador::recuperarVida(int vida) {
 	this->_vida += vida;
-	if (this->_vida > MAXIMO_VIDA)
-		this->_vida = MAXIMO_VIDA;
+	if (this->_vida > this->_maximoVida)
+		this->_vida = this->_maximoVida;
 }
 
 bool ModeloJugador::ingresoAlJuego(void) {

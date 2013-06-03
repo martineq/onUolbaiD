@@ -92,9 +92,6 @@ class ModeloEntidad {
 		void setMasivo(void);
 
 		void notificarSoloAlJugador(void);
-
-		//TODO: BORRAR!
-		ProxyModeloEntidad* proxyEntidad();
 };
 
 class ListaEntidades {
