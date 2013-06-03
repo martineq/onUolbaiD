@@ -509,6 +509,7 @@ void ModeloFactory::crearItems(ModeloNivel& modeloNivel,SocketServidor* pSocket)
 
 		// Creo el item y lo agrego al nivel
 		ModeloItem* pItem = this->instanciarItem(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+		if( pItem == NULL) return void(); // Si no es un nombre de item válido lo paso por alto
 		modeloNivel.agregarItem(pItem);
 	}
 
@@ -522,7 +523,10 @@ ModeloItem* ModeloFactory::instanciarItem(int alto, int ancho, int velocidad, Po
 	if ( nombreEntidad.compare(STRING_CORAZON) == 0 ){ pItem = new ModeloCorazon(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else if ( nombreEntidad.compare(STRING_ESCUDO) == 0 ){ pItem = new ModeloEscudo(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else if ( nombreEntidad.compare(STRING_ZAPATO) == 0 ){ pItem = new ModeloZapato(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
-	}else{  /* No Instancio nada */ ;}	
+	}else if ( nombreEntidad.compare(STRING_BOTELLA) == 0 ){ pItem = new ModeloBotella(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_LAMPARA) == 0 ){ pItem = new ModeloLampara(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_MAPA) == 0 ){ pItem = new ModeloMapa(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else{  pItem = NULL;}	
 
 	return pItem;
 }
