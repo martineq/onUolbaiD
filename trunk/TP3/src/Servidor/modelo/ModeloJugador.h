@@ -26,10 +26,12 @@ class ModeloJugador {
 		bool _estaCongelado;
 		bool _tieneMapa;
 		int _magia;
+		int _maximoMagia;
 		std::string _nombreJugador;
 		Posicion _pixelInicial;
 		Posicion _posicionInicial;
 		int _vida;
+		int _maximoVida;
 		bool _ingresoAlJuego;
 		DWORD _instanteUltimoCambioEstado;
 		int _danioAtaque;
@@ -57,7 +59,7 @@ class ModeloJugador {
 		ModeloJugador& operator=(const ModeloJugador &modeloJugador);
 		
 	public:
-		ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador, int vida, int magia, int ataque);
+		ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador, int maximoVida, int maximoMagia, int ataque);
 
 		virtual ~ModeloJugador();
 
