@@ -38,6 +38,9 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 	// Creo los enemigos automáticos
 	this->crearEnemigosAutomaticos(modeloNivel,pSocket);
 
+	// Creo los items
+	this->crearItems(modeloNivel,pSocket);
+
 	// Agrego el ProxyControladorEvento
 	ProxyControladorEvento* pProxyEvento = new ProxyControladorEvento();
 	pProxyEvento->setSocketServidor(pSocket);
@@ -82,8 +85,11 @@ bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* 
 	// Envío el escenario creado, junto con los ID's de cada entidad del escenario para que se puedan setear en el cliente
 	if( this->enviarEscenario(pSocket,id) == false ) return false;
 
-	// Envío los enemigos automático para que se puedan setear en el cliente
+	// Envío los enemigos automáticos para que se puedan setear en el cliente
 	if( this->enviarEnemigosAutomaticos(pModeloNivel,pSocket,id) == false ) return false;
+
+	// Envío los items para que se puedan setear en el cliente
+	if( this->enviarItems(pModeloNivel,pSocket,id) == false ) return false;
 
 	// Elijo junto al cliente el protagonista que va a usar, envio los datos para la creación en el Cliente y lo creo en el Modelo
 	if( this->enviarProtagonista(pModeloNivel,pSocket,id) == false ) return false;
@@ -138,11 +144,31 @@ bool ModeloFactory::enviarEnemigosAutomaticos(ModeloNivel* modeloNivel,SocketSer
 		entidad = pEntidad->stEntidad();
 		if( proxy.enviarEntidadIndividual(entidad,id) == false ) return false;
 	}
-
 	return true; 
+}
 
+bool ModeloFactory::enviarItems(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
 
+	std::multimap<std::pair<int, int>, ModeloItem*> listaItems = modeloNivel->getItems();
+	int cantidadItems = listaItems.size();
+	ProxyModeloEntidad proxy;
+	proxy.setSocketServidor(pSocket);
+	ProxyModeloEntidad::stEntidad entidad;
 
+	// Envío la cantidad de enemigos que voy a transferir
+	Serializadora s;
+	s.addInt(cantidadItems);
+ 
+	if( pSocket->enviarIndividual(s,id) == false ) return false;
+
+	// Envío los datos de los enemigos, a través de un proxy
+	for (std::multimap<std::pair<int, int>, ModeloItem*>::iterator it=listaItems.begin() ; it != listaItems.end(); it++ ){ 
+		ModeloItem* pItem = (*it).second;
+		// Cargo los datos y los envio a través del proxy
+		entidad = pItem->stEntidad();
+		if( proxy.enviarEntidadIndividual(entidad,id) == false ) return false;
+	}
+	return true; 
 }
 
 // Selecciona y envia los datos del protagonista elegido. Además crea la EntidadModelo correspondiente y la setea en el ModeloNivel. Método usado por el hilo de configuración
@@ -442,6 +468,63 @@ void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel,SocketServ
 	}
 
 	return void();
+}
+
+// Recorro todos los items existentes en este escenario, los creo y los agrego al nivel
+void ModeloFactory::crearItems(ModeloNivel& modeloNivel,SocketServidor* pSocket){
+
+	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
+	std::list<ParserYaml::stItem> items = juego.escenario.items;
+
+	for (std::list<ParserYaml::stItem>::iterator it=items.begin() ; it != items.end(); it++ ){	
+	
+		// Busco la entidad correspondiente al enemigo
+		ParserYaml::stItem item = (*it);
+		ParserYaml::stEntidad entidadItem = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,item.entidad);
+
+		// Valores tomados desde el entidadItem
+		int alto = entidadItem.altoBase;
+		int ancho = entidadItem.anchoBase;
+		int fps = entidadItem.fps;
+		std::string nombreEntidad = entidadItem.nombre;
+
+		// Valores tomados desde el item
+		Posicion pos;
+		pos.x = item.x;
+		pos.y = item.y;
+		if( modeloNivel.posicionOcupada(pos) == true) pos = this->generarPosicionAlAzar(&modeloNivel,juego);
+
+		// Valores tomados desde el escenario elegido
+		int anchoEscenario = juego.escenario.tamanioX;
+		int altoEscenario = juego.escenario.tamanioY;
+
+		// Genero un Id para este enemigo
+		int nuevoID = Ticket::getInstance().pedirNumero();
+
+		// Creo el proxy para el item
+		ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
+		pProxyEntidad->setSocketServidor(pSocket);
+
+		int velocidad = 0;
+
+		// Creo el item y lo agrego al nivel
+		ModeloItem* pItem = this->instanciarItem(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+		modeloNivel.agregarItem(pItem);
+	}
+
+	return void();
+}
+
+ModeloItem* ModeloFactory::instanciarItem(int alto, int ancho, int velocidad, Posicion pos, int altoEscenario, int anchoEscenario, int fps, ProxyModeloEntidad* pProxyEntidad, int nuevoID, std::string nombreEntidad){
+	ModeloItem* pItem = NULL;
+
+	// TODO: Agregar todos los items que faltan
+	if ( nombreEntidad.compare(STRING_CORAZON) == 0 ){ pItem = new ModeloCorazon(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_ESCUDO) == 0 ){ pItem = new ModeloEscudo(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_ZAPATO) == 0 ){ pItem = new ModeloZapato(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else{  /* No Instancio nada */ ;}	
+
+	return pItem;
 }
 
 // Envia al cliente todos los archivos necesarios para el funcionamiento del juego

@@ -34,10 +34,11 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 	// Recibo datos desde el Servidor
 	if( this->recibirEscenario(juegoYaml.escenarios,pSocket) == false ) return false;
 	if( this->recibirEnemigosAutomaticos(pSocket) == false ) return false;
+	if( this->recibirItems(pSocket) == false ) return false;
 	if( this->recibirProtagonista(pSocket,mote,personaje) == false ) return false;
 	if( this->recibirOtrosJugadores(pSocket) == false ) return false;	
 	if( this->esperarComienzoDeJuego(pSocket,singlePlayer) == false ) return false;	
-	
+
 	if( ImageLoader::getInstance().iniciarSDL() == false ) return false;
 	if( VistaMusica::getInstance().iniciar() == false ) return false;
 	VistaMusica::getInstance().playTheMusic();
@@ -155,15 +156,35 @@ bool VistaFactory::recibirEnemigosAutomaticos(SocketCliente* pSocket){
 	if( pSocket->recibir(s) == false ) return false;
 
 	// Hidrato la cantidad de enemigos que me van a mandar
-	int cantidadOtrosJugadores = s.getInt();
+	int cantidadEnemigosAutomaticos = s.getInt();
 
 	// Recibo los datos de los enemigos, a través de un proxy
 	ProxyModeloEntidad proxy;
 	proxy.setSocketCliente(pSocket);
 	ProxyModeloEntidad::stEntidad entidad;
-	for ( unsigned int i=0 ; i<cantidadOtrosJugadores ; i++ ){ 
+	for ( unsigned int i=0 ; i<cantidadEnemigosAutomaticos ; i++ ){ 
 		if( proxy.recibirEntidadIndividual(entidad) == false ) return false;
 		this->juegoElegido.listaEnemigosAutomaticos.push_back(entidad);
+	}
+
+	return true; 
+}
+
+bool VistaFactory::recibirItems(SocketCliente* pSocket){
+
+	Serializadora s;
+	if( pSocket->recibir(s) == false ) return false;
+
+	// Hidrato la cantidad de items que me van a mandar
+	int cantidadItems = s.getInt();
+
+	// Recibo los datos de los items, a través de un proxy
+	ProxyModeloEntidad proxy;
+	proxy.setSocketCliente(pSocket);
+	ProxyModeloEntidad::stEntidad entidad;
+	for ( unsigned int i=0 ; i<cantidadItems ; i++ ){ 
+		if( proxy.recibirEntidadIndividual(entidad) == false ) return false;
+		this->juegoElegido.listaItems.push_back(entidad);
 	}
 
 	return true; 
@@ -242,6 +263,7 @@ bool VistaFactory::crearElementosVista(SDL_Surface* pPantallaSDL, VistaNivel& vi
 	this->crearJugadorConScroll(vistaNivel,pPantallaSDL);
 	this->crearOtrosJugadores(vistaNivel);
 	this->crearEnemigosAutomaticos(vistaNivel);
+	this->crearItems(vistaNivel);
 	this->crearEntidadesNoJugadores(vistaNivel);
 
 	return true;
@@ -331,6 +353,44 @@ void VistaFactory::crearEnemigosAutomaticos(VistaNivel& vistaNivel){
 	for (std::list<ProxyModeloEntidad::stEntidad>::iterator it=listaEnemigos.begin() ; it != listaEnemigos.end(); it++ ){
 		ProxyModeloEntidad::stEntidad entidad = (*it);
 		this->crearJugadorSinScroll(vistaNivel,entidad);
+	}
+
+	return void();
+}
+
+void VistaFactory::crearItems(VistaNivel& vistaNivel){
+
+	std::list<ProxyModeloEntidad::stEntidad> listaItems = this->juegoElegido.listaItems;
+
+	for (std::list<ProxyModeloEntidad::stEntidad>::iterator it=listaItems.begin() ; it != listaItems.end(); it++ ){	
+		
+		ProxyModeloEntidad::stEntidad entidad = (*it);
+		std::string nombreEntidad = entidad.nombreEntidad;
+		ParserYaml::stEntidad entidadItem = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreEntidad);
+
+		// Valores tomados desde la entidad
+		double x = (double)entidad.posicionX;
+		double y = (double)entidad.posicionY;
+
+		// Valores tomados desde la entidadItem
+		int id = entidad.id;
+		std::string mote("Item"+id);
+		double alto = (double)entidadItem.altoBase;
+		double ancho = (double)entidadItem.anchoBase;
+		double posicionReferenciaX = (double)entidadItem.pixelReferenciaX;
+		double posicionReferenciaY = (double)entidadItem.pixelReferenciaY;
+		double fps = (double)entidadItem.fps;
+		double delay = (double)entidadItem.delay;
+		std::list<std::list<std::string>> listaAnimaciones = entidadItem.imagenes;
+
+		// Valores tomados desde el escenario elegido
+		double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
+		double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
+
+		bool esJugador = false;
+
+		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,esJugador,tamanioX,tamanioY,id,nombreEntidad,false,0,mote);
+		vistaNivel.agregarEntidad(pEntidad);
 	}
 
 	return void();

@@ -244,6 +244,7 @@ void ParserYaml::cargaStEscenario(const YAML::Node& nodo, ParserYaml::stEscenari
 		}else if ( clave.compare("entidadesDef") == 0 ){ this->cargaListaEntidadesDefinidas(it.second(),escenario.entidadesDefinidas) ;
 		}else if ( clave.compare("protagonistas") == 0 ){ this->cargaListaProtagonistas(it.second(),escenario.protagonistas);
 		}else if ( clave.compare("enemigos") == 0 ){ this->cargaListaEnemigos(it.second(),escenario.enemigos);
+		}else if ( clave.compare("items") == 0 ){ this->cargaListaItems(it.second(),escenario.items);
 		}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}
 	}
 
@@ -320,6 +321,30 @@ void ParserYaml::cargaListaEnemigos(const YAML::Node& nodo, std::list <ParserYam
 
 		// Agrego el protagonista a la lista
 		enemigos.push_back(enemigo);
+	}
+
+	return void();
+}
+
+void ParserYaml::cargaListaItems(const YAML::Node& nodo, std::list <ParserYaml::stItem>& listaItems){
+
+	for(unsigned i=0;i<nodo.size();i++) { // El nodo es una lista, itero en esa lista
+		stItem item;
+		this->cargaStItem(nodo[i],item);
+		listaItems.push_back(item);
+	}
+
+	return void();
+}
+
+void ParserYaml::cargaStItem(const YAML::Node& nodo, ParserYaml::stItem& item){
+
+	for(YAML::Iterator it=nodo.begin();it!=nodo.end();++it){	
+		std::string clave = this->leerNodoYamlString(it.first());
+		if ( clave.compare("entidad") == 0 ){ item.entidad = this->leerNodoYamlString(it.second());
+		}else if ( clave.compare("x") == 0 ){ item.x = this->leerNodoYamlInt(it.second());
+		}else if ( clave.compare("y") == 0 ){ item.y = this->leerNodoYamlInt(it.second());
+		}else{Log::getInstance().log(1,__FILE__,__LINE__,"Clave <"+clave+"> descartada.");}	
 	}
 
 	return void();
@@ -577,7 +602,7 @@ void ParserYaml::validaListaEntidadesDefinidas(std::list <ParserYaml::stEntidadD
 		// Valido la existencia de la entidad
 		if( this->validaExisteEntidad((*it).entidad) == false ) entidadDefinidaOk = false;
 
-		// Agrego la entidad definida con errores
+		// Agrego la entidad definida con errores (si es que tuvo)
 		if( entidadDefinidaOk == false) tipoEntidadDefinidaABorrar.push_back(it); 
 	} 
 
@@ -721,6 +746,45 @@ bool ParserYaml::validaListaEnemigos(std::list <ParserYaml::stEnemigo>& enemigos
 	//}
 	//
 	return true;
+}
+
+void ParserYaml::validaListaItems(std::list <ParserYaml::stItem>& listaItems, std::string nombreEscenario, int tamanioX, int tamanioY){
+
+	// Lista de las entidades que se van a borrar, en caso de presentar errores
+	std::list<std::list<ParserYaml::stItem>::iterator> tipoItemsABorrar; 
+
+	// Recorro todas las entidades definidas 
+	for (std::list<stItem>::iterator it=listaItems.begin() ; it != listaItems.end(); it++ ){
+		
+		bool itemOk = true;
+
+		// Chequeo la validez del nombre de la entidad definida
+		if ( (*it).entidad.compare(YAML_STRING_VACIO) == 0 ) {
+			Log::getInstance().log(1,__FILE__,__LINE__,"Un item del escenario "+ nombreEscenario +" no tiene un valor válido en su campo <entidad>.");
+			itemOk = false;
+		}
+
+		// Valido <x> e <y>
+		if ( (*it).x < 0 || (*it).y < 0 || (*it).x > tamanioX || (*it).y > tamanioY ) {
+			Log::getInstance().log(1,__FILE__,__LINE__,"Los valores de x e y del item "+ nombreEscenario +", entidad "+ (*it).entidad +" no tienen valores válidos.");
+			itemOk = false;
+		}
+
+		// Valido la existencia de la entidad
+		if( this->validaExisteEntidad((*it).entidad) == false ) itemOk = false;
+
+		// Agrego la entidad definida con errores (si es que tuvo)
+		if( itemOk == false) tipoItemsABorrar.push_back(it); 
+	} 
+
+	// Borro las entidades definidas con errores
+	if ( tipoItemsABorrar.empty() == false ){
+		Log::getInstance().log(1,__FILE__,__LINE__,"escenarios->items: existen items inválidos para el escenario "+ nombreEscenario +". Los mismos se descartarán.");
+		for (std::list<std::list<stItem>::iterator>::iterator it=tipoItemsABorrar.begin() ; it != tipoItemsABorrar.end(); it++ ){
+			listaItems.erase(*it);
+		}
+	}
+
 }
 
 void ParserYaml::validaDescartarEscenarios(std::list<std::list<ParserYaml::stEscenario>::iterator>& tipoEscenarioABorrar){

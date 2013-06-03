@@ -66,6 +66,12 @@ class ParserYaml{
 			int velocidad;
 		};
 
+		struct stItem{
+			int x;
+			int y;
+			std::string entidad;
+		};
+
 		struct stEscenario{
 			std::string nombre;
 			int tamanioX;
@@ -73,6 +79,7 @@ class ParserYaml{
 			std::list <stEntidadDefinida> entidadesDefinidas;
 			std::list <stProtagonista> protagonistas;
 			std::list <stEnemigo> enemigos;
+			std::list <stItem> items;
 		};
 
 		struct stJuego{
@@ -107,6 +114,8 @@ class ParserYaml{
 		void cargaStEscenario(const YAML::Node& nodo, ParserYaml::stEscenario& escenario);
 		void cargaDefaultStEscenario(ParserYaml::stEscenario& escenario);
 		void cargaStEntidadDefinida(const YAML::Node& nodo, ParserYaml::stEntidadDefinida& entidadDefinida);
+		void cargaListaItems(const YAML::Node& nodo, std::list <ParserYaml::stItem>& listaItems);
+		void cargaStItem(const YAML::Node& nodo, ParserYaml::stItem& item);
 
 		// Funciones de validación
 		void validacionDeDatos(void);
@@ -127,6 +136,7 @@ class ParserYaml{
 		bool validaExisteEntidad(std::string entidad);
 		bool validaListaProtagonistas(std::list <ParserYaml::stProtagonista>& protagonistas,std::string nombreEscenario, int tamanioX, int tamanioY);
 		bool validaListaEnemigos(std::list <ParserYaml::stEnemigo>& enemigos,std::string nombreEscenario, int tamanioX, int tamanioY);
+		void validaListaItems(std::list <ParserYaml::stItem>& listaItems, std::string nombreEscenario, int tamanioX, int tamanioY);
 
 		// Funciones privadas auxiliares
 		int leerNodoYamlInt(const YAML::Node& nodo);
