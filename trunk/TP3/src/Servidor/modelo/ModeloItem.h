@@ -37,23 +37,27 @@ class ModeloItem {
 };
 
 class ListaItems {
-private:
-	ListaEntidades* _listaEntidades;
-	std::multimap<std::pair<int, int>, ModeloItem*> _items;
-	Mutex _mutex;
+	private:
+		ListaEntidades* _listaEntidades;
+		std::multimap<std::pair<int, int>, ModeloItem*> _items;
+		Mutex _mutex;
 
-public:
-	ListaItems();
+	public:
+		ListaItems();
 
-	virtual ~ListaItems();
+		virtual ~ListaItems();
 
-	void agregarItem(ModeloItem* item);
+		void agregarItem(ModeloItem* item);
 
-	void asignarListaEntidades(ListaEntidades* listaEntidades);
+		void asignarListaEntidades(ListaEntidades* listaEntidades);
 
-	ModeloItem* obtenerItem(Posicion posicion);
+		void destruirItems();
 
-	void removerItem(ModeloItem* item);
+		ModeloItem* obtenerItem(Posicion posicion);
+
+		std::multimap<std::pair<int, int>, ModeloItem*> obtenerItems();
+
+		void removerItem(ModeloItem* item);
 };
 
 class ModeloBotella : public ModeloItem {
@@ -79,6 +83,24 @@ class ModeloEscudo : public ModeloItem {
 		ModeloEscudo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloEscudo();
+		
+		void aplicar(ModeloJugador* jugador);
+};
+
+class ModeloLampara : public ModeloItem {
+	public:
+		ModeloLampara(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloLampara();
+		
+		void aplicar(ModeloJugador* jugador);
+};
+
+class ModeloMapa: public ModeloItem {
+	public:
+		ModeloMapa(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloMapa();
 		
 		void aplicar(ModeloJugador* jugador);
 };

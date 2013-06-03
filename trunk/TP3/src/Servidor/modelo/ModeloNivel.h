@@ -38,6 +38,7 @@ class ModeloNivel {
 		// Getters
 		std::list<ModeloJugador*> getJugadores();
 		std::list<ModeloJugador*> getEnemigos();
+		std::multimap<std::pair<int, int>, ModeloItem*> getItems();
 
 		int getAltoTiles();
 		int getAnchoTiles();
