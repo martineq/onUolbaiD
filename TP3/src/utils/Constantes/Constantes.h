@@ -155,6 +155,7 @@
 // En ModeloJugador
 #define RANGO_VISION 2
 #define MAXIMO_ESCUDO 100
+#define TIEMPO_CONGELAMIENTO 1000
 
 // En VistaChat
 #define MARGEN 20

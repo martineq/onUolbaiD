@@ -25,6 +25,7 @@ class ModeloJugador {
 		bool _autonomo;
 		int _escudo;
 		bool _estaCongelado;
+		bool _estaDesconectado;
 		bool _tieneMapa;
 		int _magia;
 		int _maximoMagia;
@@ -34,6 +35,7 @@ class ModeloJugador {
 		int _vida;
 		int _maximoVida;
 		bool _ingresoAlJuego;
+		DWORD _instanteCongelamiento;
 		DWORD _instanteUltimoCambioEstado;
 		int _danioAtaque;
 		
@@ -77,6 +79,10 @@ class ModeloJugador {
 		bool estaCongelado();
 
 		void estaCongelado(bool estaCongelado);
+
+		bool estaDesconectado();
+
+		void estaDesconectado(bool estaDesconectado);
 
 		int magia();
 

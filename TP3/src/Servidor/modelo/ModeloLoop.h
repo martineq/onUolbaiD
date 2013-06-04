@@ -10,7 +10,7 @@ class ModeloLoop {
 		ModeloEvento _modeloEvento;
 		unsigned long tiempoUltimoChequeo;
 
-		void congelarJugadoresConError(ModeloNivel& modeloNivel);
+		void desconectarJugadoresConError(ModeloNivel& modeloNivel);
 		void chequearConexion(ModeloNivel& modeloNivel);
 
 	public:

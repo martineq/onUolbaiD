@@ -14,7 +14,7 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 	this->chequearConexion(modeloNivel);
 
 	// Acá lo primero que hago es congelar a los clientes, para los que tuvieron error de sockets
-	this->congelarJugadoresConError(modeloNivel);
+	this->desconectarJugadoresConError(modeloNivel);
 
 	// Recorro varios eventos en un solo loop. Está asegurado que no habrá 2 eventos del mismo ID.
 	while (this->_modeloEvento.getActualizado()) {
@@ -25,7 +25,7 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 		// Si el cliente finalizo su juego tambien lo congelo
 		if( this->_modeloEvento.finalizoElJuego() == true ){
 			// En caso de finalización del juego o error de sockets se congela al jugador
-			modeloNivel.congelarJugador(idJugador);
+			modeloNivel.desconectarJugador(idJugador);
 		}
 		else if (this->_modeloEvento.getIdDestinatarioChat() != -1) {
 			ModeloJugador* remitente = modeloNivel.obtenerJugador(this->_modeloEvento.getIdJugador());
@@ -49,13 +49,13 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 	return true;
 }
 
-void ModeloLoop::congelarJugadoresConError(ModeloNivel& modeloNivel){
+void ModeloLoop::desconectarJugadoresConError(ModeloNivel& modeloNivel){
 
 	std::list<int> listaIdErroneos = this->_modeloEvento.getClientesConError();
 	
 	for( std::list<int>::iterator it = listaIdErroneos.begin() ; it != listaIdErroneos.end() ; it++){
 		int idErroneo = (*it);
-		modeloNivel.congelarJugador(idErroneo);
+		modeloNivel.desconectarJugador(idErroneo);
 	}
 
 	return void();
