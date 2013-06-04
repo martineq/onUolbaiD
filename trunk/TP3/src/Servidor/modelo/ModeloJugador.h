@@ -11,6 +11,7 @@
 #include "ModeloMovimiento.h"
 #include "VistaMovimiento.h"
 
+class ListaJugadores;
 class ModeloItem;
 class ListaItems;
 
@@ -36,8 +37,10 @@ class ModeloJugador {
 		DWORD _instanteUltimoCambioEstado;
 		int _danioAtaque;
 		
+		ListaJugadores* _listaEnemigos;
 		ListaEntidades* _listaEntidades;
 		ListaItems* _listaItems;
+		ListaJugadores* _listaJugadores;
 		ModeloEntidad* _modeloEntidad;
 		EstadoNivel* _estadoNivel;
 		ModeloJugador* _enemigo;
@@ -87,9 +90,13 @@ class ModeloJugador {
 
 		int vida();
 
+		void asignarListaEnemigos(ListaJugadores* listaEnemigos);
+
 		void asignarListaEntidades(ListaEntidades* listaEntidades);
 
 		void asignarListaItems(ListaItems* listaItems);
+
+		void asignarListaJugadores(ListaJugadores* listaJugadores);
 
 		void atacar(ModeloJugador* enemigo);
 
@@ -132,4 +139,30 @@ class ModeloJugador {
 		void danioAtaque(int danio);
 
 		int danioAtaque(void);
+};
+
+class ListaJugadores {
+	private:
+		ListaEntidades* _listaEntidades;
+		std::list<ModeloJugador*> _jugadores;
+		Mutex _mutex;
+		
+	public:
+		ListaJugadores();
+
+		virtual ~ListaJugadores();
+
+		void agregarJugador(ModeloJugador* jugador);
+
+		void asignarListaEntidades(ListaEntidades* listaEntidades);
+
+		void destruirJugadores();
+
+		ModeloJugador* obtenerJugador(int id);
+
+		ModeloJugador* obtenerJugador(Posicion posicion);
+
+		std::list<ModeloJugador*> obtenerJugadores();
+
+		void removerJugador(ModeloJugador* jugador);
 };

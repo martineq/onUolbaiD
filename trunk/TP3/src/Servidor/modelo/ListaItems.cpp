@@ -13,7 +13,6 @@ void ListaItems::agregarItem(ModeloItem* item) {
 	this->_items.insert(make_pair(make_pair(item->modeloEntidad()->posicion().x, item->modeloEntidad()->posicion().y), item));
 	this->_mutex.unlock(__FILE__, __LINE__);
 	this->_listaEntidades->agregarEntidad(item->modeloEntidad());
-	item->enviarEstado();
 }
 
 void ListaItems::asignarListaEntidades(ListaEntidades* listaEntidades) {

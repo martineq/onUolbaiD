@@ -15,19 +15,12 @@ class ModeloNivel {
 		int anchoTiles;
 
 		ListaEntidades listaEntidades;
+		ListaJugadores listaJugadores;
+		ListaJugadores listaEnemigos;
 		ListaItems listaItems;
-
-		std::list<ModeloJugador*> jugadores;
-		Mutex mutexJugadores;
-
-		std::list<ModeloJugador*> enemigos;
-		Mutex mutexEnemigos;
 
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
-
-		void destruirListaJugadores();
-		void destruirListaEnemigos();
 
 		void decrementarJugadores(void);
 

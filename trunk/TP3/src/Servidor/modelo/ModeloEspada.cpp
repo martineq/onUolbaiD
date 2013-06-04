@@ -8,7 +8,7 @@ ModeloEspada::~ModeloEspada() {
 
 }
 
-void ModeloEspada::aplicar(ModeloJugador* jugador) {
+void ModeloEspada::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
 	int nuevoDanio = ( jugador->danioAtaque() + (DANIO_ESPADA) );
 	jugador->danioAtaque(nuevoDanio);
 	return void();

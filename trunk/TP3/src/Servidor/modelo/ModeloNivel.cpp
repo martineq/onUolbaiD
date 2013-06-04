@@ -3,21 +3,11 @@
 using namespace std;
 
 ModeloJugador* ModeloNivel::obtenerJugador(int id) {
-	std::list<ModeloJugador*> listaJugadores = this->getJugadores();
-	for (std::list<ModeloJugador*>::iterator itModeloEntidad = listaJugadores.begin(); itModeloEntidad != listaJugadores.end(); itModeloEntidad++){
-		if ((*itModeloEntidad)->modeloEntidad()->id() == id)
-			return (*itModeloEntidad);
-	}
-	return NULL;
+	return this->listaJugadores.obtenerJugador(id);
 }
 
 ModeloJugador* ModeloNivel::obtenerJugador(Posicion posicion) {
-	std::list<ModeloJugador*> listaJugadores = this->getJugadores();
-	for (std::list<ModeloJugador*>::iterator itModeloEntidad = listaJugadores.begin(); itModeloEntidad != listaJugadores.end(); itModeloEntidad++){
-		if ((*itModeloEntidad)->modeloEntidad()->posicion() == posicion)
-			return (*itModeloEntidad);
-	}
-	return NULL;
+	return this->listaJugadores.obtenerJugador(posicion);
 }
 
 ModeloJugador* ModeloNivel::obtenerEnemigo(Posicion posicion) {
@@ -35,6 +25,8 @@ ModeloItem* ModeloNivel::obtenerItem(Posicion posicion) {
 
 ModeloNivel::ModeloNivel() {
 	this->jugadoresConectados = 0;
+	this->listaJugadores.asignarListaEntidades(&this->listaEntidades);
+	this->listaEnemigos.asignarListaEntidades(&this->listaEntidades);
 	this->listaItems.asignarListaEntidades(&this->listaEntidades);
 }
 
@@ -42,17 +34,11 @@ ModeloNivel::~ModeloNivel() {
 }
 
 std::list<ModeloJugador*> ModeloNivel::getJugadores() {
-	this->mutexJugadores.lockLectura(__FILE__, __LINE__);
-	std::list<ModeloJugador*> listaJugadores = this->jugadores;
-	this->mutexJugadores.unlock(__FILE__, __LINE__);
-	return listaJugadores;
+	return this->listaJugadores.obtenerJugadores();
 }
 
 std::list<ModeloJugador*> ModeloNivel::getEnemigos() {
-	this->mutexEnemigos.lockLectura(__FILE__, __LINE__);
-	std::list<ModeloJugador*> listaEnemigos = this->enemigos;
-	this->mutexEnemigos.unlock(__FILE__, __LINE__);
-	return listaEnemigos;
+	return this->listaEnemigos.obtenerJugadores();
 }
 
 multimap<pair<int, int>, ModeloItem*> ModeloNivel::getItems() {
@@ -68,26 +54,25 @@ int ModeloNivel::getAltoTiles() {
 }
 
 void ModeloNivel::agregarJugador(ModeloJugador* jugador) {
-	this->mutexJugadores.lockEscritura(__FILE__, __LINE__);
-	this->jugadores.push_back(jugador);	
-	this->mutexJugadores.unlock(__FILE__, __LINE__);
-	this->listaEntidades.agregarEntidadMovil(jugador->modeloEntidad());
+	this->listaJugadores.agregarJugador(jugador);
+	jugador->asignarListaEnemigos(&this->listaEnemigos);
 	jugador->asignarListaEntidades(&this->listaEntidades);
 	jugador->asignarListaItems(&this->listaItems);
+	jugador->asignarListaJugadores(&this->listaJugadores);
 	jugador->enviarEstado();
 }
 
 void ModeloNivel::agregarEnemigo(ModeloJugador* enemigo) {
-	this->mutexEnemigos.lockEscritura(__FILE__, __LINE__);
-	this->enemigos.push_back(enemigo);	
-	this->mutexEnemigos.unlock(__FILE__, __LINE__);
-	this->listaEntidades.agregarEntidadMovil(enemigo->modeloEntidad());
+	this->listaEnemigos.agregarJugador(enemigo);
+	enemigo->asignarListaEnemigos(&this->listaEnemigos);
 	enemigo->asignarListaEntidades(&this->listaEntidades);
 	enemigo->asignarListaItems(&this->listaItems);
+	enemigo->asignarListaJugadores(&this->listaJugadores);
 }
 
 void ModeloNivel::agregarItem(ModeloItem* item) {
 	this->listaItems.agregarItem(item);
+	item->enviarEstado();
 }
 
 void ModeloNivel::agregarEntidad(ModeloEntidad* entidad) {
@@ -185,21 +170,9 @@ bool ModeloNivel::posicionOcupada(Posicion posicion){
 }
 
 bool ModeloNivel::chequearConexion() {
-	if (this->jugadores.empty())
+	if (this->listaJugadores.obtenerJugadores().empty())
 		return false;
-	return this->jugadores.front()->chequearConexion();
-}
-
-void ModeloNivel::destruirListaJugadores(){
-	// Destruyo los jugadores instanciados
-	for (std::list<ModeloJugador*>::iterator jugador = this->jugadores.begin(); jugador != this->jugadores.end(); jugador++)
-		delete (*jugador);
-}
-
-void ModeloNivel::destruirListaEnemigos(){
-	// Destruyo los enemigos instanciados
-	for (std::list<ModeloJugador*>::iterator enemigo = this->enemigos.begin(); enemigo != this->enemigos.end(); enemigo++)
-		delete (*enemigo);
+	return this->listaJugadores.obtenerJugadores().front()->chequearConexion();
 }
 
 int ModeloNivel::cantidadJugadores(void){
@@ -233,8 +206,8 @@ void ModeloNivel::iniciarNuevosJugadores(void){
 }
 
 void ModeloNivel::destruirListas(){
-	this->destruirListaJugadores();
-	this->destruirListaEnemigos();
+	this->listaJugadores.destruirJugadores();
+	this->listaEnemigos.destruirJugadores();
 	this->listaItems.destruirItems();
 	this->listaEntidades.destruirEntidades();
 }

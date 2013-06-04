@@ -7,7 +7,7 @@ ModeloEscudo::ModeloEscudo(int alto, int ancho, int velocidad, Posicion posicion
 ModeloEscudo::~ModeloEscudo() {
 }
 
-void ModeloEscudo::aplicar(ModeloJugador* jugador) {
+void ModeloEscudo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
 	jugador->recuperarEscudo(ESCUDO_RECUPERADO);
 	return void();
 }
