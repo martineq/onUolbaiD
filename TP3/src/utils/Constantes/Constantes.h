@@ -146,6 +146,8 @@
 #define STRING_LAMPARA "lampara"
 #define STRING_MAPA "mapa"
 #define STRING_ESPADA "espada"
+#define STRING_HECHIZO_HIELO "hechizo_hielo"
+#define STRING_BOMBA "bomba"
 
 // En ModeloMovimiento
 #define DURACION_CALCULO_CAMINO_MINIMO 1000
@@ -175,6 +177,12 @@
 // En ModeloEspada
 #define DANIO_ESPADA 10
 
+// En ModeloHechizoHielo
+#define RANGO_HECHIZO_HIELO 2
+
+// En ModeloBomba
+#define DANIO_BOMBA 20
+#define RANGO_BOMBA 2
 
 /***************************** Fog *************************/
 #define VISIBLE 2

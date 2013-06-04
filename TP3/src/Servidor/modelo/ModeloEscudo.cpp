@@ -7,6 +7,10 @@ ModeloEscudo::ModeloEscudo(int alto, int ancho, int velocidad, Posicion posicion
 ModeloEscudo::~ModeloEscudo() {
 }
 
+bool ModeloEscudo::inmediato() {
+	return true;
+}
+
 void ModeloEscudo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
 	jugador->recuperarEscudo(ESCUDO_RECUPERADO);
 	return void();
