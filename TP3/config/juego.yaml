@@ -139,6 +139,20 @@ entidades:
 ####################################################################################################################################################
 ################################################################       TILES        ################################################################
 ####################################################################################################################################################
+    - nombre: tierra
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [tierra.png]
+    - nombre: hielo
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [hielo.png]
     - nombre: agua
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 0 #pixels
@@ -153,6 +167,73 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [cemento.png]
+    - nombre: arena
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [arena.png]
+####################################################################################################################################################
+################################################################       ENTIDADES        ############################################################
+####################################################################################################################################################
+    - nombre: granja_llamas
+      imagen:
+        - [FireFarm01.png,FireFarm02.png,FireFarm03.png,FireFarm04.png,FireFarm05.png,FireFarm06.png,FireFarm07.png,FireFarm08.png,FireFarm09.png,FireFarm10.png,FireFarm11.png,FireFarm12.png,FireFarm13.png,FireFarm14.png,FireFarm15.png]
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
+      pixel_ref_x: 110 #pixels
+      pixel_ref_y: 20 #pixels
+      delay: 5
+    - nombre: casa_molino
+      imagen:
+        - [CasaB01.png,CasaB02.png,CasaB03.png,CasaB04.png,CasaB05.png,CasaB06.png,CasaB07.png,CasaB08.png,CasaB09.png,CasaB10.png]
+      ancho_base: 3 #tiles
+      alto_base: 3 #tiles
+      pixel_ref_x: 150 #pixels
+      pixel_ref_y: 20 #pixels
+      delay: 0
+    - nombre: castillo
+      imagen:
+        - [castillo01.png,castillo02.png,castillo03.png,castillo04.png,castillo05.png]
+      ancho_base: 4 #tiles
+      alto_base: 4 #tiles
+      pixel_ref_x: 210 #pixels
+      pixel_ref_y: 55 #pixels
+      delay: 5
+    - nombre: casa_selva
+      imagen:
+        - [CasaC01.png,CasaC02.png,CasaC03.png,CasaC04.png,CasaC04.png,CasaC06.png]
+      ancho_base: 3 #tiles
+      alto_base: 3 #tiles
+      pixel_ref_x: 150 #pixels
+      pixel_ref_y: 20 #pixels
+      delay: 5
+    - nombre: rancho
+      imagen:
+        - [CasaA01.png,CasaA02.png,CasaA03.png,CasaA04.png]
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
+      pixel_ref_x: 100 #pixels
+      pixel_ref_y: 10 #pixels
+      delay: 1
+    - nombre: molino
+      imagen:
+        - [molino01.png,molino02.png,molino03.png,molino04.png]
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
+      pixel_ref_x: 100 #pixels
+      pixel_ref_y: 20 #pixels
+      delay: 0
+    - nombre: miniMapa
+      imagen:
+        - [MiniMapa01.png,MiniMapa02.png,MiniMapa03.png,MiniMapa04.png,MiniMapa05.png]
+      ancho_base: 2 #tiles
+      alto_base: 2 #tiles
+      pixel_ref_x: 30 #pixels
+      pixel_ref_y: 40 #pixels
+      fps: 10
+      delay: 3
 ####################################################################################################################################################
 ################################################################       ITEMS        ################################################################
 #############################      Items disponibles: corazon / escudo / zapato / botella / lampara / mapa / espada     ############################
@@ -306,7 +387,7 @@ escenarios:
         - entidad: escudo
           x: 9
           y: 9
-        - entidad: hechizo_hielo
+        - entidad: bomba
           x: 3
           y: 0
 ####################################################################################################################################################

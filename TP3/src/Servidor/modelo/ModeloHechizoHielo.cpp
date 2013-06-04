@@ -2,20 +2,7 @@
 
 using namespace std;
 
-ModeloHechizoHielo::ModeloHechizoHielo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad)
-	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad) {
-	this->_altoNivel = altoNivel;
-	this->_anchoNivel = anchoNivel;
-}
-
-ModeloHechizoHielo::~ModeloHechizoHielo() {
-}
-
-bool ModeloHechizoHielo::inmediato() {
-	return false;
-}
-
-void ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
+bool ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
 	int xDesde = this->modeloEntidad()->posicion().x - RANGO_HECHIZO_HIELO;
 	int xHasta = this->modeloEntidad()->posicion().x + RANGO_HECHIZO_HIELO;
 	int yDesde = this->modeloEntidad()->posicion().y - RANGO_HECHIZO_HIELO;
@@ -42,4 +29,19 @@ void ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJu
 				victima->estaCongelado(true);
 		}
 	}
+	
+	return true;
+}
+
+ModeloHechizoHielo::ModeloHechizoHielo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad)
+	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad) {
+	this->_altoNivel = altoNivel;
+	this->_anchoNivel = anchoNivel;
+}
+
+ModeloHechizoHielo::~ModeloHechizoHielo() {
+}
+
+bool ModeloHechizoHielo::inmediato() {
+	return false;
 }

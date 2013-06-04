@@ -12,31 +12,43 @@ class ListaJugadores;
 class ModeloItem {
 	private:
 		ModeloEntidad* _modeloEntidad;
-		bool _disponible;
+		ModeloJugador* _jugador;
+		ListaJugadores* _listaJugadores;
+		ListaJugadores* _listaEnemigos;
+		bool _activo;
 		Mutex _mutex;
 
 		ModeloItem(const ModeloItem &modeloItem);
 
 		ModeloItem& operator=(const ModeloItem &modeloItem);
 
+	protected:
+		virtual bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) = 0;
+
 	public:
 		ModeloItem(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloItem();
 
-		bool disponible();
-
-		void disponible(bool disponible);
-
 		ModeloEntidad* modeloEntidad();
 
 		ProxyModeloEntidad::stEntidad stEntidad();
 
+		void activar();
+
+		void asignarJugador(ModeloJugador* jugador);
+
+		void asignarListaJugadores(ListaJugadores* listaJugadores);
+
+		void asignarListaEnemigos(ListaJugadores* listaEnemigos);
+
+		void cambiarEstado();
+
+		bool disponible();
+
 		void enviarEstado();
 
 		virtual bool inmediato() = 0;
-
-		virtual void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) = 0;
 };
 
 class ListaItems {
@@ -64,80 +76,87 @@ class ListaItems {
 };
 
 class ModeloBotella : public ModeloItem {
+	protected:
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+
 	public:
 		ModeloBotella(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloBotella();
 		
 		bool inmediato();
-
-		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloCorazon : public ModeloItem {
+	protected:
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+	
 	public:
 		ModeloCorazon(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloCorazon();
 		
 		bool inmediato();
-
-		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloEscudo : public ModeloItem {
+	protected:
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+
 	public:
 		ModeloEscudo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloEscudo();
 		
 		bool inmediato();
-
-		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloLampara : public ModeloItem {
+	protected:
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+
 	public:
 		ModeloLampara(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloLampara();
 		
 		bool inmediato();
-
-		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloMapa: public ModeloItem {
+	protected:
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+
 	public:
 		ModeloMapa(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloMapa();
 		
 		bool inmediato();
-
-		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloZapato : public ModeloItem {
+	protected:
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+
 	public:
 		ModeloZapato(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloZapato();
 		
 		bool inmediato();
-
-		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloEspada : public ModeloItem {
+	protected:
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+
 	public:
 		ModeloEspada(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloEspada();
 		
 		bool inmediato();
-
-		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloHechizoHielo : public ModeloItem {
@@ -145,20 +164,25 @@ class ModeloHechizoHielo : public ModeloItem {
 		int _altoNivel;
 		int _anchoNivel;
 
+	protected:
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+
 	public:
 		ModeloHechizoHielo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloHechizoHielo();
 		
 		bool inmediato();
-
-		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloBomba : public ModeloItem {
 	private:
 		int _altoNivel;
 		int _anchoNivel;
+		DWORD _instanteActivacion;
+
+	protected:
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 
 	public:
 		ModeloBomba(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -166,6 +190,4 @@ class ModeloBomba : public ModeloItem {
 		virtual ~ModeloBomba();
 		
 		bool inmediato();
-
-		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };

@@ -56,11 +56,10 @@ void ModeloJugador::recogerItem() {
 	if (!this->_vistaMovimiento->terminado() || (fabs((float)posicionJugador.x - posicionItem.x) > 1) || (fabs((float)posicionJugador.y - posicionItem.y) > 1))
 		return;
 	
-	// Si llegue al item y no fue recogido por nadie lo aplico
+	// Si llegue al item y no fue recogido por nadie recogo
 	if (this->_item->disponible()) {
-		this->_item->disponible(false);
-		this->_item->aplicar(this, this->_listaJugadores, this->_listaEnemigos);
-		this->enviarEstado();
+		this->_item->asignarJugador(this);
+		this->_item->activar();
 	}
 	this->_item = NULL;
 }

@@ -2,24 +2,19 @@
 
 using namespace std;
 
-ModeloBomba::ModeloBomba(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad)
-	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad) {
-	this->_altoNivel = altoNivel;
-	this->_anchoNivel = anchoNivel;
-}
+bool ModeloBomba::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
+	if (this->_instanteActivacion == 0) {
+		this->_instanteActivacion = GetTickCount();
+		return false;
+	}
 
-ModeloBomba::~ModeloBomba() {
-}
+	if (DELAY_BOMBA > GetTickCount() - this->_instanteActivacion)
+		return false;
 
-bool ModeloBomba::inmediato() {
-	return false;
-}
-
-void ModeloBomba::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
-	int xDesde = this->modeloEntidad()->posicion().x - RANGO_HECHIZO_HIELO;
-	int xHasta = this->modeloEntidad()->posicion().x + RANGO_HECHIZO_HIELO;
-	int yDesde = this->modeloEntidad()->posicion().y - RANGO_HECHIZO_HIELO;
-	int yHasta = this->modeloEntidad()->posicion().y + RANGO_HECHIZO_HIELO;
+	int xDesde = this->modeloEntidad()->posicion().x - RANGO_BOMBA;
+	int xHasta = this->modeloEntidad()->posicion().x + RANGO_BOMBA;
+	int yDesde = this->modeloEntidad()->posicion().y - RANGO_BOMBA;
+	int yHasta = this->modeloEntidad()->posicion().y + RANGO_BOMBA;
 
 	if (xDesde < 0)
 		xDesde = 0;
@@ -42,4 +37,20 @@ void ModeloBomba::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores
 				victima->consumirVida(DANIO_BOMBA);
 		}
 	}
+
+	return true;
+}
+
+ModeloBomba::ModeloBomba(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad)
+	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad) {
+	this->_altoNivel = altoNivel;
+	this->_anchoNivel = anchoNivel;
+	this->_instanteActivacion = 0;
+}
+
+ModeloBomba::~ModeloBomba() {
+}
+
+bool ModeloBomba::inmediato() {
+	return false;
 }
