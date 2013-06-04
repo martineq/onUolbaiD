@@ -3,6 +3,7 @@
 #include "VistaAnimacion.h"
 #include "VistaAnimaciones.h"
 #include "VistaScroll.h"
+#include "VistaMusica.h"
 #include "../../utils/Observador/Identificable.h"
 #include "../../utils/Proxy/ProxyModeloEntidad.h"
 
@@ -10,6 +11,7 @@ class VistaEntidad: public Identificable{
 
 	private:		
 		bool esJugador;
+		bool esMiJugador;
 		bool estaCongelado;
 		double x;
 		double y;
@@ -38,6 +40,8 @@ class VistaEntidad: public Identificable{
 		std::string nombreEntidad;
 		std::string nombreJugador;
 		int vida;
+
+		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio);
 
 	public:
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado,std::string nombreJugador);
@@ -80,4 +84,5 @@ class VistaEntidad: public Identificable{
 		bool graficar(char visibilidad);
 		void setPantalla(SDL_Surface* screen);
 		void setEstaCongelado(bool estado);
+		void setEsMiJugador(bool valor);
 };

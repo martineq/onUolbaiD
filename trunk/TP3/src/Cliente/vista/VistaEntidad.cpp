@@ -62,6 +62,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->fps = fps;
 	this->delay = delay;
 	this->esJugador = esJugador;	
+	this->esMiJugador = false;
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
 	this->animacionActual = NULL;
 
@@ -104,8 +105,10 @@ void VistaEntidad::setPosicionAnteriorEnTiles(){
 // Este método será usado ahora por el ProxyModeloEntidad
 void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 
-	// @Dani: Con esta nueva variable chequeas si disminuyó la energia. 
+	// Con estas nuevas variables se chequea si disminuyó la energia. 
 	bool sufrioDanio = ( this->vida > entidad.vida );
+	bool murio = (entidad.vida == 0);
+	this->actualizarEventosSonido(entidad.nombreEntidad,sufrioDanio,murio);
 
 	// Actualizo los datos
 	this->setPosicionAnteriorEnTiles();
@@ -278,4 +281,42 @@ bool VistaEntidad::getEstaCongelado(){
 
 bool VistaEntidad::getTieneMapa(){
 	return this->tieneMapa;
+}
+
+
+void VistaEntidad::setEsMiJugador(bool valor){
+	this->esMiJugador = valor;
+	return void();
+}
+
+void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio){
+
+	// True solo si es el el jugador de este cliente
+	bool esMiJugador = this->esMiJugador;
+
+	// True solo si es otro jugador que no sea el mio, incluye los automáticos
+	bool esOtroJugador = ( this->esJugador == true && this->esMiJugador == false );
+
+	// True solo si es un item. Acá se pueden agregar mas items que vayamos implementando
+	bool esItem = (this->nombreEntidad.compare(STRING_CORAZON) == 0	|| this->nombreEntidad.compare(STRING_ESCUDO) == 0	
+		|| this->nombreEntidad.compare(STRING_ZAPATO) == 0	 || this->nombreEntidad.compare(STRING_BOTELLA) == 0
+		|| this->nombreEntidad.compare(STRING_LAMPARA) == 0	|| this->nombreEntidad.compare(STRING_MAPA) == 0 
+		|| this->nombreEntidad.compare(STRING_ESPADA) == 0);
+
+	// Se murio mi jugador
+	if( esMiJugador == true && murio == true ) {
+		//VistaMusica::getInstance()./*Completar*/;
+	}
+
+	// Se murio un enemigo
+	if( esOtroJugador == true && murio == true ) {
+	/*Descomentar*/	//VistaMusica::getInstance().murioEnemigo();
+	}
+
+	// Se tomo item
+	if ( esItem == true && murio == true ) { 
+	/*Descomentar*/	//VistaMusica::getInstance().itemTomado();
+	} 
+
+	return void();
 }
