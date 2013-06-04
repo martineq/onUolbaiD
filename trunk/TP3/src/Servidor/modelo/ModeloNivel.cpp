@@ -72,6 +72,8 @@ void ModeloNivel::agregarEnemigo(ModeloJugador* enemigo) {
 
 void ModeloNivel::agregarItem(ModeloItem* item) {
 	this->listaItems.agregarItem(item);
+	item->asignarListaJugadores(&this->listaJugadores);
+	item->asignarListaEnemigos(&this->listaEnemigos);
 	item->enviarEstado();
 }
 
@@ -144,6 +146,7 @@ void ModeloNivel::desconectarJugador(int id){
 bool ModeloNivel::actualizar() {
 	std::list<ModeloJugador*> listaJugadores = this->getJugadores();
 	std::list<ModeloJugador*> listaEnemigos = this->getEnemigos();
+	std::multimap<std::pair<int, int>, ModeloItem*> listaItems = this->getItems();
 	
 	// Ejecuto el cambio de estado de todos los jugadores
 	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++)
@@ -162,6 +165,11 @@ bool ModeloNivel::actualizar() {
 		
 		(*enemigo)->cambiarEstado();
 	}
+
+	// Ejecuto el cambio de estado de todos los items
+	for (std::multimap<std::pair<int, int>, ModeloItem*>::iterator item = listaItems.begin(); item != listaItems.end(); item++)
+		(*item).second->cambiarEstado();
+
 	return true;
 }
 

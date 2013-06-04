@@ -155,7 +155,7 @@
 // En ModeloJugador
 #define RANGO_VISION 2
 #define MAXIMO_ESCUDO 100
-#define TIEMPO_CONGELAMIENTO 1000
+#define TIEMPO_CONGELAMIENTO 4000
 
 // En VistaChat
 #define MARGEN 20
@@ -182,6 +182,7 @@
 #define RANGO_HECHIZO_HIELO 2
 
 // En ModeloBomba
+#define DELAY_BOMBA 2000
 #define DANIO_BOMBA 20
 #define RANGO_BOMBA 2
 

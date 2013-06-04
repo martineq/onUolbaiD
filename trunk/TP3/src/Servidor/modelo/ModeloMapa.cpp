@@ -2,6 +2,11 @@
 
 using namespace std;
 
+bool ModeloMapa::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
+	jugador->setTieneMapa(true);
+	return true;
+}
+
 ModeloMapa::ModeloMapa(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad)
 	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad) {
 }
@@ -11,8 +16,4 @@ ModeloMapa::~ModeloMapa() {
 
 bool ModeloMapa::inmediato() {
 	return true;
-}
-
-void ModeloMapa::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
-	jugador->setTieneMapa(true);
 }

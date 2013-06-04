@@ -20,7 +20,7 @@ void ListaItems::asignarListaEntidades(ListaEntidades* listaEntidades) {
 }
 
 void ListaItems::destruirItems() {
-	for (multimap<std::pair<int, int>, ModeloItem*>::iterator item = this->_items.begin(); item != this->_items.end(); item++) {
+	for (multimap<pair<int, int>, ModeloItem*>::iterator item = this->_items.begin(); item != this->_items.end(); item++) {
 		this->_listaEntidades->removerEntidad((*item).second->modeloEntidad());
 		delete (*item).second;
 	}
@@ -37,7 +37,7 @@ ModeloItem* ListaItems::obtenerItem(Posicion posicion) {
 	return (resultado.first == resultado.second) ? NULL : (*resultado.first).second;
 }
 
-std::multimap<std::pair<int, int>, ModeloItem*> ListaItems::obtenerItems() {
+multimap<pair<int, int>, ModeloItem*> ListaItems::obtenerItems() {
 	return this->_items;
 }
 
