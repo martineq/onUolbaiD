@@ -46,7 +46,7 @@ class ModeloNivel {
 		void agregarEntidad(ModeloEntidad* entidad);
 		
 		void ejecutarAccionJugador(int tileX, int tileY, int id);
-		void congelarJugador(int id);
+		void desconectarJugador(int id);
 
 		ModeloJugador* obtenerJugador(int id);
 		ModeloJugador* obtenerJugador(Posicion posicion);

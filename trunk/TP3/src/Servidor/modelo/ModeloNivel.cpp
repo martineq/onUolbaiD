@@ -91,7 +91,7 @@ void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 	ModeloJugador* jugador = this->obtenerJugador(id);
 	
 	// Si no encontre jugador o esta congelado salgo
-	if ((jugador == NULL) || (jugador->estaCongelado()))
+	if ((jugador == NULL) || jugador->estaDesconectado() || jugador->estaCongelado())
 		return;
 	
 	Posicion posicion;
@@ -128,13 +128,13 @@ void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 	jugador->mover(posicion);
 }
 
-void ModeloNivel::congelarJugador(int id){
+void ModeloNivel::desconectarJugador(int id){
 	ModeloJugador* jugador = this->obtenerJugador(id);
 	if (jugador == NULL){
 		return void();
 	}else{
-		if( jugador->estaCongelado() == false ){
-			jugador->estaCongelado(true);
+		if( jugador->estaDesconectado() == false ){
+			jugador->estaDesconectado(true);
 			this->decrementarJugadores();		// Se resta la cantidad de jugadores cuando alguno de ellos tiene error
 		}
 	}
@@ -151,7 +151,7 @@ bool ModeloNivel::actualizar() {
 
 	// Ejecuto el cambio de estado de todos los enenmigos vivos y que no esten congelados
 	for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
-		if ((*enemigo)->estaCongelado() || ((*enemigo)->vida() == 0))
+		if ((*enemigo)->vida() == 0)
 			continue;
 		
 		// Busco algun jugador que este en el rango de vision para atacarlo

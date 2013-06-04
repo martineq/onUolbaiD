@@ -12,7 +12,6 @@ void ModeloJugador::atacarEnemigo() {
 	if (!this->estaEnRangoVision(this->_enemigo) || (this->_enemigo->vida() == 0)) {
 		this->_modeloMovimiento->detener();
 		this->_enemigo = NULL;
-		this->_instanteUltimoCambioEstado = GetTickCount();
 		return;
 	}
 
@@ -20,11 +19,6 @@ void ModeloJugador::atacarEnemigo() {
 	if (this->_vistaMovimiento->terminado() && (fabs((float)posicionJugador.x - posicionEnemigo.x) <= 1) && (fabs((float)posicionJugador.y - posicionEnemigo.y) <= 1)) {
 		// Si el enemigo es autonomo chequeo el tiempo del ultimo cambio de estado para que no pegue muy seguido
 		if (this->_autonomo) {
-			if (this->_instanteUltimoCambioEstado == 0) {
-				this->_instanteUltimoCambioEstado = GetTickCount();
-				return;
-			}
-
 			if (DELAY_ATAQUE > (GetTickCount() - this->_instanteUltimoCambioEstado))
 				return;
 		}
@@ -105,6 +99,7 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_escudo = 0;
 	this->_tieneMapa = false;
 	this->_estaCongelado = false;
+	this->_estaDesconectado = false;
 	this->_magia = maximoMagia;
 	this->_maximoMagia = maximoMagia;
 	this->_nombreJugador = nombreJugador;
@@ -172,6 +167,23 @@ void ModeloJugador::estaCongelado(bool estaCongelado) {
 	this->_estaCongelado = estaCongelado;
 	this->_enemigo = NULL;
 	this->_modeloMovimiento->detener();
+	this->_instanteCongelamiento = GetTickCount();
+	this->_mutex.unlock(__FILE__, __LINE__);
+	this->enviarEstado();
+}
+
+bool ModeloJugador::estaDesconectado() {
+	this->_mutex.lockLectura(__FILE__, __LINE__);
+	bool estaDesconectado = this->_estaDesconectado;
+	this->_mutex.unlock(__FILE__, __LINE__);
+	return estaDesconectado;
+}
+
+void ModeloJugador::estaDesconectado(bool estaDesconectado) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_estaDesconectado = estaDesconectado;
+	this->_enemigo = NULL;
+	this->_modeloMovimiento->detener();
 	this->_mutex.unlock(__FILE__, __LINE__);
 	this->enviarEstado();
 }
@@ -217,7 +229,7 @@ ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
 	ProxyModeloEntidad::stEntidad estado = this->_modeloEntidad->stEntidad();
 	estado.nombreJugador = this->_nombreJugador;
 	estado.escudo = this->_escudo;
-	estado.estaCongelado = this->_estaCongelado;
+	estado.estaCongelado = this->_estaDesconectado || this->_estaCongelado;
 	estado.magia = this->_magia;
 	estado.maximoVida = this->_maximoVida;
 	estado.vida = this->_vida;
@@ -264,6 +276,13 @@ void ModeloJugador::atacar(ModeloJugador* enemigo) {
 void ModeloJugador::cambiarEstado() {
 	// Marco el tile actual como visitado
 	this->_estadoNivel->visitar(this->_modeloEntidad->posicion().x, this->_modeloEntidad->posicion().y);
+
+	// Si el personaje esta congelado chequeo si se puede descongelar
+	if (this->_estaCongelado) {
+		if (TIEMPO_CONGELAMIENTO < GetTickCount() - this->_instanteCongelamiento)
+			this->estaCongelado(false);
+		return;
+	}
 
 	// Ejecuto la accion dependiendo de a que estoy persiguiendo
 	if (this->_enemigo != NULL)

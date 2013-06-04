@@ -220,10 +220,10 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 	// NOTA: Observar que si encuentro al usuario, ya no me interesa el personaje que eligió el cliente, porque este ya se encuentra creado
 	if( moteEncontrado == true ){		
 		// Me fijo si está congelado o no
-		if( pEntidad->estaCongelado() == true){
+		if( pEntidad->estaDesconectado() == true){
 
 			// Si está congelado y es el mismo nombre de usuario, lo descongelo y obtengo sus datos
-			pEntidad->estaCongelado(false);
+			pEntidad->estaDesconectado(false);
 
 			// Cargo la entidad
 			stEntidad = pEntidad->stEntidad();
