@@ -7,6 +7,7 @@
 #include "ModeloJugador.h"
 
 class ModeloJugador;
+class ListaJugadores;
 
 class ModeloItem {
 	private:
@@ -33,7 +34,7 @@ class ModeloItem {
 
 		void enviarEstado();
 
-		virtual void aplicar(ModeloJugador* jugador) = 0;
+		virtual void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) = 0;
 };
 
 class ListaItems {
@@ -66,7 +67,7 @@ class ModeloBotella : public ModeloItem {
 
 		virtual ~ModeloBotella();
 		
-		void aplicar(ModeloJugador* jugador);
+		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloCorazon : public ModeloItem {
@@ -75,7 +76,7 @@ class ModeloCorazon : public ModeloItem {
 
 		virtual ~ModeloCorazon();
 		
-		void aplicar(ModeloJugador* jugador);
+		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloEscudo : public ModeloItem {
@@ -84,7 +85,7 @@ class ModeloEscudo : public ModeloItem {
 
 		virtual ~ModeloEscudo();
 		
-		void aplicar(ModeloJugador* jugador);
+		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloLampara : public ModeloItem {
@@ -93,7 +94,7 @@ class ModeloLampara : public ModeloItem {
 
 		virtual ~ModeloLampara();
 		
-		void aplicar(ModeloJugador* jugador);
+		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloMapa: public ModeloItem {
@@ -102,7 +103,7 @@ class ModeloMapa: public ModeloItem {
 
 		virtual ~ModeloMapa();
 		
-		void aplicar(ModeloJugador* jugador);
+		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloZapato : public ModeloItem {
@@ -111,7 +112,7 @@ class ModeloZapato : public ModeloItem {
 
 		virtual ~ModeloZapato();
 		
-		void aplicar(ModeloJugador* jugador);
+		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
 class ModeloEspada : public ModeloItem {
@@ -120,5 +121,5 @@ class ModeloEspada : public ModeloItem {
 
 		virtual ~ModeloEspada();
 		
-		void aplicar(ModeloJugador* jugador);
+		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };

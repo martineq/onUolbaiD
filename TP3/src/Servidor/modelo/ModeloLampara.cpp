@@ -5,6 +5,6 @@ ModeloLampara::ModeloLampara(int alto, int ancho, int velocidad, Posicion posici
 
 ModeloLampara::~ModeloLampara() {}
 
-void ModeloLampara::aplicar(ModeloJugador* jugador) {
+void ModeloLampara::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
 	jugador->getEstadoNivel()->rangoVision(RANGO_VISION*2);
 }

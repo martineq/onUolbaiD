@@ -65,7 +65,7 @@ void ModeloJugador::recogerItem() {
 	// Si llegue al item y no fue recogido por nadie lo aplico
 	if (this->_item->disponible()) {
 		this->_item->disponible(false);
-		this->_item->aplicar(this);
+		this->_item->aplicar(this, this->_listaJugadores, this->_listaEnemigos);
 		this->enviarEstado();
 	}
 	this->_item = NULL;
@@ -235,6 +235,10 @@ int ModeloJugador::vida() {
 	return vida;
 }
 
+void ModeloJugador::asignarListaEnemigos(ListaJugadores* listaEnemigos) {
+	this->_listaEnemigos = listaEnemigos;
+}
+
 void ModeloJugador::asignarListaEntidades(ListaEntidades* listaEntidades) {
 	this->_listaEntidades = listaEntidades;
 	this->_modeloMovimiento->asignarListaEntidades(listaEntidades);
@@ -242,6 +246,10 @@ void ModeloJugador::asignarListaEntidades(ListaEntidades* listaEntidades) {
 
 void ModeloJugador::asignarListaItems(ListaItems* listaItems) {
 	this->_listaItems = listaItems;
+}
+
+void ModeloJugador::asignarListaJugadores(ListaJugadores* listaJugadores) {
+	this->_listaJugadores = listaJugadores;
 }
 
 void ModeloJugador::atacar(ModeloJugador* enemigo) {

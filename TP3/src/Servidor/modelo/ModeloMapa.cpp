@@ -9,6 +9,6 @@ ModeloMapa::ModeloMapa(int alto, int ancho, int velocidad, Posicion posicion, in
 ModeloMapa::~ModeloMapa() {
 }
 
-void ModeloMapa::aplicar(ModeloJugador* jugador) {
+void ModeloMapa::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
 	jugador->setTieneMapa(true);
 }

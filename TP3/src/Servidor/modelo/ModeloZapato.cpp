@@ -7,7 +7,7 @@ ModeloZapato::ModeloZapato(int alto, int ancho, int velocidad, Posicion posicion
 ModeloZapato::~ModeloZapato() {
 }
 
-void ModeloZapato::aplicar(ModeloJugador* jugador) {
+void ModeloZapato::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
 	int velocidadRegular = jugador->modeloEntidad()->velocidad();
 	int velocidadZapato = velocidadRegular/2;						// Dividiendo aumenta la velocidad... ¿No?
 	jugador->modeloEntidad()->velocidad(velocidadZapato);

@@ -9,6 +9,6 @@ ModeloBotella::ModeloBotella(int alto, int ancho, int velocidad, Posicion posici
 ModeloBotella::~ModeloBotella() {
 }
 
-void ModeloBotella::aplicar(ModeloJugador* jugador) {
+void ModeloBotella::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
 	jugador->recuperarMagia(MAGIA_RECUPERADA);
 }
