@@ -9,6 +9,10 @@ ModeloCorazon::ModeloCorazon(int alto, int ancho, int velocidad, Posicion posici
 ModeloCorazon::~ModeloCorazon() {
 }
 
+bool ModeloCorazon::inmediato() {
+	return true;
+}
+
 void ModeloCorazon::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
 	jugador->recuperarVida(VIDA_RECUPERADA);
 }

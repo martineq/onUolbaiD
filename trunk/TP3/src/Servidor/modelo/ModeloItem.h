@@ -34,6 +34,8 @@ class ModeloItem {
 
 		void enviarEstado();
 
+		virtual bool inmediato() = 0;
+
 		virtual void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) = 0;
 };
 
@@ -67,6 +69,8 @@ class ModeloBotella : public ModeloItem {
 
 		virtual ~ModeloBotella();
 		
+		bool inmediato();
+
 		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
@@ -76,6 +80,8 @@ class ModeloCorazon : public ModeloItem {
 
 		virtual ~ModeloCorazon();
 		
+		bool inmediato();
+
 		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
@@ -85,6 +91,8 @@ class ModeloEscudo : public ModeloItem {
 
 		virtual ~ModeloEscudo();
 		
+		bool inmediato();
+
 		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
@@ -94,6 +102,8 @@ class ModeloLampara : public ModeloItem {
 
 		virtual ~ModeloLampara();
 		
+		bool inmediato();
+
 		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
@@ -103,6 +113,8 @@ class ModeloMapa: public ModeloItem {
 
 		virtual ~ModeloMapa();
 		
+		bool inmediato();
+
 		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
@@ -112,6 +124,8 @@ class ModeloZapato : public ModeloItem {
 
 		virtual ~ModeloZapato();
 		
+		bool inmediato();
+
 		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
 
@@ -121,5 +135,37 @@ class ModeloEspada : public ModeloItem {
 
 		virtual ~ModeloEspada();
 		
+		bool inmediato();
+
+		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+};
+
+class ModeloHechizoHielo : public ModeloItem {
+	private:
+		int _altoNivel;
+		int _anchoNivel;
+
+	public:
+		ModeloHechizoHielo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloHechizoHielo();
+		
+		bool inmediato();
+
+		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+};
+
+class ModeloBomba : public ModeloItem {
+	private:
+		int _altoNivel;
+		int _anchoNivel;
+
+	public:
+		ModeloBomba(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloBomba();
+		
+		bool inmediato();
+
 		void aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
 };
