@@ -4,8 +4,9 @@ VistaLoop::VistaLoop(void){
 	this->pantalla = NULL;
 	this->pProxyEntidad = NULL;
 	this->hayEntidadEnEspera = false;
+	this->reproduciAtacar = false;
 	this->entidadEnEspera.id = -1;
-	this->vistaChat = NULL;
+	this->vistaChat = NULL;	
 }
 
 VistaLoop::~VistaLoop(void){
@@ -38,15 +39,31 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, EstadoNivel* estadoNivel
 	estadoNivel->visitar(vistaNivel.getJugador()->getTileX(), vistaNivel.getJugador()->getTileY());
 }
 
+void VistaLoop::reproducirSonidos(VistaNivel& vistaNivel){
+	//Sonido de atacando.
+	if ( vistaNivel.getJugador()->getCodigoAnimacion() >8 && vistaNivel.getJugador()->getCodigoAnimacion() < 17 ){
+		if (!this->reproduciAtacar) {
+			VistaMusica::getInstance().atacar();			
+			reproduciAtacar = true;
+		}
+		if (vistaNivel.getJugador()->getEsUltimoMovimiento()){
+			this->reproduciAtacar = false;			
+		}
+	}
+
+	//Sonido siendo atacado o sea sufrio danio.
+	if (vistaNivel.getJugador()->getSufrioDanio())
+		VistaMusica::getInstance().recibioUnGolpe();	
+
+}
+
 bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNivel* estadoNivel){
 	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory) == false) return false;	// Actuliza lo que vino por el proxy
 
 	//Item Mapa
 	estadoNivel->setTieneMapa(vistaNivel.getJugador()->getTieneMapa());
 
-	//Sonido de atacando.
-	if ( vistaNivel.getJugador()->getCodigoAnimacion() >8 || vistaNivel.getJugador()->getCodigoAnimacion() < 17)
-		VistaMusica::getInstance().atacar();
+	this->reproducirSonidos(vistaNivel);
 
 	if ( (vistaNivel.getJugador()->getTileXAnterior() != vistaNivel.getJugador()->getTileX())
 		|| (vistaNivel.getJugador()->getTileYAnterior() != vistaNivel.getJugador()->getTileY()) ) {
