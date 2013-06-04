@@ -63,6 +63,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->delay = delay;
 	this->esJugador = esJugador;	
 	this->esMiJugador = false;
+	this->sufrioDanio = false;
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
 	this->animacionActual = NULL;
 
@@ -106,7 +107,7 @@ void VistaEntidad::setPosicionAnteriorEnTiles(){
 void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 
 	// Con estas nuevas variables se chequea si disminuyó la energia. 
-	bool sufrioDanio = ( this->vida > entidad.vida );
+	this->sufrioDanio = ( this->vida > entidad.vida );
 	bool murio = (entidad.vida == 0);
 	this->actualizarEventosSonido(entidad.nombreEntidad,sufrioDanio,murio);
 
@@ -121,7 +122,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->estaCongelado = entidad.estaCongelado;
 	this->nombreEntidad = entidad.nombreEntidad;
 	this->nombreJugador = entidad.nombreJugador;
-	this->vida = entidad.vida;
+	this->vida = entidad.vida;	
 
 	int codigo = entidad.accion;
 	if( (this->esJugador) && (codigo != this->codigoAnimacion)){
@@ -283,6 +284,13 @@ bool VistaEntidad::getTieneMapa(){
 	return this->tieneMapa;
 }
 
+bool VistaEntidad::getSufrioDanio(){
+	return this->sufrioDanio;
+}
+
+bool VistaEntidad::getEsUltimoMovimiento(){
+	return this->esUltimoMovimiento;
+}
 
 void VistaEntidad::setEsMiJugador(bool valor){
 	this->esMiJugador = valor;
@@ -305,17 +313,17 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 
 	// Se murio mi jugador
 	if( esMiJugador == true && murio == true ) {
-		//VistaMusica::getInstance()./*Completar*/;
+		VistaMusica::getInstance().murioJugador();
 	}
 
 	// Se murio un enemigo
 	if( esOtroJugador == true && murio == true ) {
-	/*Descomentar*/	//VistaMusica::getInstance().murioEnemigo();
+		VistaMusica::getInstance().murioEnemigo();
 	}
 
 	// Se tomo item
 	if ( esItem == true && murio == true ) { 
-	/*Descomentar*/	//VistaMusica::getInstance().itemTomado();
+		VistaMusica::getInstance().itemTomado();
 	} 
 
 	return void();

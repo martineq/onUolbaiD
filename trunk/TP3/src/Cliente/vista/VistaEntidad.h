@@ -13,6 +13,10 @@ class VistaEntidad: public Identificable{
 		bool esJugador;
 		bool esMiJugador;
 		bool estaCongelado;
+		bool esNecesarioRefrescar;
+		bool tieneMapa;
+		bool esUltimoMovimiento;
+		bool sufrioDanio;
 		double x;
 		double y;
 		double alto;
@@ -22,11 +26,12 @@ class VistaEntidad: public Identificable{
 		double fps;
 		double delay;
 		double xEnPantalla;
-		double yEnPantalla;
-		int rangoVision;
+		double yEnPantalla;		
 		SDL_Rect area;
 		vector<string> estados;
 		std::list<std::list<std::string>> listaAnimaciones;
+		std::string nombreEntidad;
+		std::string nombreJugador;
 		VistaAnimacion* animacionActual;
 		VistaAnimaciones* animaciones;
 		int codigoAnimacion;
@@ -35,11 +40,8 @@ class VistaEntidad: public Identificable{
 		int tileXAnterior;
 		int tileYAnterior;	
 		int _id;
-		bool esNecesarioRefrescar;
-		bool tieneMapa;
-		std::string nombreEntidad;
-		std::string nombreJugador;
 		int vida;
+		int rangoVision;	
 
 		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio);
 
@@ -51,15 +53,13 @@ class VistaEntidad: public Identificable{
 		bool verificarBordePantalla(VistaScroll* scroll);
 		int id();
 
-		// Getters
-		bool getEsJugador(void);
+		// Getters		
 		double getX(void);
 		double getY(void);
 		double getAlto(void);
 		double getAncho(void);
 		double getPosRefX(void);
-		double getPosRefY(void);
-		int getRangoVision();
+		double getPosRefY(void);		
 		double getFps(void);
 		double getDelay(void);
 		int getTileX();
@@ -67,22 +67,27 @@ class VistaEntidad: public Identificable{
 		int getTileXAnterior();
 		int getTileYAnterior();
 		int getCodigoAnimacion(void);
-		std::list<std::list<std::string>> getListaAnimaciones(void);
-		bool getEsNecesarioRefrescar(void);
+		int getRangoVision();		
+		bool getEsNecesarioRefrescar(void);		
+		bool getEsUltimoMovimiento();
 		bool getEstaCongelado();
 		bool getTieneMapa();
+		bool getEsJugador(void);
+		bool getEstaVivo();
+		bool getSufrioDanio();
 		std::string getNombreEntidad();
 		std::string getNombreJugador();
-		bool getEstaVivo();
+		std::list<std::list<std::string>> getListaAnimaciones(void);	
 
 		// Setters
 		void setXEnPantalla(double scrollX);
 		void setYEnPantalla(double scrollY);
 		void setEsNecesarioRefrescar(bool boolRefrescar);
 		void setAnimacion(std::string estado);
-		void setPosicionAnteriorEnTiles();	
-		bool graficar(char visibilidad);
+		void setPosicionAnteriorEnTiles();			
 		void setPantalla(SDL_Surface* screen);
 		void setEstaCongelado(bool estado);
 		void setEsMiJugador(bool valor);
+		bool graficar(char visibilidad);
+
 };
