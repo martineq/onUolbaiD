@@ -375,7 +375,7 @@ void Pruebas::PruebaAnimacion() {
 
 	listaAnimaciones.push_back(listaN);
 
-	VistaEntidad* vEntidad = new VistaEntidad(0,0,263,260,0,0,1,15,1000,listaAnimaciones,false,0,0,0,"SORA",false,0,"");
+	VistaEntidad* vEntidad = new VistaEntidad(0,0,263,260,0,0,1,15,1000,listaAnimaciones,false,0,0,0,"SORA",false,0,"",1);
 	vEntidad->setPantalla(pantalla);
 	SDL_Rect rcPasto;
 
