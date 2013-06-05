@@ -279,6 +279,7 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	double y = (double)this->juegoElegido.entidadJugador.posicionY;
 	int id = this->juegoElegido.entidadJugador.id;
 	int direccion = this->juegoElegido.entidadJugador.accion;
+	int vida = this->juegoElegido.entidadJugador.vida;
 
 	// Valores tomados desde la entidad
 	double alto = (double)entidadProtagonista.altoBase;
@@ -294,7 +295,7 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,false,direccion,this->juegoElegido.entidadJugador.nombreJugador);
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,false,direccion,this->juegoElegido.entidadJugador.nombreJugador,vida);
 	VistaScroll* pScroll = new VistaScroll(x,y,this->juegoElegido.pantalla.alto,this->juegoElegido.pantalla.ancho,tamanioX,tamanioY,pantalla,id);	// Tomo el mismo x,y,velocidad que el personaje
 	pJugador->setEsMiJugador(true);
 	vistaNivel.agregarJugador(pJugador);
@@ -325,6 +326,7 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	int id = entidad.id;
 	double x = (double)entidad.posicionX;
 	double y = (double)entidad.posicionY;	
+	int vida = entidad.vida;
 
 	// Valores tomados desde la entidad
 	double alto = (double)entidadJugador.altoBase;
@@ -342,7 +344,7 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 
 	bool esJugador = true;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,entidad.rangoVision,fps,delay,listaAnimaciones,esJugador,tamanioX,tamanioY,id,nombre,entidad.estaCongelado,entidad.accion,entidad.nombreJugador);
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,entidad.rangoVision,fps,delay,listaAnimaciones,esJugador,tamanioX,tamanioY,id,nombre,entidad.estaCongelado,entidad.accion,entidad.nombreJugador,vida);
 	vistaNivel.agregarOtroJugador(pJugador);
 	return void();
 }
@@ -389,8 +391,9 @@ void VistaFactory::crearItems(VistaNivel& vistaNivel){
 		double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
 
 		bool esJugador = false;
+		int vida = 1;
 
-		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,esJugador,tamanioX,tamanioY,id,nombreEntidad,false,0,mote);
+		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,esJugador,tamanioX,tamanioY,id,nombreEntidad,false,0,mote,vida);
 		vistaNivel.agregarEntidad(pEntidad);
 	}
 
@@ -429,7 +432,9 @@ void VistaFactory::crearEntidadesNoJugadores(VistaNivel& vistaNivel){
 		// Valores tomados desde el servidor, cargados anteriormente en una variable
 		int id = idEntidadesDef.front();
 
-		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id,nombre,false,0,this->juegoElegido.entidadJugador.nombreJugador);
+		int vida = 1;
+
+		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id,nombre,false,0,this->juegoElegido.entidadJugador.nombreJugador,vida);
 		vistaNivel.agregarEntidad(pEntidad);
 
 		idEntidadesDef.pop_front();	// Una vez que usé el ID lo destruyo para tener acceso al próximo
