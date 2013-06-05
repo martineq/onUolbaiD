@@ -264,7 +264,6 @@ ProxyModeloEntidad** VistaLoop::getPunteroProxy(){
 
 SDL_Surface** VistaLoop::getPunteroPantalla(){
 	return &(this->pantalla);
-
 }
 
 void VistaLoop::asignarChat(VistaChat* vistaChat) {

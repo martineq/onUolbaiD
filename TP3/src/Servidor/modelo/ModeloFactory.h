@@ -13,6 +13,11 @@
 #include "../../utils/Serializacion/Serializadora.h"
 #include "../../utils/Temporizador/Temporizador.h"
 
+#include <sdl.h>
+#include <SDL_ttf.h>
+#include "../../utils/SDLgfx/SDL_gfxPrimitives.h"
+#include "../../Cliente/vista/ImageLoader.h"
+
 class ModeloFactory{
 
 	private:
@@ -35,6 +40,7 @@ class ModeloFactory{
 
 		// Métodos para ser usados por el factory mismo, el iniciar
 		bool elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios);
+		bool nuevoElegirEscenario (std::list<ParserYaml::stEscenario>& listaEscenarios);
 		void crearEntidades(ModeloNivel& modeloNivel);
 		void crearEnemigosAutomaticos(ModeloNivel& modeloNivel);
 		void crearItems(ModeloNivel& modeloNivel);

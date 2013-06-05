@@ -3,9 +3,96 @@
 using namespace std;
 
 Pruebas::Pruebas() {
+	this->PruebaMenuInicial();
 }
 
 Pruebas::~Pruebas() {
+}
+
+void Pruebas::PruebaMenuInicial(){
+	SDL_Surface *imagenDeFondo = NULL;
+	SDL_Surface *textoSinglePlayer = NULL;
+	SDL_Surface *textoMultiPlayer = NULL;
+	SDL_Surface *textoClic = NULL;
+	SDL_Surface *pantalla = NULL;
+	SDL_Event event;
+	TTF_Font *fuente = NULL;
+	SDL_Color textColor = { 255, 255, 255 }; //color blanco 	
+	bool quit = false;
+	bool clicBotonMouseIzquierdo = false;	
+	int posicionMouseX, posicionMouseY;
+	SDL_Init( SDL_INIT_EVERYTHING );
+	pantalla = SDL_SetVideoMode( PANTALLA_ANCHO, PANTALLA_ALTO, SCREEN_BPP, SDL_SWSURFACE );
+	TTF_Init();
+	SDL_WM_SetCaption( "Menu", NULL );
+	imagenDeFondo = ImageLoader::getInstance().load_image( "./img/background.png" );
+	fuente = TTF_OpenFont( "./fonts/Lazy.ttf", 28 );
+	textoSinglePlayer = TTF_RenderText_Solid( fuente, "Single Player", textColor );
+	textoMultiPlayer  = TTF_RenderText_Solid( fuente, "Multiplayer", textColor );
+	textoClic  = TTF_RenderText_Solid( fuente, "CLIC", textColor );
+	SDL_Rect offsetDelFondo;
+	offsetDelFondo.x = 0;
+	offsetDelFondo.y = 0;
+	SDL_BlitSurface( imagenDeFondo, NULL, pantalla, &offsetDelFondo );
+	while( quit == false ) {
+        while( SDL_PollEvent( &event ) ) {            
+			switch (event.type) {
+				case SDL_QUIT:
+					quit = true;
+				break;
+				case SDL_MOUSEMOTION:
+					posicionMouseX = event.motion.x;
+					posicionMouseY = event.motion.y;
+				break;		
+				case SDL_MOUSEBUTTONDOWN:
+					switch (event.button.button) {
+						case SDL_BUTTON_LEFT:	
+							clicBotonMouseIzquierdo = true;
+						break;						
+					}			
+					break;
+				case SDL_MOUSEBUTTONUP:
+					switch (event.button.button) {
+						case SDL_BUTTON_LEFT:	
+							clicBotonMouseIzquierdo = false;
+						break;				
+					}			
+				break;
+			}
+		}
+		if ( (clicBotonMouseIzquierdo && posicionMouseX >95 && posicionMouseX <260 && posicionMouseY >195 && posicionMouseY <238) 
+		   || (clicBotonMouseIzquierdo && posicionMouseX >395 && posicionMouseX <540 && posicionMouseY >195 && posicionMouseY <238) ) {
+			SDL_Rect offsetDelClic;
+			offsetDelClic.x = 0;
+			offsetDelClic.y = 0;
+			SDL_BlitSurface( textoClic, NULL, pantalla, &offsetDelClic );
+		}
+		else {
+			/*SDL_Rect offsetDelFondo;
+			offsetDelFondo.x = 0;
+			offsetDelFondo.y = 0;
+			SDL_BlitSurface( imagenDeFondo, NULL, pantalla, &offsetDelFondo );*/
+		}		
+		SDL_Rect offsetDelTextoSinglePlayer;
+		offsetDelTextoSinglePlayer.x = 100;
+		offsetDelTextoSinglePlayer.y = 200;
+		SDL_BlitSurface( textoSinglePlayer, NULL, pantalla, &offsetDelTextoSinglePlayer );
+		SDL_Rect offsetDelTextoMultiPlayer;
+		offsetDelTextoMultiPlayer.x = 400;
+		offsetDelTextoMultiPlayer.y = 200;
+		SDL_BlitSurface( textoMultiPlayer, NULL, pantalla, &offsetDelTextoMultiPlayer );
+		//boxRGBA( pantalla, 30, 30, 90, 60, 0, 255, 0, 0);
+		rectangleRGBA( pantalla, 95, 195, 260, 238, 0, 255, 0, 255);
+		rectangleRGBA( pantalla, 395, 195, 540, 238, 0, 255, 0, 255);
+		SDL_Flip( pantalla );
+    }
+	SDL_FreeSurface( imagenDeFondo );
+    SDL_FreeSurface( textoSinglePlayer );   
+	SDL_FreeSurface( textoMultiPlayer );    
+	SDL_FreeSurface( textoClic );    
+    TTF_CloseFont( fuente );
+    TTF_Quit();   
+    SDL_Quit();
 }
 
 void Pruebas::PruebaMusica(){
@@ -647,3 +734,5 @@ void Pruebas::PruebaClienteChat() {
 	TTF_Quit();
 	SDL_Quit();
 }
+
+

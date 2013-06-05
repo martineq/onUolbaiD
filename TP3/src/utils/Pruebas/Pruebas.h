@@ -20,6 +20,7 @@
 #include "../../Cliente/controlador/DetectorEventos.h"
 #include "../LectorDirectorios/LectorDirectorios.h"
 #include "../Proxy/ProxyControladorEvento.h"
+#include "../../Cliente/vista/ImageLoader.h"
 
 class Pruebas{
 
@@ -43,4 +44,5 @@ class Pruebas{
 		void PruebaSockets(void);
 		void PruebaServidorChat();
 		void PruebaClienteChat();
+		void PruebaMenuInicial();
 };
