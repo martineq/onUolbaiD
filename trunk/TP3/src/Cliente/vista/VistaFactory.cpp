@@ -365,36 +365,10 @@ void VistaFactory::crearItems(VistaNivel& vistaNivel){
 
 	std::list<ProxyModeloEntidad::stEntidad> listaItems = this->juegoElegido.listaItems;
 
-	for (std::list<ProxyModeloEntidad::stEntidad>::iterator it=listaItems.begin() ; it != listaItems.end(); it++ ){	
-		
+	for (std::list<ProxyModeloEntidad::stEntidad>::iterator it=listaItems.begin() ; it != listaItems.end(); it++ ){
 		ProxyModeloEntidad::stEntidad entidad = (*it);
-		std::string nombreEntidad = entidad.nombreEntidad;
-		ParserYaml::stEntidad entidadItem = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreEntidad);
-
-		// Valores tomados desde la entidad
-		double x = (double)entidad.posicionX;
-		double y = (double)entidad.posicionY;
-
-		// Valores tomados desde la entidadItem
-		int id = entidad.id;
-		std::string mote("Item"+id);
-		double alto = (double)entidadItem.altoBase;
-		double ancho = (double)entidadItem.anchoBase;
-		double posicionReferenciaX = (double)entidadItem.pixelReferenciaX;
-		double posicionReferenciaY = (double)entidadItem.pixelReferenciaY;
-		double fps = (double)entidadItem.fps;
-		double delay = (double)entidadItem.delay;
-		std::list<std::list<std::string>> listaAnimaciones = entidadItem.imagenes;
-
-		// Valores tomados desde el escenario elegido
-		double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
-		double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
-
-		bool esJugador = false;
-		int vida = 1;
-
-		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,esJugador,tamanioX,tamanioY,id,nombreEntidad,false,0,mote,vida);
-		vistaNivel.agregarEntidad(pEntidad);
+		entidad.vida = 1;
+		this->crearJugadorSinScroll(vistaNivel,entidad);
 	}
 
 	return void();

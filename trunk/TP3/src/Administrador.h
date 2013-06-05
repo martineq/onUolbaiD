@@ -18,6 +18,8 @@ class Administrador{
 		Cliente* cliente;
 
 		void menuLineaComandos(void);
+		bool nuevoMenu1();
+		bool nuevoMenu2(SDL_Surface *pantalla,TTF_Font * fuente);
 		void correrSinglePlayer(std::string mote,std::string personaje);
 
 	public:

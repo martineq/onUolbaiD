@@ -37,7 +37,7 @@ class VistaNivel{
 		VistaScroll* getScroll(void);
 		VistaEntidad* getJugador(void);
 		std::list<VistaEntidad*> getListaOtrosJugadores(void);
-		std::list<VistaEntidad*> getListaEntidades(void);
+		std::list<VistaEntidad*> getListaEntidades(void);		
 		int getAltoDePantallaEnPixel(void);
 		int getAnchoDePantallaEnPixel(void);
 		double getAltoDeNivelEnPixel();
@@ -50,8 +50,8 @@ class VistaNivel{
 		void agregarOtroJugador(VistaEntidad* pJugador);
 		void agregarEntidad(VistaEntidad* pEntidad);
 		void agregarScroll(VistaScroll* pScroll);
-		void setControladorScroll(ControladorScroll* pControladorScroll);
 		void agregarTamanioNivel(double,double);
+		void setControladorScroll(ControladorScroll* pControladorScroll);		
 		void setAltoDePantallaEnPixel(int alto);
 		void setAnchoDePantallaEnPixel(int ancho);
 		void setAltoDeNivelEnTiles(int);

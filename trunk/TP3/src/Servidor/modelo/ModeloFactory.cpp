@@ -29,7 +29,8 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 	this->juegoElegido.listaEntidades = juegoYaml.entidades;
 	this->juegoElegido.pantalla = juegoYaml.pantalla;
 	this->juegoElegido.configuracion = juegoYaml.configuracion;
-	if( this->elegirEscenario(juegoYaml.escenarios) == false) return false;
+	//if( this->elegirEscenario(juegoYaml.escenarios) == false) return false;
+	if (this->nuevoElegirEscenario(juegoYaml.escenarios) == false) return false;
 
 	// Seteo alto y ancho
 	modeloNivel.setAnchoTiles(this->juegoElegido.escenario.tamanioX);
@@ -74,6 +75,103 @@ bool ModeloFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEsc
 	this->juegoElegido.nombreEscenario = listaEscenarios.front().nombre;
 	this->juegoElegido.escenario = listaEscenarios.front();
 	return true;
+}
+
+//No es usado por hilos
+bool ModeloFactory::nuevoElegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios){
+	bool quit = false;
+	bool clicBotonMouseIzquierdo = false;	
+	int posicionMouseX, posicionMouseY;
+	SDL_Event event;
+	TTF_Font *fuente = NULL;
+	SDL_Color textColor = { 255, 255, 255 }; //color blanco 
+	SDL_Surface* pantalla = NULL;
+	SDL_Init( SDL_INIT_EVERYTHING );
+	pantalla = SDL_SetVideoMode( PANTALLA_ANCHO, PANTALLA_ALTO, SCREEN_BPP, SDL_SWSURFACE );
+	TTF_Init();
+	SDL_WM_SetCaption( "Menu", NULL );
+	SDL_Surface *imagenDeFondo3 = NULL;
+	imagenDeFondo3 = ImageLoader::getInstance().load_image( "./img/background3.png" );
+	fuente = TTF_OpenFont( "./fonts/Lazy.ttf", 28 );	
+	SDL_Rect offsetDelFondo;
+	offsetDelFondo.x = 0;
+	offsetDelFondo.y = 0;
+	SDL_BlitSurface( imagenDeFondo3, NULL, pantalla, &offsetDelFondo );
+	vector <SDL_Surface*> vectorDeNombresDeEscenarios;
+	for (std::list<ParserYaml::stEscenario>::iterator it=listaEscenarios.begin() ; it != listaEscenarios.end(); it++ ){		
+		const char* nombreDeEscenario = it->nombre.c_str();		
+		vectorDeNombresDeEscenarios.push_back( TTF_RenderText_Solid( fuente, nombreDeEscenario, textColor ) );
+	}	
+	int x = 100;
+	int y = 65;		
+	for (std::vector<SDL_Surface*>::iterator it=vectorDeNombresDeEscenarios.begin() ; it != vectorDeNombresDeEscenarios.end(); it++ ){
+		SDL_Rect offsetDelTextoNombreDelEscenario;
+		offsetDelTextoNombreDelEscenario.x = x;
+		offsetDelTextoNombreDelEscenario.y = y;						
+		SDL_BlitSurface( *it, NULL, pantalla, &offsetDelTextoNombreDelEscenario );			
+		rectangleRGBA( pantalla, x-5, y-5, x+400, y+35, 0, 255, 0, 255);	
+		y += 100;			
+	}		
+	SDL_Flip( pantalla );
+	while( quit == false ) {
+        while( SDL_PollEvent( &event ) ) {            
+			switch (event.type) {
+				case SDL_QUIT:
+					quit = true;
+				break;
+				case SDL_MOUSEMOTION:
+					posicionMouseX = event.motion.x;
+					posicionMouseY = event.motion.y;
+				break;		
+				case SDL_MOUSEBUTTONDOWN:
+					switch (event.button.button) {
+						case SDL_BUTTON_LEFT:	
+							clicBotonMouseIzquierdo = true;
+						break;						
+					}			
+					break;
+				case SDL_MOUSEBUTTONUP:
+					switch (event.button.button) {
+						case SDL_BUTTON_LEFT:	
+							clicBotonMouseIzquierdo = false;
+						break;				
+					}			
+				break;
+			}
+		}		
+		x = 100;
+		y = 65;		
+		int k = 1;
+		while (k <= vectorDeNombresDeEscenarios.size() ) {
+			if (clicBotonMouseIzquierdo && posicionMouseX > x-5 && posicionMouseX < x+400 && posicionMouseY > y-5 && posicionMouseY < y+35){				
+				std::list<ParserYaml::stEscenario>::iterator it=listaEscenarios.begin();
+				for ( int a = 1; a <= k-1; a++ ){		
+					it++;
+				}
+				std::cout << "Se usara el escenario: "<< (*it).nombre << std::endl;
+				this->juegoElegido.nombreEscenario = (*it).nombre;				
+				this->juegoElegido.escenario = (*it);		
+				while (vectorDeNombresDeEscenarios.size() != 0) {
+					SDL_Surface * nombreDeEscenario = NULL; 
+					nombreDeEscenario = vectorDeNombresDeEscenarios.back();
+					SDL_FreeSurface ( nombreDeEscenario );
+					vectorDeNombresDeEscenarios.pop_back();
+				}
+				SDL_FreeSurface( imagenDeFondo3 );    
+				TTF_CloseFont( fuente );
+				TTF_Quit();   
+				SDL_Quit();
+				return true;
+			}	
+			y+=100;
+			k++;
+		}		
+    }
+	SDL_FreeSurface( imagenDeFondo3 );    
+	TTF_CloseFont( fuente );
+	TTF_Quit();   
+	SDL_Quit();
+	return false;
 }
 
 bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* pSocket,int id,bool singlePlayer){
