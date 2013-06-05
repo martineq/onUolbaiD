@@ -136,6 +136,29 @@ entidades:
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 10 #pixels
       fps: 10
+    - nombre: entidad_golem
+      imagen:
+        - [Golem_N01.png,Golem_N02.png,Golem_N03.png,Golem_N04.png,Golem_N05.png,Golem_N06.png,Golem_N07.png,Golem_N08.png]
+        - [Golem_NE01.png,Golem_NE02.png,Golem_NE03.png,Golem_NE04.png,Golem_NE05.png,Golem_NE06.png,Golem_NE07.png,Golem_NE08.png]
+        - [Golem_E01.png,Golem_E02.png,Golem_E03.png,Golem_E04.png,Golem_E05.png,Golem_E06.png,Golem_E07.png,Golem_E08.png]
+        - [Golem_SE01.png,Golem_SE02.png,Golem_SE03.png,Golem_SE04.png,Golem_SE05.png,Golem_SE06.png,Golem_SE07.png,Golem_SE08.png]
+        - [Golem_S01.png,Golem_S02.png,Golem_S03.png,Golem_S04.png,Golem_S05.png,Golem_S06.png,Golem_S07.png,Golem_S08.png]
+        - [Golem_SO01.png,Golem_SO02.png,Golem_SO03.png,Golem_SO04.png,Golem_SO05.png,Golem_SO06.png,Golem_SO07.png,Golem_SO08.png]
+        - [Golem_O01.png,Golem_O02.png,Golem_O03.png,Golem_O04.png,Golem_O05.png,Golem_O06.png,Golem_O07.png,Golem_O08.png]
+        - [Golem_NO01.png,Golem_NO02.png,Golem_NO03.png,Golem_NO04.png,Golem_NO05.png,Golem_NO06.png,Golem_NO07.png,Golem_NO08.png]
+        - [Golem_Attack_N01.png,Golem_Attack_N02.png,Golem_Attack_N03.png,Golem_Attack_N04.png,Golem_Attack_N05.png,Golem_Attack_N06.png,Golem_Attack_N07.png,Golem_Attack_N08.png,Golem_Attack_N09.png,Golem_Attack_N10.png]
+        - [Golem_Attack_NE01.png,Golem_Attack_NE02.png,Golem_Attack_NE03.png,Golem_Attack_NE04.png,Golem_Attack_NE05.png,Golem_Attack_NE06.png,Golem_Attack_NE07.png,Golem_Attack_NE08.png,Golem_Attack_NE09.png,Golem_Attack_NE10.png]
+        - [Golem_Attack_E01.png,Golem_Attack_E02.png,Golem_Attack_E03.png,Golem_Attack_E04.png,Golem_Attack_E05.png,Golem_Attack_E06.png,Golem_Attack_E07.png,Golem_Attack_E08.png,Golem_Attack_E09.png,Golem_Attack_E10.png]
+        - [Golem_Attack_SE01.png,Golem_Attack_SE02.png,Golem_Attack_SE03.png,Golem_Attack_SE04.png,Golem_Attack_SE05.png,Golem_Attack_SE06.png,Golem_Attack_SE07.png,Golem_Attack_SE08.png,Golem_Attack_SE09.png,Golem_Attack_SE10.png]
+        - [Golem_Attack_S01.png,Golem_Attack_S02.png,Golem_Attack_S03.png,Golem_Attack_S04.png,Golem_Attack_S05.png,Golem_Attack_S06.png,Golem_Attack_S07.png,Golem_Attack_S08.png,Golem_Attack_S09.png,Golem_Attack_S10.png]
+        - [Golem_Attack_SO01.png,Golem_Attack_SO02.png,Golem_Attack_SO03.png,Golem_Attack_SO04.png,Golem_Attack_SO05.png,Golem_Attack_SO06.png,Golem_Attack_SO07.png,Golem_Attack_SO08.png,Golem_Attack_SO09.png,Golem_Attack_SO10.png]
+        - [Golem_Attack_O01.png,Golem_Attack_O02.png,Golem_Attack_O03.png,Golem_Attack_O04.png,Golem_Attack_O05.png,Golem_Attack_O06.png,Golem_Attack_O07.png,Golem_Attack_O08.png,Golem_Attack_O09.png,Golem_Attack_O10.png]
+        - [Golem_Attack_NO01.png,Golem_Attack_NO02.png,Golem_Attack_NO03.png,Golem_Attack_NO04.png,Golem_Attack_NO05.png,Golem_Attack_NO06.png,Golem_Attack_NO07.png,Golem_Attack_NO08.png,Golem_Attack_NO09.png,Golem_Attack_NO10.png]
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 10 #pixels
+      fps: 10
 ####################################################################################################################################################
 ################################################################       TILES        ################################################################
 ####################################################################################################################################################
@@ -175,7 +198,7 @@ entidades:
       imagen:
         - [arena.png]
 ####################################################################################################################################################
-################################################################       ENTIDADES        ############################################################
+##############################################################       ENTIDADES FIJAS      ##########################################################
 ####################################################################################################################################################
     - nombre: granja_llamas
       imagen:
@@ -236,7 +259,7 @@ entidades:
       delay: 3
 ####################################################################################################################################################
 ################################################################       ITEMS        ################################################################
-#############################      Items disponibles: corazon / escudo / zapato / botella / lampara / mapa / espada     ############################
+##########################     Items disponibles: corazon / escudo / zapato / botella / lampara / mapa / espada / golem   ##########################
 ####################################################################################################################################################
     - nombre: escudo
       pixel_ref_x: 50 #pixels
@@ -259,6 +282,13 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [Bomb_01.png]
+    - nombre: golem
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [icono_golem.png]
 ####################################################################################################################################################
 ################################################################     ESCENARIOS     ################################################################
 ####################################################################################################################################################

@@ -135,10 +135,13 @@
 #define ANCHO_TILE 100
 #define VELOCIDAD_SCROLL 10
 #define ID_FALSO -1
+#define ID_SIN_DUENIO -2
 #define PERIODO_CICLO_CLIENTE 50
 #define CANTIDAD_MINIMA_JUGADORES_SINGLE_PLAYER 1
 #define CANTIDAD_MINIMA_JUGADORES_MULTI_PLAYER 2
 #define STRING_ENEMIGO_AUTOMATICO "Enemigo_Automatico_"
+
+// Definicion de las entidades que son Items
 #define STRING_CORAZON "corazon"
 #define STRING_ESCUDO "escudo"
 #define STRING_ZAPATO "zapato"
@@ -148,6 +151,7 @@
 #define STRING_ESPADA "espada"
 #define STRING_HECHIZO_HIELO "hechizo_hielo"
 #define STRING_BOMBA "bomba"
+#define STRING_GOLEM "golem"	// Representa en el archivo yaml al icono del item Hechizo de Golem, no al personaje con todas sus animaciones
 
 // En ModeloMovimiento
 #define DURACION_CALCULO_CAMINO_MINIMO 1000
@@ -185,6 +189,10 @@
 #define DELAY_BOMBA 2000
 #define DANIO_BOMBA 20
 #define RANGO_BOMBA 2
+
+// En ModeloGolem y ModeloFactory
+#define ENTIDAD_GOLEM "entidad_golem"  // Representa en el archivo yaml al personaje que es un golem, no al ícono
+
 
 /***************************** Fog *************************/
 #define VISIBLE 2

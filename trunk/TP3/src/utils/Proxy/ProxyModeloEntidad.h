@@ -72,6 +72,7 @@ class ProxyModeloEntidad{
 		// Para setear al principio
 		void setSocketCliente(SocketCliente* pCliente);
 		void setSocketServidor(SocketServidor* pServidor);
+		void setSocketServidor(void* pServidor);
 
 		// Para usar en el momento de configuración. Debe estar seteado el modo Individual.
 		bool enviarEntidadIndividual(ProxyModeloEntidad::stEntidad entidad,int id); // Lo usa el lado Servidor
