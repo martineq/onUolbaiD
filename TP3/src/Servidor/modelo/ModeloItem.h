@@ -5,6 +5,7 @@
 #include "../../utils/Hilos/Mutex.h"
 #include "ModeloEntidad.h"
 #include "ModeloJugador.h"
+#include "../../utils/Proxy/ProxyModeloEntidad.h"
 
 class ModeloJugador;
 class ListaJugadores;
@@ -190,4 +191,39 @@ class ModeloBomba : public ModeloItem {
 		virtual ~ModeloBomba();
 		
 		bool inmediato();
+};
+
+class ModeloGolem : public ModeloItem {
+
+	private:
+		// Valores tomados desde el ModeloFactory al instanciar
+		int idGolem;
+		std::string nombreEntidad;
+		int alto;
+		int ancho;
+		int fps;
+		int anchoEscenario;
+		int altoEscenario;
+		void* pSocketServidor;
+		int mana;
+
+		// Valores tomados a partir del jugador que lo invoca
+		int velocidad;
+		int danio;
+		int vida;
+		int idDuenio;
+		Posicion pos;
+
+		ModeloJugador* crearGolem();
+
+	public:
+		ModeloGolem(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloGolem();
+		
+		bool inmediato();
+
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+
+		void cargarDatos(int idGolem, int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor);
 };

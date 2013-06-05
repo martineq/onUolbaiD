@@ -90,7 +90,7 @@ ModeloJugador& ModeloJugador::operator=(const ModeloJugador &modeloJugador) {
 	return *this;
 }
 
-ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador, int maximoVida, int maximoMagia, int ataque) {
+ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador, int maximoVida, int maximoMagia, int ataque, int idDuenio) {
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_accion = CAMINANDO;
@@ -108,6 +108,7 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_ingresoAlJuego = false;
 	this->_instanteUltimoCambioEstado = 0;
 	this->_danioAtaque = ataque;
+	this->_idDuenio = idDuenio;
 
 	this->_enemigo = NULL;
 	this->_item = NULL;
@@ -411,4 +412,52 @@ void ModeloJugador::danioAtaque(int danio){
 
 int ModeloJugador::danioAtaque(void){
 	return this->_danioAtaque;
+}
+
+int ModeloJugador::idDuenio(void){
+	return this->_idDuenio;
+}
+
+int ModeloJugador::maximoVida(void){
+	return this->_maximoVida;
+}
+
+// Creo una posición libre cercana al jugador para crear el golem
+Posicion ModeloJugador::posicionGolem() {
+
+	Posicion posicion = this->modeloEntidad()->posicion();
+
+	// Genero una posición al azar, pero dentro del rango de visión del jugador. Y verifico que la posición no se encentre ocupada.
+	while (this->_listaEntidades->posicionOcupada(posicion)) {
+		posicion.x = this->coordenadaAlAzar(this->modeloEntidad()->posicion().x,this->_estadoNivel->rangoVision(),0,this->_anchoNivel);
+		posicion.y = this->coordenadaAlAzar(this->modeloEntidad()->posicion().y,this->_estadoNivel->rangoVision(),0,this->_altoNivel);
+	}
+
+	return posicion;
+}
+
+// Calcula una coordenada al azar. Devuelve un valor al azar <media>(+-)<desvio>
+// El valor devuelto siempre se acota entre <cotaMinima> y <cotaMaxima> inclusive.
+int ModeloJugador::coordenadaAlAzar(int media, int desvio, int cotaMinima , int cotaMaxima ){
+
+	// Verifico consistencia
+	if( cotaMinima > cotaMaxima ){
+		int temp = cotaMinima;
+		cotaMinima = cotaMaxima;
+		cotaMaxima = temp;
+	}
+
+	// Seteo el mínimo y máximo
+	int xMin = media - desvio;
+	int xMax = media + desvio;
+
+	// Me fijo que el mínimo y máximo no se salga de los bordes acotados
+	if( xMin < cotaMinima ) xMin = cotaMinima;
+	if( xMax > cotaMaxima ) xMin = cotaMaxima;
+
+	// Obtengo la posicion al azar
+	int xFactorMod = (xMax - xMin) + 1;
+	int x = ( rand() % xFactorMod ) + xMin;
+
+	return x;
 }

@@ -19,6 +19,10 @@ void ProxyModeloEntidad::setSocketServidor(SocketServidor* pServidor){
 	this->pServidor = pServidor;
 }
 
+void ProxyModeloEntidad::setSocketServidor(void* pServidor){
+	this->pServidor = (SocketServidor*)pServidor;
+}
+
 // Idem enviarEntidad() pero para enviar a un cliente en particular
 // Nota: Este método está creado para ser usado en el hilo de configuración, desde el ModeloFactory.
 // El cliente debe estar seteado en Individual para que funcione. 

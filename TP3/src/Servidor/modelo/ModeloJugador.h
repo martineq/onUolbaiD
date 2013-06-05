@@ -38,7 +38,8 @@ class ModeloJugador {
 		DWORD _instanteCongelamiento;
 		DWORD _instanteUltimoCambioEstado;
 		int _danioAtaque;
-		
+		int _idDuenio;
+
 		ListaJugadores* _listaEnemigos;
 		ListaEntidades* _listaEntidades;
 		ListaItems* _listaItems;
@@ -59,12 +60,14 @@ class ModeloJugador {
 
 		void revivir();
 
+		int coordenadaAlAzar(int media, int desvio, int cotaMinima , int cotaMaxima );
+
 		ModeloJugador(const ModeloJugador &modeloJugador);
 
 		ModeloJugador& operator=(const ModeloJugador &modeloJugador);
 		
 	public:
-		ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador, int maximoVida, int maximoMagia, int ataque);
+		ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador, int maximoVida, int maximoMagia, int ataque, int idDuenio);
 
 		virtual ~ModeloJugador();
 
@@ -145,6 +148,12 @@ class ModeloJugador {
 		void danioAtaque(int danio);
 
 		int danioAtaque(void);
+
+		int idDuenio(void);
+
+		int maximoVida(void);
+
+		Posicion posicionGolem(void);
 };
 
 class ListaJugadores {

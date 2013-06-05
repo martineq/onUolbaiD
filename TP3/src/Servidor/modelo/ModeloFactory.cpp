@@ -14,6 +14,9 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 	// Inicio el servidor
 	if( pSocket->inciarServidor(PUERTO_SERVIDOR) == false ) return false;
 
+	// Asigno el puntero como atributo
+	this->pSocket = pSocket;
+
 	// Cargo el archivo de configuración
 	ParserYaml::stJuego juegoYaml;
 	juegoYaml = ParserYaml::getInstance().cargarConfiguracionDeJuego();
@@ -33,13 +36,13 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 	modeloNivel.setAltoTiles(this->juegoElegido.escenario.tamanioY);
 
 	// Creo las entidades del nivel, las que no son los jugadores
-	this->crearEntidades(modeloNivel,pSocket);
+	this->crearEntidades(modeloNivel);
 	
 	// Creo los enemigos automáticos
-	this->crearEnemigosAutomaticos(modeloNivel,pSocket);
+	this->crearEnemigosAutomaticos(modeloNivel);
 
 	// Creo los items
-	this->crearItems(modeloNivel,pSocket);
+	this->crearItems(modeloNivel);
 
 	// Agrego el ProxyControladorEvento
 	ProxyControladorEvento* pProxyEvento = new ProxyControladorEvento();
@@ -76,26 +79,27 @@ bool ModeloFactory::elegirEscenario(std::list<ParserYaml::stEscenario>& listaEsc
 bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* pSocket,int id,bool singlePlayer){
 
 	ModeloNivel* pModeloNivel = (ModeloNivel*)modeloNivel;
+	this->pSocket = pSocket;
 
 	// Envío los archivos de configuración, en caso de no ser single player
 	if( singlePlayer == false ) {
-		if( this->enviarArchivosDeConfiguracion(pSocket,id) == false ) return false;
+		if( this->enviarArchivosDeConfiguracion(id) == false ) return false;
 	}
 
 	// Envío el escenario creado, junto con los ID's de cada entidad del escenario para que se puedan setear en el cliente
-	if( this->enviarEscenario(pSocket,id) == false ) return false;
+	if( this->enviarEscenario(id) == false ) return false;
 
 	// Envío los enemigos automáticos para que se puedan setear en el cliente
-	if( this->enviarEnemigosAutomaticos(pModeloNivel,pSocket,id) == false ) return false;
+	if( this->enviarEnemigosAutomaticos(pModeloNivel,id) == false ) return false;
 
 	// Envío los items para que se puedan setear en el cliente
-	if( this->enviarItems(pModeloNivel,pSocket,id) == false ) return false;
+	if( this->enviarItems(pModeloNivel,id) == false ) return false;
 
 	// Elijo junto al cliente el protagonista que va a usar, envio los datos para la creación en el Cliente y lo creo en el Modelo
-	if( this->enviarProtagonista(pModeloNivel,pSocket,id) == false ) return false;
+	if( this->enviarProtagonista(pModeloNivel,id) == false ) return false;
 	
 	// Envío los datos para la creación de los demas jugadores
-	if( this->enviarOtrosJugadores(pModeloNivel,pSocket,id) == false ) return false;
+	if( this->enviarOtrosJugadores(pModeloNivel,id) == false ) return false;
 
 	// A lo último, aumento el número de jugadores en uno para que se notifique el ModeloNivel
 	pModeloNivel->incrementarJugadores();
@@ -103,7 +107,7 @@ bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* 
 	return true;
 }
 
-bool ModeloFactory::enviarEscenario(SocketServidor* pSocket, int id){
+bool ModeloFactory::enviarEscenario(int id){
 	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
 	std::string nombre = juego.nombreEscenario;
 	std::list<int> listaId = juego.listaIdEntidades;
@@ -123,7 +127,7 @@ bool ModeloFactory::enviarEscenario(SocketServidor* pSocket, int id){
 	return pSocket->enviarIndividual(s,id); 
 }
 
-bool ModeloFactory::enviarEnemigosAutomaticos(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
+bool ModeloFactory::enviarEnemigosAutomaticos(ModeloNivel* modeloNivel, int id){
 
 	std::list<ModeloJugador*> listaEnemigos = modeloNivel->getEnemigos();
 	int cantidadEnemigos = listaEnemigos.size();
@@ -147,7 +151,7 @@ bool ModeloFactory::enviarEnemigosAutomaticos(ModeloNivel* modeloNivel,SocketSer
 	return true; 
 }
 
-bool ModeloFactory::enviarItems(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id){
+bool ModeloFactory::enviarItems(ModeloNivel* modeloNivel, int id){
 
 	std::multimap<std::pair<int, int>, ModeloItem*> listaItems = modeloNivel->getItems();
 	int cantidadItems = listaItems.size();
@@ -172,7 +176,7 @@ bool ModeloFactory::enviarItems(ModeloNivel* modeloNivel,SocketServidor* pSocket
 }
 
 // Selecciona y envia los datos del protagonista elegido. Además crea la EntidadModelo correspondiente y la setea en el ModeloNivel. Método usado por el hilo de configuración
-bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* pSocket, int& id){
+bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel, int& id){
 
 	// Recibo el nombres de usuario y nombre de protagonista serializados, luego los hidrato
 	Serializadora s;
@@ -181,7 +185,7 @@ bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* 
 	std::string nombreEntidadPersonaje(s.getString());
 
 	// Elijo al protagonista, lo creo y envio los datos del mismo
-	ProxyModeloEntidad::stEntidad entidad = this->elegirProtagonista(modeloNivel,mote,nombreEntidadPersonaje,pSocket,id);
+	ProxyModeloEntidad::stEntidad entidad = this->elegirProtagonista(modeloNivel,mote,nombreEntidadPersonaje,id);
 	ProxyModeloEntidad proxy;
 	proxy.setSocketServidor(pSocket);
 	if( proxy.enviarEntidadIndividual(entidad,entidad.id) == false ) return false;
@@ -194,7 +198,7 @@ bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* 
 // Caso 1: Si el jugador NO está en uso se crea y se devuelve una copia del mismo
 // Caso 2: Si el jugador SI está en uso y SI se encuentra "congelado", se cambia su condición y se devuelve una copia del mismo
 // Caso 3: Si el jugador SI está en uso y NO se encuentra "congelado", se elige otro jugador que no se encuentre en uso, se crea y se devuelve una copia del mismo
-ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,std::string& mote,std::string& nombreEntidadPersonaje,SocketServidor* pSocket,int& id){
+ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* modeloNivel,std::string& mote,std::string& nombreEntidadPersonaje,int& id){
 
 	std::list<ModeloJugador*> listaEntidades = modeloNivel->getJugadores();
 	std::list<std::string> listaJugadoresUsados;
@@ -247,14 +251,14 @@ ProxyModeloEntidad::stEntidad ModeloFactory::elegirProtagonista(ModeloNivel* mod
 			mote.append(ss.str());
 			
 			nombreEntidadPersonaje = nombrePersonajeObtenido;	// Actualizo el nombre que va a tener el personaje
-			this->crearJugador(modeloNivel,stEntidad,pSocket,nombrePersonajeObtenido,mote,id);
+			this->crearJugador(modeloNivel,stEntidad,nombrePersonajeObtenido,mote,id);
 			return stEntidad;
 		}
 	}else{
 		// Si no encontré ese nombre entre los jugadores creo uno nuevo
 		std::string nombrePersonajeObtenido = this->obtenerPersonajeLibre(listaJugadoresUsados,nombreEntidadPersonaje);
 		nombreEntidadPersonaje = nombrePersonajeObtenido;	// Actualizo el nombre que va a tener el personaje
-		this->crearJugador(modeloNivel,stEntidad,pSocket,nombrePersonajeObtenido,mote,id);
+		this->crearJugador(modeloNivel,stEntidad,nombrePersonajeObtenido,mote,id);
 		return stEntidad;
 	}
 	return stEntidad;
@@ -306,7 +310,7 @@ std::string ModeloFactory::obtenerPersonajeLibre(std::list<std::string> listaEnt
 	return personajeElegido;
 }
 
-bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador){
+bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,int idMiJugador){
 	std::list<ModeloJugador*> listaJugadores = modeloNivel->getJugadores();
 	int cantidadOtrosJugadores = listaJugadores.size() - 1;  // Descarto a mi jugador
 	ProxyModeloEntidad proxy;
@@ -335,7 +339,7 @@ bool ModeloFactory::enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor
 }
 
 // Para que lo use el hilo de configuración
-void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::stEntidad& stEntidad,SocketServidor* pSocket,std::string nombreJugador,std::string mote,int id){
+void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::stEntidad& stEntidad,std::string nombreJugador,std::string mote,int id){
 
 	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
 	ParserYaml::stEntidad entidadJugador = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,nombreJugador);
@@ -363,7 +367,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	pProxyEntidad->setSocketServidor(pSocket);
 
 	// Creo la entidad
-	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote,vida,mana,danio); 
+	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote,vida,mana,danio,ID_SIN_DUENIO); 
 	pJugador->autonomo(false);
 
 	// Obtengo los datos de la stEntidad para luego pasarsela al cliente
@@ -377,7 +381,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 }
 
 // No es usado por hilos
-void ModeloFactory::crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSocket){
+void ModeloFactory::crearEntidades(ModeloNivel& modeloNivel){
 	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
 	std::list<ParserYaml::stEntidadDefinida> entidadesDef = juego.escenario.entidadesDefinidas;
 
@@ -421,7 +425,7 @@ void ModeloFactory::crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSoc
 }
 
 // Recorro todos los enemigos existentes en este escenario, los creo y los agrego al nivel
-void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel,SocketServidor* pSocket){
+void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel){
 
 	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
 	std::list<ParserYaml::stEnemigo> enemigos = juego.escenario.enemigos;
@@ -465,7 +469,7 @@ void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel,SocketServ
 		pProxyEntidad->setSocketServidor(pSocket);
 
 		// Creo el enemigo (es un ModeloJugador) y lo agrego al nivel
-		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,"",vida,mana,danio);
+		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,"",vida,mana,danio,ID_SIN_DUENIO);
 		pEnemigo->autonomo(true);
 		modeloNivel.agregarEnemigo(pEnemigo);
 	}
@@ -474,7 +478,7 @@ void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel,SocketServ
 }
 
 // Recorro todos los items existentes en este escenario, los creo y los agrego al nivel
-void ModeloFactory::crearItems(ModeloNivel& modeloNivel,SocketServidor* pSocket){
+void ModeloFactory::crearItems(ModeloNivel& modeloNivel){
 
 	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
 	std::list<ParserYaml::stItem> items = juego.escenario.items;
@@ -532,13 +536,14 @@ ModeloItem* ModeloFactory::instanciarItem(int alto, int ancho, int velocidad, Po
 	}else if ( nombreEntidad.compare(STRING_ESPADA) == 0 ){ pItem = new ModeloEspada(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else if ( nombreEntidad.compare(STRING_HECHIZO_HIELO) == 0 ){ pItem = new ModeloHechizoHielo(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else if ( nombreEntidad.compare(STRING_BOMBA) == 0 ){ pItem = new ModeloBomba(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_GOLEM) == 0 ){ pItem = new ModeloGolem(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad); this->cargarDatosGolem(pItem);
 	}else{  pItem = NULL;}	
 
 	return pItem;
 }
 
 // Envia al cliente todos los archivos necesarios para el funcionamiento del juego
-bool ModeloFactory::enviarArchivosDeConfiguracion(SocketServidor* pServidor,int idSocketCliente){
+bool ModeloFactory::enviarArchivosDeConfiguracion(int idSocketCliente){
 	bool exito = true;
 	LectorDirectorios lector;	// Para obtener todos los nombres de los archivos
 	std::vector<std::string> listaArchivos;
@@ -546,14 +551,14 @@ bool ModeloFactory::enviarArchivosDeConfiguracion(SocketServidor* pServidor,int 
 
 	// Envio los archivos de configuracion
 	listaArchivos = lector.leerDirectorio(DIRECTORIO_IMG);
-	if( !this->enviarListaDeArchivos(listaArchivos,pServidor,idSocketCliente)) {
+	if( !this->enviarListaDeArchivos(listaArchivos,idSocketCliente)) {
 		Log::getInstance().log(1,__FILE__,__LINE__,"El Servidor no pudo enviar todos los archivos de imagenes al cliente con ID ",idSocketCliente);
 		exito = false;
 	}
 	
 	// Envio los archivos de imagenes
 		listaArchivos = lector.leerDirectorio(DIRECTORIO_CONFIG);
-	if( this->enviarListaDeArchivos(listaArchivos,pServidor,idSocketCliente) == false)  {
+	if( this->enviarListaDeArchivos(listaArchivos,idSocketCliente) == false)  {
 		Log::getInstance().log(1,__FILE__,__LINE__,"El Servidor no pudo enviar todos los archivos de imagenes al cliente con ID ",idSocketCliente);
 		exito = false;
 	}
@@ -565,7 +570,7 @@ bool ModeloFactory::enviarArchivosDeConfiguracion(SocketServidor* pServidor,int 
 	return exito;
 }
 
-bool ModeloFactory::enviarListaDeArchivos(std::vector<std::string> vector,SocketServidor* pServidor,int idSocketCliente){
+bool ModeloFactory::enviarListaDeArchivos(std::vector<std::string> vector,int idSocketCliente){
 
 	// Lista con todos las rutas de los archivos que voy a enviar
 	std::list<std::string> rutaDeArchivosParaEnviar;
@@ -580,10 +585,10 @@ bool ModeloFactory::enviarListaDeArchivos(std::vector<std::string> vector,Socket
 	}
 
 	// Envio el vector de strings serializado en una cadena de chars
-	if( pServidor->enviarIndividual(s,idSocketCliente) == false ) return false;
+	if( pSocket->enviarIndividual(s,idSocketCliente) == false ) return false;
 	
 	// Envio todos los archivos 
-	pServidor->enviarArchivosIndividual(rutaDeArchivosParaEnviar,idSocketCliente);
+	pSocket->enviarArchivosIndividual(rutaDeArchivosParaEnviar,idSocketCliente);
 
 	return true;
 }
@@ -615,4 +620,31 @@ Posicion ModeloFactory::generarPosicionAlAzar(ModeloNivel* modeloNivel,ModeloFac
 		pos.y = outputY;		
 	}	
 	return pos;
+}
+
+// Guardo en el Item perteneciente al golem todos los datos necesrios par su posterior creacion
+void ModeloFactory::cargarDatosGolem(ModeloItem* pItem){
+	
+	ModeloGolem* pGolem = (ModeloGolem*)pItem;
+	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
+
+	// Busco la entidad correspondiente al enemigo
+	ParserYaml::stEntidad entidadEnemigo = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,ENTIDAD_GOLEM);
+
+	// Valores tomados desde la entidadEnemigo
+	int alto = entidadEnemigo.altoBase;
+	int ancho = entidadEnemigo.anchoBase;
+	int fps = entidadEnemigo.fps;
+
+	// Valores tomados desde el escenario elegido
+	int anchoEscenario = juego.escenario.tamanioX;
+	int altoEscenario = juego.escenario.tamanioY;
+
+	// Le reservo un Id para el golem, si es creado
+	int nuevoID = Ticket::getInstance().pedirNumero();
+
+	// Cargo los datos en el item
+	pGolem->cargarDatos(nuevoID,alto,ancho,fps,anchoEscenario,altoEscenario,pSocket);
+
+	return void();
 }

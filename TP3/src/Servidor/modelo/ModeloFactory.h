@@ -27,31 +27,35 @@ class ModeloFactory{
 			std::string nombreEscenario;
 			std::list<int> listaIdEntidades;
 		};
+
+		// Atributos para uso del factory
+		SocketServidor* pSocket;
 		ModeloFactory::stModeloJuegoElegido juegoElegido;
 		Mutex mutexJuegoElegido;
 
 		// Métodos para ser usados por el factory mismo, el iniciar
 		bool elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios);
-		void crearEntidades(ModeloNivel& modeloNivel,SocketServidor* pSocket);
-		void crearEnemigosAutomaticos(ModeloNivel& modeloNivel,SocketServidor* pSocket);
-		void crearItems(ModeloNivel& modeloNivel,SocketServidor* pSocket);
+		void crearEntidades(ModeloNivel& modeloNivel);
+		void crearEnemigosAutomaticos(ModeloNivel& modeloNivel);
+		void crearItems(ModeloNivel& modeloNivel);
 
 		// Métodos usados por el HiloConfiguracion
-		bool enviarEscenario(SocketServidor* pSocket, int id);
-		bool enviarEnemigosAutomaticos(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
-		bool enviarItems(ModeloNivel* modeloNivel,SocketServidor* pSocket, int id);
-		bool enviarProtagonista(ModeloNivel* modeloNivel,SocketServidor* pSocket, int& id);
-		bool enviarOtrosJugadores(ModeloNivel* modeloNivel,SocketServidor* pSocket,int idMiJugador);
-		void crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::stEntidad& stEntidad,SocketServidor* pSocket,std::string nombreJugador,std::string mote, int id);
-		bool enviarArchivosDeConfiguracion(SocketServidor* pServidor,int idSocketCliente);
-		bool enviarListaDeArchivos(std::vector<std::string> lista,SocketServidor* pServidor,int idSocketCliente);
+		bool enviarEscenario(int id);
+		bool enviarEnemigosAutomaticos(ModeloNivel* modeloNivel, int id);
+		bool enviarItems(ModeloNivel* modeloNivel, int id);
+		bool enviarProtagonista(ModeloNivel* modeloNivel, int& id);
+		bool enviarOtrosJugadores(ModeloNivel* modeloNivel,int idMiJugador);
+		void crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::stEntidad& stEntidad,std::string nombreJugador,std::string mote, int id);
+		bool enviarArchivosDeConfiguracion(int idSocketCliente);
+		bool enviarListaDeArchivos(std::vector<std::string> lista,int idSocketCliente);
 		ModeloFactory::stModeloJuegoElegido getCopiaJuegoElegido(void);
-		ProxyModeloEntidad::stEntidad elegirProtagonista(ModeloNivel* modeloNivel,std::string& nombreUsuario,std::string& nombrePersonaje,SocketServidor* pSocket,int& id);
+		ProxyModeloEntidad::stEntidad elegirProtagonista(ModeloNivel* modeloNivel,std::string& nombreUsuario,std::string& nombrePersonaje,int& id);
 		std::string obtenerPersonajeLibre(std::list<std::string> listaEntidadesUsadas,std::string personajePedido);
 
 		// Otros
 		Posicion generarPosicionAlAzar(ModeloNivel* modeloNivel,ModeloFactory::stModeloJuegoElegido& juegoElegido);
 		ModeloItem* instanciarItem(int alto, int ancho, int velocidad, Posicion pos, int altoEscenario, int anchoEscenario, int fps, ProxyModeloEntidad* pProxyEntidad, int nuevoID, std::string nombreEntidad);
+		void cargarDatosGolem(ModeloItem* pItem);
 
 	public:
 		ModeloFactory(void);
