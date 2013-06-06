@@ -50,6 +50,8 @@ class ModeloItem {
 		void enviarEstado();
 
 		virtual bool inmediato() = 0;
+
+		int vida();
 };
 
 class ListaItems {
