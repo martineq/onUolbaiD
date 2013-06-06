@@ -37,8 +37,13 @@ void ControladorLoop::loop(VistaNivel* nivel) {
 				(y <= nivel->getJugador()->getTileY() + nivel->getJugador()->getRangoVision())) {
 				
 				while ((unJugador != jugadores.end()) && (jugador == NULL)) {
-					if ((*unJugador != nivel->getJugador()) && (x == (*unJugador)->getTileX()) && (y == (*unJugador)->getTileY()))
+					bool enUnJugador = (*unJugador)->tipoEntidad() == TIPO_ENTIDAD_JUGADOR;
+					bool esMiJugador = (*unJugador)->esMiJugador();
+					bool estaEnLaPosicion = ( x == (*unJugador)->getTileX() ) && ( y == (*unJugador)->getTileY() );
+
+					if( ( enUnJugador == true ) && ( esMiJugador == false ) && ( estaEnLaPosicion == true ) )
 						jugador = *unJugador;
+
 					unJugador++;
 				}
 

@@ -9,7 +9,7 @@ ModeloEntidad& ModeloEntidad::operator=(const ModeloEntidad &modeloEntidad) {
 	return *this;
 }
 
-ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad) {
+ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, int tipoEntidad) {
 	this->_alto = alto;
 	this->_ancho = ancho;
 	this->_velocidad = velocidad;
@@ -20,6 +20,7 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_id = id;
 	this->_nombreEntidad = nombreEntidad;
 	this->_direccion = SUR;
+	this->_tipoEntidad = tipoEntidad;
 	
 	Posicion::convertirTileAPixel(altoNivel, this->_posicion.x, this->_posicion.y, this->_pixelSiguiente.x, this->_pixelSiguiente.y);
 }
@@ -149,6 +150,7 @@ ProxyModeloEntidad::stEntidad ModeloEntidad::stEntidad() {
 	entidad.posicionX = this->posicion().x;
 	entidad.posicionY = this->posicion().y;
 	entidad.esUltimoMovimiento = this->esUltimoMovimiento();
+	entidad.tipoEntidad = this->tipoEntidad();
 	return entidad;
 }
 
@@ -190,4 +192,11 @@ void ModeloEntidad::pixel(Posicion pixelSiguiente) {
 	this->_mutex.lockEscritura(__FILE__, __LINE__);
 	this->_pixelSiguiente = pixelSiguiente;
 	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
+int ModeloEntidad::tipoEntidad(void) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	int tipoEntidad = this->_tipoEntidad;
+	this->_mutex.unlock(__FILE__, __LINE__);
+	return tipoEntidad;
 }

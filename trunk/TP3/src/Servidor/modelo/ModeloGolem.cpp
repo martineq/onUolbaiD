@@ -1,7 +1,7 @@
 #include "ModeloItem.h"
 
 ModeloGolem::ModeloGolem(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad)
-	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad) {
+	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, TIPO_ENTIDAD_ITEM) {
 
 }
 
@@ -50,7 +50,7 @@ ModeloJugador* ModeloGolem::crearGolem(){
 	pProxyEntidad->setSocketServidor(pSocketServidor);
 
 	// Creo el enemigo (es un ModeloJugador) y lo agrego al nivel
-	ModeloJugador* pGolem = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,idGolem,nombreEntidad,"",vida,mana,danio,idDuenio);
+	ModeloJugador* pGolem = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,idGolem,nombreEntidad,"",vida,mana,danio,idDuenio,TIPO_ENTIDAD_GOLEM);
 	pGolem->autonomo(true);
 
 	return pGolem;

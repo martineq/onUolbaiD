@@ -86,6 +86,7 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addDouble(entidad.pixelX);
 	s.addDouble(entidad.pixelY);
 	s.addBool(entidad.esUltimoMovimiento);
+	s.addInt(entidad.tipoEntidad);
 
 	// ModeloJugador
 	s.addString(entidad.nombreJugador);
@@ -112,6 +113,7 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.pixelX = s.getDouble();
 	entidad.pixelY = s.getDouble();
 	entidad.esUltimoMovimiento = s.getBool();
+	entidad.tipoEntidad = s.getInt();
 
 	// ModeloJugador
 	entidad.nombreJugador = s.getString();
@@ -129,20 +131,20 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.accion = s.getInt();
 }
 
-int ProxyModeloEntidad::sizeEntidad(ProxyModeloEntidad::stEntidad entidad){
-	int sizeID = TAM_INT;
-	int sizeNombre = TAM_INT + entidad.nombreEntidad.size();
-	int sizeEntidadCongelada = TAM_BOOL;
-	int sizeEsJugador = TAM_BOOL;
-	int sizePixelSiguienteX = TAM_DBL;
-	int sizePixelSiguienteY = TAM_DBL;
-	int sizeDireccion = TAM_INT;
-	int sizeUltimoMovimiento = TAM_DBL;
-	int sizeTileX = TAM_INT;
-	int sizeTileY = TAM_INT;
-	int sizeAccion = TAM_INT;
-	return (sizeID+sizeNombre+sizeEntidadCongelada+sizeEsJugador+sizePixelSiguienteX+sizePixelSiguienteY+sizeDireccion+sizeUltimoMovimiento+sizeTileX+sizeTileY+sizeAccion);
-}
+//int ProxyModeloEntidad::sizeEntidad(ProxyModeloEntidad::stEntidad entidad){
+//	int sizeID = TAM_INT;
+//	int sizeNombre = TAM_INT + entidad.nombreEntidad.size();
+//	int sizeEntidadCongelada = TAM_BOOL;
+//	int sizeEsJugador = TAM_BOOL;
+//	int sizePixelSiguienteX = TAM_DBL;
+//	int sizePixelSiguienteY = TAM_DBL;
+//	int sizeDireccion = TAM_INT;
+//	int sizeUltimoMovimiento = TAM_DBL;
+//	int sizeTileX = TAM_INT;
+//	int sizeTileY = TAM_INT;
+//	int sizeAccion = TAM_INT;
+//	return (sizeID+sizeNombre+sizeEntidadCongelada+sizeEsJugador+sizePixelSiguienteX+sizePixelSiguienteY+sizeDireccion+sizeUltimoMovimiento+sizeTileX+sizeTileY+sizeAccion);
+//}
 
 void ProxyModeloEntidad::cargarMatriz(ProxyModeloEntidad::stEntidad& entidad,std::string matriz){
 	entidad.actualizacionMapa = matriz;

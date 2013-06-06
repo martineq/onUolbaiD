@@ -153,6 +153,19 @@
 #define STRING_BOMBA "bomba"
 #define STRING_GOLEM "golem"	// Representa en el archivo yaml al icono del item Hechizo de Golem, no al personaje con todas sus animaciones
 
+
+// Tipos de Entidades que se mueven
+#define TIPO_ENTIDAD_JUGADOR 1
+#define TIPO_ENTIDAD_AUTOMATICO 2
+#define TIPO_ENTIDAD_GOLEM 3
+
+// Tipos de Entidades que no se mueven pero pueden desaparecer
+#define TIPO_ENTIDAD_ITEM 4
+
+// Tipos de Entidades que no se mueven ni desaparecen
+#define TIPO_ENTIDAD_ESTATICO 5
+
+
 // En ModeloMovimiento
 #define DURACION_CALCULO_CAMINO_MINIMO 1000
 

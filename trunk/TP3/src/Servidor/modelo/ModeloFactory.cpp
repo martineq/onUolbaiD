@@ -465,7 +465,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	pProxyEntidad->setSocketServidor(pSocket);
 
 	// Creo la entidad
-	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote,vida,mana,danio,ID_SIN_DUENIO); 
+	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote,vida,mana,danio,ID_SIN_DUENIO,TIPO_ENTIDAD_JUGADOR); 
 	pJugador->autonomo(false);
 
 	// Obtengo los datos de la stEntidad para luego pasarsela al cliente
@@ -515,7 +515,7 @@ void ModeloFactory::crearEntidades(ModeloNivel& modeloNivel){
 		this->juegoElegido.listaIdEntidades.push_back(nuevoID);	// Puedo escribirlo directamente porque a esta altura no hay hilos (no hace falta usar el mutex)
 
 		// Creo la entidad y la agrego al nivel
-		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidad.fps,pProxyEntidad,nuevoID,nombreEntidad);
+		ModeloEntidad* pEntidad = new ModeloEntidad(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidad.fps,pProxyEntidad,nuevoID,nombreEntidad,TIPO_ENTIDAD_ESTATICO);
 		modeloNivel.agregarEntidad(pEntidad);
 
 	}
@@ -567,7 +567,7 @@ void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel){
 		pProxyEntidad->setSocketServidor(pSocket);
 
 		// Creo el enemigo (es un ModeloJugador) y lo agrego al nivel
-		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,"",vida,mana,danio,ID_SIN_DUENIO);
+		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,"",vida,mana,danio,ID_SIN_DUENIO,TIPO_ENTIDAD_AUTOMATICO);
 		pEnemigo->autonomo(true);
 		modeloNivel.agregarEnemigo(pEnemigo);
 	}

@@ -178,6 +178,7 @@ bool Administrador::nuevoMenu1(){
 			else return false;
 		}				
 	}	
+	return false;
 }
 
 bool Administrador::nuevoMenu2(SDL_Surface *pantalla, TTF_Font * fuente){

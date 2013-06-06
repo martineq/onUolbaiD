@@ -11,7 +11,7 @@ class VistaEntidad: public Identificable{
 
 	private:		
 		bool esJugador;
-		bool esMiJugador;
+		bool _esMiJugador;
 		bool estaCongelado;
 		bool esNecesarioRefrescar;
 		bool tieneMapa;
@@ -41,12 +41,13 @@ class VistaEntidad: public Identificable{
 		int tileYAnterior;	
 		int _id;
 		int vida;
-		int rangoVision;	
+		int rangoVision;
+		int _tipoEntidad;
 
 		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio);
 
 	public:
-		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado,std::string nombreJugador,int vida);
+		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado,std::string nombreJugador,int vida, int tipoEntidad);
 		~VistaEntidad(void);
 
 		void actualizar(ProxyModeloEntidad::stEntidad& entidad);
@@ -77,7 +78,9 @@ class VistaEntidad: public Identificable{
 		bool getSufrioDanio();
 		std::string getNombreEntidad();
 		std::string getNombreJugador();
-		std::list<std::list<std::string>> getListaAnimaciones(void);	
+		std::list<std::list<std::string>> getListaAnimaciones(void);
+		int tipoEntidad();
+		bool esMiJugador(void);
 
 		// Setters
 		void setXEnPantalla(double scrollX);
@@ -87,7 +90,7 @@ class VistaEntidad: public Identificable{
 		void setPosicionAnteriorEnTiles();			
 		void setPantalla(SDL_Surface* screen);
 		void setEstaCongelado(bool estado);
-		void setEsMiJugador(bool valor);
+		void esMiJugador(bool valor);
 		bool graficar(char visibilidad);
 
 };
