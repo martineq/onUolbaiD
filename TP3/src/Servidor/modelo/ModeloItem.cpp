@@ -59,9 +59,7 @@ void ModeloItem::cambiarEstado() {
 }
 
 void ModeloItem::enviarEstado() {
-	ProxyModeloEntidad::stEntidad entidad = this->stEntidad();
-	entidad.vida = this->vida();
-	this->_modeloEntidad->enviarEstado(entidad);
+	this->_modeloEntidad->enviarEstado(this->stEntidad());
 }
 
 int ModeloItem::vida(){
