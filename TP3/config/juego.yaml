@@ -289,6 +289,55 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [icono_golem.png]
+    - nombre: zapato
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [botas.png]
+    - nombre: botella
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [botella.png]
+    - nombre: corazon
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [corazon.png]
+    - nombre: hechizo
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [hechizo_hielo.png]
+    - nombre: lampara
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [lampara.png]
+    - nombre: espada
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [espada.png]
+    - nombre: mapa
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 0 #pixels
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      imagen:
+        - [mapa.png]
 ####################################################################################################################################################
 ################################################################     ESCENARIOS     ################################################################
 ####################################################################################################################################################
@@ -692,3 +741,30 @@ escenarios:
         - entidad: escudo
           x: 5
           y: 6
+        - entidad: bomba
+          x: 7
+          y: 6
+        - entidad: lampara
+          x: 7
+          y: 8
+        - entidad: espada
+          x: 7
+          y: 9
+        - entidad: mapa
+          x: 5
+          y: 8
+        - entidad: corazon
+          x: 3
+          y: 6
+        - entidad: botella
+          x: 3
+          y: 8
+        - entidad: zapato
+          x: 3
+          y: 9
+        - entidad: hechizo
+          x: 5
+          y: 3
+        - entidad: golem
+          x: 3
+          y: 3
