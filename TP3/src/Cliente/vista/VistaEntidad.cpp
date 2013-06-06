@@ -1,7 +1,8 @@
 #include "VistaEntidad.h"
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador,int vida){
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador,int vida, int tipoEntidad){
 	this->_id = id;
+	this->_tipoEntidad = tipoEntidad;
 	this->estaCongelado = estaCongelado;
 	this->vida = vida;
 
@@ -62,7 +63,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->fps = fps;
 	this->delay = delay;
 	this->esJugador = esJugador;	
-	this->esMiJugador = false;
+	this->_esMiJugador = false;
 	this->sufrioDanio = false;
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
 	this->animacionActual = NULL;
@@ -292,18 +293,18 @@ bool VistaEntidad::getEsUltimoMovimiento(){
 	return this->esUltimoMovimiento;
 }
 
-void VistaEntidad::setEsMiJugador(bool valor){
-	this->esMiJugador = valor;
+void VistaEntidad::esMiJugador(bool valor){
+	this->_esMiJugador = valor;
 	return void();
 }
 
 void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio){
 
 	// True solo si es el el jugador de este cliente
-	bool esMiJugador = this->esMiJugador;
+	bool esMiJugador = this->esMiJugador();
 
 	// True solo si es otro jugador que no sea el mio, incluye los automáticos
-	bool esOtroJugador = ( this->esJugador == true && this->esMiJugador == false );
+	bool esOtroJugador = ( this->esJugador == true && this->esMiJugador() == false );
 
 	// True solo si es un item. Acá se pueden agregar mas items que vayamos implementando
 	bool esItem = (this->nombreEntidad.compare(STRING_CORAZON) == 0	|| this->nombreEntidad.compare(STRING_ESCUDO) == 0	
@@ -327,4 +328,12 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 	} 
 
 	return void();
+}
+
+int VistaEntidad::tipoEntidad(void){
+	return this->_tipoEntidad;
+}
+
+bool VistaEntidad::esMiJugador(void){
+	return this->_esMiJugador;
 }

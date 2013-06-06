@@ -18,6 +18,7 @@ class ProxyModeloEntidad{
 			double pixelX;
 			double pixelY;
 			bool esUltimoMovimiento;
+			int tipoEntidad;
 
 			// ModeloJugador
 			std::string nombreJugador;
@@ -32,7 +33,7 @@ class ProxyModeloEntidad{
 			std::string actualizacionMapa;
 			int idRemitente;
 			std::string mensaje;
-			
+
 			int accion;
 			
 			stEntidad() {
@@ -45,6 +46,7 @@ class ProxyModeloEntidad{
 				this->pixelX = 0;
 				this->pixelY = 0;
 				this->esUltimoMovimiento = true;
+				this->tipoEntidad = TIPO_ENTIDAD_ESTATICO;
 
 				// ModeloJugador
 				this->escudo = 0;
@@ -87,7 +89,7 @@ class ProxyModeloEntidad{
 		bool enviarMatriz(std::string matrix,int id);
 		bool recibirMatrix(std::string& matrix);
 
-		int sizeEntidad(ProxyModeloEntidad::stEntidad);
+		//int sizeEntidad(ProxyModeloEntidad::stEntidad);
 
 		// Auxiliares
 		static void cargarStEntidad(ProxyModeloEntidad::stEntidad& entidad,int id,bool errorEnSocket,bool entidadCongelada,bool esJugador,std::string nombreEntidad,double pixelSiguienteX,double pixelSiguienteY,int posicionSiguienteX,int posicionSiguienteY,bool esUltimoMovimiento, int accion,std::string nombreJugador,int idRemitente,std::string mensaje);

@@ -28,6 +28,7 @@ class ModeloEntidad {
 		Posicion _posicion;
 		ProxyModeloEntidad* _proxyEntidad;
 		int _velocidad;
+		int _tipoEntidad;
 		
 		bool _esUltimoMovimiento;
 		Posicion _pixelSiguiente;
@@ -37,7 +38,7 @@ class ModeloEntidad {
 		ModeloEntidad& operator=(const ModeloEntidad &modeloEntidad);
 
 	public:
-		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+		ModeloEntidad(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, int tipoEntidad);
 
 		virtual ~ModeloEntidad();
 
@@ -92,6 +93,8 @@ class ModeloEntidad {
 		void setMasivo(void);
 
 		void notificarSoloAlJugador(void);
+
+		int tipoEntidad(void);
 };
 
 class ListaEntidades {

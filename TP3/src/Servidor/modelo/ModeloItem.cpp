@@ -9,9 +9,9 @@ ModeloItem& ModeloItem::operator=(const ModeloItem &modeloItem) {
 	return *this;
 }
 
-ModeloItem::ModeloItem(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad) {
+ModeloItem::ModeloItem(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, int tipoEntidad) {
 	this->_activo = false;
-	this->_modeloEntidad = new ModeloEntidad(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad);
+	this->_modeloEntidad = new ModeloEntidad(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, tipoEntidad);
 	this->_jugador = NULL;
 	this->_listaJugadores = NULL;
 	this->_listaEnemigos = NULL;

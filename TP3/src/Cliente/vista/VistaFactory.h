@@ -52,7 +52,7 @@ class VistaFactory{
 		void crearOtrosJugadores(VistaNivel& vistaNivel);
 		void crearEnemigosAutomaticos(VistaNivel& vistaNivel);
 		void crearItems(VistaNivel& vistaNivel);
-		void crearEntidadesNoJugadores(VistaNivel& vistaNivel);		
+		void crearEntidadesEstaticas(VistaNivel& vistaNivel);		
 
 		// Creación del Controlador
 		bool crearElementosControlador(VistaNivel& vistaNivel,ControladorEvento* evento,SocketCliente* pSocket);

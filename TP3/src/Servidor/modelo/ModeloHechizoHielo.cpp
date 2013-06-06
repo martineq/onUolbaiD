@@ -34,7 +34,7 @@ bool ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJu
 }
 
 ModeloHechizoHielo::ModeloHechizoHielo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad)
-	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad) {
+	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, TIPO_ENTIDAD_ITEM) {
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 }
