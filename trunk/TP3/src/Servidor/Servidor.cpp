@@ -23,7 +23,7 @@ bool Servidor::iniciar(bool singlePlayer){
 
 void Servidor::loop(void){
 
-	while( this->modeloJuego.cantidadJugadores() < CANTIDAD_MINIMA_JUGADORES_MULTI_PLAYER ){  // Espero mientras no haya jugadores
+	while( this->modeloJuego.cantidadJugadores() < CANTIDAD_MINIMA_JUGADORES_INICIAR_MULTI_PLAYER ){  // Espero mientras no haya jugadores
 		// Se puede poner un delay de tiempo para que no de muchas vueltas mientras espera un jugador
 	}
 
@@ -36,7 +36,7 @@ void Servidor::loop(void){
 		if( this->modeloJuego.loop() == false) quit = true;
 	
 		// Si no tengo jugadores conectados cierro el juego
-		if( this->modeloJuego.cantidadJugadores() < CANTIDAD_MINIMA_JUGADORES_MULTI_PLAYER ){
+		if( this->modeloJuego.cantidadJugadores() < CANTIDAD_MINIMA_JUGADORES_JUGAR_MULTI_PLAYER ){
 			// Emitir mensaje  "FIN DEL JUEGO"
 			quit = true;
 		}

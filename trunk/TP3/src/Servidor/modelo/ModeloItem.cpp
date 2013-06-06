@@ -31,6 +31,7 @@ ModeloEntidad* ModeloItem::modeloEntidad() {
 
 ProxyModeloEntidad::stEntidad ModeloItem::stEntidad() {
 	ProxyModeloEntidad::stEntidad estado = this->_modeloEntidad->stEntidad();
+	estado.vida = this->vida();
 	return estado;
 }
 
@@ -58,5 +59,15 @@ void ModeloItem::cambiarEstado() {
 }
 
 void ModeloItem::enviarEstado() {
-	this->_modeloEntidad->enviarEstado(this->stEntidad());
+	ProxyModeloEntidad::stEntidad entidad = this->stEntidad();
+	entidad.vida = this->vida();
+	this->_modeloEntidad->enviarEstado(entidad);
+}
+
+int ModeloItem::vida(){
+	if( this->disponible() == true ){
+		return 1;
+	}else{
+		return 0;
+	}
 }
