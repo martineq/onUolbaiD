@@ -367,7 +367,6 @@ void VistaFactory::crearItems(VistaNivel& vistaNivel){
 
 	for (std::list<ProxyModeloEntidad::stEntidad>::iterator it=listaItems.begin() ; it != listaItems.end(); it++ ){
 		ProxyModeloEntidad::stEntidad entidad = (*it);
-		entidad.vida = 1;
 		this->crearJugadorSinScroll(vistaNivel,entidad);
 	}
 
