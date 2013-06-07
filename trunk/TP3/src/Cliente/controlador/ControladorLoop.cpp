@@ -82,9 +82,9 @@ void ControladorLoop::loop(VistaNivel* nivel) {
 	else if (this->detector.getTeclaSApretada())
 		this->evento.setTeclaSApretada(this->detector.getTeclaSApretada());
 	else if (this->detector.getTeclaDApretada())
-		this->evento.setTeclaAApretada(this->detector.getTeclaAApretada());
+		this->evento.setTeclaDApretada(this->detector.getTeclaFApretada());
 	else if (this->detector.getTeclaFApretada())
-		this->evento.setTeclaSApretada(this->detector.getTeclaSApretada());
+		this->evento.setTeclaFApretada(this->detector.getTeclaFApretada());
 }
 
 bool ControladorLoop::getQuit() {
