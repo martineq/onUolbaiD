@@ -55,7 +55,7 @@ void VistaMusica::atacar(){
 }
 
 void VistaMusica::recibioUnGolpe(){
-	//Mix_PlayChannel( -1, sufrioDanio, 0 );
+	Mix_PlayChannel( -1, sufrioDanio, 0 );
 }
 
 void VistaMusica::murioJugador(){

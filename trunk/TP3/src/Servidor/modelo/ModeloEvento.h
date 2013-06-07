@@ -24,6 +24,8 @@ class ModeloEvento{
 		bool getMouseClickIzquierdo();
 		bool getKeyA();
 		bool getKeyS();
+		bool getKeyD();
+		bool getKeyF();
 		bool errorEnSocket();
 		bool finalizoElJuego();
 		bool getActualizado();

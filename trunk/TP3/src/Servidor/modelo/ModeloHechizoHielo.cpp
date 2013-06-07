@@ -29,7 +29,9 @@ bool ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJu
 				victima->estaCongelado(true);
 		}
 	}
+	//Dany dice: Ojo que el consumir Magia va a ir cuando se presione la tecla de consumir.
 	jugador->consumirMagia(MAGIA_CONSUMIDA_HECHIZO_HIELO);
+	jugador->setTieneHechizo(true);
 
 	return true;
 }
