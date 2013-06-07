@@ -141,11 +141,11 @@ bool DetectorEventos::getTeclaSApretada() {
 }
 
 bool DetectorEventos::getTeclaDApretada() {
-	return this->teclaAApretada;
+	return this->teclaDApretada;
 }
 
 bool DetectorEventos::getTeclaFApretada() {
-	return this->teclaSApretada;
+	return this->teclaFApretada;
 }
 
 bool DetectorEventos::getEnter() {
