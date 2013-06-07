@@ -6,8 +6,7 @@ VistaLoop::VistaLoop(void){
 	this->hayEntidadEnEspera = false;
 	this->reproduciAtacar = false;
 	this->entidadEnEspera.id = -1;
-	this->vistaChat = NULL;	
-	this->fuente = TTF_OpenFont( "./fonts/Lazy.ttf", 28 );
+	this->vistaChat = NULL;		
 }
 
 VistaLoop::~VistaLoop(void){
@@ -103,6 +102,7 @@ bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNiv
 bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	VistaEntidad* jugador = vistaNivel.getJugador();
 	int thickness = 10;			
+	this->fuente = TTF_OpenFont( "./fonts/Lazy.ttf", 28 );
 	SDL_Color textColor = { 255, 255, 255 }; //color blanco 	
 
 	//Vida
@@ -111,7 +111,7 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	ss << vidaPorcentual;
 	ss << '%';
 	string auxiliar = ss.str();
-	this->textoVida = TTF_RenderText_Solid( fuente, auxiliar.c_str(), textColor );		
+	this->textoVida = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );		
 	SDL_BlitSurface( textoVida, NULL, pantalla, NULL);
 	boxRGBA( this->pantalla, 50, 10, 100*4+50, thickness+10, 0, 0, 0, 255); //barra negra
 	if (vidaPorcentual <= 10) 
@@ -126,7 +126,7 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	ss << '%';
 	auxiliar = "";
 	auxiliar = ss.str();
-	this->textoMagia = TTF_RenderText_Solid( fuente, auxiliar.c_str(), textColor );	
+	this->textoMagia = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );	
 	SDL_Rect offset;
 	offset.x = 0;
 	offset.y = 30;
@@ -144,7 +144,7 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	ss << '%';
 	auxiliar = "";
 	auxiliar = ss.str();
-	this->textoEscudo = TTF_RenderText_Solid( fuente, auxiliar.c_str(), textColor );		
+	this->textoEscudo = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );		
 	offset.x = 0;
 	offset.y = 60;
 	SDL_BlitSurface( textoEscudo, NULL, pantalla, &offset);
@@ -160,7 +160,7 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	ss << 10;
 	auxiliar = "";
 	auxiliar = ss.str();	
-	this->textoCantidadMagia = TTF_RenderText_Solid( fuente, auxiliar.c_str(), textColor );	
+	this->textoCantidadMagia = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );	
 	offset.x = 0;
 	offset.y = 90;
 	SDL_BlitSurface( textoCantidadMagia, NULL, pantalla, &offset);
@@ -171,7 +171,7 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	ss << 10;
 	auxiliar = "";
 	auxiliar = ss.str();
-	this->textoCantidadBombas = TTF_RenderText_Solid( fuente, auxiliar.c_str(), textColor );	
+	this->textoCantidadBombas = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );	
 	offset.x = 0;
 	offset.y = 120;
 	SDL_BlitSurface( textoCantidadBombas, NULL, pantalla, &offset);
