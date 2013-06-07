@@ -13,17 +13,23 @@ bool ModeloGolem::inmediato() {
 	return false;  // Confirmar si va false. (El Golem se invocaría de la misma forma que se activa una bomba)
 }
 
-bool ModeloGolem::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
-
+bool ModeloGolem::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
+	
 	// Cargo los datos que necesito del jugador que invoca el golem
 	this->idDuenio = jugador->modeloEntidad()->id();
 	this->velocidad =  jugador->modeloEntidad()->velocidad();
 	this->vida = jugador->maximoVida();
 	this->danio = (jugador->danioAtaque() / 2);			// El golem tendrá menos daño de ataque que su creador
 	this->pos = jugador->posicionGolem();
-
+	
 	ModeloJugador* golem = this->crearGolem();
-	listaEnemigos->agregarJugador(golem);
+	
+	listaGolems->agregarJugador(golem);
+	golem->asignarListaJugadores(listaJugadores);
+	//TODO: Falta pasarle la lista de items para que el golem pueda dropear al morir
+	golem->asignarListaEnemigos(listaEnemigos);
+	golem->enviarEstado();
+	
 	return true;
 }
 

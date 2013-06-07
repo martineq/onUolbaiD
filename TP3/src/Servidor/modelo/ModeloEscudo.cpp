@@ -1,6 +1,6 @@
 #include "ModeloItem.h"
 
-bool ModeloEscudo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
+bool ModeloEscudo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
 	jugador->recuperarEscudo(ESCUDO_RECUPERADO);
 	return true;
 }

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool ModeloCorazon::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
+bool ModeloCorazon::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
 	jugador->recuperarVida(VIDA_RECUPERADA);
 	return true;
 }

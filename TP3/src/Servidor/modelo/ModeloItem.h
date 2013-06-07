@@ -16,6 +16,7 @@ class ModeloItem {
 		ModeloJugador* _jugador;
 		ListaJugadores* _listaJugadores;
 		ListaJugadores* _listaEnemigos;
+		ListaJugadores* _listaGolems;
 		bool _activo;
 		Mutex _mutex;
 
@@ -24,7 +25,7 @@ class ModeloItem {
 		ModeloItem& operator=(const ModeloItem &modeloItem);
 
 	protected:
-		virtual bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) = 0;
+		virtual bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) = 0;
 
 	public:
 		ModeloItem(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, int tipoEntidad);
@@ -42,6 +43,8 @@ class ModeloItem {
 		void asignarListaJugadores(ListaJugadores* listaJugadores);
 
 		void asignarListaEnemigos(ListaJugadores* listaEnemigos);
+
+		void asignarListaGolems(ListaJugadores* listaGolems);
 
 		void cambiarEstado();
 
@@ -80,7 +83,7 @@ class ListaItems {
 
 class ModeloBotella : public ModeloItem {
 	protected:
-		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
 	public:
 		ModeloBotella(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -92,7 +95,7 @@ class ModeloBotella : public ModeloItem {
 
 class ModeloCorazon : public ModeloItem {
 	protected:
-		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 	
 	public:
 		ModeloCorazon(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -104,7 +107,7 @@ class ModeloCorazon : public ModeloItem {
 
 class ModeloEscudo : public ModeloItem {
 	protected:
-		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
 	public:
 		ModeloEscudo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -116,7 +119,7 @@ class ModeloEscudo : public ModeloItem {
 
 class ModeloLampara : public ModeloItem {
 	protected:
-		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
 	public:
 		ModeloLampara(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -128,7 +131,7 @@ class ModeloLampara : public ModeloItem {
 
 class ModeloMapa: public ModeloItem {
 	protected:
-		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
 	public:
 		ModeloMapa(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -140,7 +143,7 @@ class ModeloMapa: public ModeloItem {
 
 class ModeloZapato : public ModeloItem {
 	protected:
-		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
 	public:
 		ModeloZapato(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -152,7 +155,7 @@ class ModeloZapato : public ModeloItem {
 
 class ModeloEspada : public ModeloItem {
 	protected:
-		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
 	public:
 		ModeloEspada(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -168,7 +171,7 @@ class ModeloHechizoHielo : public ModeloItem {
 		int _anchoNivel;
 
 	protected:
-		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
 	public:
 		ModeloHechizoHielo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -185,7 +188,7 @@ class ModeloBomba : public ModeloItem {
 		DWORD _instanteActivacion;
 
 	protected:
-		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
 	public:
 		ModeloBomba(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -225,7 +228,7 @@ class ModeloGolem : public ModeloItem {
 		
 		bool inmediato();
 
-		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos);
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
 		void cargarDatos(int idGolem, int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor);
 };

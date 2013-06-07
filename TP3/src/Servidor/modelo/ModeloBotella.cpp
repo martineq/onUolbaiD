@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool ModeloBotella::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
+bool ModeloBotella::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
 	jugador->recuperarMagia(MAGIA_RECUPERADA);
 	return true;
 }

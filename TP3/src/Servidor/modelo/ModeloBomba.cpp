@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool ModeloBomba::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
+bool ModeloBomba::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
 	if (this->_instanteActivacion == 0) {
 		this->_instanteActivacion = GetTickCount();
 		return false;
