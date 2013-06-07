@@ -71,6 +71,8 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->gastoEscudo = false;
 	this->gastoMagia = false;
 	this->yaMurio = false;
+	this->cantidadMagia = 0;
+	this->cantidadBombas = 0;
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
 	this->animacionActual = NULL;
 
@@ -134,6 +136,8 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->vida = entidad.vida;		
 	this->magia = entidad.magia;
 	this->escudo = entidad.escudo;	
+	this->cantidadMagia = entidad.cantidadMagia;
+	this->cantidadBombas = entidad.cantidadBombas;
 	this->esPrimerMovimiento = entidad.esPrimerMovimiento;
 
 	int codigo = entidad.accion;
@@ -333,7 +337,7 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 	// Se murio un enemigo
 	if( esOtroJugador == true && murio == true && !esItem && !this->yaMurio) {
 		VistaMusica::getInstance().murioEnemigo();
-		this->yaMurio = true;
+		//this->yaMurio = true;
 	}
 
 	// Se tomo item
@@ -366,6 +370,14 @@ int VistaEntidad::getMaximoMagia(){
 
 int VistaEntidad::getMagia(){
 	return this->magia;
+}
+
+int VistaEntidad::getCantidadMagia(){
+	return this->cantidadMagia;
+}
+
+int VistaEntidad::getCantidadBombas(){
+	return this->cantidadBombas;
 }
 
 int VistaEntidad::getEscudo(){

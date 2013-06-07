@@ -51,6 +51,8 @@ class VistaEntidad: public Identificable{
 		int maximoMagia;
 		int magia;
 		int escudo;
+		int cantidadMagia;
+		int cantidadBombas;
 
 		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio);
 
@@ -82,6 +84,8 @@ class VistaEntidad: public Identificable{
 		int getMaximoMagia();
 		int getMagia();
 		int getEscudo();
+		int getCantidadMagia();
+		int getCantidadBombas();
 		int tipoEntidad();
 		bool getEsNecesarioRefrescar(void);		
 		bool getEsUltimoMovimiento();
@@ -108,7 +112,7 @@ class VistaEntidad: public Identificable{
 		void setEstaCongelado(bool estado);
 		void setGastoMagia(bool gasto);
 		void setSufrioDanio(bool sufrio);
-		void setGastoEscudo(bool gasto);
+		void setGastoEscudo(bool gasto);		
 		void esMiJugador(bool valor);
 		bool graficar(char visibilidad);
 

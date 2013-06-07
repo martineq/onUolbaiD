@@ -98,6 +98,8 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addInt(entidad.rangoVision);
 	s.addInt(entidad.idRemitente);	
 	s.addBool(entidad.tieneMapa);
+	s.addInt(entidad.cantidadMagia);
+	s.addInt(entidad.cantidadBombas);
 	s.addString(entidad.mensaje);
 
 	s.addInt(entidad.accion);
@@ -124,6 +126,8 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.rangoVision = s.getInt();
 	entidad.idRemitente = s.getInt();	
 	entidad.tieneMapa = s.getBool();
+	entidad.cantidadMagia = s.getInt();
+	entidad.cantidadBombas = s.getInt();
 	entidad.mensaje = s.getString();
 
 	entidad.accion = s.getInt();

@@ -38,6 +38,9 @@ bool ModeloBomba::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores
 		}
 	}
 
+	//Para cuando agarra la bomba
+	jugador->setCantidadBombas(true);
+
 	return true;
 }
 
@@ -54,3 +57,21 @@ ModeloBomba::~ModeloBomba() {
 bool ModeloBomba::inmediato() {
 	return false;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
