@@ -181,12 +181,13 @@ bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* 
 
 	// Envío los archivos de configuración, en caso de no ser single player
 	if( singlePlayer == false ) {
-		if( this->enviarArchivosDeConfiguracion(id) == false ) return false;
+		std::cout << "(Envio de archivos deshabilitado para el debug)" << std::endl;
+		//if( this->enviarArchivosDeConfiguracion(id) == false ) return false;  // TODO: Descomentar para el momento de la entrega
 	}
 
 	// Envío el escenario creado, junto con los ID's de cada entidad del escenario para que se puedan setear en el cliente
 	if( this->enviarEscenario(id) == false ) return false;
-
+	
 	// Envío los enemigos automáticos para que se puedan setear en el cliente
 	if( this->enviarEnemigosAutomaticos(pModeloNivel,id) == false ) return false;
 
@@ -657,10 +658,17 @@ bool ModeloFactory::enviarArchivosDeConfiguracion(int idSocketCliente){
 	// Envio los archivos de imagenes
 		listaArchivos = lector.leerDirectorio(DIRECTORIO_CONFIG);
 	if( this->enviarListaDeArchivos(listaArchivos,idSocketCliente) == false)  {
-		Log::getInstance().log(1,__FILE__,__LINE__,"El Servidor no pudo enviar todos los archivos de imagenes al cliente con ID ",idSocketCliente);
+		Log::getInstance().log(1,__FILE__,__LINE__,"El Servidor no pudo enviar todos los archivos de configuración al cliente con ID ",idSocketCliente);
 		exito = false;
 	}
 
+	// Envio los archivos de sonido
+	listaArchivos = lector.leerDirectorio(DIRECTORIO_SOUNDS);
+	if( this->enviarListaDeArchivos(listaArchivos,idSocketCliente) == false)  {
+		Log::getInstance().log(1,__FILE__,__LINE__,"El Servidor no pudo enviar todos los archivos de sonido al cliente con ID ",idSocketCliente);
+		exito = false;
+	}
+	
 	double tiempoFinal = Temporizador::getInstance().obtenerTics();
 	double periodoTranscurrido =  ( tiempoFinal - tiempoInicial ) / 1000;
 	std::cout << "Tiempo de envio de archivos: " << periodoTranscurrido << " segundos. " << std::endl;
