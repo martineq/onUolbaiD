@@ -15,7 +15,8 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 
 	// Recibo los archivos desde el servidor, en caso de no ser single player
 	if( singlePlayer == false ) {
-		if( this->recibirArchivos(pSocket) == false ) return false;
+		std::cout << "(Recepcion de archivos deshabilitada para el debug)" << std::endl;
+		//if( this->recibirArchivos(pSocket) == false ) return false; // TODO: Descomentar para el momento de la entrega
 	}
 
 	// Cargo el archivo de configuración
@@ -91,11 +92,14 @@ bool VistaFactory::recibirArchivos(SocketCliente* pSocket){
 
 	double tiempoInicial = Temporizador::getInstance().obtenerTics();
 
-	// Recibo los archivos de configuracion
+	// Recibo los archivos de imagenes
 	if( this->recibirListaDeArchivos(DIRECTORIO_IMG,pSocket) == false) return false;
 
-	// Recibo los archivos de imagenes
+	// Recibo los archivos de configuracion
 	if( this->recibirListaDeArchivos(DIRECTORIO_CONFIG,pSocket) == false) return false;
+
+	// Recibo los archivos de sonido
+	if( this->recibirListaDeArchivos(DIRECTORIO_SOUNDS,pSocket) == false) return false;
 
 	double tiempoFinal = Temporizador::getInstance().obtenerTics();
 	double periodoTranscurrido =  ( tiempoFinal - tiempoInicial ) / 1000;

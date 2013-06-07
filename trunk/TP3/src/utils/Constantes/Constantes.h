@@ -7,6 +7,7 @@
 /**************************** Directorios ****************************/
 #define DIRECTORIO_IMG "./img"
 #define DIRECTORIO_CONFIG "./config"
+#define DIRECTORIO_SOUNDS "./sounds"
 
 /**************************** Log ****************************/
 #define LOG_RUTA "./DI_Log.txt"
