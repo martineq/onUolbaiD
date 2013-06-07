@@ -77,6 +77,14 @@ bool ModeloEvento::getKeyS(){
 	return this->listaEventos.front().teclaS;
 }
 
+bool ModeloEvento::getKeyD(){
+	return this->listaEventos.front().teclaA;
+}
+
+bool ModeloEvento::getKeyF(){
+	return this->listaEventos.front().teclaS;
+}
+
 bool ModeloEvento::errorEnSocket(){
 	return this->listaEventos.front().errorEnSocket;
 }

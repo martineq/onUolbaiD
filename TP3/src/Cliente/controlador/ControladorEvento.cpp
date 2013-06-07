@@ -12,6 +12,8 @@ ControladorEvento::ControladorEvento(void){
 	this->finalizoElJuego = false;
 	this->teclaAApretada = false;
 	this->teclaSApretada = false;
+	this->teclaDApretada = false;
+	this->teclaFApretada = false;
 }
 
 ControladorEvento::~ControladorEvento(void){
@@ -50,6 +52,16 @@ void ControladorEvento::setTeclaSApretada(bool apretada){
 	this->notificarAlProxy();
 }
 
+void ControladorEvento::setTeclaDApretada(bool apretada){
+	this->teclaDApretada = apretada;	
+	this->notificarAlProxy();
+}
+
+void ControladorEvento::setTeclaFApretada(bool apretada){
+	this->teclaFApretada = apretada;		
+	this->notificarAlProxy();
+}
+
 void ControladorEvento::setQuit(){
 	this->finalizoElJuego = true;
 	this->notificarAlProxy();
@@ -83,10 +95,19 @@ bool ControladorEvento::getTeclaSApretada(){
 	return this->teclaSApretada;
 }
 
+bool ControladorEvento::getTeclaDApretada(){
+	return this->teclaAApretada;
+}
+
+bool ControladorEvento::getTeclaFApretada(){
+	return this->teclaSApretada;
+}
+
 void ControladorEvento::notificarAlProxy(){
 	ProxyControladorEvento::stEvento evento;
 	ProxyControladorEvento::cargarStEvento(evento, this->idJugador, false, this->getPosicionMouseX(), this->getPosicionMouseY(),
-		this->getTeclaAApretada(), this->getTeclaSApretada(), (this->getClicMouseBotonIzquierdo() == 1), this->getFinalizoElJuego());
+		this->getTeclaAApretada(), this->getTeclaSApretada(), this->getTeclaDApretada(), this->getTeclaFApretada(), 
+		(this->getClicMouseBotonIzquierdo() == 1), this->getFinalizoElJuego());
 	this->pProxyEvento->enviarEvento(evento);
 }
 

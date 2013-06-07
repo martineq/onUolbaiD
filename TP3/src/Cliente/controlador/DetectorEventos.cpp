@@ -9,6 +9,8 @@ DetectorEventos::DetectorEventos() {
 	this->dentroDePantalla = true;
 	this->teclaAApretada = false;
 	this->teclaSApretada = false;
+	this->teclaDApretada = false;
+	this->teclaFApretada = false;
 	this->enter = false;
 	this->escape = false;
 	this->retroceso = false;
@@ -99,6 +101,12 @@ void DetectorEventos::detectar() {
 					case SDLK_a:								
 						this->teclaAApretada = true;
 						break;
+					case SDLK_d:								
+						this->teclaDApretada = true;
+						break;
+					case SDLK_f:								
+						this->teclaFApretada = true;
+						break;
 				}
 				break;
 			case SDL_QUIT:
@@ -129,6 +137,14 @@ bool DetectorEventos::getTeclaAApretada() {
 }
 
 bool DetectorEventos::getTeclaSApretada() {
+	return this->teclaSApretada;
+}
+
+bool DetectorEventos::getTeclaDApretada() {
+	return this->teclaAApretada;
+}
+
+bool DetectorEventos::getTeclaFApretada() {
 	return this->teclaSApretada;
 }
 

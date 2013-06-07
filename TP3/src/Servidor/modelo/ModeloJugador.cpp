@@ -464,3 +464,7 @@ int ModeloJugador::coordenadaAlAzar(int media, int desvio, int cotaMinima , int 
 
 	return x;
 }
+
+void ModeloJugador::setTieneHechizo(bool tiene){
+	this->_tieneHechizo++;
+}

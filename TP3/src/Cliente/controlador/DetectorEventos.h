@@ -14,6 +14,8 @@ class DetectorEventos{
 		bool dentroDePantalla;
 		bool teclaSApretada;
 		bool teclaAApretada;
+		bool teclaDApretada;
+		bool teclaFApretada;
 		bool enter;
 		bool escape;
 		bool retroceso;
@@ -31,6 +33,8 @@ class DetectorEventos{
 		bool getDentroDePantalla();
 		bool getTeclaAApretada();
 		bool getTeclaSApretada();
+		bool getTeclaDApretada();
+		bool getTeclaFApretada();
 		bool getEnter();
 		bool getEscape();
 		bool getRetroceso();

@@ -54,6 +54,8 @@ void ProxyControladorEvento::serializar(Serializadora& s,ProxyControladorEvento:
 	s.addInt(evento.mouseY);
 	s.addBool(evento.teclaA);
 	s.addBool(evento.teclaS);
+	s.addBool(evento.teclaD);
+	s.addBool(evento.teclaF);
 	s.addBool(evento.mouseClickIzquierdo);
 	s.addBool(evento.finalizoElJuego);
 	s.addInt(evento.idReceptorChat);
@@ -67,6 +69,8 @@ void ProxyControladorEvento::hidratar(Serializadora& s,ProxyControladorEvento::s
 	evento.mouseY = s.getInt();
 	evento.teclaA = s.getBool();
 	evento.teclaS = s.getBool();
+	evento.teclaD = s.getBool();
+	evento.teclaF = s.getBool();
 	evento.mouseClickIzquierdo = s.getBool();
 	evento.finalizoElJuego = s.getBool();
 	evento.idReceptorChat = s.getInt();
@@ -75,7 +79,7 @@ void ProxyControladorEvento::hidratar(Serializadora& s,ProxyControladorEvento::s
 
 
 void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,
-	bool teclaA,bool teclaS,bool mouseClickIzquierdo,bool finalizoElJuego){
+	bool teclaA,bool teclaS,bool teclaD,bool teclaF,bool mouseClickIzquierdo,bool finalizoElJuego){
 
 	evento.id = id;
 	evento.errorEnSocket = errorEnSocket;
@@ -83,6 +87,8 @@ void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& ev
 	evento.mouseY = mouseY;
 	evento.teclaA = teclaA;
 	evento.teclaS = teclaS;
+	evento.teclaA = teclaD;
+	evento.teclaS = teclaF;
 	evento.mouseClickIzquierdo = mouseClickIzquierdo;
 	evento.finalizoElJuego = finalizoElJuego;
 	evento.idReceptorChat = -1;
@@ -97,6 +103,8 @@ void ProxyControladorEvento::cargarStEventoChat(ProxyControladorEvento::stEvento
 	evento.mouseY = 0;
 	evento.teclaA = false;
 	evento.teclaS = false;
+	evento.teclaD = false;
+	evento.teclaF = false;
 	evento.mouseClickIzquierdo = false;
 	evento.finalizoElJuego = false;
 	evento.idReceptorChat = idReceptorChat;
