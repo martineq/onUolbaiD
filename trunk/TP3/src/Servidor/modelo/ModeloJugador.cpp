@@ -239,6 +239,8 @@ ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
 	estado.maximoVida = this->_maximoVida;
 	estado.rangoVision = this->_estadoNivel->rangoVision();
 	estado.tieneMapa = this->_tieneMapa;
+	estado.cantidadMagia = this->_cantidadMagia;
+	estado.cantidadBombas = this->_cantidadBombas;
 	estado.accion = (this->_accion * 8) + this->_modeloEntidad->direccion();	
 	return estado;
 }
@@ -465,6 +467,10 @@ int ModeloJugador::coordenadaAlAzar(int media, int desvio, int cotaMinima , int 
 	return x;
 }
 
-void ModeloJugador::setTieneHechizo(bool tiene){
-	this->_tieneHechizo++;
+void ModeloJugador::setCantidadMagia(bool tiene){
+	this->_cantidadMagia++;
+}
+
+void ModeloJugador::setCantidadBombas(bool tiene){
+	this->_cantidadBombas++;
 }

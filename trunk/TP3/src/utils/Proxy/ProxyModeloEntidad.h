@@ -30,6 +30,8 @@ class ProxyModeloEntidad{
 			int vida;
 			int maximoVida;
 			int rangoVision;
+			int cantidadMagia;
+			int cantidadBombas;
 			bool tieneMapa;
 			std::string actualizacionMapa;
 			int idRemitente;

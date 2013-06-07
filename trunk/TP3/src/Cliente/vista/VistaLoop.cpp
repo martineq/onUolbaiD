@@ -147,6 +147,27 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	else
 		boxRGBA( this->pantalla, 50, 70, escudoPorcentual*4+50, thickness+70, 0, 255, 0, 255);	
 
+	//Cantidad de hechizos
+	stringstream ss4;
+	//ss3 << vistaNivel.getJugador()->getCantidadMagia();			
+	ss4 << 10;
+	string hola4(ss4.str());
+	SDL_Surface* textoCantidadMagia = TTF_RenderText_Solid( fuente, hola4.c_str(), textColor );	
+	SDL_Rect offset3;
+	offset3.x = 0;
+	offset3.y = 90;
+	SDL_BlitSurface( textoCantidadMagia, NULL, pantalla, &offset3);
+
+	//Cantidad de bombas
+	stringstream ss5;
+	//ss3 << vistaNivel.getJugador()->getCantidadBombas();			
+	ss5 << 10;
+	string hola5(ss5.str());
+	SDL_Surface* textoCantidadBombas = TTF_RenderText_Solid( fuente, hola5.c_str(), textColor );	
+	SDL_Rect offset4;
+	offset4.x = 0;
+	offset4.y = 120;
+	SDL_BlitSurface( textoCantidadBombas, NULL, pantalla, &offset4);
 
 	return true;
 }
