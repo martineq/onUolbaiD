@@ -277,14 +277,13 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
  
 	std::string nombreProtagonista = this->juegoElegido.entidadJugador.nombreEntidad;
 	ParserYaml::stEntidad entidadProtagonista = ParserYaml::getInstance().buscarStEntidad(this->juegoElegido.listaEntidades,nombreProtagonista);
-	
+	ParserYaml::stProtagonista protgonistaDefinido = ParserYaml::getInstance().buscarStProtagonista(this->juegoElegido.escenario,nombreProtagonista);
+
 	// Valores tomados desde el protagonista selecionado (y cargado) anteriormente
 	double x = (double)this->juegoElegido.entidadJugador.posicionX;
 	double y = (double)this->juegoElegido.entidadJugador.posicionY;
 	int id = this->juegoElegido.entidadJugador.id;
 	int direccion = this->juegoElegido.entidadJugador.accion;
-	int vida = this->juegoElegido.entidadJugador.vida;
-	int magia = this->juegoElegido.entidadJugador.magia;
 	int escudo = this->juegoElegido.entidadJugador.escudo;
 	int tipoEntidad = TIPO_ENTIDAD_JUGADOR;
 
@@ -297,6 +296,10 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	double delay = (double)entidadProtagonista.delay;
 	std::string nombre = entidadProtagonista.nombre;
 	std::list<std::list<std::string>> listaAnimaciones = entidadProtagonista.imagenes;
+
+	// Valores tomados desde el protgonistaDefinido
+	int vida = 	protgonistaDefinido.vida;
+	int magia = protgonistaDefinido.mana;
 
 	// Valores tomados desde el escenario
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
