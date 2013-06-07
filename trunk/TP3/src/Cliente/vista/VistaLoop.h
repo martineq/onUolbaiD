@@ -24,6 +24,13 @@ class VistaLoop{
 		bool dibujarEntidades(VistaNivel& vistaNivel, EstadoNivel* estadoNivel);
 		bool dibujarStats(VistaNivel& vistaNivel);
 
+		TTF_Font *fuente;
+		SDL_Surface* textoVida;
+		SDL_Surface* textoMagia;
+		SDL_Surface* textoEscudo;
+		SDL_Surface* textoCantidadMagia;
+		SDL_Surface* textoCantidadBombas;
+
 	public:
 		VistaLoop(void);
 		~VistaLoop(void);
