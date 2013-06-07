@@ -1,6 +1,6 @@
 #include "ModeloItem.h"
 
-bool ModeloLampara::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
+bool ModeloLampara::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
 	jugador->getEstadoNivel()->rangoVision(RANGO_VISION * 2);
 	return true;
 }

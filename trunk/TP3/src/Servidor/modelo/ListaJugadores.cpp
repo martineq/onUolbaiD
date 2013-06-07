@@ -13,6 +13,7 @@ void ListaJugadores::agregarJugador(ModeloJugador* jugador) {
 	this->_jugadores.push_back(jugador);	
 	this->_mutex.unlock(__FILE__, __LINE__);
 	this->_listaEntidades->agregarEntidadMovil(jugador->modeloEntidad());
+	jugador->asignarListaEntidades(this->_listaEntidades);
 }
 
 void ListaJugadores::asignarListaEntidades(ListaEntidades* listaEntidades) {

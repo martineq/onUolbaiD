@@ -28,6 +28,7 @@ ModeloNivel::ModeloNivel() {
 	this->listaJugadores.asignarListaEntidades(&this->listaEntidades);
 	this->listaEnemigos.asignarListaEntidades(&this->listaEntidades);
 	this->listaItems.asignarListaEntidades(&this->listaEntidades);
+	this->listaGolems.asignarListaEntidades(&this->listaEntidades);
 }
 
 ModeloNivel::~ModeloNivel() {
@@ -56,7 +57,6 @@ int ModeloNivel::getAltoTiles() {
 void ModeloNivel::agregarJugador(ModeloJugador* jugador) {
 	this->listaJugadores.agregarJugador(jugador);
 	jugador->asignarListaEnemigos(&this->listaEnemigos);
-	jugador->asignarListaEntidades(&this->listaEntidades);
 	jugador->asignarListaItems(&this->listaItems);
 	jugador->asignarListaJugadores(&this->listaJugadores);
 	jugador->enviarEstado();
@@ -65,7 +65,6 @@ void ModeloNivel::agregarJugador(ModeloJugador* jugador) {
 void ModeloNivel::agregarEnemigo(ModeloJugador* enemigo) {
 	this->listaEnemigos.agregarJugador(enemigo);
 	enemigo->asignarListaEnemigos(&this->listaEnemigos);
-	enemigo->asignarListaEntidades(&this->listaEntidades);
 	enemigo->asignarListaItems(&this->listaItems);
 	enemigo->asignarListaJugadores(&this->listaJugadores);
 }
@@ -74,6 +73,7 @@ void ModeloNivel::agregarItem(ModeloItem* item) {
 	this->listaItems.agregarItem(item);
 	item->asignarListaJugadores(&this->listaJugadores);
 	item->asignarListaEnemigos(&this->listaEnemigos);
+	item->asignarListaGolems(&this->listaGolems);
 	item->enviarEstado();
 }
 
@@ -105,14 +105,10 @@ void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 		enemigo = this->obtenerEnemigo(posicion);
 	if ((enemigo != NULL) && (enemigo != jugador)) {
 		// Si el enemigo esta vivo lo ataco y salgo
-		if (enemigo->vida() > 0) {
+		if ((enemigo->vida() > 0) && !enemigo->estaDesconectado()) {
 			jugador->atacar(enemigo);
 			return;
 		}
-		
-		//Si no esta vivo y es autonomo lo quito de la lista de entidades moviles para que no se colisione mas con el
-		if (enemigo->autonomo())
-			this->listaEntidades.removerEntidadMovil(enemigo->modeloEntidad());
 	}
 	
 	// Si hice clic en un item valido
@@ -123,9 +119,6 @@ void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 			jugador->recogerItem(item);
 			return;
 		}
-		
-		// Si el item no esta disponible lo quito de la lista de entidades para que no se colisione mas con el
-		this->listaEntidades.removerEntidad(item->modeloEntidad());
 	}
 	jugador->mover(posicion);
 }
@@ -146,6 +139,7 @@ void ModeloNivel::desconectarJugador(int id){
 bool ModeloNivel::actualizar() {
 	std::list<ModeloJugador*> listaJugadores = this->getJugadores();
 	std::list<ModeloJugador*> listaEnemigos = this->getEnemigos();
+	std::list<ModeloJugador*> listaGolems = this->listaGolems.obtenerJugadores();
 	std::multimap<std::pair<int, int>, ModeloItem*> listaItems = this->getItems();
 	
 	// Ejecuto el cambio de estado de todos los jugadores
@@ -154,13 +148,15 @@ bool ModeloNivel::actualizar() {
 
 	// Ejecuto el cambio de estado de todos los enenmigos vivos y que no esten congelados
 	for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
-		if ((*enemigo)->vida() == 0)
+		if (((*enemigo)->vida() == 0) || (*enemigo)->estaCongelado())
 			continue;
 		
 		// Busco algun jugador que este en el rango de vision para atacarlo
 		for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
-			if ((*enemigo)->estaEnRangoVision(*jugador))
+			if ((*enemigo)->estaEnRangoVision(*jugador)) {
 				(*enemigo)->atacar(*jugador);
+				break;
+			}
 		}
 		
 		(*enemigo)->cambiarEstado();
@@ -169,6 +165,32 @@ bool ModeloNivel::actualizar() {
 	// Ejecuto el cambio de estado de todos los items
 	for (std::multimap<std::pair<int, int>, ModeloItem*>::iterator item = listaItems.begin(); item != listaItems.end(); item++)
 		(*item).second->cambiarEstado();
+
+	// Ejecuto el cambio de estado de todos los golems vivos y que no esten congelados
+	for (std::list<ModeloJugador*>::iterator golem = listaGolems.begin(); golem != listaGolems.end(); golem++) {
+		if (((*golem)->vida() == 0) || (*golem)->estaCongelado())
+			continue;
+		
+		(*golem)->mover(this->obtenerJugador((*golem)->idDuenio())->modeloEntidad()->posicion());
+
+		// Busco algun jugador que este en el rango de vision para atacarlo y que sea disitinto al dueño
+		for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
+			if ((*golem)->estaEnRangoVision(*jugador) && ((*golem)->idDuenio() != (*jugador)->modeloEntidad()->id())) {
+				(*golem)->atacar(*jugador);
+				break;
+			}
+		}
+		
+		// Busco algun enemigo que este en el rango de vision para atacarlo
+		for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
+			if ((*golem)->estaEnRangoVision(*enemigo) && ((*enemigo)->vida() > 0)) {
+				(*golem)->atacar(*enemigo);
+				break;
+			}
+		}
+
+		(*golem)->cambiarEstado();
+	}
 
 	return true;
 }

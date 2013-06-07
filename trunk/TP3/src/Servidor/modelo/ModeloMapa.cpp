@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool ModeloMapa::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
+bool ModeloMapa::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
 	jugador->setTieneMapa(true);
 	return true;
 }

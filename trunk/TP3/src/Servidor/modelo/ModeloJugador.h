@@ -44,6 +44,7 @@ class ModeloJugador {
 		ListaEntidades* _listaEntidades;
 		ListaItems* _listaItems;
 		ListaJugadores* _listaJugadores;
+		ListaJugadores* _listaGolems;
 		ModeloEntidad* _modeloEntidad;
 		EstadoNivel* _estadoNivel;
 		ModeloJugador* _enemigo;

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos) {
+bool ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
 	int xDesde = this->modeloEntidad()->posicion().x - RANGO_HECHIZO_HIELO;
 	int xHasta = this->modeloEntidad()->posicion().x + RANGO_HECHIZO_HIELO;
 	int yDesde = this->modeloEntidad()->posicion().y - RANGO_HECHIZO_HIELO;

@@ -17,6 +17,7 @@ class ModeloNivel {
 		ListaEntidades listaEntidades;
 		ListaJugadores listaJugadores;
 		ListaJugadores listaEnemigos;
+		ListaJugadores listaGolems;
 		ListaItems listaItems;
 
 		int jugadoresConectados;

@@ -46,6 +46,8 @@ void ModeloJugador::matar() {
 	this->_item = NULL;
 	this->_estadoNivel->rangoVision(RANGO_VISION);
 	this->_modeloMovimiento->detener();
+	if (this->_autonomo)
+		this->_listaEnemigos->removerJugador(this);
 }
 
 void ModeloJugador::recogerItem() {
@@ -60,6 +62,7 @@ void ModeloJugador::recogerItem() {
 	if (this->_item->disponible()) {
 		this->_item->asignarJugador(this);
 		this->_item->activar();
+		this->_listaItems->removerItem(this->_item);
 	}
 	this->_item = NULL;
 }
