@@ -16,7 +16,11 @@ class VistaEntidad: public Identificable{
 		bool esNecesarioRefrescar;
 		bool tieneMapa;
 		bool esUltimoMovimiento;
+		bool esPrimerMovimiento;
 		bool sufrioDanio;
+		bool gastoEscudo;
+		bool gastoMagia;
+		bool yaMurio;
 		double x;
 		double y;
 		double alto;
@@ -81,11 +85,14 @@ class VistaEntidad: public Identificable{
 		int tipoEntidad();
 		bool getEsNecesarioRefrescar(void);		
 		bool getEsUltimoMovimiento();
+		bool getEsPrimerMovimiento();
 		bool getEstaCongelado();
 		bool getTieneMapa();
 		bool getEsJugador(void);
 		bool getEstaVivo();
 		bool getSufrioDanio();
+		bool getGastoEscudo();
+		bool getGastoMagia();
 		bool esMiJugador(void);
 		std::string getNombreEntidad();
 		std::string getNombreJugador();
@@ -99,6 +106,9 @@ class VistaEntidad: public Identificable{
 		void setPosicionAnteriorEnTiles();			
 		void setPantalla(SDL_Surface* screen);
 		void setEstaCongelado(bool estado);
+		void setGastoMagia(bool gasto);
+		void setSufrioDanio(bool sufrio);
+		void setGastoEscudo(bool gasto);
 		void esMiJugador(bool valor);
 		bool graficar(char visibilidad);
 

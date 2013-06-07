@@ -86,7 +86,7 @@ void VistaMovimiento::cambiarEstado() {
 		return;
 
 	Posicion pixelSiguiente;
-	this->_modeloEntidad->esUltimoMovimiento(this->_cuadroActual == this->_cantidadCuadros);
+	this->_modeloEntidad->esUltimoMovimiento(this->_cuadroActual == this->_cantidadCuadros);	
 
 	if (this->_modeloEntidad->esUltimoMovimiento()) {
 		pixelSiguiente = this->_posicionDestino;

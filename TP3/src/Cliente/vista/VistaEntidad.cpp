@@ -68,6 +68,9 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->esJugador = esJugador;	
 	this->_esMiJugador = false;
 	this->sufrioDanio = false;
+	this->gastoEscudo = false;
+	this->gastoMagia = false;
+	this->yaMurio = false;
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
 	this->animacionActual = NULL;
 
@@ -80,7 +83,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 		i++;
 	}
 	if (this->esJugador)
-		this->animacionActual = this->animaciones->get(this->estados.at(estado));
+		this->animacionActual = this->animaciones->get(this->estados.at(estado));	
 	this->esNecesarioRefrescar = false;
 	this->codigoAnimacion = estado;
 	this->tileX = x;
@@ -112,7 +115,9 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 
 	// Con estas nuevas variables se chequea si disminuyó la energia. 
 	this->sufrioDanio = ( this->vida > entidad.vida );
-	bool murio = (entidad.vida == 0);
+	this->gastoEscudo = ( this->escudo > entidad.escudo );
+	this->gastoMagia = ( this->magia > entidad.magia );
+	bool murio = (entidad.vida == 0);	
 	this->actualizarEventosSonido(entidad.nombreEntidad,sufrioDanio,murio);
 
 	// Actualizo los datos
@@ -128,7 +133,8 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->nombreJugador = entidad.nombreJugador;
 	this->vida = entidad.vida;		
 	this->magia = entidad.magia;
-	this->escudo = entidad.escudo;
+	this->escudo = entidad.escudo;	
+	this->esPrimerMovimiento = entidad.esPrimerMovimiento;
 
 	int codigo = entidad.accion;
 	if( (this->esJugador) && (codigo != this->codigoAnimacion)){
@@ -298,6 +304,11 @@ bool VistaEntidad::getEsUltimoMovimiento(){
 	return this->esUltimoMovimiento;
 }
 
+bool VistaEntidad::getEsPrimerMovimiento(){
+	return this->esPrimerMovimiento;
+	SDL_Delay(100);
+}
+
 void VistaEntidad::esMiJugador(bool valor){
 	this->_esMiJugador = valor;
 	return void();
@@ -323,14 +334,15 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 	}
 
 	// Se murio un enemigo
-	if( esOtroJugador == true && murio == true ) {
+	if( esOtroJugador == true && murio == true && !esItem && !this->yaMurio) {
 		VistaMusica::getInstance().murioEnemigo();
+		this->yaMurio = true;
 	}
 
 	// Se tomo item
 	if ( esItem == true && murio == true ) { 
 		VistaMusica::getInstance().itemTomado();
-	} 
+	} 	
 
 	return void();
 }
@@ -361,4 +373,24 @@ int VistaEntidad::getMagia(){
 
 int VistaEntidad::getEscudo(){
 	return this->escudo;
+}
+
+bool VistaEntidad::getGastoEscudo(){
+	return this->gastoEscudo;
+}
+
+bool VistaEntidad::getGastoMagia(){
+	return this->gastoMagia;
+}
+
+void VistaEntidad::setGastoMagia(bool gasto){
+	this->gastoMagia = gasto;
+}
+
+void VistaEntidad::setGastoEscudo(bool gasto){
+	this->gastoEscudo = gasto;
+}
+
+void VistaEntidad::setSufrioDanio(bool sufrio){
+	this->sufrioDanio= sufrio;
 }
