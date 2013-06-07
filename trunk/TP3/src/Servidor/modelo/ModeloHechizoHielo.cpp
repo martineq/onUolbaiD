@@ -29,7 +29,8 @@ bool ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJu
 				victima->estaCongelado(true);
 		}
 	}
-	
+	jugador->consumirMagia(MAGIA_CONSUMIDA_HECHIZO_HIELO);
+
 	return true;
 }
 

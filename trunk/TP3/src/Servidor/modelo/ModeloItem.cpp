@@ -58,8 +58,11 @@ void ModeloItem::asignarListaGolems(ListaJugadores* listaGolems) {
 
 void ModeloItem::cambiarEstado() {
 	// Si el item esta activo lo aplico y cambio el estado si se termino de aplicar lo desactivo
-	if (this->_activo)
+	if (this->_activo) {
 		this->_activo = !this->aplicar(this->_jugador, this->_listaJugadores, this->_listaEnemigos, this->_listaGolems);
+		if (!this->_activo)
+			this->_jugador->enviarEstado();
+	}
 }
 
 void ModeloItem::enviarEstado() {

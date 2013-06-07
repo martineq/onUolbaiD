@@ -1,11 +1,14 @@
 #include "VistaEntidad.h"
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador,int vida, int tipoEntidad){
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador,int vida, int tipoEntidad, int magia, int escudo){
 	this->_id = id;
 	this->_tipoEntidad = tipoEntidad;
 	this->estaCongelado = estaCongelado;
+	this->maximoVida = vida;
+	this->maximoMagia = magia;
+	this->magia = magia;
 	this->vida = vida;
-
+	this->escudo = escudo;
 	int xAux, yAux;
 
 	Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
@@ -123,7 +126,9 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->estaCongelado = entidad.estaCongelado;
 	this->nombreEntidad = entidad.nombreEntidad;
 	this->nombreJugador = entidad.nombreJugador;
-	this->vida = entidad.vida;	
+	this->vida = entidad.vida;		
+	this->magia = entidad.magia;
+	this->escudo = entidad.escudo;
 
 	int codigo = entidad.accion;
 	if( (this->esJugador) && (codigo != this->codigoAnimacion)){
@@ -336,4 +341,24 @@ int VistaEntidad::tipoEntidad(void){
 
 bool VistaEntidad::esMiJugador(void){
 	return this->_esMiJugador;
+}
+
+int VistaEntidad::getVida(){
+	return this->vida;
+}
+
+int VistaEntidad::getMaximoVida(){
+	return this->maximoVida;
+}
+
+int VistaEntidad::getMaximoMagia(){
+	return this->maximoMagia;
+}
+
+int VistaEntidad::getMagia(){
+	return this->magia;
+}
+
+int VistaEntidad::getEscudo(){
+	return this->escudo;
 }

@@ -70,9 +70,68 @@ bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNiv
 			this->refrescarMatriz(vistaNivel,estadoNivel);
 	}
 
-	if( this->dibujarEntidades(vistaNivel, estadoNivel) == false) return false;
-	if (!this->vistaChat->graficar(this->pantalla)) return false;
+	if ( this->dibujarEntidades(vistaNivel, estadoNivel) == false) return false;	
+	if ( this->vistaChat->graficar(this->pantalla) == false) return false;
+	if ( this->dibujarStats(vistaNivel) == false) return false;
 	ImageLoader::getInstance().refrescarPantalla(this->pantalla);
+	return true;
+}
+
+bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
+	VistaEntidad* jugador = vistaNivel.getJugador();
+	int thickness = 10;		
+	TTF_Font *fuente = TTF_OpenFont( "./fonts/Lazy.ttf", 28 );
+	SDL_Color textColor = { 255, 255, 255 }; //color blanco 	
+
+	//Vida
+	int vidaPorcentual = (jugador->getVida()*100/jugador->getMaximoVida());	
+	stringstream ss; 	
+	ss << vidaPorcentual;
+	ss << '%';
+	string hola(ss.str());
+	SDL_Surface* textoVida = TTF_RenderText_Solid( fuente, hola.c_str(), textColor );		
+	SDL_BlitSurface( textoVida, NULL, pantalla, NULL);
+	boxRGBA( this->pantalla, 50, 10, 100*4+50, thickness+10, 0, 0, 0, 255); //barra negra
+	if (vidaPorcentual <= 10) 
+		boxRGBA( this->pantalla, 50, 10, vidaPorcentual*4+50, thickness+10, 255, 0, 0, 255);
+	else
+		boxRGBA( this->pantalla, 50, 10, vidaPorcentual*4+50, thickness+10, 0, 255, 0, 255);
+
+	//Magia
+	int magiaPorcentual = (jugador->getMagia()*100/jugador->getMaximoMagia());	
+	stringstream ss2;
+	ss2 << magiaPorcentual;	
+	ss2 << '%';
+	string hola2(ss2.str());
+	SDL_Surface* textoMagia = TTF_RenderText_Solid( fuente, hola2.c_str(), textColor );	
+	SDL_Rect offset;
+	offset.x = 0;
+	offset.y = 30;
+	SDL_BlitSurface( textoMagia, NULL, pantalla, &offset);
+	boxRGBA( this->pantalla, 50, 40, 100*4+50, thickness+40, 0, 0, 0, 255); //barra negra
+	if (vidaPorcentual <= 10) 
+		boxRGBA( this->pantalla, 50, 40, magiaPorcentual*4+50, thickness+40, 0, 255, 0, 255);
+	else
+		boxRGBA( this->pantalla, 50, 40, magiaPorcentual*4+50, thickness+40, 124, 230, 228, 255);
+
+	//Escudo
+	int escudoPorcentual = jugador->getEscudo()*100/MAXIMO_ESCUDO;
+	stringstream ss3;
+	ss3 << escudoPorcentual;		
+	ss3 << '%';
+	string hola3(ss3.str());
+	SDL_Surface* textoEscudo = TTF_RenderText_Solid( fuente, hola3.c_str(), textColor );	
+	SDL_Rect offset2;
+	offset2.x = 0;
+	offset2.y = 60;
+	SDL_BlitSurface( textoEscudo, NULL, pantalla, &offset2);
+	boxRGBA( this->pantalla, 50, 70, 100*4+50, thickness+70, 0, 0, 0, 255); //barra negra
+	if (escudoPorcentual <= 10) 
+		boxRGBA( this->pantalla, 50, 70, escudoPorcentual*4+50, thickness+70, 255, 0, 0, 255);
+	else
+		boxRGBA( this->pantalla, 50, 70, escudoPorcentual*4+50, thickness+70, 0, 255, 0, 255);	
+
+
 	return true;
 }
 
