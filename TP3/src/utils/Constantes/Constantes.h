@@ -199,6 +199,8 @@
 // En ModeloHechizoHielo
 #define RANGO_HECHIZO_HIELO 2
 
+#define MAGIA_CONSUMIDA_HECHIZO_HIELO 20
+
 // En ModeloBomba
 #define DELAY_BOMBA 2000
 #define DANIO_BOMBA 20

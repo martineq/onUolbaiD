@@ -5,8 +5,10 @@
 #include "VistaFactory.h"
 #include "ImageLoader.h"
 #include "VistaMusica.h"
+#include "../../utils/SDLgfx/SDL_gfxPrimitives.h"
 #include "../../utils/Proxy/ProxyModeloEntidad.h"
 #include "../../Servidor/modelo/EstadoNivel.h"
+
 
 class VistaLoop{
 	private:
@@ -20,6 +22,7 @@ class VistaLoop{
 		bool actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory& vistaFactory);
 		bool actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel,VistaFactory& vistaFactory);
 		bool dibujarEntidades(VistaNivel& vistaNivel, EstadoNivel* estadoNivel);
+		bool dibujarStats(VistaNivel& vistaNivel);
 
 	public:
 		VistaLoop(void);

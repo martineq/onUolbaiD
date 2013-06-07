@@ -41,13 +41,17 @@ class VistaEntidad: public Identificable{
 		int tileYAnterior;	
 		int _id;
 		int vida;
+		int maximoVida;
 		int rangoVision;
 		int _tipoEntidad;
+		int maximoMagia;
+		int magia;
+		int escudo;
 
 		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio);
 
 	public:
-		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado,std::string nombreJugador,int vida, int tipoEntidad);
+		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado,std::string nombreJugador,int vida, int tipoEntidad, int magia, int escudo);
 		~VistaEntidad(void);
 
 		void actualizar(ProxyModeloEntidad::stEntidad& entidad);
@@ -68,7 +72,13 @@ class VistaEntidad: public Identificable{
 		int getTileXAnterior();
 		int getTileYAnterior();
 		int getCodigoAnimacion(void);
-		int getRangoVision();		
+		int getRangoVision();	
+		int getVida();	
+		int getMaximoVida();
+		int getMaximoMagia();
+		int getMagia();
+		int getEscudo();
+		int tipoEntidad();
 		bool getEsNecesarioRefrescar(void);		
 		bool getEsUltimoMovimiento();
 		bool getEstaCongelado();
@@ -76,11 +86,10 @@ class VistaEntidad: public Identificable{
 		bool getEsJugador(void);
 		bool getEstaVivo();
 		bool getSufrioDanio();
+		bool esMiJugador(void);
 		std::string getNombreEntidad();
 		std::string getNombreJugador();
 		std::list<std::list<std::string>> getListaAnimaciones(void);
-		int tipoEntidad();
-		bool esMiJugador(void);
 
 		// Setters
 		void setXEnPantalla(double scrollX);
