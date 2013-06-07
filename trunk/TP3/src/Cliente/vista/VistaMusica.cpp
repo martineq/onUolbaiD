@@ -5,6 +5,8 @@ VistaMusica::VistaMusica() {
 	this->atacando = NULL;
 	this->sufrioDanio = NULL;
 	this->murioItem = NULL;
+	this->atacadoConEscudo = NULL;
+	this->magia = NULL;
 }
 
 VistaMusica::VistaMusica(const VistaMusica&){	
@@ -22,6 +24,8 @@ bool VistaMusica::iniciar(){
 	this->murioElJugador = Mix_LoadWAV( "./sounds/pigman.wav" );
 	this->murioElEnemigo = Mix_LoadWAV( "./sounds/uh.wav" );
 	this->murioItem = Mix_LoadWAV( "./sounds/uh2.wav" );
+	this->atacadoConEscudo = Mix_LoadWAV( "./sounds/yourmom.wav" );
+	this->magia = Mix_LoadWAV( "./sounds/updere.wav" );
 	
 	return true;
 }
@@ -47,7 +51,7 @@ void VistaMusica::resumeTheMusic(){
 }
 
 void VistaMusica::atacar(){
-	//Mix_PlayChannel( -1, atacando, 0 );
+	Mix_PlayChannel( -1, atacando, 0 );
 }
 
 void VistaMusica::recibioUnGolpe(){
@@ -55,15 +59,23 @@ void VistaMusica::recibioUnGolpe(){
 }
 
 void VistaMusica::murioJugador(){
-	//Mix_PlayChannel( -1, murioElJugador, 0 );
+	Mix_PlayChannel( -1, murioElJugador, 0 );
 }
 
 void VistaMusica::murioEnemigo(){
-	//Mix_PlayChannel( -1, murioElEnemigo, 0 );
+	Mix_PlayChannel( -1, murioElEnemigo, 0 );
 }
 
 void VistaMusica::itemTomado(){
-	//Mix_PlayChannel( -1, murioItem, 0 );
+	Mix_PlayChannel( -1, murioItem, 0 );
+}
+
+void VistaMusica::conEscudo(){
+	Mix_PlayChannel( -1, atacadoConEscudo, 0 );
+}
+
+void VistaMusica::gastoMagia(){
+	Mix_PlayChannel( -1, magia, 0 );
 }
 
 VistaMusica::~VistaMusica() {
@@ -73,5 +85,7 @@ VistaMusica::~VistaMusica() {
 	Mix_FreeChunk( murioElJugador );
 	Mix_FreeChunk( murioElEnemigo );
 	Mix_FreeChunk( murioItem );
+	Mix_FreeChunk( atacadoConEscudo );
+	Mix_FreeChunk( magia );
 }
 

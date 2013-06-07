@@ -17,6 +17,8 @@ class VistaMusica {
 		Mix_Chunk *murioElJugador;
 		Mix_Chunk *murioElEnemigo;
 		Mix_Chunk *murioItem;
+		Mix_Chunk *atacadoConEscudo;
+		Mix_Chunk *magia;
 	public:	
 		static VistaMusica& getInstance();
 		virtual ~VistaMusica();
@@ -29,6 +31,8 @@ class VistaMusica {
 		void murioJugador();		
 		void murioEnemigo();
 		void itemTomado();
+		void conEscudo();
+		void gastoMagia();
 		bool iniciar();
 };
 

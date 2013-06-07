@@ -150,6 +150,7 @@ ProxyModeloEntidad::stEntidad ModeloEntidad::stEntidad() {
 	entidad.posicionX = this->posicion().x;
 	entidad.posicionY = this->posicion().y;
 	entidad.esUltimoMovimiento = this->esUltimoMovimiento();
+	entidad.esPrimerMovimiento = this->esPrimerMovimiento();
 	entidad.tipoEntidad = this->tipoEntidad();
 	return entidad;
 }
@@ -199,4 +200,17 @@ int ModeloEntidad::tipoEntidad(void) {
 	int tipoEntidad = this->_tipoEntidad;
 	this->_mutex.unlock(__FILE__, __LINE__);
 	return tipoEntidad;
+}
+
+bool ModeloEntidad::esPrimerMovimiento() {
+	this->_mutex.lockLectura(__FILE__, __LINE__);
+	bool esPrimerMovimiento = this->_esPrimerMovimiento;
+	this->_mutex.unlock(__FILE__, __LINE__);
+	return esPrimerMovimiento;
+}
+
+void ModeloEntidad::esPrimerMovimiento(bool esPrimerMovimiento) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_esPrimerMovimiento = esPrimerMovimiento;
+	this->_mutex.unlock(__FILE__, __LINE__);
 }

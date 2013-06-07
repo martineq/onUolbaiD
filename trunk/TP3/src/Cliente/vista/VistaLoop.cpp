@@ -41,19 +41,35 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, EstadoNivel* estadoNivel
 
 void VistaLoop::reproducirSonidos(VistaNivel& vistaNivel){
 	//Sonido de atacando.
-	if ( vistaNivel.getJugador()->getCodigoAnimacion() >8 && vistaNivel.getJugador()->getCodigoAnimacion() < 17 ){
-		if (!this->reproduciAtacar) {
+	if ( vistaNivel.getJugador()->getCodigoAnimacion() > 8 && vistaNivel.getJugador()->getCodigoAnimacion() < 17 ){
+		/*if (!this->reproduciAtacar) {
 			VistaMusica::getInstance().atacar();			
 			reproduciAtacar = true;
-		}
-		if (vistaNivel.getJugador()->getEsUltimoMovimiento()){
-			this->reproduciAtacar = false;			
-		}
+		}*/
+		/*bool esPrimeraAnimacion = vistaNivel.getJugador()->getEsPrimerMovimiento();
+		if ( esPrimeraAnimacion ){*/
+			VistaMusica::getInstance().atacar();			
+			//this->reproduciAtacar = false;			
+		//}
 	}
 
 	//Sonido siendo atacado o sea sufrio danio.
-	if (vistaNivel.getJugador()->getSufrioDanio())
-		VistaMusica::getInstance().recibioUnGolpe();	
+	if (vistaNivel.getJugador()->getSufrioDanio()) {
+		VistaMusica::getInstance().recibioUnGolpe();
+		vistaNivel.getJugador()->setSufrioDanio(false);
+	}
+
+	//Sonido recibio golpe pero tenia escudo
+	if (vistaNivel.getJugador()->getGastoEscudo()){
+		VistaMusica::getInstance().conEscudo();
+		vistaNivel.getJugador()->setGastoEscudo(false);
+	}
+
+	//Sonido gasta barra de magia
+	if (vistaNivel.getJugador()->getGastoMagia()) {
+		VistaMusica::getInstance().gastoMagia();
+		vistaNivel.getJugador()->setGastoMagia(false);
+	}
 
 }
 

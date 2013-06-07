@@ -31,6 +31,7 @@ class ModeloEntidad {
 		int _tipoEntidad;
 		
 		bool _esUltimoMovimiento;
+		bool _esPrimerMovimiento;
 		Posicion _pixelSiguiente;
 
 		ModeloEntidad(const ModeloEntidad &modeloEntidad);
@@ -56,7 +57,11 @@ class ModeloEntidad {
 		
 		bool esUltimoMovimiento();
 
+		bool esPrimerMovimiento();
+
 		void esUltimoMovimiento(bool esUltimoMovimiento);
+
+		void esPrimerMovimiento(bool esPrimerMovimiento);
 
 		int id();
 

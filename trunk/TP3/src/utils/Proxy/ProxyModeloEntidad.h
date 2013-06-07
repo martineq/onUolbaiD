@@ -18,6 +18,7 @@ class ProxyModeloEntidad{
 			double pixelX;
 			double pixelY;
 			bool esUltimoMovimiento;
+			bool esPrimerMovimiento;
 			int tipoEntidad;
 
 			// ModeloJugador

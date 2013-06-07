@@ -86,6 +86,7 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addDouble(entidad.pixelX);
 	s.addDouble(entidad.pixelY);
 	s.addBool(entidad.esUltimoMovimiento);
+	s.addBool(entidad.esPrimerMovimiento);
 	s.addInt(entidad.tipoEntidad);
 
 	// ModeloJugador
@@ -111,6 +112,7 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.pixelX = s.getDouble();
 	entidad.pixelY = s.getDouble();
 	entidad.esUltimoMovimiento = s.getBool();
+	entidad.esPrimerMovimiento = s.getBool();
 	entidad.tipoEntidad = s.getInt();
 
 	// ModeloJugador
