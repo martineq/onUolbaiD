@@ -327,7 +327,11 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 	bool esOtroJugador = ( (this->_tipoEntidad == TIPO_ENTIDAD_JUGADOR  && !esMiJugador ) || (this->_tipoEntidad == TIPO_ENTIDAD_AUTOMATICO)  || (this->_tipoEntidad == TIPO_ENTIDAD_GOLEM) );
 								
 	// True solo si es un item.
-	bool esItem = (this->_tipoEntidad == TIPO_ENTIDAD_ITEM);
+	bool esItem = (this->_tipoEntidad == TIPO_ITEM_BOTELLA) || (this->_tipoEntidad == TIPO_ITEM_CORAZON) ||
+		(this->_tipoEntidad == TIPO_ITEM_ESCUDO) || (this->_tipoEntidad == TIPO_ITEM_LAMPARA) ||
+		(this->_tipoEntidad == TIPO_ITEM_MAPA) || (this->_tipoEntidad == TIPO_ITEM_ZAPATO) ||
+		(this->_tipoEntidad == TIPO_ITEM_ESPADA) || (this->_tipoEntidad == TIPO_ITEM_HECHIZO_HIELO) ||
+		(this->_tipoEntidad == TIPO_ITEM_BOMBA) || (this->_tipoEntidad == TIPO_ITEM_GOLEM);
 
 	// Se murio mi jugador
 	if( esMiJugador == true && murio == true ) {

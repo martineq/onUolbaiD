@@ -1,16 +1,12 @@
 #include "ModeloItem.h"
 
 ModeloGolem::ModeloGolem(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad)
-	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, TIPO_ENTIDAD_ITEM) {
+	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, TIPO_ITEM_GOLEM) {
 
 }
 
 ModeloGolem::~ModeloGolem() {
 
-}
-
-bool ModeloGolem::inmediato() {
-	return false;  // Confirmar si va false. (El Golem se invocaría de la misma forma que se activa una bomba)
 }
 
 bool ModeloGolem::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {

@@ -52,8 +52,6 @@ class ModeloItem {
 
 		void enviarEstado();
 
-		virtual bool inmediato() = 0;
-
 		int vida();
 };
 
@@ -89,8 +87,6 @@ class ModeloBotella : public ModeloItem {
 		ModeloBotella(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloBotella();
-		
-		bool inmediato();
 };
 
 class ModeloCorazon : public ModeloItem {
@@ -101,8 +97,6 @@ class ModeloCorazon : public ModeloItem {
 		ModeloCorazon(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloCorazon();
-		
-		bool inmediato();
 };
 
 class ModeloEscudo : public ModeloItem {
@@ -113,8 +107,6 @@ class ModeloEscudo : public ModeloItem {
 		ModeloEscudo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloEscudo();
-		
-		bool inmediato();
 };
 
 class ModeloLampara : public ModeloItem {
@@ -125,8 +117,6 @@ class ModeloLampara : public ModeloItem {
 		ModeloLampara(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloLampara();
-		
-		bool inmediato();
 };
 
 class ModeloMapa: public ModeloItem {
@@ -137,8 +127,6 @@ class ModeloMapa: public ModeloItem {
 		ModeloMapa(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloMapa();
-		
-		bool inmediato();
 };
 
 class ModeloZapato : public ModeloItem {
@@ -149,8 +137,6 @@ class ModeloZapato : public ModeloItem {
 		ModeloZapato(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloZapato();
-		
-		bool inmediato();
 };
 
 class ModeloEspada : public ModeloItem {
@@ -161,8 +147,6 @@ class ModeloEspada : public ModeloItem {
 		ModeloEspada(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloEspada();
-		
-		bool inmediato();
 };
 
 class ModeloHechizoHielo : public ModeloItem {
@@ -177,8 +161,6 @@ class ModeloHechizoHielo : public ModeloItem {
 		ModeloHechizoHielo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloHechizoHielo();
-		
-		bool inmediato();
 };
 
 class ModeloBomba : public ModeloItem {
@@ -194,8 +176,6 @@ class ModeloBomba : public ModeloItem {
 		ModeloBomba(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
 
 		virtual ~ModeloBomba();
-		
-		bool inmediato();
 };
 
 class ModeloGolem : public ModeloItem {
@@ -226,8 +206,6 @@ class ModeloGolem : public ModeloItem {
 
 		virtual ~ModeloGolem();
 		
-		bool inmediato();
-
 		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
 		void cargarDatos(int idGolem, int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor);
