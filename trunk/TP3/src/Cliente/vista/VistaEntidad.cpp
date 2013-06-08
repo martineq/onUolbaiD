@@ -71,7 +71,6 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->gastoEscudo = false;
 	this->gastoMagia = false;
 	this->yaMurio = false;
-	this->cantidadMagia = 0;
 	this->cantidadBombas = 0;
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
 	this->animacionActual = NULL;
@@ -136,17 +135,18 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->vida = entidad.vida;		
 	this->magia = entidad.magia;
 	this->escudo = entidad.escudo;	
-	//this->cantidadMagia = entidad.cantidadMagia;
+	this->tieneHechizoHielo = entidad.tieneHechizoHielo;
+	this->tieneGolem = entidad.tieneGolem;
 	this->cantidadBombas = entidad.cantidadBombas;
 	this->esPrimerMovimiento = entidad.esPrimerMovimiento;
 
 	int codigo = entidad.accion;
 	if( (this->esJugador) && (codigo != this->codigoAnimacion)){
 		this->codigoAnimacion = codigo;
-		this->animacionActual = this->animaciones->get(this->estados.at(codigo));
+		this->animacionActual = this->animaciones->get(this->estados.at(codigo));		
 	}
 
-	this->esNecesarioRefrescar = ( !(entidad.esUltimoMovimiento) || (codigo >= 8) );
+	this->esNecesarioRefrescar = ( !(entidad.esUltimoMovimiento) || (codigo >= 8) || (entidad.tipoEntidad == TIPO_ITEM_BOMBA));
 }
 
 bool VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
@@ -376,10 +376,6 @@ int VistaEntidad::getMagia(){
 	return this->magia;
 }
 
-int VistaEntidad::getCantidadMagia(){
-	return this->cantidadMagia;
-}
-
 int VistaEntidad::getCantidadBombas(){
 	return this->cantidadBombas;
 }
@@ -406,4 +402,12 @@ void VistaEntidad::setGastoEscudo(bool gasto){
 
 void VistaEntidad::setSufrioDanio(bool sufrio){
 	this->sufrioDanio= sufrio;
+}
+
+bool VistaEntidad::getTieneHechizoHielo(){
+	return this->tieneHechizoHielo;
+}
+
+bool VistaEntidad::getTieneGolem(){
+	return this->tieneGolem;
 }

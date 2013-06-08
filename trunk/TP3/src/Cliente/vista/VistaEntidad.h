@@ -21,6 +21,8 @@ class VistaEntidad: public Identificable{
 		bool gastoEscudo;
 		bool gastoMagia;
 		bool yaMurio;
+		bool tieneHechizoHielo;
+		bool tieneGolem;
 		double x;
 		double y;
 		double alto;
@@ -50,8 +52,7 @@ class VistaEntidad: public Identificable{
 		int _tipoEntidad;
 		int maximoMagia;
 		int magia;
-		int escudo;
-		int cantidadMagia;
+		int escudo;		
 		int cantidadBombas;
 
 		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio);
@@ -83,8 +84,7 @@ class VistaEntidad: public Identificable{
 		int getMaximoVida();
 		int getMaximoMagia();
 		int getMagia();
-		int getEscudo();
-		int getCantidadMagia();
+		int getEscudo();		
 		int getCantidadBombas();
 		int tipoEntidad();
 		bool getEsNecesarioRefrescar(void);		
@@ -97,7 +97,9 @@ class VistaEntidad: public Identificable{
 		bool getSufrioDanio();
 		bool getGastoEscudo();
 		bool getGastoMagia();
-		bool esMiJugador(void);
+		bool getTieneHechizoHielo();
+		bool getTieneGolem();
+		bool esMiJugador(void);		
 		std::string getNombreEntidad();
 		std::string getNombreJugador();
 		std::list<std::list<std::string>> getListaAnimaciones(void);

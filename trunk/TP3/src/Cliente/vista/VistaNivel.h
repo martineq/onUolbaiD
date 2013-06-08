@@ -15,6 +15,7 @@ class VistaNivel{
 		VistaEntidad* jugador;
 		SDL_Surface *pngBomba;
 		SDL_Surface *pngMagia;
+		SDL_Surface *pngGolem;
 		ControladorScroll* pControladorScroll;
 		std::list<VistaEntidad*> listaOtrosJugadores;
 		std::list<VistaEntidad*> listaEntidades;
@@ -41,6 +42,7 @@ class VistaNivel{
 		VistaEntidad* getJugador(void);		
 		SDL_Surface* getPngBomba();
 		SDL_Surface* getPngMagia();
+		SDL_Surface* getPngGolem();
 		std::list<VistaEntidad*> getListaOtrosJugadores(void);
 		std::list<VistaEntidad*> getListaEntidades(void);		
 		int getAltoDePantallaEnPixel(void);
@@ -63,6 +65,7 @@ class VistaNivel{
 		void setAnchoDeNivelEnTiles(int);
 		void setPngBomba (SDL_Surface* png);
 		void setPngMagia (SDL_Surface* png);
+		void setPngGolem (SDL_Surface* png);
 
 		void ordenarJugadores();
 		void destruirEntidadesYScroll();

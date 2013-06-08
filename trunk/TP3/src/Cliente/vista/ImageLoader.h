@@ -20,7 +20,7 @@ public:
 	SDL_Surface* load_image( std::string filename );
 
 	// ajusta el tamaño de la imagen
-	SDL_Surface* stretch(SDL_Surface* imagen, double Width, double Height);
+	SDL_Surface* stretch(SDL_Surface* imagen, double Width, double Height, std::string filename);
 
 	// devuelve un sdl_rect donde le digamos
 	SDL_Rect createRect(double x, double y);
