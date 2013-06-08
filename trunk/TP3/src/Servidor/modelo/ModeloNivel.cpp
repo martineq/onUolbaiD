@@ -1,7 +1,5 @@
 #include "ModeloNivel.h"
 
-#define DELAY_ACTUALIZACION 100
-
 using namespace std;
 
 void ModeloNivel::actualizarJugadores(std::list<ModeloJugador*>* listaJugadores, std::list<ModeloJugador*>* listaEnemigos, std::list<ModeloJugador*>* listaGolems) {
