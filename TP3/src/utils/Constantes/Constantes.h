@@ -97,7 +97,7 @@
 #define YAML_PERSONAJE_LONGITUD_MAXIMA 50
 #define YAML_FPS_TOPE_MAXIMO 99
 #define YAML_DELAY_TOPE_MAXIMO 99
-#define YAML_CANTIDAD_OBLIGATORIA_DE_ANIMACIONES_PROTAGONISTA 24
+#define YAML_CANTIDAD_OBLIGATORIA_DE_ANIMACIONES_PROTAGONISTA 16//24
 
 /*****************************  Serializacion *****************************************/
 #define TAM_BOOL sizeof(bool)
