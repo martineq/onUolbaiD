@@ -239,7 +239,7 @@ ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
 	estado.maximoVida = this->_maximoVida;
 	estado.rangoVision = this->_estadoNivel->rangoVision();
 	estado.tieneMapa = this->_tieneMapa;
-	estado.cantidadMagia = this->_cantidadMagia;
+	//estado.cantidadMagia = this->_cantidadMagia;
 	estado.cantidadBombas = this->_cantidadBombas;
 	estado.accion = (this->_accion * 8) + this->_modeloEntidad->direccion();	
 	return estado;
