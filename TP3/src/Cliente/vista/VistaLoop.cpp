@@ -7,17 +7,21 @@ VistaLoop::VistaLoop(void){
 	this->reproduciAtacar = false;
 	this->entidadEnEspera.id = -1;
 	this->vistaChat = NULL;		
+	this->textoVida = NULL;
+	this->textoMagia = NULL;
+	this->textoEscudo = NULL;		
+	this->textoCantidadBombas = NULL;
+	this->fuente = NULL;
 }
 
 VistaLoop::~VistaLoop(void){
 	if( this->pProxyEntidad != NULL ) delete this->pProxyEntidad;	
 	if( this->pantalla != NULL ) SDL_FreeSurface(this->pantalla);
-	TTF_CloseFont( this->fuente ); 
-	SDL_FreeSurface( textoVida );    
-	SDL_FreeSurface( textoMagia );    
-	SDL_FreeSurface( textoEscudo );    
-	SDL_FreeSurface( textoCantidadMagia );    
-	SDL_FreeSurface( textoCantidadBombas );    		
+	if (this->fuente != NULL) TTF_CloseFont( this->fuente ); 
+	if (this->textoVida != NULL) SDL_FreeSurface( textoVida );    
+	if (this->textoMagia != NULL) SDL_FreeSurface( textoMagia );    
+	if (this->textoEscudo != NULL) SDL_FreeSurface( textoEscudo );    	
+	if (this->textoCantidadBombas != NULL) SDL_FreeSurface( textoCantidadBombas );    		
 	ImageLoader::getInstance().cerrarSDL();	
 }
 
@@ -155,30 +159,49 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	else
 		boxRGBA( this->pantalla, 50, 70, escudoPorcentual*4+50, thickness+70, 0, 255, 0, 255);	
 
-	//Cantidad de hechizos	
-	//ss3 << vistaNivel.getJugador()->getCantidadMagia();		
+	//Cantidad de bombas		
 	ss.str("");
-	ss << 10;
+	ss << vistaNivel.getJugador()->getCantidadBombas();
 	auxiliar = "";
 	auxiliar = ss.str();	
 	offset.x = 0;
-	offset.y = 90;
-	SDL_BlitSurface ( vistaNivel.getPngBomba(), NULL, pantalla, &offset );
-	this->textoCantidadMagia = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );		
-	SDL_BlitSurface( this->textoCantidadMagia, NULL, pantalla, &offset);
+	offset.y = 90;	
+	if (vistaNivel.getJugador()->getCantidadBombas() > 0) {
+		/*offset.w = vistaNivel.getPngBomba()->w;
+		offset.h = vistaNivel.getPngBomba()->h;¨*/
+		SDL_BlitSurface ( vistaNivel.getPngBomba(), NULL, pantalla, &offset );
+		offset.x = 30;
+		offset.y = 105;
+		this->textoCantidadBombas = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );		
+		SDL_BlitSurface( this->textoCantidadBombas, NULL, pantalla, &offset);
+	}
 
-	//Cantidad de bombas	
-	//ss3 << vistaNivel.getJugador()->getCantidadBombas();			
+	//Tiene hechizos		
 	ss.str("");
 	ss << 10;
 	auxiliar = "";
 	auxiliar = ss.str();
 	offset.x = 0;
+	offset.y = 150;
+	if (vistaNivel.getJugador()->getTieneHechizoHielo()) {
+		/*offset.w = vistaNivel.getPngMagia()->w;
+		offset.h = vistaNivel.getPngMagia()->h;*/
+		SDL_BlitSurface ( vistaNivel.getPngMagia(), NULL, pantalla, &offset );		
+	}
+	
+	//Tiene Golem
+	/*ss.str("");
+	ss << 10;
+	auxiliar = "";
+	auxiliar = ss.str();
+	offset.x = 0;
 	offset.y = 120;
-	SDL_BlitSurface ( vistaNivel.getPngMagia(), NULL, pantalla, &offset );
-	this->textoCantidadBombas = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );		
-	SDL_BlitSurface( this->textoCantidadBombas, NULL, pantalla, &offset);
-
+	if (vistaNivel.getJugador()->getTieneGolem()) {
+		offset.w = vistaNivel.getPngGolem()->w;
+		offset.h = vistaNivel.getPngGolem()->h;
+		SDL_BlitSurface ( vistaNivel.getPngGolem(), NULL, pantalla, &offset );		
+	}*/
+	
 	return true;
 }
 

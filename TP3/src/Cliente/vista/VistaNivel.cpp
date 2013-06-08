@@ -21,8 +21,10 @@ VistaNivel::VistaNivel(){
 
 VistaNivel::~VistaNivel(){
  // Los punteros ya son destruidos desde el Administrador
-	SDL_FreeSurface ( this->pngBomba );
-	SDL_FreeSurface ( this->pngMagia );
+	if (this->pngBomba != NULL) SDL_FreeSurface ( this->pngBomba );
+	if (this->pngMagia != NULL) SDL_FreeSurface ( this->pngMagia );
+	if (this->pngGolem != NULL)
+		SDL_FreeSurface ( this->pngGolem );	
 }
 
 VistaScroll* VistaNivel::getScroll(void){
@@ -160,10 +162,18 @@ SDL_Surface* VistaNivel::getPngMagia(){
 	return this->pngMagia;
 }
 
+SDL_Surface* VistaNivel::getPngGolem(){
+	return this->pngGolem;
+}
+
 void VistaNivel::setPngBomba(SDL_Surface* png){
 	this->pngBomba = png;
 }
 
 void VistaNivel::setPngMagia(SDL_Surface* png){
 	this->pngMagia = png;
+}
+
+void VistaNivel::setPngGolem(SDL_Surface* png){
+	this->pngGolem = png;
 }

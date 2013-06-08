@@ -27,8 +27,7 @@ class VistaLoop{
 		TTF_Font *fuente;
 		SDL_Surface* textoVida;
 		SDL_Surface* textoMagia;
-		SDL_Surface* textoEscudo;
-		SDL_Surface* textoCantidadMagia;
+		SDL_Surface* textoEscudo;		
 		SDL_Surface* textoCantidadBombas;
 
 	public:

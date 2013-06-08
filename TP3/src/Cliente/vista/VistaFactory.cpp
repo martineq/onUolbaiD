@@ -351,18 +351,6 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	std::list<std::list<std::string>> listaAnimaciones = entidadJugador.imagenes;
 	std::string nombre = entidadJugador.nombre;
 
-	if (entidadJugador.nombre == STRING_BOMBA) {
-		list<string> lista = entidadJugador.imagenes.front();
-		string dirBomba = lista.front();
-		vistaNivel.setPngBomba(ImageLoader::getInstance().load_image(dirBomba));
-	}
-
-	if (entidadJugador.nombre == STRING_HECHIZO_HIELO) {
-		list<string> lista = entidadJugador.imagenes.front();
-		string dirMagia = lista.front();
-		vistaNivel.setPngMagia(ImageLoader::getInstance().load_image(dirMagia));
-	}
-
 	// Valores tomados desde el escenario elegido
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;
@@ -371,6 +359,33 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 
 	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,entidad.rangoVision,fps,delay,listaAnimaciones,esJugador,tamanioX,tamanioY,id,nombre,entidad.estaCongelado,entidad.accion,entidad.nombreJugador,vida,tipoEntidad,magia,escudo);
 	vistaNivel.agregarOtroJugador(pJugador);
+
+	if (entidadJugador.nombre == STRING_BOMBA) {
+		list<string> lista = entidadJugador.imagenes.front();
+		string dirBomba = lista.front();
+		SDL_Surface* temp = ImageLoader::getInstance().load_image(dirBomba);
+		vistaNivel.setPngBomba(ImageLoader::getInstance().stretch(temp,50,50,dirBomba));
+		SDL_FreeSurface(temp);
+	}
+
+	if (entidadJugador.nombre == STRING_HECHIZO_HIELO) {
+		list<string> lista = entidadJugador.imagenes.front();
+		string dirMagia = lista.front();
+		SDL_Surface* temp = ImageLoader::getInstance().load_image(dirMagia);
+		vistaNivel.setPngMagia(ImageLoader::getInstance().stretch(temp,50,50,dirMagia));
+		SDL_FreeSurface(temp);
+	}
+
+	if (entidadJugador.nombre == STRING_GOLEM) {
+		list<string> lista = entidadJugador.imagenes.front();
+		string dirGolem = lista.front();
+		SDL_Surface* temp = ImageLoader::getInstance().load_image(dirGolem);
+		vistaNivel.setPngGolem(ImageLoader::getInstance().stretch(temp,50,50,dirGolem));
+		SDL_FreeSurface(temp);		
+	}
+
+
+
 	return void();
 }
 

@@ -11,10 +11,10 @@ SDL_Surface *ImageLoader::load_image( std::string filename )
 {
 	//The image that's loaded
 	SDL_Surface* loadedImage = NULL;
-	map<std::string, SDL_Surface* >::iterator it = this->surfaces.find(filename);
+/*	map<std::string, SDL_Surface* >::iterator it = this->surfaces.find(filename);
 	if (it != this->surfaces.end()) {
 		loadedImage = (*it).second;
-	}
+	}*/
 
 	if (loadedImage == NULL){
 
@@ -52,12 +52,13 @@ SDL_Surface *ImageLoader::load_image( std::string filename )
 	return loadedImage;
 }
 
-SDL_Surface* ImageLoader::stretch(SDL_Surface *surface, double width, double height)
+SDL_Surface* ImageLoader::stretch(SDL_Surface *surface, double width, double height,std::string filename)
 {	
 	double escalaAncho = width / surface->w;
 	double escalaAlto = height / surface->h;
 	SDL_Surface * zoomed = zoomSurface (surface,escalaAncho,escalaAlto,1);
 	SDL_Surface * retornar = NULL;
+
 
 	retornar = SDL_DisplayFormat( zoomed );
 	if( retornar == NULL ) return NULL;
@@ -65,7 +66,7 @@ SDL_Surface* ImageLoader::stretch(SDL_Surface *surface, double width, double hei
 	SDL_FreeSurface(zoomed);
 
 	if( SDL_SetColorKey(retornar, SDL_SRCCOLORKEY, SDL_MapRGB( retornar->format, 0xFF, 0xFF, 0xFF )) != 0 ) return NULL ;
-	
+
 	return retornar;
 }
 

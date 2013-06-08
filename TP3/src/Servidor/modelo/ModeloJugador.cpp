@@ -63,10 +63,14 @@ void ModeloJugador::recogerItem() {
 	if (this->_item->disponible()) {
 		this->_item->asignarJugador(this);
 		this->_listaItems->removerItem(this->_item);
-		if (this->_item->modeloEntidad()->tipoEntidad() == TIPO_ITEM_BOMBA)
+		if (this->_item->modeloEntidad()->tipoEntidad() == TIPO_ITEM_BOMBA) {
 			this->_bombas.push(this->_item);
-		else if (this->_item->modeloEntidad()->tipoEntidad() == TIPO_ITEM_HECHIZO_HIELO)
+			this->enviarEstado();
+		}
+		else if (this->_item->modeloEntidad()->tipoEntidad() == TIPO_ITEM_HECHIZO_HIELO) {
 			this->_hechizoHielo = this->_item;
+			this->enviarEstado();
+		}
 		else
 			this->_item->activar();
 	}

@@ -32,6 +32,10 @@ ModeloEntidad* ModeloItem::modeloEntidad() {
 ProxyModeloEntidad::stEntidad ModeloItem::stEntidad() {
 	ProxyModeloEntidad::stEntidad estado = this->_modeloEntidad->stEntidad();
 	estado.vida = this->vida();
+	if ((estado.nombreEntidad == STRING_BOMBA) && (this->_activo)){
+		estado.accion = 1;
+		estado.esUltimoMovimiento = false;		
+	}
 	return estado;
 }
 
