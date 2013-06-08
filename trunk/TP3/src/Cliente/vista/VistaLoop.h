@@ -19,8 +19,8 @@ class VistaLoop{
 		bool reproduciAtacar;
 		VistaChat* vistaChat;
 
-		bool actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory& vistaFactory);
-		bool actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel,VistaFactory& vistaFactory);
+		bool actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory& vistaFactory, bool& actualizarMatriz);
+		bool actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel,VistaFactory& vistaFactory, bool& actualizarMatriz);
 		bool dibujarEntidades(VistaNivel& vistaNivel, EstadoNivel* estadoNivel);
 		bool dibujarStats(VistaNivel& vistaNivel);
 
