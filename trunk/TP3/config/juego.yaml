@@ -30,14 +30,6 @@ entidades:
         - [Vlad_Attack1_SO01.png,Vlad_Attack1_SO02.png,Vlad_Attack1_SO03.png,Vlad_Attack1_SO04.png,Vlad_Attack1_SO05.png,Vlad_Attack1_SO06.png,Vlad_Attack1_SO07.png,Vlad_Attack1_SO08.png,Vlad_Attack1_SO09.png,Vlad_Attack1_SO10.png,Vlad_Attack1_SO11.png,Vlad_Attack1_SO12.png]
         - [Vlad_Attack1_O01.png,Vlad_Attack1_O02.png,Vlad_Attack1_O03.png,Vlad_Attack1_O04.png,Vlad_Attack1_O05.png,Vlad_Attack1_O06.png,Vlad_Attack1_O07.png,Vlad_Attack1_O08.png,Vlad_Attack1_O09.png,Vlad_Attack1_O10.png,Vlad_Attack1_O11.png,Vlad_Attack1_O12.png]
         - [Vlad_Attack1_NO01.png,Vlad_Attack1_NO02.png,Vlad_Attack1_NO03.png,Vlad_Attack1_NO04.png,Vlad_Attack1_NO05.png,Vlad_Attack1_NO06.png,Vlad_Attack1_NO07.png,Vlad_Attack1_NO08.png,Vlad_Attack1_NO09.png,Vlad_Attack1_NO10.png,Vlad_Attack1_NO11.png,Vlad_Attack1_NO12.png]		
-        - [Vlad_Bitting1_N01.png,Vlad_Bitting1_N02.png,Vlad_Bitting1_N03.png,Vlad_Bitting1_N04.png,Vlad_Bitting1_N05.png,Vlad_Bitting1_N06.png,Vlad_Bitting1_N07.png,Vlad_Bitting1_N08.png]
-        - [Vlad_Bitting1_NE01.png,Vlad_Bitting1_NE02.png,Vlad_Bitting1_NE03.png,Vlad_Bitting1_NE04.png,Vlad_Bitting1_NE05.png,Vlad_Bitting1_NE06.png,Vlad_Bitting1_NE07.png,Vlad_Bitting1_NE08.png]
-        - [Vlad_Bitting1_E01.png,Vlad_Bitting1_E02.png,Vlad_Bitting1_E03.png,Vlad_Bitting1_E04.png,Vlad_Bitting1_E05.png,Vlad_Bitting1_E06.png,Vlad_Bitting1_E07.png,Vlad_Bitting1_E08.png]
-        - [Vlad_Bitting1_SE01.png,Vlad_Bitting1_SE02.png,Vlad_Bitting1_SE03.png,Vlad_Bitting1_SE04.png,Vlad_Bitting1_SE05.png,Vlad_Bitting1_SE06.png,Vlad_Bitting1_SE07.png,Vlad_Bitting1_SE08.png]
-        - [Vlad_Bitting1_S01.png,Vlad_Bitting1_S02.png,Vlad_Bitting1_S03.png,Vlad_Bitting1_S04.png,Vlad_Bitting1_S05.png,Vlad_Bitting1_S06.png,Vlad_Bitting1_S07.png,Vlad_Bitting1_S08.png]
-        - [Vlad_Bitting1_SO01.png,Vlad_Bitting1_SO02.png,Vlad_Bitting1_SO03.png,Vlad_Bitting1_SO04.png,Vlad_Bitting1_SO05.png,Vlad_Bitting1_SO06.png,Vlad_Bitting1_SO07.png,Vlad_Bitting1_SO08.png]
-        - [Vlad_Bitting1_O01.png,Vlad_Bitting1_O02.png,Vlad_Bitting1_O03.png,Vlad_Bitting1_O04.png,Vlad_Bitting1_O05.png,Vlad_Bitting1_O06.png,Vlad_Bitting1_O07.png,Vlad_Bitting1_O08.png]
-        - [Vlad_Bitting1_NO01.png,Vlad_Bitting1_NO02.png,Vlad_Bitting1_NO03.png,Vlad_Bitting1_NO04.png,Vlad_Bitting1_NO05.png,Vlad_Bitting1_NO06.png,Vlad_Bitting1_NO07.png,Vlad_Bitting1_NO08.png]			
       ancho_base: 1 #tiles
       alto_base: 1 #tiles
       pixel_ref_x: 50 #pixels
@@ -61,14 +53,6 @@ entidades:
         - [Bjorn_Attack1_SO01.png,Bjorn_Attack1_SO02.png,Bjorn_Attack1_SO03.png,Bjorn_Attack1_SO04.png,Bjorn_Attack1_SO05.png,Bjorn_Attack1_SO06.png,Bjorn_Attack1_SO07.png,Bjorn_Attack1_SO08.png]
         - [Bjorn_Attack1_O01.png,Bjorn_Attack1_O02.png,Bjorn_Attack1_O03.png,Bjorn_Attack1_O04.png,Bjorn_Attack1_O05.png,Bjorn_Attack1_O06.png,Bjorn_Attack1_O07.png,Bjorn_Attack1_O08.png]
         - [Bjorn_Attack1_NO01.png,Bjorn_Attack1_NO02.png,Bjorn_Attack1_NO03.png,Bjorn_Attack1_NO04.png,Bjorn_Attack1_NO05.png,Bjorn_Attack1_NO06.png,Bjorn_Attack1_NO07.png,Bjorn_Attack1_NO08.png]		
-        - [Bjorn_Greeting1_N01.png,Bjorn_Greeting1_N02.png,Bjorn_Greeting1_N03.png,Bjorn_Greeting1_N04.png,Bjorn_Greeting1_N05.png,Bjorn_Greeting1_N06.png,Bjorn_Greeting1_N07.png,Bjorn_Greeting1_N08.png]
-        - [Bjorn_Greeting1_NE01.png,Bjorn_Greeting1_NE02.png,Bjorn_Greeting1_NE03.png,Bjorn_Greeting1_NE04.png,Bjorn_Greeting1_NE05.png,Bjorn_Greeting1_NE06.png,Bjorn_Greeting1_NE07.png,Bjorn_Greeting1_NE08.png]
-        - [Bjorn_Greeting1_E01.png,Bjorn_Greeting1_E02.png,Bjorn_Greeting1_E03.png,Bjorn_Greeting1_E04.png,Bjorn_Greeting1_E05.png,Bjorn_Greeting1_E06.png,Bjorn_Greeting1_E07.png,Bjorn_Greeting1_E08.png]
-        - [Bjorn_Greeting1_SE01.png,Bjorn_Greeting1_SE02.png,Bjorn_Greeting1_SE03.png,Bjorn_Greeting1_SE04.png,Bjorn_Greeting1_SE05.png,Bjorn_Greeting1_SE06.png,Bjorn_Greeting1_SE07.png,Bjorn_Greeting1_SE08.png]
-        - [Bjorn_Greeting1_S01.png,Bjorn_Greeting1_S02.png,Bjorn_Greeting1_S03.png,Bjorn_Greeting1_S04.png,Bjorn_Greeting1_S05.png,Bjorn_Greeting1_S06.png,Bjorn_Greeting1_S07.png,Bjorn_Greeting1_S08.png]
-        - [Bjorn_Greeting1_SO01.png,Bjorn_Greeting1_SO02.png,Bjorn_Greeting1_SO03.png,Bjorn_Greeting1_SO04.png,Bjorn_Greeting1_SO05.png,Bjorn_Greeting1_SO06.png,Bjorn_Greeting1_SO07.png,Bjorn_Greeting1_SO08.png]
-        - [Bjorn_Greeting1_O01.png,Bjorn_Greeting1_O02.png,Bjorn_Greeting1_O03.png,Bjorn_Greeting1_O04.png,Bjorn_Greeting1_O05.png,Bjorn_Greeting1_O06.png,Bjorn_Greeting1_O07.png,Bjorn_Greeting1_O08.png]
-        - [Bjorn_Greeting1_NO01.png,Bjorn_Greeting1_NO02.png,Bjorn_Greeting1_NO03.png,Bjorn_Greeting1_NO04.png,Bjorn_Greeting1_NO05.png,Bjorn_Greeting1_NO06.png,Bjorn_Greeting1_NO07.png,Bjorn_Greeting1_NO08.png]			
       ancho_base: 1 #tiles
       alto_base: 1 #tiles
       pixel_ref_x: 50 #pixels
@@ -92,14 +76,6 @@ entidades:
         - [Knight_Attack1_SO01.png,Knight_Attack1_SO02.png,Knight_Attack1_SO03.png,Knight_Attack1_SO04.png,Knight_Attack1_SO05.png,Knight_Attack1_SO06.png,Knight_Attack1_SO07.png,Knight_Attack1_SO08.png]
         - [Knight_Attack1_O01.png,Knight_Attack1_O02.png,Knight_Attack1_O03.png,Knight_Attack1_O04.png,Knight_Attack1_O05.png,Knight_Attack1_O06.png,Knight_Attack1_O07.png,Knight_Attack1_O08.png]
         - [Knight_Attack1_NO01.png,Knight_Attack1_NO02.png,Knight_Attack1_NO03.png,Knight_Attack1_NO04.png,Knight_Attack1_NO05.png,Knight_Attack1_NO06.png,Knight_Attack1_NO07.png,Knight_Attack1_NO08.png]		
-        - [Knight_Greeting1_N01.png,Knight_Greeting1_N02.png,Knight_Greeting1_N03.png,Knight_Greeting1_N04.png,Knight_Greeting1_N05.png,Knight_Greeting1_N06.png,Knight_Greeting1_N07.png,Knight_Greeting1_N08.png]
-        - [Knight_Greeting1_NE01.png,Knight_Greeting1_NE02.png,Knight_Greeting1_NE03.png,Knight_Greeting1_NE04.png,Knight_Greeting1_NE05.png,Knight_Greeting1_NE06.png,Knight_Greeting1_NE07.png,Knight_Greeting1_NE08.png]
-        - [Knight_Greeting1_E01.png,Knight_Greeting1_E02.png,Knight_Greeting1_E03.png,Knight_Greeting1_E04.png,Knight_Greeting1_E05.png,Knight_Greeting1_E06.png,Knight_Greeting1_E07.png,Knight_Greeting1_E08.png]
-        - [Knight_Greeting1_SE01.png,Knight_Greeting1_SE02.png,Knight_Greeting1_SE03.png,Knight_Greeting1_SE04.png,Knight_Greeting1_SE05.png,Knight_Greeting1_SE06.png,Knight_Greeting1_SE07.png,Knight_Greeting1_SE08.png]
-        - [Knight_Greeting1_S01.png,Knight_Greeting1_S02.png,Knight_Greeting1_S03.png,Knight_Greeting1_S04.png,Knight_Greeting1_S05.png,Knight_Greeting1_S06.png,Knight_Greeting1_S07.png,Knight_Greeting1_S08.png]
-        - [Knight_Greeting1_SO01.png,Knight_Greeting1_SO02.png,Knight_Greeting1_SO03.png,Knight_Greeting1_SO04.png,Knight_Greeting1_SO05.png,Knight_Greeting1_SO06.png,Knight_Greeting1_SO07.png,Knight_Greeting1_SO08.png]
-        - [Knight_Greeting1_O01.png,Knight_Greeting1_O02.png,Knight_Greeting1_O03.png,Knight_Greeting1_O04.png,Knight_Greeting1_O05.png,Knight_Greeting1_O06.png,Knight_Greeting1_O07.png,Knight_Greeting1_O08.png]
-        - [Knight_Greeting1_NO01.png,Knight_Greeting1_NO02.png,Knight_Greeting1_NO03.png,Knight_Greeting1_NO04.png,Knight_Greeting1_NO05.png,Knight_Greeting1_NO06.png,Knight_Greeting1_NO07.png,Knight_Greeting1_NO08.png]			
       ancho_base: 1 #tiles
       alto_base: 1 #tiles
       pixel_ref_x: 50 #pixels
@@ -123,14 +99,6 @@ entidades:
         - [Queen_Attack1_SO01.png,Queen_Attack1_SO02.png,Queen_Attack1_SO03.png,Queen_Attack1_SO04.png,Queen_Attack1_SO05.png,Queen_Attack1_SO06.png,Queen_Attack1_SO07.png,Queen_Attack1_SO08.png]
         - [Queen_Attack1_O01.png,Queen_Attack1_O02.png,Queen_Attack1_O03.png,Queen_Attack1_O04.png,Queen_Attack1_O05.png,Queen_Attack1_O06.png,Queen_Attack1_O07.png,Queen_Attack1_O08.png]
         - [Queen_Attack1_NO01.png,Queen_Attack1_NO02.png,Queen_Attack1_NO03.png,Queen_Attack1_NO04.png,Queen_Attack1_NO05.png,Queen_Attack1_NO06.png,Queen_Attack1_NO07.png,Queen_Attack1_NO08.png]		
-        - [Queen_Greeting1_N01.png,Queen_Greeting1_N02.png,Queen_Greeting1_N03.png,Queen_Greeting1_N04.png,Queen_Greeting1_N05.png,Queen_Greeting1_N06.png,Queen_Greeting1_N07.png,Queen_Greeting1_N08.png]
-        - [Queen_Greeting1_NE01.png,Queen_Greeting1_NE02.png,Queen_Greeting1_NE03.png,Queen_Greeting1_NE04.png,Queen_Greeting1_NE05.png,Queen_Greeting1_NE06.png,Queen_Greeting1_NE07.png,Queen_Greeting1_NE08.png]
-        - [Queen_Greeting1_E01.png,Queen_Greeting1_E02.png,Queen_Greeting1_E03.png,Queen_Greeting1_E04.png,Queen_Greeting1_E05.png,Queen_Greeting1_E06.png,Queen_Greeting1_E07.png,Queen_Greeting1_E08.png]
-        - [Queen_Greeting1_SE01.png,Queen_Greeting1_SE02.png,Queen_Greeting1_SE03.png,Queen_Greeting1_SE04.png,Queen_Greeting1_SE05.png,Queen_Greeting1_SE06.png,Queen_Greeting1_SE07.png,Queen_Greeting1_SE08.png]
-        - [Queen_Greeting1_S01.png,Queen_Greeting1_S02.png,Queen_Greeting1_S03.png,Queen_Greeting1_S04.png,Queen_Greeting1_S05.png,Queen_Greeting1_S06.png,Queen_Greeting1_S07.png,Queen_Greeting1_S08.png]
-        - [Queen_Greeting1_SO01.png,Queen_Greeting1_SO02.png,Queen_Greeting1_SO03.png,Queen_Greeting1_SO04.png,Queen_Greeting1_SO05.png,Queen_Greeting1_SO06.png,Queen_Greeting1_SO07.png,Queen_Greeting1_SO08.png]
-        - [Queen_Greeting1_O01.png,Queen_Greeting1_O02.png,Queen_Greeting1_O03.png,Queen_Greeting1_O04.png,Queen_Greeting1_O05.png,Queen_Greeting1_O06.png,Queen_Greeting1_O07.png,Queen_Greeting1_O08.png]
-        - [Queen_Greeting1_NO01.png,Queen_Greeting1_NO02.png,Queen_Greeting1_NO03.png,Queen_Greeting1_NO04.png,Queen_Greeting1_NO05.png,Queen_Greeting1_NO06.png,Queen_Greeting1_NO07.png,Queen_Greeting1_NO08.png]			
       ancho_base: 1 #tiles
       alto_base: 1 #tiles
       pixel_ref_x: 50 #pixels
@@ -154,6 +122,98 @@ entidades:
         - [Golem_Attack_SO01.png,Golem_Attack_SO02.png,Golem_Attack_SO03.png,Golem_Attack_SO04.png,Golem_Attack_SO05.png,Golem_Attack_SO06.png,Golem_Attack_SO07.png,Golem_Attack_SO08.png,Golem_Attack_SO09.png,Golem_Attack_SO10.png]
         - [Golem_Attack_O01.png,Golem_Attack_O02.png,Golem_Attack_O03.png,Golem_Attack_O04.png,Golem_Attack_O05.png,Golem_Attack_O06.png,Golem_Attack_O07.png,Golem_Attack_O08.png,Golem_Attack_O09.png,Golem_Attack_O10.png]
         - [Golem_Attack_NO01.png,Golem_Attack_NO02.png,Golem_Attack_NO03.png,Golem_Attack_NO04.png,Golem_Attack_NO05.png,Golem_Attack_NO06.png,Golem_Attack_NO07.png,Golem_Attack_NO08.png,Golem_Attack_NO09.png,Golem_Attack_NO10.png]
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 10 #pixels
+      fps: 10
+    - nombre: carnicero
+      imagen:
+        - [Butcher_N01.png,Butcher_N02.png,Butcher_N03.png,Butcher_N04.png,Butcher_N05.png,Butcher_N06.png,Butcher_N07.png,Butcher_N08.png,Butcher_N09.png,Butcher_N10.png,Butcher_N11.png,Butcher_N12.png]
+        - [Butcher_NE01.png,Butcher_NE02.png,Butcher_NE03.png,Butcher_NE04.png,Butcher_NE05.png,Butcher_NE06.png,Butcher_NE07.png,Butcher_NE08.png,Butcher_NE09.png,Butcher_NE10.png,Butcher_NE11.png,Butcher_NE12.png]
+        - [Butcher_E01.png,Butcher_E02.png,Butcher_E03.png,Butcher_E04.png,Butcher_E05.png,Butcher_E06.png,Butcher_E07.png,Butcher_E08.png,Butcher_E09.png,Butcher_E10.png,Butcher_E11.png,Butcher_E12.png]
+        - [Butcher_SE01.png,Butcher_SE02.png,Butcher_SE03.png,Butcher_SE04.png,Butcher_SE05.png,Butcher_SE06.png,Butcher_SE07.png,Butcher_SE08.png,Butcher_SE09.png,Butcher_SE10.png,Butcher_SE11.png,Butcher_SE12.png]
+        - [Butcher_S01.png,Butcher_S02.png,Butcher_S03.png,Butcher_S04.png,Butcher_S05.png,Butcher_S06.png,Butcher_S07.png,Butcher_S08.png,Butcher_S09.png,Butcher_S10.png,Butcher_S11.png,Butcher_S12.png]
+        - [Butcher_SO01.png,Butcher_SO02.png,Butcher_SO03.png,Butcher_SO04.png,Butcher_SO05.png,Butcher_SO06.png,Butcher_SO07.png,Butcher_SO08.png,Butcher_SO09.png,Butcher_SO10.png,Butcher_SO11.png,Butcher_SO12.png]
+        - [Butcher_O01.png,Butcher_O02.png,Butcher_O03.png,Butcher_O04.png,Butcher_O05.png,Butcher_O06.png,Butcher_O07.png,Butcher_O08.png,Butcher_O09.png,Butcher_O10.png,Butcher_O11.png,Butcher_O12.png]
+        - [Butcher_NO01.png,Butcher_NO02.png,Butcher_NO03.png,Butcher_NO04.png,Butcher_NO05.png,Butcher_NO06.png,Butcher_NO07.png,Butcher_NO08.png,Butcher_NO09.png,Butcher_NO10.png,Butcher_NO11.png,Butcher_NO12.png]
+        - [Butcher_Attack_N01.png,Butcher_Attack_N02.png,Butcher_Attack_N03.png,Butcher_Attack_N04.png,Butcher_Attack_N05.png,Butcher_Attack_N06.png,Butcher_Attack_N07.png,Butcher_Attack_N08.png]
+        - [Butcher_Attack_NE01.png,Butcher_Attack_NE02.png,Butcher_Attack_NE03.png,Butcher_Attack_NE04.png,Butcher_Attack_NE05.png,Butcher_Attack_NE06.png,Butcher_Attack_NE07.png,Butcher_Attack_NE08.png]
+        - [Butcher_Attack_E01.png,Butcher_Attack_E02.png,Butcher_Attack_E03.png,Butcher_Attack_E04.png,Butcher_Attack_E05.png,Butcher_Attack_E06.png,Butcher_Attack_E07.png,Butcher_Attack_E08.png]
+        - [Butcher_Attack_SE01.png,Butcher_Attack_SE02.png,Butcher_Attack_SE03.png,Butcher_Attack_SE04.png,Butcher_Attack_SE05.png,Butcher_Attack_SE06.png,Butcher_Attack_SE07.png,Butcher_Attack_SE08.png]
+        - [Butcher_Attack_S01.png,Butcher_Attack_S02.png,Butcher_Attack_S03.png,Butcher_Attack_S04.png,Butcher_Attack_S05.png,Butcher_Attack_S06.png,Butcher_Attack_S07.png,Butcher_Attack_S08.png]
+        - [Butcher_Attack_SO01.png,Butcher_Attack_SO02.png,Butcher_Attack_SO03.png,Butcher_Attack_SO04.png,Butcher_Attack_SO05.png,Butcher_Attack_SO06.png,Butcher_Attack_SO07.png,Butcher_Attack_SO08.png]
+        - [Butcher_Attack_O01.png,Butcher_Attack_O02.png,Butcher_Attack_O03.png,Butcher_Attack_O04.png,Butcher_Attack_O05.png,Butcher_Attack_O06.png,Butcher_Attack_O07.png,Butcher_Attack_O08.png]
+        - [Butcher_Attack_NO01.png,Butcher_Attack_NO02.png,Butcher_Attack_NO03.png,Butcher_Attack_NO04.png,Butcher_Attack_NO05.png,Butcher_Attack_NO06.png,Butcher_Attack_NO07.png,Butcher_Attack_NO08.png]
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 10 #pixels
+      fps: 10
+    - nombre: enemigo_a
+      imagen:
+        - [Enemy1_N01.png,Enemy1_N02.png,Enemy1_N03.png,Enemy1_N04.png]
+        - [Enemy1_NE01.png,Enemy1_NE02.png,Enemy1_NE03.png,Enemy1_NE04.png]
+        - [Enemy1_E01.png,Enemy1_E02.png,Enemy1_E03.png,Enemy1_E04.png]
+        - [Enemy1_SE01.png,Enemy1_SE02.png,Enemy1_SE03.png,Enemy1_SE04.png]
+        - [Enemy1_S01.png,Enemy1_S02.png,Enemy1_S03.png,Enemy1_S04.png]
+        - [Enemy1_SO01.png,Enemy1_SO02.png,Enemy1_SO03.png,Enemy1_SO04.png]
+        - [Enemy1_O01.png,Enemy1_O02.png,Enemy1_O03.png,Enemy1_O04.png]
+        - [Enemy1_NO01.png,Enemy1_NO02.png,Enemy1_NO03.png,Enemy1_NO04.png]
+        - [Enemy1_Attack_N01.png,Enemy1_Attack_N02.png,Enemy1_Attack_N03.png]
+        - [Enemy1_Attack_NE01.png,Enemy1_Attack_NE02.png,Enemy1_Attack_NE03.png]
+        - [Enemy1_Attack_E01.png,Enemy1_Attack_E02.png,Enemy1_Attack_E03.png]
+        - [Enemy1_Attack_SE01.png,Enemy1_Attack_SE02.png,Enemy1_Attack_SE03.png]
+        - [Enemy1_Attack_S01.png,Enemy1_Attack_S02.png,Enemy1_Attack_S03.png]
+        - [Enemy1_Attack_SO01.png,Enemy1_Attack_SO02.png,Enemy1_Attack_SO03.png]
+        - [Enemy1_Attack_O01.png,Enemy1_Attack_O02.png,Enemy1_Attack_O03.png]
+        - [Enemy1_Attack_NO01.png,Enemy1_Attack_NO02.png,Enemy1_Attack_NO03.png]
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 10 #pixels
+      fps: 10
+    - nombre: enemigo_b
+      imagen:
+        - [Enemy2_N01.png,Enemy2_N02.png,Enemy2_N03.png]
+        - [Enemy2_NE01.png,Enemy2_NE02.png,Enemy2_NE03.png]
+        - [Enemy2_E01.png,Enemy2_E02.png,Enemy2_E03.png]
+        - [Enemy2_SE01.png,Enemy2_SE02.png,Enemy2_SE03.png]
+        - [Enemy2_S01.png,Enemy2_S02.png,Enemy2_S03.png]
+        - [Enemy2_SO01.png,Enemy2_SO02.png,Enemy2_SO03.png]
+        - [Enemy2_O01.png,Enemy2_O02.png,Enemy2_O03.png]
+        - [Enemy2_NO01.png,Enemy2_NO02.png,Enemy2_NO03.png]
+        - [Enemy2_Attack_N01.png,Enemy2_Attack_N02.png]
+        - [Enemy2_Attack_NE01.png,Enemy2_Attack_NE02.png]
+        - [Enemy2_Attack_E01.png,Enemy2_Attack_E02.png]
+        - [Enemy2_Attack_SE01.png,Enemy2_Attack_SE02.png]
+        - [Enemy2_Attack_S01.png,Enemy2_Attack_S02.png]
+        - [Enemy2_Attack_SO01.png,Enemy2_Attack_SO02.png]
+        - [Enemy2_Attack_O01.png,Enemy2_Attack_O02.png]
+        - [Enemy2_Attack_NO01.png,Enemy2_Attack_NO02.png]
+      ancho_base: 1 #tiles
+      alto_base: 1 #tiles
+      pixel_ref_x: 50 #pixels
+      pixel_ref_y: 10 #pixels
+      fps: 10
+    - nombre: enemigo_c
+      imagen:
+        - [Enemy3_N01.png,Enemy3_N02.png,Enemy3_N03.png,Enemy3_N04.png]
+        - [Enemy3_NE01.png,Enemy3_NE02.png,Enemy3_NE03.png,Enemy3_NE04.png]
+        - [Enemy3_E01.png,Enemy3_E02.png,Enemy3_E03.png,Enemy3_E04.png]
+        - [Enemy3_SE01.png,Enemy3_SE02.png,Enemy3_SE03.png,Enemy3_SE04.png]
+        - [Enemy3_S01.png,Enemy3_S02.png,Enemy3_S03.png,Enemy3_S04.png]
+        - [Enemy3_SO01.png,Enemy3_SO02.png,Enemy3_SO03.png,Enemy3_SO04.png]
+        - [Enemy3_O01.png,Enemy3_O02.png,Enemy3_O03.png,Enemy3_O04.png]
+        - [Enemy3_NO01.png,Enemy3_NO02.png,Enemy3_NO03.png,Enemy3_NO04.png]
+        - [Enemy3_Attack_N01.png,Enemy3_Attack_N02.png,Enemy3_Attack_N03.png,Enemy3_Attack_N04.png,Enemy3_Attack_N05.png]
+        - [Enemy3_Attack_NE01.png,Enemy3_Attack_NE02.png,Enemy3_Attack_NE03.png,Enemy3_Attack_NE04.png,Enemy3_Attack_NE05.png]
+        - [Enemy3_Attack_E01.png,Enemy3_Attack_E02.png,Enemy3_Attack_E03.png,Enemy3_Attack_E04.png,Enemy3_Attack_E05.png]
+        - [Enemy3_Attack_SE01.png,Enemy3_Attack_SE02.png,Enemy3_Attack_SE03.png,Enemy3_Attack_SE04.png,Enemy3_Attack_SE05.png]
+        - [Enemy3_Attack_S01.png,Enemy3_Attack_S02.png,Enemy3_Attack_S03.png,Enemy3_Attack_S04.png,Enemy3_Attack_S05.png]
+        - [Enemy3_Attack_SO01.png,Enemy3_Attack_SO02.png,Enemy3_Attack_SO03.png,Enemy3_Attack_SO04.png,Enemy3_Attack_SO05.png]
+        - [Enemy3_Attack_O01.png,Enemy3_Attack_O02.png,Enemy3_Attack_O03.png,Enemy3_Attack_O04.png,Enemy3_Attack_O05.png]
+        - [Enemy3_Attack_NO01.png,Enemy3_Attack_NO02.png,Enemy3_Attack_NO03.png,Enemy3_Attack_NO04.png,Enemy3_Attack_NO05.png]
       ancho_base: 1 #tiles
       alto_base: 1 #tiles
       pixel_ref_x: 50 #pixels
@@ -310,13 +370,6 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [corazon.png]
-    - nombre: hechizo_hielo
-      pixel_ref_x: 50 #pixels
-      pixel_ref_y: 0 #pixels
-      ancho_base: 1 #tiles
-      alto_base: 1 #tiles
-      imagen:
-        - [hechizo_hielo.png]
     - nombre: lampara
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 0 #pixels
@@ -450,28 +503,49 @@ escenarios:
           daño: 10
           velocidad: 250
       enemigos:
-        - entidad: knight
+        - entidad: enemigo_a
           x: 9
           y: 9
           vida: 20
           daño: 3
           velocidad: 280
-        - entidad: queen
+        - entidad: enemigo_b
           x: 9
           y: 9
           vida: 25
           daño: 3
           velocidad: 280
+        - entidad: enemigo_c
+          x: 9
+          y: 10
+          vida: 25
+          daño: 3
+          velocidad: 280
       items:
         - entidad: escudo
-          x: 9
-          y: 9
+          x: 1
+          y: 1
+        - entidad: espada
+          x: 11
+          y: 1
+        - entidad: zapato
+          x: 11
+          y: 0
         - entidad: bomba
-          x: 3
-          y: 0
+          x: 12
+          y: 1
         - entidad: hechizo_hielo
-          x: 4
-          y: 0
+          x: 5
+          y: 6
+        - entidad: botella
+          x: 6
+          y: 6
+        - entidad: lampara
+          x: 7
+          y: 6
+        - entidad: escudo
+          x: 3
+          y: 1
 ####################################################################################################################################################
 ################################################################     ESCENARIO:     ################################################################
 ################################################################      TALLER I      ################################################################
@@ -591,37 +665,37 @@ escenarios:
           daño: 10
           velocidad: 250
       enemigos:
-        - entidad: knight
+        - entidad: enemigo_a
           x: 8
           y: 8
           vida: 25
           daño: 3
           velocidad: 280
-        - entidad: knight
+        - entidad: enemigo_b
           x: 9
           y: 9
           vida: 25
           daño: 3
           velocidad: 280
-        - entidad: knight
+        - entidad: enemigo_c
           x: 10
           y: 10
           vida: 25
           daño: 3
           velocidad: 280
-        - entidad: knight
+        - entidad: enemigo_a
           x: 11
           y: 11
           vida: 25
           daño: 3
           velocidad: 280
-        - entidad: knight
+        - entidad: enemigo_b
           x: 12
           y: 12
           vida: 25
           daño: 3
           velocidad: 280
-        - entidad: knight
+        - entidad: enemigo_c
           x: 13
           y: 13
           vida: 25
@@ -630,6 +704,12 @@ escenarios:
       items:
         - entidad: escudo
           x: 9
+          y: 9
+        - entidad: bomba
+          x: 8
+          y: 9
+        - entidad: hechizo_hielo
+          x: 8
           y: 9
         - entidad: golem
           x: 10
@@ -737,7 +817,7 @@ escenarios:
           daño: 8
           velocidad: 250
       enemigos:
-        - entidad: knight
+        - entidad: carnicero
           x: 9
           y: 9
           vida: 25
