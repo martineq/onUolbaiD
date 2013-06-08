@@ -23,9 +23,16 @@ class ModeloNivel {
 		int indiceEnemigo;
 		int indiceGolem;
 
+		DWORD instanteUltimaActualizacionEnemigo;
+		DWORD instanteUltimaActualizacionGolem;
+
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
 
+		void actualizarJugadores(std::list<ModeloJugador*>* listaJugadores, std::list<ModeloJugador*>* listaEnemigos, std::list<ModeloJugador*>* listaGolems);
+		void actualizarEnemigos(std::list<ModeloJugador*>* listaJugadores, std::list<ModeloJugador*>* listaEnemigos, std::list<ModeloJugador*>* listaGolems);
+		void actualizarGolems(std::list<ModeloJugador*>* listaJugadores, std::list<ModeloJugador*>* listaEnemigos, std::list<ModeloJugador*>* listaGolems);
+		void actualizarItems();
 		void decrementarJugadores(void);
 
 	public:

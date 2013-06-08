@@ -1,6 +1,84 @@
 #include "ModeloNivel.h"
 
+#define DELAY_ACTUALIZACION 100
+
 using namespace std;
+
+void ModeloNivel::actualizarJugadores(std::list<ModeloJugador*>* listaJugadores, std::list<ModeloJugador*>* listaEnemigos, std::list<ModeloJugador*>* listaGolems) {
+	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores->begin(); jugador != listaJugadores->end(); jugador++)
+		(*jugador)->cambiarEstado();
+}
+
+void ModeloNivel::actualizarEnemigos(std::list<ModeloJugador*>* listaJugadores, std::list<ModeloJugador*>* listaEnemigos, std::list<ModeloJugador*>* listaGolems) {
+	if (listaEnemigos->empty())
+		return;
+	
+	std::list<ModeloJugador*>::iterator enemigo = listaEnemigos->begin();
+	std::advance(enemigo, indiceEnemigo);
+
+	if ((*enemigo)->vida() == 0) {
+		indiceEnemigo++;
+		if (indiceEnemigo >= listaEnemigos->size())
+			indiceEnemigo = 0;
+		return;
+	}
+
+	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores->begin(); jugador != listaJugadores->end(); jugador++) {
+		if ((*enemigo)->estaEnRangoVision(*jugador)) {
+			(*enemigo)->atacar(*jugador);
+			break;
+		}
+	}
+	(*enemigo)->cambiarEstado();
+	
+	indiceEnemigo++;
+	if (indiceEnemigo >= listaEnemigos->size())
+		indiceEnemigo = 0;
+}
+
+void ModeloNivel::actualizarGolems(std::list<ModeloJugador*>* listaJugadores, std::list<ModeloJugador*>* listaEnemigos, std::list<ModeloJugador*>* listaGolems) {
+	// Actualizo el golem que le toca en esta iteracion
+	if (listaGolems->empty())
+		return;
+	std::list<ModeloJugador*>::iterator golem = listaGolems->begin();
+	std::advance(golem, indiceGolem);
+
+	if ((*golem)->vida() == 0) {
+		indiceGolem++;
+		if (indiceGolem >= listaGolems->size())
+			indiceGolem = 0;
+		return;
+	}
+
+	(*golem)->mover(this->obtenerJugador((*golem)->idDuenio())->modeloEntidad()->posicion());
+
+	// Busco algun jugador que este en el rango de vision para atacarlo y que sea disitinto al dueño
+	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores->begin(); jugador != listaJugadores->end(); jugador++) {
+		if ((*golem)->estaEnRangoVision(*jugador) && ((*golem)->idDuenio() != (*jugador)->modeloEntidad()->id())) {
+			(*golem)->atacar(*jugador);
+			break;
+		}
+	}
+			
+	// Busco algun enemigo que este en el rango de vision para atacarlo
+	for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos->begin(); enemigo != listaEnemigos->end(); enemigo++) {
+		if ((*golem)->estaEnRangoVision(*enemigo) && ((*enemigo)->vida() > 0)) {
+			(*golem)->atacar(*enemigo);
+			break;
+		}
+	}
+	(*golem)->cambiarEstado();
+
+	indiceGolem++;
+	if (indiceGolem >= listaGolems->size())
+		indiceGolem = 0;
+}
+
+void ModeloNivel::actualizarItems() {
+	std::multimap<std::pair<int, int>, ModeloItem*> listaItems = this->getItems();
+	for (std::multimap<std::pair<int, int>, ModeloItem*>::iterator item = listaItems.begin(); item != listaItems.end(); item++)
+		(*item).second->cambiarEstado();
+}
 
 ModeloJugador* ModeloNivel::obtenerJugador(int id) {
 	return this->listaJugadores.obtenerJugador(id);
@@ -154,94 +232,12 @@ bool ModeloNivel::actualizar() {
 	std::list<ModeloJugador*> listaJugadores = this->getJugadores();
 	std::list<ModeloJugador*> listaEnemigos = this->getEnemigos();
 	std::list<ModeloJugador*> listaGolems = this->listaGolems.obtenerJugadores();
-	std::multimap<std::pair<int, int>, ModeloItem*> listaItems = this->getItems();
 	
-	// Ejecuto el cambio de estado de todos los jugadores
-	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++)
-		(*jugador)->cambiarEstado();
-
-	// Actualizo el enemigo que le toca en esta iteracion
-	if (!listaEnemigos.empty()) {
-		std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin();
-		std::advance(enemigo, indiceEnemigo);
-
-		if ((*enemigo)->vida() > 0) {
-			// Busco algun jugador que este en el rango de vision para atacarlo
-			for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
-				if ((*enemigo)->estaEnRangoVision(*jugador)) {
-					(*enemigo)->atacar(*jugador);
-					break;
-				}
-			}
-		
-			(*enemigo)->cambiarEstado();
-		}
-		indiceEnemigo++;
-		if (indiceEnemigo >= listaEnemigos.size())
-			indiceEnemigo = 0;
-	}
-
-	// Ejecuto el cambio de estado de todos los items
-	for (std::multimap<std::pair<int, int>, ModeloItem*>::iterator item = listaItems.begin(); item != listaItems.end(); item++)
-		(*item).second->cambiarEstado();
-
-	// Actualizo el golem que le toca en esta iteracion
-	if (!listaGolems.empty()) {
-		std::list<ModeloJugador*>::iterator golem = listaGolems.begin();
-		std::advance(golem, indiceGolem);
-
-		if ((*golem)->vida() > 0) {
-			(*golem)->mover(this->obtenerJugador((*golem)->idDuenio())->modeloEntidad()->posicion());
-
-			// Busco algun jugador que este en el rango de vision para atacarlo y que sea disitinto al dueño
-			for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
-				if ((*golem)->estaEnRangoVision(*jugador) && ((*golem)->idDuenio() != (*jugador)->modeloEntidad()->id())) {
-					(*golem)->atacar(*jugador);
-					break;
-				}
-			}
-			
-			// Busco algun enemigo que este en el rango de vision para atacarlo
-			for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
-				if ((*golem)->estaEnRangoVision(*enemigo) && ((*enemigo)->vida() > 0)) {
-					(*golem)->atacar(*enemigo);
-					break;
-				}
-			}
-
-			(*golem)->cambiarEstado();
-		}
-		indiceGolem++;
-		if (indiceGolem >= listaGolems.size())
-			indiceGolem = 0;
-	}
-
-	// Ejecuto el cambio de estado de todos los golems vivos y que no esten congelados
-	for (std::list<ModeloJugador*>::iterator golem = listaGolems.begin(); golem != listaGolems.end(); golem++) {
-		if ((*golem)->vida() == 0)
-			continue;
-		
-		(*golem)->mover(this->obtenerJugador((*golem)->idDuenio())->modeloEntidad()->posicion());
-
-		// Busco algun jugador que este en el rango de vision para atacarlo y que sea disitinto al dueño
-		for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
-			if ((*golem)->estaEnRangoVision(*jugador) && ((*golem)->idDuenio() != (*jugador)->modeloEntidad()->id())) {
-				(*golem)->atacar(*jugador);
-				break;
-			}
-		}
-		
-		// Busco algun enemigo que este en el rango de vision para atacarlo
-		for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
-			if ((*golem)->estaEnRangoVision(*enemigo) && ((*enemigo)->vida() > 0)) {
-				(*golem)->atacar(*enemigo);
-				break;
-			}
-		}
-
-		(*golem)->cambiarEstado();
-	}
-
+	this->actualizarJugadores(&listaJugadores, &listaEnemigos, &listaGolems);
+	this->actualizarEnemigos(&listaJugadores, &listaEnemigos, &listaGolems);
+	this->actualizarGolems(&listaJugadores, &listaEnemigos, &listaGolems);
+	this->actualizarItems();
+	
 	return true;
 }
 
