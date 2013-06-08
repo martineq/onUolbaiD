@@ -310,7 +310,7 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [corazon.png]
-    - nombre: hechizo
+    - nombre: hechizo_hielo
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 0 #pixels
       ancho_base: 1 #tiles
@@ -469,7 +469,7 @@ escenarios:
         - entidad: bomba
           x: 3
           y: 0
-        - entidad: lampara
+        - entidad: hechizo_hielo
           x: 4
           y: 0
 ####################################################################################################################################################
@@ -768,7 +768,7 @@ escenarios:
         - entidad: zapato
           x: 3
           y: 9
-        - entidad: hechizo
+        - entidad: hechizo_hielo
           x: 5
           y: 3
         - entidad: golem

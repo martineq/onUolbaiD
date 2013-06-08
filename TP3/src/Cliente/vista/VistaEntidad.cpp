@@ -136,7 +136,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->vida = entidad.vida;		
 	this->magia = entidad.magia;
 	this->escudo = entidad.escudo;	
-	this->cantidadMagia = entidad.cantidadMagia;
+	//this->cantidadMagia = entidad.cantidadMagia;
 	this->cantidadBombas = entidad.cantidadBombas;
 	this->esPrimerMovimiento = entidad.esPrimerMovimiento;
 
