@@ -150,4 +150,6 @@ void ControladorEvento::limpiar() {
 	this->clicMouseBotonIzquierdo = 0;	
 	this->teclaAApretada = false;
 	this->teclaSApretada = false;
+	this->teclaDApretada = false;
+	this->teclaFApretada = false;
 }

@@ -89,6 +89,12 @@ void ModeloNivel::setAnchoTiles(int ancho){
 	this->anchoTiles = ancho;
 }
 
+void ModeloNivel::activarBomba(int id) {
+	ModeloJugador* jugador = this->obtenerJugador(id);
+	if (jugador != NULL)
+		jugador->activarBomba();
+}
+
 void ModeloNivel::activarHechizoHielo(int id) {
 	ModeloJugador* jugador = this->obtenerJugador(id);
 	if (jugador != NULL)
@@ -154,7 +160,7 @@ bool ModeloNivel::actualizar() {
 
 	// Ejecuto el cambio de estado de todos los enenmigos vivos y que no esten congelados
 	for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
-		if (((*enemigo)->vida() == 0) || (*enemigo)->estaCongelado())
+		if ((*enemigo)->vida() == 0)
 			continue;
 		
 		// Busco algun jugador que este en el rango de vision para atacarlo
@@ -174,7 +180,7 @@ bool ModeloNivel::actualizar() {
 
 	// Ejecuto el cambio de estado de todos los golems vivos y que no esten congelados
 	for (std::list<ModeloJugador*>::iterator golem = listaGolems.begin(); golem != listaGolems.end(); golem++) {
-		if (((*golem)->vida() == 0) || (*golem)->estaCongelado())
+		if ((*golem)->vida() == 0)
 			continue;
 		
 		(*golem)->mover(this->obtenerJugador((*golem)->idDuenio())->modeloEntidad()->posicion());

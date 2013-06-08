@@ -3,10 +3,13 @@
 using namespace std;
 
 bool ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
-	int xDesde = this->modeloEntidad()->posicion().x - RANGO_HECHIZO_HIELO;
-	int xHasta = this->modeloEntidad()->posicion().x + RANGO_HECHIZO_HIELO;
-	int yDesde = this->modeloEntidad()->posicion().y - RANGO_HECHIZO_HIELO;
-	int yHasta = this->modeloEntidad()->posicion().y + RANGO_HECHIZO_HIELO;
+	if (jugador->magia() < MAGIA_CONSUMIDA_HECHIZO_HIELO)
+		return true;
+	
+	int xDesde = jugador->modeloEntidad()->posicion().x - RANGO_HECHIZO_HIELO;
+	int xHasta = jugador->modeloEntidad()->posicion().x + RANGO_HECHIZO_HIELO;
+	int yDesde = jugador->modeloEntidad()->posicion().y - RANGO_HECHIZO_HIELO;
+	int yHasta = jugador->modeloEntidad()->posicion().y + RANGO_HECHIZO_HIELO;
 
 	if (xDesde < 0)
 		xDesde = 0;

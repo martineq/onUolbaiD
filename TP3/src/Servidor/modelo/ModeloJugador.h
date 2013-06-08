@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
-#include <list>
+#include <stack>
 
 #include "../../utils/Constantes/Constantes.h"
 #include "Posicion.h"
@@ -40,7 +40,7 @@ class ModeloJugador {
 		int _danioAtaque;
 		int _idDuenio;
 
-		std::list<ModeloItem*> _bombas;
+		std::stack<ModeloItem*> _bombas;
 		ModeloItem* _hechizoHielo;
 		ListaJugadores* _listaEnemigos;
 		ListaEntidades* _listaEntidades;
@@ -101,6 +101,8 @@ class ModeloJugador {
 		ProxyModeloEntidad::stEntidad stEntidad();
 
 		int vida();
+
+		void activarBomba();
 
 		void activarHechizoHielo();
 
