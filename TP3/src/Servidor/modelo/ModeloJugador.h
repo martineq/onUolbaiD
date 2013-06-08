@@ -27,8 +27,6 @@ class ModeloJugador {
 		bool _estaCongelado;
 		bool _estaDesconectado;
 		bool _tieneMapa;
-		int _cantidadMagia;
-		int _cantidadBombas;
 		int _magia;
 		int _maximoMagia;
 		std::string _nombreJugador;
@@ -145,10 +143,6 @@ class ModeloJugador {
 		bool tieneMapa();
 
 		void setTieneMapa(bool);
-
-		void setCantidadMagia(bool);
-
-		void setCantidadBombas(bool);
 
 		EstadoNivel* getEstadoNivel();
 

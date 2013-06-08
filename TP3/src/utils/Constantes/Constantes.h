@@ -162,10 +162,19 @@
 #define TIPO_ENTIDAD_GOLEM 3
 
 // Tipos de Entidades que no se mueven pero pueden desaparecer
-#define TIPO_ENTIDAD_ITEM 4
+#define TIPO_ITEM_BOTELLA 4
+#define TIPO_ITEM_CORAZON 5
+#define TIPO_ITEM_ESCUDO 6
+#define TIPO_ITEM_LAMPARA 7
+#define TIPO_ITEM_MAPA 8
+#define TIPO_ITEM_ZAPATO 9
+#define TIPO_ITEM_ESPADA 10
+#define TIPO_ITEM_HECHIZO_HIELO 11
+#define TIPO_ITEM_BOMBA 12
+#define TIPO_ITEM_GOLEM 13
 
 // Tipos de Entidades que no se mueven ni desaparecen
-#define TIPO_ENTIDAD_ESTATICO 5
+#define TIPO_ENTIDAD_ESTATICO 14
 
 
 // En ModeloMovimiento

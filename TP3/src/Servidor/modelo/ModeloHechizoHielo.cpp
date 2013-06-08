@@ -30,24 +30,16 @@ bool ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJu
 		}
 	}
 	
-	//Dany dice: Ojo que el consumir Magia va a ir cuando se presione la tecla de consumir.
 	jugador->consumirMagia(MAGIA_CONSUMIDA_HECHIZO_HIELO);
-
-	//aumenta la cantidad de hechizos.
-	jugador->setCantidadMagia(true);
 
 	return true;
 }
 
 ModeloHechizoHielo::ModeloHechizoHielo(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad)
-	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, TIPO_ENTIDAD_ITEM) {
+	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, TIPO_ITEM_HECHIZO_HIELO) {
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 }
 
 ModeloHechizoHielo::~ModeloHechizoHielo() {
-}
-
-bool ModeloHechizoHielo::inmediato() {
-	return false;
 }

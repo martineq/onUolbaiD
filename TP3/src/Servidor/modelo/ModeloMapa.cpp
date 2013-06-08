@@ -8,12 +8,8 @@ bool ModeloMapa::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores,
 }
 
 ModeloMapa::ModeloMapa(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad)
-	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, TIPO_ENTIDAD_ITEM) {
+	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, TIPO_ITEM_MAPA) {
 }
 
 ModeloMapa::~ModeloMapa() {
-}
-
-bool ModeloMapa::inmediato() {
-	return true;
 }

@@ -38,14 +38,11 @@ bool ModeloBomba::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores
 		}
 	}
 
-	//Para cuando agarra la bomba
-	jugador->setCantidadBombas(true);
-
 	return true;
 }
 
 ModeloBomba::ModeloBomba(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad)
-	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, TIPO_ENTIDAD_ITEM) {
+	: ModeloItem(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, TIPO_ITEM_BOMBA) {
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_instanteActivacion = 0;
@@ -53,25 +50,3 @@ ModeloBomba::ModeloBomba(int alto, int ancho, int velocidad, Posicion posicion, 
 
 ModeloBomba::~ModeloBomba() {
 }
-
-bool ModeloBomba::inmediato() {
-	return false;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
