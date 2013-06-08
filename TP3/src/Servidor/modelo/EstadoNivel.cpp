@@ -29,8 +29,39 @@ int EstadoNivel::rangoVision() {
 }
 
 void EstadoNivel::rangoVision(int rangoVision) {
+	// Si el rango de vision es el mismo salgo
+	if (this->_rangoVision == rangoVision)
+		return;
+
+	// Obtengo la submatriz que tengo que actualizar
+	int rangoVisionMaximo = (rangoVision > this->_rangoVision) ? rangoVision : this->_rangoVision;
+	int xDesde = this->_posicion.x - rangoVisionMaximo;
+	int yDesde = this->_posicion.y - rangoVisionMaximo;
+	int xHasta = this->_posicion.x + rangoVisionMaximo;
+	int yHasta = this->_posicion.y + rangoVisionMaximo;
+
+	// Ajusto los rangos dentro del nivel
+	if (xDesde < 0)
+		xDesde = 0;
+	if (yDesde < 0)
+		yDesde = 0;
+	if (xHasta > this->_ancho - 1)
+		xHasta = this->_ancho - 1;
+	if (yHasta > this->_alto - 1)
+		yHasta = this->_alto - 1;
+
+	// Asigno el valor del nuevo rango
 	this->_rangoVision = rangoVision;
-	this->visitar(this->_posicion.x, this->_posicion.y);
+
+	for (int i = xDesde; i <= xHasta; i++) {
+		for (int j = yDesde; j <= yHasta; j++) {
+			// Si el tile esta dentro del rango visible lo marco
+			if ((i >= this->_posicion.x - this->_rangoVision) && (i <= this->_posicion.x + this->_rangoVision) && (j >= this->_posicion.y - this->_rangoVision) && (j <= this->_posicion.y + this->_rangoVision))
+				this->_nivel[(this->_ancho * j) + i] = VISIBLE;
+			else if (this->_nivel[(this->_ancho * j) + i] != NO_CONOCIDO)
+				this->_nivel[(this->_ancho * j) + i] = CONOCIDO_NO_VISIBLE;
+		}
+	}
 }
 
 void EstadoNivel::visitar(int x, int y) {
