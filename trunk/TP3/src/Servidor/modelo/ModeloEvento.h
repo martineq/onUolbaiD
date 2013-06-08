@@ -26,6 +26,7 @@ class ModeloEvento{
 		bool getKeyS();
 		bool getKeyD();
 		bool getKeyF();
+		bool getKeyG();
 		bool errorEnSocket();
 		bool finalizoElJuego();
 		bool getActualizado();

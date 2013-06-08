@@ -22,6 +22,7 @@ class ControladorEvento{
 		bool teclaSApretada;
 		bool teclaDApretada;
 		bool teclaFApretada;
+		bool teclaGApretada;
 
 	public:
 		ControladorEvento(void);
@@ -35,6 +36,7 @@ class ControladorEvento{
 		void setTeclaSApretada(bool);
 		void setTeclaDApretada(bool);
 		void setTeclaFApretada(bool);
+		void setTeclaGApretada(bool);
 		void setQuit();
 		void setProxyEvento(ProxyControladorEvento* pProxyEvento);
 		void setControladorScroll(ControladorScroll*, double, double);
@@ -48,6 +50,7 @@ class ControladorEvento{
 		bool getTeclaSApretada();
 		bool getTeclaDApretada();
 		bool getTeclaFApretada();
+		bool getTeclaGApretada();
 		void notificarAlProxy();
 		void limpiar();
 		ControladorScroll* getControladorScroll(void);		

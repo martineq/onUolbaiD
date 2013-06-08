@@ -19,6 +19,7 @@ class ProxyControladorEvento{
 			bool teclaS;
 			bool teclaD;
 			bool teclaF;
+			bool teclaG;
 			bool mouseClickIzquierdo;
 			bool finalizoElJuego;
 
@@ -51,6 +52,6 @@ class ProxyControladorEvento{
 
 		// Auxiliares
 		static void cargarStEvento(ProxyControladorEvento::stEvento& evento,int id,bool errorEnSocket,int mouseX,int mouseY,
-			bool teclaA,bool teclaS,bool teclaD,bool teclaF,bool mouseClickIzquierdo,bool finalizoElJuego);
+			bool teclaA,bool teclaS,bool teclaD,bool teclaF,bool teclaG,bool mouseClickIzquierdo,bool finalizoElJuego);
 		static void cargarStEventoChat(ProxyControladorEvento::stEvento& evento,int id,int idReceptorChat,std::string mensajeChat);
 };
