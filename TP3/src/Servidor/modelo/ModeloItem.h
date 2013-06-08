@@ -194,8 +194,8 @@ class ModeloGolem : public ModeloItem {
 
 		// Valores tomados a partir del jugador que lo invoca
 		int velocidad;
-		int danio;
 		int vida;
+		int danio;
 		int idDuenio;
 		Posicion pos;
 

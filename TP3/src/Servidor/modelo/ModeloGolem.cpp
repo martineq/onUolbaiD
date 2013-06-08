@@ -14,17 +14,14 @@ bool ModeloGolem::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores
 	// Cargo los datos que necesito del jugador que invoca el golem
 	this->idDuenio = jugador->modeloEntidad()->id();
 	this->velocidad =  jugador->modeloEntidad()->velocidad();
-	this->vida = jugador->maximoVida();
 	this->danio = (jugador->danioAtaque() / 2);			// El golem tendrá menos daño de ataque que su creador
+	this->vida= (jugador->vida() / 2);
 	this->pos = jugador->posicionGolem();
 	
 	ModeloJugador* golem = this->crearGolem();
-	
 	listaGolems->agregarJugador(golem);
-	golem->asignarListaJugadores(listaJugadores);
-	//TODO: Falta pasarle la lista de items para que el golem pueda dropear al morir
-	golem->asignarListaEnemigos(listaEnemigos);
-	golem->enviarEstado();
+	jugador->asignarGolem(golem);
+	golem->consumirVida(this->vida);
 	
 	return true;
 }
@@ -52,7 +49,7 @@ ModeloJugador* ModeloGolem::crearGolem(){
 	pProxyEntidad->setSocketServidor(pSocketServidor);
 
 	// Creo el enemigo (es un ModeloJugador) y lo agrego al nivel
-	ModeloJugador* pGolem = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,idGolem,nombreEntidad,"",vida,mana,danio,idDuenio,TIPO_ENTIDAD_GOLEM,true);
+	ModeloJugador* pGolem = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,idGolem,nombreEntidad,"",this->vida,mana,danio,idDuenio,TIPO_ENTIDAD_GOLEM,true);
 
 	return pGolem;
 }

@@ -525,7 +525,7 @@ escenarios:
         - entidad: escudo
           x: 1
           y: 1
-        - entidad: espada
+        - entidad: golem
           x: 11
           y: 1
         - entidad: zapato

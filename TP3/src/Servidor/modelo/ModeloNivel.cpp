@@ -179,6 +179,12 @@ void ModeloNivel::activarHechizoHielo(int id) {
 		jugador->activarHechizoHielo();
 }
 
+void ModeloNivel::activarGolem(int id) {
+	ModeloJugador* jugador = this->obtenerJugador(id);
+	if (jugador != NULL)
+		jugador->activarGolem();
+}
+
 void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 	ModeloJugador* jugador = this->obtenerJugador(id);
 	

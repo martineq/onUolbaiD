@@ -127,6 +127,7 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 
 	this->_hechizoHielo = NULL;
 	this->_enemigo = NULL;
+	this->_golem = NULL;
 	this->_item = NULL;
 	this->_modeloEntidad = new ModeloEntidad(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, tipoEntidad);
 	this->_estadoNivel = (this->_autonomo) ? NULL : new EstadoNivel(altoNivel, anchoNivel, posicion.x, posicion.y, RANGO_VISION);
@@ -302,6 +303,28 @@ void ModeloJugador::activarHechizoHielo() {
 		this->_hechizoHielo->activar();
 }
 
+void ModeloJugador::activarGolem() {
+	if ((this->_golem == NULL) || (this->_magia < MAGIA_CONSUMIDA_GOLEM) || (this->_golem->vida() > 0))
+		return;
+	Posicion posicion = this->posicionGolem();
+	Posicion pixel;
+	Posicion::convertirTileAPixel(this->_altoNivel, posicion.x, posicion.y, pixel.x, pixel.y);
+	this->_golem->modeloEntidad()->posicion(posicion);
+	this->_golem->modeloEntidad()->pixel(pixel);
+	this->_golem->recuperarVida(this->maximoVida());
+	this->_golem->enviarEstado();
+	this->consumirMagia(MAGIA_CONSUMIDA_GOLEM);
+	this->enviarEstado();
+}
+
+void ModeloJugador::asignarGolem(ModeloJugador* golem) {
+	this->_golem = golem;
+	this->_golem->asignarListaEnemigos(this->_listaEnemigos);
+	this->_golem->asignarListaEntidades(this->_listaEntidades);
+	this->_golem->asignarListaItems(this->_listaItems);
+	this->_golem->asignarListaJugadores(this->_listaJugadores);
+}
+
 void ModeloJugador::asignarListaEnemigos(ListaJugadores* listaEnemigos) {
 	this->_listaEnemigos = listaEnemigos;
 }
@@ -381,7 +404,6 @@ void ModeloJugador::consumirVida(int vida) {
 	}
 	this->enviarEstado();
 
-	//TODO: Falta hacer que dropee items
 	// Si el personaje no tiene mas vida lo mato
 	if (this->_vida == 0)
 		this->matar();

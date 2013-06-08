@@ -55,6 +55,7 @@ class ModeloNivel {
 		
 		void activarBomba(int id);
 		void activarHechizoHielo(int id);
+		void activarGolem(int id);
 		void ejecutarAccionJugador(int tileX, int tileY, int id);
 		void desconectarJugador(int id);
 
