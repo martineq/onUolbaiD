@@ -354,7 +354,7 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 	if( entidadEncontrada != NULL) {
 		// Si no me pide eliminar entonces actualizo los datos
 		entidadEncontrada->actualizar(entidad);
-		if( entidadEncontrada->tipoEntidad() == TIPO_ENTIDAD_ITEM) actualizarMatriz = true;  // TODO Cambiar por una constante que identifique solo a la lampara
+		if( entidadEncontrada->tipoEntidad() == TIPO_ITEM_LAMPARA) actualizarMatriz = true;  // TODO Cambiar por una constante que identifique solo a la lampara
 		vistaNivel.ordenarJugadores();
 	}
 	else {

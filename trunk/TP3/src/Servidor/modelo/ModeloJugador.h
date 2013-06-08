@@ -40,6 +40,8 @@ class ModeloJugador {
 		int _danioAtaque;
 		int _idDuenio;
 
+		std::list<ModeloItem*> _bombas;
+		ModeloItem* _hechizoHielo;
 		ListaJugadores* _listaEnemigos;
 		ListaEntidades* _listaEntidades;
 		ListaItems* _listaItems;
@@ -99,6 +101,8 @@ class ModeloJugador {
 		ProxyModeloEntidad::stEntidad stEntidad();
 
 		int vida();
+
+		void activarHechizoHielo();
 
 		void asignarListaEnemigos(ListaJugadores* listaEnemigos);
 

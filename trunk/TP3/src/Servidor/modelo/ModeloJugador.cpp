@@ -61,8 +61,13 @@ void ModeloJugador::recogerItem() {
 	// Si llegue al item y no fue recogido por nadie recogo
 	if (this->_item->disponible()) {
 		this->_item->asignarJugador(this);
-		this->_item->activar();
 		this->_listaItems->removerItem(this->_item);
+		if (this->_item->modeloEntidad()->tipoEntidad() == TIPO_ITEM_BOMBA)
+			this->_bombas.push_back(this->_item);
+		else if (this->_item->modeloEntidad()->tipoEntidad() == TIPO_ITEM_HECHIZO_HIELO)
+			this->_hechizoHielo = this->_item;
+		else
+			this->_item->activar();
 	}
 	this->_item = NULL;
 }
@@ -113,6 +118,7 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_danioAtaque = ataque;
 	this->_idDuenio = idDuenio;
 
+	this->_hechizoHielo = NULL;
 	this->_enemigo = NULL;
 	this->_item = NULL;
 	this->_modeloEntidad = new ModeloEntidad(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, tipoEntidad);
@@ -238,9 +244,10 @@ ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
 	estado.vida = this->_vida;
 	estado.maximoVida = this->_maximoVida;
 	estado.rangoVision = this->_estadoNivel->rangoVision();
+	estado.cantidadBombas = this->_bombas.size();
+	estado.tieneHechizoHielo = (this->_hechizoHielo != NULL);
+	estado.tieneGolem = false;
 	estado.tieneMapa = this->_tieneMapa;
-	//estado.cantidadMagia = this->_cantidadMagia;
-	//estado.cantidadBombas = this->_cantidadBombas;
 	estado.accion = (this->_accion * 8) + this->_modeloEntidad->direccion();	
 	return estado;
 }
@@ -250,6 +257,11 @@ int ModeloJugador::vida() {
 	int vida = this->_vida;
 	this->_mutex.unlock(__FILE__, __LINE__);
 	return vida;
+}
+
+void ModeloJugador::activarHechizoHielo() {
+	if (this->_hechizoHielo != NULL)
+		this->_hechizoHielo->activar();
 }
 
 void ModeloJugador::asignarListaEnemigos(ListaJugadores* listaEnemigos) {
