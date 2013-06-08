@@ -12,7 +12,7 @@
 
 class VistaLoop{
 	private:
-		SDL_Surface *pantalla;			
+		SDL_Surface *pantalla;					
 		ProxyModeloEntidad* pProxyEntidad;
 		ProxyModeloEntidad::stEntidad entidadEnEspera;
 		bool hayEntidadEnEspera;

@@ -17,7 +17,7 @@ VistaLoop::~VistaLoop(void){
 	SDL_FreeSurface( textoMagia );    
 	SDL_FreeSurface( textoEscudo );    
 	SDL_FreeSurface( textoCantidadMagia );    
-	SDL_FreeSurface( textoCantidadBombas );    	
+	SDL_FreeSurface( textoCantidadBombas );    		
 	ImageLoader::getInstance().cerrarSDL();	
 }
 
@@ -155,15 +155,16 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 		boxRGBA( this->pantalla, 50, 70, escudoPorcentual*4+50, thickness+70, 0, 255, 0, 255);	
 
 	//Cantidad de hechizos	
-	//ss3 << vistaNivel.getJugador()->getCantidadMagia();			
+	//ss3 << vistaNivel.getJugador()->getCantidadMagia();		
 	ss.str("");
 	ss << 10;
 	auxiliar = "";
 	auxiliar = ss.str();	
-	this->textoCantidadMagia = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );	
 	offset.x = 0;
 	offset.y = 90;
-	SDL_BlitSurface( textoCantidadMagia, NULL, pantalla, &offset);
+	SDL_BlitSurface ( vistaNivel.getPngBomba(), NULL, pantalla, &offset );
+	this->textoCantidadMagia = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );		
+	SDL_BlitSurface( this->textoCantidadMagia, NULL, pantalla, &offset);
 
 	//Cantidad de bombas	
 	//ss3 << vistaNivel.getJugador()->getCantidadBombas();			
@@ -171,10 +172,11 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	ss << 10;
 	auxiliar = "";
 	auxiliar = ss.str();
-	this->textoCantidadBombas = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );	
 	offset.x = 0;
 	offset.y = 120;
-	SDL_BlitSurface( textoCantidadBombas, NULL, pantalla, &offset);
+	SDL_BlitSurface ( vistaNivel.getPngMagia(), NULL, pantalla, &offset );
+	this->textoCantidadBombas = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );		
+	SDL_BlitSurface( this->textoCantidadBombas, NULL, pantalla, &offset);
 
 	return true;
 }

@@ -351,6 +351,18 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 	std::list<std::list<std::string>> listaAnimaciones = entidadJugador.imagenes;
 	std::string nombre = entidadJugador.nombre;
 
+	if (entidadJugador.nombre == STRING_BOMBA) {
+		list<string> lista = entidadJugador.imagenes.front();
+		string dirBomba = lista.front();
+		vistaNivel.setPngBomba(ImageLoader::getInstance().load_image(dirBomba));
+	}
+
+	if (entidadJugador.nombre == STRING_HECHIZO_HIELO) {
+		list<string> lista = entidadJugador.imagenes.front();
+		string dirMagia = lista.front();
+		vistaNivel.setPngMagia(ImageLoader::getInstance().load_image(dirMagia));
+	}
+
 	// Valores tomados desde el escenario elegido
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;

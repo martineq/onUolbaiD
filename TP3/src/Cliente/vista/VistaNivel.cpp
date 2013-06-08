@@ -21,6 +21,8 @@ VistaNivel::VistaNivel(){
 
 VistaNivel::~VistaNivel(){
  // Los punteros ya son destruidos desde el Administrador
+	SDL_FreeSurface ( this->pngBomba );
+	SDL_FreeSurface ( this->pngMagia );
 }
 
 VistaScroll* VistaNivel::getScroll(void){
@@ -148,4 +150,20 @@ void VistaNivel::ordenarJugadores() {
 void VistaNivel::reiniciarPosicionScroll() {
 	this->pControladorScroll->setPosicionInicial();
 	return void();
+}
+
+SDL_Surface* VistaNivel::getPngBomba(){
+	return this->pngBomba;
+}
+
+SDL_Surface* VistaNivel::getPngMagia(){
+	return this->pngMagia;
+}
+
+void VistaNivel::setPngBomba(SDL_Surface* png){
+	this->pngBomba = png;
+}
+
+void VistaNivel::setPngMagia(SDL_Surface* png){
+	this->pngMagia = png;
 }
