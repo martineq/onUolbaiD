@@ -44,7 +44,8 @@ void ModeloJugador::matar() {
 	this->_estaCongelado = false;
 	this->_enemigo = NULL;
 	this->_item = NULL;
-	this->_estadoNivel->rangoVision(RANGO_VISION);
+	if (this->_estadoNivel != NULL)
+		this->_estadoNivel->rangoVision(RANGO_VISION);
 	this->_modeloMovimiento->detener();
 	if (this->_autonomo)
 		this->_listaEnemigos->removerJugador(this);
@@ -98,11 +99,11 @@ ModeloJugador& ModeloJugador::operator=(const ModeloJugador &modeloJugador) {
 	return *this;
 }
 
-ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador, int maximoVida, int maximoMagia, int ataque, int idDuenio, int tipoEntidad) {
+ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador, int maximoVida, int maximoMagia, int ataque, int idDuenio, int tipoEntidad, bool autonomo) {
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_accion = CAMINANDO;
-	this->_autonomo = false;
+	this->_autonomo = autonomo;
 	this->_escudo = 0;
 	this->_tieneMapa = false;
 	this->_estaCongelado = false;
@@ -122,18 +123,20 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_enemigo = NULL;
 	this->_item = NULL;
 	this->_modeloEntidad = new ModeloEntidad(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, tipoEntidad);
-	this->_estadoNivel = new EstadoNivel(altoNivel, anchoNivel, posicion.x, posicion.y, RANGO_VISION);
+	this->_estadoNivel = (this->_autonomo) ? NULL : new EstadoNivel(altoNivel, anchoNivel, posicion.x, posicion.y, RANGO_VISION);
 	this->_modeloMovimiento = new ModeloMovimiento(altoNivel, anchoNivel, this->_modeloEntidad);
 	this->_vistaMovimiento = new VistaMovimiento(this->_modeloEntidad, altoNivel, anchoNivel, fps);
 	
 	Posicion::convertirTileAPixel(altoNivel, this->_posicionInicial.x, this->_posicionInicial.y, this->_pixelInicial.x, this->_pixelInicial.y);
-	this->_estadoNivel->visitar(posicion.x,posicion.y);
+	if (this->_estadoNivel != NULL)
+		this->_estadoNivel->visitar(posicion.x,posicion.y);
 	this->_modeloMovimiento->agregarObservador(this->_vistaMovimiento);
 }
 
 ModeloJugador::~ModeloJugador() {
 	delete this->_modeloEntidad;
-	delete this->_estadoNivel;
+	if (this->_estadoNivel != NULL)
+		delete this->_estadoNivel;
 	delete this->_modeloMovimiento;
 	delete this->_vistaMovimiento;
 }
@@ -243,7 +246,8 @@ ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
 	estado.maximoVida = this->_maximoVida;
 	estado.vida = this->_vida;
 	estado.maximoVida = this->_maximoVida;
-	estado.rangoVision = this->_estadoNivel->rangoVision();
+	if (this->_estadoNivel != NULL)
+		estado.rangoVision = this->_estadoNivel->rangoVision();
 	estado.cantidadBombas = this->_bombas.size();
 	estado.tieneHechizoHielo = (this->_hechizoHielo != NULL);
 	estado.tieneGolem = false;
@@ -320,7 +324,8 @@ void ModeloJugador::atacar(ModeloJugador* enemigo) {
 
 void ModeloJugador::cambiarEstado() {
 	// Marco el tile actual como visitado
-	this->_estadoNivel->visitar(this->_modeloEntidad->posicion().x, this->_modeloEntidad->posicion().y);
+	if (this->_estadoNivel != NULL)
+		this->_estadoNivel->visitar(this->_modeloEntidad->posicion().x, this->_modeloEntidad->posicion().y);
 
 	// Si el personaje esta congelado chequeo si se puede descongelar
 	if (this->_estaCongelado) {
@@ -342,7 +347,8 @@ void ModeloJugador::cambiarEstado() {
 }
 
 void ModeloJugador::cargarMatriz(ProxyModeloEntidad::stEntidad& entidad){
-	ProxyModeloEntidad::cargarMatriz(entidad, this->_estadoNivel->getMatriz());
+	if (this->_estadoNivel != NULL)
+		ProxyModeloEntidad::cargarMatriz(entidad, this->_estadoNivel->getMatriz());
 }
 
 bool ModeloJugador::chequearConexion() {
@@ -396,10 +402,12 @@ bool ModeloJugador::estaEnRangoVision(ModeloJugador* enemigo) {
 	Posicion posicionEnemigo = enemigo->modeloEntidad()->posicion();
 	Posicion posicionJugador = this->_modeloEntidad->posicion();
 
-	return ((posicionEnemigo.x >= posicionJugador.x - this->_estadoNivel->rangoVision()) &&
-		(posicionEnemigo.x <= posicionJugador.x + this->_estadoNivel->rangoVision()) &&
-		(posicionEnemigo.y >= posicionJugador.y - this->_estadoNivel->rangoVision()) &&
-		(posicionEnemigo.y <= posicionJugador.y + this->_estadoNivel->rangoVision()));
+	int rangoVision = (this->_estadoNivel != NULL) ? this->_estadoNivel->rangoVision() : RANGO_VISION;
+
+	return ((posicionEnemigo.x >= posicionJugador.x - rangoVision) &&
+		(posicionEnemigo.x <= posicionJugador.x + rangoVision) &&
+		(posicionEnemigo.y >= posicionJugador.y - rangoVision) &&
+		(posicionEnemigo.y <= posicionJugador.y + rangoVision));
 }
 
 void ModeloJugador::mover(Posicion posicion) {
@@ -471,6 +479,9 @@ int ModeloJugador::maximoVida(void){
 Posicion ModeloJugador::posicionGolem() {
 
 	Posicion posicion = this->modeloEntidad()->posicion();
+
+	if (this->_estadoNivel == NULL)
+		posicion;
 
 	// Genero una posición al azar, pero dentro del rango de visión del jugador. Y verifico que la posición no se encentre ocupada.
 	while (this->_listaEntidades->posicionOcupada(posicion)) {

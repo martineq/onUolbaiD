@@ -24,6 +24,8 @@ ModeloItem* ModeloNivel::obtenerItem(Posicion posicion) {
 }
 
 ModeloNivel::ModeloNivel() {
+	this->indiceEnemigo = 0;
+	this->indiceGolem = 0;
 	this->jugadoresConectados = 0;
 	this->listaJugadores.asignarListaEntidades(&this->listaEntidades);
 	this->listaEnemigos.asignarListaEntidades(&this->listaEntidades);
@@ -158,25 +160,61 @@ bool ModeloNivel::actualizar() {
 	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++)
 		(*jugador)->cambiarEstado();
 
-	// Ejecuto el cambio de estado de todos los enenmigos vivos y que no esten congelados
-	for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
-		if ((*enemigo)->vida() == 0)
-			continue;
-		
-		// Busco algun jugador que este en el rango de vision para atacarlo
-		for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
-			if ((*enemigo)->estaEnRangoVision(*jugador)) {
-				(*enemigo)->atacar(*jugador);
-				break;
+	// Actualizo el enemigo que le toca en esta iteracion
+	if (!listaEnemigos.empty()) {
+		std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin();
+		std::advance(enemigo, indiceEnemigo);
+
+		if ((*enemigo)->vida() > 0) {
+			// Busco algun jugador que este en el rango de vision para atacarlo
+			for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
+				if ((*enemigo)->estaEnRangoVision(*jugador)) {
+					(*enemigo)->atacar(*jugador);
+					break;
+				}
 			}
-		}
 		
-		(*enemigo)->cambiarEstado();
+			(*enemigo)->cambiarEstado();
+		}
+		indiceEnemigo++;
+		if (indiceEnemigo >= listaEnemigos.size())
+			indiceEnemigo = 0;
 	}
 
 	// Ejecuto el cambio de estado de todos los items
 	for (std::multimap<std::pair<int, int>, ModeloItem*>::iterator item = listaItems.begin(); item != listaItems.end(); item++)
 		(*item).second->cambiarEstado();
+
+	// Actualizo el golem que le toca en esta iteracion
+	if (!listaGolems.empty()) {
+		std::list<ModeloJugador*>::iterator golem = listaGolems.begin();
+		std::advance(golem, indiceGolem);
+
+		if ((*golem)->vida() > 0) {
+			(*golem)->mover(this->obtenerJugador((*golem)->idDuenio())->modeloEntidad()->posicion());
+
+			// Busco algun jugador que este en el rango de vision para atacarlo y que sea disitinto al dueño
+			for (std::list<ModeloJugador*>::iterator jugador = listaJugadores.begin(); jugador != listaJugadores.end(); jugador++) {
+				if ((*golem)->estaEnRangoVision(*jugador) && ((*golem)->idDuenio() != (*jugador)->modeloEntidad()->id())) {
+					(*golem)->atacar(*jugador);
+					break;
+				}
+			}
+			
+			// Busco algun enemigo que este en el rango de vision para atacarlo
+			for (std::list<ModeloJugador*>::iterator enemigo = listaEnemigos.begin(); enemigo != listaEnemigos.end(); enemigo++) {
+				if ((*golem)->estaEnRangoVision(*enemigo) && ((*enemigo)->vida() > 0)) {
+					(*golem)->atacar(*enemigo);
+					break;
+				}
+			}
+
+			(*golem)->cambiarEstado();
+		}
+		indiceGolem++;
+		if (indiceGolem >= listaGolems.size())
+			indiceGolem = 0;
+	}
 
 	// Ejecuto el cambio de estado de todos los golems vivos y que no esten congelados
 	for (std::list<ModeloJugador*>::iterator golem = listaGolems.begin(); golem != listaGolems.end(); golem++) {

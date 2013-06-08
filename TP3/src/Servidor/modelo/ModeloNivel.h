@@ -20,6 +20,9 @@ class ModeloNivel {
 		ListaJugadores listaGolems;
 		ListaItems listaItems;
 
+		int indiceEnemigo;
+		int indiceGolem;
+
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
 
