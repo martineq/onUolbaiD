@@ -23,9 +23,6 @@ class ModeloNivel {
 		int indiceEnemigo;
 		int indiceGolem;
 
-		DWORD instanteUltimaActualizacionEnemigo;
-		DWORD instanteUltimaActualizacionGolem;
-
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
 

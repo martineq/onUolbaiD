@@ -34,9 +34,11 @@ void ModeloJugador::atacarEnemigo() {
 	}
 
 	// Si el enemigo sigue en la zona visible lo sigo persiguiendo
-	this->_modeloMovimiento->actualizar(this->_enemigo->modeloEntidad()->posicion());
-	this->_accion = CAMINANDO;
-	this->_instanteUltimoCambioEstado = GetTickCount();
+	if (this->_vistaMovimiento->terminado()) {
+		this->_modeloMovimiento->actualizar(this->_enemigo->modeloEntidad()->posicion());
+		this->_accion = CAMINANDO;
+		this->_instanteUltimoCambioEstado = GetTickCount();
+	}
 }
 
 void ModeloJugador::matar() {
