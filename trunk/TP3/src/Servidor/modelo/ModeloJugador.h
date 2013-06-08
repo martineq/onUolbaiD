@@ -70,7 +70,7 @@ class ModeloJugador {
 		ModeloJugador& operator=(const ModeloJugador &modeloJugador);
 		
 	public:
-		ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador, int maximoVida, int maximoMagia, int ataque, int idDuenio, int tipoEntidad);
+		ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador, int maximoVida, int maximoMagia, int ataque, int idDuenio, int tipoEntidad, bool autonomo);
 
 		virtual ~ModeloJugador();
 

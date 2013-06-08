@@ -200,9 +200,6 @@
 // En ModeloBotella
 #define MAGIA_RECUPERADA 10
 
-// En ModeloEscudo
-#define ESCUDO_RECUPERADO 10
-
 // En ModeloEspada
 #define DANIO_ESPADA 10
 

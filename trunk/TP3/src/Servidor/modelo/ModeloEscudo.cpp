@@ -1,7 +1,7 @@
 #include "ModeloItem.h"
 
 bool ModeloEscudo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
-	jugador->recuperarEscudo(ESCUDO_RECUPERADO);
+	jugador->recuperarEscudo(MAXIMO_ESCUDO);
 	return true;
 }
 
