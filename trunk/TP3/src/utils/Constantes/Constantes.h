@@ -215,6 +215,7 @@
 
 // En ModeloGolem y ModeloFactory
 #define ENTIDAD_GOLEM "entidad_golem"  // Representa en el archivo yaml al personaje que es un golem, no al ícono
+#define MAGIA_CONSUMIDA_GOLEM 20
 
 
 /***************************** Fog *************************/

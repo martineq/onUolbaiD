@@ -50,6 +50,7 @@ class ModeloJugador {
 		ModeloEntidad* _modeloEntidad;
 		EstadoNivel* _estadoNivel;
 		ModeloJugador* _enemigo;
+		ModeloJugador* _golem;
 		ModeloItem* _item;
 		ModeloMovimiento* _modeloMovimiento;
 		VistaMovimiento* _vistaMovimiento;
@@ -105,6 +106,10 @@ class ModeloJugador {
 		void activarBomba();
 
 		void activarHechizoHielo();
+
+		void activarGolem();
+
+		void asignarGolem(ModeloJugador* golem);
 
 		void asignarListaEnemigos(ListaJugadores* listaEnemigos);
 
