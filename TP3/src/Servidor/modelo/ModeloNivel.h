@@ -46,6 +46,7 @@ class ModeloNivel {
 		void agregarItem(ModeloItem* item);
 		void agregarEntidad(ModeloEntidad* entidad);
 		
+		void activarHechizoHielo(int id);
 		void ejecutarAccionJugador(int tileX, int tileY, int id);
 		void desconectarJugador(int id);
 

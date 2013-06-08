@@ -89,6 +89,12 @@ void ModeloNivel::setAnchoTiles(int ancho){
 	this->anchoTiles = ancho;
 }
 
+void ModeloNivel::activarHechizoHielo(int id) {
+	ModeloJugador* jugador = this->obtenerJugador(id);
+	if (jugador != NULL)
+		jugador->activarHechizoHielo();
+}
+
 void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 	ModeloJugador* jugador = this->obtenerJugador(id);
 	

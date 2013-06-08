@@ -40,6 +40,8 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 			// En el caso de no haber errores y no haber terminado el juego se obtienen los datos para acutalizar
 			modeloNivel.ejecutarAccionJugador(this->_modeloEvento.getMousePosX(), this->_modeloEvento.getMousePosY(), idJugador);
 		}
+		else if (this->_modeloEvento.getKeyD())
+			modeloNivel.activarHechizoHielo(idJugador);
 		
 		this->_modeloEvento.cargarProximoEvento();  // Con esto descarto el evento que acabo de leer y cargo el próximo
 	}

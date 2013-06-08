@@ -96,11 +96,11 @@ bool ControladorEvento::getTeclaSApretada(){
 }
 
 bool ControladorEvento::getTeclaDApretada(){
-	return this->teclaAApretada;
+	return this->teclaDApretada;
 }
 
 bool ControladorEvento::getTeclaFApretada(){
-	return this->teclaSApretada;
+	return this->teclaFApretada;
 }
 
 void ControladorEvento::notificarAlProxy(){
