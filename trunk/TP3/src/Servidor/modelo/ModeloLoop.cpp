@@ -42,6 +42,8 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 		}
 		else if (this->_modeloEvento.getKeyD())
 			modeloNivel.activarHechizoHielo(idJugador);
+		else if (this->_modeloEvento.getKeyF())
+			modeloNivel.activarBomba(idJugador);
 		
 		this->_modeloEvento.cargarProximoEvento();  // Con esto descarto el evento que acabo de leer y cargo el próximo
 	}

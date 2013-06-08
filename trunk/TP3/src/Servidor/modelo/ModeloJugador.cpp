@@ -63,7 +63,7 @@ void ModeloJugador::recogerItem() {
 		this->_item->asignarJugador(this);
 		this->_listaItems->removerItem(this->_item);
 		if (this->_item->modeloEntidad()->tipoEntidad() == TIPO_ITEM_BOMBA)
-			this->_bombas.push_back(this->_item);
+			this->_bombas.push(this->_item);
 		else if (this->_item->modeloEntidad()->tipoEntidad() == TIPO_ITEM_HECHIZO_HIELO)
 			this->_hechizoHielo = this->_item;
 		else
@@ -257,6 +257,34 @@ int ModeloJugador::vida() {
 	int vida = this->_vida;
 	this->_mutex.unlock(__FILE__, __LINE__);
 	return vida;
+}
+
+void ModeloJugador::activarBomba() {
+	if (this->_bombas.empty())
+		return;
+	
+	ModeloItem* bomba = this->_bombas.top();
+	Posicion posicion = this->modeloEntidad()->posicion();
+	Posicion pixel;
+	Direccion direccion = this->modeloEntidad()->direccion();
+	
+	if ((direccion == NORTE) || (direccion == NORESTE) || (direccion == NOROESTE))
+		posicion.y--;
+	if ((direccion == SUR) || (direccion == SUDESTE) || (direccion == SUDOESTE))
+		posicion.y++;
+	if ((direccion == ESTE) || (direccion == NORESTE) || (direccion == SUDESTE))
+		posicion.x++;
+	if ((direccion == OESTE) || (direccion == NOROESTE) || (direccion == SUDOESTE))
+		posicion.x--;
+	
+	if ((posicion.x >= 0) && (posicion.x < this->_anchoNivel) && (posicion.y >= 0) && (posicion.y < this->_altoNivel) && !this->_listaEntidades->posicionOcupada(posicion)) {
+		Posicion::convertirTileAPixel(this->_anchoNivel, posicion.x, posicion.y, pixel.x, pixel.y);
+		bomba->modeloEntidad()->posicion(posicion);
+		bomba->modeloEntidad()->pixel(pixel);
+		bomba->activar();
+		bomba->enviarEstado();
+		this->_bombas.pop();
+	}
 }
 
 void ModeloJugador::activarHechizoHielo() {

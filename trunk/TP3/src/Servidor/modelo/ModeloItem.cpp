@@ -57,22 +57,26 @@ void ModeloItem::asignarListaGolems(ListaJugadores* listaGolems) {
 }
 
 void ModeloItem::cambiarEstado() {
+	bool estadoAnterior = this->_activo;
+
 	// Si el item esta activo lo aplico y cambio el estado si se termino de aplicar lo desactivo
 	if (this->_activo) {
 		this->_activo = !this->aplicar(this->_jugador, this->_listaJugadores, this->_listaEnemigos, this->_listaGolems);
 		if (!this->_activo)
 			this->_jugador->enviarEstado();
 	}
+
+	if (this->_activo != estadoAnterior)
+		this->enviarEstado();
 }
 
 void ModeloItem::enviarEstado() {
 	this->_modeloEntidad->enviarEstado(this->stEntidad());
 }
 
-int ModeloItem::vida(){
-	if( this->disponible() == true ){
+int ModeloItem::vida() {
+	if (this->disponible() || this->_activo)
 		return 1;
-	}else{
+	else
 		return 0;
-	}
 }
