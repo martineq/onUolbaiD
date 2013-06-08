@@ -16,6 +16,7 @@ class DetectorEventos{
 		bool teclaAApretada;
 		bool teclaDApretada;
 		bool teclaFApretada;
+		bool teclaGApretada;
 		bool enter;
 		bool escape;
 		bool retroceso;
@@ -35,6 +36,7 @@ class DetectorEventos{
 		bool getTeclaSApretada();
 		bool getTeclaDApretada();
 		bool getTeclaFApretada();
+		bool getTeclaGApretada();
 		bool getEnter();
 		bool getEscape();
 		bool getRetroceso();
