@@ -20,6 +20,7 @@ class VistaEntidad: public Identificable{
 		bool sufrioDanio;
 		bool gastoEscudo;
 		bool gastoMagia;
+		bool gastoBomba;
 		bool yaMurio;
 		bool tieneHechizoHielo;
 		bool tieneGolem;
@@ -97,6 +98,7 @@ class VistaEntidad: public Identificable{
 		bool getSufrioDanio();
 		bool getGastoEscudo();
 		bool getGastoMagia();
+		bool getGastoBomba();
 		bool getTieneHechizoHielo();
 		bool getTieneGolem();
 		bool esMiJugador(void);		
@@ -115,6 +117,7 @@ class VistaEntidad: public Identificable{
 		void setGastoMagia(bool gasto);
 		void setSufrioDanio(bool sufrio);
 		void setGastoEscudo(bool gasto);		
+		void setGastoBomba (bool gasto);
 		void esMiJugador(bool valor);
 		bool graficar(char visibilidad);
 

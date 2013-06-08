@@ -81,6 +81,11 @@ void VistaLoop::reproducirSonidos(VistaNivel& vistaNivel){
 		vistaNivel.getJugador()->setGastoMagia(false);
 	}
 
+	//Sonido gasto bomba
+	if (vistaNivel.getJugador()->getGastoBomba()) {
+		VistaMusica::getInstance().gastoBomba();
+		vistaNivel.getJugador()->setGastoBomba(false);
+	}
 }
 
 bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNivel* estadoNivel){
@@ -167,11 +172,9 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	offset.x = 0;
 	offset.y = 90;	
 	if (vistaNivel.getJugador()->getCantidadBombas() > 0) {
-		/*offset.w = vistaNivel.getPngBomba()->w;
-		offset.h = vistaNivel.getPngBomba()->h;¨*/
 		SDL_BlitSurface ( vistaNivel.getPngBomba(), NULL, pantalla, &offset );
-		offset.x = 30;
-		offset.y = 105;
+		offset.x = 19;
+		offset.y = 110;
 		this->textoCantidadBombas = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );		
 		SDL_BlitSurface( this->textoCantidadBombas, NULL, pantalla, &offset);
 	}
@@ -183,11 +186,9 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	auxiliar = ss.str();
 	offset.x = 0;
 	offset.y = 150;
-	if (vistaNivel.getJugador()->getTieneHechizoHielo()) {
-		/*offset.w = vistaNivel.getPngMagia()->w;
-		offset.h = vistaNivel.getPngMagia()->h;*/
+	if (vistaNivel.getJugador()->getTieneHechizoHielo()) 
 		SDL_BlitSurface ( vistaNivel.getPngMagia(), NULL, pantalla, &offset );		
-	}
+	
 	
 	//Tiene Golem
 	/*ss.str("");

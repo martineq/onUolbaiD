@@ -60,6 +60,10 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 		this->estados.push_back(nombreEntidad);
 	}
 
+	if (tipoEntidad == TIPO_ITEM_BOMBA){
+		this->animaciones->setAnimacionesAutomaticas();
+	}
+
 	this->alto = alto * ALTO_TILE; 
 	this->ancho = ancho * ANCHO_TILE;
 
@@ -118,6 +122,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->sufrioDanio = ( this->vida > entidad.vida );
 	this->gastoEscudo = ( this->escudo > entidad.escudo );
 	this->gastoMagia = ( this->magia > entidad.magia );
+	this->gastoBomba = ( this->cantidadBombas > entidad.cantidadBombas );
 	bool murio = (entidad.vida == 0);	
 	this->actualizarEventosSonido(entidad.nombreEntidad,sufrioDanio,murio);
 
@@ -146,7 +151,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 		this->animacionActual = this->animaciones->get(this->estados.at(codigo));		
 	}
 
-	this->esNecesarioRefrescar = ( !(entidad.esUltimoMovimiento) || (codigo >= 8) || (entidad.tipoEntidad == TIPO_ITEM_BOMBA));
+	this->esNecesarioRefrescar = ( !(entidad.esUltimoMovimiento) || (codigo >= 8) || (entidad.tipoEntidad == TIPO_ITEM_BOMBA));	
 }
 
 bool VistaEntidad::verificarBordePantalla(VistaScroll* scroll) {
@@ -268,7 +273,7 @@ bool VistaEntidad::graficar(char visibilidad){
 	if (this->estaCongelado && (visibilidad != NO_CONOCIDO))
 		visibilidad = CONGELADO;
 	bool ok = true;
-	if ((this->esNecesarioRefrescar) || (this->esJugador == false)){
+	if ((this->esNecesarioRefrescar) || (this->esJugador == false) || ( this->tipoEntidad() == TIPO_ITEM_BOMBA)){
 		if( this->animacionActual->graficar(this->xEnPantalla - this->posicionReferenciaX,this->yEnPantalla - this->posicionReferenciaY, visibilidad) == false ) ok = false;
 		if (this->animacionActual->animacionFinalizada()) this->esNecesarioRefrescar = false;
 	}
@@ -398,6 +403,14 @@ void VistaEntidad::setGastoMagia(bool gasto){
 
 void VistaEntidad::setGastoEscudo(bool gasto){
 	this->gastoEscudo = gasto;
+}
+
+void VistaEntidad::setGastoBomba(bool gasto){
+	this->gastoBomba = gasto;
+}
+
+bool VistaEntidad::getGastoBomba(){
+	return this->gastoBomba;
 }
 
 void VistaEntidad::setSufrioDanio(bool sufrio){
