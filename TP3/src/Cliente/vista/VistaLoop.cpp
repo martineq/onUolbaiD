@@ -80,7 +80,8 @@ void VistaLoop::reproducirSonidos(VistaNivel& vistaNivel){
 }
 
 bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNivel* estadoNivel){
-	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory) == false) return false;	// Actuliza lo que vino por el proxy
+	bool actualizarMatriz = false;
+	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory,actualizarMatriz) == false) return false;	// Actuliza lo que vino por el proxy
 
 	//Item Mapa
 	estadoNivel->setTieneMapa(vistaNivel.getJugador()->getTieneMapa());
@@ -88,7 +89,7 @@ bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNiv
 	this->reproducirSonidos(vistaNivel);
 
 	if ( (vistaNivel.getJugador()->getTileXAnterior() != vistaNivel.getJugador()->getTileX())
-		|| (vistaNivel.getJugador()->getTileYAnterior() != vistaNivel.getJugador()->getTileY()) ) {
+		|| (vistaNivel.getJugador()->getTileYAnterior() != vistaNivel.getJugador()->getTileY()) || actualizarMatriz == true ) {
 			this->refrescarMatriz(vistaNivel,estadoNivel);
 	}
 
@@ -247,11 +248,11 @@ void VistaLoop::SetProxyModeloEntidad(ProxyModeloEntidad* pProxyEntidad){
 }
 
 // Tomo todas las notificaciones de actualización de entidades y las proceso
-bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory& vistaFactory){
+bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory& vistaFactory, bool& actualizarMatriz){
 
 	// Si antes corté por tener entidad con ID repetido, la misma quedó en espera y entonces ahora la actualizo primero
 	if (this->hayEntidadEnEspera == true) {
-		if (this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false ) return false;
+		if (this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory,actualizarMatriz) == false ) return false;
 		this->entidadEnEspera.id = -1;
 		this->hayEntidadEnEspera = false;
 	}
@@ -261,7 +262,7 @@ bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory&
 		}
 		else {
 			this->hayEntidadEnEspera = false;
-			if (this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false) return false;
+			if (this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory,actualizarMatriz) == false) return false;
 		}
 	}
 
@@ -281,7 +282,7 @@ bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory&
 			else { // Caso: Recibo entidad de un ID que no tenía hasta ahora
 				this->entidadEnEspera = entidadObtenida;
 				this->hayEntidadEnEspera = false;
-				if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory) == false ) return false;
+				if( this->actualizarEntidad(this->entidadEnEspera,vistaNivel,vistaFactory,actualizarMatriz) == false ) return false;
 			}
 
 		}
@@ -290,7 +291,7 @@ bool VistaLoop::actualizarEntidadesPorProxy(VistaNivel& vistaNivel,VistaFactory&
 }
 
 // Recorro todas las entidades tratando de actualizar o eliminar la entidad indicada por el stEntidad
-bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel,VistaFactory& vistaFactory){
+bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNivel& vistaNivel,VistaFactory& vistaFactory, bool& actualizarMatriz){
 
 	// Primero me fijo si no hubo error de sockets
 	if( entidad.errorEnSocket == true ){
@@ -353,6 +354,7 @@ bool VistaLoop::actualizarEntidad(ProxyModeloEntidad::stEntidad& entidad,VistaNi
 	if( entidadEncontrada != NULL) {
 		// Si no me pide eliminar entonces actualizo los datos
 		entidadEncontrada->actualizar(entidad);
+		if( entidadEncontrada->tipoEntidad() == TIPO_ENTIDAD_ITEM) actualizarMatriz = true;  // TODO Cambiar por una constante que identifique solo a la lampara
 		vistaNivel.ordenarJugadores();
 	}
 	else {
