@@ -17,6 +17,9 @@ bool VistaNivel::ordenadorEntidades(VistaEntidad* entidad1, VistaEntidad* entida
 VistaNivel::VistaNivel(){
 	this->scroll = NULL;
 	this->jugador = NULL;
+	this->pngBomba = NULL;
+	this->pngMagia = NULL;
+	this->pngGolem = NULL;
 }
 
 VistaNivel::~VistaNivel(){

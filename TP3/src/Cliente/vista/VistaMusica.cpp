@@ -7,6 +7,7 @@ VistaMusica::VistaMusica() {
 	this->murioItem = NULL;
 	this->atacadoConEscudo = NULL;
 	this->magia = NULL;
+	this->bomba = NULL;
 }
 
 VistaMusica::VistaMusica(const VistaMusica&){	
@@ -25,7 +26,8 @@ bool VistaMusica::iniciar(){
 	this->murioElEnemigo = Mix_LoadWAV( "./sounds/uh.wav" );
 	this->murioItem = Mix_LoadWAV( "./sounds/uh2.wav" );
 	this->atacadoConEscudo = Mix_LoadWAV( "./sounds/yourmom.wav" );
-	this->magia = Mix_LoadWAV( "./sounds/updere.wav" );
+	this->magia = Mix_LoadWAV( "./sounds/updere.wav" );	
+	this->bomba = Mix_LoadWAV( "./sounds/GetALife.wav" );
 	
 	return true;
 }
@@ -78,6 +80,10 @@ void VistaMusica::gastoMagia(){
 	Mix_PlayChannel( -1, magia, 0 );
 }
 
+void VistaMusica::gastoBomba(){
+	Mix_PlayChannel( -1, bomba, 0 );
+}
+
 VistaMusica::~VistaMusica() {
 	Mix_FreeMusic( music );
 	Mix_FreeChunk( atacando );
@@ -87,5 +93,6 @@ VistaMusica::~VistaMusica() {
 	Mix_FreeChunk( murioItem );
 	Mix_FreeChunk( atacadoConEscudo );
 	Mix_FreeChunk( magia );
+	Mix_FreeChunk( bomba );
 }
 
