@@ -21,7 +21,6 @@ bool ModeloGolem::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores
 	ModeloJugador* golem = this->crearGolem();
 	listaGolems->agregarJugador(golem);
 	jugador->asignarGolem(golem);
-	golem->consumirVida(this->vida);
 	
 	return true;
 }
