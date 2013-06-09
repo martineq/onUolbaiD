@@ -322,14 +322,17 @@ void ModeloJugador::activarGolem() {
 	this->_golem->enviarEstado();
 	this->consumirMagia(MAGIA_CONSUMIDA_GOLEM);
 	this->enviarEstado();
+	this->_listaEntidades->agregarEntidadMovil(this->_golem->modeloEntidad());
 }
 
 void ModeloJugador::asignarGolem(ModeloJugador* golem) {
 	this->_golem = golem;
+	this->_golem->_vida = 0;
 	this->_golem->asignarListaEnemigos(this->_listaEnemigos);
 	this->_golem->asignarListaEntidades(this->_listaEntidades);
 	this->_golem->asignarListaItems(this->_listaItems);
 	this->_golem->asignarListaJugadores(this->_listaJugadores);
+	this->_listaEntidades->removerEntidadMovil(this->_golem->modeloEntidad());
 }
 
 void ModeloJugador::asignarListaEnemigos(ListaJugadores* listaEnemigos) {
