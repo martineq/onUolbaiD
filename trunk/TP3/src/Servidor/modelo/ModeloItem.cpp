@@ -84,3 +84,62 @@ int ModeloItem::vida() {
 	else
 		return 0;
 }
+
+ModeloItem* ModeloItem::crearItem(ModeloDrop::stDatoItem datoItem, ModeloDrop::stDatoGolem datosGolem, Posicion pos, ModeloDrop::stDatosDrop datosDrop){
+	ModeloItem* pItem = NULL;
+
+	std::string nombreEntidad = datoItem.nombreEntidad;
+	int alto = datoItem.alto;
+	int ancho = datoItem.ancho;
+	int velocidad = datoItem.velocidad;
+	int altoEscenario = datoItem.altoEscenario;
+	int anchoEscenario = datoItem.anchoEscenario;
+	int fps = datoItem.fps;
+
+	// Creo el proxy y el ID
+	ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
+	pProxyEntidad->setSocketServidor(datoItem.pSocket);
+
+	int nuevoID = Ticket::getInstance().pedirNumero();
+
+	if ( nombreEntidad.compare(STRING_CORAZON) == 0 ){ pItem = new ModeloCorazon(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_ESCUDO) == 0 ){ pItem = new ModeloEscudo(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_ZAPATO) == 0 ){ pItem = new ModeloZapato(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_BOTELLA) == 0 ){ pItem = new ModeloBotella(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_LAMPARA) == 0 ){ pItem = new ModeloLampara(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_MAPA) == 0 ){ pItem = new ModeloMapa(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_ESPADA) == 0 ){ pItem = new ModeloEspada(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_HECHIZO_HIELO) == 0 ){ pItem = new ModeloHechizoHielo(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_BOMBA) == 0 ){ pItem = new ModeloBomba(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+	}else if ( nombreEntidad.compare(STRING_GOLEM) == 0 ){
+		pItem = new ModeloGolem(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
+		int nuevoIDGolem = Ticket::getInstance().pedirNumero();
+		int altoGolem = datosGolem.altoGolem;
+		int anchoGolem = datosGolem.anchoGolem;
+		int fpsGolem = datosGolem.fpsGolem;
+		int anchoEscenarioGolem = datosGolem.anchoEscenarioGolem;
+		int altoEscenarioGolem = datosGolem.altoEscenarioGolem;
+		((ModeloGolem*)pItem)->cargarDatos(nuevoIDGolem,altoGolem,anchoGolem,fpsGolem,anchoEscenarioGolem,altoEscenarioGolem,datoItem.pSocket,datosDrop);
+	}else{  pItem = NULL;}	
+
+	return pItem;
+}
+
+ModeloItem* ModeloItem::drop(ModeloDrop::stDatosDrop datos, Posicion pos){
+	ModeloItem* pItem = NULL;
+	int cantidadItems = datos.listaDatosItems.size();
+	if( cantidadItems = 0 ) return NULL;
+
+	int random = rand() % cantidadItems;  // Devuelve:  0, 1, 2... (cantidadItems-1)
+
+	int i = 0;
+	for (std::list<ModeloDrop::stDatoItem>::iterator it=datos.listaDatosItems.begin() ; it != datos.listaDatosItems.end(); it++ ){	
+		if( i = random ){
+			pItem = ModeloItem::crearItem((*it),datos.datosGolem,pos,datos);
+			break;
+		}
+		i++;
+	}
+
+	return pItem;
+}

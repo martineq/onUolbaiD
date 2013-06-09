@@ -469,7 +469,7 @@ void ModeloFactory::crearJugador(ModeloNivel* modeloNivel,ProxyModeloEntidad::st
 	pProxyEntidad->setSocketServidor(pSocket);
 
 	// Creo la entidad
-	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote,vida,mana,danio,ID_SIN_DUENIO,TIPO_ENTIDAD_JUGADOR,false);
+	ModeloJugador* pJugador = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,entidadJugador.fps,pProxyEntidad,id,entidadJugador.nombre,mote,vida,mana,danio,ID_SIN_DUENIO,TIPO_ENTIDAD_JUGADOR,false,this->juegoElegido.datosDrop);
 	
 	// Obtengo los datos de la stEntidad para luego pasarsela al cliente
 	stEntidad = pJugador->stEntidad();
@@ -570,7 +570,7 @@ void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel){
 		pProxyEntidad->setSocketServidor(pSocket);
 
 		// Creo el enemigo (es un ModeloJugador) y lo agrego al nivel
-		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,"",vida,mana,danio,ID_SIN_DUENIO,TIPO_ENTIDAD_AUTOMATICO,true);
+		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,"",vida,mana,danio,ID_SIN_DUENIO,TIPO_ENTIDAD_AUTOMATICO,true,this->juegoElegido.datosDrop);
 		modeloNivel.agregarEnemigo(pEnemigo);
 	}
 
@@ -751,7 +751,7 @@ void ModeloFactory::cargarDatosGolem(ModeloItem* pItem){
 	int nuevoID = Ticket::getInstance().pedirNumero();
 
 	// Cargo los datos en el item
-	pGolem->cargarDatos(nuevoID,alto,ancho,fps,anchoEscenario,altoEscenario,pSocket);
+	pGolem->cargarDatos(nuevoID,alto,ancho,fps,anchoEscenario,altoEscenario,pSocket,this->juegoElegido.datosDrop);
 
 	return void();
 }
