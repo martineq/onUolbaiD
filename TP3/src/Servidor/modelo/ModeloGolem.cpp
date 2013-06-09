@@ -28,7 +28,7 @@ bool ModeloGolem::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores
 // Lo usa el ModeloFactory para cargar los datos necesarios para la creación del golem
 void ModeloGolem::cargarDatos(int idGolem, int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor, ModeloDrop::stDatosDrop datosDrop){
 
-	this->idGolem = idGolem;
+	this->idGolem = Ticket::getInstance().pedirNumero();
 	this->alto = alto;
 	this->ancho = ancho;
 	this->fps = fps;
