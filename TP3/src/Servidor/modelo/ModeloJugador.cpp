@@ -377,7 +377,8 @@ void ModeloJugador::cambiarEstado() {
 	if (this->_estaCongelado) {
 		if (TIEMPO_CONGELAMIENTO < GetTickCount() - this->_instanteCongelamiento)
 			this->estaCongelado(false);
-		return;
+		if (this->_vistaMovimiento->terminado())
+			return;
 	}
 
 	// Ejecuto la accion dependiendo de a que estoy persiguiendo
