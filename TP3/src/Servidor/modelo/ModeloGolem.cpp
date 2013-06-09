@@ -27,7 +27,7 @@ bool ModeloGolem::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores
 }
 
 // Lo usa el ModeloFactory para cargar los datos necesarios para la creación del golem
-void ModeloGolem::cargarDatos(int idGolem, int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor){
+void ModeloGolem::cargarDatos(int idGolem, int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor, ModeloDrop::stDatosDrop datosDrop){
 
 	this->idGolem = idGolem;
 	this->alto = alto;
@@ -38,6 +38,7 @@ void ModeloGolem::cargarDatos(int idGolem, int alto, int ancho, int fps, int anc
 	this->pSocketServidor = pSocketServidor;
 	this->nombreEntidad.assign(ENTIDAD_GOLEM);
 	this->mana = 0;
+	this->datosDrop = datosDrop;
 
 	return void();
 }
@@ -49,7 +50,7 @@ ModeloJugador* ModeloGolem::crearGolem(){
 	pProxyEntidad->setSocketServidor(pSocketServidor);
 
 	// Creo el enemigo (es un ModeloJugador) y lo agrego al nivel
-	ModeloJugador* pGolem = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,idGolem,nombreEntidad,"",this->vida,mana,danio,idDuenio,TIPO_ENTIDAD_GOLEM,true);
+	ModeloJugador* pGolem = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,idGolem,nombreEntidad,"",this->vida,mana,danio,idDuenio,TIPO_ENTIDAD_GOLEM,true,datosDrop);
 
 	return pGolem;
 }

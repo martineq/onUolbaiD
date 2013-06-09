@@ -1,7 +1,6 @@
 #pragma once
 
-#include "ModeloItem.h"
-#include "../../utils/Ticket/Ticket.h"
+#include <list>
 
 class ModeloDrop{
 
@@ -33,15 +32,8 @@ class ModeloDrop{
 			stDatoGolem datosGolem;
 		};
 
-	private:
-		stDatosDrop datos;
-
-		ModeloItem* crearItem(ModeloDrop::stDatoItem datoItem, Posicion pos);
-
 	public:
-		ModeloDrop(ModeloDrop::stDatosDrop datos);
+		ModeloDrop();
 		~ModeloDrop(void);
-
-		ModeloItem* drop(Posicion pos);
 
 };

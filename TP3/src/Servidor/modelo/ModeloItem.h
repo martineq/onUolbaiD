@@ -6,6 +6,7 @@
 #include "ModeloEntidad.h"
 #include "ModeloJugador.h"
 #include "../../utils/Proxy/ProxyModeloEntidad.h"
+#include "ModeloDrop.h"
 
 class ModeloJugador;
 class ListaJugadores;
@@ -23,6 +24,8 @@ class ModeloItem {
 		ModeloItem(const ModeloItem &modeloItem);
 
 		ModeloItem& operator=(const ModeloItem &modeloItem);
+
+		static ModeloItem* crearItem(ModeloDrop::stDatoItem datoItem, ModeloDrop::stDatoGolem datosGolem, Posicion pos, ModeloDrop::stDatosDrop datosDrop);
 
 	protected:
 		virtual bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) = 0;
@@ -53,6 +56,8 @@ class ModeloItem {
 		void enviarEstado();
 
 		int vida();
+
+		static ModeloItem* drop(ModeloDrop::stDatosDrop datos, Posicion pos);
 };
 
 class ListaItems {
@@ -191,6 +196,7 @@ class ModeloGolem : public ModeloItem {
 		int altoEscenario;
 		void* pSocketServidor;
 		int mana;
+		ModeloDrop::stDatosDrop datosDrop;
 
 		// Valores tomados a partir del jugador que lo invoca
 		int velocidad;
@@ -208,5 +214,5 @@ class ModeloGolem : public ModeloItem {
 		
 		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
-		void cargarDatos(int idGolem, int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor);
+		void cargarDatos(int idGolem, int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor, ModeloDrop::stDatosDrop datosDrop);
 };

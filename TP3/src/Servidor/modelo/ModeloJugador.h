@@ -10,6 +10,7 @@
 #include "EstadoNivel.h"
 #include "ModeloMovimiento.h"
 #include "VistaMovimiento.h"
+#include "ModeloDrop.h"
 
 class ListaJugadores;
 class ModeloItem;
@@ -39,6 +40,7 @@ class ModeloJugador {
 		DWORD _instanteUltimoCambioEstado;
 		int _danioAtaque;
 		int _idDuenio;
+		ModeloDrop::stDatosDrop datosDrop;
 
 		std::stack<ModeloItem*> _bombas;
 		ModeloItem* _hechizoHielo;
@@ -71,7 +73,7 @@ class ModeloJugador {
 		ModeloJugador& operator=(const ModeloJugador &modeloJugador);
 		
 	public:
-		ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador, int maximoVida, int maximoMagia, int ataque, int idDuenio, int tipoEntidad, bool autonomo);
+		ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad, std::string nombreJugador, int maximoVida, int maximoMagia, int ataque, int idDuenio, int tipoEntidad, bool autonomo, ModeloDrop::stDatosDrop datosDrop);
 
 		virtual ~ModeloJugador();
 

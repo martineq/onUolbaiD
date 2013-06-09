@@ -105,7 +105,7 @@ ModeloJugador& ModeloJugador::operator=(const ModeloJugador &modeloJugador) {
 	return *this;
 }
 
-ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador, int maximoVida, int maximoMagia, int ataque, int idDuenio, int tipoEntidad, bool autonomo) {
+ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, string nombreEntidad, string nombreJugador, int maximoVida, int maximoMagia, int ataque, int idDuenio, int tipoEntidad, bool autonomo, ModeloDrop::stDatosDrop datosDrop) {
 	this->_altoNivel = altoNivel;
 	this->_anchoNivel = anchoNivel;
 	this->_accion = CAMINANDO;
@@ -133,7 +133,8 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_estadoNivel = (this->_autonomo) ? NULL : new EstadoNivel(altoNivel, anchoNivel, posicion.x, posicion.y, RANGO_VISION);
 	this->_modeloMovimiento = new ModeloMovimiento(altoNivel, anchoNivel, this->_modeloEntidad);
 	this->_vistaMovimiento = new VistaMovimiento(this->_modeloEntidad, altoNivel, anchoNivel, fps);
-	
+	this->datosDrop = datosDrop;
+
 	Posicion::convertirTileAPixel(altoNivel, this->_posicionInicial.x, this->_posicionInicial.y, this->_pixelInicial.x, this->_pixelInicial.y);
 	if (this->_estadoNivel != NULL)
 		this->_estadoNivel->visitar(posicion.x,posicion.y);
