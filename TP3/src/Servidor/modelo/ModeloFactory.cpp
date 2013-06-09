@@ -559,12 +559,6 @@ void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel){
 		// Genero un Id para este enemigo
 		int nuevoID = Ticket::getInstance().pedirNumero();
 
-		// Genero un mote a partir de su ID
-		/*std::string moteEnemigo(STRING_ENEMIGO_AUTOMATICO);
-		std::stringstream ss;
-		ss << nuevoID;
-		moteEnemigo.append(ss.str());*/
-
 		// Creo el proxy para este enemigo
 		ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
 		pProxyEntidad->setSocketServidor(pSocket);
@@ -640,6 +634,7 @@ ModeloItem* ModeloFactory::instanciarItem(int alto, int ancho, int velocidad, Po
 	}else if ( nombreEntidad.compare(STRING_HECHIZO_HIELO) == 0 ){ pItem = new ModeloHechizoHielo(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else if ( nombreEntidad.compare(STRING_BOMBA) == 0 ){ pItem = new ModeloBomba(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else if ( nombreEntidad.compare(STRING_GOLEM) == 0 ){ pItem = new ModeloGolem(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad); this->cargarDatosGolem(pItem);
+	}else if ( nombreEntidad.compare(STRING_BANDERA) == 0 ){ pItem = new ModeloBandera(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else{  pItem = NULL;}	
 
 	return pItem;

@@ -216,3 +216,13 @@ class ModeloGolem : public ModeloItem {
 
 		void cargarDatos(int idGolem, int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor, ModeloDrop::stDatosDrop datosDrop);
 };
+
+class ModeloBandera : public ModeloItem {
+	protected:
+		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
+
+	public:
+		ModeloBandera(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
+
+		virtual ~ModeloBandera();
+};

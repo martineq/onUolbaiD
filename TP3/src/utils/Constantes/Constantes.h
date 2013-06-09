@@ -141,7 +141,6 @@
 #define CANTIDAD_MINIMA_JUGADORES_SINGLE_PLAYER 1
 #define CANTIDAD_MINIMA_JUGADORES_INICIAR_MULTI_PLAYER 2
 #define CANTIDAD_MINIMA_JUGADORES_JUGAR_MULTI_PLAYER 1
-#define STRING_ENEMIGO_AUTOMATICO "Enemigo_Automatico_"
 
 // Definicion de las entidades que son Items
 #define STRING_CORAZON "corazon"
@@ -155,24 +154,26 @@
 #define STRING_BOMBA "bomba"
 #define STRING_GOLEM "golem"	// Representa en el archivo yaml al icono del item Hechizo de Golem, no al personaje con todas sus animaciones
 #define STRING_CARNICERO "carnicero"
+#define STRING_BANDERA "bandera"
 
 // Tipos de Entidades que se mueven
 #define TIPO_ENTIDAD_JUGADOR 1
 #define TIPO_ENTIDAD_AUTOMATICO 2
-#define TIPO_ENTIDAD_GOLEM 3
+#define TIPO_ENTIDAD_CARNICERO 3
+#define TIPO_ENTIDAD_GOLEM 4
 
 // Tipos de Entidades que no se mueven pero pueden desaparecer
-#define TIPO_ITEM_BOTELLA 4
-#define TIPO_ITEM_CORAZON 5
-#define TIPO_ITEM_ESCUDO 6
-#define TIPO_ITEM_LAMPARA 7
-#define TIPO_ITEM_MAPA 8
-#define TIPO_ITEM_ZAPATO 9
-#define TIPO_ITEM_ESPADA 10
-#define TIPO_ITEM_HECHIZO_HIELO 11
-#define TIPO_ITEM_BOMBA 12
-#define TIPO_ITEM_GOLEM 13
-#define TIPO_ENTIDAD_CARNICERO 14
+#define TIPO_ITEM_BOTELLA 5
+#define TIPO_ITEM_CORAZON 6
+#define TIPO_ITEM_ESCUDO 7
+#define TIPO_ITEM_LAMPARA 8
+#define TIPO_ITEM_MAPA 9
+#define TIPO_ITEM_ZAPATO 10
+#define TIPO_ITEM_ESPADA 11
+#define TIPO_ITEM_HECHIZO_HIELO 12
+#define TIPO_ITEM_BOMBA 13
+#define TIPO_ITEM_GOLEM 14
+#define TIPO_ITEM_BANDERA 15
 
 // Tipos de Entidades que no se mueven ni desaparecen
 #define TIPO_ENTIDAD_ESTATICO 14

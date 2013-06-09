@@ -1,5 +1,7 @@
 #pragma once
 
+#include <list>
+#include <map>
 #include "ModeloJugador.h"
 
 class ModeloMision {
@@ -27,6 +29,10 @@ class ModeloMision {
 
 class ModeloMisionCarnicero {
 	public:
+		ModeloMisionCarnicero();
+
+		virtual ~ModeloMisionCarnicero();
+
 		void agregarJugador(ModeloJugador* jugador);
 
 		void agregarEnemigo(ModeloJugador* enemigo);
@@ -36,8 +42,16 @@ class ModeloMisionCarnicero {
 		void calcularGanador(ModeloJugador* jugador);
 };
 
-class ModeloMisionBanderas {
+class ModeloMisionBanderas : public ModeloMision {
+	private:
+		std::list<ModeloItem*> _banderas;
+		std::map<ModeloJugador*, int> _marcador;
+
 	public:
+		ModeloMisionBanderas();
+
+		virtual ~ModeloMisionBanderas();
+
 		void agregarJugador(ModeloJugador* jugador);
 
 		void agregarEnemigo(ModeloJugador* enemigo);
