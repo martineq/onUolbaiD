@@ -2,7 +2,7 @@
 
 using namespace std;
 
-ModeloItem::ModeloItem(const ModeloItem &modeloItem) {
+ModeloItem::ModeloItem(const ModeloItem &modeloItem) {	
 }
 
 ModeloItem& ModeloItem::operator=(const ModeloItem &modeloItem) {
@@ -14,7 +14,7 @@ ModeloItem::ModeloItem(int alto, int ancho, int velocidad, Posicion posicion, in
 	this->_modeloEntidad = new ModeloEntidad(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, tipoEntidad);
 	this->_jugador = NULL;
 	this->_listaJugadores = NULL;
-	this->_listaEnemigos = NULL;
+	this->_listaEnemigos = NULL;	
 }
 
 ModeloItem::~ModeloItem() {
@@ -32,7 +32,7 @@ ModeloEntidad* ModeloItem::modeloEntidad() {
 ProxyModeloEntidad::stEntidad ModeloItem::stEntidad() {
 	ProxyModeloEntidad::stEntidad estado = this->_modeloEntidad->stEntidad();
 	estado.vida = this->vida();
-	if ((estado.nombreEntidad == STRING_BOMBA) && (this->_activo)){
+	if ((estado.nombreEntidad == STRING_BOMBA) && (this->_activo)) {
 		estado.accion = 1;
 		estado.esUltimoMovimiento = false;		
 	}

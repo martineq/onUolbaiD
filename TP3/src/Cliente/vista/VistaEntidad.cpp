@@ -344,13 +344,13 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 	}
 
 	// Se murio un enemigo
-	if( esOtroJugador == true && murio == true && !esItem && !this->yaMurio) {
+	if( esOtroJugador == true && murio == true && !esItem) {
 		VistaMusica::getInstance().murioEnemigo();
-		//this->yaMurio = true;
 	}
 
 	// Se tomo item
-	if ( esItem == true && murio == true ) { 
+	if ( esItem == true && murio == true && !this->yaMurio) { 
+		this->yaMurio = true;
 		VistaMusica::getInstance().itemTomado();
 	} 	
 
