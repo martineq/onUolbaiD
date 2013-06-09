@@ -110,7 +110,7 @@ bool ControladorEvento::getTeclaFApretada(){
 }
 
 bool ControladorEvento::getTeclaGApretada(){
-	return this->teclaFApretada;
+	return this->teclaGApretada;
 }
 
 void ControladorEvento::notificarAlProxy(){
