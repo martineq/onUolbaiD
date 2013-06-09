@@ -91,7 +91,7 @@ void ProxyControladorEvento::cargarStEvento(ProxyControladorEvento::stEvento& ev
 	evento.teclaS = teclaS;
 	evento.teclaD = teclaD;
 	evento.teclaF = teclaF;
-	evento.teclaF = teclaG;
+	evento.teclaG = teclaG;
 	evento.mouseClickIzquierdo = mouseClickIzquierdo;
 	evento.finalizoElJuego = finalizoElJuego;
 	evento.idReceptorChat = -1;
