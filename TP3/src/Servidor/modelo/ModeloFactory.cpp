@@ -569,8 +569,11 @@ void ModeloFactory::crearEnemigosAutomaticos(ModeloNivel& modeloNivel){
 		ProxyModeloEntidad* pProxyEntidad = new ProxyModeloEntidad();
 		pProxyEntidad->setSocketServidor(pSocket);
 
+		int tipoEntidad = TIPO_ENTIDAD_AUTOMATICO;
+		if( nombreEntidad.compare(STRING_CARNICERO) == 0 ) tipoEntidad = TIPO_ENTIDAD_CARNICERO;
+
 		// Creo el enemigo (es un ModeloJugador) y lo agrego al nivel
-		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,"",vida,mana,danio,ID_SIN_DUENIO,TIPO_ENTIDAD_AUTOMATICO,true,this->juegoElegido.datosDrop);
+		ModeloJugador* pEnemigo = new ModeloJugador(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad,"",vida,mana,danio,ID_SIN_DUENIO,tipoEntidad,true,this->juegoElegido.datosDrop);
 		modeloNivel.agregarEnemigo(pEnemigo);
 	}
 

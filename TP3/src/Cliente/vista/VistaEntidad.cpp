@@ -328,8 +328,8 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 	// True solo si es el el jugador de este cliente
 	bool esMiJugador = this->esMiJugador();
 
-	// True solo si es otro jugador que no sea el mio, incluye los automáticos y los golems
-	bool esOtroJugador = ( (this->_tipoEntidad == TIPO_ENTIDAD_JUGADOR  && !esMiJugador ) || (this->_tipoEntidad == TIPO_ENTIDAD_AUTOMATICO)  || (this->_tipoEntidad == TIPO_ENTIDAD_GOLEM) );
+	// True solo si es otro jugador que no sea el mio, incluye los automáticos, los golems y el carnicero
+	bool esOtroJugador = ( (this->_tipoEntidad == TIPO_ENTIDAD_JUGADOR  && !esMiJugador ) || (this->_tipoEntidad == TIPO_ENTIDAD_AUTOMATICO)  || (this->_tipoEntidad == TIPO_ENTIDAD_GOLEM) || (this->_tipoEntidad == TIPO_ENTIDAD_CARNICERO) );
 								
 	// True solo si es un item.
 	bool esItem = (this->_tipoEntidad == TIPO_ITEM_BOTELLA) || (this->_tipoEntidad == TIPO_ITEM_CORAZON) ||
