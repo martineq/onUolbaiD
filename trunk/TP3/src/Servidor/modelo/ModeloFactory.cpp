@@ -36,6 +36,9 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 	modeloNivel.setAnchoTiles(this->juegoElegido.escenario.tamanioX);
 	modeloNivel.setAltoTiles(this->juegoElegido.escenario.tamanioY);
 
+	// Guardo los datos de los items para luego pasarlos a cada jugador. Para que puedan realizar el drop
+	this->recolectarDatosItems();
+
 	// Creo las entidades del nivel, las que no son los jugadores
 	this->crearEntidades(modeloNivel);
 	
@@ -751,4 +754,76 @@ void ModeloFactory::cargarDatosGolem(ModeloItem* pItem){
 	pGolem->cargarDatos(nuevoID,alto,ancho,fps,anchoEscenario,altoEscenario,pSocket);
 
 	return void();
+}
+
+// Guardo en el Item perteneciente al golem todos los datos necesrios par su posterior creacion
+void ModeloFactory::cargarDatosGolem(int& alto, int& ancho, int& fps, int& anchoEscenario, int& altoEscenario){
+
+	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
+
+	// Busco la entidad correspondiente al enemigo
+	ParserYaml::stEntidad entidadEnemigo = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,ENTIDAD_GOLEM);
+
+	// Valores tomados desde la entidadEnemigo
+	alto = entidadEnemigo.altoBase;
+	ancho = entidadEnemigo.anchoBase;
+	fps = entidadEnemigo.fps;
+
+	// Valores tomados desde el escenario elegido
+	anchoEscenario = juego.escenario.tamanioX;
+	altoEscenario = juego.escenario.tamanioY;
+
+	return void();
+}
+
+// Recorro todos los items existentes en este escenario, los creo y los agrego al nivel
+void ModeloFactory::recolectarDatosItems(){
+
+	ModeloFactory::stModeloJuegoElegido juego = this->getCopiaJuegoElegido();
+	std::list<ParserYaml::stItem> items = juego.escenario.items;
+
+	// Cargo los datos del Golem
+	ModeloDrop::stDatoGolem datosGolem;
+	this->cargarDatosGolem(datosGolem.altoGolem,datosGolem.anchoGolem,datosGolem.fpsGolem,datosGolem.anchoEscenarioGolem,datosGolem.altoEscenarioGolem);
+
+	for (std::list<ParserYaml::stItem>::iterator it=items.begin() ; it != items.end(); it++ ){	
+	
+		// Busco la entidad correspondiente al enemigo
+		ParserYaml::stItem item = (*it);
+		ParserYaml::stEntidad entidadItem = ParserYaml::getInstance().buscarStEntidad(juego.listaEntidades,item.entidad);
+
+		// Valores tomados desde el entidadItem
+		int alto = entidadItem.altoBase;
+		int ancho = entidadItem.anchoBase;
+		int fps = entidadItem.fps;
+		std::string nombreEntidad = entidadItem.nombre;
+
+		// Valores tomados desde el escenario elegido
+		int anchoEscenario = juego.escenario.tamanioX;
+		int altoEscenario = juego.escenario.tamanioY;
+
+		int velocidad = 0;
+
+		ModeloDrop::stDatoItem datoItem;
+		datoItem.alto = alto;
+		datoItem.ancho = ancho;
+		datoItem.velocidad = velocidad;
+		datoItem.altoEscenario = altoEscenario;
+		datoItem.anchoEscenario = anchoEscenario;
+		datoItem.fps = fps;
+		datoItem.pSocket = this->pSocket;
+		datoItem.nombreEntidad = nombreEntidad;
+
+		if( this->estaDatoItemEnLista(datoItem.nombreEntidad) == false ) this->juegoElegido.datosDrop.listaDatosItems.push_back(datoItem);
+	}
+
+	return void();
+}
+
+bool ModeloFactory::estaDatoItemEnLista(std::string nombreItem){
+	bool encontrado = false;
+	for (std::list<ModeloDrop::stDatoItem>::iterator it=this->juegoElegido.datosDrop.listaDatosItems.begin() ; it != this->juegoElegido.datosDrop.listaDatosItems.end(); it++ ){	
+		if( (*it).nombreEntidad.compare(nombreItem) == 0 ) encontrado = true;
+	}
+	return encontrado;
 }

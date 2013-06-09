@@ -1,5 +1,6 @@
 #pragma once
 
+#include "./ModeloDrop.h"
 #include "./ModeloNivel.h"
 #include "./ModeloEntidad.h"
 #include "./ModeloLoop.h"
@@ -27,7 +28,8 @@ class ModeloFactory{
 			ParserYaml::stConfiguracion configuracion;
 			ParserYaml::stPantalla pantalla;
 			std::list<ParserYaml::stEntidad> listaEntidades;
-			
+			ModeloDrop::stDatosDrop datosDrop;
+
 			// Atributos que se llenan mientras de crean entidades
 			std::string nombreEscenario;
 			std::list<int> listaIdEntidades;
@@ -62,6 +64,9 @@ class ModeloFactory{
 		Posicion generarPosicionAlAzar(ModeloNivel* modeloNivel,ModeloFactory::stModeloJuegoElegido& juegoElegido);
 		ModeloItem* instanciarItem(int alto, int ancho, int velocidad, Posicion pos, int altoEscenario, int anchoEscenario, int fps, ProxyModeloEntidad* pProxyEntidad, int nuevoID, std::string nombreEntidad);
 		void cargarDatosGolem(ModeloItem* pItem);
+		void cargarDatosGolem(int& alto, int& ancho, int& fps, int& anchoEscenario, int& altoEscenario);
+		void recolectarDatosItems();
+		bool estaDatoItemEnLista(std::string nombreItem);
 
 	public:
 		ModeloFactory(void);
