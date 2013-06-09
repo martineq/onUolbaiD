@@ -55,6 +55,9 @@ void ModeloJugador::matar() {
 	ModeloItem* item = ModeloItem::drop(this->datosDrop, this->_modeloEntidad->posicion());
 	if (item != NULL) {
 		this->_listaItems->agregarItem(item);
+		item->asignarListaEnemigos(this->_listaEnemigos);
+		item->asignarListaGolems(this->_listaGolems);
+		item->asignarListaJugadores(this->_listaJugadores);
 		item->enviarEstado();
 	}
 }
@@ -402,6 +405,9 @@ void ModeloJugador::consumirMagia(int magia) {
 }
 
 void ModeloJugador::consumirVida(int vida) {
+	if (this->_vida == 0)
+		return;
+
 	// Quito vida al escudo
 	this->_escudo -= vida;
 
