@@ -14,7 +14,8 @@ ModeloItem::ModeloItem(int alto, int ancho, int velocidad, Posicion posicion, in
 	this->_modeloEntidad = new ModeloEntidad(alto, ancho, velocidad, posicion, altoNivel, anchoNivel, fps, proxyEntidad, id, nombreEntidad, tipoEntidad);
 	this->_jugador = NULL;
 	this->_listaJugadores = NULL;
-	this->_listaEnemigos = NULL;	
+	this->_listaEnemigos = NULL;
+	this->_listaGolems = NULL;
 }
 
 ModeloItem::~ModeloItem() {
@@ -113,13 +114,12 @@ ModeloItem* ModeloItem::crearItem(ModeloDrop::stDatoItem datoItem, ModeloDrop::s
 	}else if ( nombreEntidad.compare(STRING_BOMBA) == 0 ){ pItem = new ModeloBomba(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
 	}else if ( nombreEntidad.compare(STRING_GOLEM) == 0 ){
 		pItem = new ModeloGolem(alto,ancho,velocidad,pos,altoEscenario,anchoEscenario,fps,pProxyEntidad,nuevoID,nombreEntidad);
-		int nuevoIDGolem = Ticket::getInstance().pedirNumero();
 		int altoGolem = datosGolem.altoGolem;
 		int anchoGolem = datosGolem.anchoGolem;
 		int fpsGolem = datosGolem.fpsGolem;
 		int anchoEscenarioGolem = datosGolem.anchoEscenarioGolem;
 		int altoEscenarioGolem = datosGolem.altoEscenarioGolem;
-		((ModeloGolem*)pItem)->cargarDatos(nuevoIDGolem,altoGolem,anchoGolem,fpsGolem,anchoEscenarioGolem,altoEscenarioGolem,datoItem.pSocket,datosDrop);
+		((ModeloGolem*)pItem)->cargarDatos(altoGolem,anchoGolem,fpsGolem,anchoEscenarioGolem,altoEscenarioGolem,datoItem.pSocket,datosDrop);
 	}else{  pItem = NULL;}	
 
 	return pItem;

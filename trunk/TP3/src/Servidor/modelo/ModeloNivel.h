@@ -62,6 +62,7 @@ class ModeloNivel {
 		ModeloJugador* obtenerJugador(int id);
 		ModeloJugador* obtenerJugador(Posicion posicion);
 		ModeloJugador* obtenerEnemigo(Posicion posicion);
+		ModeloJugador* obtenerGolem(Posicion posicion);
 		ModeloItem* obtenerItem(Posicion posicion);
 
 		bool actualizar();

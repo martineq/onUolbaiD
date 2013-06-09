@@ -745,11 +745,8 @@ void ModeloFactory::cargarDatosGolem(ModeloItem* pItem){
 	int anchoEscenario = juego.escenario.tamanioX;
 	int altoEscenario = juego.escenario.tamanioY;
 
-	// Le reservo un Id para el golem, si es creado
-	int nuevoID = Ticket::getInstance().pedirNumero();
-
 	// Cargo los datos en el item
-	pGolem->cargarDatos(nuevoID,alto,ancho,fps,anchoEscenario,altoEscenario,pSocket,this->juegoElegido.datosDrop);
+	pGolem->cargarDatos(alto,ancho,fps,anchoEscenario,altoEscenario,pSocket,this->juegoElegido.datosDrop);
 
 	return void();
 }

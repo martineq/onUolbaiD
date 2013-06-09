@@ -117,6 +117,8 @@ class ModeloJugador {
 
 		void asignarListaEntidades(ListaEntidades* listaEntidades);
 
+		void asignarListaGolems(ListaJugadores* listaGolems);
+
 		void asignarListaItems(ListaItems* listaItems);
 
 		void asignarListaJugadores(ListaJugadores* listaJugadores);
@@ -152,6 +154,8 @@ class ModeloJugador {
 		bool ingresoAlJuego(void);
 
 		void ingresarAlJuego(void);
+
+		bool tieneGolem();
 
 		bool tieneMapa();
 
