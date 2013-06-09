@@ -780,6 +780,7 @@ void ModeloFactory::recolectarDatosItems(){
 	// Cargo los datos del Golem
 	ModeloDrop::stDatoGolem datosGolem;
 	this->cargarDatosGolem(datosGolem.altoGolem,datosGolem.anchoGolem,datosGolem.fpsGolem,datosGolem.anchoEscenarioGolem,datosGolem.altoEscenarioGolem);
+	this->juegoElegido.datosDrop.datosGolem = datosGolem;
 
 	for (std::list<ParserYaml::stItem>::iterator it=items.begin() ; it != items.end(); it++ ){	
 	
