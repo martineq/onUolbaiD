@@ -49,7 +49,7 @@ void ModeloJugador::matar() {
 	if (this->_estadoNivel != NULL)
 		this->_estadoNivel->rangoVision(RANGO_VISION);
 	this->_modeloMovimiento->detener();
-	if (this->_autonomo)
+	if (this->_autonomo && (this->_idDuenio == ID_SIN_DUENIO))
 		this->_listaEnemigos->removerJugador(this);
 }
 
