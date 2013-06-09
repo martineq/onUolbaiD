@@ -51,6 +51,12 @@ void ModeloJugador::matar() {
 	this->_modeloMovimiento->detener();
 	if (this->_autonomo && (this->_idDuenio == ID_SIN_DUENIO))
 		this->_listaEnemigos->removerJugador(this);
+
+	ModeloItem* item = ModeloItem::drop(this->datosDrop, this->_modeloEntidad->posicion());
+	if (item != NULL) {
+		this->_listaItems->agregarItem(item);
+		item->enviarEstado();
+	}
 }
 
 void ModeloJugador::recogerItem() {

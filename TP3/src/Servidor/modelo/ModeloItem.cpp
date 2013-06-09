@@ -128,13 +128,13 @@ ModeloItem* ModeloItem::crearItem(ModeloDrop::stDatoItem datoItem, ModeloDrop::s
 ModeloItem* ModeloItem::drop(ModeloDrop::stDatosDrop datos, Posicion pos){
 	ModeloItem* pItem = NULL;
 	int cantidadItems = datos.listaDatosItems.size();
-	if( cantidadItems = 0 ) return NULL;
+	if( cantidadItems == 0 ) return NULL;
 
 	int random = rand() % cantidadItems;  // Devuelve:  0, 1, 2... (cantidadItems-1)
 
 	int i = 0;
 	for (std::list<ModeloDrop::stDatoItem>::iterator it=datos.listaDatosItems.begin() ; it != datos.listaDatosItems.end(); it++ ){	
-		if( i = random ){
+		if( i == random ){
 			pItem = ModeloItem::crearItem((*it),datos.datosGolem,pos,datos);
 			break;
 		}
