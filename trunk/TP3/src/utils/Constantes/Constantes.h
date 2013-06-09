@@ -154,7 +154,7 @@
 #define STRING_HECHIZO_HIELO "hechizo_hielo"
 #define STRING_BOMBA "bomba"
 #define STRING_GOLEM "golem"	// Representa en el archivo yaml al icono del item Hechizo de Golem, no al personaje con todas sus animaciones
-
+#define STRING_CARNICERO "carnicero"
 
 // Tipos de Entidades que se mueven
 #define TIPO_ENTIDAD_JUGADOR 1
@@ -172,6 +172,7 @@
 #define TIPO_ITEM_HECHIZO_HIELO 11
 #define TIPO_ITEM_BOMBA 12
 #define TIPO_ITEM_GOLEM 13
+#define TIPO_ENTIDAD_CARNICERO 14
 
 // Tipos de Entidades que no se mueven ni desaparecen
 #define TIPO_ENTIDAD_ESTATICO 14
