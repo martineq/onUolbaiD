@@ -347,6 +347,10 @@ void ModeloJugador::asignarListaEntidades(ListaEntidades* listaEntidades) {
 	this->_modeloMovimiento->asignarListaEntidades(listaEntidades);
 }
 
+void ModeloJugador::asignarListaGolems(ListaJugadores* listaGolems) {
+	this->_listaGolems = listaGolems;
+}
+
 void ModeloJugador::asignarListaItems(ListaItems* listaItems) {
 	this->_listaItems = listaItems;
 }
@@ -484,6 +488,10 @@ void ModeloJugador::recuperarVida(int vida) {
 	this->_vida += vida;
 	if (this->_vida > this->_maximoVida)
 		this->_vida = this->_maximoVida;
+}
+
+bool ModeloJugador::tieneGolem() {
+	return this->_golem != NULL;
 }
 
 bool ModeloJugador::ingresoAlJuego(void) {

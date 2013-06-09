@@ -184,28 +184,17 @@ class ModeloBomba : public ModeloItem {
 };
 
 class ModeloGolem : public ModeloItem {
-
 	private:
 		// Valores tomados desde el ModeloFactory al instanciar
-		int idGolem;
-		std::string nombreEntidad;
 		int alto;
 		int ancho;
 		int fps;
 		int anchoEscenario;
 		int altoEscenario;
 		void* pSocketServidor;
-		int mana;
 		ModeloDrop::stDatosDrop datosDrop;
 
-		// Valores tomados a partir del jugador que lo invoca
-		int velocidad;
-		int vida;
-		int danio;
-		int idDuenio;
-		Posicion pos;
-
-		ModeloJugador* crearGolem();
+		ModeloJugador* crearGolem(ModeloJugador* jugador);
 
 	public:
 		ModeloGolem(int alto, int ancho, int velocidad, Posicion posicion, int altoNivel, int anchoNivel, int fps, ProxyModeloEntidad* proxyEntidad, int id, std::string nombreEntidad);
@@ -214,7 +203,7 @@ class ModeloGolem : public ModeloItem {
 		
 		bool aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems);
 
-		void cargarDatos(int idGolem, int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor, ModeloDrop::stDatosDrop datosDrop);
+		void cargarDatos(int alto, int ancho, int fps, int anchoEscenario, int altoEscenario, void* pSocketServidor, ModeloDrop::stDatosDrop datosDrop);
 };
 
 class ModeloBandera : public ModeloItem {

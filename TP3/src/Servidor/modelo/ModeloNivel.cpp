@@ -87,12 +87,11 @@ ModeloJugador* ModeloNivel::obtenerJugador(Posicion posicion) {
 }
 
 ModeloJugador* ModeloNivel::obtenerEnemigo(Posicion posicion) {
-	std::list<ModeloJugador*> listaEnemigos = this->getEnemigos();
-	for (std::list<ModeloJugador*>::iterator itModeloEntidad = listaEnemigos.begin(); itModeloEntidad != listaEnemigos.end(); itModeloEntidad++){
-		if ((*itModeloEntidad)->modeloEntidad()->posicion() == posicion)
-			return (*itModeloEntidad);
-	}
-	return NULL;
+	return this->listaEnemigos.obtenerJugador(posicion);
+}
+
+ModeloJugador* ModeloNivel::obtenerGolem(Posicion posicion) {
+	return this->listaGolems.obtenerJugador(posicion);
 }
 
 ModeloItem* ModeloNivel::obtenerItem(Posicion posicion) {
@@ -136,6 +135,7 @@ void ModeloNivel::agregarJugador(ModeloJugador* jugador) {
 	this->listaJugadores.agregarJugador(jugador);
 	jugador->asignarListaEnemigos(&this->listaEnemigos);
 	jugador->asignarListaItems(&this->listaItems);
+	jugador->asignarListaGolems(&this->listaGolems);
 	jugador->asignarListaJugadores(&this->listaJugadores);
 	jugador->enviarEstado();
 }
@@ -144,6 +144,7 @@ void ModeloNivel::agregarEnemigo(ModeloJugador* enemigo) {
 	this->listaEnemigos.agregarJugador(enemigo);
 	enemigo->asignarListaEnemigos(&this->listaEnemigos);
 	enemigo->asignarListaItems(&this->listaItems);
+	enemigo->asignarListaGolems(&this->listaGolems);
 	enemigo->asignarListaJugadores(&this->listaJugadores);
 }
 
@@ -199,7 +200,9 @@ void ModeloNivel::ejecutarAccionJugador(int mouseX, int mouseY, int id) {
 	ModeloJugador* enemigo = this->obtenerJugador(posicion);
 	if (enemigo == NULL)
 		enemigo = this->obtenerEnemigo(posicion);
-	if ((enemigo != NULL) && (enemigo != jugador)) {
+	if (enemigo == NULL)
+		enemigo = this->obtenerGolem(posicion);
+	if ((enemigo != NULL) && (enemigo != jugador) && (enemigo->idDuenio() != jugador->modeloEntidad()->id())) {
 		// Si el enemigo esta vivo lo ataco y salgo
 		if ((enemigo->vida() > 0) && !enemigo->estaDesconectado()) {
 			jugador->atacar(enemigo);
