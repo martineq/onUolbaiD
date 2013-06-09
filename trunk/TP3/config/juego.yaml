@@ -342,6 +342,7 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [Bomb_01.png]
+        - [Bomb_01.png,Bomb_02.png,Bomb_03.png,Bomb_04.png,Bomb_05.png,Bomb_06.png]
     - nombre: golem
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 0 #pixels
