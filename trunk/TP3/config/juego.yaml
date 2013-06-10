@@ -533,39 +533,18 @@ escenarios:
           daño: 3
           velocidad: 280
       items:
-        - entidad: escudo
-          x: 1
-          y: 1
         - entidad: golem
-          x: 11
-          y: 1
-        - entidad: zapato
-          x: 11
+          x: 3
+          y: 0
+        - entidad: hechizo_hielo
+          x: 4
           y: 0
         - entidad: bomba
-          x: 12
-          y: 1
-        - entidad: hechizo_hielo
-          x: 5
-          y: 6
-        - entidad: botella
-          x: 6
-          y: 6
-        - entidad: lampara
-          x: 7
-          y: 6
-        - entidad: golem
           x: 3
           y: 1
-        - entidad: hechizo_hielo
+        - entidad: zapato
           x: 4
           y: 1
-        - entidad: bomba
-          x: 3
-          y: 2
-        - entidad: bomba
-          x: 4
-          y: 2
 ####################################################################################################################################################
 ################################################################     ESCENARIO:     ################################################################
 ################################################################      TALLER I      ################################################################
