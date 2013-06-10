@@ -78,4 +78,6 @@ class ModeloNivel {
 		void iniciarNuevosJugadores(void);
 
 		void destruirListas();
+
+		void reset(void);
 };

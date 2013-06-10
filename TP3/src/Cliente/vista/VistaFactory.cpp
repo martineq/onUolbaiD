@@ -16,7 +16,7 @@ bool VistaFactory::crearNivel(VistaNivel& vistaNivel,ControladorEvento* evento,S
 	// Recibo los archivos desde el servidor, en caso de no ser single player
 	if( singlePlayer == false ) {
 		std::cout << "(Recepcion de archivos deshabilitada para el debug)" << std::endl;
-		if( this->recibirArchivos(pSocket) == false ) return false; // TODO: Descomentar para el momento de la entrega
+		//if( this->recibirArchivos(pSocket) == false ) return false; // TODO: Descomentar para el momento de la entrega
 	}
 
 	// Cargo el archivo de configuración

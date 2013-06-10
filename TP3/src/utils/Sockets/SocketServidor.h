@@ -39,6 +39,9 @@ class SocketServidor{
 		// Para iniciar el servidor. Se hace una sola vez
 		bool inciarServidor(int puerto);
 
+		// Para resetear el servidor (quito a todos los clientes pero no desconecto el servidor)
+		void reset(void);
+
 		// Para aceptar/eliminar clientes, identificar los clientes erróneos, renombrar el ID
 		int aceptarCliente();
 		bool eliminarCliente(int idCliente);

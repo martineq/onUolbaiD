@@ -20,7 +20,7 @@ class ModeloJuego {
 		
 		virtual ~ModeloJuego();
 
-		bool iniciarEscenario(SocketServidor* pSocket);
+		bool iniciarEscenario(SocketServidor* pSocket, bool primeraVez);
 		bool iniciarRecepcion(SocketServidor* pSocket,bool singlePlayer);
 
 		bool loop();
@@ -32,4 +32,6 @@ class ModeloJuego {
 		void iniciarNuevosJugadores();
 
 		void destruirEntidades();
+
+		void reset();
 };
