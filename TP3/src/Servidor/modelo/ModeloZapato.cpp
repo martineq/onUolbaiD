@@ -2,7 +2,7 @@
 
 bool ModeloZapato::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
 	int velocidadRegular = jugador->modeloEntidad()->velocidad();
-	int velocidadZapato = velocidadRegular/4;						// Dividiendo aumenta la velocidad... ¿No?
+	int velocidadZapato = velocidadRegular/2;						// Dividiendo aumenta la velocidad... ¿No?
 	jugador->modeloEntidad()->velocidad(velocidadZapato);
 	return true;
 }
