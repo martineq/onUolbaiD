@@ -189,8 +189,8 @@ bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* 
 
 	// Envío los archivos de configuración, en caso de no ser single player
 	if( singlePlayer == false ) {
-		std::cout << "(Envio de archivos deshabilitado para el debug)" << std::endl;
-		//if( this->enviarArchivosDeConfiguracion(id) == false ) return false;  // TODO: Descomentar para el momento de la entrega
+		//std::cout << "(Envio de archivos deshabilitado para el debug)" << std::endl;
+		if( this->enviarArchivosDeConfiguracion(id) == false ) return false;  // TODO: Descomentar para el momento de la entrega
 	}
 
 	// Envío el escenario creado, junto con los ID's de cada entidad del escenario para que se puedan setear en el cliente

@@ -389,7 +389,7 @@ bool SocketApp::enviarArchivo(const char *rutaOrigen){
 	unsigned long int offset, bytesEnviados = 0, bloque = TAMANIO_BLOQUE; 
 	for(offset = 0; bloque == TAMANIO_BLOQUE; offset += TAMANIO_BLOQUE){ 
 		if (longitud - offset < TAMANIO_BLOQUE) bloque = longitud - offset; 
-		if ( this->enviar(pBuffer+offset,bloque) == false ) return false;
+		if( bloque != 0 ) if ( this->enviar(pBuffer+offset,bloque) == false ) return false;
 		bytesEnviados += bloque;
 	}
 
@@ -418,12 +418,14 @@ bool SocketApp::recibirArchivo(const char *rutaDestino){
 	unsigned long int ofs, bytesRecibidos = 0, block = TAMANIO_BLOQUE; 
     for(ofs = 0; block == TAMANIO_BLOQUE; ofs += TAMANIO_BLOQUE){ 
         if (longitud - ofs < TAMANIO_BLOQUE) block = longitud - ofs; 
-		if (this->recibir(&cadena,tam) == false ){
-			delete[] pbuf;  // En el caso de false
-			return false;
+		if( block != 0 ){
+			if (this->recibir(&cadena,tam) == false ){
+				delete[] pbuf;  // En el caso de false
+				return false;
+			}
+			memcpy(pbuf+ofs,cadena,block);
+			delete[] cadena;
 		}
-		memcpy(pbuf+ofs,cadena,block);
-		delete[] cadena;
 		bytesRecibidos += block;
     }
     salida.write(pbuf,longitud); 
