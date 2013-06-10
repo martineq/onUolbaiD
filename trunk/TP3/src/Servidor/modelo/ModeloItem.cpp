@@ -130,7 +130,6 @@ ModeloItem* ModeloItem::drop(ModeloDrop::stDatosDrop datos, Posicion pos){
 	int cantidadItems = datos.listaDatosItems.size();
 	if( cantidadItems == 0 ) return NULL;
 
-
 	// Para que siempre tire items
 	int random = rand() % cantidadItems;  // Devuelve:  0, 1, 2... (cantidadItems-1)
 

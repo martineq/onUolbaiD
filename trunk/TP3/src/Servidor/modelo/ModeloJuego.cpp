@@ -8,8 +8,8 @@ ModeloJuego::~ModeloJuego() {
 
 }
 
-bool ModeloJuego::iniciarEscenario(SocketServidor* pSocket){
-	return this->_modeloFactory.crearNivel(this->_modeloNivel,this->_modeloLoop,pSocket);
+bool ModeloJuego::iniciarEscenario(SocketServidor* pSocket, bool primeraVez){
+	return this->_modeloFactory.crearNivel(this->_modeloNivel,this->_modeloLoop,pSocket,primeraVez);
 }
 
 // Inicio el hilo de recepción acá
@@ -53,4 +53,9 @@ void ModeloJuego::iniciarNuevosJugadores(void){
 
 void ModeloJuego::destruirEntidades(){
 	this->_modeloNivel.destruirListas();
+}
+
+void ModeloJuego::reset(){
+	this->_modeloNivel.reset();
+	return void();
 }

@@ -125,7 +125,7 @@ int SocketApp::miRecv(char *buf,int longitud,int flags){
 	if ( valSel == SELECT_OK ){
 		 return recv(this->miSocket,buf,longitud,flags);
 	}else{ // No voy a recibir timeout porque es select(0)
-		std::cerr <<"Error de socket mientras se recibia."<<std::endl;
+		//std::cerr <<"Error de socket mientras se recibia."<<std::endl;
 		Log::getInstance().log(3,__FILE__,__LINE__, "Error de socket mientras se recibia.");
 		return valSel;
 	}
@@ -138,7 +138,7 @@ int SocketApp::miSend(const char *buf,int longitud,int flags){
 	if ( valSel == SELECT_OK ){ 
 		return send(this->miSocket,buf,longitud,flags);
 	}else{ // No voy a recibir timeout porque es select(0)
-		std::cerr <<"Error de socket mientras se enviaba."<<std::endl;
+		//std::cerr <<"Error de socket mientras se enviaba."<<std::endl;
 		Log::getInstance().log(3,__FILE__,__LINE__, "Error de socket mientras se enviaba.");
 		return false;
 	}
@@ -155,7 +155,7 @@ bool SocketApp::recvFull(char *buf,int longitud,int flags){
 
    // Si salió por ser bytesRecibidos igual o menor a cero
 	if (bytesRecibidos==0){	
-		std::cerr <<"Error de socket mientras se recibia."<<std::endl;
+		//std::cerr <<"Error de socket mientras se recibia."<<std::endl;
 		Log::getInstance().log(3,__FILE__,__LINE__, "Error de socket mientras se recibia"); 
 		return false; 
 	}else{
@@ -179,12 +179,12 @@ bool SocketApp::sendFull(const char *buf,int longitud,int flags){
 	while ( buffer.empty() == false ){
 		int bytesEnviados = this->miSend(&buffer[0],(int)buffer.size(),flags);
 		if (bytesEnviados==0){	// Esto no tendría que pasar
-			std::cerr <<"Error de socket mientras se enviaba."<<std::endl;
+			//std::cerr <<"Error de socket mientras se enviaba."<<std::endl;
 			Log::getInstance().log(3,__FILE__,__LINE__, "Error de socket mientras se enviaba.");
 			return false; 
 		}else{
 			if (bytesEnviados==SOCKET_ERROR){ // Caso típico: se desconecta el cable de conexión
-				std::cerr <<"Error de socket mientras se enviaba."<<std::endl;
+				//std::cerr <<"Error de socket mientras se enviaba."<<std::endl;
 				Log::getInstance().log(3,__FILE__,__LINE__, "Error de socket mientras se enviaba.");
 				return false;
 			}else{

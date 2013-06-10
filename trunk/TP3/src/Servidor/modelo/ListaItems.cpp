@@ -24,6 +24,7 @@ void ListaItems::destruirItems() {
 		this->_listaEntidades->removerEntidad((*item).second->modeloEntidad());
 		delete (*item).second;
 	}
+	this->_items.clear();
 }
 
 ModeloItem* ListaItems::obtenerItem(Posicion posicion) {

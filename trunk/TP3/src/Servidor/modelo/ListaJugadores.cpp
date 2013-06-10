@@ -21,8 +21,10 @@ void ListaJugadores::asignarListaEntidades(ListaEntidades* listaEntidades) {
 }
 
 void ListaJugadores::destruirJugadores() {
-	for (list<ModeloJugador*>::iterator jugador = this->_jugadores.begin(); jugador != this->_jugadores.end(); jugador++)
+	for (list<ModeloJugador*>::iterator jugador = this->_jugadores.begin(); jugador != this->_jugadores.end(); jugador++){
 		delete (*jugador);
+	}
+	this->_jugadores.clear();
 }
 
 ModeloJugador* ListaJugadores::obtenerJugador(int id) {

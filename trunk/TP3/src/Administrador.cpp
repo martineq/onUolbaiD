@@ -91,6 +91,38 @@ void Administrador::menuLineaComandos(void){
 	return void();
 }
 
+void Administrador::correrSinglePlayer(std::string mote,std::string personaje){
+
+	HiloSinglePlayer hiloServidorSinglePlayer;
+
+	this->servidor = new Servidor();
+	this->cliente = new Cliente();
+
+	HiloSinglePlayer::stParametrosSinglePlayer parametrosServidor;
+	parametrosServidor.esServidor = true;
+	parametrosServidor.mote.assign(mote);
+	parametrosServidor.personaje.assign(personaje);
+	parametrosServidor.pCliente = NULL;
+	parametrosServidor.pServidor = this->servidor;
+
+	// Inicio el servidor
+	if( this->servidor->iniciarSinglePlayer() == false ){
+		Log::getInstance().log(1,__FILE__,__LINE__,"Error al correr el juego en modo Servidor");
+		return void();
+	}
+
+	// Corro el juego del lado del Servidor en un hilo
+	hiloServidorSinglePlayer.correrSinglePlayer(parametrosServidor);
+
+	// Corro el Cliente en el hilo principal
+	this->cliente->correrJuegoSinglePlayer(mote,personaje);
+
+	// Una vez que terminó el cliente, puedo hacer el join del hilo del servidor
+	hiloServidorSinglePlayer.join();
+
+	return void();
+}
+
 bool Administrador::nuevoMenu1(){
 	SDL_Surface *imagenDeFondo = NULL;
 	SDL_Surface *textoSinglePlayer = NULL;
@@ -254,39 +286,6 @@ bool Administrador::nuevoMenu2(SDL_Surface *pantalla, TTF_Font * fuente){
 		}		
     }	
 	return false;
-}
-
-
-void Administrador::correrSinglePlayer(std::string mote,std::string personaje){
-
-	HiloSinglePlayer hiloServidorSinglePlayer;
-
-	this->servidor = new Servidor();
-	this->cliente = new Cliente();
-
-	HiloSinglePlayer::stParametrosSinglePlayer parametrosServidor;
-	parametrosServidor.esServidor = true;
-	parametrosServidor.mote.assign(mote);
-	parametrosServidor.personaje.assign(personaje);
-	parametrosServidor.pCliente = NULL;
-	parametrosServidor.pServidor = this->servidor;
-
-	// Inicio el servidor
-	if( this->servidor->iniciarSinglePlayer() == false ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"Error al correr el juego en modo Servidor");
-		return void();
-	}
-
-	// Corro el juego del lado del Servidor en un hilo
-	hiloServidorSinglePlayer.correrSinglePlayer(parametrosServidor);
-
-	// Corro el Cliente en el hilo principal
-	this->cliente->correrJuegoSinglePlayer(mote,personaje);
-
-	// Una vez que terminó el cliente, puedo hacer el join del hilo del servidor
-	hiloServidorSinglePlayer.join();
-
-	return void();
 }
 
 void Administrador::correrPruebas(void){

@@ -30,6 +30,8 @@ bool SocketServidor::desconectar(void){
 	this->conexionClientes.clear();
 	this->mutexConexionClientes.unlock(__FILE__,__LINE__);
 
+
+
 	// Cierro el socket del Servidor
 	if (this->miConexion.cerrar() == false ) return false;
 	if (this->miConexion.finalizarAplicacion() == false ) return false;
@@ -527,4 +529,29 @@ bool SocketServidor::recibirArchivosIndividual(std::list<std::string> rutaDeArch
 	}
 
 	return todoOk;
+}
+
+void SocketServidor::reset(void){
+
+	// Cierro los sockets de los clientes
+	for ( int i=0 ; i < this->tamanioConexionClientes() ; i++ ){
+		ConexionCliente* cliente = this->getConexionCliente(i);
+		cliente->cerrarActividad();
+		if (cliente->cerrar() == false){
+			std::cout<<"Error al cerrar clientes desde el servidor. \n";
+			Log::getInstance().log(3,__FILE__,__LINE__,"Error al cerrar clientes desde el servidor.");
+			return void();
+		}
+		delete cliente;
+	}
+
+	// Vacio todas las listas
+	this->mutexConexionClientes.lockEscritura(__FILE__,__LINE__);
+	this->conexionClientes.clear();
+	this->mutexConexionClientes.unlock(__FILE__,__LINE__);
+	this->todosLosClientesConError.clear();
+	this->colaEntradaMasiva.clear();
+	this->clientesMasivosConError.clear();
+
+	return void();
 }

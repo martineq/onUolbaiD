@@ -26,8 +26,10 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 }
 
 ModeloEntidad::~ModeloEntidad() {
-	if (this->_proxyEntidad != NULL)
+	if (this->_proxyEntidad != NULL){
 		delete this->_proxyEntidad;
+		this->_proxyEntidad = NULL;
+	}
 }
 
 int ModeloEntidad::alto() {

@@ -72,6 +72,6 @@ class ModeloFactory{
 		ModeloFactory(void);
 		~ModeloFactory(void);
 
-		bool crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,SocketServidor* pSocket);
+		bool crearNivel(ModeloNivel& modeloNivel, ModeloLoop& modeloLoop, SocketServidor* pSocket, bool primeraVez);
 		bool rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* pSocket,int id,bool singlePlayer);
 };

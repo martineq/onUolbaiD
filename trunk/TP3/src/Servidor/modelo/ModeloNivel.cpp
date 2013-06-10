@@ -294,3 +294,26 @@ void ModeloNivel::destruirListas(){
 	this->listaItems.destruirItems();
 	this->listaEntidades.destruirEntidades();
 }
+
+void ModeloNivel::reset(){
+
+	// Borro todo
+	this->listaJugadores.destruirJugadores();
+	this->listaEnemigos.destruirJugadores();
+	this->listaItems.destruirItems();
+	this->listaEntidades.destruirEntidades();
+	this->listaGolems.destruirJugadores();
+
+	// Seteo como en el constructor
+	this->indiceEnemigo = 0;
+	this->indiceGolem = 0;
+	this->mutexJugadoresConectados.lockEscritura(__FILE__,__LINE__);
+	this->jugadoresConectados = 0;
+	this->mutexJugadoresConectados.unlock(__FILE__,__LINE__);
+	this->listaJugadores.asignarListaEntidades(&this->listaEntidades);
+	this->listaEnemigos.asignarListaEntidades(&this->listaEntidades);
+	this->listaItems.asignarListaEntidades(&this->listaEntidades);
+	this->listaGolems.asignarListaEntidades(&this->listaEntidades);
+
+	return void();
+}

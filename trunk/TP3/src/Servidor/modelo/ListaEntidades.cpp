@@ -35,6 +35,10 @@ void ListaEntidades::destruirEntidades() {
 			delete (*entidad).second;
 		}
 	}
+
+	// TODO: Ver si está bien vaciar todo
+	this->_entidades.clear();
+	this->_entidadesMoviles.clear();
 }
 
 ModeloEntidad* ListaEntidades::detectarColision(ModeloEntidad* entidad, Posicion posicion) {

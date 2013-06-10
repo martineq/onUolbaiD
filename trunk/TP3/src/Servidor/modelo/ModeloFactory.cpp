@@ -9,35 +9,38 @@ ModeloFactory::~ModeloFactory(void){
 }
 
 // En este método no hace falta usar mutex porque se hace antes de lanzar otros hilos
-bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,SocketServidor* pSocket){
+bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,SocketServidor* pSocket, bool primeraVez){
 
-	// Inicio el servidor
-	if( pSocket->inciarServidor(PUERTO_SERVIDOR) == false ) return false;
+	if( primeraVez == true ){ // Hago todo esto solo si es la primera vez
 
-	// Asigno el puntero como atributo
-	this->pSocket = pSocket;
+		// Inicio el servidor
+		if( pSocket->inciarServidor(PUERTO_SERVIDOR) == false ) return false;
+		
+		// Asigno el puntero como atributo
+		this->pSocket = pSocket;
 
-	// Cargo el archivo de configuración
-	ParserYaml::stJuego juegoYaml;
-	juegoYaml = ParserYaml::getInstance().cargarConfiguracionDeJuego();
-	if( juegoYaml.juegoValido == false ){
-		Log::getInstance().log(1,__FILE__,__LINE__,"Error al obtener la configuración de juego.");
-		return false;
+		// Cargo el archivo de configuración
+		ParserYaml::stJuego juegoYaml;
+		juegoYaml = ParserYaml::getInstance().cargarConfiguracionDeJuego();
+		if( juegoYaml.juegoValido == false ){
+			Log::getInstance().log(1,__FILE__,__LINE__,"Error al obtener la configuración de juego.");
+			return false;
+		}
+
+		// Preparo el juego elegido
+		this->juegoElegido.listaEntidades = juegoYaml.entidades;
+		this->juegoElegido.pantalla = juegoYaml.pantalla;
+		this->juegoElegido.configuracion = juegoYaml.configuracion;
+		//if( this->elegirEscenario(juegoYaml.escenarios) == false) return false;
+		if (this->nuevoElegirEscenario(juegoYaml.escenarios) == false) return false;
+
+		// Guardo los datos de los items para luego pasarlos a cada jugador. Para que puedan realizar el drop
+		this->recolectarDatosItems();
 	}
-
-	// Preparo el juego elegido
-	this->juegoElegido.listaEntidades = juegoYaml.entidades;
-	this->juegoElegido.pantalla = juegoYaml.pantalla;
-	this->juegoElegido.configuracion = juegoYaml.configuracion;
-	//if( this->elegirEscenario(juegoYaml.escenarios) == false) return false;
-	if (this->nuevoElegirEscenario(juegoYaml.escenarios) == false) return false;
 
 	// Seteo alto y ancho
 	modeloNivel.setAnchoTiles(this->juegoElegido.escenario.tamanioX);
 	modeloNivel.setAltoTiles(this->juegoElegido.escenario.tamanioY);
-
-	// Guardo los datos de los items para luego pasarlos a cada jugador. Para que puedan realizar el drop
-	this->recolectarDatosItems();
 
 	// Creo las entidades del nivel, las que no son los jugadores
 	this->crearEntidades(modeloNivel);
@@ -48,10 +51,12 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 	// Creo los items
 	this->crearItems(modeloNivel);
 
-	// Agrego el ProxyControladorEvento
-	ProxyControladorEvento* pProxyEvento = new ProxyControladorEvento();
-	pProxyEvento->setSocketServidor(pSocket);
-	modeloLoop.setProxyControladorEvento(pProxyEvento);
+	if( primeraVez == true ){ // Hago todo esto solo si es la primera vez
+		// Agrego el ProxyControladorEvento
+		ProxyControladorEvento* pProxyEvento = new ProxyControladorEvento();
+		pProxyEvento->setSocketServidor(pSocket);
+		modeloLoop.setProxyControladorEvento(pProxyEvento);
+	}
 
 	return true;
 }
@@ -185,7 +190,7 @@ bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* 
 	// Envío los archivos de configuración, en caso de no ser single player
 	if( singlePlayer == false ) {
 		std::cout << "(Envio de archivos deshabilitado para el debug)" << std::endl;
-		if( this->enviarArchivosDeConfiguracion(id) == false ) return false;  // TODO: Descomentar para el momento de la entrega
+		//if( this->enviarArchivosDeConfiguracion(id) == false ) return false;  // TODO: Descomentar para el momento de la entrega
 	}
 
 	// Envío el escenario creado, junto con los ID's de cada entidad del escenario para que se puedan setear en el cliente

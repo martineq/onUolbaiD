@@ -10,7 +10,7 @@ class Servidor{
 		ModeloJuego modeloJuego;
 		SocketServidor socket;
 		
-		bool iniciar(bool singlePlayer);
+		bool iniciar(bool singlePlayer, bool primeraVez);
 		void loop();
 		void loopSinglePlayer();
 
