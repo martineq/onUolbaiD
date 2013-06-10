@@ -44,12 +44,20 @@ void ModeloJugador::atacarEnemigo() {
 void ModeloJugador::matar() {
 	this->_vida = 0;
 	this->_estaCongelado = false;
+	while (!this->_bombas.empty())
+		this->_bombas.pop();
+	this->_hechizoHielo = NULL;
 	this->_enemigo = NULL;
+	if (this->_golem != NULL) {
+		this->_golem->matar();
+		this->_golem->enviarEstado();
+	}
+	this->_golem = NULL;
 	this->_item = NULL;
 	if (this->_estadoNivel != NULL)
 		this->_estadoNivel->rangoVision(RANGO_VISION);
 	this->_modeloMovimiento->detener();
-	if (this->_autonomo && (this->_idDuenio == ID_SIN_DUENIO))
+	if (this->_autonomo)
 		this->_listaEnemigos->removerJugador(this);
 
 	ModeloItem* item = ModeloItem::drop(this->datosDrop, this->_modeloEntidad->posicion());
@@ -332,8 +340,8 @@ void ModeloJugador::asignarGolem(ModeloJugador* golem) {
 	this->_golem = golem;
 	this->_golem->_vida = 0;
 	this->_golem->asignarListaEnemigos(this->_listaEnemigos);
-	this->_golem->asignarListaEntidades(this->_listaEntidades);
 	this->_golem->asignarListaItems(this->_listaItems);
+	this->_golem->asignarListaGolems(this->_listaGolems);
 	this->_golem->asignarListaJugadores(this->_listaJugadores);
 	this->_listaEntidades->removerEntidadMovil(this->_golem->modeloEntidad());
 }
