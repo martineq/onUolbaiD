@@ -335,11 +335,14 @@ entidades:
       alto_base: 1 #tiles
       imagen:
         - [hechizo_hielo.png]
+        - [hechizo_hielo.png]
     - nombre: bomba
       pixel_ref_x: 50 #pixels
       pixel_ref_y: 0 #pixels
       ancho_base: 1 #tiles
       alto_base: 1 #tiles
+      fps: 15
+      delay: 0
       imagen:
         - [Bomb_01.png]
         - [Bomb_01.png,Bomb_02.png,Bomb_03.png,Bomb_04.png,Bomb_05.png,Bomb_06.png]
@@ -401,8 +404,8 @@ escenarios:
 ################################################################  BOSQUE ENCANTADO  ################################################################
 ####################################################################################################################################################
     - nombre: Bosque Encantado
-      size_x: 25 #tiles
-      size_y: 25 #tiles
+      size_x: 13 #tiles
+      size_y: 13 #tiles
       entidadesDef:
         - {x: 0, y: 0, entidad: agua}
         - {x: 0, y: 1, entidad: agua}
@@ -826,7 +829,7 @@ escenarios:
           velocidad: 280
       items:
         - entidad: escudo
-          x: 5
+          x: 4
           y: 6
         - entidad: bomba
           x: 7
@@ -834,6 +837,12 @@ escenarios:
         - entidad: lampara
           x: 7
           y: 8
+        - entidad: lampara
+          x: 7
+          y: 10
+        - entidad: lampara
+          x: 7
+          y: 12
         - entidad: espada
           x: 7
           y: 9
@@ -851,7 +860,303 @@ escenarios:
           y: 9
         - entidad: hechizo_hielo
           x: 5
-          y: 3
-        - entidad: golem
+          y: 6
+        #- entidad: golem
+          #x: 5
+          #y: 3
+####################################################################################################################################################
+################################################################     ESCENARIO:     ################################################################
+################################################################ Laberinto Loco     ################################################################
+####################################################################################################################################################
+    - nombre: Laberinto Loco
+      size_x: 30 #tiles
+      size_y: 30 #tiles
+      entidadesDef:
+        - {x: 0, y: 7, entidad: cemento}
+        - {x: 0, y: 8, entidad: cemento}
+        - {x: 0, y: 9, entidad: cemento}
+        - {x: 0, y: 10, entidad: cemento}
+        - {x: 0, y: 11, entidad: cemento}
+        - {x: 0, y: 12, entidad: cemento}
+        - {x: 0, y: 13, entidad: cemento}
+        - {x: 0, y: 14, entidad: cemento}
+        - {x: 0, y: 15, entidad: cemento}
+        - {x: 1, y: 0, entidad: cemento}
+        - {x: 1, y: 1, entidad: cemento}
+        - {x: 1, y: 2, entidad: cemento}
+        - {x: 1, y: 3, entidad: cemento}
+        - {x: 2, y: 3, entidad: cemento}
+        - {x: 2, y: 28, entidad: cemento}
+        - {x: 2, y: 29, entidad: cemento}
+        - {x: 3, y: 3, entidad: cemento}
+        - {x: 3, y: 8, entidad: cemento}
+        - {x: 3, y: 9, entidad: cemento}
+        - {x: 3, y: 12, entidad: cemento}
+        - {x: 3, y: 13, entidad: cemento}
+        - {x: 3, y: 14, entidad: cemento}
+        - {x: 3, y: 15, entidad: cemento}
+        - {x: 3, y: 16, entidad: cemento}
+        - {x: 3, y: 17, entidad: cemento}
+        - {x: 3, y: 18, entidad: cemento}
+        - {x: 3, y: 19, entidad: cemento}
+        - {x: 3, y: 20, entidad: cemento}
+        - {x: 3, y: 21, entidad: cemento}
+        - {x: 3, y: 22, entidad: cemento}
+        - {x: 4, y: 3, entidad: cemento}
+        - {x: 4, y: 8, entidad: cemento}
+        - {x: 4, y: 9, entidad: cemento}
+        - {x: 4, y: 12, entidad: cemento}
+        - {x: 5, y: 3, entidad: cemento}
+        - {x: 5, y: 8, entidad: cemento}
+        - {x: 5, y: 9, entidad: cemento}
+        - {x: 5, y: 12, entidad: cemento}
+        - {x: 5, y: 26, entidad: cemento}
+        - {x: 5, y: 27, entidad: cemento}
+        - {x: 5, y: 28, entidad: cemento}
+        - {x: 5, y: 29, entidad: cemento}
+        - {x: 6, y: 3, entidad: agua}
+        - {x: 6, y: 8, entidad: agua}
+        - {x: 6, y: 9, entidad: agua}
+        - {x: 6, y: 12, entidad: agua}
+        - {x: 6, y: 26, entidad: agua}
+        - {x: 7, y: 3, entidad: cemento}
+        - {x: 7, y: 8, entidad: cemento}
+        - {x: 7, y: 9, entidad: cemento}
+        - {x: 7, y: 12, entidad: cemento}
+        - {x: 7, y: 13, entidad: cemento}
+        - {x: 7, y: 14, entidad: cemento}
+        - {x: 7, y: 15, entidad: cemento}
+        - {x: 7, y: 16, entidad: cemento}
+        - {x: 7, y: 17, entidad: cemento}
+        - {x: 7, y: 18, entidad: cemento}
+        - {x: 7, y: 19, entidad: cemento}
+        - {x: 7, y: 20, entidad: cemento}
+        - {x: 7, y: 21, entidad: cemento}
+        - {x: 7, y: 22, entidad: cemento}
+        - {x: 7, y: 26, entidad: cemento}
+        - {x: 8, y: 3, entidad: cemento}
+        - {x: 8, y: 26, entidad: cemento}
+        - {x: 9, y: 3, entidad: cemento}
+        - {x: 9, y: 4, entidad: cemento}
+        - {x: 9, y: 5, entidad: cemento}
+        - {x: 9, y: 6, entidad: cemento}
+        - {x: 9, y: 7, entidad: cemento}
+        - {x: 9, y: 26, entidad: cemento}
+        - {x: 10, y: 7, entidad: cemento}
+        - {x: 10, y: 16, entidad: cemento}
+        - {x: 10, y: 17, entidad: cemento}
+        - {x: 10, y: 18, entidad: cemento}
+        - {x: 10, y: 19, entidad: cemento}
+        - {x: 10, y: 20, entidad: cemento}
+        - {x: 10, y: 21, entidad: cemento}
+        - {x: 10, y: 26, entidad: cemento}
+        - {x: 11, y: 7, entidad: cemento}
+        - {x: 11, y: 16, entidad: cemento}
+        - {x: 11, y: 21, entidad: cemento}
+        - {x: 11, y: 26, entidad: cemento}
+        - {x: 12, y: 7, entidad: cemento}
+        - {x: 12, y: 16, entidad: cemento}
+        - {x: 12, y: 26, entidad: cemento}
+        - {x: 12, y: 29, entidad: cemento}
+        - {x: 13, y: 7, entidad: agua}
+        - {x: 13, y: 16, entidad: agua}
+        - {x: 13, y: 29, entidad: agua}
+        - {x: 14, y: 7, entidad: agua}
+        - {x: 14, y: 16, entidad: agua}
+        - {x: 14, y: 21, entidad: agua}
+        - {x: 14, y: 29, entidad: agua}
+        - {x: 15, y: 7, entidad: cemento}
+        - {x: 15, y: 8, entidad: cemento}
+        - {x: 15, y: 9, entidad: cemento}
+        - {x: 15, y: 10, entidad: cemento}
+        - {x: 15, y: 12, entidad: cemento}
+        - {x: 15, y: 13, entidad: cemento}
+        - {x: 15, y: 16, entidad: cemento}
+        - {x: 15, y: 21, entidad: cemento}
+        - {x: 15, y: 26, entidad: cemento}
+        - {x: 15, y: 29, entidad: cemento}
+        - {x: 16, y: 7, entidad: cemento}
+        - {x: 16, y: 16, entidad: cemento}
+        - {x: 16, y: 17, entidad: cemento}
+        - {x: 16, y: 18, entidad: cemento}
+        - {x: 16, y: 19, entidad: cemento}
+        - {x: 16, y: 20, entidad: cemento}
+        - {x: 16, y: 21, entidad: cemento}
+        - {x: 16, y: 26, entidad: cemento}
+        - {x: 17, y: 2, entidad: cemento}
+        - {x: 17, y: 3, entidad: cemento}
+        - {x: 17, y: 4, entidad: cemento}
+        - {x: 17, y: 5, entidad: cemento}
+        - {x: 17, y: 6, entidad: cemento}
+        - {x: 17, y: 7, entidad: cemento}
+        - {x: 17, y: 26, entidad: cemento}
+        - {x: 18, y: 26, entidad: cemento}
+        - {x: 19, y: 26, entidad: cemento}
+        - {x: 20, y: 0, entidad: cemento}
+        - {x: 20, y: 1, entidad: cemento}
+        - {x: 20, y: 2, entidad: cemento}
+        - {x: 20, y: 3, entidad: cemento}
+        - {x: 20, y: 7, entidad: cemento}
+        - {x: 20, y: 8, entidad: cemento}
+        - {x: 20, y: 9, entidad: cemento}
+        - {x: 20, y: 10, entidad: cemento}
+        - {x: 20, y: 11, entidad: cemento}
+        - {x: 20, y: 12, entidad: cemento}
+        - {x: 20, y: 16, entidad: cemento}
+        - {x: 20, y: 19, entidad: cemento}
+        - {x: 20, y: 26, entidad: cemento}
+        - {x: 21, y: 7, entidad: agua}
+        - {x: 21, y: 12, entidad: agua}
+        - {x: 21, y: 16, entidad: agua}
+        - {x: 21, y: 19, entidad: agua}
+        - {x: 21, y: 26, entidad: agua}
+        - {x: 22, y: 7, entidad: cemento}
+        - {x: 22, y: 12, entidad: cemento}
+        - {x: 22, y: 16, entidad: cemento}
+        - {x: 22, y: 19, entidad: cemento}
+        - {x: 22, y: 26, entidad: cemento}
+        - {x: 22, y: 27, entidad: cemento}
+        - {x: 22, y: 28, entidad: cemento}
+        - {x: 22, y: 29, entidad: cemento}
+        - {x: 23, y: 7, entidad: cemento}
+        - {x: 23, y: 12, entidad: cemento}
+        - {x: 23, y: 16, entidad: cemento}
+        - {x: 23, y: 17, entidad: cemento}
+        - {x: 23, y: 18, entidad: cemento}
+        - {x: 23, y: 19, entidad: cemento}
+        - {x: 24, y: 7, entidad: cemento}
+        - {x: 24, y: 12, entidad: cemento}
+        - {x: 25, y: 7, entidad: cemento}
+        - {x: 25, y: 12, entidad: cemento}
+        - {x: 25, y: 19, entidad: cemento}
+        - {x: 25, y: 20, entidad: cemento}
+        - {x: 25, y: 21, entidad: cemento}
+        - {x: 25, y: 22, entidad: cemento}
+        - {x: 25, y: 23, entidad: cemento}
+        - {x: 25, y: 24, entidad: cemento}
+        - {x: 25, y: 25, entidad: cemento}
+        - {x: 25, y: 28, entidad: cemento}
+        - {x: 25, y: 29, entidad: cemento}
+        - {x: 26, y: 7, entidad: cemento}
+        - {x: 26, y: 12, entidad: cemento}
+        - {x: 26, y: 19, entidad: agua}
+        - {x: 26, y: 16, entidad: agua}
+        - {x: 27, y: 2, entidad: agua}
+        - {x: 27, y: 3, entidad: agua}
+        - {x: 27, y: 4, entidad: agua}
+        - {x: 27, y: 5, entidad: agua}
+        - {x: 27, y: 6, entidad: agua}
+        - {x: 27, y: 7, entidad: agua}
+        - {x: 27, y: 12, entidad: agua}
+        - {x: 27, y: 13, entidad: agua}
+        - {x: 27, y: 14, entidad: agua}
+        - {x: 27, y: 15, entidad: agua}
+        - {x: 27, y: 16, entidad: agua}
+        - {x: 27, y: 19, entidad: agua}
+        - {x: 28, y: 2, entidad: cemento}
+        - {x: 28, y: 19, entidad: cemento}
+        - {x: 28, y: 24, entidad: cemento}
+        - {x: 28, y: 25, entidad: cemento}
+        - {x: 28, y: 26, entidad: cemento}
+        - {x: 28, y: 27, entidad: cemento}
+        - {x: 28, y: 28, entidad: cemento}
+        - {x: 28, y: 29, entidad: cemento}
+        - {x: 29, y: 2, entidad: cemento}
+        - {x: 29, y: 19, entidad: cemento}
+        - {x: 29, y: 29, entidad: cemento}
+
+      protagonistas:
+        - entidad: queen
+          x: 2
+          y: 0
+          vida: 50
+          mana: 90
+          daño: 6
+          velocidad: 200
+        - entidad: bjorn
           x: 3
-          y: 3
+          y: 0
+          vida: 60
+          mana: 30
+          daño: 8
+          velocidad: 250
+      enemigos:
+        - entidad: carnicero
+          x: 9
+          y: 9
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: enemigo_a
+          x: 90
+          y: 9
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: enemigo_b
+          x: 9
+          y: 90
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: enemigo_c
+          x: 10
+          y: 9
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: enemigo_a
+          x: 9
+          y: 19
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: enemigo_b
+          x: 9
+          y: 49
+          vida: 25
+          daño: 3
+          velocidad: 280
+        - entidad: enemigo_c
+          x: 45
+          y: 9
+          vida: 25
+          daño: 3
+          velocidad: 280
+      items:
+        - entidad: escudo
+          x: 4
+          y: 6
+        - entidad: bomba
+          x: 7
+          y: 6
+        - entidad: lampara
+          x: 7
+          y: 8
+        - entidad: lampara
+          x: 7
+          y: 10
+        - entidad: lampara
+          x: 7
+          y: 12
+        - entidad: espada
+          x: 7
+          y: 9
+        - entidad: mapa
+          x: 5
+          y: 8
+        - entidad: corazon
+          x: 3
+          y: 6
+        - entidad: botella
+          x: 3
+          y: 8
+        - entidad: zapato
+          x: 3
+          y: 9
+        - entidad: hechizo_hielo
+          x: 5
+          y: 6
+        #- entidad: golem
+          #x: 5
+          #y: 3
