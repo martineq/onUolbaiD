@@ -130,7 +130,13 @@ ModeloItem* ModeloItem::drop(ModeloDrop::stDatosDrop datos, Posicion pos){
 	int cantidadItems = datos.listaDatosItems.size();
 	if( cantidadItems == 0 ) return NULL;
 
+
+	// Para que siempre tire items
 	int random = rand() % cantidadItems;  // Devuelve:  0, 1, 2... (cantidadItems-1)
+
+	// Para que tenga chances de NO tirar items
+	//int random = rand() % cantidadItems+1;  // Devuelve:  0, 1, 2... (cantidadItems)
+	//if( random == cantidadItems ) return NULL;
 
 	int i = 0;
 	for (std::list<ModeloDrop::stDatoItem>::iterator it=datos.listaDatosItems.begin() ; it != datos.listaDatosItems.end(); it++ ){	
