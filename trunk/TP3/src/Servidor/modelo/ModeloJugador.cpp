@@ -539,9 +539,7 @@ void ModeloJugador::ingresarAlJuego(void) {
 }
 
 void ModeloJugador::sacarDelJuego(void) {
-	this->_ingresoAlJuego = false;					// Indico que este jugador ya salió del juego
-	this->_modeloEntidad->setIndividual();
-	this->enviarEstado();						
+	this->_ingresoAlJuego = false;					// Indico que este jugador ya salió del juego	
 	return void();
 }
 
