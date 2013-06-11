@@ -826,8 +826,8 @@ escenarios:
         - entidad: carnicero
           x: 9
           y: 9
-          vida: 25
-          daño: 25
+          vida: 1000
+          daño: 35
           velocidad: 280
       items:
         - entidad: escudo
