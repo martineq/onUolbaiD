@@ -229,6 +229,7 @@ void ModeloNivel::desconectarJugador(int id){
 	}else{
 		if( jugador->estaDesconectado() == false ){
 			jugador->estaDesconectado(true);
+			jugador->sacarDelJuego();
 			this->decrementarJugadores();		// Se resta la cantidad de jugadores cuando alguno de ellos tiene error
 		}
 	}
@@ -282,7 +283,10 @@ void ModeloNivel::iniciarNuevosJugadores(void){
 	
 	std::list<ModeloJugador*> listaJugadores = this->getJugadores();
 	for (std::list<ModeloJugador*>::iterator itModeloEntidad = listaJugadores.begin(); itModeloEntidad != listaJugadores.end(); itModeloEntidad++){
-		if( (*itModeloEntidad)->ingresoAlJuego() == false ) (*itModeloEntidad)->ingresarAlJuego();
+		if( (*itModeloEntidad)->ingresoAlJuego() == false && (*itModeloEntidad)->estaDesconectado() == false && (*itModeloEntidad)->listoParaEntrar() == true ){
+			(*itModeloEntidad)->ingresarAlJuego();
+			(*itModeloEntidad)->listoParaEntrar(false);
+		}
 	}
 
 	return void();

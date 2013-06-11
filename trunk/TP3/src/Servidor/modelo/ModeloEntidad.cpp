@@ -173,6 +173,11 @@ void ModeloEntidad::setMasivo(void){
 	return void();
 }
 
+void ModeloEntidad::setIndividual(void){
+	this->_proxyEntidad->setIndividualServidor(this->id());
+	return void();
+}
+
 bool ModeloEntidad::ocupaPosicion(Posicion posicion) {
 	return (posicion.x >= this->posicion().x) &&
 		(posicion.x <= this->posicion().x + this->ancho() - 1) &&

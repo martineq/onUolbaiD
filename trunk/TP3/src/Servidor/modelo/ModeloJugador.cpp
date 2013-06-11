@@ -145,6 +145,7 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_danioAtaque = ataque;
 	this->_danioAtaqueInicial = ataque;
 	this->_idDuenio = idDuenio;
+	this->_listoParaEntrar = false;
 
 	this->_hechizoHielo = NULL;
 	this->_enemigo = NULL;
@@ -537,6 +538,13 @@ void ModeloJugador::ingresarAlJuego(void) {
 	return void();
 }
 
+void ModeloJugador::sacarDelJuego(void) {
+	this->_ingresoAlJuego = false;					// Indico que este jugador ya salió del juego
+	this->_modeloEntidad->setIndividual();
+	this->enviarEstado();						
+	return void();
+}
+
 EstadoNivel* ModeloJugador::getEstadoNivel(){
 	return this->_estadoNivel;
 }
@@ -590,4 +598,17 @@ int ModeloJugador::coordenadaAlAzar(int media, int desvio, int cotaMinima , int 
 	int x = ( rand() % xFactorMod ) + xMin;
 
 	return x;
+}
+
+bool ModeloJugador::listoParaEntrar(void) {
+	this->_mutex.lockLectura(__FILE__, __LINE__);
+	bool valor = this->_listoParaEntrar;
+	this->_mutex.unlock(__FILE__, __LINE__);
+	return valor;
+}
+
+void ModeloJugador::listoParaEntrar(bool valor) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->_listoParaEntrar = valor;
+	this->_mutex.unlock(__FILE__, __LINE__);
 }

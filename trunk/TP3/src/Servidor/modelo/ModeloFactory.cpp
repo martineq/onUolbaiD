@@ -208,8 +208,10 @@ bool ModeloFactory::rutinaAgregarNuevoCliente(void* modeloNivel,SocketServidor* 
 	// Envío los datos para la creación de los demas jugadores
 	if( this->enviarOtrosJugadores(pModeloNivel,id) == false ) return false;
 
-	// A lo último, aumento el número de jugadores en uno para que se notifique el ModeloNivel
+	// A lo último, aumento el número de jugadores en uno e indico que está listo para entrar para que se notifique el ModeloNivel
 	pModeloNivel->incrementarJugadores();
+	ModeloJugador* jugador = pModeloNivel->obtenerJugador(id);
+	jugador->listoParaEntrar(true);
 
 	return true;
 }
