@@ -37,9 +37,12 @@
 // Fondos del juego
 #define IMAGEN_FONDO_1 "./img/background.png"
 #define IMAGEN_FONDO_2 "./img/background2.png"
-#define IMAGEN_FONDO_3 "./img/background2.png"
+#define IMAGEN_FONDO_3 "./img/background3.png"
 
-#define CARA_DIABLO_2  "./img/fondo_caraDiablo2.png"
+#define IMG_CARA_DIABLO_2  "./img/fondo_caraDiablo2.png"
+#define IMG_GUERRERO  "./img/fondo_carnicero.png"
+#define IMG_CARNICERO  "./img/fondo_guerrero.png"
+
 
 /************************* DIRECCIONES ***********************/
 #define ACCION_NORTE "NORTE"
