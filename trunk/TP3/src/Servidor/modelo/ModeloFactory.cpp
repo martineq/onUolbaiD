@@ -290,6 +290,7 @@ bool ModeloFactory::enviarProtagonista(ModeloNivel* modeloNivel, int& id){
 	// Recibo el nombres de usuario y nombre de protagonista serializados, luego los hidrato
 	Serializadora s;
 	if( pSocket->recibirIndividual(s,id) == false ) return false;
+	if( s.size() == 0 ) return false;
 	std::string mote(s.getString());
 	std::string nombreEntidadPersonaje(s.getString());
 

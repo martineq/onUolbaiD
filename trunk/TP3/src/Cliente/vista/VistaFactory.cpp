@@ -112,6 +112,7 @@ bool VistaFactory::recibirListaDeArchivos(const char* directorioElegido,SocketCl
 
 	Serializadora s;
 	if( pSocket->recibir(s) == false ) return false;
+	if( s.size() == 0 ) return false;
 	
 	// Hidrato el vector de strings y recibo cada archivo
 	int cantidadDeArchivos = 0;
@@ -127,6 +128,7 @@ bool VistaFactory::recibirEscenario(std::list<ParserYaml::stEscenario>& listaEsc
 
 	Serializadora s;
 	if( pSocket->recibir(s) == false ) return false;
+	if( s.size() == 0 ) return false;
 
 	// Comienzo a hidratar. Hidrato el nombre de escenario
 	std::string nombreEscenario = s.getString();
@@ -158,6 +160,7 @@ bool VistaFactory::recibirEnemigosAutomaticos(SocketCliente* pSocket){
 
 	Serializadora s;
 	if( pSocket->recibir(s) == false ) return false;
+	if( s.size() == 0 ) return false;
 
 	// Hidrato la cantidad de enemigos que me van a mandar
 	int cantidadEnemigosAutomaticos = s.getInt();
@@ -178,6 +181,7 @@ bool VistaFactory::recibirItems(SocketCliente* pSocket){
 
 	Serializadora s;
 	if( pSocket->recibir(s) == false ) return false;
+	if( s.size() == 0 ) return false;
 
 	// Hidrato la cantidad de items que me van a mandar
 	int cantidadItems = s.getInt();
@@ -233,6 +237,7 @@ bool VistaFactory::recibirOtrosJugadores(SocketCliente* pSocket){
 
 	Serializadora s;
 	if( pSocket->recibir(s) == false ) return false;
+	if( s.size() == 0 ) return false;
 
 	// Hidrato la cantidad de personajes que me van a mandar
 	int cantidadOtrosJugadores = s.getInt();
