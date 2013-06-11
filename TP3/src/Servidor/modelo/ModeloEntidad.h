@@ -25,6 +25,7 @@ class ModeloEntidad {
 		Mutex _mutex;
 		std::string _nombreEntidad;
 		bool _notificar;
+		bool terminoJuego;
 		Posicion _posicion;
 		ProxyModeloEntidad* _proxyEntidad;
 		int _velocidad;
@@ -102,6 +103,8 @@ class ModeloEntidad {
 		void notificarSoloAlJugador(void);
 
 		int tipoEntidad(void);
+
+		void  setTerminoJuego(bool);
 };
 
 class ListaEntidades {

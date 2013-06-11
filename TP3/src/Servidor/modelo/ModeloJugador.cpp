@@ -145,6 +145,7 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_danioAtaque = ataque;
 	this->_danioAtaqueInicial = ataque;
 	this->_idDuenio = idDuenio;
+	this->_nombreDelJugadorGanador = "1";
 	this->_listoParaEntrar = false;
 
 	this->_hechizoHielo = NULL;
@@ -287,7 +288,9 @@ ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
 		estado.rangoVision = this->_estadoNivel->rangoVision();
 	estado.cantidadBombas = this->_bombas.size();
 	estado.tieneHechizoHielo = (this->_hechizoHielo != NULL);
-	estado.tieneGolem = false;
+	if (this->tieneGolem()) estado.tieneGolem = true;
+	else estado.tieneGolem = false;
+	estado.nombreDelJugadorGanador = this->getNombreDelJugadorGanador();
 	estado.tieneMapa = this->_tieneMapa;
 	estado.atacando = (this->_accion == ATACANDO);
 	estado.accion = (this->_accion * 8) + this->_modeloEntidad->direccion();	
@@ -596,6 +599,14 @@ int ModeloJugador::coordenadaAlAzar(int media, int desvio, int cotaMinima , int 
 	int x = ( rand() % xFactorMod ) + xMin;
 
 	return x;
+}
+
+void ModeloJugador::setNombreDelJugadorGanador(std::string nombreDelGanador){
+	this->_nombreDelJugadorGanador = nombreDelGanador;
+}
+
+std::string ModeloJugador::getNombreDelJugadorGanador(){
+	return this->_nombreDelJugadorGanador;
 }
 
 bool ModeloJugador::listoParaEntrar(void) {

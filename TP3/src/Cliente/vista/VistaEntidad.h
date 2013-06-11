@@ -24,6 +24,7 @@ class VistaEntidad: public Identificable{
 		bool yaMurio;
 		bool tieneHechizoHielo;
 		bool tieneGolem;
+		bool terminoJuego;
 		bool sonidoExtra;
 		double x;
 		double y;
@@ -40,6 +41,7 @@ class VistaEntidad: public Identificable{
 		std::list<std::list<std::string>> listaAnimaciones;
 		std::string nombreEntidad;
 		std::string nombreJugador;
+		std::string nombreDelJugadorGanador;
 		VistaAnimacion* animacionActual;
 		VistaAnimaciones* animaciones;
 		int codigoAnimacion;
@@ -60,7 +62,7 @@ class VistaEntidad: public Identificable{
 		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio, bool ataco);
 
 	public:
-		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado,std::string nombreJugador,int vida, int tipoEntidad, int magia, int escudo);
+		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado,std::string nombreJugador,int vida, int tipoEntidad, int magia, int escudo,bool tieneGolem, bool tieneHechizo, int bombas);
 		~VistaEntidad(void);
 
 		void actualizar(ProxyModeloEntidad::stEntidad& entidad);
@@ -102,9 +104,11 @@ class VistaEntidad: public Identificable{
 		bool getGastoBomba();
 		bool getTieneHechizoHielo();
 		bool getTieneGolem();
+		bool getTerminoJuego();
 		bool esMiJugador(void);		
 		std::string getNombreEntidad();
 		std::string getNombreJugador();
+		std::string getNombreDelJugadorGanador();
 		std::list<std::list<std::string>> getListaAnimaciones(void);
 
 		// Setters

@@ -29,6 +29,8 @@ class VistaLoop{
 		SDL_Surface* textoEscudo;		
 		SDL_Surface* textoCantidadBombas;
 
+		void pantallaGanadora(std::string nombreDelJugadorGanador);
+
 	public:
 		VistaLoop(void);
 		~VistaLoop(void);

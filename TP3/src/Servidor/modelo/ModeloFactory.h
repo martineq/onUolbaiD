@@ -5,6 +5,7 @@
 #include "./ModeloEntidad.h"
 #include "./ModeloLoop.h"
 #include "./ModeloItem.h"
+#include "./ModeloMision.h"
 #include "../../utils/Constantes/Constantes.h"
 #include "../../utils/yaml/ParserYaml.h"
 #include "../../utils/Sockets/SocketServidor.h"
@@ -43,9 +44,11 @@ class ModeloFactory{
 		// Métodos para ser usados por el factory mismo, el iniciar
 		bool elegirEscenario(std::list<ParserYaml::stEscenario>& listaEscenarios);
 		bool nuevoElegirEscenario (std::list<ParserYaml::stEscenario>& listaEscenarios);
+		char nuevoElegirMisiones (std::list<ParserYaml::stEscenario>& listaEscenarios);
 		void crearEntidades(ModeloNivel& modeloNivel);
 		void crearEnemigosAutomaticos(ModeloNivel& modeloNivel);
 		void crearItems(ModeloNivel& modeloNivel);
+		bool crearMision(ModeloNivel&, std::list<ParserYaml::stEscenario>& listaEscenarios);
 
 		// Métodos usados por el HiloConfiguracion
 		bool enviarEscenario(int id);
@@ -67,6 +70,8 @@ class ModeloFactory{
 		void cargarDatosGolem(int& alto, int& ancho, int& fps, int& anchoEscenario, int& altoEscenario);
 		void recolectarDatosItems();
 		bool estaDatoItemEnLista(std::string nombreItem);
+
+		char mision;
 
 	public:
 		ModeloFactory(void);

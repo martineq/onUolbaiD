@@ -6,6 +6,7 @@
 #include "ModeloEntidad.h"
 #include "ModeloJugador.h"
 #include "ModeloItem.h"
+#include "ModeloMision.h"
 #include "../../utils/Observador/Identificable.h"
 #include "../../utils/Hilos/Mutex.h"
 
@@ -22,6 +23,8 @@ class ModeloNivel {
 
 		int indiceEnemigo;
 		int indiceGolem;
+
+		ModeloMision* mision;		
 
 		int jugadoresConectados;
 		Mutex mutexJugadoresConectados;
@@ -44,6 +47,10 @@ class ModeloNivel {
 		int getAltoTiles();
 		int getAnchoTiles();
 
+		// Mision
+		ModeloMision* getMision();
+		bool chequearMision();
+
 		// Setters
 		void setAltoTiles(int alto);
 		void setAnchoTiles(int ancho);
@@ -58,6 +65,8 @@ class ModeloNivel {
 		void activarGolem(int id);
 		void ejecutarAccionJugador(int tileX, int tileY, int id);
 		void desconectarJugador(int id);
+
+		void setMision(ModeloMision*);				
 
 		ModeloJugador* obtenerJugador(int id);
 		ModeloJugador* obtenerJugador(Posicion posicion);

@@ -6,9 +6,10 @@
 
 class ModeloMision {
 	private:
-		ModeloJugador* _ganador;
+		ModeloJugador* _ganador;		
 
 	protected:
+		ModeloJugador* _enemigo;
 		void asignarGanador(ModeloJugador* ganador);
 
 	public:
@@ -27,7 +28,7 @@ class ModeloMision {
 		virtual void calcularGanador(ModeloJugador* jugador) = 0;
 };
 
-class ModeloMisionCarnicero {
+class ModeloMisionCarnicero: public ModeloMision {
 	public:
 		ModeloMisionCarnicero();
 

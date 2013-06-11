@@ -21,6 +21,7 @@ ModeloEntidad::ModeloEntidad(int alto, int ancho, int velocidad, Posicion posici
 	this->_nombreEntidad = nombreEntidad;
 	this->_direccion = SUR;
 	this->_tipoEntidad = tipoEntidad;
+	this->terminoJuego = false;
 	
 	Posicion::convertirTileAPixel(altoNivel, this->_posicion.x, this->_posicion.y, this->_pixelSiguiente.x, this->_pixelSiguiente.y);
 }
@@ -154,6 +155,7 @@ ProxyModeloEntidad::stEntidad ModeloEntidad::stEntidad() {
 	entidad.esUltimoMovimiento = this->esUltimoMovimiento();
 	entidad.esPrimerMovimiento = this->esPrimerMovimiento();
 	entidad.tipoEntidad = this->tipoEntidad();
+	entidad.terminoJuego = this->terminoJuego;
 	return entidad;
 }
 
@@ -219,5 +221,11 @@ bool ModeloEntidad::esPrimerMovimiento() {
 void ModeloEntidad::esPrimerMovimiento(bool esPrimerMovimiento) {
 	this->_mutex.lockEscritura(__FILE__, __LINE__);
 	this->_esPrimerMovimiento = esPrimerMovimiento;
+	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
+void ModeloEntidad::setTerminoJuego(bool termino) {
+	this->_mutex.lockEscritura(__FILE__, __LINE__);
+	this->terminoJuego = termino;
 	this->_mutex.unlock(__FILE__, __LINE__);
 }

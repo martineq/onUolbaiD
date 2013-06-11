@@ -19,10 +19,12 @@ class ProxyModeloEntidad{
 			double pixelY;
 			bool esUltimoMovimiento;
 			bool esPrimerMovimiento;
+			bool terminoJuego;
 			int tipoEntidad;
 
 			// ModeloJugador
 			std::string nombreJugador;
+			std::string nombreDelJugadorGanador;
 			int escudo;
 			bool estaCongelado;
 			int magia;

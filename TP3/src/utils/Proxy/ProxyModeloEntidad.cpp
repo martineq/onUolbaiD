@@ -88,9 +88,11 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addBool(entidad.esUltimoMovimiento);
 	s.addBool(entidad.esPrimerMovimiento);
 	s.addInt(entidad.tipoEntidad);
+	s.addBool(entidad.terminoJuego);
 
 	// ModeloJugador
 	s.addString(entidad.nombreJugador);
+	s.addString(entidad.nombreDelJugadorGanador);
 	s.addInt(entidad.escudo);
 	s.addBool(entidad.estaCongelado);
 	s.addInt(entidad.magia);	
@@ -100,7 +102,7 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addBool(entidad.tieneHechizoHielo);
 	s.addBool(entidad.tieneGolem);
 	s.addInt(entidad.idRemitente);	
-	s.addBool(entidad.tieneMapa);
+	s.addBool(entidad.tieneMapa);	
 	s.addBool(entidad.atacando);
 	s.addString(entidad.mensaje);
 
@@ -118,9 +120,11 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.esUltimoMovimiento = s.getBool();
 	entidad.esPrimerMovimiento = s.getBool();
 	entidad.tipoEntidad = s.getInt();
+	entidad.terminoJuego = s.getBool();
 
 	// ModeloJugador
 	entidad.nombreJugador = s.getString();
+	entidad.nombreDelJugadorGanador = s.getString();
 	entidad.escudo = s.getInt();
 	entidad.estaCongelado = s.getBool();
 	entidad.magia = s.getInt();	

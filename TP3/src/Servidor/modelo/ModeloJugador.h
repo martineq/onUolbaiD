@@ -31,6 +31,7 @@ class ModeloJugador {
 		int _magia;
 		int _maximoMagia;
 		std::string _nombreJugador;
+		std::string _nombreDelJugadorGanador;
 		Posicion _pixelInicial;
 		Posicion _posicionInicial;
 		int _velocidadInicial;
@@ -179,6 +180,10 @@ class ModeloJugador {
 		int maximoVida(void);
 
 		Posicion posicionGolem(void);
+
+		void setNombreDelJugadorGanador(std::string);
+
+		std::string getNombreDelJugadorGanador();
 
 		bool listoParaEntrar(void);
 

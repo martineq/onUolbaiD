@@ -7,7 +7,8 @@ ModeloEvento::ModeloEvento() {
 }
 
 ModeloEvento::~ModeloEvento(){
-	if( this->pProxyEvento != NULL) delete this->pProxyEvento;
+	if( this->pProxyEvento != NULL) 
+		delete this->pProxyEvento;
 }
 
 bool ModeloEvento::getActualizado(){

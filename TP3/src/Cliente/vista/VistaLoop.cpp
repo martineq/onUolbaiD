@@ -53,6 +53,12 @@ bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNiv
 	bool actualizarMatriz = false;
 	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory,actualizarMatriz) == false) return false;	// Actuliza lo que vino por el proxy
 
+	//Para cerrar juego por mision ganada
+	if (vistaNivel.getJugador()->getTerminoJuego() == true) {
+		this->pantallaGanadora(vistaNivel.getJugador()->getNombreDelJugadorGanador());		
+		return false;
+	}
+
 	//Item Mapa
 	estadoNivel->setTieneMapa(vistaNivel.getJugador()->getTieneMapa());
 
@@ -148,10 +154,6 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	}
 
 	//Tiene hechizos		
-	ss.str("");
-	ss << 10;
-	auxiliar = "";
-	auxiliar = ss.str();
 	offset.x = 0;
 	offset.y = 150;
 	if (vistaNivel.getJugador()->getTieneHechizoHielo()) 
@@ -159,17 +161,17 @@ bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	
 	
 	//Tiene Golem
-	/*ss.str("");
+	ss.str("");
 	ss << 10;
 	auxiliar = "";
 	auxiliar = ss.str();
 	offset.x = 0;
-	offset.y = 120;
+	offset.y = 200;
 	if (vistaNivel.getJugador()->getTieneGolem()) {
 		offset.w = vistaNivel.getPngGolem()->w;
 		offset.h = vistaNivel.getPngGolem()->h;
 		SDL_BlitSurface ( vistaNivel.getPngGolem(), NULL, pantalla, &offset );		
-	}*/
+	}
 	
 	return true;
 }
@@ -367,4 +369,30 @@ SDL_Surface** VistaLoop::getPunteroPantalla(){
 
 void VistaLoop::asignarChat(VistaChat* vistaChat) {
 	this->vistaChat = vistaChat;
+}
+
+void VistaLoop::pantallaGanadora(std::string nombreDelJugadorGanador){
+	SDL_Color textColor = { 255, 255, 255 }; //color blanco 
+	if (this->fuente == NULL){
+		this->fuente = TTF_OpenFont( "./fonts/Lazy.ttf", 28 );				
+	}
+	SDL_Surface *imagenDeFondo = NULL;
+	imagenDeFondo = ImageLoader::getInstance().load_image( "./img/background5.png" );
+	SDL_Rect offset;
+	offset.x = 0;
+	offset.y = 0;
+	SDL_BlitSurface( imagenDeFondo, NULL, this->pantalla, NULL );		
+	SDL_Surface* textoGanador = TTF_RenderText_Solid( fuente, "EL GANADOR ES", textColor );
+	SDL_Surface* textoNombreGanador = TTF_RenderText_Solid( fuente, nombreDelJugadorGanador.c_str(), textColor );		
+	offset.x = 50;
+	offset.y = 190;
+	SDL_BlitSurface( textoGanador, NULL, this->pantalla, &offset );
+	offset.x = 400;
+	offset.y = 190;
+	SDL_BlitSurface( textoNombreGanador, NULL, this->pantalla, &offset );	
+	SDL_Flip( this->pantalla );
+	SDL_Delay(3000);
+	SDL_FreeSurface( imagenDeFondo );
+	SDL_FreeSurface( textoGanador );   
+	SDL_FreeSurface( textoNombreGanador );    					
 }

@@ -32,10 +32,20 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 		this->juegoElegido.pantalla = juegoYaml.pantalla;
 		this->juegoElegido.configuracion = juegoYaml.configuracion;
 		//if( this->elegirEscenario(juegoYaml.escenarios) == false) return false;
-		if (this->nuevoElegirEscenario(juegoYaml.escenarios) == false) return false;
+		//if (this->nuevoElegirEscenario(juegoYaml.escenarios) == false) return false;
+
+		// Creo la mision y levanto el nivel segun la mision
+		if (this->crearMision(modeloNivel,juegoYaml.escenarios) == false) return false;
 
 		// Guardo los datos de los items para luego pasarlos a cada jugador. Para que puedan realizar el drop
 		this->recolectarDatosItems();
+	}
+
+	if (! primeraVez) {
+		if (this->mision == 1) 
+			modeloNivel.setMision(new ModeloMisionCarnicero());
+		else
+			modeloNivel.setMision(new ModeloMisionBanderas());
 	}
 
 	// Seteo alto y ancho
@@ -49,7 +59,7 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 	this->crearEnemigosAutomaticos(modeloNivel);
 
 	// Creo los items
-	this->crearItems(modeloNivel);
+	this->crearItems(modeloNivel);	
 
 	if( primeraVez == true ){ // Hago todo esto solo si es la primera vez
 		// Agrego el ProxyControladorEvento
@@ -59,6 +69,126 @@ bool ModeloFactory::crearNivel(ModeloNivel& modeloNivel,ModeloLoop& modeloLoop,S
 	}
 
 	return true;
+}
+
+bool ModeloFactory::crearMision(ModeloNivel& modeloNivel,std::list<ParserYaml::stEscenario>& listaEscenarios){
+	//Para elegir las misiones	
+	char misionElegida = this->nuevoElegirMisiones(listaEscenarios);
+	if (misionElegida == 1) {
+		this->mision = 1;
+		modeloNivel.setMision(new ModeloMisionCarnicero());
+		return true;
+	}
+	else if (misionElegida == 2) {
+		this->mision = 2;
+		modeloNivel.setMision(new ModeloMisionBanderas());
+		return true;
+	}
+	else 
+		return false;
+}
+
+char ModeloFactory::nuevoElegirMisiones(std::list<ParserYaml::stEscenario>& listaEscenarios){
+	bool quit = false;
+	bool clicBotonMouseIzquierdo = false;	
+	int posicionMouseX, posicionMouseY;
+	char misionElegida;
+	SDL_Event event;
+	TTF_Font *fuente = NULL;
+	SDL_Color textColor = { 255, 255, 255 }; //color blanco 
+	SDL_Surface* pantalla = NULL;
+	SDL_Init( SDL_INIT_EVERYTHING );
+	pantalla = SDL_SetVideoMode( PANTALLA_ANCHO, PANTALLA_ALTO, SCREEN_BPP, SDL_SWSURFACE );
+	TTF_Init();
+	SDL_WM_SetCaption( "Misiones", NULL );
+	SDL_Surface *imagenDeFondo = NULL;
+	imagenDeFondo = ImageLoader::getInstance().load_image( "./img/background4.png" );
+	fuente = TTF_OpenFont( "./fonts/Verdana.ttf", 28 );	
+	SDL_Surface* textoMisionCarnicero = TTF_RenderText_Solid( fuente, "Mision Carnicero", textColor );
+	SDL_Surface* textoMisionBanderas = TTF_RenderText_Solid( fuente, "Mision Banderas", textColor );	
+	SDL_BlitSurface( imagenDeFondo, NULL, pantalla, NULL );		
+	SDL_Rect offset;
+	offset.x = 50;
+	offset.y = 190;
+	SDL_BlitSurface( textoMisionCarnicero, NULL, pantalla, &offset );
+	rectangleRGBA( pantalla, 48, 190, 295, 225, 0, 255, 0, 255);
+	offset.x = 350;
+	offset.y = 190;
+	SDL_BlitSurface( textoMisionBanderas, NULL, pantalla, &offset );	
+	rectangleRGBA( pantalla, 348, 190, 595, 225, 0, 255, 0, 255);	
+	SDL_Flip( pantalla );
+	while( quit == false ) {
+        while( SDL_PollEvent( &event ) ) {            
+			switch (event.type) {
+				case SDL_QUIT:
+					quit = true;
+				break;
+				case SDL_MOUSEMOTION:
+					posicionMouseX = event.motion.x;
+					posicionMouseY = event.motion.y;
+				break;		
+				case SDL_MOUSEBUTTONDOWN:
+					switch (event.button.button) {
+						case SDL_BUTTON_LEFT:	
+							clicBotonMouseIzquierdo = true;
+						break;						
+					}			
+					break;
+				case SDL_MOUSEBUTTONUP:
+					switch (event.button.button) {
+						case SDL_BUTTON_LEFT:	
+							clicBotonMouseIzquierdo = false;
+						break;				
+					}			
+				break;
+			}
+		}				
+		if (clicBotonMouseIzquierdo && posicionMouseX >48 && posicionMouseX <295 && posicionMouseY >190 && posicionMouseY <225){
+			misionElegida = 1;
+			std::cout << "Mision Elegida Carnicero" << std::endl;
+			Log::getInstance().log(1,__FILE__,__LINE__,"Mision Elegida Carnicero");
+			std::list<ParserYaml::stEscenario>::iterator it=listaEscenarios.begin();
+			for (int i = 0; i < 2;i++) 
+				it++;
+			std::cout << "Se usara el escenario: "<< (*it).nombre << std::endl;
+			this->juegoElegido.nombreEscenario = (*it).nombre;
+			this->juegoElegido.escenario = (*it);
+			SDL_FreeSurface( imagenDeFondo );
+			SDL_FreeSurface( textoMisionCarnicero );   
+			SDL_FreeSurface( textoMisionBanderas );    				
+			SDL_FreeSurface( pantalla );   
+			TTF_CloseFont( fuente );
+			TTF_Quit();   
+			SDL_Quit();
+			return misionElegida;
+		}		
+		else  if (clicBotonMouseIzquierdo && posicionMouseX >348 && posicionMouseX <595 && posicionMouseY >190 && posicionMouseY <225){
+			misionElegida = 2;
+			std::cout << "Mision Elegida Banderas" << std::endl;
+			Log::getInstance().log(1,__FILE__,__LINE__,"Mision Elegida Banderas");
+			std::list<ParserYaml::stEscenario>::iterator it=listaEscenarios.begin();
+			for (int i = 0; i < 3;i++) it++;
+			std::cout << "Se usara el escenario: "<< (*it).nombre << std::endl;
+			this->juegoElegido.nombreEscenario = (*it).nombre;
+			this->juegoElegido.escenario = (*it);
+			SDL_FreeSurface( imagenDeFondo );
+			SDL_FreeSurface( textoMisionCarnicero );   
+			SDL_FreeSurface( textoMisionBanderas );    				
+			SDL_FreeSurface( pantalla );   
+			TTF_CloseFont( fuente );
+			TTF_Quit();   
+			SDL_Quit();				
+			return misionElegida;
+		}		
+    }
+	SDL_FreeSurface( imagenDeFondo );
+	SDL_FreeSurface( textoMisionCarnicero );   
+	SDL_FreeSurface( textoMisionBanderas );    				
+	SDL_FreeSurface( pantalla );   
+	TTF_CloseFont( fuente );
+	TTF_Quit();   
+	SDL_Quit();		
+	return 3;
 }
 
 // No es usado por hilos
@@ -165,6 +295,7 @@ bool ModeloFactory::nuevoElegirEscenario(std::list<ParserYaml::stEscenario>& lis
 					SDL_FreeSurface ( nombreDeEscenario );
 					vectorDeNombresDeEscenarios.pop_back();
 				}
+				SDL_FreeSurface( pantalla );    
 				SDL_FreeSurface( imagenDeFondo3 );    
 				TTF_CloseFont( fuente );
 				TTF_Quit();   
@@ -175,6 +306,13 @@ bool ModeloFactory::nuevoElegirEscenario(std::list<ParserYaml::stEscenario>& lis
 			k++;
 		}		
     }
+	while (vectorDeNombresDeEscenarios.size() != 0) {
+		SDL_Surface * nombreDeEscenario = NULL; 
+		nombreDeEscenario = vectorDeNombresDeEscenarios.back();
+		SDL_FreeSurface ( nombreDeEscenario );
+		vectorDeNombresDeEscenarios.pop_back();
+	}
+	SDL_FreeSurface( pantalla );    
 	SDL_FreeSurface( imagenDeFondo3 );    
 	TTF_CloseFont( fuente );
 	TTF_Quit();   

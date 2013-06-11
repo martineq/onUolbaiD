@@ -5,7 +5,6 @@ ModeloJuego::ModeloJuego() {
 }
 
 ModeloJuego::~ModeloJuego() {
-
 }
 
 bool ModeloJuego::iniciarEscenario(SocketServidor* pSocket, bool primeraVez){
@@ -39,7 +38,7 @@ void ModeloJuego::finalizarRecepcion(){
 }
 
 bool ModeloJuego::loop() {
-	return this->_modeloLoop.loop(this->_modeloNivel);
+	return this->_modeloLoop.loop(this->_modeloNivel);	
 }
 
 int ModeloJuego::cantidadJugadores(void){
