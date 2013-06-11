@@ -44,15 +44,11 @@ void ModeloJugador::atacarEnemigo() {
 void ModeloJugador::matar() {
 	this->_vida = 0;
 	this->_estaCongelado = false;
-	while (!this->_bombas.empty())
-		this->_bombas.pop();
-	this->_hechizoHielo = NULL;
 	this->_enemigo = NULL;
 	if (this->_golem != NULL) {
 		this->_golem->matar();
 		this->_golem->enviarEstado();
 	}
-	this->_golem = NULL;
 	this->_item = NULL;
 	if (this->_estadoNivel != NULL)
 		this->_estadoNivel->rangoVision(RANGO_VISION);
@@ -99,6 +95,12 @@ void ModeloJugador::recogerItem() {
 void ModeloJugador::revivir() {
 	if (this->_vida > 0)
 		return;
+	this->_modeloEntidad->velocidad(this->_velocidadInicial);
+	while (!this->_bombas.empty())
+		this->_bombas.pop();
+	this->_hechizoHielo = NULL;
+	this->_golem = NULL;
+	this->_danioAtaque = this->_danioAtaqueInicial;
 	this->_escudo = 0;
 	this->_magia = this->_maximoMagia;
 	this->_vida = this->_maximoVida;
@@ -135,11 +137,13 @@ ModeloJugador::ModeloJugador(int alto, int ancho, int velocidad, Posicion posici
 	this->_maximoMagia = maximoMagia;
 	this->_nombreJugador = nombreJugador;
 	this->_posicionInicial = posicion;
+	this->_velocidadInicial = velocidad;
 	this->_vida = maximoVida;
 	this->_maximoVida = maximoVida;
 	this->_ingresoAlJuego = false;
 	this->_instanteUltimoCambioEstado = 0;
 	this->_danioAtaque = ataque;
+	this->_danioAtaqueInicial = ataque;
 	this->_idDuenio = idDuenio;
 
 	this->_hechizoHielo = NULL;
@@ -190,6 +194,13 @@ void ModeloJugador::autonomo(bool autonomo) {
 	this->_mutex.lockEscritura(__FILE__, __LINE__);
 	this->_autonomo = autonomo;
 	this->_mutex.unlock(__FILE__, __LINE__);
+}
+
+int ModeloJugador::danioAtaque() {
+	this->_mutex.lockLectura(__FILE__, __LINE__);
+	int danioAtaque = this->_danioAtaque;
+	this->_mutex.unlock(__FILE__, __LINE__);
+	return danioAtaque;
 }
 
 bool ModeloJugador::estaCongelado() {
@@ -467,6 +478,16 @@ bool ModeloJugador::estaEnRangoVision(ModeloJugador* enemigo) {
 		(posicionEnemigo.y <= posicionJugador.y + rangoVision));
 }
 
+void ModeloJugador::incrementarDanioAtaque(int danioAtaque) {
+	if (this->_danioAtaque == this->_danioAtaqueInicial)
+		this->_danioAtaque += danioAtaque;
+}
+
+void ModeloJugador::incrementarVelocidad(int velocidad) {
+	if (this->_modeloEntidad->velocidad() == this->_velocidadInicial)
+		this->_modeloEntidad->velocidad(this->_velocidadInicial / velocidad);
+}
+
 void ModeloJugador::mover(Posicion posicion) {
 	this->_enemigo = NULL;
 	this->_item = NULL;
@@ -517,15 +538,6 @@ void ModeloJugador::ingresarAlJuego(void) {
 
 EstadoNivel* ModeloJugador::getEstadoNivel(){
 	return this->_estadoNivel;
-}
-
-void ModeloJugador::danioAtaque(int danio){
-	this->_danioAtaque = danio;
-	return void();
-}
-
-int ModeloJugador::danioAtaque(void){
-	return this->_danioAtaque;
 }
 
 int ModeloJugador::idDuenio(void){

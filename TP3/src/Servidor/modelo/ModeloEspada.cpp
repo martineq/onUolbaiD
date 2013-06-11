@@ -1,8 +1,7 @@
 #include "ModeloItem.h"
 
 bool ModeloEspada::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores, ListaJugadores* listaEnemigos, ListaJugadores* listaGolems) {
-	int nuevoDanio = ( jugador->danioAtaque() + (DANIO_ESPADA) );
-	jugador->danioAtaque(nuevoDanio);
+	jugador->incrementarDanioAtaque(DANIO_ESPADA);
 	return true;
 }
 

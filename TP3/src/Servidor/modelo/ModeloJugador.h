@@ -33,12 +33,14 @@ class ModeloJugador {
 		std::string _nombreJugador;
 		Posicion _pixelInicial;
 		Posicion _posicionInicial;
+		int _velocidadInicial;
 		int _vida;
 		int _maximoVida;
 		bool _ingresoAlJuego;
 		DWORD _instanteCongelamiento;
 		DWORD _instanteUltimoCambioEstado;
 		int _danioAtaque;
+		int _danioAtaqueInicial;
 		int _idDuenio;
 		ModeloDrop::stDatosDrop datosDrop;
 
@@ -84,6 +86,8 @@ class ModeloJugador {
 		bool autonomo();
 
 		void autonomo(bool autonomo);
+
+		int danioAtaque();
 
 		bool estaCongelado();
 
@@ -141,6 +145,10 @@ class ModeloJugador {
 
 		bool estaEnRangoVision(ModeloJugador* enemigo);
 
+		void incrementarDanioAtaque(int danioAtaque);
+
+		void incrementarVelocidad(int velocidad);
+
 		void mover(Posicion posicion);
 
 		void recogerItem(ModeloItem* item);
@@ -162,10 +170,6 @@ class ModeloJugador {
 		void setTieneMapa(bool);
 
 		EstadoNivel* getEstadoNivel();
-
-		void danioAtaque(int danio);
-
-		int danioAtaque(void);
 
 		int idDuenio(void);
 
