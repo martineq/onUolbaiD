@@ -138,7 +138,7 @@ bool Administrador::nuevoMenu1(){
 	TTF_Init();
 	pantalla = SDL_SetVideoMode( PANTALLA_ANCHO, PANTALLA_ALTO, SCREEN_BPP, SDL_SWSURFACE );	
 	SDL_WM_SetCaption( "Menu", NULL );
-	imagenDeFondo  = ImageLoader::getInstance().load_image( CARA_DIABLO_2  );	
+	imagenDeFondo  = ImageLoader::getInstance().load_image( IMG_CARA_DIABLO_2  );	
 	fuente = TTF_OpenFont( FUENTE_USADA, 26 );
 	textoSinglePlayer = TTF_RenderText_Solid( fuente, "Single Player", textColor );
 	textoMultiPlayer  = TTF_RenderText_Solid( fuente, "Multiplayer", textColor );	
@@ -222,7 +222,7 @@ bool Administrador::nuevoMenu2(SDL_Surface *pantalla, TTF_Font * fuente){
 	bool quit = false;
 	bool clicBotonMouseIzquierdo = false;		
 	int posicionMouseX, posicionMouseY;	
-	imagenDeFondo2 = ImageLoader::getInstance().load_image( IMAGEN_FONDO_2 );	
+	imagenDeFondo2 = ImageLoader::getInstance().load_image( IMG_GUERRERO );	
 	textoCliente = TTF_RenderText_Solid( fuente, "Cliente", textColor );
 	textoServidor  = TTF_RenderText_Solid( fuente, "Servidor", textColor );	
 	SDL_Rect offsetDelFondo;
