@@ -167,6 +167,10 @@ void VistaMusica::murioEnemigo(std::string nombreEntidad){
 	}else if ( nombreEntidad.compare(STRING_ENEMIGO_A) == 0 ){ Mix_PlayChannel( -1, EnemigoA_muere , 0 );
 	}else if ( nombreEntidad.compare(STRING_ENEMIGO_B) == 0 ){ Mix_PlayChannel( -1, EnemigoB_muere , 0 );
 	}else if ( nombreEntidad.compare(STRING_ENEMIGO_C) == 0 ){ Mix_PlayChannel( -1, EnemigoC_muere , 0 );
+	}else if ( nombreEntidad.compare(STRING_QUEEN) == 0 ){ Mix_PlayChannel( -1, JugadorMujer_muere , 0 );
+	}else if ( nombreEntidad.compare(STRING_KNIGHT) == 0 ){ Mix_PlayChannel( -1, JugadorHombre_muere , 0 );
+	}else if ( nombreEntidad.compare(STRING_VLAD) == 0 ){ Mix_PlayChannel( -1, JugadorHombre_muere , 0 );
+	}else if ( nombreEntidad.compare(STRING_BJORN) == 0 ){ Mix_PlayChannel( -1, JugadorHombre_muere , 0 );
 	}else{  }
 }
 

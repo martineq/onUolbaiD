@@ -62,8 +62,8 @@ bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNiv
 	}
 
 	if ( this->dibujarEntidades(vistaNivel, estadoNivel) == false) return false;	
-	if ( this->vistaChat->graficar(this->pantalla) == false) return false;
 	if ( this->dibujarStats(vistaNivel) == false) return false;
+	if ( this->vistaChat->graficar(this->pantalla) == false) return false;
 	ImageLoader::getInstance().refrescarPantalla(this->pantalla);
 	return true;
 }
