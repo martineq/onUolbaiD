@@ -24,6 +24,7 @@ class VistaEntidad: public Identificable{
 		bool yaMurio;
 		bool tieneHechizoHielo;
 		bool tieneGolem;
+		bool sonidoExtra;
 		double x;
 		double y;
 		double alto;
@@ -56,7 +57,7 @@ class VistaEntidad: public Identificable{
 		int escudo;		
 		int cantidadBombas;
 
-		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio);
+		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio, bool ataco);
 
 	public:
 		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado,std::string nombreJugador,int vida, int tipoEntidad, int magia, int escudo);

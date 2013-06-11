@@ -135,6 +135,8 @@ void VistaMusica::atacar(std::string nombreEntidad){
 	}else if ( nombreEntidad.compare(STRING_ENEMIGO_A) == 0 ){ Mix_PlayChannel( -1, EnemigoA_ataca , 0 );
 	}else if ( nombreEntidad.compare(STRING_ENEMIGO_B) == 0 ){ Mix_PlayChannel( -1, EnemigoB_ataca , 0 );
 	}else if ( nombreEntidad.compare(STRING_ENEMIGO_C) == 0 ){ Mix_PlayChannel( -1, EnemigoC_ataca , 0 );
+	}else if ( nombreEntidad.compare(STRING_BOMBA) == 0 ){Mix_PlayChannel( -1, BombaExplota , 0 );
+	}else if ( nombreEntidad.compare(STRING_HECHIZO_HIELO) == 0 ){Mix_PlayChannel( -1, HechizoHieloLanzado, 0 );
 	}else{  }
 }
 
@@ -184,8 +186,6 @@ void VistaMusica::itemTomado(std::string nombreEntidad){
 
 void VistaMusica::sonidoExtra(std::string nombreEntidad){
 	if ( nombreEntidad.compare(STRING_CARNICERO) == 0 ){ Mix_PlayChannel( -1, Carnicero_rie , 0 );
-	}else if ( nombreEntidad.compare(STRING_BOMBA) == 0 ){Mix_PlayChannel( -1, BombaExplota , 0 );
-	}else if ( nombreEntidad.compare(STRING_HECHIZO_HIELO) == 0 ){Mix_PlayChannel( -1, HechizoHieloLanzado, 0 );
 	}else{  }
 }
 

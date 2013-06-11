@@ -28,8 +28,12 @@ bool ModeloHechizoHielo::aplicar(ModeloJugador* jugador, ListaJugadores* listaJu
 			ModeloJugador* victima = listaJugadores->obtenerJugador(posicion);
 			if (victima == NULL)
 				victima = listaEnemigos->obtenerJugador(posicion);
-			if ((victima != NULL) && (victima != jugador))
+			if ((victima != NULL) && (victima != jugador)){
+				ProxyModeloEntidad::stEntidad entidad = this->modeloEntidad()->stEntidad();
+				entidad.atacando = true;
+				this->modeloEntidad()->enviarEstado(entidad);
 				victima->estaCongelado(true);
+			}
 		}
 	}
 	
