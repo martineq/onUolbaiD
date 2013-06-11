@@ -288,6 +288,7 @@ ProxyModeloEntidad::stEntidad ModeloJugador::stEntidad() {
 	estado.tieneHechizoHielo = (this->_hechizoHielo != NULL);
 	estado.tieneGolem = false;
 	estado.tieneMapa = this->_tieneMapa;
+	estado.atacando = (this->_accion == ATACANDO);
 	estado.accion = (this->_accion * 8) + this->_modeloEntidad->direccion();	
 	return estado;
 }

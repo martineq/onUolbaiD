@@ -34,6 +34,7 @@ class ProxyModeloEntidad{
 			bool tieneHechizoHielo;
 			bool tieneGolem;
 			bool tieneMapa;
+			bool atacando;
 			std::string actualizacionMapa;
 			int idRemitente;
 			std::string mensaje;
@@ -64,6 +65,7 @@ class ProxyModeloEntidad{
 				this->tieneHechizoHielo = false;
 				this->tieneGolem = false;
 				this->tieneMapa = false;
+				this->atacando = false;
 				this->idRemitente = ID_FALSO;
 
 				this->accion = 0;
