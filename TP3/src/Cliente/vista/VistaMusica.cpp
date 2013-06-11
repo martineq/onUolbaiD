@@ -246,5 +246,6 @@ VistaMusica::~VistaMusica() {
 		Mix_FreeChunk(JugadorMujer_ataca);
 		Mix_FreeChunk(JugadorMujer_muere);
 		Mix_FreeChunk(JugadorMujer_RecibeGolpe);
+		Mix_CloseAudio();
 		Mix_Quit();
 }
