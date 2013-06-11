@@ -33,8 +33,12 @@ bool ModeloBomba::aplicar(ModeloJugador* jugador, ListaJugadores* listaJugadores
 			ModeloJugador* victima = listaJugadores->obtenerJugador(posicion);
 			if (victima == NULL)
 				victima = listaEnemigos->obtenerJugador(posicion);
-			if (victima != NULL)
+			if (victima != NULL){
 				victima->consumirVida(DANIO_BOMBA);
+				ProxyModeloEntidad::stEntidad entidad = this->modeloEntidad()->stEntidad();
+				entidad.atacando = true;
+				this->modeloEntidad()->enviarEstado(entidad);
+			}
 		}
 	}
 

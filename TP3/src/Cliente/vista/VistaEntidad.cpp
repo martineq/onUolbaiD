@@ -78,6 +78,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->cantidadBombas = 0;
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
 	this->animacionActual = NULL;
+	this->sonidoExtra = true;
 
 	int i = 0;
 	for (it=listaAnimaciones.begin();it!=listaAnimaciones.end();it++){
@@ -125,7 +126,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->gastoBomba = ( this->cantidadBombas > entidad.cantidadBombas );
 	bool murio = (entidad.vida == 0);	
 	if( (this->vida == 0) && (entidad.vida>0) ) this->yaMurio = false;  // Si revivó reseteo esta variable
-	this->actualizarEventosSonido(entidad.nombreEntidad,sufrioDanio,murio);
+	this->actualizarEventosSonido(entidad.nombreEntidad, sufrioDanio, murio, entidad.atacando);
 
 	// Actualizo los datos
 	this->setPosicionAnteriorEnTiles();
@@ -324,7 +325,7 @@ void VistaEntidad::esMiJugador(bool valor){
 	return void();
 }
 
-void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio){
+void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio, bool ataco){
 
 	// True solo si es el el jugador de este cliente
 	bool esMiJugador = this->esMiJugador();
@@ -351,13 +352,13 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 	}
 
 	// Se tomo item
-	if ( esItem == true && murio == true && !this->yaMurio) { 
+	if ( esItem == true && murio == true && !this->yaMurio && ataco == false ) { 
 		this->yaMurio = true;
 		VistaMusica::getInstance().itemTomado(this->nombreEntidad);
 	} 	
-	
-	// Si el jugador ataca. TODO: Conviene recibir un evento específico de "Esta entidad atacó". porque a veces la animacion se usa para otras cosas que no son atacar
-	if ( 8 < this->getCodigoAnimacion() && this->getCodigoAnimacion() < 17 ){
+
+	// Si la entidad ataca.
+	if ( ataco == true ){
 		VistaMusica::getInstance().atacar(this->nombreEntidad);			
 	}
 
@@ -383,6 +384,12 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 	if (this->gastoBomba==true) {
 		VistaMusica::getInstance().gastoBomba();
 		this->setGastoBomba(false);
+	}
+
+	//Sonidos extra
+	if (this->sonidoExtra == true) {
+		VistaMusica::getInstance().sonidoExtra(this->nombreEntidad);
+		this->sonidoExtra = false;
 	}
 
 	return void();

@@ -663,6 +663,13 @@ escenarios:
           mana: 50
           daño: 10
           velocidad: 250
+        - entidad: knight
+          x: 3
+          y: 0
+          vida: 50
+          mana: 50
+          daño: 10
+          velocidad: 250
       enemigos:
         - entidad: enemigo_a
           x: 8
@@ -829,6 +836,12 @@ escenarios:
         - entidad: bomba
           x: 7
           y: 6
+        - entidad: bomba
+          x: 7
+          y: 7
+        - entidad: bomba
+          x: 7
+          y: 8
         - entidad: lampara
           x: 7
           y: 8
