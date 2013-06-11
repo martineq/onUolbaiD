@@ -97,6 +97,8 @@ class ModeloEntidad {
 
 		void setMasivo(void);
 
+		void setIndividual(void);
+
 		void notificarSoloAlJugador(void);
 
 		int tipoEntidad(void);

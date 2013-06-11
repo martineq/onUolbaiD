@@ -70,6 +70,8 @@ bool Servidor::correrJuego(void){
 			//Reseteo el ModeloJuego y el Socket
 			this->modeloJuego.reset();
 			this->socket.reset();
+			std::cout<<"\n >>> Juego Finalizado <<<\n\n";
+			Log::getInstance().log(1,__FILE__,__LINE__,">>> Juego Finalizado <<<");
 		}else{
 			Log::getInstance().log(1,__FILE__,__LINE__,"Error al iniciar el juego el servidor.");
 			return false;

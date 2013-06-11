@@ -43,6 +43,7 @@ class ModeloJugador {
 		int _danioAtaqueInicial;
 		int _idDuenio;
 		ModeloDrop::stDatosDrop datosDrop;
+		bool _listoParaEntrar;
 
 		std::stack<ModeloItem*> _bombas;
 		ModeloItem* _hechizoHielo;
@@ -163,6 +164,8 @@ class ModeloJugador {
 
 		void ingresarAlJuego(void);
 
+		void sacarDelJuego(void);
+
 		bool tieneGolem();
 
 		bool tieneMapa();
@@ -176,6 +179,10 @@ class ModeloJugador {
 		int maximoVida(void);
 
 		Posicion posicionGolem(void);
+
+		bool listoParaEntrar(void);
+
+		void listoParaEntrar(bool valor);
 };
 
 class ListaJugadores {
