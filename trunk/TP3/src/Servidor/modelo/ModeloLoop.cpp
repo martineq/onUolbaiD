@@ -9,7 +9,6 @@ ModeloLoop::~ModeloLoop(){
 }
 
 bool ModeloLoop::loop(ModeloNivel& modeloNivel){
-
 	// Envia datos a todos los clientes cada cierto tiempo, para ver si no se desconectaron
 	this->chequearConexion(modeloNivel);
 
@@ -25,8 +24,8 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 		// Si el cliente finalizo su juego tambien lo congelo
 		if( this->_modeloEvento.finalizoElJuego() == true ){
 			// En caso de finalización del juego o error de sockets se congela al jugador
-			modeloNivel.desconectarJugador(idJugador);
-		}
+			modeloNivel.desconectarJugador(idJugador);			
+		}		
 		else if (this->_modeloEvento.getIdDestinatarioChat() != -1) {
 			ModeloJugador* remitente = modeloNivel.obtenerJugador(this->_modeloEvento.getIdJugador());
 			if (remitente == NULL)
@@ -46,13 +45,15 @@ bool ModeloLoop::loop(ModeloNivel& modeloNivel){
 			modeloNivel.activarBomba(idJugador);
 		else if (this->_modeloEvento.getKeyG())
 			modeloNivel.activarGolem(idJugador);
-		
+
 		this->_modeloEvento.cargarProximoEvento();  // Con esto descarto el evento que acabo de leer y cargo el próximo
 	}
 
-	modeloNivel.actualizar();
+	if (modeloNivel.actualizar() == false)
+		modeloNivel.desconectarJugador(modeloNivel.getMision()->ganador()->modeloEntidad()->id());
 
 	return true;
+	
 }
 
 void ModeloLoop::desconectarJugadoresConError(ModeloNivel& modeloNivel){

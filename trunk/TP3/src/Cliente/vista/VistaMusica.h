@@ -76,6 +76,7 @@ class VistaMusica {
 		void conEscudo();
 		void gastoMagia();
 		void gastoBomba();
+		void destruirSonidos();
 		bool iniciar();
 };
 

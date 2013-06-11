@@ -131,14 +131,27 @@ void VistaNivel::destruirListaEntidades(){
 	// Destruyo las entidades instanciadas (incluye al jugador)
 	for (std::list<VistaEntidad*>::iterator entidad = this->listaEntidades.begin(); entidad != this->listaEntidades.end(); entidad++){
 		delete (*entidad);
+	}	
+	this->listaEntidades.clear();
+		
+	for (std::list<VistaEntidad*>::iterator entidad = this->listaOtrosJugadores.begin(); entidad != this->listaOtrosJugadores.end(); entidad++){
+		if (*entidad != NULL) 
+			delete (*entidad);
 	}
-	if( this->jugador != NULL ) delete this->jugador;
+	this->listaOtrosJugadores.clear();
+
+	this->jugador = NULL;
+
+	/*if( this->pControladorScroll != NULL) delete this->pControladorScroll;
+	this->pControladorScroll = NULL;*/
+
 	return void();
 }
 
 void VistaNivel::destruirScroll(){
 	// Destruyo el scroll
 	if( this->scroll != NULL ) delete this->scroll;
+	this->scroll = NULL;
 	return void();
 }
 

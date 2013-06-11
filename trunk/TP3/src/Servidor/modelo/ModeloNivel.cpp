@@ -3,8 +3,10 @@
 using namespace std;
 
 void ModeloNivel::actualizarJugadores(std::list<ModeloJugador*>* listaJugadores, std::list<ModeloJugador*>* listaEnemigos, std::list<ModeloJugador*>* listaGolems) {
-	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores->begin(); jugador != listaJugadores->end(); jugador++)
+	for (std::list<ModeloJugador*>::iterator jugador = listaJugadores->begin(); jugador != listaJugadores->end(); jugador++) {
 		(*jugador)->cambiarEstado();
+		this->mision->calcularGanador(*jugador);				
+	}
 }
 
 void ModeloNivel::actualizarEnemigos(std::list<ModeloJugador*>* listaJugadores, std::list<ModeloJugador*>* listaEnemigos, std::list<ModeloJugador*>* listaGolems) {
@@ -106,9 +108,7 @@ ModeloNivel::ModeloNivel() {
 	this->listaEnemigos.asignarListaEntidades(&this->listaEntidades);
 	this->listaItems.asignarListaEntidades(&this->listaEntidades);
 	this->listaGolems.asignarListaEntidades(&this->listaEntidades);
-}
-
-ModeloNivel::~ModeloNivel() {
+	this->mision = NULL;	
 }
 
 std::list<ModeloJugador*> ModeloNivel::getJugadores() {
@@ -138,6 +138,7 @@ void ModeloNivel::agregarJugador(ModeloJugador* jugador) {
 	jugador->asignarListaGolems(&this->listaGolems);
 	jugador->asignarListaJugadores(&this->listaJugadores);
 	jugador->enviarEstado();
+	this->mision->agregarJugador(jugador);	
 }
 
 void ModeloNivel::agregarEnemigo(ModeloJugador* enemigo) {
@@ -146,6 +147,7 @@ void ModeloNivel::agregarEnemigo(ModeloJugador* enemigo) {
 	enemigo->asignarListaItems(&this->listaItems);
 	enemigo->asignarListaGolems(&this->listaGolems);
 	enemigo->asignarListaJugadores(&this->listaJugadores);
+	this->mision->agregarEnemigo(enemigo);	
 }
 
 void ModeloNivel::agregarItem(ModeloItem* item) {
@@ -154,6 +156,7 @@ void ModeloNivel::agregarItem(ModeloItem* item) {
 	item->asignarListaEnemigos(&this->listaEnemigos);
 	item->asignarListaGolems(&this->listaGolems);
 	item->enviarEstado();
+	this->mision->agregarItem(item);
 }
 
 void ModeloNivel::agregarEntidad(ModeloEntidad* entidad) {
@@ -236,17 +239,38 @@ void ModeloNivel::desconectarJugador(int id){
 	return void();
 }
 
+
+bool ModeloNivel::chequearMision(){
+	if (this->mision->ganador() != NULL) {
+		//Para mostrar por pantalla el ganador.
+		std::list<ModeloJugador*> jugadores = this->getJugadores();
+		for( std::list<ModeloJugador*>::iterator it= jugadores.begin() ; it!= jugadores.end() ; it++ ){
+			(*it)->setNombreDelJugadorGanador(this->mision->ganador()->nombreJugador());
+			(*it)->modeloEntidad()->setTerminoJuego(true);
+			(*it)->enviarEstado();
+		}
+		//Para cortar el loop de la vista.
+/*		ModeloJugador* jugador = this->listaJugadores.obtenerJugadores().front();
+		jugador->modeloEntidad()->setTerminoJuego(true);
+		jugador->enviarEstado();			*/
+
+		return false;		
+	}
+	
+	return true;
+}
+
 bool ModeloNivel::actualizar() {
 	std::list<ModeloJugador*> listaJugadores = this->getJugadores();
 	std::list<ModeloJugador*> listaEnemigos = this->getEnemigos();
 	std::list<ModeloJugador*> listaGolems = this->listaGolems.obtenerJugadores();
 	
-	this->actualizarJugadores(&listaJugadores, &listaEnemigos, &listaGolems);
+	this->actualizarJugadores(&listaJugadores, &listaEnemigos, &listaGolems);	 
 	this->actualizarEnemigos(&listaJugadores, &listaEnemigos, &listaGolems);
 	this->actualizarGolems(&listaJugadores, &listaEnemigos, &listaGolems);
-	this->actualizarItems();
-	
-	return true;
+	this->actualizarItems();	
+
+	return this->chequearMision();	
 }
 
 bool ModeloNivel::posicionOcupada(Posicion posicion){
@@ -297,6 +321,22 @@ void ModeloNivel::destruirListas(){
 	this->listaEnemigos.destruirJugadores();
 	this->listaItems.destruirItems();
 	this->listaEntidades.destruirEntidades();
+	this->listaGolems.destruirJugadores();
+}
+
+void ModeloNivel::setMision(ModeloMision* mision){
+	this->mision = mision;
+}
+
+ModeloMision* ModeloNivel::getMision(){
+	return this->mision;
+}
+
+ModeloNivel::~ModeloNivel() {
+	if (this->mision != NULL) {
+		delete this->mision;
+		this->mision = NULL;
+	}
 }
 
 void ModeloNivel::reset(){
@@ -306,7 +346,7 @@ void ModeloNivel::reset(){
 	this->listaEnemigos.destruirJugadores();
 	this->listaItems.destruirItems();
 	this->listaEntidades.destruirEntidades();
-	this->listaGolems.destruirJugadores();
+	this->listaGolems.destruirJugadores();	
 
 	// Seteo como en el constructor
 	this->indiceEnemigo = 0;

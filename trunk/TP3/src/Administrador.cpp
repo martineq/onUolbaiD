@@ -189,7 +189,8 @@ bool Administrador::nuevoMenu1(){
 			Log::getInstance().log(1,__FILE__,__LINE__,"Modo Un Jugador seleccionado");
 			SDL_FreeSurface( imagenDeFondo );
 			SDL_FreeSurface( textoSinglePlayer );   
-			SDL_FreeSurface( textoMultiPlayer );    	
+			SDL_FreeSurface( textoMultiPlayer );   
+			SDL_FreeSurface( pantalla );   
 			TTF_CloseFont( fuente );
 			TTF_Quit();   
 			SDL_Quit();
@@ -203,6 +204,7 @@ bool Administrador::nuevoMenu1(){
 			SDL_FreeSurface( imagenDeFondo );
 			SDL_FreeSurface( textoSinglePlayer );   
 			SDL_FreeSurface( textoMultiPlayer );    	
+			SDL_FreeSurface( pantalla );   
 			TTF_CloseFont( fuente );
 			TTF_Quit();   
 			SDL_Quit();
@@ -210,6 +212,13 @@ bool Administrador::nuevoMenu1(){
 			else return false;
 		}				
 	}	
+	SDL_FreeSurface( imagenDeFondo );
+	SDL_FreeSurface( textoSinglePlayer );   
+	SDL_FreeSurface( textoMultiPlayer );    	
+	SDL_FreeSurface( pantalla );   
+	TTF_CloseFont( fuente );
+	TTF_Quit();   
+	SDL_Quit();
 	return false;
 }
 
@@ -285,6 +294,9 @@ bool Administrador::nuevoMenu2(SDL_Surface *pantalla, TTF_Font * fuente){
 			return true;
 		}		
     }	
+	SDL_FreeSurface( imagenDeFondo2 );
+	SDL_FreeSurface( textoCliente );   
+	SDL_FreeSurface( textoServidor ); 
 	return false;
 }
 

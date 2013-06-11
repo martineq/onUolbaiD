@@ -1,6 +1,6 @@
 #include "VistaEntidad.h"
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador,int vida, int tipoEntidad, int magia, int escudo){
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador,int vida, int tipoEntidad, int magia, int escudo, bool tieneGolem, bool tieneHechizo, int bombas){
 	this->_id = id;
 	this->_tipoEntidad = tipoEntidad;
 	this->estaCongelado = estaCongelado;
@@ -9,6 +9,11 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->magia = magia;
 	this->vida = vida;
 	this->escudo = escudo;
+	
+	this->tieneGolem = tieneGolem;
+	this->tieneHechizoHielo = tieneHechizo;
+	this->tieneMapa = false;
+
 	int xAux, yAux;
 
 	Posicion::convertirTileAPixel(altoNivel, x, y, xAux, yAux);
@@ -20,6 +25,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->y = yAux;	
 	this->nombreEntidad = nombreEntidad;
 	this->nombreJugador = nombreJugador;
+	this->nombreDelJugadorGanador = "1";
 
 	this->animaciones = new VistaAnimaciones();
 
@@ -75,7 +81,8 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 	this->gastoEscudo = false;
 	this->gastoMagia = false;
 	this->yaMurio = false;
-	this->cantidadBombas = 0;
+	this->terminoJuego = false;
+	this->cantidadBombas = bombas;
 	std::list<std::list<std::string>>::iterator it = listaAnimaciones.begin();
 	this->animacionActual = NULL;
 	this->sonidoExtra = true;
@@ -101,6 +108,7 @@ VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double pos
 VistaEntidad::~VistaEntidad(void){
 	if (this->animaciones != NULL) delete this->animaciones;
 	this->animaciones = NULL;
+	this->estados.clear();
 }
 
 void VistaEntidad::setXEnPantalla(double scrollX){
@@ -138,6 +146,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->tileY = entidad.posicionY;
 	this->estaCongelado = entidad.estaCongelado;
 	this->nombreEntidad = entidad.nombreEntidad;
+	this->nombreDelJugadorGanador = entidad.nombreDelJugadorGanador;
 	this->nombreJugador = entidad.nombreJugador;
 	this->vida = entidad.vida;		
 	this->magia = entidad.magia;
@@ -146,6 +155,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->tieneGolem = entidad.tieneGolem;
 	this->cantidadBombas = entidad.cantidadBombas;
 	this->esPrimerMovimiento = entidad.esPrimerMovimiento;
+	this->terminoJuego = entidad.terminoJuego;
 
 	int codigo = entidad.accion;
 	if( (this->esJugador) && (codigo != this->codigoAnimacion)){
@@ -461,4 +471,12 @@ bool VistaEntidad::getTieneHechizoHielo(){
 
 bool VistaEntidad::getTieneGolem(){
 	return this->tieneGolem;
+}
+
+bool VistaEntidad::getTerminoJuego(){
+	return this->terminoJuego;
+}
+
+std::string VistaEntidad::getNombreDelJugadorGanador(){
+	return this->nombreDelJugadorGanador;
 }
