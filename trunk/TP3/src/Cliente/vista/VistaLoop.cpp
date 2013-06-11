@@ -49,53 +49,12 @@ void VistaLoop::refrescarMatriz(VistaNivel& vistaNivel, EstadoNivel* estadoNivel
 	estadoNivel->visitar(vistaNivel.getJugador()->getTileX(), vistaNivel.getJugador()->getTileY());
 }
 
-void VistaLoop::reproducirSonidos(VistaNivel& vistaNivel){
-	//Sonido de atacando.
-	if ( vistaNivel.getJugador()->getCodigoAnimacion() > 8 && vistaNivel.getJugador()->getCodigoAnimacion() < 17 ){
-		/*if (!this->reproduciAtacar) {
-			VistaMusica::getInstance().atacar();			
-			reproduciAtacar = true;
-		}*/
-		/*bool esPrimeraAnimacion = vistaNivel.getJugador()->getEsPrimerMovimiento();
-		if ( esPrimeraAnimacion ){*/
-			VistaMusica::getInstance().atacar();			
-			//this->reproduciAtacar = false;			
-		//}
-	}
-
-	//Sonido siendo atacado o sea sufrio danio.
-	if (vistaNivel.getJugador()->getSufrioDanio()) {
-		VistaMusica::getInstance().recibioUnGolpe();
-		vistaNivel.getJugador()->setSufrioDanio(false);
-	}
-
-	//Sonido recibio golpe pero tenia escudo
-	if (vistaNivel.getJugador()->getGastoEscudo()){
-		VistaMusica::getInstance().conEscudo();
-		vistaNivel.getJugador()->setGastoEscudo(false);
-	}
-
-	//Sonido gasta barra de magia
-	if (vistaNivel.getJugador()->getGastoMagia()) {
-		VistaMusica::getInstance().gastoMagia();
-		vistaNivel.getJugador()->setGastoMagia(false);
-	}
-
-	//Sonido gasto bomba
-	if (vistaNivel.getJugador()->getGastoBomba()) {
-		VistaMusica::getInstance().gastoBomba();
-		vistaNivel.getJugador()->setGastoBomba(false);
-	}
-}
-
 bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNivel* estadoNivel){
 	bool actualizarMatriz = false;
 	if( this->actualizarEntidadesPorProxy(vistaNivel,vistaFactory,actualizarMatriz) == false) return false;	// Actuliza lo que vino por el proxy
 
 	//Item Mapa
 	estadoNivel->setTieneMapa(vistaNivel.getJugador()->getTieneMapa());
-
-	this->reproducirSonidos(vistaNivel);
 
 	if ( (vistaNivel.getJugador()->getTileXAnterior() != vistaNivel.getJugador()->getTileX())
 		|| (vistaNivel.getJugador()->getTileYAnterior() != vistaNivel.getJugador()->getTileY()) || actualizarMatriz == true ) {
@@ -112,60 +71,69 @@ bool VistaLoop::loop(VistaNivel& vistaNivel,VistaFactory& vistaFactory,EstadoNiv
 bool VistaLoop::dibujarStats(VistaNivel& vistaNivel){
 	VistaEntidad* jugador = vistaNivel.getJugador();
 	int thickness = 10;			
-	this->fuente = TTF_OpenFont( "./fonts/Lazy.ttf", 28 );
+	this->fuente = TTF_OpenFont( FUENTE_USADA, 20 );
 	SDL_Color textColor = { 255, 255, 255 }; //color blanco 	
 
 	//Vida
 	int vidaPorcentual = (jugador->getVida()*100/jugador->getMaximoVida());	
 	stringstream ss; 	
+	if( vidaPorcentual < 100 ) ss <<" ";
+	if( vidaPorcentual == 0 ) ss <<" ";
 	ss << vidaPorcentual;
 	ss << '%';
 	string auxiliar = ss.str();
 	this->textoVida = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );		
-	SDL_BlitSurface( textoVida, NULL, pantalla, NULL);
+	SDL_Rect offset;
+	offset.x = 0;
+	offset.y = 7;
+	SDL_BlitSurface( textoVida, NULL, pantalla,  &offset);
 	boxRGBA( this->pantalla, 50, 10, 100*4+50, thickness+10, 0, 0, 0, 255); //barra negra
-	if (vidaPorcentual <= 10) 
-		boxRGBA( this->pantalla, 50, 10, vidaPorcentual*4+50, thickness+10, 255, 0, 0, 255);
-	else
-		boxRGBA( this->pantalla, 50, 10, vidaPorcentual*4+50, thickness+10, 0, 255, 0, 255);
+	double alfa = (double)255 * (double)((double)vidaPorcentual/(double)25);  
+	if( alfa > (double)255 ) alfa = 255;
+	boxRGBA( this->pantalla, 50, 10, vidaPorcentual*4+50, thickness+10, 255, 0, 0,(int)alfa);
+
 
 	//Magia
 	int magiaPorcentual = (jugador->getMagia()*100/jugador->getMaximoMagia());	
-	ss.str("");
+	ss.str(std::string());
+	if( magiaPorcentual < 100 ) ss <<" ";
+	if( magiaPorcentual == 0 ) ss <<" ";
 	ss << magiaPorcentual;	
 	ss << '%';
 	auxiliar = "";
 	auxiliar = ss.str();
 	this->textoMagia = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );	
-	SDL_Rect offset;
+	//SDL_Rect offset;
 	offset.x = 0;
-	offset.y = 30;
+	offset.y = 37;
 	SDL_BlitSurface( textoMagia, NULL, pantalla, &offset);
 	boxRGBA( this->pantalla, 50, 40, 100*4+50, thickness+40, 0, 0, 0, 255); //barra negra
-	if (vidaPorcentual <= 10) 
-		boxRGBA( this->pantalla, 50, 40, magiaPorcentual*4+50, thickness+40, 0, 255, 0, 255);
-	else
-		boxRGBA( this->pantalla, 50, 40, magiaPorcentual*4+50, thickness+40, 124, 230, 228, 255);
+	alfa = (double)255 * (double)((double)magiaPorcentual/(double)30);  
+	if( alfa > (double)255 ) alfa = 255;
+	boxRGBA( this->pantalla, 50, 40, magiaPorcentual*4+50, thickness+40, 0, 0, 255,(int)alfa);
+
+
 
 	//Escudo
 	int escudoPorcentual = jugador->getEscudo()*100/MAXIMO_ESCUDO;
-	ss.str("");
+	ss.str(std::string());
+	if( escudoPorcentual < 100 ) ss <<" ";
+	if( escudoPorcentual == 0 ) ss <<" ";
 	ss << escudoPorcentual;		
 	ss << '%';
 	auxiliar = "";
 	auxiliar = ss.str();
 	this->textoEscudo = TTF_RenderText_Solid( this->fuente, auxiliar.c_str(), textColor );		
 	offset.x = 0;
-	offset.y = 60;
+	offset.y = 67;
 	SDL_BlitSurface( textoEscudo, NULL, pantalla, &offset);
 	boxRGBA( this->pantalla, 50, 70, 100*4+50, thickness+70, 0, 0, 0, 255); //barra negra
-	if (escudoPorcentual <= 10) 
-		boxRGBA( this->pantalla, 50, 70, escudoPorcentual*4+50, thickness+70, 255, 0, 0, 255);
-	else
-		boxRGBA( this->pantalla, 50, 70, escudoPorcentual*4+50, thickness+70, 0, 255, 0, 255);	
+	alfa = (double)255 * (double)((double)escudoPorcentual/(double)30);  
+	if( alfa > (double)255 ) alfa = 255;
+	boxRGBA( this->pantalla, 50, 70, escudoPorcentual*4+50, thickness+70, 224, 223, 219,(int)alfa);  // (224, 223, 219): Color "Acero Inoxidable"
 
 	//Cantidad de bombas		
-	ss.str("");
+	ss.str(std::string());
 	ss << vistaNivel.getJugador()->getCantidadBombas();
 	auxiliar = "";
 	auxiliar = ss.str();	

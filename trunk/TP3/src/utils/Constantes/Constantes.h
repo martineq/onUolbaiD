@@ -32,6 +32,15 @@
 #define SDL_IMAGEN_DEFAULT "./img/default.png"
 #define SDL_RUTA_UTIL "img/tile.png"
 
+#define IMAGEN_MENU "./img/background.png"
+
+// Fondos del juego
+#define IMAGEN_FONDO_1 "./img/background.png"
+#define IMAGEN_FONDO_2 "./img/background2.png"
+#define IMAGEN_FONDO_3 "./img/background2.png"
+
+#define CARA_DIABLO_2  "./img/fondo_caraDiablo2.png"
+
 /************************* DIRECCIONES ***********************/
 #define ACCION_NORTE "NORTE"
 #define ACCION_SUR "SUR"
@@ -49,7 +58,12 @@
 
 
 /*********************CONTROLES EN PANTALLA ******************/
-#define DEFAULT_FONT "./src/utils/Fonts/verdana.ttf"
+#define FUENTE_USADA FUENTE_LATEX  // <<< Esta es la fuente que se usa
+
+#define FUENTE_VERDANA "./src/utils/Fonts/verdana.ttf"
+#define FUENTE_LAZY "./fonts/Lazy.ttf"
+#define FUENTE_LATEX "./fonts/LaTeX.ttf" 
+#define FUENTE_LINUX "./fonts/Linux.ttf" 
 
 /**************************** YAML ***************************/
 
@@ -155,6 +169,14 @@
 #define STRING_GOLEM "golem"	// Representa en el archivo yaml al icono del item Hechizo de Golem, no al personaje con todas sus animaciones
 #define STRING_CARNICERO "carnicero"
 #define STRING_BANDERA "bandera"
+#define STRING_KNIGHT "knight"
+#define STRING_QUEEN "queen"
+#define STRING_VLAD "vlad"
+#define STRING_BJORN "bjorn"
+#define STRING_ENEMIGO_A "enemigo_a"
+#define STRING_ENEMIGO_B "enemigo_b"
+#define STRING_ENEMIGO_C "enemigo_c"
+
 
 // Tipos de Entidades que se mueven
 #define TIPO_ENTIDAD_JUGADOR 1
