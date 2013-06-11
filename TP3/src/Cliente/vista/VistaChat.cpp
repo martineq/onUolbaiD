@@ -19,7 +19,7 @@ void VistaChat::agregarMensaje(string remitente, string mensaje) {
 VistaChat::VistaChat(Posicion posicion, VistaEntidad* remitente, ProxyControladorEvento* proxyControladorEvento) {
 	this->_posicion = posicion;
 	this->_visible = false;
-	this->_fuente = TTF_OpenFont("fonts/verdana.ttf", 10);
+	this->_fuente = TTF_OpenFont(FUENTE_USADA, 10);
 	this->_ventana = IMG_Load("img/chat.png");
 	this->_altoOcupadoTextoMensajes = 0;
 	this->_remitente = remitente;

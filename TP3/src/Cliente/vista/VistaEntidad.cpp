@@ -124,6 +124,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->gastoMagia = ( this->magia > entidad.magia );
 	this->gastoBomba = ( this->cantidadBombas > entidad.cantidadBombas );
 	bool murio = (entidad.vida == 0);	
+	if( (this->vida == 0) && (entidad.vida>0) ) this->yaMurio = false;  // Si revivó reseteo esta variable
 	this->actualizarEventosSonido(entidad.nombreEntidad,sufrioDanio,murio);
 
 	// Actualizo los datos
@@ -340,19 +341,49 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 
 	// Se murio mi jugador
 	if( esMiJugador == true && murio == true ) {
-		VistaMusica::getInstance().murioJugador();
+		VistaMusica::getInstance().murioJugador(this->nombreEntidad);
 	}
 
 	// Se murio un enemigo
-	if( esOtroJugador == true && murio == true && !esItem) {
-		VistaMusica::getInstance().murioEnemigo();
+	if( esOtroJugador == true && murio == true && !esItem && !this->yaMurio) {
+		this->yaMurio = true;
+		VistaMusica::getInstance().murioEnemigo(this->nombreEntidad);
 	}
 
 	// Se tomo item
 	if ( esItem == true && murio == true && !this->yaMurio) { 
 		this->yaMurio = true;
-		VistaMusica::getInstance().itemTomado();
+		VistaMusica::getInstance().itemTomado(this->nombreEntidad);
 	} 	
+	
+	// Si el jugador ataca. TODO: Conviene recibir un evento específico de "Esta entidad atacó". porque a veces la animacion se usa para otras cosas que no son atacar
+	if ( 8 < this->getCodigoAnimacion() && this->getCodigoAnimacion() < 17 ){
+		VistaMusica::getInstance().atacar(this->nombreEntidad);			
+	}
+
+	//Sonido siendo atacado o sea sufrio danio.
+	if (this->sufrioDanio==true) {
+		VistaMusica::getInstance().recibioUnGolpe(this->nombreEntidad);
+		this->setSufrioDanio(false);
+	}
+
+	//Sonido recibio golpe pero tenia escudo
+	if (this->gastoEscudo==true){
+		VistaMusica::getInstance().conEscudo();
+		this->setGastoEscudo(false);
+	}
+
+	//Sonido gasta barra de magia
+	if (this->gastoMagia==true) {
+		VistaMusica::getInstance().gastoMagia();
+		this->setGastoMagia(false);
+	}
+
+	//Sonido gasto bomba
+	if (this->gastoBomba==true) {
+		VistaMusica::getInstance().gastoBomba();
+		this->setGastoBomba(false);
+	}
 
 	return void();
 }

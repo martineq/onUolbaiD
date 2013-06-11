@@ -820,7 +820,7 @@ escenarios:
           x: 9
           y: 9
           vida: 25
-          daño: 3
+          daño: 25
           velocidad: 280
       items:
         - entidad: escudo
@@ -1059,7 +1059,6 @@ escenarios:
         - {x: 29, y: 2, entidad: cemento}
         - {x: 29, y: 19, entidad: cemento}
         - {x: 29, y: 29, entidad: cemento}
-
       protagonistas:
         - entidad: queen
           x: 2

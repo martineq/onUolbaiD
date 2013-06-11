@@ -99,8 +99,8 @@ bool ModeloFactory::nuevoElegirEscenario(std::list<ParserYaml::stEscenario>& lis
 	TTF_Init();
 	SDL_WM_SetCaption( "Menu", NULL );
 	SDL_Surface *imagenDeFondo3 = NULL;
-	imagenDeFondo3 = ImageLoader::getInstance().load_image( "./img/background3.png" );
-	fuente = TTF_OpenFont( "./fonts/Lazy.ttf", 28 );	
+	imagenDeFondo3 = ImageLoader::getInstance().load_image( IMAGEN_FONDO_3 );
+	fuente = TTF_OpenFont( FUENTE_USADA, 28 );	
 	SDL_Rect offsetDelFondo;
 	offsetDelFondo.x = 0;
 	offsetDelFondo.y = 0;

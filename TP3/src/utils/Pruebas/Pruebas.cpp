@@ -25,8 +25,8 @@ void Pruebas::PruebaMenuInicial(){
 	pantalla = SDL_SetVideoMode( PANTALLA_ANCHO, PANTALLA_ALTO, SCREEN_BPP, SDL_SWSURFACE );
 	TTF_Init();
 	SDL_WM_SetCaption( "Menu", NULL );
-	imagenDeFondo = ImageLoader::getInstance().load_image( "./img/background.png" );
-	fuente = TTF_OpenFont( "./fonts/Lazy.ttf", 28 );
+	imagenDeFondo = ImageLoader::getInstance().load_image( IMAGEN_MENU );
+	fuente = TTF_OpenFont( FUENTE_USADA, 22 );
 	textoSinglePlayer = TTF_RenderText_Solid( fuente, "Single Player", textColor );
 	textoMultiPlayer  = TTF_RenderText_Solid( fuente, "Multiplayer", textColor );
 	textoClic  = TTF_RenderText_Solid( fuente, "CLIC", textColor );
