@@ -72,6 +72,8 @@ bool LectorDirectorios::nombreValido(std::string nombre){
 	}else if( nombre.compare(IMAGEN_FONDO_1) == 0 ){ return false; 
 	}else if( nombre.compare(IMAGEN_FONDO_2) == 0 ){ return false; 
 	}else if( nombre.compare(IMAGEN_FONDO_3) == 0 ){ return false; 
+	}else if( nombre.compare("background4.png") == 0 ){ return false; 
+	}else if( nombre.compare("background5.png") == 0 ){ return false; 
 	}else if( nombre.compare(IMG_CARA_DIABLO_2) == 0 ){ return false; 
 	}else if( nombre.compare(IMG_GUERRERO) == 0 ){ return false; 
 	}else if( nombre.compare(IMG_CARNICERO) == 0 ){ return false; 

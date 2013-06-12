@@ -1,7 +1,8 @@
 #include "VistaEntidad.h"
 
-VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador,int vida, int tipoEntidad, int magia, int escudo, bool tieneGolem, bool tieneHechizo, int bombas){
+VistaEntidad::VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,list<list<string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,string nombreEntidad,bool estaCongelado,int estado,string nombreJugador,int vida, int tipoEntidad, int magia, int escudo, bool tieneGolem, bool tieneHechizo, int bombas, int idJugadorConScroll){
 	this->_id = id;
+	this->_idJugadorConScroll = idJugadorConScroll;
 	this->_tipoEntidad = tipoEntidad;
 	this->estaCongelado = estaCongelado;
 	this->maximoVida = vida;
@@ -134,7 +135,7 @@ void VistaEntidad::actualizar(ProxyModeloEntidad::stEntidad& entidad){
 	this->gastoBomba = ( this->cantidadBombas > entidad.cantidadBombas );
 	bool murio = (entidad.vida == 0);	
 	if( (this->vida == 0) && (entidad.vida>0) ) this->yaMurio = false;  // Si revivó reseteo esta variable
-	this->actualizarEventosSonido(entidad.nombreEntidad, sufrioDanio, murio, entidad.atacando);
+	this->actualizarEventosSonido(entidad.nombreEntidad, sufrioDanio, murio, entidad.atacando, entidad.idJugadorDuenio);
 
 	// Actualizo los datos
 	this->setPosicionAnteriorEnTiles();
@@ -335,7 +336,7 @@ void VistaEntidad::esMiJugador(bool valor){
 	return void();
 }
 
-void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio, bool ataco){
+void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio, bool ataco, int idEntidadInteractuada){
 
 	// True solo si es el el jugador de este cliente
 	bool esMiJugador = this->esMiJugador();
@@ -361,8 +362,8 @@ void VistaEntidad::actualizarEventosSonido(std::string entidad, bool sufrioDanio
 		VistaMusica::getInstance().murioEnemigo(this->nombreEntidad);
 	}
 
-	// Se tomo item
-	if ( esItem == true && murio == true && !this->yaMurio && ataco == false ) { 
+	// Se tomo item. Solo se activa si el item fue tomado por el jugador perteneciente a este cliente
+	if ( esItem == true && murio == true && !this->yaMurio && ataco == false  && this->idJugadorConScroll() == idEntidadInteractuada ) { 
 		this->yaMurio = true;
 		VistaMusica::getInstance().itemTomado(this->nombreEntidad);
 	} 	
@@ -479,4 +480,8 @@ bool VistaEntidad::getTerminoJuego(){
 
 std::string VistaEntidad::getNombreDelJugadorGanador(){
 	return this->nombreDelJugadorGanador;
+}
+
+int VistaEntidad::idJugadorConScroll(){
+	return this->_idJugadorConScroll;
 }

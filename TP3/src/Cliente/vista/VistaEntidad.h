@@ -58,11 +58,12 @@ class VistaEntidad: public Identificable{
 		int magia;
 		int escudo;		
 		int cantidadBombas;
+		int _idJugadorConScroll;
 
-		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio, bool ataco);
+		void actualizarEventosSonido(std::string entidad, bool sufrioDanio, bool murio, bool ataco, int idEntidadInteractuada);
 
 	public:
-		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado,std::string nombreJugador,int vida, int tipoEntidad, int magia, int escudo,bool tieneGolem, bool tieneHechizo, int bombas);
+		VistaEntidad(double x,double y,double alto,double ancho,double posicionReferenciaX,double posicionReferenciaY,int rangoVisible,double fps,double delay,std::list<std::list<std::string>> listaAnimaciones,bool esJugador,int altoNivel,int anchoNivel,int id,std::string nombreEntidad,bool estaCongelado,int estado,std::string nombreJugador,int vida, int tipoEntidad, int magia, int escudo,bool tieneGolem, bool tieneHechizo, int bombas, int idJugadorConScroll);
 		~VistaEntidad(void);
 
 		void actualizar(ProxyModeloEntidad::stEntidad& entidad);
@@ -110,6 +111,7 @@ class VistaEntidad: public Identificable{
 		std::string getNombreJugador();
 		std::string getNombreDelJugadorGanador();
 		std::list<std::list<std::string>> getListaAnimaciones(void);
+		int idJugadorConScroll();
 
 		// Setters
 		void setXEnPantalla(double scrollX);
