@@ -315,7 +315,7 @@ void VistaFactory::crearJugadorConScroll(VistaNivel& vistaNivel,SDL_Surface* pan
 	double tamanioX = (double)this->juegoElegido.escenario.tamanioX;
 	double tamanioY = (double)this->juegoElegido.escenario.tamanioY;	
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,false,direccion,this->juegoElegido.entidadJugador.nombreJugador,vida,tipoEntidad,magia, escudo,tieneGolem,tieneHechizo,bombas);
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,true,tamanioX,tamanioY,id,nombre,false,direccion,this->juegoElegido.entidadJugador.nombreJugador,vida,tipoEntidad,magia, escudo,tieneGolem,tieneHechizo,bombas,id);
 	VistaScroll* pScroll = new VistaScroll(x,y,this->juegoElegido.pantalla.alto,this->juegoElegido.pantalla.ancho,tamanioX,tamanioY,pantalla,id);	// Tomo el mismo x,y,velocidad que el personaje
 	pJugador->esMiJugador(true);
 	vistaNivel.agregarJugador(pJugador);
@@ -367,7 +367,7 @@ void VistaFactory::crearJugadorSinScroll(VistaNivel& vistaNivel,ProxyModeloEntid
 
 	bool esJugador = true;
 
-	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,entidad.rangoVision,fps,delay,listaAnimaciones,esJugador,tamanioX,tamanioY,id,nombre,entidad.estaCongelado,entidad.accion,entidad.nombreJugador,vida,tipoEntidad,magia,escudo,false,false,0);
+	VistaEntidad* pJugador = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,entidad.rangoVision,fps,delay,listaAnimaciones,esJugador,tamanioX,tamanioY,id,nombre,entidad.estaCongelado,entidad.accion,entidad.nombreJugador,vida,tipoEntidad,magia,escudo,false,false,0,this->juegoElegido.entidadJugador.id);
 	vistaNivel.agregarOtroJugador(pJugador);
 
 	if (entidadJugador.nombre == STRING_BOMBA) {
@@ -461,7 +461,7 @@ void VistaFactory::crearEntidadesEstaticas(VistaNivel& vistaNivel){
 		int escudo = 0;
 		int tipoEntidad = TIPO_ENTIDAD_ESTATICO;
 
-		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id,nombre,false,0,this->juegoElegido.entidadJugador.nombreJugador,vida,tipoEntidad,magia,escudo,false,false,0);
+		VistaEntidad* pEntidad = new VistaEntidad(x,y,alto,ancho,posicionReferenciaX,posicionReferenciaY,this->juegoElegido.entidadJugador.rangoVision,fps,delay,listaAnimaciones,false,tamanioX,tamanioY,id,nombre,false,0,this->juegoElegido.entidadJugador.nombreJugador,vida,tipoEntidad,magia,escudo,false,false,0,this->juegoElegido.entidadJugador.id);
 		vistaNivel.agregarEntidad(pEntidad);
 
 		idEntidadesDef.pop_front();	// Una vez que usé el ID lo destruyo para tener acceso al próximo
