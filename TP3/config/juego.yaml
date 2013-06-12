@@ -408,405 +408,33 @@ entidades:
 escenarios:
 ####################################################################################################################################################
 ################################################################     ESCENARIO:     ################################################################
-################################################################  BOSQUE ENCANTADO  ################################################################
-####################################################################################################################################################
-    - nombre: Bosque Encantado
-      size_x: 13 #tiles
-      size_y: 13 #tiles
-      entidadesDef:
-        - {x: 0, y: 0, entidad: agua}
-        - {x: 0, y: 1, entidad: agua}
-        - {x: 0, y: 2, entidad: agua}
-        - {x: 1, y: 0, entidad: agua}
-        - {x: 1, y: 2, entidad: agua}
-        - {x: 2, y: 0, entidad: agua}
-        - {x: 2, y: 1, entidad: agua}
-        - {x: 2, y: 2, entidad: agua}
-        
-        - {x: 5, y: 0, entidad: agua}
-        - {x: 5, y: 1, entidad: agua}
-        - {x: 5, y: 2, entidad: agua}
-        - {x: 6, y: 0, entidad: agua}
-        - {x: 6, y: 1, entidad: agua}
-        - {x: 6, y: 2, entidad: agua}
-        - {x: 7, y: 0, entidad: agua}
-        - {x: 7, y: 1, entidad: agua}
-        - {x: 7, y: 2, entidad: agua}
-        
-        - {x: 10, y: 0, entidad: agua}
-        - {x: 10, y: 1, entidad: agua}
-        - {x: 10, y: 2, entidad: agua}
-        - {x: 11, y: 2, entidad: agua}
-        - {x: 12, y: 2, entidad: agua}
-        
-        - {x: 0, y: 5, entidad: agua}
-        - {x: 0, y: 6, entidad: agua}
-        - {x: 0, y: 7, entidad: agua}
-        - {x: 1, y: 5, entidad: agua}
-        - {x: 1, y: 6, entidad: agua}
-        - {x: 1, y: 7, entidad: agua}
-        - {x: 2, y: 5, entidad: agua}
-        - {x: 2, y: 6, entidad: agua}
-        - {x: 2, y: 7, entidad: agua}
-        
-        - {x: 4, y: 5, entidad: agua}
-        - {x: 4, y: 6, entidad: agua}
-        - {x: 4, y: 7, entidad: agua}
-        - {x: 5, y: 5, entidad: agua}
-        - {x: 5, y: 7, entidad: agua}
-        - {x: 6, y: 7, entidad: agua}
-        - {x: 7, y: 5, entidad: agua}
-        - {x: 7, y: 7, entidad: agua}
-        - {x: 8, y: 5, entidad: agua}
-        - {x: 8, y: 6, entidad: agua}
-        - {x: 8, y: 7, entidad: agua}
-        
-        - {x: 10, y: 5, entidad: agua}
-        - {x: 10, y: 6, entidad: agua}
-        - {x: 10, y: 7, entidad: agua}
-        - {x: 11, y: 5, entidad: agua}
-        - {x: 11, y: 6, entidad: agua}
-        - {x: 11, y: 7, entidad: agua}
-        - {x: 12, y: 5, entidad: agua}
-        - {x: 12, y: 6, entidad: agua}
-        - {x: 12, y: 7, entidad: agua}
-        
-        - {x: 0, y: 11, entidad: agua}
-        - {x: 1, y: 11, entidad: agua}
-        - {x: 2, y: 11, entidad: agua}
-        - {x: 3, y: 11, entidad: agua}
-        - {x: 4, y: 11, entidad: agua}
-        - {x: 5, y: 11, entidad: agua}
-        - {x: 6, y: 11, entidad: agua}
-        - {x: 7, y: 11, entidad: agua}
-        - {x: 8, y: 11, entidad: agua}
-        - {x: 9, y: 11, entidad: agua}
-        - {x: 10, y: 11, entidad: agua}
-        - {x: 11, y: 11, entidad: agua}
-        - {x: 12, y: 11, entidad: agua}
-      protagonistas:
-        - entidad: vlad
-          x: 3
-          y: 0
-          vida: 60
-          mana: 30
-          daño: 9
-          velocidad: 240
-        - entidad: queen
-          x: 3
-          y: 0
-          vida: 75
-          mana: 90
-          daño: 5
-          velocidad: 200
-        - entidad: knight
-          x: 3
-          y: 0
-          vida: 70
-          mana: 20
-          daño: 15
-          velocidad: 260
-        - entidad: bjorn
-          x: 3
-          y: 0
-          vida: 50
-          mana: 50
-          daño: 10
-          velocidad: 250
-      enemigos:
-        - entidad: enemigo_a
-          x: 9
-          y: 9
-          vida: 20
-          daño: 3
-          velocidad: 280
-        - entidad: enemigo_b
-          x: 9
-          y: 9
-          vida: 25
-          daño: 3
-          velocidad: 280
-        - entidad: enemigo_c
-          x: 9
-          y: 10
-          vida: 25
-          daño: 3
-          velocidad: 280
-      items:
-        - entidad: golem
-          x: 3
-          y: 0
-        - entidad: hechizo_hielo
-          x: 4
-          y: 0
-        - entidad: bomba
-          x: 3
-          y: 1
-        - entidad: zapato
-          x: 4
-          y: 1
-####################################################################################################################################################
-################################################################     ESCENARIO:     ################################################################
-################################################################      TALLER I      ################################################################
-####################################################################################################################################################
-    - nombre: Taller I
-      size_x: 46 #tiles
-      size_y: 46 #tiles
-      entidadesDef:
-        # Letra "T"
-        - {x: 1, y: 1, entidad: agua}
-        - {x: 2, y: 1, entidad: agua}
-        - {x: 3, y: 1, entidad: agua}
-        - {x: 4, y: 1, entidad: agua}
-        - {x: 5, y: 1, entidad: agua}
-        - {x: 3, y: 2, entidad: agua}
-        - {x: 3, y: 3, entidad: agua}
-        - {x: 3, y: 4, entidad: agua}
-        - {x: 3, y: 5, entidad: agua}
-
-        # Letra "A"
-        - {x: 12, y: 1, entidad: agua}
-        - {x: 11, y: 2, entidad: agua}
-        - {x: 13, y: 2, entidad: agua}
-        - {x: 10, y: 3, entidad: agua}
-        - {x: 14, y: 3, entidad: agua}
-        - {x: 9, y: 4, entidad: agua}
-        - {x: 10, y: 4, entidad: agua}
-        - {x: 11, y: 4, entidad: agua}
-        - {x: 12, y: 4, entidad: agua}
-        - {x: 13, y: 4, entidad: agua}
-        - {x: 14, y: 4, entidad: agua}
-        - {x: 15, y: 4, entidad: agua}
-        - {x: 8, y: 5, entidad: agua}
-        - {x: 16, y: 5, entidad: agua}
-
-        # Letra "L"
-        - {x: 19, y: 1, entidad: agua}
-        - {x: 19, y: 2, entidad: agua}
-        - {x: 19, y: 3, entidad: agua}
-        - {x: 19, y: 4, entidad: agua}
-        - {x: 19, y: 5, entidad: agua}
-        - {x: 20, y: 5, entidad: agua}
-        - {x: 21, y: 5, entidad: agua}
-        - {x: 22, y: 5, entidad: agua}
-
-        # Letra "L"
-        - {x: 25, y: 1, entidad: agua}
-        - {x: 25, y: 2, entidad: agua}
-        - {x: 25, y: 3, entidad: agua}
-        - {x: 25, y: 4, entidad: agua}
-        - {x: 25, y: 5, entidad: agua}
-        - {x: 26, y: 5, entidad: agua}
-        - {x: 27, y: 5, entidad: agua}
-        - {x: 28, y: 5, entidad: agua}
-
-        # Letra "E"
-        - {x: 31, y: 1, entidad: agua}
-        - {x: 31, y: 2, entidad: agua}
-        - {x: 31, y: 3, entidad: agua}
-        - {x: 31, y: 4, entidad: agua}
-        - {x: 31, y: 5, entidad: agua}
-        - {x: 32, y: 1, entidad: agua}
-        - {x: 33, y: 1, entidad: agua}
-        - {x: 34, y: 1, entidad: agua}
-        - {x: 32, y: 3, entidad: agua}
-        - {x: 33, y: 3, entidad: agua}
-        - {x: 32, y: 5, entidad: agua}
-        - {x: 33, y: 5, entidad: agua}
-        - {x: 34, y: 5, entidad: agua}
-
-        # Letra "R"
-        - {x: 37, y: 1, entidad: agua}
-        - {x: 37, y: 2, entidad: agua}
-        - {x: 37, y: 3, entidad: agua}
-        - {x: 37, y: 4, entidad: agua}
-        - {x: 37, y: 5, entidad: agua}
-        - {x: 38, y: 1, entidad: agua}
-        - {x: 39, y: 1, entidad: agua}
-        - {x: 40, y: 1, entidad: agua}
-        - {x: 40, y: 2, entidad: agua}
-        - {x: 38, y: 3, entidad: agua}
-        - {x: 39, y: 3, entidad: agua}
-        - {x: 40, y: 3, entidad: agua}
-        - {x: 39, y: 4, entidad: agua}
-        - {x: 40, y: 5, entidad: agua}
-
-        # Letra "I"
-        - {x: 43, y: 1, entidad: agua}
-        - {x: 43, y: 5, entidad: agua}
-        - {x: 45, y: 1, entidad: agua}
-        - {x: 45, y: 5, entidad: agua}
-        - {x: 44, y: 1, entidad: agua}
-        - {x: 44, y: 2, entidad: agua}
-        - {x: 44, y: 3, entidad: agua}
-        - {x: 44, y: 4, entidad: agua}
-        - {x: 44, y: 5, entidad: agua}
-      protagonistas:
-        - entidad: vlad
-          x: 3
-          y: 0
-          vida: 60
-          mana: 30
-          daño: 9
-          velocidad: 240
-        - entidad: queen
-          x: 3
-          y: 0
-          vida: 75
-          mana: 90
-          daño: 5
-          velocidad: 200
-        - entidad: bjorn
-          x: 3
-          y: 0
-          vida: 50
-          mana: 50
-          daño: 10
-          velocidad: 250
-        - entidad: knight
-          x: 3
-          y: 0
-          vida: 50
-          mana: 50
-          daño: 10
-          velocidad: 250
-      enemigos:
-        - entidad: enemigo_a
-          x: 8
-          y: 8
-          vida: 25
-          daño: 3
-          velocidad: 280
-        - entidad: enemigo_b
-          x: 9
-          y: 9
-          vida: 25
-          daño: 3
-          velocidad: 280
-        - entidad: enemigo_c
-          x: 10
-          y: 10
-          vida: 25
-          daño: 3
-          velocidad: 280
-        - entidad: enemigo_a
-          x: 11
-          y: 11
-          vida: 25
-          daño: 3
-          velocidad: 280
-        - entidad: enemigo_b
-          x: 12
-          y: 12
-          vida: 25
-          daño: 3
-          velocidad: 280
-        - entidad: enemigo_c
-          x: 13
-          y: 13
-          vida: 25
-          daño: 3
-          velocidad: 280
-      items:
-        - entidad: escudo
-          x: 9
-          y: 9
-        - entidad: bomba
-          x: 8
-          y: 9
-        - entidad: hechizo_hielo
-          x: 8
-          y: 9
-        - entidad: golem
-          x: 10
-          y: 10
-####################################################################################################################################################
-################################################################     ESCENARIO:     ################################################################
 ################################################################ Laberinto De Creta ################################################################
 ####################################################################################################################################################
     - nombre: Laberinto De Creta
-      size_x: 13 #tiles
-      size_y: 13 #tiles
+      size_x: 15 #tiles
+      size_y: 15 #tiles
       entidadesDef:
-        - {x: 0, y: 1, entidad: cemento}
-        - {x: 1, y: 1, entidad: cemento}
-        - {x: 2, y: 1, entidad: cemento}
-        - {x: 3, y: 1, entidad: cemento}
-        - {x: 4, y: 1, entidad: cemento}
-        - {x: 5, y: 1, entidad: cemento}
-        - {x: 6, y: 1, entidad: cemento}
-        - {x: 7, y: 1, entidad: cemento}
-        - {x: 8, y: 1, entidad: cemento}
-        - {x: 9, y: 1, entidad: cemento}
-        - {x: 10, y: 1, entidad: cemento}
-        - {x: 10, y: 2, entidad: cemento}
-        - {x: 10, y: 3, entidad: cemento}
+        - {x: 4, y: 4, entidad: cemento}
+        - {x: 5, y: 4, entidad: cemento}
+        - {x: 9, y: 4, entidad: cemento}
         - {x: 10, y: 4, entidad: cemento}
-        - {x: 10, y: 5, entidad: cemento}
-        - {x: 10, y: 6, entidad: cemento}
-        - {x: 10, y: 7, entidad: cemento}
-        - {x: 10, y: 8, entidad: cemento}
-        - {x: 10, y: 9, entidad: cemento}
-        - {x: 10, y: 10, entidad: cemento}
-        - {x: 10, y: 11, entidad: cemento}
-        - {x: 9, y: 11, entidad: cemento}
-        - {x: 8, y: 11, entidad: cemento}
-        - {x: 7, y: 11, entidad: cemento}
-        - {x: 6, y: 11, entidad: cemento}
-        - {x: 5, y: 11, entidad: cemento}
-        - {x: 4, y: 11, entidad: cemento}
-        - {x: 3, y: 11, entidad: cemento}
-        - {x: 2, y: 11, entidad: cemento}
-        - {x: 1, y: 11, entidad: cemento}
-        - {x: 1, y: 10, entidad: cemento}
-        - {x: 1, y: 9, entidad: cemento}
-        - {x: 1, y: 8, entidad: cemento}
-        - {x: 1, y: 7, entidad: cemento}
-        - {x: 1, y: 6, entidad: cemento}
-        - {x: 1, y: 5, entidad: cemento}
-        - {x: 1, y: 4, entidad: cemento}
-        - {x: 1, y: 3, entidad: cemento}
-        - {x: 2, y: 3, entidad: cemento}
-        - {x: 3, y: 3, entidad: cemento}
-        - {x: 4, y: 3, entidad: cemento}
-        - {x: 5, y: 3, entidad: cemento}
-        - {x: 6, y: 3, entidad: cemento}
-        - {x: 7, y: 3, entidad: cemento}
-        - {x: 8, y: 3, entidad: cemento}
-        - {x: 8, y: 4, entidad: cemento}
-        - {x: 8, y: 5, entidad: cemento}
-        - {x: 8, y: 6, entidad: cemento}
-        - {x: 8, y: 7, entidad: cemento}
-        - {x: 8, y: 8, entidad: cemento}
-        - {x: 8, y: 9, entidad: cemento}
-        - {x: 7, y: 9, entidad: cemento}
-        - {x: 6, y: 9, entidad: cemento}
-        - {x: 5, y: 9, entidad: cemento}
-        - {x: 4, y: 9, entidad: cemento}
-        - {x: 3, y: 9, entidad: cemento}
-        - {x: 3, y: 8, entidad: cemento}
-        - {x: 3, y: 7, entidad: cemento}
-        - {x: 3, y: 6, entidad: cemento}
-        - {x: 3, y: 5, entidad: cemento}
         - {x: 4, y: 5, entidad: cemento}
-        - {x: 5, y: 5, entidad: cemento}
-        - {x: 6, y: 5, entidad: cemento}
-        - {x: 6, y: 6, entidad: cemento}
-        - {x: 6, y: 7, entidad: cemento}
-        - {x: 5, y: 7, entidad: cemento}
-        - {x: 12, y: 0, entidad: agua}
-        - {x: 12, y: 1, entidad: agua}
-        - {x: 12, y: 2, entidad: agua}
-        - {x: 12, y: 3, entidad: agua}
-        - {x: 12, y: 4, entidad: agua}
-        - {x: 12, y: 5, entidad: agua}
-        - {x: 12, y: 6, entidad: agua}
-        - {x: 12, y: 7, entidad: agua}
-        - {x: 12, y: 8, entidad: agua}
-        - {x: 12, y: 9, entidad: agua}
-        - {x: 12, y: 10, entidad: agua}
-        - {x: 12, y: 11, entidad: agua}
-        - {x: 12, y: 12, entidad: agua}
+        - {x: 10, y: 5, entidad: cemento}
+        - {x: 4, y: 6, entidad: cemento}
+        - {x: 10, y: 6, entidad: cemento}
+        - {x: 4, y: 7, entidad: cemento}
+        - {x: 10, y: 7, entidad: cemento}
+        - {x: 4, y: 8, entidad: cemento}
+        - {x: 10, y: 8, entidad: cemento}
+        - {x: 4, y: 9, entidad: cemento}
+        - {x: 10, y: 9, entidad: cemento}
+        - {x: 4, y: 10, entidad: cemento}
+        - {x: 5, y: 10, entidad: cemento}
+        - {x: 6, y: 10, entidad: cemento}
+        - {x: 7, y: 10, entidad: cemento}
+        - {x: 8, y: 10, entidad: cemento}
+        - {x: 9, y: 10, entidad: cemento}
+        - {x: 10, y: 10, entidad: cemento}        
       protagonistas:
         - entidad: queen
           x: 2
@@ -824,51 +452,63 @@ escenarios:
           velocidad: 250
       enemigos:
         - entidad: carnicero
-          x: 9
-          y: 9
+          x: 5
+          y: 6
           vida: 1000
           daño: 35
           velocidad: 200
       items:
-        - entidad: escudo
-          x: 4
-          y: 6
-        - entidad: bomba
-          x: 7
-          y: 6
-        - entidad: bomba
-          x: 7
-          y: 7
-        - entidad: bomba
-          x: 7
-          y: 8
-        - entidad: lampara
-          x: 7
-          y: 8
-        - entidad: lampara
-          x: 7
-          y: 10
-        - entidad: lampara
-          x: 7
-          y: 12
-        - entidad: espada
-          x: 7
-          y: 9
-        - entidad: mapa
-          x: 5
-          y: 8
         - entidad: corazon
-          x: 3
-          y: 6
+          x: 0
+          y: 0
+        - entidad: corazon
+          x: 12
+          y: 13
+        - entidad: corazon
+          x: 11
+          y: 4
+        - entidad: botella
+          x: 4
+          y: 11
+        - entidad: botella
+          x: 12
+          y: 11
         - entidad: botella
           x: 3
-          y: 8
-        - entidad: zapato
-          x: 3
-          y: 9
+          y: 2
+        - entidad: bomba
+          x: 12
+          y: 1
+        - entidad: bomba
+          x: 1
+          y: 13
+        - entidad: escudo
+          x: 1
+          y: 7
+        - entidad: escudo
+          x: 14
+          y: 7
+        - entidad: espada
+          x: 14
+          y: 3
+        - entidad: espada
+          x: 7
+          y: 14
         - entidad: hechizo_hielo
           x: 5
-          y: 6
+          y: 0
+        - entidad: hechizo_hielo
+          x: 14
+          y: 12
+        - entidad: lampara
+          x: 3
+          y: 9
+        - entidad: mapa
+          x: 04
+          y: 3
+        - entidad: zapato
+          x: 13
+          y: 9
 ####################################################################################################################################################
 ################################################################     ESCENARIO:     ################################################################
 ################################################################ Laberinto Loco     ################################################################

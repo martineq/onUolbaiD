@@ -148,8 +148,7 @@ char ModeloFactory::nuevoElegirMisiones(std::list<ParserYaml::stEscenario>& list
 			std::cout << "Mision Elegida Carnicero" << std::endl;
 			Log::getInstance().log(1,__FILE__,__LINE__,"Mision Elegida Carnicero");
 			std::list<ParserYaml::stEscenario>::iterator it=listaEscenarios.begin();
-			for (int i = 0; i < 2;i++) 
-				it++;
+			advance(it, 0);
 			std::cout << "Se usara el escenario: "<< (*it).nombre << std::endl;
 			this->juegoElegido.nombreEscenario = (*it).nombre;
 			this->juegoElegido.escenario = (*it);
@@ -167,7 +166,7 @@ char ModeloFactory::nuevoElegirMisiones(std::list<ParserYaml::stEscenario>& list
 			std::cout << "Mision Elegida Banderas" << std::endl;
 			Log::getInstance().log(1,__FILE__,__LINE__,"Mision Elegida Banderas");
 			std::list<ParserYaml::stEscenario>::iterator it=listaEscenarios.begin();
-			for (int i = 0; i < 3;i++) it++;
+			advance(it, 1);
 			std::cout << "Se usara el escenario: "<< (*it).nombre << std::endl;
 			this->juegoElegido.nombreEscenario = (*it).nombre;
 			this->juegoElegido.escenario = (*it);
