@@ -41,6 +41,9 @@ class ProxyModeloEntidad{
 			int idRemitente;
 			std::string mensaje;
 
+			// ModeloItem
+			int idJugadorDuenio;
+
 			int accion;
 			
 			stEntidad() {
@@ -69,6 +72,9 @@ class ProxyModeloEntidad{
 				this->tieneMapa = false;
 				this->atacando = false;
 				this->idRemitente = ID_FALSO;
+
+				// ModeloItem
+				this->idJugadorDuenio = ID_FALSO;
 
 				this->accion = 0;
 			}
