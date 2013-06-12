@@ -811,16 +811,16 @@ escenarios:
         - entidad: queen
           x: 2
           y: 0
-          vida: 50
-          mana: 90
-          daño: 6
-          velocidad: 200
+          vida: 100
+          mana: 100
+          daño: 15
+          velocidad: 250
         - entidad: bjorn
           x: 3
           y: 0
-          vida: 60
-          mana: 30
-          daño: 8
+          vida: 100
+          mana: 100
+          daño: 15
           velocidad: 250
       enemigos:
         - entidad: carnicero
@@ -828,7 +828,7 @@ escenarios:
           y: 9
           vida: 1000
           daño: 35
-          velocidad: 280
+          velocidad: 200
       items:
         - entidad: escudo
           x: 4
@@ -869,9 +869,6 @@ escenarios:
         - entidad: hechizo_hielo
           x: 5
           y: 6
-        #- entidad: golem
-          #x: 5
-          #y: 3
 ####################################################################################################################################################
 ################################################################     ESCENARIO:     ################################################################
 ################################################################ Laberinto Loco     ################################################################
@@ -1077,70 +1074,49 @@ escenarios:
           x: 2
           y: 0
           vida: 50
-          mana: 90
-          daño: 6
-          velocidad: 200
+          mana: 100
+          daño: 10
+          velocidad: 250
         - entidad: bjorn
           x: 3
           y: 0
-          vida: 60
-          mana: 30
-          daño: 8
+          vida: 50
+          mana: 100
+          daño: 10
           velocidad: 250
       enemigos:
-        - entidad: carnicero
-          x: 9
-          y: 9
-          vida: 25
-          daño: 3
-          velocidad: 280
         - entidad: enemigo_a
           x: 90
           y: 9
           vida: 25
           daño: 3
-          velocidad: 280
+          velocidad: 300
         - entidad: enemigo_b
           x: 9
           y: 90
-          vida: 25
-          daño: 3
-          velocidad: 280
+          vida: 50
+          daño: 6
+          velocidad: 250
         - entidad: enemigo_c
           x: 10
           y: 9
-          vida: 25
-          daño: 3
-          velocidad: 280
-        - entidad: enemigo_a
-          x: 9
-          y: 19
-          vida: 25
-          daño: 3
-          velocidad: 280
-        - entidad: enemigo_b
-          x: 9
-          y: 49
-          vida: 25
-          daño: 3
-          velocidad: 280
-        - entidad: enemigo_c
-          x: 45
-          y: 9
-          vida: 25
-          daño: 3
-          velocidad: 280
+          vida: 100
+          daño: 12
+          velocidad: 200
       items:
         - entidad: bandera
           x: 0
           y: 0
+        - entidad: bandera
+          x: 0
+          y: 1
         - entidad: bomba
           x: 7
           y: 6
         - entidad: lampara
           x: 7
           y: 8
-        - entidad: lampara
+        - entidad: golem
           x: 7
           y: 10
         - entidad: lampara
@@ -1164,6 +1140,3 @@ escenarios:
         - entidad: hechizo_hielo
           x: 5
           y: 6
-        #- entidad: golem
-          #x: 5
-          #y: 3
