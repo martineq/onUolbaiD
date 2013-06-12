@@ -76,7 +76,9 @@ void ModeloItem::cambiarEstado() {
 }
 
 void ModeloItem::enviarEstado() {
-	this->_modeloEntidad->enviarEstado(this->stEntidad());
+	ProxyModeloEntidad::stEntidad estado = this->stEntidad();
+	estado.idJugadorDuenio = (this->_jugador == NULL) ? ID_FALSO : this->_jugador->modeloEntidad()->id();
+	this->_modeloEntidad->enviarEstado(estado);
 }
 
 int ModeloItem::vida() {

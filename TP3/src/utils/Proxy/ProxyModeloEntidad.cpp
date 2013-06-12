@@ -106,6 +106,9 @@ void ProxyModeloEntidad::serializar(Serializadora& s,ProxyModeloEntidad::stEntid
 	s.addBool(entidad.atacando);
 	s.addString(entidad.mensaje);
 
+	// ModeloItem
+	s.addInt(entidad.idJugadorDuenio);
+
 	s.addInt(entidad.accion);
 }
 
@@ -137,6 +140,9 @@ void ProxyModeloEntidad::hidratar(Serializadora& s,ProxyModeloEntidad::stEntidad
 	entidad.tieneMapa = s.getBool();
 	entidad.atacando = s.getBool();
 	entidad.mensaje = s.getString();
+
+	// ModeloItem
+	entidad.idJugadorDuenio = s.getInt();
 
 	entidad.accion = s.getInt();
 }
