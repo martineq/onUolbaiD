@@ -9,7 +9,10 @@ class ESArchivoCpp{
 
 	public:
 		ESArchivoCpp(const char* ruta, bool esEntrada, bool esTexto);
+		ESArchivoCpp(void);
 		~ESArchivoCpp(void);
+
+		void abrirArchivo(const char* ruta, bool esEntrada, bool esTexto);
 
 		void leerArchivo(char* cadena, unsigned long offset, unsigned long tamanio);
 		unsigned long leerArchivo(char** cadena);
