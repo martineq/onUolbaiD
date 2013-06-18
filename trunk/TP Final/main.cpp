@@ -4,7 +4,7 @@
 int main(int argc, char* argv[]) {
 
 	FinalA fa;
-	fa.prueba();
+	fa.resolver();
 
 	return 0;
 }

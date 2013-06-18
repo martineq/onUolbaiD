@@ -1,6 +1,17 @@
 #include "ESArchivoCpp.h"
 
 ESArchivoCpp::ESArchivoCpp(const char* ruta, bool esEntrada, bool esTexto){
+	this->abrirArchivo(ruta,esEntrada,esTexto);
+}
+
+ESArchivoCpp::ESArchivoCpp(void){
+}
+
+ESArchivoCpp::~ESArchivoCpp(void){
+	if( this->archivo.is_open() ) archivo.close();
+}
+
+void ESArchivoCpp::abrirArchivo(const char* ruta, bool esEntrada, bool esTexto){
 	if( esEntrada == true ){
 		if( esTexto == true ){
 			this->archivo.open(ruta,std::ios::in);
@@ -14,10 +25,7 @@ ESArchivoCpp::ESArchivoCpp(const char* ruta, bool esEntrada, bool esTexto){
 			this->archivo.open(ruta,std::ios::out | std::ios::binary);
 		}
 	}
-}
-
-ESArchivoCpp::~ESArchivoCpp(void){
-		if( this->archivo.is_open() ) archivo.close();
+	return void();
 }
 
 // Lee el tamanio pedido, desde el offset pedido, en memoria ya instanciada
