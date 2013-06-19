@@ -3,6 +3,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <algorithm>	// Para std::sort() y std::find
+#include <map>
 #include "ESArchivoCpp.h"
 
 class FinalA{
@@ -52,5 +54,7 @@ class FinalA{
 
 		void resolver(void);
 		void pruebaPintaVerde(void);
+		void pruebaSortYFind(void);
+		void pruebaMap(void);
 
 };

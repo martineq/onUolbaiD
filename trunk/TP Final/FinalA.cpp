@@ -125,61 +125,59 @@ void FinalA::duplicarTamanioImagen(stDatos &datos){
 
 void FinalA::calcularColorTransparente(stDatos &datos){
 
-	std::vector<stColor> colores;
+	unsigned long tamanioContador = 256*256*256;
+	unsigned int* contador = new unsigned int[tamanioContador];	// Creo una matriz 3D (aplanada en 1D) para contabilizar las apariciones de cada color
+	for( unsigned long i=0 ; i < tamanioContador ; i++ ){ contador[i] = 0; } // Inicialo todo en cero 
 
 	for( unsigned int i = 0 ; i < (datos.cantidadFilas*2) ; i++ ){  // Recorre todas las filas
 		for( unsigned int j = 0 ; j < (datos.anchoFilaDoble-datos.paddingAplicadoDoble) ; j+=3 ){  // Recorre todos los bytes de cada fila, sin pasar por los bytes de padding
-			stColor c;
 			unsigned int posB = (datos.anchoFilaDoble) * i + j;
 			unsigned int posG = (datos.anchoFilaDoble) * i + j + 1;
 			unsigned int posR = (datos.anchoFilaDoble) * i + j + 2;
-			c.b = datos.arrayPixelesDuplicados[posB];
-			c.g = datos.arrayPixelesDuplicados[posG];
-			c.r = datos.arrayPixelesDuplicados[posR];
+			unsigned char b = datos.arrayPixelesDuplicados[posB];
+			unsigned char g = datos.arrayPixelesDuplicados[posG];
+			unsigned char r = datos.arrayPixelesDuplicados[posR];
 
-			// Busco si ya fue contabilizado anteriormente
-			bool encontrado = false;
-			for( std::vector<stColor>::iterator it = colores.begin() ; it != colores.end() ; it++ ){
-				if( (c.b == (*it).b) && (c.g == (*it).g) && (c.r == (*it).r) ){
-					(*it).cantidad++;
-					encontrado = true;
-					break;
-				}
-			}
-
-			// Si no fue contabilizado anteriormente lo agrego
-			if( encontrado == false ){
-				c.cantidad = 1;
-				colores.push_back(c);
-			}
-
+			// Busco la posición correspondiente al color e incremento su contador en uno
+			unsigned long posicionContador = (256)*(256)*(b) + (256)*(g) + (1)*(r);
+			unsigned int valor = contador[posicionContador];
+			valor++;
+			contador[posicionContador] = valor;
 		}
 	}
 
-	// Me quedo con el color que apareció mas veces. En cantidad iguales, busco el mas cercano al (255,255,255)
-	unsigned int cantidad = 0;
+	// Me quedo con el color que apareció mas veces. En cantidad igualada, busco el mas cercano al (255,255,255) calculando la norma
+	unsigned int cantidadActual = 0;
 	datos.fondoB = 0;
 	datos.fondoG = 0;
 	datos.fondoR = 0;
-	for( std::vector<stColor>::iterator it = colores.begin() ; it != colores.end() ; it++ ){
 
-		if( (*it).cantidad >= cantidad ){
-			if( (*it).cantidad == cantidad ){ // Comparo
-				unsigned long normaIt = ( (*it).b * (*it).b + (*it).g * (*it).g + (*it).r * (*it).r );
-				unsigned long normaDatos = (datos.fondoB*datos.fondoB + datos.fondoG*datos.fondoG + datos.fondoR*datos.fondoR);
-				if( normaIt >= normaDatos ){
-					datos.fondoB = (*it).b;
-					datos.fondoG = (*it).g;
-					datos.fondoR = (*it).r;
+	for( unsigned long b=0 ; b < 256 ; b++ ){
+		for( unsigned long g=0 ; g < 256 ; g++ ){
+			for( unsigned long r=0 ; r < 256 ; r++ ){
+
+				unsigned long pos = (256)*(256)*(b) + (256)*(g) + (1)*(r);
+				unsigned int valorObtenido = contador[pos];
+
+				if( cantidadActual == valorObtenido ){
+					unsigned long normaValorObtenido = ( b*b + g*g + r*r );
+					unsigned long normaActual = (datos.fondoB*datos.fondoB + datos.fondoG*datos.fondoG + datos.fondoR*datos.fondoR);
+					if( normaValorObtenido > normaActual ){
+						datos.fondoB = b;
+						datos.fondoG = g;
+						datos.fondoR = r;
+					}
+				}else{
+					if( cantidadActual < valorObtenido ){
+						datos.fondoB = b;
+						datos.fondoG = g;
+						datos.fondoR = r;
+						cantidadActual = valorObtenido;
+					}
 				}
-			}else{
-				datos.fondoB = (*it).b;
-				datos.fondoG = (*it).g;
-				datos.fondoR = (*it).r;
-				cantidad = (*it).cantidad;
+
 			}
 		}
-
 	}
 
 	return void();
@@ -325,6 +323,132 @@ void FinalA::pruebaPintaVerde(void){
 
 	delete[] datos;
 	if( archivoCompleto != NULL ) delete[] archivoCompleto;
+
+	return void();
+}
+
+void FinalA::pruebaSortYFind(void){
+
+	struct stDato{
+
+		std::string str;
+		int x;
+
+		// Defino el operador "<" para ser usado por el std::sort()
+		bool operator<(const stDato &otro) const {
+			return ( (*this).x < otro.x );
+		}
+
+		// Defino el operador "==" para ser usado por el std::find()
+		bool operator==(const stDato &otro) const {
+			return ( (*this).x == otro.x );
+		}
+
+	};
+
+	std::vector<stDato> v;
+	stDato d;
+	d.x = 32; v.push_back(d);
+	d.x = 71; v.push_back(d);
+	d.x = 12; v.push_back(d);
+	d.x = 45; v.push_back(d);
+	d.x = 26; v.push_back(d);
+	d.x = 80; v.push_back(d);
+	d.x = 53; v.push_back(d);
+	d.x = 33; v.push_back(d);
+
+	// Ordeno los stDato
+	std::sort(v.begin(),v.end());
+
+	std::cout << "Valores ordenados: ";
+	for (std::vector<stDato>::iterator it=v.begin(); it!=v.end(); ++it){
+		std::cout << ' ' << (*it).x;
+	}
+	std::cout << std::endl;
+
+	std::cout << "Busco el stDato con valor x=34... ";
+	d.x = 34;
+	std::vector<stDato>::iterator it = std::find(v.begin(),v.end(),d);
+	if( it == v.end()  ) std::cout << "no se encuentra\n";
+	else{	std::cout << "encontrado el valor: " << (*it).x << std::endl; }
+
+	std::cout << "Busco el stDato con valor x=33... ";
+	d.x = 33;
+	it = std::find(v.begin(),v.end(),d);
+	if( it == v.end()  ) std::cout << "no se encuentra\n";
+	else{	std::cout << "encontrado el valor: " << (*it).x << std::endl; }
+
+	return void();
+}
+
+void FinalA::pruebaMap(void){
+	
+	struct stColor{
+
+		unsigned int b;
+		unsigned int g;
+		unsigned int r;
+
+		// Defino el operador "<" para ser usado por el std::map
+		bool operator<(const stColor &otro) const {
+			if( b < otro.b ){	
+				return true;	// (2,x,x)vs(3,x,x)
+			}else{
+				if( b > otro.b ){	
+					return false;	// (3,x,x)vs(2,x,x)
+				}else{
+					if( g < otro.g ){	
+						return true;	// (3,2,x)vs(3,3,x)
+					}else{
+						if( g > otro.g ){	
+							return false;		// (3,3,x)vs(3,2,x)
+						}else{
+							if( r < otro.r ){	
+								return true;	// (3,3,2)vs(3,3,3)
+							}else{
+								return false;  // (3,3,3)vs(3,3,3) o (3,3,3)vs(3,3,2)
+							}
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	};
+
+	std::map<stColor,int> cc;
+	stColor color;
+	color.b = 255; color.g = 255; color.r = 32; cc.insert(std::make_pair(color,1));
+	color.b = 255; color.g = 255; color.r = 71; cc.insert(std::make_pair(color,1));
+	color.b = 255; color.g = 255; color.r = 12; cc.insert(std::make_pair(color,1));
+	color.b = 255; color.g = 255; color.r = 45; cc.insert(std::make_pair(color,1));
+	color.b = 255; color.g = 255; color.r = 26; cc.insert(std::make_pair(color,1));
+	color.b = 255; color.g = 255; color.r = 80; cc.insert(std::make_pair(color,1));
+	color.b = 255; color.g = 255; color.r = 53; cc.insert(std::make_pair(color,1));
+	color.b = 255; color.g = 255; color.r = 33; cc.insert(std::make_pair(color,1));
+
+
+	std::cout << "Valores ordenados: ";
+	for (std::map<stColor,int>::iterator it=cc.begin(); it!=cc.end(); ++it){
+		std::cout << ' ' << (*it).first.r;
+	}
+	std::cout << std::endl;
+
+	std::cout << "Busco el stDato con valor (255,255,34)... ";
+	color.b = 255; color.g = 255; color.r = 34;
+	std::map<stColor,int>::iterator it = cc.find(color);
+	if( it == cc.end()  ) std::cout << "no se encuentra\n";
+	else{	std::cout << "encontrado el valor: " << (*it).first.r << std::endl; }
+
+	std::cout << "Busco el stDato con valor (255,255,33)... ";
+	color.b = 255; color.g = 255; color.r = 33;
+	it = cc.find(color);
+	if( it == cc.end()  ) std::cout << "no se encuentra\n";
+	else{	std::cout << "encontrado el valor: " << (*it).first.r << std::endl; }
 
 	return void();
 }
