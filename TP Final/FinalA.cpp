@@ -16,11 +16,10 @@ FinalA::~FinalA(void){
 //   ...o sea que si es necesario cada línea puede tener un padding de 0, 1, 2 o 3 bytes al final de cada línea
 void FinalA::resolver(void){
 
-	// Acá cargo los datos del archivo de entrada
+	// Acá cargo los datos necesarios para trabajar
 	stDatos datos;
 	datos.arrayPixeles = NULL;
 	datos.arrayPixelesDuplicados = NULL;
-	datos.arrayPixelesTransparentados = NULL;
 
 	// Obtengo todos los datos necesarios para procesar la imagen
 	this->leerArchivo(datos);
@@ -28,13 +27,18 @@ void FinalA::resolver(void){
 	// Duplico el tamaño de la imagen
 	this->duplicarTamanioImagen(datos);
 
+	// Calculo el color de transparencia
+	this->calcularColorTransparente(datos);
+
+	// Aplico el color de transparencia
+	this->reemplazarColorTransparente(datos);
+
 	// Guardo todo lo calculado en la salida
 	this->guardarArchivo(datos);
 
 	// Borro lo que instancié
 	if( datos.arrayPixeles != NULL ) delete[] datos.arrayPixeles;
 	if( datos.arrayPixelesDuplicados != NULL ) delete[] datos.arrayPixelesDuplicados ;
-	if( datos.arrayPixelesTransparentados != NULL ) delete[] datos.arrayPixelesTransparentados ;
 
 	return void();
 }
@@ -88,6 +92,7 @@ void FinalA::duplicarTamanioImagen(stDatos &datos){
 	
 	// Guardo el dato para otras funciones.
 	datos.anchoFilaDoble = anchoDoble;
+	datos.paddingAplicadoDoble = paddingPorLineaDoble;
 
 	// Preparo el array doble
 	unsigned int tamanioArrayPixelesDuplicados = ( anchoDoble * filasDoble );
@@ -119,12 +124,110 @@ void FinalA::duplicarTamanioImagen(stDatos &datos){
 }
 
 void FinalA::calcularColorTransparente(stDatos &datos){
-	// TODO: En construcción
+
+	std::vector<stColor> colores;
+
+	for( unsigned int i = 0 ; i < (datos.cantidadFilas*2) ; i++ ){  // Recorre todas las filas
+		for( unsigned int j = 0 ; j < (datos.anchoFilaDoble-datos.paddingAplicadoDoble) ; j+=3 ){  // Recorre todos los bytes de cada fila, sin pasar por los bytes de padding
+			stColor c;
+			unsigned int posB = (datos.anchoFilaDoble) * i + j;
+			unsigned int posG = (datos.anchoFilaDoble) * i + j + 1;
+			unsigned int posR = (datos.anchoFilaDoble) * i + j + 2;
+			c.b = datos.arrayPixelesDuplicados[posB];
+			c.g = datos.arrayPixelesDuplicados[posG];
+			c.r = datos.arrayPixelesDuplicados[posR];
+
+			// Busco si ya fue contabilizado anteriormente
+			bool encontrado = false;
+			for( std::vector<stColor>::iterator it = colores.begin() ; it != colores.end() ; it++ ){
+				if( (c.b == (*it).b) && (c.g == (*it).g) && (c.r == (*it).r) ){
+					(*it).cantidad++;
+					encontrado = true;
+					break;
+				}
+			}
+
+			// Si no fue contabilizado anteriormente lo agrego
+			if( encontrado == false ){
+				c.cantidad = 1;
+				colores.push_back(c);
+			}
+
+		}
+	}
+
+	// Me quedo con el color que apareció mas veces. En cantidad iguales, busco el mas cercano al (255,255,255)
+	unsigned int cantidad = 0;
+	datos.fondoB = 0;
+	datos.fondoG = 0;
+	datos.fondoR = 0;
+	for( std::vector<stColor>::iterator it = colores.begin() ; it != colores.end() ; it++ ){
+
+		if( (*it).cantidad >= cantidad ){
+			if( (*it).cantidad == cantidad ){ // Comparo
+				unsigned long normaIt = ( (*it).b * (*it).b + (*it).g * (*it).g + (*it).r * (*it).r );
+				unsigned long normaDatos = (datos.fondoB*datos.fondoB + datos.fondoG*datos.fondoG + datos.fondoR*datos.fondoR);
+				if( normaIt >= normaDatos ){
+					datos.fondoB = (*it).b;
+					datos.fondoG = (*it).g;
+					datos.fondoR = (*it).r;
+				}
+			}else{
+				datos.fondoB = (*it).b;
+				datos.fondoG = (*it).g;
+				datos.fondoR = (*it).r;
+				cantidad = (*it).cantidad;
+			}
+		}
+
+	}
+
 	return void();
 }
 
 void FinalA::reemplazarColorTransparente(stDatos &datos){
-	// TODO: En construcción
+	
+	for( unsigned int i = 0 ; i < (datos.cantidadFilas*2) ; i++ ){  // Recorre todas las filas
+		for( unsigned int j = 0 ; j < (datos.anchoFilaDoble-datos.paddingAplicadoDoble) ; j+=3 ){  // Recorre todos los bytes de cada fila, sin pasar por los bytes de padding
+			unsigned int posB = (datos.anchoFilaDoble) * i + j;
+			unsigned int posG = (datos.anchoFilaDoble) * i + j + 1;
+			unsigned int posR = (datos.anchoFilaDoble) * i + j + 2;
+			unsigned char b = datos.arrayPixelesDuplicados[posB];
+			unsigned char g = datos.arrayPixelesDuplicados[posG];
+			unsigned char r = datos.arrayPixelesDuplicados[posR];
+
+			// Si me encuentro con el color de transparencia lo reemplazo por el correspondiente (128,255,255) o (0,0,0)
+			unsigned int largoZona = 64;									// Largo en pixeles
+			unsigned int largoEnBytes = largoZona * datos.bytesPorPixel;	// Largo en bytes
+			if( (b == datos.fondoB) && (g == datos.fondoG) && (r == datos.fondoR) ){
+
+				if( (j % largoEnBytes*2) < largoEnBytes ){
+					if( (i % largoZona*2) < largoZona ){	
+						datos.arrayPixelesDuplicados[posB] = 128;
+						datos.arrayPixelesDuplicados[posG] = 255;
+						datos.arrayPixelesDuplicados[posR] = 255;
+					}else{
+						datos.arrayPixelesDuplicados[posB] = 0;
+						datos.arrayPixelesDuplicados[posG] = 0;
+						datos.arrayPixelesDuplicados[posR] = 0;
+					}
+				}else{
+					if( (i % largoZona*2) < largoZona ){	
+						datos.arrayPixelesDuplicados[posB] = 0;
+						datos.arrayPixelesDuplicados[posG] = 0;
+						datos.arrayPixelesDuplicados[posR] = 0;
+					}else{
+						datos.arrayPixelesDuplicados[posB] = 128;
+						datos.arrayPixelesDuplicados[posG] = 255;
+						datos.arrayPixelesDuplicados[posR] = 255;					
+					}
+				}
+
+			}
+
+		}
+	}
+
 	return void();
 }
 

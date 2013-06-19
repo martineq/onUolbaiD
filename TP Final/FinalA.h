@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include "ESArchivoCpp.h"
 
 class FinalA{
@@ -24,15 +25,19 @@ class FinalA{
 			// Resultados de duplicar
 			unsigned char* arrayPixelesDuplicados;
 			unsigned int anchoFilaDoble;			// Valor en bytes. Ya incluye el padding.
+			unsigned int paddingAplicadoDoble;
 
 			// Resultados de encontrar el color de transparencia
-			unsigned char transparenteR;
-			unsigned char transparenteG;
-			unsigned char transparenteB;
+			unsigned char fondoR;
+			unsigned char fondoG;
+			unsigned char fondoB;
+		};
 
-			// Resultados de transparentar
-			unsigned char* arrayPixelesTransparentados;
-
+		struct stColor{
+			unsigned char b;
+			unsigned char g;
+			unsigned char r;
+			unsigned long cantidad;
 		};
 
 		void leerArchivo(stDatos &datos);
