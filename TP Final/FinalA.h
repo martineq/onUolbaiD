@@ -3,7 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <algorithm>	// Para std::sort() y std::find
+#include <algorithm>	// Para std::sort() y std::find()
 #include <map>
 #include "ESArchivoCpp.h"
 
@@ -33,13 +33,6 @@ class FinalA{
 			unsigned char fondoR;
 			unsigned char fondoG;
 			unsigned char fondoB;
-		};
-
-		struct stColor{
-			unsigned char b;
-			unsigned char g;
-			unsigned char r;
-			unsigned long cantidad;
 		};
 
 		void leerArchivo(stDatos &datos);
