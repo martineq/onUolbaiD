@@ -46,7 +46,7 @@ void FinalA::resolver(void){
 void FinalA::leerArchivo(stDatos &datos){
 
 	// Archivo de entrada. Abro el archivo de entrada en modo binario.
-	ESArchivoCpp entrada("./archivos/FinalA_Entrada.bmp",true,false);
+	ESArchivoCpp entrada("./archivos/FinalA_Entrada1.bmp",true,false);
 	
 	// Leo el byte 2: Tamaño del archivo.
 	entrada.leerArchivo( (char*)&datos.tamanioArchivo , 2 , sizeof(unsigned int) );	
@@ -232,7 +232,7 @@ void FinalA::reemplazarColorTransparente(stDatos &datos){
 void FinalA::guardarArchivo(stDatos &datos){
 
 	// Archivo de entrada. Abro el archivo de entrada en modo binario.
-	ESArchivoCpp entrada("./archivos/FinalA_Entrada.bmp",true,false);
+	ESArchivoCpp entrada("./archivos/FinalA_Entrada1.bmp",true,false);
 
 	// Archivo de salida
 	ESArchivoCpp salida("./archivos/FinalA_Salida.bmp",false,false);
@@ -264,7 +264,7 @@ void FinalA::guardarArchivo(stDatos &datos){
 
 // Toma una imagen BMP 24-bit y le deja solo el componente verde de la misma
 void FinalA::pruebaPintaVerde(void){
-	ESArchivoCpp entrada("./archivos/ruggeri_rasta.bmp",true,false);
+	ESArchivoCpp entrada("./archivos/FinalA_Entrada3.bmp",true,false);
 	ESArchivoCpp salida("./archivos/FinalA_Salida.bmp",false,false);
 
 	unsigned int tamanioArchivo = 0;
