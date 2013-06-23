@@ -57,16 +57,13 @@ unsigned long ESArchivoCpp::leerArchivo(char** cadena){
 }
 
 // Lee todo el archivo y lo devuelve cargado en un std::string
-std::string ESArchivoCpp::leerArchivo(void){
-	std::string cadenaStr;
-	char* cadena;
-
-	unsigned int tamanio = this->leerArchivo(&cadena);
-	if( tamanio > 0 ){
-		cadenaStr.assign(cadena,tamanio);
+bool ESArchivoCpp::leerLinea(std::string& linea){
+	if( std::getline(this->archivo,linea) ){
+		return true;
+	}else{
+		linea.clear();
+		return false;
 	}
-
-	return cadenaStr;
 }
 
 // Escribre en el archivo el tamanio pedido, desde el offset pedido
@@ -81,6 +78,6 @@ void ESArchivoCpp::escribirEnArchivo(const char* cadena, unsigned long tamanio){
 }
 
 // Escribre en el archivo los datos contenidos en el string, desde la posición que se encontraba el archivo
-void ESArchivoCpp::escribirEnArchivo(std::string cadena){
-	this->archivo << cadena.c_str();
+void ESArchivoCpp::escribirLinea(std::string linea){
+	this->archivo << linea.c_str();
 }
