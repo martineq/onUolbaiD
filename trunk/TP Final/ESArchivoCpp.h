@@ -16,10 +16,10 @@ class ESArchivoCpp{
 
 		void leerArchivo(char* cadena, unsigned long offset, unsigned long tamanio);
 		unsigned long leerArchivo(char** cadena);
-		std::string leerArchivo(void);
+		bool leerLinea(std::string& linea);
 
 		void escribirEnArchivo(const char* cadena,  unsigned long offset, unsigned long tamanio);
 		void escribirEnArchivo(const char* cadena, unsigned long tamanio);
-		void escribirEnArchivo(std::string cadena);
+		void escribirLinea(std::string linea);
 
 };

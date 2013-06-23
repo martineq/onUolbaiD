@@ -1,6 +1,9 @@
 #pragma once
 
+#include <iostream>
+#include <sstream>
 #include <vector>
+#include <stack>
 #include "ESArchivoCpp.h"
 
 class FinalB{
@@ -8,8 +11,14 @@ class FinalB{
 	private:
 
 		struct stPunto{
-			unsigned long x;
-			unsigned long y;
+			long x;
+			long y;
+			unsigned char b; 
+			unsigned char g;
+			unsigned char r;
+		};
+		
+		struct stColor{
 			unsigned char b; 
 			unsigned char g;
 			unsigned char r;
@@ -19,6 +28,8 @@ class FinalB{
 
 			// Datos a obtener a partir del archivo de imagen
 			unsigned int offsetDatos;
+			unsigned int anchoPix;
+			unsigned int altoPix;
 			unsigned int anchoFila;			// Valor en bytes. Ya incluye el padding.
 			unsigned int cantidadFilas;
 			unsigned int paddingAplicado;
@@ -33,6 +44,8 @@ class FinalB{
 		void leerArchivoDatos(stDatos &datos);
 		void pintarAreas(stDatos &datos);
 		void guardarArchivo(stDatos &datos);
+
+		void pintar(stDatos &datos, stPunto pReemp, stColor c, bool* pintado);
 
 	public:
 		FinalB(void);

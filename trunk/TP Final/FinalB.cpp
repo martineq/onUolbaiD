@@ -20,10 +20,10 @@ void FinalB::resolver(void){
 	this->leerArchivoImagen(datos);
 
 	// Obtengo todos la información del archivo de datos
-	//this->leerArchivoDatos(datos);	// TODO: Habilitar cuando se implemente
+	this->leerArchivoDatos(datos);
 
 	// Pinto las areas indicadas
-	//this->pintarAreas(datos);			// TODO: Habilitar cuando se implemente
+	this->pintarAreas(datos);
 
 	// Guardo todo lo calculado en la salida
 	this->guardarArchivo(datos);
@@ -43,24 +43,22 @@ void FinalB::leerArchivoImagen(stDatos &datos){
 	entrada.leerArchivo( (char*)&datos.offsetDatos , 10 , sizeof(unsigned int) );	
 
 	// Leo el byte 18: Ancho en pixeles de la imagen.
-	unsigned int anchoPix;
-	entrada.leerArchivo( (char*)&anchoPix, 18 , sizeof(int) );					
+	entrada.leerArchivo( (char*)&datos.anchoPix, 18 , sizeof(int) );					
 	
 	// Leo el byte 22: Alto en pixeles de la imagen.
-	unsigned int altoPix;
-	entrada.leerArchivo( (char*)&altoPix, 22 , sizeof(int) );
+	entrada.leerArchivo( (char*)&datos.altoPix, 22 , sizeof(int) );
 
 	// Calculo el ancho en bytes
 	unsigned int bytesPorPixel = 3;			// Un byte por cada color: (B,G,R)
 	unsigned int alineacion = 4;			// Alineación en bytes
-	unsigned int anchoEnBytesSinPadding = ( anchoPix * bytesPorPixel);
+	unsigned int anchoEnBytesSinPadding = ( datos.anchoPix * bytesPorPixel);
 	unsigned int paddingPorLinea = ( ( alineacion - (anchoEnBytesSinPadding % alineacion) ) % alineacion );
 	unsigned int anchoEnBytesConPadding = anchoEnBytesSinPadding + paddingPorLinea;
 
 	// Guardo los valores calculados
 	datos.anchoFila = anchoEnBytesConPadding;
 	datos.paddingAplicado = paddingPorLinea;
-	datos.cantidadFilas = altoPix;
+	datos.cantidadFilas = datos.altoPix;
 
 	// Guardo los datos de todos los pixeles
 	unsigned int tamanioArrayPixeles = ( datos.anchoFila * datos.cantidadFilas );
@@ -72,10 +70,93 @@ void FinalB::leerArchivoImagen(stDatos &datos){
 
 void FinalB::leerArchivoDatos(stDatos &datos){
 
+	// Archivo de entrada. Abro el archivo de entrada en modo texto.
+	ESArchivoCpp entrada("./archivos/FinalB_Entrada_Datos.txt",true,true);
+	std::string linea;
+	while( entrada.leerLinea(linea) == true ){
+		stPunto punto;
+		std::stringstream ss(linea);
+		std::string atomo;
+		int posicion = 0;
+		while( std::getline(ss,atomo,',') ){	
+			std::stringstream temp(atomo);
+			int num;
+			temp >> num;
+			if( posicion == 0 ) punto.x = num;
+			if( posicion == 1 ) punto.y = num;
+			if( posicion == 2 ) punto.r = num;
+			if( posicion == 3 ) punto.g = num;
+			if( posicion == 4 ) punto.b = num;
+			posicion++;
+		}
+		datos.puntos.push_back(punto);
+	}
+
 	return void();
 }
 
 void FinalB::pintarAreas(stDatos &datos){
+	
+	for( std::vector<stPunto>::iterator it = datos.puntos.begin() ; it !=  datos.puntos.end() ; it++ ){
+		bool* pintado = new bool[datos.altoPix*datos.anchoPix];
+		for( unsigned long i=0 ; i<datos.altoPix*datos.anchoPix; i++) pintado[i]=false;
+
+		stPunto puntoReemplazo = (*it);
+		stColor colorBusco;
+		unsigned int posB = (datos.anchoFila) * (puntoReemplazo.y) + ( 3 * (puntoReemplazo.x) );
+		colorBusco.b = datos.arrayPixeles[posB];
+		colorBusco.g = datos.arrayPixeles[posB+1];
+		colorBusco.r = datos.arrayPixeles[posB+2];
+
+		this->pintar(datos,puntoReemplazo,colorBusco,pintado);
+
+		delete[] pintado;
+	}
+
+
+	return void();
+}
+
+void FinalB::pintar(stDatos &datos, stPunto pReemp, stColor c, bool* pintado){
+
+	std::stack<stPunto> pila;
+	pila.push(pReemp);
+
+	while( pila.empty() == false ){
+
+		stPunto punto = pila.top();
+		pila.pop();
+		long x = punto.x;
+		long y = punto.y;
+
+		// Chequeo que no se haya pintado antes
+		if( pintado[datos.anchoPix*y + x] == true ) continue;
+
+		// Chequeo que sea el color que busco, pinto y expando a los 4 costados
+		unsigned int posB = (datos.anchoFila) * y + ( 3 * x);
+		if( c.b == datos.arrayPixeles[posB] && c.g == datos.arrayPixeles[posB+1] && c.r == datos.arrayPixeles[posB+2] ){
+			datos.arrayPixeles[posB] = punto.b;
+			datos.arrayPixeles[posB+1] = punto.g;
+			datos.arrayPixeles[posB+2] = punto.r;
+			pintado[datos.anchoPix*y + x] = true;
+
+			punto.x = x-1;
+			punto.y = y;
+			if( (punto.x >= 0) && (pintado[datos.anchoPix*punto.y + punto.x] == false)  ) pila.push(punto);
+
+			punto.x = x+1;
+			punto.y = y;
+			if( (punto.x < datos.anchoPix) && (pintado[datos.anchoPix*punto.y + punto.x] == false) ) pila.push(punto);
+
+			punto.x = x;
+			punto.y = y+1;
+			if( (punto.y < datos.altoPix) && (pintado[datos.anchoPix*punto.y + punto.x] == false) ) pila.push(punto);
+
+			punto.x = x;
+			punto.y = y-1;
+			if( (punto.y >= 0) && (pintado[datos.anchoPix*punto.y + punto.x] == false) ) pila.push(punto);
+		}
+	}
 
 	return void();
 }
