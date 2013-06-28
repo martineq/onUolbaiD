@@ -2,6 +2,7 @@
 
 #include "./FinalA.h"
 #include "./FinalB.h"
+#include "./FinalC.h"
 
 int main(int argc, char* argv[]) {
 
@@ -12,8 +13,10 @@ int main(int argc, char* argv[]) {
 	//fa.pruebaMap();
 
 	FinalB fb;
-	fb.resolver();
+	//fb.resolver();
 
+	FinalC fc;
+	fc.resolver();
 
 	return 0;
 }

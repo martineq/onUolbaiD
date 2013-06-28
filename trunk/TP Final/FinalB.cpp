@@ -132,30 +132,59 @@ void FinalB::pintar(stDatos &datos, stPunto pReemp, stColor c, bool* pintado){
 		// Chequeo que no se haya pintado antes
 		if( pintado[datos.anchoPix*y + x] == true ) continue;
 
+		// Marco que este pixel ya fue revisado
+		pintado[datos.anchoPix*y + x] = true;
+
 		// Chequeo que sea el color que busco, pinto y expando a los 4 costados
 		unsigned int posB = (datos.anchoFila) * y + ( 3 * x);
 		if( c.b == datos.arrayPixeles[posB] && c.g == datos.arrayPixeles[posB+1] && c.r == datos.arrayPixeles[posB+2] ){
 			datos.arrayPixeles[posB] = punto.b;
 			datos.arrayPixeles[posB+1] = punto.g;
 			datos.arrayPixeles[posB+2] = punto.r;
-			pintado[datos.anchoPix*y + x] = true;
 
+			// Izquierda
 			punto.x = x-1;
 			punto.y = y;
 			if( (punto.x >= 0) && (pintado[datos.anchoPix*punto.y + punto.x] == false)  ) pila.push(punto);
 
+			// Derecha
 			punto.x = x+1;
 			punto.y = y;
 			if( (punto.x < datos.anchoPix) && (pintado[datos.anchoPix*punto.y + punto.x] == false) ) pila.push(punto);
 
+			// Arriba
 			punto.x = x;
 			punto.y = y+1;
 			if( (punto.y < datos.altoPix) && (pintado[datos.anchoPix*punto.y + punto.x] == false) ) pila.push(punto);
 
+			// Abajo
 			punto.x = x;
 			punto.y = y-1;
 			if( (punto.y >= 0) && (pintado[datos.anchoPix*punto.y + punto.x] == false) ) pila.push(punto);
+
+			// Avanzo por las diagonales
+			// Inferior Izquierda
+			punto.x = x-1;
+			punto.y = y-1;
+			if( (punto.x >= 0) && (punto.y >= 0) && (pintado[datos.anchoPix*punto.y + punto.x] == false)  ) pila.push(punto);
+
+			// Inferior Derecha
+			punto.x = x+1;
+			punto.y = y-1;
+			if( (punto.x < datos.anchoPix) && (punto.y >= 0) && (pintado[datos.anchoPix*punto.y + punto.x] == false) ) pila.push(punto);
+ 
+			// Superior Izquierda
+			punto.x = x-1;
+			punto.y = y+1;
+			if( (punto.x >= 0) && (punto.y < datos.altoPix) && (pintado[datos.anchoPix*punto.y + punto.x] == false) ) pila.push(punto);
+
+			// Superior Derecha
+			punto.x = x+1;
+			punto.y = y+1;
+			if( (punto.x < datos.anchoPix) && (punto.y < datos.altoPix) && (pintado[datos.anchoPix*punto.y + punto.x] == false) ) pila.push(punto);
+
 		}
+
 	}
 
 	return void();
