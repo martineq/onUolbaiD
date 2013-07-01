@@ -1,0 +1,4 @@
+Tanque01 10 5 H
+Tanque02 0 15 H
+Tanque03 11 3 H
+Tanque04 6 1 V
