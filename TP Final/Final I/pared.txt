@@ -1,0 +1,4 @@
+pared4 20 0 13 4
+pared1 2 0 5 1
+pared3 12 0 3 3
+pared2 8 0 10 2
