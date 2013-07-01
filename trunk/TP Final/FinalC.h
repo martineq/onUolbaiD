@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <list>
+#include <algorithm>
 #include <math.h>
 #include "ESArchivoCpp.h"
 
@@ -34,6 +35,11 @@ class FinalC{
 			std::string idTejo;
 			std::string idDispersor;
 			double distancia;
+
+			bool operator<(const stResultado &otro) const {
+				return ( (*this).distancia < otro.distancia );
+			}
+
 		};
 
 		void leerArchivoDispersores(stDatos &datos);
