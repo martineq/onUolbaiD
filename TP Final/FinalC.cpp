@@ -142,7 +142,7 @@ void FinalC::procesarChoques(stDatos &datos){
 						} 
 
 					}
-					
+
 					// Si era una colisión completamente nueva, la agrego a la lista
 					if( agregarNuevoValor == true ) resultados.push_back(res);
 				}
@@ -153,6 +153,10 @@ void FinalC::procesarChoques(stDatos &datos){
 
 	}
 
+	// Ordeno los resultados
+	resultados.sort();
+
+	// Muestro los resultados
 	std::cout << "Resultados:\n";
 	for( std::list<stResultado>::iterator it = resultados.begin() ; it!=resultados.end() ; it++){
 		std::cout << " > ID Tejo:" << (*it).idTejo << "  ID Dispersor:" << (*it).idDispersor << "  Distancia:" << (*it).distancia << std::endl;
