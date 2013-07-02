@@ -4,6 +4,7 @@
 #include "./FinalB.h"
 #include "./FinalC.h"
 #include "./FinalE.h"
+#include "./FinalF.h"
 
 int main(int argc, char* argv[]) {
 
@@ -20,7 +21,10 @@ int main(int argc, char* argv[]) {
 	//fc.resolver();
 
 	FinalE fe;
-	fe.resolver();
+	//fe.resolver();
+
+	FinalF ff;
+	ff.resolver();
 
 	return 0;
 }
