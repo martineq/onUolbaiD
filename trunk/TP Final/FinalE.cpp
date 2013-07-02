@@ -159,7 +159,7 @@ void FinalE::calcularHistogramas(stDatos &datos){
 
 			// Para llenar el histograma Azul
 			unsigned char cB = contB[valorColor];
-			if( cB > i ) datos.histoB[indB] = valorColor;
+			if( cB !=0 && cB >= i ) datos.histoB[indB] = valorColor;
 			else datos.histoB[indB] = 0;
 
 			datos.histoB[indG] = 0;
@@ -169,7 +169,7 @@ void FinalE::calcularHistogramas(stDatos &datos){
 			datos.histoG[indB] = 0;
 
 			unsigned char cG = contG[valorColor];
-			if( cG > i ) datos.histoG[indG] = valorColor;
+			if( cG !=0 && cG >= i ) datos.histoG[indG] = valorColor;
 			else datos.histoG[indG] = 0;
 
 			datos.histoG[indR] = 0;
@@ -179,7 +179,7 @@ void FinalE::calcularHistogramas(stDatos &datos){
 			datos.histoR[indG] = 0;
 
 			unsigned char cR = contR[valorColor];
-			if( cR > i ) datos.histoR[indR] = valorColor;
+			if( cR !=0 && cR >= i  ) datos.histoR[indR] = valorColor;
 			else datos.histoR[indR] = 0;
 
 		}
