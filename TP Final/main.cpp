@@ -24,7 +24,8 @@ int main(int argc, char* argv[]) {
 	//fe.resolver();
 
 	FinalF ff;
-	ff.resolver();
+	//ff.resolver();
+	ff.pruebaConversionTilePixel();
 
 	return 0;
 }

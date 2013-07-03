@@ -5,6 +5,7 @@ ESArchivoCpp::ESArchivoCpp(const char* ruta, bool esEntrada, bool esTexto){
 }
 
 ESArchivoCpp::ESArchivoCpp(void){
+
 }
 
 ESArchivoCpp::~ESArchivoCpp(void){
@@ -66,18 +67,57 @@ bool ESArchivoCpp::leerLinea(std::string& linea){
 	}
 }
 
-// Escribre en el archivo el tamanio pedido, desde el offset pedido
+// Escribe en el archivo el tamanio pedido, desde el offset pedido
 void ESArchivoCpp::escribirEnArchivo(const char* cadena, unsigned long offset, unsigned long tamanio){
 	this->archivo.seekp(offset,std::ios::beg);
 	this->archivo.write(cadena,tamanio);
 }
 
-// Escribre en el archivo el tamanio pedido, desde la posición que se encontraba el archivo
+// Escribe en el archivo el tamanio pedido, desde la posición que se encontraba el archivo
 void ESArchivoCpp::escribirEnArchivo(const char* cadena, unsigned long tamanio){
 	this->archivo.write(cadena,tamanio);
 }
 
-// Escribre en el archivo los datos contenidos en el string, desde la posición que se encontraba el archivo
+// Escribe en el archivo los datos contenidos en el string, desde la posición que se encontraba el archivo
 void ESArchivoCpp::escribirLinea(std::string linea){
 	this->archivo << linea.c_str();
 }
+
+/* ///// Resumen de manejo de archivos /////
+
+// Creo y abro el archivo
+std::fstream archivo; 
+archivo.open(ruta,std::ios::in); // "std::ios::out" para salida y " | std::ios::binary " para archivos binarios
+
+// Leo un archivo de texto con varias líneas y varios valores en cada línea separado por ","
+std::string linea;
+while( std::getline(archivo,linea) ){ 
+	std::stringstream ssl(linea);		// Lo paso a stringstream para luego poder usar std::getline
+	std::string valor;
+	int indice = 1;
+	int valorUno,valorDos;
+	while( std::getline(ssl,valor,',') ){
+		std::stringstream ssv(valor);	// Lo paso a stringstream para luego poder pasarlo a <int>, <double>, etc.
+		if( indice == 1 ) ssv >> valorUno;
+		if( indice == 2 ) ssv >> valorDos;
+		indice++;
+	}
+}
+
+// Leo un archivo binario // Con char* cadena; unsigned long offset; unsigned long tamanio;
+if( this->archivo.is_open() ){
+	this->archivo.seekg(offset,std::ios::beg);
+	if( tamanio > 0 ) this->archivo.read(cadena,tamanio);
+}
+
+// Escribo en el archivo el tamanio pedido, desde el offset pedido. Modo binario
+this->archivo.seekp(offset,std::ios::beg);
+this->archivo.write(cadena,tamanio);
+
+// Escribo en el archivo una línea en modo texto
+this->archivo << linea.c_str();
+
+// Cierro el archivo
+if( this->archivo.is_open() ) archivo.close();
+
+*/
