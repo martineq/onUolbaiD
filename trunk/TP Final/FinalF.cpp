@@ -202,3 +202,45 @@ bool FinalF::agregarNodo(stDatos& datos, std::list<stNodo>& tilesAbiertos, stPos
 
 	return true;
 }
+
+void FinalF::pruebaConversionTilePixel(void){
+
+	// Dimensiones de un tile
+	int anchoTile = 10;
+	int altoTile = 10;
+
+	// Dimensiones del mapa expresado en tiles
+	int altoEnTiles = 2;
+	int anchoEnTiles = 2;
+
+	for( int i = 0 ; i < altoEnTiles ; i++ ){
+	
+		for( int j = 0 ; j < altoEnTiles ; j++ ){
+
+			int pX,pY;
+			this->convertirTileAPixel(altoEnTiles,i,j,pX,pY,anchoTile,altoTile);
+			std::cout << "(" << i << "," << j << ") " << "(" << pX << "," << pY << ")" << std::endl;
+
+		}
+
+	}
+
+
+	return void();
+}
+
+void FinalF::convertirTileAPixel(int altoEnTiles, int xTile, int yTile, int& xPixel, int& yPixel, int anchoTile, int altoTile) {
+	xPixel = (anchoTile / 2) * (xTile - yTile) + (anchoTile / 2) * altoEnTiles;
+	yPixel = (altoTile / 2) * (xTile + yTile);
+}
+
+void FinalF::convertirPixelATile(int altoEnTiles, int xPixel, int yPixel, int& xTile, int& yTile, int anchoTile, int altoTile) {
+	double desplazamientoX = 0, desplazamientoY = 0;
+	
+	xPixel -= (anchoTile / 2) * altoEnTiles;
+	desplazamientoX = (double)xPixel / anchoTile;
+	desplazamientoY = (double)yPixel / altoTile;
+	
+	xTile = floor(desplazamientoY + desplazamientoX);
+	yTile = floor(desplazamientoY - desplazamientoX);
+} 
