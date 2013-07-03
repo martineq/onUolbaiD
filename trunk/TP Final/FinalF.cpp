@@ -87,110 +87,117 @@ void FinalF::leerArchivoJugadores(stDatos &datos){
 // + Todos los obstáculos miden 1x1 (No se toma la medida del alto y ancho por ahora)
 void FinalF::calcularCamino(stDatos& datos, std::list<stPosicion>& posiciones, stPosicion posIni, stPosicion posFin){
 
-	datos.mapaTilesCerrados = new char[datos.altoNivel * datos.anchoNivel * sizeof(char)];
-	for(unsigned long i=0 ; i<(datos.altoNivel * datos.anchoNivel * sizeof(char)) ; i++) datos.mapaTilesCerrados[i]=0;
+	// Creo e inicialo el mapa de nodos cerrados
+	datos.mapaNodosCerrados = new char[datos.altoNivel * datos.anchoNivel * sizeof(char)];
+	for(unsigned long i=0 ; i<(datos.altoNivel * datos.anchoNivel * sizeof(char)) ; i++) datos.mapaNodosCerrados[i]=0;
 
-	std::list<stNodo> tilesAbiertos;
-	std::list<stNodo> tilesCerrados;
-	stNodo* tileActual = NULL;
+	// Creo una lista de nodos abiertos, otra de nodos cerrados y un puntero al nodo actual
+	std::list<stNodo> nodosAbiertos;
+	std::list<stNodo> nodosCerrados;
+	stNodo* nodoActual = NULL;
  
-	this->agregarNodo(datos,tilesAbiertos,posIni,posFin,NULL,0);
+	// Agrego el primer nodo a los abiertos
+	this->agregarNodo(datos,nodosAbiertos,posIni,posFin,NULL,0);
 
-	while (!tilesAbiertos.empty()) {
+	// Itero mientras haya nodos abiertos
+	while (!nodosAbiertos.empty()) {
 
-		// Paso el primer nodo abierto a la lista de cerrados
-		tilesCerrados.push_back(tilesAbiertos.front());
-		tilesAbiertos.pop_front();
-		tileActual = &tilesCerrados.back();
-		datos.mapaTilesCerrados[ (datos.anchoNivel * tileActual->pos.y) + tileActual->pos.x] = 1;
+		// Paso el primer nodo abierto a la lista de cerrados y lo saco de la de nodos abiertos
+		nodosCerrados.push_back(nodosAbiertos.front());
+		nodosAbiertos.pop_front();
+
+		// Preparo el nodo actual y lo marco como cerrado
+		nodoActual = &nodosCerrados.back();
+		datos.mapaNodosCerrados[ (datos.anchoNivel * nodoActual->pos.y) + nodoActual->pos.x] = 1;
 
 		// Si llegue a la posicion destino reconstruyo el camino
-		if ( tileActual->pos == posFin ) {
-			while (tileActual != NULL) {
-				posiciones.push_front(tileActual->pos);
-				tileActual = tileActual->padre;
+		if ( nodoActual->pos == posFin ) {
+			while (nodoActual != NULL) {
+				posiciones.push_front(nodoActual->pos);
+				nodoActual = nodoActual->padre;
 			}
-
-			delete[] datos.mapaTilesCerrados;
+			delete[] datos.mapaNodosCerrados;
 			return void();
 		}
 
-		stPosicion posicionAdyacente;
-		bool posicionProcesada = false;
-
-		// Posicion superior izquierda
-		posicionAdyacente = tileActual->pos;
+		// Calculo la posicion superior izquierda
+		stPosicion posicionAdyacente = nodoActual->pos;
 		posicionAdyacente.x -= 1;
 		posicionAdyacente.y -= 1;
-		posicionProcesada |= this->agregarNodo(datos, tilesAbiertos, posicionAdyacente, posFin, tileActual, 14);
+		this->agregarNodo(datos, nodosAbiertos, posicionAdyacente, posFin, nodoActual, 14);
 
-		// Posicion superior
-		posicionAdyacente = tileActual->pos;
+		// Calculo la posicion superior
+		posicionAdyacente = nodoActual->pos;
 		posicionAdyacente.y -= 1;
-		posicionProcesada |= posicionProcesada |= this->agregarNodo(datos, tilesAbiertos, posicionAdyacente, posFin, tileActual, 10);
+		this->agregarNodo(datos, nodosAbiertos, posicionAdyacente, posFin, nodoActual, 10);
 
-		// Posicion superior derecha
-		posicionAdyacente = tileActual->pos;
+		// Calculo la posicion superior derecha
+		posicionAdyacente = nodoActual->pos;
 		posicionAdyacente.x += 1;
 		posicionAdyacente.y -= 1;
-		posicionProcesada |= this->agregarNodo(datos, tilesAbiertos, posicionAdyacente, posFin, tileActual, 14);
+		this->agregarNodo(datos, nodosAbiertos, posicionAdyacente, posFin, nodoActual, 14);
 
-		// Posicion izquierda
-		posicionAdyacente = tileActual->pos;
+		// Calculo la posicion izquierda
+		posicionAdyacente = nodoActual->pos;
 		posicionAdyacente.x -= 1;
-		posicionProcesada |= posicionProcesada |= this->agregarNodo(datos, tilesAbiertos, posicionAdyacente, posFin, tileActual, 10);
+		this->agregarNodo(datos, nodosAbiertos, posicionAdyacente, posFin, nodoActual, 10);
 
-		// Posicion derecha
-		posicionAdyacente = tileActual->pos;
+		// Calculo la posicion derecha
+		posicionAdyacente = nodoActual->pos;
 		posicionAdyacente.x += 1;
-		posicionProcesada |= posicionProcesada |= this->agregarNodo(datos, tilesAbiertos, posicionAdyacente, posFin, tileActual, 10);
+		this->agregarNodo(datos, nodosAbiertos, posicionAdyacente, posFin, nodoActual, 10);
 
-		// Posicion inferior izquierda
-		posicionAdyacente = tileActual->pos;
+		// Calculo la posicion inferior izquierda
+		posicionAdyacente = nodoActual->pos;
 		posicionAdyacente.x -= 1;
 		posicionAdyacente.y += 1;
-		posicionProcesada |= this->agregarNodo(datos, tilesAbiertos, posicionAdyacente, posFin, tileActual, 14);
+		this->agregarNodo(datos, nodosAbiertos, posicionAdyacente, posFin, nodoActual, 14);
 
-		// Posicion inferior
-		posicionAdyacente = tileActual->pos;
+		// Calculo la posicion inferior
+		posicionAdyacente = nodoActual->pos;
 		posicionAdyacente.y += 1;
-		posicionProcesada |= posicionProcesada |= this->agregarNodo(datos, tilesAbiertos, posicionAdyacente, posFin, tileActual, 10);
+		this->agregarNodo(datos, nodosAbiertos, posicionAdyacente, posFin, nodoActual, 10);
 
-		// Posicion inferior derecha
-		posicionAdyacente = tileActual->pos;
+		// Calculo la posicion inferior derecha
+		posicionAdyacente = nodoActual->pos;
 		posicionAdyacente.x += 1;
 		posicionAdyacente.y += 1;
-		posicionProcesada |= this->agregarNodo(datos, tilesAbiertos, posicionAdyacente, posFin, tileActual, 14);
+		this->agregarNodo(datos, nodosAbiertos, posicionAdyacente, posFin, nodoActual, 14);
 
-		// Ordeno la lista si se prceso alguna posicion
-		if (posicionProcesada) tilesAbiertos.sort();
 	}
 
-	delete[] datos.mapaTilesCerrados;
+	delete[] datos.mapaNodosCerrados;
 }
 
-bool FinalF::agregarNodo(stDatos& datos, std::list<stNodo>& tilesAbiertos, stPosicion pos, stPosicion posDest, stNodo* padre, int distancia){
+bool FinalF::agregarNodo(stDatos& datos, std::list<stNodo>& nodosAbiertos, stPosicion pos, stPosicion posDest, stNodo* padre, int distancia){
 
+	// Creo el nodo
 	stNodo nodo;
+	
+	// Cargo su posición
 	nodo.pos = pos;
+
+	// Cargo la distancia al destino
 	double dX = (double)nodo.pos.x - (double)posDest.x;
 	double dY = (double)nodo.pos.y - (double)posDest.y;
 	nodo.aDest = dX*dX + dY*dY;
+
+	// Cargo el padre y la distancia hacia el origen, haciendo uso de la distancia hacia el pader
 	nodo.setPadre(padre,distancia);
 
 	// Si la posicion esta fuera del nivel no la proceso
 	if ((pos.x < 0) || (pos.x >= datos.anchoNivel) || (pos.y < 0) || (pos.y >= datos.altoNivel)) return false;
-	
+
 	// Si ya cerre el nodo salgo
-	if (datos.mapaTilesCerrados[(datos.anchoNivel * pos.y) + pos.x] == 1) return false;
+	if (datos.mapaNodosCerrados[(datos.anchoNivel * pos.y) + pos.x] == 1) return false;
 
 	// Si la posicion esta ocupada por un obstáculo no la agrego y salgo
 	for( std::list<stObstaculo>::iterator it = datos.obs.begin() ; it != datos.obs.end() ; it++){
 		if( (*it).pos == pos ) return false;
 	}
 
-	// Si encuentro el nodo en los abiertos le cambio el padre
-	for (std::list<FinalF::stNodo>::iterator nodo = tilesAbiertos.begin(); nodo != tilesAbiertos.end(); nodo++){
+	// Si encuentro el nodo en los abiertos me fijo si corresponde el cambio el padre por tener menor distancia al origen
+	for (std::list<FinalF::stNodo>::iterator nodo = nodosAbiertos.begin(); nodo != nodosAbiertos.end(); nodo++){
 		if ((*nodo).pos == pos){
 			(*nodo).setPadre(padre, distancia);
 			return true;
@@ -198,7 +205,10 @@ bool FinalF::agregarNodo(stDatos& datos, std::list<stNodo>& tilesAbiertos, stPos
 	}
 
 	// Si el nodo no esta en ninguna de las dos listas lo agrego y lo marco como visitado
-	tilesAbiertos.push_back(nodo);
+	nodosAbiertos.push_back(nodo);
+
+	// Ordeno la lista porque se prceso una posicion
+	nodosAbiertos.sort();
 
 	return true;
 }
