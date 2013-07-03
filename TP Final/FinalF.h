@@ -72,13 +72,13 @@ class FinalF{
 			int anchoNivel;
 			std::list<stObstaculo> obs;
 			std::list<stPersonaje> pje;
-			char* mapaTilesCerrados;
+			char* mapaNodosCerrados;
 		};
 
 		void leerArchivoObstaculos(stDatos &datos);
 		void leerArchivoJugadores(stDatos &datos);
 		void calcularCamino(stDatos& datos, std::list<stPosicion>& posiciones, stPosicion posIni, stPosicion posFin);
-		bool agregarNodo(stDatos& datos, std::list<stNodo>& tilesAbiertos, stPosicion pos, stPosicion posDest, stNodo* padre, int distancia);
+		bool agregarNodo(stDatos& datos, std::list<stNodo>& nodosAbiertos, stPosicion pos, stPosicion posDest, stNodo* padre, int distancia);
 
 		static void convertirTileAPixel(int altoEnTiles, int xTile, int yTile, int& xPixel, int& yPixel, int anchoTile, int altoTile);
 		static void convertirPixelATile(int altoEnTiles, int xPixel, int yPixel, int& xTile, int& yTile, int anchoTile, int altoTile);
