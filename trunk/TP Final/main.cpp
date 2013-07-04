@@ -5,6 +5,7 @@
 #include "./FinalC.h"
 #include "./FinalE.h"
 #include "./FinalF.h"
+#include "./FinalJ.h"
 
 int main(int argc, char* argv[]) {
 
@@ -24,8 +25,11 @@ int main(int argc, char* argv[]) {
 	//fe.resolver();
 
 	FinalF ff;
-	ff.resolver();
+	//ff.resolver();
 	//ff.pruebaConversionTilePixel();
+
+	FinalJ fj;
+	fj.resolver();
 
 	return 0;
 }

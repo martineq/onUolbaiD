@@ -1,0 +1,1 @@
+Personajes que perdieron:Id: i Ciclos: 1 Recorrido: 0Id: j Ciclos: 2 Recorrido: 1Id: h Ciclos: 5 Recorrido: 4Id: g Ciclos: 7 Recorrido: 6Id: a Ciclos: 11 Recorrido: 10Id: f Ciclos: 82 Recorrido: 81Id: d Ciclos: 189 Recorrido: 98
